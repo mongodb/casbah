@@ -1,0 +1,9 @@
+run
+run -unchecked
+build -unchecked
+help
+actions
+publish
+clean
+compile
+clean
