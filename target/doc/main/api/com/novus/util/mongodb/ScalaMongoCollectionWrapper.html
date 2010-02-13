@@ -1,0 +1,1388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>trait ScalaMongoCollectionWrapper in com.novus.util.mongodb</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.6.final)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">Mongo Scala Wrappers 0.1 API</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/novus/util/mongodb$package.html" target="_self">com.novus.util.mongodb</a>
+        <br></br>
+        <span class="entity">trait  ScalaMongoCollectionWrapper</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/novus/util/mongodb/ScalaMongoCollectionWrapper"><code>com/novus/util/mongodb/ScalaMongoCollectionWrapper.scala</code></a>]
+      </div><hr></hr>
+      <a name="ScalaMongoCollectionWrapper"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>trait</code>
+        <em>ScalaMongoCollectionWrapper</em>
+      </dt>
+      <dd><code> extends </code><a href="../../../../com/novus/util/Logging.html" target="_self">Logging</a></dd>
+    </dl>
+      <dl><dd>Base trait for all MongoCollection wrapper objects.
+ Provides any non-parameterized methods and the basic structure.
+ Requires an underlying object of a DBCollection.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Todo</b></dt><dd>Copy the MongoDB docs over for the proxied methods.</dd><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Brendan W. McAdams <bmcadams@novus.com></dd><dt style="margin:10px 0 0 20px;">
+        <b>Version</b></dt><dd>1.0</dd></dl>
+    <dl>
+      <dt style="margin:10px 0 0 20px;"><b>Direct Known Subclasses:</b></dt>
+      <dd><a href="../../../../com/novus/util/mongodb/ScalaMongoCollection.html" target="_self">ScalaMongoCollection</a>, <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html" target="_self">ScalaTypedMongoCollection</a></dd>
+      </dl><hr></hr>
+      
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Value Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#db" target="_self">db</a></em>
+         : <a href="../../../../com/novus/util/mongodb/ScalaMongoDB.html" target="_self">ScalaMongoDB</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#underlying" target="_self">underlying</a></em>
+         : <a href="" target="contentFrame" class="com/mongodb/DBCollection">com.mongodb.DBCollection</a>
+        
+        <div>The underlying Java Mongo Driver Collection object we proxy.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Values and Variables inherited from <a href="../../../../com/novus/util/Logging.html" target="_self">Logging</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/novus/util/Logging.html#log" target="_self">log</a>
+        </td></tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%2B%3D%28A%29" target="_self">+=</a></em>
+        [<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>x</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%2B%3D%28A%29#A" target="_self">A</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        <div>MongoDB DB collection.save method</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#-%3D%28A%29" target="_self">-=</a></em>
+        [<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>x</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#-%3D%28A%29#A" target="_self">A</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        <div>MongoDB DBCollection.remove method</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%3C%3C%28A%29" target="_self">&lt;&lt;</a></em>
+        [<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>x</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%3C%3C%28A%29#A" target="_self">A</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        <div>MongoDB <code>insert</code> method</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%3C%3C%3F%28A%29" target="_self">&lt;&lt;?</a></em>
+        [<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>x</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%3C%3C%3F%28A%29#A" target="_self">A</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%3C%3C%3F%28A%29#A" target="_self">A</a>]
+        
+        <div>MongoDB <code>insert</code> with subsequent check for object existence</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#checkForIDIndex%28com.mongodb.DBObject%29" target="_self">checkForIDIndex</a></em>
+        (<em>key</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#count%28com.mongodb.DBObject%29" target="_self">count</a></em>
+        (<em>query</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#count%28%29" target="_self">count</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#count%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">count</a></em>
+        (<em>query</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>fields</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#createIndex%28com.mongodb.DBObject%29" target="_self">createIndex</a></em>
+        (<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#distinct%28String%2Ccom.mongodb.DBObject%29" target="_self">distinct</a></em>
+        (<em>key</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>query</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#distinct%28String%29" target="_self">distinct</a></em>
+        (<em>key</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#drop%28%29" target="_self">drop</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#dropIndex%28String%29" target="_self">dropIndex</a></em>
+        (<em>name</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#dropIndex%28com.mongodb.DBObject%29" target="_self">dropIndex</a></em>
+        (<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#dropIndexes%28%29" target="_self">dropIndexes</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#dropIndexes%28String%29" target="_self">dropIndexes</a></em>
+        (<em>name</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIDIndex%28%29" target="_self">ensureIDIndex</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIndex%28com.mongodb.DBObject%2CBoolean%29" target="_self">ensureIndex</a></em>
+        (<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>force</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIndex%28com.mongodb.DBObject%2CString%29" target="_self">ensureIndex</a></em>
+        (<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>name</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIndex%28com.mongodb.DBObject%29" target="_self">ensureIndex</a></em>
+        (<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIndex%28com.mongodb.DBObject%2CBoolean%2CBoolean%29" target="_self">ensureIndex</a></em>
+        (<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>force</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>, <em>unique</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIndex%28com.mongodb.DBObject%2CString%2CBoolean%29" target="_self">ensureIndex</a></em>
+        (<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>name</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>unique</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>override def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#equals%28Any%29" target="_self">equals</a></em>
+        (<em>obj</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+        
+        <div>This method is used to compare the receiver object (<code>this</code>)
+    with the argument object (<code>arg0</code>) for equivalence.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getCollection%28String%29" target="_self">getCollection</a></em>
+        (<em>n</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="" target="contentFrame" class="com/mongodb/DBCollection">com.mongodb.DBCollection</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getCount%28%29" target="_self">getCount</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getCount%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">getCount</a></em>
+        (<em>query</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>fields</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getCount%28com.mongodb.DBObject%29" target="_self">getCount</a></em>
+        (<em>query</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getDB%28%29" target="_self">getDB</a></em>
+         : <a href="../../../../com/novus/util/mongodb/ScalaMongoDB.html" target="_self">ScalaMongoDB</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getFullName%28%29" target="_self">getFullName</a></em>
+         : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getIndexInfo%28%29" target="_self">getIndexInfo</a></em>
+         : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getName%28%29" target="_self">getName</a></em>
+         : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getObjectClass%28%29" target="_self">getObjectClass</a></em>
+         : <a href="" target="contentFrame" class="java/lang/Class">java.lang.Class</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getWriteConcern%28%29" target="_self">getWriteConcern</a></em>
+         : <a href="" target="contentFrame" class="com/mongodb/DB/WriteConcern">com.mongodb.DB.WriteConcern</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2Ccom.mongodb.DBObject%2CString%29" target="_self">group</a></em>
+        (<em>key</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>cond</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>initial</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>reduce</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="" target="contentFrame" class="scala/collection/mutable/ArrayBuffer">scala.collection.mutable.ArrayBuffer</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2Ccom.mongodb.DBObject%2CString%2CString%29" target="_self">group</a></em>
+        (<em>key</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>cond</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>initial</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>reduce</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>finalize</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="" target="contentFrame" class="scala/collection/mutable/ArrayBuffer">scala.collection.mutable.ArrayBuffer</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+        
+        <div>Enables you to call group with the finalize parameter (a function that runs on each
+   row of the output for calculations before sending a return) which the Mongo Java driver does not yet
+   support, by sending a direct DBObject command.  Messy, but it works.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">group</a></em>
+        (<em>key</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>cond</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="" target="contentFrame" class="scala/collection/mutable/ArrayBuffer">scala.collection.mutable.ArrayBuffer</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+        
+        <div>Perform an absurdly simple grouping with no initial object or reduce function.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2CString%29" target="_self">group</a></em>
+        (<em>key</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>cond</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>function</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="" target="contentFrame" class="scala/collection/mutable/ArrayBuffer">scala.collection.mutable.ArrayBuffer</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>override def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#hashCode%28%29" target="_self">hashCode</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+        
+        <div>Returns a hash code value for the object.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#insert%28List%5Bcom.mongodb.DBObject%5D%29" target="_self">insert</a></em>
+        (<em>lst</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#insert%28Array%5Bcom.mongodb.DBObject%5D%29" target="_self">insert</a></em>
+        (<em>doc</em> : <a href="" target="contentFrame" class="scala/Array">scala.Array</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#insert%28com.mongodb.DBObject%29" target="_self">insert</a></em>
+        (<em>doc</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#lastError" target="_self">lastError</a></em>
+         : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#mapReduce%28com.novus.util.mongodb.map_reduce.MapReduceCommand%29" target="_self">mapReduce</a></em>
+        (<em>command</em> : <a href="../../../../com/novus/util/mongodb/map_reduce/MapReduceCommand.html" target="_self">MapReduceCommand</a>) : <a href="../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html" target="_self">MapReduceResult</a>
+        
+        <div>The Java Driver is a bit outdated and is missing the finalize option.
+   Additionally, it returns ZERO information about the actual results of the mapreduce,
+   just a cursor to the result collection.
+   This is less than ideal.  So I've wrapped it in something more useful.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#optWrap%28A%29" target="_self">optWrap</a></em>
+        [<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>obj</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#optWrap%28A%29#A" target="_self">A</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#optWrap%28A%29#A" target="_self">A</a>]
+        
+        <div>Helper method for anyone who returns an Option
+   to quickly wrap their dbObject, determining null
+   to swap as None</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#remove%28com.mongodb.DBObject%29" target="_self">remove</a></em>
+        (<em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#rename%28String%29" target="_self">rename</a></em>
+        (<em>newName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#resetIndexCache%28%29" target="_self">resetIndexCache</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#save%28com.mongodb.DBObject%29" target="_self">save</a></em>
+        (<em>jo</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setHintFields%28List%5Bcom.mongodb.DBObject%5D%29" target="_self">setHintFields</a></em>
+        (<em>lst</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setInternalClass%28String%2CClass%5B_%5D%29" target="_self">setInternalClass</a></em>
+        (<em>path</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>c</em> : <a href="" target="contentFrame" class="java/lang/Class">java.lang.Class</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>]) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setObjectClass%28Class%5BA%5D%29" target="_self">setObjectClass</a></em>
+        [<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>c</em> : <a href="" target="contentFrame" class="java/lang/Class">java.lang.Class</a>[<a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setObjectClass%28Class%5BA%5D%29#A" target="_self">A</a>])(<code>implicit </code><em>m</em> : <a href="" target="contentFrame" class="scala/reflect/Manifest">scala.reflect.Manifest</a>[<a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setObjectClass%28Class%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html" target="_self">ScalaTypedMongoCollection</a>[<a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setObjectClass%28Class%5BA%5D%29#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setWriteConcern%28com.mongodb.DB.WriteConcern%29" target="_self">setWriteConcern</a></em>
+        (<em>concern</em> : <a href="" target="contentFrame" class="com/mongodb/DB/WriteConcern">com.mongodb.DB.WriteConcern</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#size" target="_self">size</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>override def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#toString%28%29" target="_self">toString</a></em>
+         : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+        
+        <div>Returns a string representation of the object.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#update%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">update</a></em>
+        (<em>q</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#update%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2CBoolean%2CBoolean%29" target="_self">update</a></em>
+        (<em>q</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>upsert</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>, <em>multi</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#updateMulti%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">updateMulti</a></em>
+        (<em>q</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Value Details</td></tr>
+        </table><div><a name="underlying"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>val</code>
+        <em>underlying</em> : <a href="" target="contentFrame" class="com/mongodb/DBCollection">com.mongodb.DBCollection</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The underlying Java Mongo Driver Collection object we proxy.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="db"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>val</code>
+        <em>db</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoDB.html" target="_self">ScalaMongoDB</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="checkForIDIndex%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>checkForIDIndex</em>(<em>key</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="createIndex%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>createIndex</em>(<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="distinct%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>distinct</em>(<em>key</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="distinct%28String%2Ccom.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>distinct</em>(<em>key</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>query</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="drop%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>drop</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="dropIndex%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>dropIndex</em>(<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="dropIndex%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>dropIndex</em>(<em>name</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="dropIndexes%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>dropIndexes</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="dropIndexes%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>dropIndexes</em>(<em>name</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="ensureIDIndex%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>ensureIDIndex</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="ensureIndex%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>ensureIndex</em>(<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="ensureIndex%28com.mongodb.DBObject%2CBoolean%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>ensureIndex</em>(<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>force</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="ensureIndex%28com.mongodb.DBObject%2CBoolean%2CBoolean%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>ensureIndex</em>(<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>force</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>, <em>unique</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="ensureIndex%28com.mongodb.DBObject%2CString%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>ensureIndex</em>(<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>name</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="ensureIndex%28com.mongodb.DBObject%2CString%2CBoolean%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>ensureIndex</em>(<em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>name</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>unique</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="getCollection%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getCollection</em>(<em>n</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="" target="contentFrame" class="com/mongodb/DBCollection">com.mongodb.DBCollection</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="getCount%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getCount</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="getCount%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getCount</em>(<em>query</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="getCount%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getCount</em>(<em>query</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>fields</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="getDB%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getDB</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoDB.html" target="_self">ScalaMongoDB</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="getFullName%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getFullName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="getIndexInfo%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getIndexInfo</em> : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="getName%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="getObjectClass%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getObjectClass</em> : <a href="" target="contentFrame" class="java/lang/Class">java.lang.Class</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="getWriteConcern%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getWriteConcern</em> : <a href="" target="contentFrame" class="com/mongodb/DB/WriteConcern">com.mongodb.DB.WriteConcern</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2Ccom.mongodb.DBObject%2CString%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>group</em>(<em>key</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>cond</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>initial</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>reduce</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="" target="contentFrame" class="scala/collection/mutable/ArrayBuffer">scala.collection.mutable.ArrayBuffer</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>group</em>(<em>key</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>cond</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="" target="contentFrame" class="scala/collection/mutable/ArrayBuffer">scala.collection.mutable.ArrayBuffer</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Perform an absurdly simple grouping with no initial object or reduce function.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2CString%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>group</em>(<em>key</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>cond</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>function</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="" target="contentFrame" class="scala/collection/mutable/ArrayBuffer">scala.collection.mutable.ArrayBuffer</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2Ccom.mongodb.DBObject%2CString%2CString%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>group</em>(<em>key</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>cond</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>initial</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>reduce</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>finalize</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="" target="contentFrame" class="scala/collection/mutable/ArrayBuffer">scala.collection.mutable.ArrayBuffer</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Enables you to call group with the finalize parameter (a function that runs on each
+   row of the output for calculations before sending a return) which the Mongo Java driver does not yet
+   support, by sending a direct DBObject command.  Messy, but it works.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="hashCode%28%29"></a><dl>
+      <dt>
+        
+        <code>override</code>
+        <code>def</code>
+        <em>hashCode</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Returns a hash code value for the object.  
+    <p>
+    The default hashing algorithm is platform dependent.  
+    Note that it is allowed for two objects to have identical hash
+    codes (<code>o1.hashCode.equals(o2.hashCode)</code>) yet not be
+    equal (<code>o1.equals(o2)</code> returns <code>false</code>).  A
+    degenerate implementation could always return <code>0</code>.
+    However, it is required that if two objects are equal
+    (<code>o1.equals(o2)</code> returns <code>true</code>) that they
+    have identical hash codes
+    (<code>o1.hashCode.equals(o2.hashCode)</code>).  Therefore, when
+    overriding this method, be sure to verify that the behavior is
+    consistent with the <code>equals</code> method.
+    </p>
+    <p></dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Returns</b></dt><dd>the hash code value for the object.      </p></dd></dl>
+    <hr></hr>
+<a name="insert%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>insert</em>(<em>doc</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="insert%28Array%5Bcom.mongodb.DBObject%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>insert</em>(<em>doc</em> : <a href="" target="contentFrame" class="scala/Array">scala.Array</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="insert%28List%5Bcom.mongodb.DBObject%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>insert</em>(<em>lst</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="mapReduce%28com.novus.util.mongodb.map_reduce.MapReduceCommand%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>mapReduce</em>(<em>command</em> : <a href="../../../../com/novus/util/mongodb/map_reduce/MapReduceCommand.html" target="_self">MapReduceCommand</a>) : <a href="../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html" target="_self">MapReduceResult</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The Java Driver is a bit outdated and is missing the finalize option.
+   Additionally, it returns ZERO information about the actual results of the mapreduce,
+   just a cursor to the result collection.
+   This is less than ideal.  So I've wrapped it in something more useful.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Parameters</b></dt><dd><code>command - </code>An instance of MapReduceCommand representing the required MapReduce</dd><dt style="margin:10px 0 0 20px;">
+        <b>Returns</b></dt><dd>MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly</dd></dl>
+    <hr></hr>
+<a name="remove%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>remove</em>(<em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="rename%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>rename</em>(<em>newName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="resetIndexCache%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>resetIndexCache</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="save%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>save</em>(<em>jo</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="setHintFields%28List%5Bcom.mongodb.DBObject%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>setHintFields</em>(<em>lst</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="setInternalClass%28String%2CClass%5B_%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>setInternalClass</em>(<em>path</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>c</em> : <a href="" target="contentFrame" class="java/lang/Class">java.lang.Class</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>]) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="setObjectClass%28Class%5BA%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>setObjectClass</em>[<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>c</em> : <a href="" target="contentFrame" class="java/lang/Class">java.lang.Class</a>[<a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setObjectClass%28Class%5BA%5D%29#A" target="_self">A</a>])(<code>implicit </code><em>m</em> : <a href="" target="contentFrame" class="scala/reflect/Manifest">scala.reflect.Manifest</a>[<a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setObjectClass%28Class%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html" target="_self">ScalaTypedMongoCollection</a>[<a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setObjectClass%28Class%5BA%5D%29#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="setWriteConcern%28com.mongodb.DB.WriteConcern%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>setWriteConcern</em>(<em>concern</em> : <a href="" target="contentFrame" class="com/mongodb/DB/WriteConcern">com.mongodb.DB.WriteConcern</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="toString%28%29"></a><dl>
+      <dt>
+        
+        <code>override</code>
+        <code>def</code>
+        <em>toString</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Returns a string representation of the object.  
+    <p>
+    The default representation is platform dependent.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Returns</b></dt><dd>a string representation of the object.     </p></dd></dl>
+    <hr></hr>
+<a name="update%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>update</em>(<em>q</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="update%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2CBoolean%2CBoolean%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>update</em>(<em>q</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>upsert</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>, <em>multi</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="updateMulti%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>updateMulti</em>(<em>q</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="equals%28Any%29"></a><dl>
+      <dt>
+        
+        <code>override</code>
+        <code>def</code>
+        <em>equals</em>(<em>obj</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>This method is used to compare the receiver object (<code>this</code>)
+    with the argument object (<code>arg0</code>) for equivalence.  
+    
+    <p>
+    The default implementations of this method is an <a
+    href="http://en.wikipedia.org/wiki/Equivalence_relation">equivalence
+    relation</a>:
+      <ul>
+      <li>It is reflexive: for any instance <code>x</code> of type <code>Any</code>, 
+      <code>x.equals(x)</code> should return <code>true</code>.</li>
+      <li>It is symmetric: for any instances <code>x</code> and <code>y</code> of type 
+      <code>Any</code>, <code>x.equals(y)</code> should return <code>true</code> if and only 
+      if <code>y.equals(x)</code> returns <code>true</code>.</li>
+      <li>It is transitive: for any instances 
+      <code>x</code>, <code>y</code>, and <code>z</code> of type <code>AnyRef</code>
+      if <code>x.equals(y)</code> returns <code>true</code> and 
+      <code>y.equals(z)</code> returns 
+      <code>true</code>, then <code>x.equals(z)</code> should return <code>true</code>.</li>
+    </ul>
+    </p>
+    <p>
+    If you override this method, you should verify that
+    your implementation remains an equivalence relation.
+    Additionally, when overriding this method it is often necessary to
+    override <code>hashCode</code> to ensure that objects that are
+    "equal" (<code>o1.equals(o2)</code> returns <code>true</code>)
+    hash to the same <a href="Int.html"><code>Int</code></a>
+    (<code>o1.hashCode.equals(o2.hashCode)</code>).</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Parameters</b></dt><dd><code>arg0 - </code>the object to compare against this object for equality.</dd><dt style="margin:10px 0 0 20px;">
+        <b>Returns</b></dt><dd><code>true</code> if the receiver object is equivalent to the argument; <code>false</code> otherwise.    </p></dd></dl>
+    <hr></hr>
+<a name="count%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>count</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="count%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>count</em>(<em>query</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="count%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>count</em>(<em>query</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>fields</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="size"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>size</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="lastError"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>lastError</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="%3C%3C%28A%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>&lt;&lt;</em>[<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>x</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%3C%3C%28A%29#A" target="_self">A</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>MongoDB <code>insert</code> method</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Alexander Azarov <azarov@osinka.ru></dd><dt style="margin:10px 0 0 20px;">
+        <b>Parameters</b></dt><dd><code>x - </code>object to insert into the collection</dd></dl>
+    <hr></hr>
+<a name="%3C%3C%3F%28A%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>&lt;&lt;?</em>[<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>x</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%3C%3C%3F%28A%29#A" target="_self">A</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%3C%3C%3F%28A%29#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>MongoDB <code>insert</code> with subsequent check for object existence</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Alexander Azarov <azarov@osinka.ru></dd><dt style="margin:10px 0 0 20px;">
+        <b>Parameters</b></dt><dd><code>x - </code>object to insert into the collection</dd><dt style="margin:10px 0 0 20px;">
+        <b>Returns</b></dt><dd><code>None</code> if such object exists already (with the same identity)   <code>Some(x)</code> in the case of success</dd></dl>
+    <hr></hr>
+<a name="%2B%3D%28A%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>+=</em>[<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>x</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%2B%3D%28A%29#A" target="_self">A</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>MongoDB DB collection.save method</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Alexander Azarov <azarov@osinka.ru></dd><dt style="margin:10px 0 0 20px;">
+        <b>Parameters</b></dt><dd><code>x - </code>object to save to the collection</dd></dl>
+    <hr></hr>
+<a name="-%3D%28A%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>-=</em>[<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>x</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#-%3D%28A%29#A" target="_self">A</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>MongoDB DBCollection.remove method</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Alexander Azarov <azarov@osinka.ru></dd><dt style="margin:10px 0 0 20px;">
+        <b>Parameters</b></dt><dd><code>x - </code>object to remove from the collection</dd></dl>
+    <hr></hr>
+<a name="optWrap%28A%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>optWrap</em>[<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>obj</em> : <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#optWrap%28A%29#A" target="_self">A</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#optWrap%28A%29#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Helper method for anyone who returns an Option
+   to quickly wrap their dbObject, determining null
+   to swap as None</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">Mongo Scala Wrappers 0.1 API</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

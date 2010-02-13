@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>class MapReduceResult in com.novus.util.mongodb.map_reduce</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.6.final)" name="generator"></meta><link href="../../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">Mongo Scala Wrappers 0.1 API</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../../com/novus/util/mongodb/map_reduce$package.html" target="_self">com.novus.util.mongodb.map_reduce</a>
+        <br></br>
+        <span class="entity">class  MapReduceResult</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/novus/util/mongodb/map_reduce/MapReduceResult"><code>com/novus/util/mongodb/map_reduce/MapReduceResult.scala</code></a>]
+      </div><hr></hr>
+      <a name="MapReduceResult"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>class</code>
+        <em>MapReduceResult</em>(<em>resultObj</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <code>implicit </code><em>db</em> : <a href="../../../../../com/novus/util/mongodb/ScalaMongoDB.html" target="_self">ScalaMongoDB</a>)
+      </dt>
+      <dd><code> extends </code><a href="" target="contentFrame" class="scala/Iterator">scala.Iterator</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]<code> with </code><a href="../../../../../com/novus/util/Logging.html" target="_self">Logging</a></dd>
+    </dl>
+      <dl><dd>Wrapper for MongoDB MapReduceResults, implementing iterator to allow direct iterator over the result set.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Brendan W. McAdams <bmcadams@novus.com></dd><dt style="margin:10px 0 0 20px;">
+        <b>Version</b></dt><dd>1.0</dd><dt style="margin:10px 0 0 20px;">
+        <b>Parameters</b></dt><dd><code>resultObj - </code>a DBObject directly conforming to the mapReduce result spec as defined in the MongoDB Docs.</dd></dl>
+    
+      
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Value Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#emit_count" target="_self">emit_count</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#err" target="_self">err</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#input_count" target="_self">input_count</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#ok" target="_self">ok</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#output_count" target="_self">output_count</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#result" target="_self">result</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#success" target="_self">success</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#timeMillis" target="_self">timeMillis</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+        
+        
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Values and Variables inherited from <a href="../../../../../com/novus/util/Logging.html" target="_self">Logging</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../../com/novus/util/Logging.html#log" target="_self">log</a>
+        </td></tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#hasNext" target="_self">hasNext</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#next%28%29" target="_self">next</a></em>
+         : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#size" target="_self">size</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>override def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/novus/util/mongodb/map_reduce/MapReduceResult.html#toString%28%29" target="_self">toString</a></em>
+         : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+        
+        <div>Returns a string representation of the object.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="" target="contentFrame" class="scala/Iterator">scala.Iterator</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="#take" target="contentFrame" class="scala/Iterator">scala.Iterator.take</a>, <a href="#drop" target="contentFrame" class="scala/Iterator">scala.Iterator.drop</a>, <a href="#slice" target="contentFrame" class="scala/Iterator">scala.Iterator.slice</a>, <a href="#map" target="contentFrame" class="scala/Iterator">scala.Iterator.map</a>, <a href="#append" target="contentFrame" class="scala/Iterator">scala.Iterator.append</a>, <a href="#++" target="contentFrame" class="scala/Iterator">scala.Iterator.++</a>, <a href="#flatMap" target="contentFrame" class="scala/Iterator">scala.Iterator.flatMap</a>, <a href="#filter" target="contentFrame" class="scala/Iterator">scala.Iterator.filter</a>, <a href="#takeWhile" target="contentFrame" class="scala/Iterator">scala.Iterator.takeWhile</a>, <a href="#dropWhile" target="contentFrame" class="scala/Iterator">scala.Iterator.dropWhile</a>, <a href="#zip" target="contentFrame" class="scala/Iterator">scala.Iterator.zip</a>, <a href="#zipWithIndex" target="contentFrame" class="scala/Iterator">scala.Iterator.zipWithIndex</a>, <a href="#foreach" target="contentFrame" class="scala/Iterator">scala.Iterator.foreach</a>, <a href="#forall" target="contentFrame" class="scala/Iterator">scala.Iterator.forall</a>, <a href="#exists" target="contentFrame" class="scala/Iterator">scala.Iterator.exists</a>, <a href="#contains" target="contentFrame" class="scala/Iterator">scala.Iterator.contains</a>, <a href="#find" target="contentFrame" class="scala/Iterator">scala.Iterator.find</a>, <a href="#findIndexOf" target="contentFrame" class="scala/Iterator">scala.Iterator.findIndexOf</a>, <a href="#indexOf" target="contentFrame" class="scala/Iterator">scala.Iterator.indexOf</a>, <a href="#foldLeft" target="contentFrame" class="scala/Iterator">scala.Iterator.foldLeft</a>, <a href="#foldRight" target="contentFrame" class="scala/Iterator">scala.Iterator.foldRight</a>, <a href="#/:" target="contentFrame" class="scala/Iterator">scala.Iterator./:</a>, <a href="#:\" target="contentFrame" class="scala/Iterator">scala.Iterator.:\</a>, <a href="#reduceLeft" target="contentFrame" class="scala/Iterator">scala.Iterator.reduceLeft</a>, <a href="#reduceRight" target="contentFrame" class="scala/Iterator">scala.Iterator.reduceRight</a>, <a href="#buffered" target="contentFrame" class="scala/Iterator">scala.Iterator.buffered</a>, <a href="#counted" target="contentFrame" class="scala/Iterator">scala.Iterator.counted</a>, <a href="#duplicate" target="contentFrame" class="scala/Iterator">scala.Iterator.duplicate</a>, <a href="#copyToArray" target="contentFrame" class="scala/Iterator">scala.Iterator.copyToArray</a>, <a href="#readInto" target="contentFrame" class="scala/Iterator">scala.Iterator.readInto</a>, <a href="#readInto" target="contentFrame" class="scala/Iterator">scala.Iterator.readInto</a>, <a href="#readInto" target="contentFrame" class="scala/Iterator">scala.Iterator.readInto</a>, <a href="#copyToBuffer" target="contentFrame" class="scala/Iterator">scala.Iterator.copyToBuffer</a>, <a href="#toList" target="contentFrame" class="scala/Iterator">scala.Iterator.toList</a>, <a href="#collect" target="contentFrame" class="scala/Iterator">scala.Iterator.collect</a>, <a href="#mkString" target="contentFrame" class="scala/Iterator">scala.Iterator.mkString</a>, <a href="#mkString" target="contentFrame" class="scala/Iterator">scala.Iterator.mkString</a>, <a href="#mkString" target="contentFrame" class="scala/Iterator">scala.Iterator.mkString</a>, <a href="#addString" target="contentFrame" class="scala/Iterator">scala.Iterator.addString</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Value Details</td></tr>
+        </table><div><a name="result"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>result</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="input_count"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>input_count</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="emit_count"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>emit_count</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="output_count"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>output_count</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="timeMillis"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>timeMillis</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="ok"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>ok</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="err"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>err</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="success"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>success</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="next%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>next</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>
+      </dt>
+      <dd></dd>
+    </dl><dl>
+        <dt style="margin:10px 0 0 20px;">
+          <b>Overrides</b>
+        </dt>
+        <dd>
+        <a href="" target="contentFrame" class="scala/Iterator">scala.Iterator</a>.<a href="#next" target="contentFrame" class="scala/Iterator">scala.Iterator.next</a>
+        </dd>
+      </dl><hr></hr>
+<a name="hasNext"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>hasNext</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+      </dt>
+      <dd></dd>
+    </dl><dl>
+        <dt style="margin:10px 0 0 20px;">
+          <b>Overrides</b>
+        </dt>
+        <dd>
+        <a href="" target="contentFrame" class="scala/Iterator">scala.Iterator</a>.<a href="#hasNext" target="contentFrame" class="scala/Iterator">scala.Iterator.hasNext</a>
+        </dd>
+      </dl><hr></hr>
+<a name="size"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>size</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="toString%28%29"></a><dl>
+      <dt>
+        
+        <code>override</code>
+        <code>def</code>
+        <em>toString</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Returns a string representation of the object.  
+    <p>
+    The default representation is platform dependent.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Returns</b></dt><dd>a string representation of the object.     </p></dd></dl>
+    <dl>
+        <dt style="margin:10px 0 0 20px;">
+          <b>Overrides</b>
+        </dt>
+        <dd>
+        <a href="" target="contentFrame" class="scala/Iterator">scala.Iterator</a>.<a href="#toString" target="contentFrame" class="scala/Iterator">scala.Iterator.toString</a>
+        </dd>
+      </dl><hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">Mongo Scala Wrappers 0.1 API</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

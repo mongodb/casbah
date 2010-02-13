@@ -1,8 +1,6 @@
 /**
  * Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,6 +23,14 @@ import com.mongodb._
 import org.scala_tools.javautils.Imports._
 import Implicits._
 
+/**
+ * Base trait for all cursor wrappers.
+ *
+ * implements Scala's iterable - call jIterator if you want a Java iterator.
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
 trait ScalaMongoCursorWrapper[A <: DBObject] extends Iterator[A] {
   val underlying: DBCursor
 
@@ -44,6 +50,16 @@ trait ScalaMongoCursorWrapper[A <: DBObject] extends Iterator[A] {
 
 }
 
+/**
+ * Non-Generic DBObject returning wrapper for the Mongo Cursor objects.
+ *
+ * implements Scala's iterable - call jIterator if you want a Java iterator.
+ * 
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ *
+ * @param underlying A DBCursor object to wrap
+ */
 protected class ScalaMongoCursor (val underlying: DBCursor) extends ScalaMongoCursorWrapper[DBObject]  {
   //def addOption(option: Int) = underlying.addOption(option) asScala
   def batchSize(n: Int) = underlying.batchSize(n) asScala
@@ -71,6 +87,23 @@ protected class ScalaMongoCursor (val underlying: DBCursor) extends ScalaMongoCu
   override def toString() =  "ScalaMongoCursor{Iterator[DBObject] with %d objects.}".format(count)
 }
 
+/**
+ * Generic parameterized DBObject-subclass returning wrapper for the Mongo Cursor objects.
+ * This is instantiated with a type (and an implicitly discovered or explicitly passed Manifest object) to determine it's underlying type.
+ *
+ * It will attempt to deserialize *ALL* returned results
+ * to it's type, on the assumption that the collection matches the type's spec.
+ *
+ *
+ * implements Scala's iterable - call <code>jIterator</code> if you want a Java iterator.
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ *
+ * @param A  type representing a DBObject subclass which this class should return instead of generic DBObjects
+ * @param underlying DBCursor object to proxy
+ * @param m Manifest[A] representing the erasure for the underlying type - used to get around the JVM's insanity
+ */
 protected class ScalaTypedMongoCursor[A <: DBObject] (val underlying: DBCursor)(implicit m: scala.reflect.Manifest[A])  extends ScalaMongoCursorWrapper[A]  {
   //def addOption(option: Int) = underlying.addOption(option) asScala
   def batchSize(n: Int) = underlying.batchSize(n) asScalaTyped(m)

@@ -1,8 +1,6 @@
 /**
  * Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,10 +26,25 @@ import org.scala_tools.javautils.Imports._
 import Implicits._
 import collection.mutable.ArrayBuffer
 
+
+/**
+ * Base trait for all MongoCollection wrapper objects.
+ * Provides any non-parameterized methods and the basic structure.
+ * Requires an underlying object of a DBCollection.
+ *
+ * @todo Copy the MongoDB docs over for the proxied methods.
+ * 
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
 trait ScalaMongoCollectionWrapper extends Logging {
+  /**
+   * The underlying Java Mongo Driver Collection object we proxy.
+   */
   val underlying: DBCollection
   implicit val db = underlying.getDB().asScala
-  // there are two apply methods on the java api i've left out for now
+  
+  // there are two apply methods on the java api i've left out for now as they'll do whacky things to Scala probably.
   def checkForIDIndex(key: DBObject) = underlying.checkForIDIndex(key)
   def createIndex(keys: DBObject) = underlying.createIndex(keys)
   def distinct(key: String) = underlying.distinct(key).asScala
@@ -47,8 +60,6 @@ trait ScalaMongoCollectionWrapper extends Logging {
   def ensureIndex(keys: DBObject, force: Boolean, unique: Boolean) = underlying.ensureIndex(keys, force, unique)
   def ensureIndex(keys: DBObject, name: String) = underlying.ensureIndex(keys, name)
   def ensureIndex(keys: DBObject, name: String, unique: Boolean) = underlying.ensureIndex(keys, name, unique)
-
-  //def find(ref: DBObject, fields: DBObject, numToSkip: Int, batchSize: Int, options: Int) = underlying.find(ref, fields, numToSkip, batchSize, options) asScala
 
   def getCollection(n: String) = underlying.getCollection(n)
   def getCount() = underlying.getCount()
@@ -94,14 +105,15 @@ trait ScalaMongoCollectionWrapper extends Logging {
   def insert(doc: DBObject) = underlying.insert(doc)
   def insert(doc: Array[DBObject]) = underlying.insert(doc)
   def insert(lst: List[DBObject]) = underlying.insert(lst.asJava)
-  //def mapReduce(command: DBObject) = underlying.mapReduce(command)
-  //def mapReduce(map: String, reduce: String, outputCollection: String, query: DBObject) = underlying.mapReduce(map, reduce, outputCollection, query)
 
   /**
    * The Java Driver is a bit outdated and is missing the finalize option.
    * Additionally, it returns ZERO information about the actual results of the mapreduce,
    * just a cursor to the result collection.
    * This is less than ideal.  So I've wrapped it in something more useful.
+   *
+   * @param command An instance of MapReduceCommand representing the required MapReduce
+   * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
    */
   def mapReduce(command: MapReduceCommand): MapReduceResult  = {
     val result = getDB.command(command.toDBObj)
@@ -137,12 +149,18 @@ trait ScalaMongoCollectionWrapper extends Logging {
 
   /**
    * MongoDB <code>insert</code> method
+   *
+   * @author Alexander Azarov <azarov@osinka.ru>
+   * 
    * @param x object to insert into the collection
    */
   def <<[A <: DBObject](x: A) =  insert(x)
 
   /**
    * MongoDB <code>insert</code> with subsequent check for object existence
+   *
+   * @author Alexander Azarov <azarov@osinka.ru>
+   *
    * @param x object to insert into the collection
    * @return <code>None</code> if such object exists already (with the same identity)
    * <code>Some(x)</code> in the case of success
@@ -157,21 +175,42 @@ trait ScalaMongoCollectionWrapper extends Logging {
 
   /**
    * MongoDB DB collection.save method
+   *
+   * @author Alexander Azarov <azarov@osinka.ru>
+   * 
    * @param x object to save to the collection
    */
   def +=[A <: DBObject](x: A)  = save(x)
 
   /**
    * MongoDB DBCollection.remove method
+   *
+   * @author Alexander Azarov <azarov@osinka.ru>
+   * 
    * @param x object to remove from the collection
    */
   def -=[A <: DBObject](x: A) = remove(x)
 
+  /**
+   * Helper method for anyone who returns an Option
+   * to quickly wrap their dbObject, determining null
+   * to swap as None
+   *
+   */
   def optWrap[A <: DBObject](obj: A): Option[A] = {
     if (obj == null) None else Some(obj)
   }
 }
 
+/**
+ * A Non-Generic, DBObject returning implementation of the <code>ScalaMongoCollectionWrapper</code>
+ * Which implements Iterable, to allow iterating directly over it to list all of the underlying objects.
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ *
+ * @param underlying DBCollection object to proxy
+ */
 class ScalaMongoCollection(val underlying: DBCollection) extends ScalaMongoCollectionWrapper with Iterable[DBObject] {
 
 /*  def this(coll: DBCollection) = {
@@ -194,10 +233,27 @@ class ScalaMongoCollection(val underlying: DBCollection) extends ScalaMongoColle
   def tail = find.skip(1).toArray.toList
 }
 
+/**
+ * A Generic, parameterized DBObject-subclass returning implementation of the <code>ScalaMongoCollectionWrapper</code>
+ * This is instantiated with a type (and an implicitly discovered or explicitly passed Manifest object) to determine it's underlying type.
+ *
+ * It will attempt to deserialize *ALL* returned results (except for things like group and mapReduce which don't return collection objects)
+ * to it's type, on the assumption that the collection matches the type's spec.
+ *
+ *
+ * implements Iterable, to allow iterating directly over it to list all of the underlying objects.
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ *
+ * @param A  type representing a DBObject subclass which this class should return instead of generic DBObjects
+ * @param underlying DBCollection object to proxy
+ * @param m Manifest[A] representing the erasure for the underlying type - used to get around the JVM's insanity
+ */
 class ScalaTypedMongoCollection[A <: DBObject](val underlying: DBCollection)(implicit m: scala.reflect.Manifest[A]) extends Iterable[A] with ScalaMongoCollectionWrapper {
   type UnderlyingObj = A
 
-  println("Manifest erasure: " + m.erasure)
+  log.debug("Manifest erasure: " + m.erasure)
   underlying.setObjectClass(m.erasure)
   /*def this(coll: DBCollection)(implicit m: scala.reflect.Manifest[A]) = {
     this()

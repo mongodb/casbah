@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>class ScalaTypedMongoCollection in com.novus.util.mongodb</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.6.final)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">Mongo Scala Wrappers 0.1 API</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/novus/util/mongodb$package.html" target="_self">com.novus.util.mongodb</a>
+        <br></br>
+        <span class="entity">class  ScalaTypedMongoCollection</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/novus/util/mongodb/ScalaTypedMongoCollection"><code>com/novus/util/mongodb/ScalaTypedMongoCollection.scala</code></a>]
+      </div><hr></hr>
+      <a name="ScalaTypedMongoCollection"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>class</code>
+        <em>ScalaTypedMongoCollection</em>[<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<code>val </code><em>underlying</em> : <a href="" target="contentFrame" class="com/mongodb/DBCollection">com.mongodb.DBCollection</a>, <code>implicit </code><em>m</em> : <a href="" target="contentFrame" class="scala/reflect/Manifest">scala.reflect.Manifest</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>])
+      </dt>
+      <dd><code> extends </code><a href="" target="contentFrame" class="scala/Iterable">scala.Iterable</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]<code> with </code><a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html" target="_self">ScalaMongoCollectionWrapper</a></dd>
+    </dl>
+      <dl><dd>A Generic, parameterized DBObject-subclass returning implementation of the <code>ScalaMongoCollectionWrapper</code>
+ This is instantiated with a type (and an implicitly discovered or explicitly passed Manifest object) to determine it's underlying type.
+
+ It will attempt to deserialize *ALL* returned results (except for things like group and mapReduce which don't return collection objects)
+ to it's type, on the assumption that the collection matches the type's spec.
+
+
+ implements Iterable, to allow iterating directly over it to list all of the underlying objects.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Brendan W. McAdams <bmcadams@novus.com></dd><dt style="margin:10px 0 0 20px;">
+        <b>Version</b></dt><dd>1.0</dd><dt style="margin:10px 0 0 20px;">
+        <b>Parameters</b></dt><dd><code>A - </code>type representing a DBObject subclass which this class should return instead of generic DBObjects</dd><dd><code>underlying - </code>DBCollection object to proxy</dd><dd><code>m - </code>Manifest[A] representing the erasure for the underlying type - used to get around the JVM's insanity</dd></dl>
+    
+      
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Type Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> type</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#UnderlyingObj" target="_self">UnderlyingObj</a></em>
+        
+        
+        
+      </td>
+    </tr>
+      </table>
+<table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Values and Variables inherited from <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html" target="_self">ScalaMongoCollectionWrapper</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#db" target="_self">db</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Values and Variables inherited from <a href="../../../../com/novus/util/Logging.html" target="_self">Logging</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/novus/util/Logging.html#log" target="_self">log</a>
+        </td></tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#elements" target="_self">elements</a></em>
+         : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html" target="_self">ScalaTypedMongoCursor</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#find%28com.mongodb.DBObject%29" target="_self">find</a></em>
+        (<em>ref</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html" target="_self">ScalaTypedMongoCursor</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#find%28%29" target="_self">find</a></em>
+         : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html" target="_self">ScalaTypedMongoCursor</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#find%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">find</a></em>
+        (<em>ref</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html" target="_self">ScalaTypedMongoCursor</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#findOne%28%29" target="_self">findOne</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#findOne%28java.lang.Object%2Ccom.mongodb.DBObject%29" target="_self">findOne</a></em>
+        (<em>obj</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>, <em>fields</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#findOne%28java.lang.Object%29" target="_self">findOne</a></em>
+        (<em>obj</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#findOne%28com.mongodb.DBObject%29" target="_self">findOne</a></em>
+        (<em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#findOne%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">findOne</a></em>
+        (<em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>fields</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#head" target="_self">head</a></em>
+         : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#headOption" target="_self">headOption</a></em>
+         : <a href="" target="contentFrame" class="scala/Some">scala.Some</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#tail" target="_self">tail</a></em>
+         : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+        
+        
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html" target="_self">ScalaMongoCollectionWrapper</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#checkForIDIndex%28com.mongodb.DBObject%29" target="_self">checkForIDIndex</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#createIndex%28com.mongodb.DBObject%29" target="_self">createIndex</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#distinct%28String%29" target="_self">distinct</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#distinct%28String%2Ccom.mongodb.DBObject%29" target="_self">distinct</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#drop%28%29" target="_self">drop</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#dropIndex%28com.mongodb.DBObject%29" target="_self">dropIndex</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#dropIndex%28String%29" target="_self">dropIndex</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#dropIndexes%28%29" target="_self">dropIndexes</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#dropIndexes%28String%29" target="_self">dropIndexes</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIDIndex%28%29" target="_self">ensureIDIndex</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIndex%28com.mongodb.DBObject%29" target="_self">ensureIndex</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIndex%28com.mongodb.DBObject%2CBoolean%29" target="_self">ensureIndex</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIndex%28com.mongodb.DBObject%2CBoolean%2CBoolean%29" target="_self">ensureIndex</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIndex%28com.mongodb.DBObject%2CString%29" target="_self">ensureIndex</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#ensureIndex%28com.mongodb.DBObject%2CString%2CBoolean%29" target="_self">ensureIndex</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getCollection%28String%29" target="_self">getCollection</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getCount%28%29" target="_self">getCount</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getCount%28com.mongodb.DBObject%29" target="_self">getCount</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getCount%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">getCount</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getDB%28%29" target="_self">getDB</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getFullName%28%29" target="_self">getFullName</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getIndexInfo%28%29" target="_self">getIndexInfo</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getName%28%29" target="_self">getName</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getObjectClass%28%29" target="_self">getObjectClass</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#getWriteConcern%28%29" target="_self">getWriteConcern</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2Ccom.mongodb.DBObject%2CString%29" target="_self">group</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">group</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2CString%29" target="_self">group</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#group%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2Ccom.mongodb.DBObject%2CString%2CString%29" target="_self">group</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#hashCode%28%29" target="_self">hashCode</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#insert%28com.mongodb.DBObject%29" target="_self">insert</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#insert%28Array%5Bcom.mongodb.DBObject%5D%29" target="_self">insert</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#insert%28List%5Bcom.mongodb.DBObject%5D%29" target="_self">insert</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#mapReduce%28com.novus.util.mongodb.map_reduce.MapReduceCommand%29" target="_self">mapReduce</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#remove%28com.mongodb.DBObject%29" target="_self">remove</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#rename%28String%29" target="_self">rename</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#resetIndexCache%28%29" target="_self">resetIndexCache</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#save%28com.mongodb.DBObject%29" target="_self">save</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setHintFields%28List%5Bcom.mongodb.DBObject%5D%29" target="_self">setHintFields</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setInternalClass%28String%2CClass%5B_%5D%29" target="_self">setInternalClass</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setObjectClass%28Class%5BA%5D%29" target="_self">setObjectClass</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#setWriteConcern%28com.mongodb.DB.WriteConcern%29" target="_self">setWriteConcern</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#toString%28%29" target="_self">toString</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#update%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">update</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#update%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%2CBoolean%2CBoolean%29" target="_self">update</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#updateMulti%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">updateMulti</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#equals%28Any%29" target="_self">equals</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#count%28%29" target="_self">count</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#count%28com.mongodb.DBObject%29" target="_self">count</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#count%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29" target="_self">count</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#size" target="_self">size</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#lastError" target="_self">lastError</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%3C%3C%28A%29" target="_self">&lt;&lt;</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%3C%3C%3F%28A%29" target="_self">&lt;&lt;?</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#%2B%3D%28A%29" target="_self">+=</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#-%3D%28A%29" target="_self">-=</a>, <a href="../../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html#optWrap%28A%29" target="_self">optWrap</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="" target="contentFrame" class="scala/Iterable">scala.Iterable</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="#concat" target="contentFrame" class="scala/Iterable">scala.Iterable.concat</a>, <a href="#++" target="contentFrame" class="scala/Iterable">scala.Iterable.++</a>, <a href="#map" target="contentFrame" class="scala/Iterable">scala.Iterable.map</a>, <a href="#flatMap" target="contentFrame" class="scala/Iterable">scala.Iterable.flatMap</a>, <a href="#filter" target="contentFrame" class="scala/Iterable">scala.Iterable.filter</a>, <a href="#partition" target="contentFrame" class="scala/Iterable">scala.Iterable.partition</a>, <a href="#takeWhile" target="contentFrame" class="scala/Iterable">scala.Iterable.takeWhile</a>, <a href="#dropWhile" target="contentFrame" class="scala/Iterable">scala.Iterable.dropWhile</a>, <a href="#take" target="contentFrame" class="scala/Iterable">scala.Iterable.take</a>, <a href="#drop" target="contentFrame" class="scala/Iterable">scala.Iterable.drop</a>, <a href="#foreach" target="contentFrame" class="scala/Iterable">scala.Iterable.foreach</a>, <a href="#forall" target="contentFrame" class="scala/Iterable">scala.Iterable.forall</a>, <a href="#exists" target="contentFrame" class="scala/Iterable">scala.Iterable.exists</a>, <a href="#find" target="contentFrame" class="scala/Iterable">scala.Iterable.find</a>, <a href="#findIndexOf" target="contentFrame" class="scala/Iterable">scala.Iterable.findIndexOf</a>, <a href="#indexOf" target="contentFrame" class="scala/Iterable">scala.Iterable.indexOf</a>, <a href="#foldLeft" target="contentFrame" class="scala/Iterable">scala.Iterable.foldLeft</a>, <a href="#foldRight" target="contentFrame" class="scala/Iterable">scala.Iterable.foldRight</a>, <a href="#/:" target="contentFrame" class="scala/Iterable">scala.Iterable./:</a>, <a href="#:\" target="contentFrame" class="scala/Iterable">scala.Iterable.:\</a>, <a href="#reduceLeft" target="contentFrame" class="scala/Iterable">scala.Iterable.reduceLeft</a>, <a href="#reduceRight" target="contentFrame" class="scala/Iterable">scala.Iterable.reduceRight</a>, <a href="#copyToBuffer" target="contentFrame" class="scala/Iterable">scala.Iterable.copyToBuffer</a>, <a href="#sameElements" target="contentFrame" class="scala/Iterable">scala.Iterable.sameElements</a>, <a href="#toList" target="contentFrame" class="scala/Iterable">scala.Iterable.toList</a>, <a href="#toSeq" target="contentFrame" class="scala/Iterable">scala.Iterable.toSeq</a>, <a href="#toStream" target="contentFrame" class="scala/Iterable">scala.Iterable.toStream</a>, <a href="#mkString" target="contentFrame" class="scala/Iterable">scala.Iterable.mkString</a>, <a href="#mkString" target="contentFrame" class="scala/Iterable">scala.Iterable.mkString</a>, <a href="#mkString" target="contentFrame" class="scala/Iterable">scala.Iterable.mkString</a>, <a href="#addString" target="contentFrame" class="scala/Iterable">scala.Iterable.addString</a>, <a href="#addString" target="contentFrame" class="scala/Iterable">scala.Iterable.addString</a>, <a href="#addString" target="contentFrame" class="scala/Iterable">scala.Iterable.addString</a>, <a href="#copyToArray" target="contentFrame" class="scala/Iterable">scala.Iterable.copyToArray</a>, <a href="#isEmpty" target="contentFrame" class="scala/Iterable">scala.Iterable.isEmpty</a>, <a href="#projection" target="contentFrame" class="scala/Iterable">scala.Iterable.projection</a>, <a href="#hasDefiniteSize" target="contentFrame" class="scala/Iterable">scala.Iterable.hasDefiniteSize</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Type Details</td></tr>
+        </table><div><a name="UnderlyingObj"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>type</code>
+        <em>UnderlyingObj</em>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="elements"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>elements</em> : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html" target="_self">ScalaTypedMongoCursor</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><dl>
+        <dt style="margin:10px 0 0 20px;">
+          <b>Overrides</b>
+        </dt>
+        <dd>
+        <a href="" target="contentFrame" class="scala/Iterable">scala.Iterable</a>.<a href="#elements" target="contentFrame" class="scala/Iterable">scala.Iterable.elements</a>
+        </dd>
+      </dl><hr></hr>
+<a name="find%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>find</em> : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html" target="_self">ScalaTypedMongoCursor</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="find%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>find</em>(<em>ref</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html" target="_self">ScalaTypedMongoCursor</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="find%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>find</em>(<em>ref</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>keys</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html" target="_self">ScalaTypedMongoCursor</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="findOne%28%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>findOne</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="findOne%28com.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>findOne</em>(<em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="findOne%28com.mongodb.DBObject%2Ccom.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>findOne</em>(<em>o</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>, <em>fields</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="findOne%28java.lang.Object%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>findOne</em>(<em>obj</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="findOne%28java.lang.Object%2Ccom.mongodb.DBObject%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>findOne</em>(<em>obj</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>, <em>fields</em> : <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="head"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>head</em> : <a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="headOption"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>headOption</em> : <a href="" target="contentFrame" class="scala/Some">scala.Some</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="tail"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>tail</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">Mongo Scala Wrappers 0.1 API</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

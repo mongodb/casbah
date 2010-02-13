@@ -1,8 +1,6 @@
 /**
  * Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,7 +26,14 @@ import com.novus.util.mongodb._
 import Implicits._
 
 
-
+/**
+ * Wrapper Object to provide apply methods for the MapReduceCommand class.
+ *
+ * @see http://www.mongodb.org/display/DOCS/MapReduce
+ * 
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
 object MapReduceCommand {
   def apply(collection: String,
             mapFunction: JSFunction,
@@ -62,7 +67,20 @@ object MapReduceCommand {
       mrc
   }
 }
-// @todo Migrate to Lift's JavaScript DSL
+/**
+ * Wrapper class for invoking MongoDB mapReduces.
+ *
+ * The Java driver doesn't provide support for many of the possible options in the latest
+ * versions of MongoDB, so this wrapper class is used in it's place, and passed directly to
+ * a db.runCommand call. 
+ *
+ * @todo Integrate support for Lift's JavaScript DSL
+ *
+ * @see http://www.mongodb.org/display/DOCS/MapReduce
+ * 
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
 class MapReduceCommand {
   var collection: String = ""
   var mapFunction: JSFunction = ""

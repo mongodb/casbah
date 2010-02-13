@@ -114,13 +114,20 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
    * @param field A string value indicating the fieldName for the getter (e.g. "foo" maps to "getFoo")
    * @param returnType A class of the type of the object you expect to be returned for Casting
    * @param A a type automatically picked up from the classtype of returnType
+   * @return Option[A]
    */
   def optGetter[A](field: String, returnType: Class[A]): Option[A] = {
     val out = getter(field, returnType)
     if (out == null) None else Some(out.asInstanceOf[A])
   }
 
-  def getter[A](field: String, returnType: Class[A]): A = {
+  /**
+   * Define a getter for a value ( can potentially return null but it will be nice enough to cast it to A for you)
+   * @param field A string value indicating the fieldName for the getter (e.g. "foo" maps to "getFoo")
+   * @param returnType A class of the type of the object you expect to be returned for Casting
+   * @param A a type automatically picked up from the classtype of returnType
+   * @return A
+   */  def getter[A](field: String, returnType: Class[A]): A = {
     log.debug("Getter lookup trying for field %s returnType %s", field, returnType)
     ReflectiveBeanMapper(this, field) match {
       case Some(proxy) => {

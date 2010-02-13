@@ -1,8 +1,6 @@
 /**
  * Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,6 +23,13 @@ import com.mongodb._
 import org.scala_tools.javautils.Imports._
 import Implicits._
 
+/**
+ * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
+ * Apply methods are called as ScalaMongoConn(<params>)
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
 object ScalaMongoConn {
   def apply() = new ScalaMongoConn(new Mongo())
   def apply(addr: DBAddress) = new ScalaMongoConn(new Mongo(addr))
@@ -36,7 +41,20 @@ object ScalaMongoConn {
   //def apply(host: String, options: MongoOptions) = new ScalaMongoConn(new Mongo(host, options))
 }
 
+/**
+ * Wrapper class for the Mongo Connection object.
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
 class ScalaMongoConn(val underlying: Mongo) {
+  /**
+   * Apply method which proxies getDB, allowing you to call
+   * <code>connInstance("dbName")</code>
+   *
+   * @param dbName A string for the database name
+   * @return ScalaMongoDB A wrapped instance of a MongoDB Class.
+   */
   def apply(dbName: String) = underlying.getDB(dbName).asScala
   def getDB(dbName: String) = apply(dbName)
   def getDatabaseNames() = underlying.getDatabaseNames.asScala

@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>All classes and objects in com.novus.util.mongodb</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.6.final)" name="generator"></meta><link href="../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../script.js"></script>
+        </head>
+        <body onload="init()"><div class="page-title"><div>Mongo Scala Wrappers 0.1 API</div></div><p><div>This document is the API specification for Mongo Scala Wrappers 0.1 API</div></p><table summary="" cellpadding="3" class="member">
+        <tr><td class="title" colspan="2">Class Summary</td></tr>
+        <tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/AllOp.html" target="_self">AllOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $all (Match ALL In Array) method on appropriate callers.
+
+ Targets (takes a right-hand value of) Arrays of [Any] and variable argument lists of Any.
+
+ Note that the magic of Scala DSLey-ness means that you can write a method such as:
+
+ <code>var x = "foo" $all (1, 2, 3, 5, 28)</code>
+
+ As a valid statement - (1...28) is taken as the argument list to $all and converted
+ to an Array under the covers.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ExistsOp.html" target="_self">ExistsOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $exists (Exists) method on appropriate callers.
+
+ Targets (takes a right-hand value of) Booleans.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/GreaterThanEqualOp.html" target="_self">GreaterThanEqualOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $gte (Greater Than Or Equal To) method on appropriate callers.
+
+ Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
+ DBObject and Map[String, Any].</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/GreaterThanOp.html" target="_self">GreaterThanOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $gt (Greater Than) method on appropriate callers.
+
+ Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
+ DBObject and Map[String, Any].</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/InOp.html" target="_self">InOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $in (In Array) method on appropriate callers.
+
+ Targets (takes a right-hand value of) Arrays of [Any] and variable argument lists of Any.
+
+ Note that the magic of Scala DSLey-ness means that you can write a method such as:
+
+ <code>var x = "foo" $in (1, 2, 3, 5, 28)</code>
+
+ As a valid statement - (1...28) is taken as the argument list to $in and converted
+ to an Array under the covers.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/LessThanEqualOp.html" target="_self">LessThanEqualOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $lte (Less Than Or Equal To) method on appropriate callers.
+
+ Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
+ DBObject and Map[String, Any].</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/LessThanOp.html" target="_self">LessThanOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $lt (Less Than) method on appropriate callers.
+
+ Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
+ DBObject and Map[String, Any].</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ModuloOp.html" target="_self">ModuloOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $mod (Modulo) method on appropriate callers.
+
+ Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
+ DBObject and Map[String, Any].</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/NotEqualsOp.html" target="_self">NotEqualsOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $ne (Not Equal To) method on appropriate callers.
+
+ Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
+ DBObject and Map[String, Any].</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/NotInOp.html" target="_self">NotInOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $nin (NOT In Array) method on appropriate callers.
+
+ Targets (takes a right-hand value of) Arrays of [Any] and variable argument lists of Any.
+
+ Note that the magic of Scala DSLey-ness means that you can write a method such as:
+
+ <code>var x = "foo" $nin (1, 2, 3, 5, 28)</code>
+
+ As a valid statement - (1...28) is taken as the argument list to $nin and converted
+ to an Array under the covers.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>sealed trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Base trait for QueryOperators, children
+ are required to define a value for field, which is a String
+ and refers to the left-hand of the Query (e.g. in Mongo:
+ <code>{"foo": {"$ne": "bar"}}</code> "foo" is the field.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/QueryOperators.html" target="_self">QueryOperators</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/NotEqualsOp.html" target="_self">NotEqualsOp</a><code> with </code><a href="../../../com/novus/util/mongodb/LessThanOp.html" target="_self">LessThanOp</a><code> with </code><a href="../../../com/novus/util/mongodb/LessThanEqualOp.html" target="_self">LessThanEqualOp</a><code> with </code><a href="../../../com/novus/util/mongodb/GreaterThanOp.html" target="_self">GreaterThanOp</a><code> with </code><a href="../../../com/novus/util/mongodb/GreaterThanEqualOp.html" target="_self">GreaterThanEqualOp</a><code> with </code><a href="../../../com/novus/util/mongodb/InOp.html" target="_self">InOp</a><code> with </code><a href="../../../com/novus/util/mongodb/NotInOp.html" target="_self">NotInOp</a><code> with </code><a href="../../../com/novus/util/mongodb/ModuloOp.html" target="_self">ModuloOp</a><code> with </code><a href="../../../com/novus/util/mongodb/SizeOp.html" target="_self">SizeOp</a><code> with </code><a href="../../../com/novus/util/mongodb/ExistsOp.html" target="_self">ExistsOp</a>
+        
+        <div>Mixed trait which provides all possible
+ operators.  See Implicits for examples of usage.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ReflectiveBeanMapper.html" target="_self">ReflectiveBeanMapper</a></em>
+        <code> extends </code><a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a><code> with </code><a href="../../../com/novus/util/Logging.html" target="_self">Logging</a>
+        
+        <div><code>ReflectiveBeanMapper</code> trait which provides an implementation of
+ the MongoDB <code>DBObject</code> which has scala-friendly support for sitting on top of a Javabean,
+ and utilising scala-like functionality.
+
+ Instead of treating a <code>ReflectiveBeanMapper</code> like a Map-like object as you do with a
+ <code>BasicDBObject</code>, you can define Scala methods for setters and getters
+ (see the Tests for examples) which automatically can serialize/deserialize to Mongo DBObject format.
+
+ At the moment, any non-mapped value will get placed in an 'other_fields' hashmap.  It will be fetchable
+ directly via 'get' but will NOT be included in <code>toMap</code> calls.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ScalaMongoCollection.html" target="_self">ScalaMongoCollection</a></em>
+        (<code>val </code><em>underlying</em> : <a href="" target="contentFrame" class="com/mongodb/DBCollection">com.mongodb.DBCollection</a>)<code> extends </code><a href="../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html" target="_self">ScalaMongoCollectionWrapper</a><code> with </code><a href="" target="contentFrame" class="scala/Iterable">scala.Iterable</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+        
+        <div>A Non-Generic, DBObject returning implementation of the <code>ScalaMongoCollectionWrapper</code>
+ Which implements Iterable, to allow iterating directly over it to list all of the underlying objects.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html" target="_self">ScalaMongoCollectionWrapper</a></em>
+        <code> extends </code><a href="../../../com/novus/util/Logging.html" target="_self">Logging</a>
+        
+        <div>Base trait for all MongoCollection wrapper objects.
+ Provides any non-parameterized methods and the basic structure.
+ Requires an underlying object of a DBCollection.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ScalaMongoConn.html" target="_self">ScalaMongoConn</a></em>
+        (<code>val </code><em>underlying</em> : <a href="" target="contentFrame" class="com/mongodb/Mongo">com.mongodb.Mongo</a>)<code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Wrapper class for the Mongo Connection object.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ScalaMongoCursor.html" target="_self">ScalaMongoCursor</a></em>
+        (<code>val </code><em>underlying</em> : <a href="" target="contentFrame" class="com/mongodb/DBCursor">com.mongodb.DBCursor</a>)<code> extends </code><a href="../../../com/novus/util/mongodb/ScalaMongoCursorWrapper.html" target="_self">ScalaMongoCursorWrapper</a>[<a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]
+        
+        <div>Non-Generic DBObject returning wrapper for the Mongo Cursor objects.
+
+ implements Scala's iterable - call jIterator if you want a Java iterator.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ScalaMongoCursorWrapper.html" target="_self">ScalaMongoCursorWrapper</a></em>
+        [<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>]<code> extends </code><a href="" target="contentFrame" class="scala/Iterator">scala.Iterator</a>[<a href="../../../com/novus/util/mongodb/ScalaMongoCursorWrapper.html#A" target="_self">A</a>]
+        
+        <div>Base trait for all cursor wrappers.
+
+ implements Scala's iterable - call jIterator if you want a Java iterator.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ScalaMongoDB.html" target="_self">ScalaMongoDB</a></em>
+        (<code>val </code><em>underlying</em> : <a href="" target="contentFrame" class="com/mongodb/DB">com.mongodb.DB</a>)<code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Wrapper for the Mongo <code>DB</code> object providing scala-friendly functionality.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html" target="_self">ScalaTypedMongoCollection</a></em>
+        [<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<code>val </code><em>underlying</em> : <a href="" target="contentFrame" class="com/mongodb/DBCollection">com.mongodb.DBCollection</a>, <code>implicit </code><em>m</em> : <a href="" target="contentFrame" class="scala/reflect/Manifest">scala.reflect.Manifest</a>[<a href="../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>])<code> extends </code><a href="" target="contentFrame" class="scala/Iterable">scala.Iterable</a>[<a href="../../../com/novus/util/mongodb/ScalaTypedMongoCollection.html#A" target="_self">A</a>]<code> with </code><a href="../../../com/novus/util/mongodb/ScalaMongoCollectionWrapper.html" target="_self">ScalaMongoCollectionWrapper</a>
+        
+        <div>A Generic, parameterized DBObject-subclass returning implementation of the <code>ScalaMongoCollectionWrapper</code>
+ This is instantiated with a type (and an implicitly discovered or explicitly passed Manifest object) to determine it's underlying type.
+
+ It will attempt to deserialize *ALL* returned results (except for things like group and mapReduce which don't return collection objects)
+ to it's type, on the assumption that the collection matches the type's spec.
+
+
+ implements Iterable, to allow iterating directly over it to list all of the underlying objects.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html" target="_self">ScalaTypedMongoCursor</a></em>
+        [<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<code>val </code><em>underlying</em> : <a href="" target="contentFrame" class="com/mongodb/DBCursor">com.mongodb.DBCursor</a>, <code>implicit </code><em>m</em> : <a href="" target="contentFrame" class="scala/reflect/Manifest">scala.reflect.Manifest</a>[<a href="../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html#A" target="_self">A</a>])<code> extends </code><a href="../../../com/novus/util/mongodb/ScalaMongoCursorWrapper.html" target="_self">ScalaMongoCursorWrapper</a>[<a href="../../../com/novus/util/mongodb/ScalaTypedMongoCursor.html#A" target="_self">A</a>]
+        
+        <div>Generic parameterized DBObject-subclass returning wrapper for the Mongo Cursor objects.
+ This is instantiated with a type (and an implicitly discovered or explicitly passed Manifest object) to determine it's underlying type.
+
+ It will attempt to deserialize *ALL* returned results
+ to it's type, on the assumption that the collection matches the type's spec.
+
+
+ implements Scala's iterable - call <code>jIterator</code> if you want a Java iterator.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/SizeOp.html" target="_self">SizeOp</a></em>
+        <code> extends </code><a href="../../../com/novus/util/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $size (Size) method on appropriate callers.
+
+ Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
+ DBObject.</div>
+      </td>
+    </tr>        
+        </table>
+<table summary="" cellpadding="3" class="member">
+        <tr><td class="title" colspan="2">Object Summary</td></tr>
+        <tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/Implicits$object.html" target="_self">Implicits</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div><code>Implicits</code> object to expose implicit conversions to implementing classes
+ which facilitate more Scala-like functionality in Mongo.
+
+ For classes of <code>Mongo</code> (The connection class), <code>DB</code>, <code>DBCollection</code>,
+ and <code>DBCursor</code>, extension methods of asScala are added which will, when invoked,
+ return a Scala-ified wrapper class to replace the Java-driver class it was called on.
+
+ These scala-ified wrappers do conversions to/from Java datatypes where necessary and will always return
+ Scala types.
+
+ Additionally, Collection and Cursors can be called with <code>asScalaTyped</code> and a type (either an
+ implicit or explicitly passed <code>Manifest</code> object is used to determine type) to return
+ a Type optimized version of themselves.  The type must be a subclass of DBObject, and it is up to YOU the
+ programmer to determine that your underlying collection can be deserialized to objects of type A.
+
+ Type oriented Collections and Cursors will ALWAYS try to deserialize DBObjects to their type where appropriate
+ (exceptions are things like group and mapReduce which return non-standard data and will be DBObjects)</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ReflectiveBeanMapper$object.html" target="_self">ReflectiveBeanMapper</a></em>
+        <code> extends </code><a href="../../../com/novus/util/Logging.html" target="_self">Logging</a>
+        
+        <div>The <code>ReflectiveBeanMapper</code> object provides utility functions
+ and internal caching for on-the-fly, reflective Mongo DBObjects.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/util/mongodb/ScalaMongoConn$object.html" target="_self">ScalaMongoConn</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
+ Apply methods are called as ScalaMongoConn(<params>)</div>
+      </td>
+    </tr>        
+        </table></body>
+      </html>
