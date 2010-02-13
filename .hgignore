@@ -1,0 +1,7 @@
+# use glob syntax
+syntax: glob
+
+# switch  to regexp syntax
+syntax: regexp
+target/classes/*
+target/test-classes/*
