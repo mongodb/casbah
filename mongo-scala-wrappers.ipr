@@ -57,6 +57,13 @@
     <annotationProcessing enabled="false" useClasspath="true" />
   </component>
   <component name="CopyrightManager" default="">
+    <copyright>
+      <option name="notice" value="/**&#10; * Copyright (c) 2010, Novus Partners, Inc. &lt;http://novus.com&gt;&#10; *&#10; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);&#10; * you may not use this file except in compliance with the License.&#10; * You may obtain a copy of the License at&#10; *&#10; *     http://www.apache.org/licenses/LICENSE-2.0&#10; *&#10; * Unless required by applicable law or agreed to in writing, software&#10; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#10; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#10; * See the License for the specific language governing permissions and&#10; * limitations under the License.&#10; *&#10; * NOTICE: Portions of this work are derived from the Apache License 2.0 &quot;mongo-scala-driver&quot; work&#10; * by Alexander Azarov &lt;azarov@osinka.ru&gt;, available from http://github.com/alaz/mongo-scala-driver&#10; */" />
+      <option name="keyword" value="Copyright" />
+      <option name="allowReplaceKeyword" value="" />
+      <option name="myName" value="Mongo Scala Wrappers" />
+      <option name="myLocal" value="true" />
+    </copyright>
     <module2copyright />
   </component>
   <component name="DBNavigator.Project.ConnectionManager">

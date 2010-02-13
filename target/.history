@@ -56,3 +56,12 @@ publish-all
 action
 actions
 package-all
+update
+reload
+update
+reload
+test
+reload
+test
+actions
+package-all
