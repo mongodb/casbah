@@ -1,28 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ChangeListManager" verified="true">
+  <component name="ChangeListManager">
     <list default="true" readonly="true" id="66e9507a-348e-45a4-acfa-5e57a0cd662b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/util/Logger.scala" afterPath="$PROJECT_DIR$/src/main/scala/util/Logger.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoDB.scala" afterPath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoDB.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/external" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/external" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCollection.scala" afterPath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCollection.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/QueryOperators.scala" afterPath="$PROJECT_DIR$/src/main/scala/util/mongodb/QueryOperators.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceCommand.scala" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/Implicits.scala" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoDB.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoDB.scala" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ReflectiveBeanMapper.scala" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoDB.scala" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceCommand.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceCommand.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ReflectiveBeanMapper.scala" afterPath="$PROJECT_DIR$/src/main/scala/util/mongodb/ReflectiveBeanMapper.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.iws" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceResult.scala" afterPath="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceResult.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoConn.scala" afterPath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoConn.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceCommand.scala" afterPath="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceCommand.scala" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/Implicits.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceResult.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.iml" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCursor.scala" afterPath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCursor.scala" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/QueryOperators.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/generated_files" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/generated_files" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/Implicits.scala" afterPath="$PROJECT_DIR$/src/main/scala/util/mongodb/Implicits.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.ipr" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.ipr" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoConn.scala" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCursor.scala" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/external" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/external" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCursor.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCursor.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/MongoScalaWrappers.scala" afterPath="$PROJECT_DIR$/project/build/MongoScalaWrappers.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/QueryOperators.scala" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ReflectiveBeanMapper.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCollection.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceResult.scala" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/mongo-1.2.jar" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.iws" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.iws" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCollection.scala" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/classes/MongoScalaWrappersProject.class" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/classes/MongoScalaWrappersProject.class" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/scala-javautils.jar" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoConn.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala" />
     </list>
-    <ignored path=".idea/workspace.xml" />
     <ignored path="mongo-scala-wrappers.iws" />
+    <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,62 +114,17 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="QueryOperators.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/QueryOperators.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="0" selection-start="2475" selection-end="2475" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Implicits.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/Implicits.scala">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="136" column="0" selection-start="5895" selection-end="5895" vertical-scroll-proportion="0.0">
+            <state line="70" column="0" selection-start="3011" selection-end="3011" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReflectiveBeanMapper.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/ReflectiveBeanMapper.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="227" column="0" selection-start="8662" selection-end="8662" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaMongoCollection.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCollection.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="219" column="0" selection-start="9029" selection-end="9029" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaMongoConn.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoConn.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaMongoCursor.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCursor.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="0" selection-start="2364" selection-end="2364" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaMongoDB.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoDB.scala">
+      <file leaf-file-name="MapReduceCommand.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceCommand.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
@@ -167,7 +133,7 @@
         </entry>
       </file>
       <file leaf-file-name="MapReduceResult.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceResult.scala">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
@@ -175,10 +141,64 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MapReduceCommand.scala" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceCommand.scala">
+      <file leaf-file-name="QueryOperators.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="35" selection-start="2185" selection-end="4148" vertical-scroll-proportion="0.9781659">
+            <state line="80" column="0" selection-start="2838" selection-end="2838" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScalaMongoCollection.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="0" selection-start="880" selection-end="880" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScalaMongoConn.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="851" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScalaMongoCursor.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCursor.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScalaMongoDB.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoDB.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Logger.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/util/Logger.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="0" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReflectiveBeanMapper.scala" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -194,18 +214,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/Preamble.scala" />
-        <option value="$PROJECT_DIR$/project/build/MongoScalaWrappers.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/ReflectiveBeanMapper.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/QueryOperators.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/util/Logger.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/Implicits.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCollection.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCursor.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoConn.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoDB.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceResult.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceCommand.scala" />
+        <option value="$PROJECT_DIR$/project/build/MongoScalaWrappers.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoDB.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCursor.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceCommand.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala" />
       </list>
     </option>
   </component>
@@ -255,11 +279,11 @@
     </navigator>
     <panes>
       <pane id="Favorites" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane />
       </pane>
       <pane id="Scope">
+        <subPane subId="Tests" />
         <subPane subId="All">
           <PATH>
             <PATH_ELEMENT USER_OBJECT="Root">
@@ -330,10 +354,6 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="util">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
             <PATH_ELEMENT USER_OBJECT="mongodb">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
@@ -361,10 +381,6 @@
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
             <PATH_ELEMENT USER_OBJECT="scala">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="util">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -412,7 +428,85 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="build">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="mongo-scala-wrappers">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="mongo-scala-wrappers">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="project">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="build">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="target">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="scala_2.7.7">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="mongo-scala-wrappers">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="mongo-scala-wrappers">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="project">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
             <PATH_ELEMENT USER_OBJECT="boot">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="scala-2.7.7">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="mongo-scala-wrappers">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="mongo-scala-wrappers">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="lib_managed">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="compile">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -437,11 +531,12 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
@@ -644,7 +739,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1916" y="0" width="1928" height="1084" extended-state="6" />
+    <frame x="0" y="25" width="1600" height="808" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -663,7 +758,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24959914" sideWeight="0.6628512" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24951267" sideWeight="0.6628512" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Graphical Navigator" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -683,6 +778,8 @@
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
     <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="true" />
+    <option name="ENABLE_BACKGROUND_PROCESSES" value="true" />
+    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="LAST_COMMIT_MESSAGE" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
@@ -749,75 +846,84 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/project/build/MongoScalaWrappers.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="11" column="0" selection-start="562" selection-end="562" vertical-scroll-proportion="0.25821596">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/build.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="208" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceCommand.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="0" selection-start="3011" selection-end="3011" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="80" column="0" selection-start="2838" selection-end="2838" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="880" selection-end="880" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="851" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCursor.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoDB.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/util/Logger.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="70" selection-end="70" vertical-scroll-proportion="0.043897215">
+        <state line="1" column="0" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/QueryOperators.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="2475" selection-end="2475" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/Implicits.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="0" selection-start="5895" selection-end="5895" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/ReflectiveBeanMapper.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="227" column="0" selection-start="8662" selection-end="8662" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCollection.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="219" column="0" selection-start="9029" selection-end="9029" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCursor.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="0" selection-start="2364" selection-end="2364" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoConn.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoDB.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceResult.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceCommand.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="35" selection-start="2185" selection-end="4148" vertical-scroll-proportion="0.9781659">
           <folding />
         </state>
       </provider>

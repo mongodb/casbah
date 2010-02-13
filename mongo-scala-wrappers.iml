@@ -21,26 +21,16 @@
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src/main/scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/scala" isTestSource="false" packagePrefix="com.novus" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/scala" isTestSource="true" packagePrefix="com.novus" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="scala-2.7.7" level="project" />
     <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/mongo-1.2.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="http://api.mongodb.org/java/1.2/index.html" />
-        </JAVADOC>
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="Scala JavaUtils">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/scala-javautils.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib_managed/compile/javautils-2.7.4-0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -50,6 +40,15 @@
       <library name="Configgy">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/configgy-1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Mongo Java Driver">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib_managed/compile/mongo-java-driver-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
