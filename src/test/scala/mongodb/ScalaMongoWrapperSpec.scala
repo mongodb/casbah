@@ -65,9 +65,44 @@ class ScalaMongoWrapperSpec extends FeatureSpec with GivenWhenThen {
         assert(scalaColl != null)
         assert(scalaColl.isInstanceOf[ScalaMongoCollection])
         and("The underlying collection is the Java mongo collection object.")
+        assert(scalaColl.underlying != null)
         assert(scalaColl.underlying == coll)
       }
     }
 
-
+    feature("The Scala wrapper connection can be instantiated directly, and the apply methods work for dbs/collections.") {
+      val conn = ScalaMongoConn()
+      scenario("A ScalaMongoConn object can be directly instantiated.") {
+        given("A connected instance.")
+        assert(conn != null)
+        assert(conn.isInstanceOf[ScalaMongoConn])
+        then("The connected instance's underlying connection is the Java mongo connection object.")
+        assert(conn.underlying != null)
+        assert(conn.underlying.isInstanceOf[Mongo])
+      }
+      scenario("The apply method can be invoked on Connections instead of getDB.") {
+        given("A connected instance.")
+        assert(conn != null)
+        when("A database name is passed via apply()")
+        val db = conn("test")
+        then("A valid instance of ScalaMongoDB is returned.")
+        assert(db != null)
+        assert(db.isInstanceOf[ScalaMongoDB])
+        and("It is connected to the proper database.")
+        assert(db.underlying != null)
+        assert(db.getName == "test")
+        and("The underlying database is the Java mongo database object.")
+        assert(db.underlying.isInstanceOf[DB])
+      }
+      scenario("The apply method can be invoked upon DBs instead of getCollection.") {
+        given("A connected ScalaMongoDB Instance.")
+        assert(conn != null)
+        val db = conn("test")
+        when("A collection name is passed via apply()")
+        val coll = db("foo")
+        then("A valid instance of the [non-genericized] ScalaMongoCollection is returned.")
+        assert(coll != null)
+        assert(coll.isInstanceOf[ScalaMongoCollection])
+      }
+    }
 }

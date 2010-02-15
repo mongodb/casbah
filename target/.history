@@ -65,3 +65,26 @@ reload
 test
 actions
 package-all
+run
+test
+run
+test
+ test
+test
+ Seq
+Seq(5, 8, 12)
+hepl
+:help
+help
+run
+test
+run 
+run
+test
+test\
+test
+reload
+test
+run
+test
+clean

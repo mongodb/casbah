@@ -2,17 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="66e9507a-348e-45a4-acfa-5e57a0cd662b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.iws" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/external" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/external" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/scala/mongodb/FluidMongoSyntaxSpec.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/MongoScalaWrappers.scala" afterPath="$PROJECT_DIR$/project/build/MongoScalaWrappers.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.iml" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.iws" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.iml" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala" afterPath="$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/classes/MongoScalaWrappersProject.class" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/classes/MongoScalaWrappersProject.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/generated_files" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/generated_files" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.ipr" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.ipr" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala" />
     </list>
     <ignored path="mongo-scala-wrappers.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -96,10 +98,10 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Implicits.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala">
+      <file leaf-file-name="FluidMongoSyntaxSpec.scala" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/mongodb/FluidMongoSyntaxSpec.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="0" selection-start="3011" selection-end="3011" vertical-scroll-proportion="0.0">
+            <state line="99" column="4" selection-start="5542" selection-end="5542" vertical-scroll-proportion="0.93607306">
               <folding />
             </state>
           </provider>
@@ -108,70 +110,16 @@
       <file leaf-file-name="QueryOperators.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="80" column="0" selection-start="2838" selection-end="2838" vertical-scroll-proportion="0.0">
+            <state line="246" column="0" selection-start="8301" selection-end="8301" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScalaMongoCollection.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala">
+      <file leaf-file-name="Implicits.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="880" selection-end="880" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaMongoConn.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="851" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaMongoCursor.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCursor.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaMongoDB.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoDB.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Logger.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/util/Logger.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ReflectiveBeanMapper.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalaMongoWrapperSpec.scala" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="19" selection-start="2958" selection-end="2958" vertical-scroll-proportion="0.8826291">
+            <state line="160" column="0" selection-start="7233" selection-end="7233" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -187,13 +135,11 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoCursor.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoConn.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/ScalaMongoDB.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceResult.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceCommand.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala" />
@@ -203,6 +149,8 @@
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala" />
         <option value="$PROJECT_DIR$/project/build/MongoScalaWrappers.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/mongodb/FluidMongoSyntaxSpec.scala" />
       </list>
     </option>
   </component>
@@ -291,6 +239,10 @@
               <option name="myItemId" value="scala" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mongodb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -364,11 +316,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="project" />
+              <option name="myItemId" value="lib_managed" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
+              <option name="myItemId" value="compile" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -885,30 +837,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="0" selection-start="3011" selection-end="3011" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="0" selection-start="2838" selection-end="2838" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="0" selection-start="880" selection-end="880" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="851" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -948,9 +879,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="851" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="19" selection-start="2958" selection-end="2958" vertical-scroll-proportion="0.8826291">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="160" column="0" selection-start="7233" selection-end="7233" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="246" column="0" selection-start="8301" selection-end="8301" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/mongodb/FluidMongoSyntaxSpec.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="99" column="4" selection-start="5542" selection-end="5542" vertical-scroll-proportion="0.93607306">
           <folding />
         </state>
       </provider>

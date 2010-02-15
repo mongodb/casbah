@@ -39,7 +39,7 @@ trait QueryOperators extends NotEqualsOp with
                              NotInOp with
                              ModuloOp with
                              SizeOp with
-                             ExistsOp
+                             ExistsOp with AllOp with WhereOp
 
 
 /**
@@ -272,6 +272,19 @@ trait SizeOp extends QueryOperator {
 trait ExistsOp extends QueryOperator {
   def $exists(target: Boolean) = op("$exists", target)
 }
+
+/**
+ * Trait to provide the $where (Where) method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) JSFunction
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait WhereOp extends QueryOperator {
+  def $where(target: JSFunction) = op("$where", target)
+}
+
 
 // @Todo Regex support
 

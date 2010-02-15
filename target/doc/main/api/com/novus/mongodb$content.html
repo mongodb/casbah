@@ -182,7 +182,7 @@
       </td>
       <td class="signature">
         <em><a href="../../com/novus/mongodb/QueryOperators.html" target="_self">QueryOperators</a></em>
-        <code> extends </code><a href="../../com/novus/mongodb/NotEqualsOp.html" target="_self">NotEqualsOp</a><code> with </code><a href="../../com/novus/mongodb/LessThanOp.html" target="_self">LessThanOp</a><code> with </code><a href="../../com/novus/mongodb/LessThanEqualOp.html" target="_self">LessThanEqualOp</a><code> with </code><a href="../../com/novus/mongodb/GreaterThanOp.html" target="_self">GreaterThanOp</a><code> with </code><a href="../../com/novus/mongodb/GreaterThanEqualOp.html" target="_self">GreaterThanEqualOp</a><code> with </code><a href="../../com/novus/mongodb/InOp.html" target="_self">InOp</a><code> with </code><a href="../../com/novus/mongodb/NotInOp.html" target="_self">NotInOp</a><code> with </code><a href="../../com/novus/mongodb/ModuloOp.html" target="_self">ModuloOp</a><code> with </code><a href="../../com/novus/mongodb/SizeOp.html" target="_self">SizeOp</a><code> with </code><a href="../../com/novus/mongodb/ExistsOp.html" target="_self">ExistsOp</a>
+        <code> extends </code><a href="../../com/novus/mongodb/NotEqualsOp.html" target="_self">NotEqualsOp</a><code> with </code><a href="../../com/novus/mongodb/LessThanOp.html" target="_self">LessThanOp</a><code> with </code><a href="../../com/novus/mongodb/LessThanEqualOp.html" target="_self">LessThanEqualOp</a><code> with </code><a href="../../com/novus/mongodb/GreaterThanOp.html" target="_self">GreaterThanOp</a><code> with </code><a href="../../com/novus/mongodb/GreaterThanEqualOp.html" target="_self">GreaterThanEqualOp</a><code> with </code><a href="../../com/novus/mongodb/InOp.html" target="_self">InOp</a><code> with </code><a href="../../com/novus/mongodb/NotInOp.html" target="_self">NotInOp</a><code> with </code><a href="../../com/novus/mongodb/ModuloOp.html" target="_self">ModuloOp</a><code> with </code><a href="../../com/novus/mongodb/SizeOp.html" target="_self">SizeOp</a><code> with </code><a href="../../com/novus/mongodb/ExistsOp.html" target="_self">ExistsOp</a><code> with </code><a href="../../com/novus/mongodb/AllOp.html" target="_self">AllOp</a><code> with </code><a href="../../com/novus/mongodb/WhereOp.html" target="_self">WhereOp</a>
         
         <div>Mixed trait which provides all possible
  operators.  See Implicits for examples of usage.</div>
@@ -329,6 +329,19 @@
 
  Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
  DBObject.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/novus/mongodb/WhereOp.html" target="_self">WhereOp</a></em>
+        <code> extends </code><a href="../../com/novus/mongodb/QueryOperator.html" target="_self">QueryOperator</a>
+        
+        <div>Trait to provide the $where (Where) method on appropriate callers.
+
+ Targets (takes a right-hand value of) JSFunction</div>
       </td>
     </tr>        
         </table>
