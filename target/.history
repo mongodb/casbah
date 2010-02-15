@@ -88,3 +88,8 @@ test
 run
 test
 clean
+package-all
+make pom
+make-pom
+hlp
+help
