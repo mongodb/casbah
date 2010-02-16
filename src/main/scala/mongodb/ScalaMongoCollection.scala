@@ -98,7 +98,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
     if (result.get("ok").asInstanceOf[Double] != 1) {
       log.warning("Group Statement Failed.")
     }
-    log.info("Group command result count : %s keys: %s ", result.get("count"), result.get("keys"))
+    log.trace("Group command result count : %s keys: %s ", result.get("count"), result.get("keys"))
     result.get("retval").asInstanceOf[DBObject].toMap.asScala.map(_._2.asInstanceOf[DBObject]).asInstanceOf[ArrayBuffer[DBObject]]
   }
   override def hashCode() = underlying.hashCode
@@ -200,6 +200,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
   def optWrap[A <: DBObject](obj: A): Option[A] = {
     if (obj == null) None else Some(obj)
   }
+  def findOne(o: DBObject): Option[DBObject]
 }
 
 /**

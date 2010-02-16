@@ -23,6 +23,10 @@ import collection.jcl.{LinkedHashMap, HashSet}
 import reflect.Manifest
 import com.mongodb.DBObject
 import com.novus.util.Logging
+import java.util.{Map => JMap}
+import java.lang.String
+import org.scala_tools.javautils.Implicits._
+import java.util.Map.Entry
 
 /**
  * The <code>ReflectiveBeanMapper</code> object provides utility functions
@@ -225,9 +229,9 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
   }
 
 
-  def putAll(dbObj: DBObject): Unit =  putAll(dbObj.toMap)
+  def putAll(dbObj: DBObject) =  putAll(dbObj.toMap)
 
-  def putAll(fieldMap: Map[_,_]): Unit = {
+  def putAll(fieldMap: Map[_,_]) = {
     for ((k, v) <- fieldMap.asInstanceOf[Map[String, AnyRef]]) {
       try {
         put(k, v)
@@ -237,6 +241,16 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
     }
   }
 
+
+  def putAll(fieldMap: JMap[_, _]) = {
+    for (x <- fieldMap.entrySet) {
+      try {
+        put(x.getKey.toString, x.getValue.asInstanceOf[AnyRef])
+      } catch {
+       case any => log.warning("Can't put %s , failed... %s", x, any)
+      }
+    }
+  }
 
   def get(key: String) = {
     ReflectiveBeanMapper(this, key) match {

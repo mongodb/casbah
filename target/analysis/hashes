@@ -1,10 +1,10 @@
 #Source Hashes
-#Mon Feb 15 16:51:32 EST 2010
-src/main/scala/mongodb/ScalaMongoCollection.scala=7c50a8d235ddb603a059c77cf54c1d41005ceb7a
+#Tue Feb 16 01:41:14 EST 2010
+src/main/scala/mongodb/ScalaMongoCollection.scala=d19736a9372201412180d8c546a7d01921671477
 src/main/scala/mongodb/ScalaMongoCursor.scala=fe1d3da0dde32ac2161a702a45f94574fb095ebb
 src/main/scala/mongodb/map_reduce/MapReduceCommand.scala=89ef5bb7fc703ac5e4330a9ca4a9011a6042b219
-src/main/scala/mongodb/ReflectiveBeanMapper.scala=6929b9213a97116d91862cd3d063d013a1d11b87
-src/main/scala/mongodb/map_reduce/MapReduceResult.scala=3eafe86cc74bef46207ced9d346cda3c60ff05b9
+src/main/scala/mongodb/ReflectiveBeanMapper.scala=ca2a162377711614c11e11667401b617515176e6
+src/main/scala/mongodb/map_reduce/MapReduceResult.scala=90bc73921bcd2b388c99b73421f5f04a3d26e85a
 src/main/scala/mongodb/QueryOperators.scala=a0c70ea24789e1743acd60015c76ac984cf282f5
 src/main/scala/mongodb/Implicits.scala=2656d339abbd8880a8e860ce84f11d3e8fd35643
 src/main/scala/util/Logger.scala=7dafc5bb392897c608220be99e21ece68c936344

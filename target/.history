@@ -93,3 +93,14 @@ make pom
 make-pom
 hlp
 help
+package all
+package-all
+quit
+package-all
+1;2A
+package-all
+run
+package all
+package-all
+package all
+package-all

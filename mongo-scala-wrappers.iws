@@ -3,21 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="66e9507a-348e-45a4-acfa-5e57a0cd662b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/external" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/external" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/scala/mongodb/FluidMongoSyntaxSpec.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/MongoScalaWrappers.scala" afterPath="$PROJECT_DIR$/project/build/MongoScalaWrappers.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.iws" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.iml" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala" afterPath="$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/classes/MongoScalaWrappersProject.class" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/classes/MongoScalaWrappersProject.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/generated_files" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/generated_files" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.ipr" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" />
     </list>
-    <ignored path="mongo-scala-wrappers.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="mongo-scala-wrappers.iws" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,10 +94,64 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="FluidMongoSyntaxSpec.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="FluidMongoSyntaxSpec.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/scala/mongodb/FluidMongoSyntaxSpec.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="99" column="4" selection-start="5542" selection-end="5542" vertical-scroll-proportion="0.93607306">
+            <state line="81" column="0" selection-start="4171" selection-end="4171" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MapReduceCommand.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceCommand.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="72" column="0" selection-start="2307" selection-end="2307" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReflectiveBeanMapper.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="220" column="0" selection-start="8561" selection-end="8561" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScalaMongoCollection.scala" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="213" column="2" selection-start="8872" selection-end="8872" vertical-scroll-proportion="0.4945055">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScalaMongoCursor.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCursor.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Map.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///usr/lib/jvm/java-6-sun/jre/lib/rt.jar!/java/util/Map.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="0" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MapReduceResult.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="0" selection-start="1198" selection-end="1198" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -140,17 +190,17 @@
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceResult.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/util/mongodb/map_reduce/MapReduceCommand.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoDB.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCursor.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceCommand.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala" />
         <option value="$PROJECT_DIR$/project/build/MongoScalaWrappers.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/mongodb/FluidMongoSyntaxSpec.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala" />
       </list>
     </option>
   </component>
@@ -199,7 +249,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -302,6 +351,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mongodb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="map_reduce" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mongo-scala-wrappers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mongo-scala-wrappers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="project" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -325,6 +404,9 @@
             </PATH_ELEMENT>
           </PATH>
         </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane />
       </pane>
       <pane id="Scope">
         <subPane subId="Tests" />
@@ -501,9 +583,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
+      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -711,11 +791,11 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1600" height="808" extended-state="0" />
+    <frame x="1" y="36" width="1600" height="802" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Atlassian " active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Atlassian " active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Compare Directories" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -730,7 +810,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24951267" sideWeight="0.6628512" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32965606" sideWeight="0.0" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Graphical Navigator" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -811,35 +891,86 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/LICENSE">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/util/Logger.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/build/MongoScalaWrappers.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="12" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="851" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/build.properties">
+    <entry file="file://$PROJECT_DIR$/src/test/scala/mongodb/FluidMongoSyntaxSpec.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="208" vertical-scroll-proportion="0.0">
+        <state line="81" column="0" selection-start="4171" selection-end="4171" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="246" column="0" selection-start="8301" selection-end="8301" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="160" column="0" selection-start="7233" selection-end="7233" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="1198" selection-end="1198" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceCommand.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="72" column="0" selection-start="2307" selection-end="2307" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/map_reduce/MapReduceResult.scala">
+    <entry file="jar://$PROJECT_DIR$/lib_managed/compile/mongo-java-driver-1.2.jar!/com/mongodb/DBObject.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="11" column="9" selection-start="303" selection-end="303" vertical-scroll-proportion="0.24630542">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala">
+    <entry file="jar://$PROJECT_DIR$/lib_managed/compile/javautils-2.7.4-0.1.jar!/org/scala_tools/javautils/Implicits.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="880" selection-end="880" vertical-scroll-proportion="0.0">
+        <state line="3" column="7" selection-start="178" selection-end="178" vertical-scroll-proportion="0.07281554">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib_managed/compile/javautils-2.7.4-0.1.jar!/org/scala_tools/javautils/Imports.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="7" selection-start="125" selection-end="125" vertical-scroll-proportion="0.07109005">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-6-sun/jre/lib/rt.jar!/java/util/Map.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="220" column="0" selection-start="8561" selection-end="8561" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -851,65 +982,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoDB.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/util/Logger.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project/build/MongoScalaWrappers.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="12" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoConn.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="851" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/mongodb/ScalaMongoWrapperSpec.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/Implicits.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="0" selection-start="7233" selection-end="7233" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="246" column="0" selection-start="8301" selection-end="8301" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/mongodb/FluidMongoSyntaxSpec.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="99" column="4" selection-start="5542" selection-end="5542" vertical-scroll-proportion="0.93607306">
+        <state line="213" column="2" selection-start="8872" selection-end="8872" vertical-scroll-proportion="0.4945055">
           <folding />
         </state>
       </provider>

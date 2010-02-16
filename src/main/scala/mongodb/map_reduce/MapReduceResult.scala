@@ -43,11 +43,13 @@ class MapReduceResult(resultObj: DBObject)(implicit db: ScalaMongoDB) extends It
     case Some(v) => v
     case None => throw new IllegalArgumentException("Cannot find field 'result' in Map/Reduce Results.")
   }*/
-  private val resultHandle = db(result.toString).find
+  val resultHandle = db(result.toString)
+  
+  private val resultCursor = resultHandle.find
 
-  def next(): DBObject = resultHandle.next
+  def next(): DBObject = resultCursor.next
 
-  def hasNext: Boolean = resultHandle.hasNext
+  def hasNext: Boolean = resultCursor.hasNext
 
   def size = resultHandle.count
 
