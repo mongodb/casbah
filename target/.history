@@ -106,3 +106,4 @@ package all
 package-all
 test
 package-all
+make-pom
