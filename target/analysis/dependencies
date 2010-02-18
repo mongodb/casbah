@@ -1,5 +1,5 @@
 #Source Dependencies
-#Tue Feb 16 01:41:14 EST 2010
+#Thu Feb 18 10:02:03 EST 2010
 src/main/scala/mongodb/ScalaMongoCollection.scala=src/main/scala/mongodb/map_reduce/MapReduceResult.scala\:src/main/scala/mongodb/Implicits.scala
 src/main/scala/mongodb/ScalaMongoCursor.scala=src/main/scala/mongodb/map_reduce/MapReduceResult.scala\:src/main/scala/mongodb/ScalaMongoCollection.scala\:src/main/scala/mongodb/Implicits.scala
 src/main/scala/mongodb/map_reduce/MapReduceCommand.scala=src/main/scala/mongodb/ScalaMongoCollection.scala

@@ -113,6 +113,7 @@ trait NotEqualsOp extends QueryOperator {
  */
 trait LessThanOp extends QueryOperator {
   def $lt(target: String) = op("$lt", target)
+  def $lt(target: java.util.Date) = op("$lt", target)
   def $lt(target: AnyVal) = op("$lt", target)
   def $lt(target: DBObject) = op("$lt", target)
   def $lt(target: Map[String, Any]) = op("$lt", target.asDBObject)
@@ -130,6 +131,7 @@ trait LessThanOp extends QueryOperator {
  */
 trait LessThanEqualOp extends QueryOperator {
   def $lte(target: String) = op("$lte", target)
+  def $lte(target: java.util.Date) = op("$lte", target)
   def $lte(target: AnyVal) = op("$lte", target)
   def $lte(target: DBObject) = op("$lte", target)
   def $lte(target: Map[String, Any]) = op("$lte", target.asDBObject)
@@ -147,6 +149,7 @@ trait LessThanEqualOp extends QueryOperator {
  */
 trait GreaterThanOp extends QueryOperator {
   def $gt(target: String) = op("$gt", target)
+  def $gt(target: java.util.Date) = op("$gt", target)
   def $gt(target: AnyVal) = op("$gt", target)
   def $gt(target: DBObject) = op("$gt", target)
   def $gt(target: Map[String, Any]) = op("$gt", target.asDBObject)
@@ -164,6 +167,7 @@ trait GreaterThanOp extends QueryOperator {
  */
 trait GreaterThanEqualOp extends QueryOperator {
   def $gte(target: String) = op("$gte", target)
+  def $gte(target: java.util.Date) = op("$gte", target)
   def $gte(target: AnyVal) = op("$gte", target)
   def $gte(target: DBObject) = op("$gte", target)
   def $gte(target: Map[String, Any]) = op("$gte", target.asDBObject)
