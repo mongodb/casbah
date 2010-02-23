@@ -187,6 +187,11 @@ object Implicits {
         val t = x.asInstanceOf[Tuple2[String, Any]]
         //println("\t\tT: %s".format(t))
         builder.add(t._1, t._2)
+      } else if (p.productArity == 2 && p.productElement(0).isInstanceOf[String]) {
+        // backup plan if it's a one entry tuple, the outer wrapper gets stripped
+        val t = p.asInstanceOf[Tuple2[String, Any]]
+        builder.add(t._1, t._2)
+        return builder.get
       } else {
         throw new IllegalArgumentException("Products to convert to DBObject must contain Tuple2's.")
       }
