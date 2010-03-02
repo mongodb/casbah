@@ -94,6 +94,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
       ("$reduce" -> reduce),
       ("initial" -> initial),
       ("finalize", finalize)).asDBObject
+    log.trace("Executing group command: %s", cmdData)
     val result = getDB.command(BasicDBObjectBuilder.start("group", cmdData).get)
     if (result.get("ok").asInstanceOf[Double] != 1) {
       log.warning("Group Statement Failed.")
@@ -101,6 +102,26 @@ trait ScalaMongoCollectionWrapper extends Logging {
     log.trace("Group command result count : %s keys: %s ", result.get("count"), result.get("keys"))
     result.get("retval").asInstanceOf[DBObject].toMap.asScala.map(_._2.asInstanceOf[DBObject]).asInstanceOf[ArrayBuffer[DBObject]]
   }
+
+  /** Emulates a SQL MAX() call ever so gently **/
+  def maxValue(field: String, condition: DBObject) = {
+    val initial = ("max" -> "")
+    group(new BasicDBObject,
+          condition,
+          initial,
+          "function(obj, aggr) { if (aggr.max == '') { aggr.max = obj.%s } else if (obj.%s > aggr.max) { aggr.max = obj.%s } }".format(field, field, field), "").
+        first.get("max").asInstanceOf[Double]
+  }
+  /** Emulates a SQL MIN() call ever so gently **/
+  def minValue(field: String, condition: DBObject) = {
+    val initial = ("min" -> "")
+    group(new BasicDBObject,
+          condition,
+          initial,
+          "function(obj, aggr) { if (aggr.min == '') { aggr.min = obj.%s } else if (obj.%s < aggr.min) aggr.min = obj.%s }".format(field, field, field), "").
+        first.get("min").asInstanceOf[Double]
+  }
+  
   override def hashCode() = underlying.hashCode
   def insert(doc: DBObject) = underlying.insert(doc)
   def insert(doc: Array[DBObject]) = underlying.insert(doc)

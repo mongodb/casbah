@@ -41,13 +41,18 @@ object ReflectiveBeanMapper extends Logging {
   protected[mongodb] val getters = new scala.collection.mutable.HashMap[Tuple2[Class[_], String], ProxyMethod]
   protected[mongodb] val setters = new scala.collection.mutable.HashMap[Tuple3[Class[_], String, AnyRef], ProxyMethod]
 
-  def apply(caller: ReflectiveBeanMapper, field: String): Option[ProxyMethod] =  {
+  def apply[A](caller: ReflectiveBeanMapper, field: String)(implicit m: Manifest[A]): Option[ProxyMethod] =  {
     getters.get((caller.getClass, field)) match {
       case Some(getProxy) => Some(getProxy)
       case None => {
         try {
           log.debug("Creating new method mapping for getter %s", field)
-          val getMethod = caller.getClass.getMethod("get%s".format(field.capitalize))
+          val methodName = m.erasure.getName match {
+            case "Boolean" | "boolean" => "is%s".format(field.capitalize)
+            case _ => "get%s".format(field.capitalize)
+          }
+          log.debug("Looking for a method named %s", methodName)
+          val getMethod = caller.getClass.getMethod(methodName)
           val getMethodProxy = getMethod.invoke _
           getters.update((caller.getClass, field), getMethodProxy)
           Some(getMethodProxy)
@@ -59,14 +64,14 @@ object ReflectiveBeanMapper extends Logging {
   }
 
   def apply(caller: ReflectiveBeanMapper, field: String, value: Class[_]): Option[ProxyMethod] = {
-    log.debug("Value: %s for %s", value.toString, "set%s".format(field.capitalize))
+    log.trace("Value: %s for %s", value.toString, "set%s".format(field.capitalize))
     // @todo make this less...wonky
     val lookupType = value.toString match {
       case "class scala.BigDecimal" =>  classOf[java.math.BigDecimal]
       case "class com.mongodb.BasicDBObject" =>  classOf[com.mongodb.DBObject]
       case unknown => value
     }
-    log.debug("Lookup tuple: %s", lookupType)
+    log.trace("Lookup tuple: %s", lookupType)
     setters.get((caller.getClass, field, lookupType)) match {
       case Some(setProxy) => Some(setProxy)
       case None => {
@@ -108,6 +113,7 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
   private var _partial = false
 
   val other_fields = new scala.collection.mutable.HashMap[String, Any]
+  val serializable_other_fields = scala.collection.mutable.HashSet[String]("_id", "_ns")
 
   def mongoID = other_fields.get("_id")
   def mongoNS = other_fields.get("_ns")
@@ -118,9 +124,9 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
    * @param field A string value indicating the fieldName for the getter (e.g. "foo" maps to "getFoo")
    * @param returnType A class of the type of the object you expect to be returned for Casting
    * @param A a type automatically picked up from the classtype of returnType
-   * @return Option[A]
+    @return Option[A]
    */
-  def optGetter[A](field: String, returnType: Class[A]): Option[A] = {
+  def optGetter[A](field: String, returnType: Class[A])(implicit m: Manifest[A]): Option[A] = {
     val out = getter(field, returnType)
     if (out == null) None else Some(out.asInstanceOf[A])
   }
@@ -131,19 +137,20 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
    * @param returnType A class of the type of the object you expect to be returned for Casting
    * @param A a type automatically picked up from the classtype of returnType
    * @return A
-   */  def getter[A](field: String, returnType: Class[A]): A = {
-    log.debug("Getter lookup trying for field %s returnType %s", field, returnType)
+   */  
+   def getter[A](field: String, returnType: Class[A])(implicit m: Manifest[A]): A = {
+    log.trace("Getter lookup trying for field %s returnType %s", field, returnType)
     ReflectiveBeanMapper(this, field) match {
       case Some(proxy) => {
-        log.debug("Got back a getter %s", proxy)
+        log.trace("Got back a getter %s", proxy)
         val ret = proxy(this)
-        log.debug("Return value from getter invocation: %s", ret)
+        log.trace("Return value from getter invocation: %s", ret)
         ret.asInstanceOf[A]
       }
       case None => {
         log.trace("Unable to find defined getter for field " + field)
         // @todo - A is lost by erasure... put a manifest in here?
-        if (other_fields.contains(field) && other_fields.get(field).isInstanceOf[A]) {
+        if (other_fields.contains(field) && m.erasure.isInstance(other_fields.get(field))) {
           other_fields.get(field) match {
             case Some(v) => v.asInstanceOf[A]
             case None => null.asInstanceOf[A]
@@ -163,17 +170,18 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
       case None => null
       case Some(value) => value
     }
+    log.trace("OptSetter setting %s -> %s on %s [%s]", value, in, field, in.asInstanceOf[A])
     setter(field, in.asInstanceOf[A])
   }
 
   def setter[A](field: String, value: A)(implicit m: Manifest[A]) {
-    log.debug("Setter lookup trying for field %s value %s (Manifest erasure type %s)", field, value, m.erasure)
+    log.trace("Setter lookup trying for field %s value %s (Manifest erasure type %s)", field, value, m.erasure)
     val tVal = if (value.isInstanceOf[scala.BigDecimal]) value.asInstanceOf[scala.BigDecimal].bigDecimal else value
     ReflectiveBeanMapper(this, field, m.erasure) match {
       case Some(proxy) => {
-        log.debug("Got back a setter %s", proxy)
+        log.trace("Got back a setter %s", proxy)
         val ret = proxy(this, tVal.asInstanceOf[Object])
-        log.debug("Return value from setter: %s", ret)
+        log.trace("Return value from setter: %s", ret)
         ret
       }
       case None => {
@@ -188,8 +196,12 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
 
   }
   def toMap = {
-    val dataMap =  new LinkedHashMap[String, AnyRef]()
+    val dataMap =  new LinkedHashMap[String, Any]()
     dataMap ++= ReflectiveBeanMapper.getters.filter(x => x._1._1 == this.getClass).map(x => x._1._2 -> x._2(this))
+    log.debug("serializable_other_fields: %s", serializable_other_fields)
+    val other = serializable_other_fields.map(x => (x -> other_fields.getOrElse(x, null))).filter(x => x._2 != null)
+    log.debug("Adding other field output to dataMap: %s", other)
+    dataMap ++= other
     dataMap.underlying
   }
 
@@ -206,24 +218,28 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
     // @todo find a cleaner way to do this.
     try {
       val tVal = if (value.isInstanceOf[scala.BigDecimal]) value.asInstanceOf[scala.BigDecimal].bigDecimal else value
-      ReflectiveBeanMapper(this, key, tVal.getClass) match {
-        case Some(proxy) => {
-          log.debug("Proxy Method: %s", proxy)
-          proxy(this, tVal.asInstanceOf[Object])
-        }
-        case None => {
-          log.trace("Unable to find defined setter for field " + key)
-          other_fields.update(key, value)
+      if (tVal != null) {
+          
+        log.debug("this: %s key: %s tVal Class: %s", this, key, tVal.getClass)
+        ReflectiveBeanMapper(this, key, tVal.getClass) match {
+          case Some(proxy) => {
+            log.trace("Proxy Method: %s", proxy)
+            proxy(this, tVal.asInstanceOf[Object])
+          }
+          case None => {
+            log.trace("Unable to find defined setter for field " + key)
+            other_fields.update(key, value)
+          }
         }
       }
     } catch {
-      case x: NullPointerException => log.warning("Caught a NPE... Passing.")
+      case x: NullPointerException => log.warning("Caught a NPE setting %s... Passing. [%s]", key, x)
     }
     value
   }
 
   def put[A](key: String, value: A)(implicit m: Manifest[A]) = {
-    log.debug("Parametered put setting %s to %s[%s]", key, value, m.erasure)
+    log.trace("Parametered put setting %s to %s[%s]", key, value, m.erasure)
     setter(key, value)
     value.asInstanceOf[Object]
   }
@@ -258,7 +274,7 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
         proxy(this)
       }
       case None => {
-        log.warning("Unable to find defined getter for field " + key)
+        log.trace("Unable to find defined getter for field " + key)
         if (other_fields.contains(key)) {
           other_fields.get(key) match {
             case Some(v) => v.asInstanceOf[AnyRef]
@@ -279,17 +295,19 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
   def keySet = {
     val dataSet = new HashSet[String]()
     for(n <- ReflectiveBeanMapper.getters) {
-      log.debug("N: %s", n)
+      log.trace("N: %s", n)
       if (n._1._1 == this.getClass) {
-        log.debug("Class Match %s == %s", n._1._1, this.getClass)
+        log.trace("Class Match %s == %s", n._1._1, this.getClass)
         dataSet += n._1._2
       } else {
-        log.debug("NO Class Match %s == %s", n._1._1, this.getClass)
+        log.trace("NO Class Match %s == %s", n._1._1, this.getClass)
       }
     }
 
-    log.debug("DataSet: %s", dataSet)
-    log.debug("Getters: %s", ReflectiveBeanMapper.getters)
+    dataSet ++= serializable_other_fields.filter(x => other_fields.getOrElse(x, null) != null)
+
+    log.trace("DataSet: %s", dataSet)
+    log.trace("Getters: %s", ReflectiveBeanMapper.getters)
     dataSet.underlying
   }
 

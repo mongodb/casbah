@@ -1,9 +1,9 @@
 #Source Hashes
-#Tue Feb 23 14:12:27 EST 2010
-src/main/scala/mongodb/ScalaMongoCollection.scala=d19736a9372201412180d8c546a7d01921671477
+#Tue Mar 02 16:20:02 EST 2010
+src/main/scala/mongodb/ScalaMongoCollection.scala=c8e1dc14be03aeeca919c426eb138fa5435fdd31
 src/main/scala/mongodb/ScalaMongoCursor.scala=fe1d3da0dde32ac2161a702a45f94574fb095ebb
 src/main/scala/mongodb/map_reduce/MapReduceCommand.scala=89ef5bb7fc703ac5e4330a9ca4a9011a6042b219
-src/main/scala/mongodb/ReflectiveBeanMapper.scala=ca2a162377711614c11e11667401b617515176e6
+src/main/scala/mongodb/ReflectiveBeanMapper.scala=e87769e098d67a135db9496661d0ce2fcbfdf218
 src/main/scala/mongodb/map_reduce/MapReduceResult.scala=90bc73921bcd2b388c99b73421f5f04a3d26e85a
 src/main/scala/mongodb/QueryOperators.scala=4af1675425d632bb2d7801eccaba683e56bb28f9
 src/main/scala/mongodb/Implicits.scala=37e22f11665c7de6430ef47a5754f95ef1188017
