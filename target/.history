@@ -140,3 +140,8 @@ package-all
 console
 package-all
 make-pom
+console
+package-all
+relaease
+release
+make-pom

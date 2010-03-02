@@ -109,7 +109,14 @@ trait ScalaMongoCollectionWrapper extends Logging {
     group(new BasicDBObject,
           condition,
           initial,
-          "function(obj, aggr) { if (aggr.max == '') { aggr.max = obj.%s } else if (obj.%s > aggr.max) { aggr.max = obj.%s } }".format(field, field, field), "").
+          """
+          function(obj, aggr) {
+            if (aggr.max == '') {
+              aggr.max = obj.%s;
+            } else if (obj.%s > aggr.max) {
+              aggr.max = obj.%s;
+            }
+          }""".format(field, field, field), "").
         first.get("max").asInstanceOf[Double]
   }
   /** Emulates a SQL MIN() call ever so gently **/
@@ -118,10 +125,32 @@ trait ScalaMongoCollectionWrapper extends Logging {
     group(new BasicDBObject,
           condition,
           initial,
-          "function(obj, aggr) { if (aggr.min == '') { aggr.min = obj.%s } else if (obj.%s < aggr.min) aggr.min = obj.%s }".format(field, field, field), "").
+          """
+          function(obj, aggr) {
+            if (aggr.min == '') {
+              aggr.min = obj.%s;
+            } else if (obj.%s < aggr.min) {
+              aggr.min = obj.%s;
+            }
+           }""".format(field, field, field), "").
         first.get("min").asInstanceOf[Double]
   }
-  
+
+  /** Emulates a SQL AVG() call ever so gently **/
+  def avgValue(field: String, condition: DBObject) = {
+    val initial = ("count" -> 0, "total" -> 0, "avg" -> 0)
+    group(new BasicDBObject,
+      condition,
+      initial,
+      """
+      function(obj, aggr) {
+        aggr.total += obj.%s;
+        aggr.count += 1; 
+      }
+      """.format(field),
+      "function(aggr) { aggr.avg = aggr.total / aggr.count }").first.get("avg").asInstanceOf[Double]
+  }
+
   override def hashCode() = underlying.hashCode
   def insert(doc: DBObject) = underlying.insert(doc)
   def insert(doc: Array[DBObject]) = underlying.insert(doc)
