@@ -106,7 +106,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
   /** Emulates a SQL MAX() call ever so gently **/
   def maxValue(field: String, condition: DBObject) = {
     val initial = ("max" -> "")
-    group(new BasicDBObject,
+    val groupResult = group(new BasicDBObject,
           condition,
           initial,
           """
@@ -116,8 +116,25 @@ trait ScalaMongoCollectionWrapper extends Logging {
             } else if (obj.%s > aggr.max) {
               aggr.max = obj.%s;
             }
-          }""".format(field, field, field), "").
-        first.get("max").asInstanceOf[Double]
+          }""".format(field, field, field), "")
+    log.trace("Max Grouping Result: %s", groupResult)
+    groupResult.first.get("max").asInstanceOf[Double]
+  }
+  def maxDate(field: String, condition: DBObject) = {
+    val initial = ("max" -> "")
+    val groupResult = group(new BasicDBObject,
+      condition,
+      initial,
+      """
+      function(obj, aggr) {
+        if (aggr.max == '') {
+          aggr.max = obj.%s;
+        } else if (obj.%s > aggr.max) {
+          aggr.max = obj.%s;
+        }
+      }""".format(field, field, field), "")
+    log.trace("Max Date Grouping Result: %s", groupResult)
+    groupResult.first.get("max").asInstanceOf[java.util.Date]
   }
   /** Emulates a SQL MIN() call ever so gently **/
   def minValue(field: String, condition: DBObject) = {

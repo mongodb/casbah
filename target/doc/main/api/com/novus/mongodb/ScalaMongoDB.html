@@ -10,7 +10,7 @@
             <!-- <table><tr></tr></table> -->
           </td>
           <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
-            <div class="doctitle-larger">mongo-scala-wrappers 0.2.5 API</div>
+            <div class="doctitle-larger">mongo-scala-wrappers 0.2.6 API</div>
           </td>
         </tr>
         <tr><td></td></tr>
@@ -59,19 +59,6 @@
         <code> def</code>
       </td>
       <td class="signature">
-        <em><a href="../../../com/novus/mongodb/ScalaMongoDB.html#apply%28String%29" target="_self">apply</a></em>
-        (<em>collection</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../com/novus/mongodb/ScalaMongoCollection.html" target="_self">ScalaMongoCollection</a>
-        
-        <div>Apply method to proxy  getCollection, to allow invocation of
-   <code>dbInstance("collectionName")</code>
-   instead of getCollection</div>
-      </td>
-    </tr>
-<tr>
-      <td class="modifiers" valign="top"> 
-        <code> def</code>
-      </td>
-      <td class="signature">
         <em><a href="../../../com/novus/mongodb/ScalaMongoDB.html#apply%28String%2CClass%5BA%5D%29" target="_self">apply</a></em>
         [<em>A</em> &lt;: <a href="" target="contentFrame" class="com/mongodb/DBObject">com.mongodb.DBObject</a>](<em>collection</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>clazz</em> : <a href="" target="contentFrame" class="java/lang/Class">java.lang.Class</a>[<a href="../../../com/novus/mongodb/ScalaMongoDB.html#apply%28String%2CClass%5BA%5D%29#A" target="_self">A</a>])(<code>implicit </code><em>m</em> : <a href="" target="contentFrame" class="scala/reflect/Manifest">scala.reflect.Manifest</a>[<a href="../../../com/novus/mongodb/ScalaMongoDB.html#apply%28String%2CClass%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/novus/mongodb/ScalaTypedMongoCollection.html" target="_self">ScalaTypedMongoCollection</a>[<a href="../../../com/novus/mongodb/ScalaMongoDB.html#apply%28String%2CClass%5BA%5D%29#A" target="_self">A</a>]
         
@@ -82,6 +69,19 @@
    This returns a Type-specific Collection wrapper, and requires the ability to either implicitly determine a manifest,
    or that you explicitly pass it where necessary to use it.  It should find things on it's own in most cases
    but the compiler will tell you if not.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/novus/mongodb/ScalaMongoDB.html#apply%28String%29" target="_self">apply</a></em>
+        (<em>collection</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../com/novus/mongodb/ScalaMongoCollection.html" target="_self">ScalaMongoCollection</a>
+        
+        <div>Apply method to proxy  getCollection, to allow invocation of
+   <code>dbInstance("collectionName")</code>
+   instead of getCollection</div>
       </td>
     </tr>
 <tr>
@@ -646,7 +646,7 @@
             <!-- <table><tr></tr></table> -->
           </td>
           <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
-            <div class="doctitle-larger">mongo-scala-wrappers 0.2.5 API</div>
+            <div class="doctitle-larger">mongo-scala-wrappers 0.2.6 API</div>
           </td>
         </tr>
         <tr><td></td></tr>

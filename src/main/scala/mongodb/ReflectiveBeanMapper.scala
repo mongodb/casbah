@@ -46,7 +46,7 @@ object ReflectiveBeanMapper extends Logging {
       case Some(getProxy) => Some(getProxy)
       case None => {
         try {
-          log.debug("Creating new method mapping for getter %s", field)
+          log.debug("Creating new method mapping for getter %s returning %s", field, m.erasure.getName)
           val methodName = m.erasure.getName match {
             case "Boolean" | "boolean" => "is%s".format(field.capitalize)
             case _ => "get%s".format(field.capitalize)
@@ -140,12 +140,32 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
    */  
    def getter[A](field: String, returnType: Class[A])(implicit m: Manifest[A]): A = {
     log.trace("Getter lookup trying for field %s returnType %s", field, returnType)
-    ReflectiveBeanMapper(this, field) match {
+    ReflectiveBeanMapper(this, field)(m) match {
       case Some(proxy) => {
         log.trace("Got back a getter %s", proxy)
         val ret = proxy(this)
-        log.trace("Return value from getter invocation: %s", ret)
-        ret.asInstanceOf[A]
+        if (ret != null)
+          log.trace("* Return value from getter invocation: %s / %s / erasure: %S / returnType: %s", ret, ret.getClass, m.erasure.toString, returnType)
+        if (ret.isInstanceOf[java.math.BigDecimal]) {
+          log.debug("JBigDecimal")
+          val jBd = ret.asInstanceOf[java.math.BigDecimal]
+          log.trace("jBD = %s", jBd)
+          m.erasure.getName match {
+            case "scala.BigDecimal" => {
+              log.trace("Wants a scala BigDecimal {%s}!", jBd)
+              val bd = new BigDecimal(jBd)
+              log.trace("Flipped to a scala BigDecimal: %s", bd)
+              bd.asInstanceOf[A]
+            }
+            case _ => {
+              log.trace("Wants something else.")
+              jBd.asInstanceOf[A]
+            }
+          }
+        } else {
+          log.trace("No match on the bigdecimal swap.")
+          ret.asInstanceOf[A]
+        }
       }
       case None => {
         log.trace("Unable to find defined getter for field " + field)

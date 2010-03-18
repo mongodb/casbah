@@ -1,4 +1,4 @@
 #Tests
-#Tue Mar 02 16:38:05 EST 2010
+#Mon Mar 08 13:22:31 EST 2010
 src/test/scala/mongodb/FluidMongoSyntaxSpec.scala=com.novus.test.mongodb.FluidMongoSyntaxSpec<<org.scalatest.Suite
 src/test/scala/mongodb/ScalaMongoWrapperSpec.scala=com.novus.test.mongodb.ScalaMongoWrapperSpec<<org.scalatest.Suite

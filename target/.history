@@ -145,3 +145,5 @@ package-all
 relaease
 release
 make-pom
+update
+package-all
