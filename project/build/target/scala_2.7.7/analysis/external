@@ -1,5 +1,5 @@
 #External Dependencies
-#Thu Mar 18 14:47:09 EDT 2010
+#Fri Mar 19 17:34:52 EDT 2010
 /usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/rt.jar=MongoScalaWrappers.scala
 /home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7/org.scala-tools.sbt/sbt/0.7.1/sbt_2.7.7-0.7.1.jar=MongoScalaWrappers.scala
 /home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7/lib/scala-library.jar=MongoScalaWrappers.scala

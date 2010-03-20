@@ -4,16 +4,14 @@
     <list default="true" readonly="true" id="66e9507a-348e-45a4-acfa-5e57a0cd662b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/external" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/external" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongo-scala-wrappers.iws" afterPath="$PROJECT_DIR$/mongo-scala-wrappers.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala" afterPath="$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/hashes" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/generated_files" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/generated_files" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/projects" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build.properties" afterPath="$PROJECT_DIR$/project/build.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" afterPath="$PROJECT_DIR$/project/build/target/scala_2.7.7/analysis/dependencies" />
     </list>
-    <ignored path="mongo-scala-wrappers.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="mongo-scala-wrappers.iws" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +95,7 @@
       <file leaf-file-name="ScalaMongoCollection.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="251" column="4" selection-start="10172" selection-end="10172" vertical-scroll-proportion="0.05109489">
+            <state line="189" column="24" selection-start="7726" selection-end="7726" vertical-scroll-proportion="0.19951338">
               <folding />
             </state>
           </provider>
@@ -142,7 +140,7 @@
       <file leaf-file-name="ReflectiveBeanMapper.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="190" column="0" selection-start="7903" selection-end="7903" vertical-scroll-proportion="0.0">
+            <state line="115" column="0" selection-start="4826" selection-end="4826" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -249,6 +247,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Favorites" />
       <pane id="Scope">
         <subPane subId="Tests" />
         <subPane subId="All">
@@ -423,10 +422,6 @@
             </PATH_ELEMENT>
           </PATH>
         </subPane>
-      </pane>
-      <pane id="Favorites" />
-      <pane id="PackagesPane">
-        <subPane />
       </pane>
       <pane id="ProjectPane">
         <subPane>
@@ -726,6 +721,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -741,8 +739,8 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -889,7 +887,7 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration">
+  <component name="SvnConfiguration" maxAnnotateRevisions="500">
     <option name="USER" value="" />
     <option name="PASSWORD" value="" />
     <option name="LAST_MERGED_REVISION" />
@@ -933,7 +931,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1920" height="988" extended-state="0" />
+    <frame x="0" y="27" width="1920" height="988" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1080,23 +1078,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/QueryOperators.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="0" selection-start="2799" selection-end="2799" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="79" column="0" selection-start="2799" selection-end="2799" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCursor.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="190" column="0" selection-start="7903" selection-end="7903" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar:///usr/local/scala/src/scala-library-src.jar!/scala/reflect/Manifest.scala">
@@ -1111,14 +1098,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/project/build.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ReflectiveBeanMapper.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="0" selection-start="4826" selection-end="4826" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/mongodb/ScalaMongoCollection.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="251" column="4" selection-start="10172" selection-end="10172" vertical-scroll-proportion="0.05109489">
+        <state line="189" column="24" selection-start="7726" selection-end="7726" vertical-scroll-proportion="0.19951338">
           <folding />
         </state>
       </provider>
