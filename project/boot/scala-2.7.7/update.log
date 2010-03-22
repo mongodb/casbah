@@ -40,9 +40,9 @@ setting 'sbt.boot' to 'true'
 setting 'java.specification.name' to 'Java Platform API Specification'
 setting 'java.class.version' to '50.0'
 setting 'sun.management.compiler' to 'HotSpot 64-Bit Server Compiler'
-setting 'os.version' to '2.6.31-17-generic'
+setting 'os.version' to '2.6.31-20-generic'
 setting 'user.home' to '/home/bwmcadams'
-setting 'user.timezone' to 'America/New_York'
+setting 'user.timezone' to 'US/Eastern'
 setting 'scala.home' to '/home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7'
 setting 'java.awt.printerjob' to 'sun.print.PSPrinterJob'
 setting 'file.encoding' to 'UTF-8'
@@ -79,265 +79,166 @@ setting 'basedir' to '/home/bwmcadams/code/mongo-scala-wrappers/project/boot/sca
 resolving dependencies for configuration 'default'
 == resolving dependencies for sbt#boot;1.0 [default]
 loadData of sbt#boot;1.0 of rootConf=default
-== resolving dependencies sbt#boot;1.0->org.scala-lang#scala-compiler;2.7.7 [default->default]
-loadData of org.scala-lang#scala-compiler;2.7.7 of rootConf=default
-	using redefined-public to resolve org.scala-lang#scala-compiler;2.7.7
-redefined-public: Checking cache for: dependency: org.scala-lang#scala-compiler;2.7.7 {default=[default]}
+== resolving dependencies sbt#boot;1.0->sbt#simple-build-tool;0.7.1 [default->2.7.7]
+loadData of sbt#simple-build-tool;0.7.1 of rootConf=default
+	using redefined-public to resolve sbt#simple-build-tool;0.7.1
+redefined-public: Checking cache for: dependency: sbt#simple-build-tool;0.7.1 {default=[2.7.7]}
 redefined-public: no namespace defined: using system
-	no ivy file in cache for org.scala-lang#scala-compiler;2.7.7: tried /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-compiler/ivy-2.7.7.xml
+	no ivy file in cache for sbt#simple-build-tool;0.7.1: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.7.1.xml
 redefined-public: no latest strategy defined: using default
 local: no namespace defined: using system
-	no ivy file in cache for org.scala-lang#scala-compiler;2.7.7: tried /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-compiler/ivy-2.7.7.xml
-	 trying /home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/ivys/ivy.xml
-		tried /home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/ivys/ivy.xml
-	local: resource not reachable for org.scala-lang#scala-compiler;2.7.7: res=/home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/ivys/ivy.xml
-	 trying /home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/jars/scala-compiler.jar
-		tried /home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/jars/scala-compiler.jar
-	local: resource not reachable for org.scala-lang#scala-compiler;2.7.7: res=/home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/jars/scala-compiler.jar
-	local: no ivy file nor artifact found for org.scala-lang#scala-compiler;2.7.7
+	no ivy file in cache for sbt#simple-build-tool;0.7.1: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.7.1.xml
+	 trying /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/ivys/ivy.xml
+		tried /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/ivys/ivy.xml
+	local: resource not reachable for sbt#simple-build-tool;0.7.1: res=/home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/ivys/ivy.xml
+	 trying /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/jars/simple-build-tool.jar
+		tried /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/jars/simple-build-tool.jar
+	local: resource not reachable for sbt#simple-build-tool;0.7.1: res=/home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/jars/simple-build-tool.jar
+	local: no ivy file nor artifact found for sbt#simple-build-tool;0.7.1
 Maven2 Local: no namespace defined: using system
-	no ivy file in cache for org.scala-lang#scala-compiler;2.7.7: tried /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-compiler/ivy-2.7.7.xml
-	 trying file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.pom
-		tried file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.pom
+	no ivy file in cache for sbt#simple-build-tool;0.7.1: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.7.1.xml
+	 trying file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+		tried file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
 installing class org.apache.ivy.util.url.IvyAuthenticator
-	Maven2 Local: found md file for org.scala-lang#scala-compiler;2.7.7
-		=> file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.pom (2.7.7)
-	parser = pom parser
-	no ivy file in cache for org.scala-lang#scala-compiler;2.7.7: tried /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-compiler/ivy-2.7.7.xml
-downloading file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.pom ...
-	Maven2 Local: downloading file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.pom
-		to /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-compiler/ivy-2.7.7.xml.original.part
-	[SUCCESSFUL ] org.scala-lang#scala-compiler;2.7.7!scala-compiler.pom(pom.original) (69ms)
-	 trying /home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/jars/scala-compiler.jar
-		tried /home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/jars/scala-compiler.jar
-	local: resource not reachable for org.scala-lang#scala-compiler;2.7.7: res=/home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/jars/scala-compiler.jar
-	 trying file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.jar
-		tried file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.jar
-	 trying /home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/sources/scala-compiler.jar
-		tried /home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/sources/scala-compiler.jar
-	local: resource not reachable for org.scala-lang#scala-compiler;2.7.7: res=/home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/sources/scala-compiler.jar
-	 trying file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-sources.jar
-		tried file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-sources.jar
-source artifact found for org.scala-lang#scala-compiler;2.7.7
-	 trying /home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/javadocs/scala-compiler.jar
-		tried /home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/javadocs/scala-compiler.jar
-	local: resource not reachable for org.scala-lang#scala-compiler;2.7.7: res=/home/bwmcadams/.ivy2/local/org.scala-lang/scala-compiler/2.7.7/javadocs/scala-compiler.jar
-	 trying file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-		tried file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-	Maven2 Local: resource not reachable for org/scala-lang#scala-compiler;2.7.7: res=file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-	 trying http://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-		tried http://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-HTTP response status: 404 url=http://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-CLIENT ERROR: Not Found url=http://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-	Maven Central: resource not reachable for org/scala-lang#scala-compiler;2.7.7: res=http://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-	 trying http://scala-tools.org/repo-releases/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-		tried http://scala-tools.org/repo-releases/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-HTTP response status: 404 url=http://scala-tools.org/repo-releases/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-CLIENT ERROR: Not Found url=http://scala-tools.org/repo-releases/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-	Scala-Tools Maven2 Repository: resource not reachable for org/scala-lang#scala-compiler;2.7.7: res=http://scala-tools.org/repo-releases/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-	 trying http://scala-tools.org/repo-snapshots/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-		tried http://scala-tools.org/repo-snapshots/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-HTTP response status: 404 url=http://scala-tools.org/repo-snapshots/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-CLIENT ERROR: Not Found url=http://scala-tools.org/repo-snapshots/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-	Scala-Tools Maven2 Snapshots Repository: resource not reachable for org/scala-lang#scala-compiler;2.7.7: res=http://scala-tools.org/repo-snapshots/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7-javadoc.jar
-no javadoc artifact found for org.scala-lang#scala-compiler;2.7.7
-	default-cache: parsed downloaded md file for org.scala-lang#scala-compiler;2.7.7; parsed=org.scala-lang#scala-compiler;2.7.7
-	checking org.scala-lang#scala-compiler;2.7.7 from Maven2 Local against [none]
-	module revision kept as first found: org.scala-lang#scala-compiler;2.7.7 from Maven2 Local
-	found org.scala-lang#scala-compiler;2.7.7 in Maven2 Local
-== resolving dependencies sbt#boot;1.0->org.scala-lang#scala-compiler;2.7.7 [default->runtime]
-loadData of org.scala-lang#scala-compiler;2.7.7 of rootConf=default
-== resolving dependencies sbt#boot;1.0->org.scala-lang#scala-compiler;2.7.7 [default->compile]
-loadData of org.scala-lang#scala-compiler;2.7.7 of rootConf=default
-== resolving dependencies org.scala-lang#scala-compiler;2.7.7->org.scala-lang#scala-library;2.7.7 [compile->master(*)]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-	using redefined-public to resolve org.scala-lang#scala-library;2.7.7
-redefined-public: Checking cache for: dependency: org.scala-lang#scala-library;2.7.7 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-	no ivy file in cache for org.scala-lang#scala-library;2.7.7: tried /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-library/ivy-2.7.7.xml
-	no ivy file in cache for org.scala-lang#scala-library;2.7.7: tried /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-library/ivy-2.7.7.xml
-	 trying /home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/ivys/ivy.xml
-		tried /home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/ivys/ivy.xml
-	local: resource not reachable for org.scala-lang#scala-library;2.7.7: res=/home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/ivys/ivy.xml
-	 trying /home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/jars/scala-library.jar
-		tried /home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/jars/scala-library.jar
-	local: resource not reachable for org.scala-lang#scala-library;2.7.7: res=/home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/jars/scala-library.jar
-	local: no ivy file nor artifact found for org.scala-lang#scala-library;2.7.7
-	no ivy file in cache for org.scala-lang#scala-library;2.7.7: tried /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-library/ivy-2.7.7.xml
-	 trying file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.pom
-		tried file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.pom
-	Maven2 Local: found md file for org.scala-lang#scala-library;2.7.7
-		=> file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.pom (2.7.7)
-	parser = pom parser
-	no ivy file in cache for org.scala-lang#scala-library;2.7.7: tried /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-library/ivy-2.7.7.xml
-downloading file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.pom ...
-	Maven2 Local: downloading file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.pom
-		to /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-library/ivy-2.7.7.xml.original.part
-	[SUCCESSFUL ] org.scala-lang#scala-library;2.7.7!scala-library.pom(pom.original) (1ms)
-	 trying /home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/jars/scala-library.jar
-		tried /home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/jars/scala-library.jar
-	local: resource not reachable for org.scala-lang#scala-library;2.7.7: res=/home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/jars/scala-library.jar
-	 trying file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.jar
-		tried file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.jar
-	 trying /home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/sources/scala-library.jar
-		tried /home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/sources/scala-library.jar
-	local: resource not reachable for org.scala-lang#scala-library;2.7.7: res=/home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/sources/scala-library.jar
-	 trying file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7-sources.jar
-		tried file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7-sources.jar
-source artifact found for org.scala-lang#scala-library;2.7.7
-	 trying /home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/javadocs/scala-library.jar
-		tried /home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/javadocs/scala-library.jar
-	local: resource not reachable for org.scala-lang#scala-library;2.7.7: res=/home/bwmcadams/.ivy2/local/org.scala-lang/scala-library/2.7.7/javadocs/scala-library.jar
-	 trying file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7-javadoc.jar
-		tried file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7-javadoc.jar
-javadoc artifact found for org.scala-lang#scala-library;2.7.7
-	default-cache: parsed downloaded md file for org.scala-lang#scala-library;2.7.7; parsed=org.scala-lang#scala-library;2.7.7
-	checking org.scala-lang#scala-library;2.7.7 from Maven2 Local against [none]
-	module revision kept as first found: org.scala-lang#scala-library;2.7.7 from Maven2 Local
-	found org.scala-lang#scala-library;2.7.7 in Maven2 Local
-== resolving dependencies org.scala-lang#scala-compiler;2.7.7->org.scala-lang#scala-library;2.7.7 [compile->compile(*)]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-== resolving dependencies org.scala-lang#scala-compiler;2.7.7->org.scala-lang#scala-library;2.7.7 [compile->default]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-== resolving dependencies org.scala-lang#scala-compiler;2.7.7->org.scala-lang#scala-library;2.7.7 [compile->runtime]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-== resolving dependencies org.scala-lang#scala-compiler;2.7.7->org.scala-lang#scala-library;2.7.7 [compile->compile]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-== resolving dependencies org.scala-lang#scala-compiler;2.7.7->org.scala-lang#scala-library;2.7.7 [compile->master]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-== resolving dependencies org.scala-lang#scala-compiler;2.7.7->org.scala-lang#scala-library;2.7.7 [runtime->runtime(*)]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-== resolving dependencies org.scala-lang#scala-compiler;2.7.7->org.scala-lang#scala-library;2.7.7 [runtime->compile]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-default is loaded and no conf to load.  Skip loading
-== resolving dependencies sbt#boot;1.0->org.scala-lang#scala-compiler;2.7.7 [default->master]
-loadData of org.scala-lang#scala-compiler;2.7.7 of rootConf=default
-== resolving dependencies sbt#boot;1.0->org.scala-lang#scala-library;2.7.7 [default->default]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-default is loaded and no conf to load.  Skip loading
-== resolving dependencies sbt#boot;1.0->org.scala-lang#scala-library;2.7.7 [default->runtime]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-default is loaded and no conf to load.  Skip loading
-== resolving dependencies sbt#boot;1.0->org.scala-lang#scala-library;2.7.7 [default->compile]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-default is loaded and no conf to load.  Skip loading
-== resolving dependencies sbt#boot;1.0->org.scala-lang#scala-library;2.7.7 [default->master]
-loadData of org.scala-lang#scala-library;2.7.7 of rootConf=default
-default is loaded and no conf to load.  Skip loading
-Nbr of module to sort : 2
-Sort dependencies of : org.scala-lang#scala-compiler;2.7.7 / Number of dependencies = 1
-Sort dependencies of : org.scala-lang#scala-library;2.7.7 / Number of dependencies = 0
-Sort done for : org.scala-lang#scala-library;2.7.7
-Sort done for : org.scala-lang#scala-compiler;2.7.7
-Module descriptor is processed : org.scala-lang#scala-library;2.7.7
+	Maven2 Local: resource not reachable for sbt#simple-build-tool;0.7.1: res=file:/home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+	 trying file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+		tried file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+	Maven2 Local: resource not reachable for sbt#simple-build-tool;0.7.1: res=file:/home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+	Maven2 Local: no ivy file nor artifact found for sbt#simple-build-tool;0.7.1
+Maven Central: no namespace defined: using system
+	no ivy file in cache for sbt#simple-build-tool;0.7.1: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.7.1.xml
+	 trying http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+		tried http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+HTTP response status: 404 url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+CLIENT ERROR: Not Found url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+	Maven Central: resource not reachable for sbt#simple-build-tool;0.7.1: res=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+	 trying http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+		tried http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+HTTP response status: 404 url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+CLIENT ERROR: Not Found url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+	Maven Central: resource not reachable for sbt#simple-build-tool;0.7.1: res=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+	Maven Central: no ivy file nor artifact found for sbt#simple-build-tool;0.7.1
+Sbt Repository: no namespace defined: using system
+	no ivy file in cache for sbt#simple-build-tool;0.7.1: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.7.1.xml
+	 trying http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+		tried http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+HTTP response status: 404 url=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+CLIENT ERROR: Not Found url=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+	Sbt Repository: resource not reachable for sbt#simple-build-tool;0.7.1: res=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+	 trying http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+		tried http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+HTTP response status: 404 url=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+CLIENT ERROR: Not Found url=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+	Sbt Repository: resource not reachable for sbt#simple-build-tool;0.7.1: res=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+	Sbt Repository: no ivy file nor artifact found for sbt#simple-build-tool;0.7.1
+WARN: 	module not found: sbt#simple-build-tool;0.7.1
+WARN: ==== local: tried
+WARN:   /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/ivys/ivy.xml
+WARN:   -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+WARN:   /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/jars/simple-build-tool.jar
+WARN: ==== Maven2 Local: tried
+WARN:   file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+WARN:   -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+WARN:   file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+WARN: ==== Maven Central: tried
+WARN:   http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+WARN:   -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+WARN:   http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+WARN: ==== Sbt Repository: tried
+WARN:   http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+WARN:   -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+WARN:   http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+Nbr of module to sort : 0
 	resolved ivy file produced in /home/bwmcadams/.ivy2/cache/resolved-sbt-boot-1.0.xml
 :: downloading artifacts ::
-	 trying file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.jar
-		tried file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.jar
-downloading file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.jar ...
-	Maven2 Local: downloading file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-compiler/2.7.7/scala-compiler-2.7.7.jar
-		to /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.7.7.jar.part
-	[SUCCESSFUL ] org.scala-lang#scala-compiler;2.7.7!scala-compiler.jar (36ms)
-	 trying file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.jar
-		tried file:///home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.jar
-downloading file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.jar ...
-	Maven2 Local: downloading file:/home/bwmcadams/.m2/repository/org/scala-lang/scala-library/2.7.7/scala-library-2.7.7.jar
-		to /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.7.7.jar.part
-	[SUCCESSFUL ] org.scala-lang#scala-library;2.7.7!scala-library.jar (37ms)
-:: resolution report :: resolve 774ms :: artifacts dl 80ms
-Nbr of module to sort : 2
-Sort dependencies of : org.scala-lang#scala-compiler;2.7.7 / Number of dependencies = 1
-Sort dependencies of : org.scala-lang#scala-library;2.7.7 / Number of dependencies = 0
-Sort done for : org.scala-lang#scala-library;2.7.7
-Sort done for : org.scala-lang#scala-compiler;2.7.7
-Module descriptor is processed : org.scala-lang#scala-library;2.7.7
+:: resolution report :: resolve 1448ms :: artifacts dl 1ms
+WARN: 	::::::::::::::::::::::::::::::::::::::::::::::
+WARN: 	::          UNRESOLVED DEPENDENCIES         ::
+WARN: 	::::::::::::::::::::::::::::::::::::::::::::::
+WARN: 	:: sbt#simple-build-tool;0.7.1: not found
+WARN: 	::::::::::::::::::::::::::::::::::::::::::::::
+
+Nbr of module to sort : 0
 	report for sbt#boot;1.0 default produced in /home/bwmcadams/.ivy2/cache/sbt-boot-default.xml
-	resolve done (774ms resolve - 80ms download)
-:: retrieving :: sbt#boot
-	checkUpToDate=true
-no explicit confs given for retrieve, using ivy file: /home/bwmcadams/.ivy2/cache/resolved-sbt-boot-1.0.xml
-using ivy parser to parse /home/bwmcadams/.ivy2/cache/resolved-sbt-boot-1.0.xml
-pre 1.3 ivy file: using exactOrRegexp as default matcher
-	confs: [default]
-	retrieving /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.7.7.jar
-		to /home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7/lib/scala-compiler.jar
-	retrieving /home/bwmcadams/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.7.7.jar
-		to /home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7/lib/scala-library.jar
-	2 artifacts copied, 0 already retrieved (9911kB/51ms)
-	retrieve done (51ms)
-setting 'ivy.default.settings.dir' to 'jar:file:/home/bwmcadams/bin/sbt-launcher.jar!/org/apache/ivy/core/settings'
-setting 'ivy.basedir' to '/home/bwmcadams/code/mongo-scala-wrappers/.'
-setting 'ivy.default.conf.dir' to 'jar:file:/home/bwmcadams/bin/sbt-launcher.jar!/org/apache/ivy/core/settings'
-impossible to define new type: class not found: org.apache.ivy.plugins.trigger.LogTrigger in [] nor Ivy classloader
-impossible to define new type: class not found: org.apache.ivy.plugins.resolver.VsftpResolver in [] nor Ivy classloader
-impossible to define new type: class not found: org.apache.ivy.plugins.conflict.RegexpConflictManager in [] nor Ivy classloader
-impossible to define new type: class not found: org.apache.ivy.plugins.resolver.SshResolver in [] nor Ivy classloader
-impossible to define new type: class not found: org.apache.ivy.plugins.resolver.VfsResolver in [] nor Ivy classloader
-impossible to define new type: class not found: org.apache.ivy.plugins.resolver.SFTPResolver in [] nor Ivy classloader
-impossible to define new type: class not found: org.apache.ivy.plugins.resolver.packager.PackagerResolver in [] nor Ivy classloader
-impossible to define new type: class not found: org.apache.ivy.ant.AntCallTrigger in [] nor Ivy classloader
-impossible to define new type: class not found: org.apache.ivy.plugins.resolver.IvyRepResolver in [] nor Ivy classloader
-impossible to define new type: class not found: org.apache.ivy.ant.AntBuildTrigger in [] nor Ivy classloader
-impossible to define glob matcher: org.apache.ivy.plugins.matcher.GlobPatternMatcher was not found.
-setting 'java.runtime.name' to 'Java(TM) SE Runtime Environment'
-setting 'sun.boot.library.path' to '/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/amd64'
-setting 'java.vm.version' to '14.1-b02'
-setting 'java.vm.vendor' to 'Sun Microsystems Inc.'
-setting 'java.vendor.url' to 'http://java.sun.com/'
-setting 'path.separator' to ':'
-setting 'java.vm.name' to 'Java HotSpot(TM) 64-Bit Server VM'
-setting 'file.encoding.pkg' to 'sun.io'
-setting 'sun.java.launcher' to 'SUN_STANDARD'
-setting 'user.country' to 'US'
-setting 'sun.os.patch.level' to 'unknown'
-setting 'java.vm.specification.name' to 'Java Virtual Machine Specification'
-setting 'user.dir' to '/home/bwmcadams/code/mongo-scala-wrappers'
-setting 'java.runtime.version' to '1.6.0_15-b03'
-setting 'java.awt.graphicsenv' to 'sun.awt.X11GraphicsEnvironment'
-setting 'java.endorsed.dirs' to '/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/endorsed'
-setting 'os.arch' to 'amd64'
-setting 'java.io.tmpdir' to '/tmp'
-setting 'line.separator' to '
-'
-setting 'java.vm.specification.vendor' to 'Sun Microsystems Inc.'
-setting 'os.name' to 'Linux'
-setting 'sun.jnu.encoding' to 'UTF-8'
-setting 'java.library.path' to '/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/amd64/server:/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/amd64:/usr/lib/jvm/java-6-sun-1.6.0.15/jre/../lib/amd64:/usr/java/packages/lib/amd64:/lib:/usr/lib'
-setting 'sbt.boot' to 'true'
-setting 'java.specification.name' to 'Java Platform API Specification'
-setting 'java.class.version' to '50.0'
-setting 'sun.management.compiler' to 'HotSpot 64-Bit Server Compiler'
-setting 'os.version' to '2.6.31-17-generic'
-setting 'user.home' to '/home/bwmcadams'
-setting 'user.timezone' to 'America/New_York'
-setting 'scala.home' to '/home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7'
-setting 'java.awt.printerjob' to 'sun.print.PSPrinterJob'
-setting 'file.encoding' to 'UTF-8'
-setting 'java.specification.version' to '1.6'
-setting 'java.class.path' to '/home/bwmcadams/bin/sbt-launcher.jar'
-setting 'user.name' to 'bwmcadams'
-setting 'java.vm.specification.version' to '1.0'
-setting 'java.home' to '/usr/lib/jvm/java-6-sun-1.6.0.15/jre'
-setting 'sun.arch.data.model' to '64'
-setting 'user.language' to 'en'
-setting 'java.specification.vendor' to 'Sun Microsystems Inc.'
-setting 'java.vm.info' to 'mixed mode'
-setting 'java.version' to '1.6.0_15'
-setting 'java.ext.dirs' to '/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/ext:/usr/java/packages/lib/ext'
-setting 'sun.boot.class.path' to '/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/resources.jar:/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/rt.jar:/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/jsse.jar:/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/jce.jar:/usr/lib/jvm/java-6-sun-1.6.0.15/jre/lib/charsets.jar:/usr/lib/jvm/java-6-sun-1.6.0.15/jre/classes'
-setting 'java.vendor' to 'Sun Microsystems Inc.'
-setting 'file.separator' to '/'
-setting 'java.vendor.url.bug' to 'http://java.sun.com/cgi-bin/bugreport.cgi'
-setting 'sun.io.unicode.encoding' to 'UnicodeLittle'
-setting 'sun.cpu.endian' to 'little'
-setting 'sun.desktop' to 'gnome'
-setting 'sun.cpu.isalist' to ''
-setting 'ivy.default.ivy.user.dir' to '/home/bwmcadams/.ivy2'
-setting 'ivy.home' to '/home/bwmcadams/.ivy2'
-no default ivy user dir defined: set to /home/bwmcadams/.ivy2
-setting 'ivy.cache.dir' to '/home/bwmcadams/.ivy2/cache'
-no default cache defined: set to /home/bwmcadams/.ivy2/cache
+	resolve done (1448ms resolve - 1ms download)
+
+:: problems summary ::
+:::: WARNINGS
+		module not found: sbt#simple-build-tool;0.7.1
+
+	==== local: tried
+
+	  /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/ivys/ivy.xml
+
+	  -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+
+	  /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/jars/simple-build-tool.jar
+
+	==== Maven2 Local: tried
+
+	  file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+
+	  -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+
+	  file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+
+	==== Maven Central: tried
+
+	  http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+
+	  -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+
+	  http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+
+	==== Sbt Repository: tried
+
+	  http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+
+	  -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+
+	  http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+
+		::::::::::::::::::::::::::::::::::::::::::::::
+
+		::          UNRESOLVED DEPENDENCIES         ::
+
+		::::::::::::::::::::::::::::::::::::::::::::::
+
+		:: sbt#simple-build-tool;0.7.1: not found
+
+		::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+:: USE VERBOSE OR DEBUG MESSAGE LEVEL FOR MORE DETAILS
+java.lang.RuntimeException: not found
+	at org.apache.ivy.core.resolve.IvyNode.loadData(IvyNode.java:236)
+	at org.apache.ivy.core.resolve.VisitNode.loadData(VisitNode.java:271)
+	at org.apache.ivy.core.resolve.ResolveEngine.fetchDependencies(ResolveEngine.java:671)
+	at org.apache.ivy.core.resolve.ResolveEngine.doFetchDependencies(ResolveEngine.java:757)
+	at org.apache.ivy.core.resolve.ResolveEngine.fetchDependencies(ResolveEngine.java:679)
+	at org.apache.ivy.core.resolve.ResolveEngine.getDependencies(ResolveEngine.java:551)
+	at org.apache.ivy.core.resolve.ResolveEngine.resolve(ResolveEngine.java:235)
+	at sbt.boot.Update.resolve(Update.scala:136)
+	at sbt.boot.Update.update(Update.scala:118)
+	at sbt.boot.Update.update(Update.scala:90)
+	at sbt.boot.Update.sbt$boot$Update$$update(Update.scala:71)
+	at sbt.boot.Update$$anonfun$sbt$boot$Update$$update$1.apply(Update.scala:55)
+	at sbt.boot.Update$$anonfun$sbt$boot$Update$$update$1.apply(Update.scala:55)
+	at scala.List.foreach(List.scala:834)
+	at sbt.boot.Update.sbt$boot$Update$$update(Update.scala:55)
+	at sbt.boot.Update$.apply(Update.scala:37)
+	at sbt.boot.Setup.getLoader(Boot.scala:248)
+	at sbt.boot.Setup.loader(Boot.scala:216)
+	at sbt.boot.Setup.loader(Boot.scala:202)
+	at sbt.boot.Boot$.load(Boot.scala:80)
+	at sbt.boot.Boot$.doLoad$1(Boot.scala:61)
+	at sbt.boot.Boot$.runBatch(Boot.scala:64)
+	at sbt.boot.Boot$.boot(Boot.scala:57)
+	at sbt.boot.Boot$.main(Boot.scala:33)
+	at sbt.boot.Boot.main(Boot.scala)
 setting 'ivy.basedir' to '/home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7'
-setting 'basedir' to '/home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7'
+'basedir' already set: discarding '/home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7'
 :: resolving dependencies :: sbt#boot;1.0
 	confs: [default]
 	validate = true
@@ -345,261 +246,180 @@ setting 'basedir' to '/home/bwmcadams/code/mongo-scala-wrappers/project/boot/sca
 resolving dependencies for configuration 'default'
 == resolving dependencies for sbt#boot;1.0 [default]
 loadData of sbt#boot;1.0 of rootConf=default
-== resolving dependencies sbt#boot;1.0->sbt#simple-build-tool;0.5.6 [default->2.7.7]
-loadData of sbt#simple-build-tool;0.5.6 of rootConf=default
-	using redefined-public to resolve sbt#simple-build-tool;0.5.6
-redefined-public: Checking cache for: dependency: sbt#simple-build-tool;0.5.6 {default=[2.7.7]}
+== resolving dependencies sbt#boot;1.0->sbt#simple-build-tool;0.7.1 [default->2.7.7]
+loadData of sbt#simple-build-tool;0.7.1 of rootConf=default
+	using redefined-public to resolve sbt#simple-build-tool;0.7.1
+redefined-public: Checking cache for: dependency: sbt#simple-build-tool;0.7.1 {default=[2.7.7]}
 redefined-public: no namespace defined: using system
-	no ivy file in cache for sbt#simple-build-tool;0.5.6: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.5.6.xml
+	no ivy file in cache for sbt#simple-build-tool;0.7.1: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.7.1.xml
 redefined-public: no latest strategy defined: using default
 local: no namespace defined: using system
-	no ivy file in cache for sbt#simple-build-tool;0.5.6: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.5.6.xml
-	 trying /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.5.6/ivys/ivy.xml
-		tried /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.5.6/ivys/ivy.xml
-	local: resource not reachable for sbt#simple-build-tool;0.5.6: res=/home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.5.6/ivys/ivy.xml
-	 trying /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.5.6/jars/simple-build-tool.jar
-		tried /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.5.6/jars/simple-build-tool.jar
-	local: resource not reachable for sbt#simple-build-tool;0.5.6: res=/home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.5.6/jars/simple-build-tool.jar
-	local: no ivy file nor artifact found for sbt#simple-build-tool;0.5.6
+	no ivy file in cache for sbt#simple-build-tool;0.7.1: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.7.1.xml
+	 trying /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/ivys/ivy.xml
+		tried /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/ivys/ivy.xml
+	local: resource not reachable for sbt#simple-build-tool;0.7.1: res=/home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/ivys/ivy.xml
+	 trying /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/jars/simple-build-tool.jar
+		tried /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/jars/simple-build-tool.jar
+	local: resource not reachable for sbt#simple-build-tool;0.7.1: res=/home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/jars/simple-build-tool.jar
+	local: no ivy file nor artifact found for sbt#simple-build-tool;0.7.1
 Maven2 Local: no namespace defined: using system
-	no ivy file in cache for sbt#simple-build-tool;0.5.6: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.5.6.xml
-	 trying file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.pom
-		tried file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.pom
-	Maven2 Local: resource not reachable for sbt#simple-build-tool;0.5.6: res=file:/home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.pom
-	 trying file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.jar
-		tried file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.jar
-	Maven2 Local: resource not reachable for sbt#simple-build-tool;0.5.6: res=file:/home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.jar
-	Maven2 Local: no ivy file nor artifact found for sbt#simple-build-tool;0.5.6
+	no ivy file in cache for sbt#simple-build-tool;0.7.1: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.7.1.xml
+	 trying file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+		tried file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+	Maven2 Local: resource not reachable for sbt#simple-build-tool;0.7.1: res=file:/home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+	 trying file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+		tried file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+	Maven2 Local: resource not reachable for sbt#simple-build-tool;0.7.1: res=file:/home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+	Maven2 Local: no ivy file nor artifact found for sbt#simple-build-tool;0.7.1
 Maven Central: no namespace defined: using system
-	no ivy file in cache for sbt#simple-build-tool;0.5.6: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.5.6.xml
-	 trying http://repo1.maven.org/maven2/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.pom
-		tried http://repo1.maven.org/maven2/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.pom
-HTTP response status: 404 url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.pom
-CLIENT ERROR: Not Found url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.pom
-	Maven Central: resource not reachable for sbt#simple-build-tool;0.5.6: res=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.pom
-	 trying http://repo1.maven.org/maven2/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.jar
-		tried http://repo1.maven.org/maven2/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.jar
-HTTP response status: 404 url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.jar
-CLIENT ERROR: Not Found url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.jar
-	Maven Central: resource not reachable for sbt#simple-build-tool;0.5.6: res=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.5.6/simple-build-tool-0.5.6.jar
-	Maven Central: no ivy file nor artifact found for sbt#simple-build-tool;0.5.6
+	no ivy file in cache for sbt#simple-build-tool;0.7.1: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.7.1.xml
+	 trying http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+		tried http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+HTTP response status: 404 url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+CLIENT ERROR: Not Found url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+	Maven Central: resource not reachable for sbt#simple-build-tool;0.7.1: res=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+	 trying http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+		tried http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+HTTP response status: 404 url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+CLIENT ERROR: Not Found url=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+	Maven Central: resource not reachable for sbt#simple-build-tool;0.7.1: res=http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+	Maven Central: no ivy file nor artifact found for sbt#simple-build-tool;0.7.1
 Sbt Repository: no namespace defined: using system
-	no ivy file in cache for sbt#simple-build-tool;0.5.6: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.5.6.xml
-	 trying http://simple-build-tool.googlecode.com/svn/artifacts/0.5.6/ivys/ivy.xml
-		tried http://simple-build-tool.googlecode.com/svn/artifacts/0.5.6/ivys/ivy.xml
-	Sbt Repository: found md file for sbt#simple-build-tool;0.5.6
-		=> http://simple-build-tool.googlecode.com/svn/artifacts/0.5.6/ivys/ivy.xml (0.5.6)
-	parser = ivy parser
-	no ivy file in cache for sbt#simple-build-tool;0.5.6: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.5.6.xml
-downloading http://simple-build-tool.googlecode.com/svn/artifacts/0.5.6/ivys/ivy.xml ...
-	Sbt Repository: downloading http://simple-build-tool.googlecode.com/svn/artifacts/0.5.6/ivys/ivy.xml
-		to /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.5.6.xml.original.part
-	[SUCCESSFUL ] sbt#simple-build-tool;0.5.6!ivy.xml(ivy.original) (152ms)
-pre 1.3 ivy file: using exactOrRegexp as default matcher
-	default-cache: parsed downloaded md file for sbt#simple-build-tool;0.5.6; parsed=sbt#simple-build-tool;0.5.6
-	checking sbt#simple-build-tool;0.5.6 from Sbt Repository against [none]
-	module revision kept as first found: sbt#simple-build-tool;0.5.6 from Sbt Repository
-	found sbt#simple-build-tool;0.5.6 in Sbt Repository
-== resolving dependencies sbt#boot;1.0->sbt#simple-build-tool;0.5.6 [default->base]
-loadData of sbt#simple-build-tool;0.5.6 of rootConf=default
-== resolving dependencies sbt#simple-build-tool;0.5.6->org.apache.ivy#ivy;2.0.0 [base->default]
-loadData of org.apache.ivy#ivy;2.0.0 of rootConf=default
-	using redefined-public to resolve org.apache.ivy#ivy;2.0.0
-redefined-public: Checking cache for: dependency: org.apache.ivy#ivy;2.0.0 {base=[default]}
-	no ivy file in cache for org.apache.ivy#ivy;2.0.0: tried /home/bwmcadams/.ivy2/cache/org.apache.ivy/ivy/ivy-2.0.0.xml
-	no ivy file in cache for org.apache.ivy#ivy;2.0.0: tried /home/bwmcadams/.ivy2/cache/org.apache.ivy/ivy/ivy-2.0.0.xml
-	 trying /home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/ivys/ivy.xml
-		tried /home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/ivys/ivy.xml
-	local: resource not reachable for org.apache.ivy#ivy;2.0.0: res=/home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/ivys/ivy.xml
-	 trying /home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/jars/ivy.jar
-		tried /home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/jars/ivy.jar
-	local: resource not reachable for org.apache.ivy#ivy;2.0.0: res=/home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/jars/ivy.jar
-	local: no ivy file nor artifact found for org.apache.ivy#ivy;2.0.0
-	no ivy file in cache for org.apache.ivy#ivy;2.0.0: tried /home/bwmcadams/.ivy2/cache/org.apache.ivy/ivy/ivy-2.0.0.xml
-	 trying file:///home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.pom
-		tried file:///home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.pom
-	Maven2 Local: resource not reachable for org/apache/ivy#ivy;2.0.0: res=file:/home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.pom
-	 trying file:///home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-		tried file:///home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-	Maven2 Local: resource not reachable for org/apache/ivy#ivy;2.0.0: res=file:/home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-	Maven2 Local: no ivy file nor artifact found for org.apache.ivy#ivy;2.0.0
-	no ivy file in cache for org.apache.ivy#ivy;2.0.0: tried /home/bwmcadams/.ivy2/cache/org.apache.ivy/ivy/ivy-2.0.0.xml
-	 trying http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.pom
-		tried http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.pom
-	Maven Central: found md file for org.apache.ivy#ivy;2.0.0
-		=> http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.pom (2.0.0)
-	parser = pom parser
-	no ivy file in cache for org.apache.ivy#ivy;2.0.0: tried /home/bwmcadams/.ivy2/cache/org.apache.ivy/ivy/ivy-2.0.0.xml
-downloading http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.pom ...
-	Maven Central: downloading http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.pom
-		to /home/bwmcadams/.ivy2/cache/org.apache.ivy/ivy/ivy-2.0.0.xml.original.part
-	[SUCCESSFUL ] org.apache.ivy#ivy;2.0.0!ivy.pom(pom.original) (2795ms)
-	 trying /home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/jars/ivy.jar
-		tried /home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/jars/ivy.jar
-	local: resource not reachable for org.apache.ivy#ivy;2.0.0: res=/home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/jars/ivy.jar
-	 trying file:///home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-		tried file:///home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-	Maven2 Local: resource not reachable for org/apache/ivy#ivy;2.0.0: res=file:/home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-	 trying http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-		tried http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-	 trying /home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/sources/ivy.jar
-		tried /home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/sources/ivy.jar
-	local: resource not reachable for org.apache.ivy#ivy;2.0.0: res=/home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/sources/ivy.jar
-	 trying file:///home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0-sources.jar
-		tried file:///home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0-sources.jar
-	Maven2 Local: resource not reachable for org/apache/ivy#ivy;2.0.0: res=file:/home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0-sources.jar
-	 trying http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0-sources.jar
-		tried http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0-sources.jar
-source artifact found for org.apache.ivy#ivy;2.0.0
-	 trying /home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/javadocs/ivy.jar
-		tried /home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/javadocs/ivy.jar
-	local: resource not reachable for org.apache.ivy#ivy;2.0.0: res=/home/bwmcadams/.ivy2/local/org.apache.ivy/ivy/2.0.0/javadocs/ivy.jar
-	 trying file:///home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0-javadoc.jar
-		tried file:///home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0-javadoc.jar
-	Maven2 Local: resource not reachable for org/apache/ivy#ivy;2.0.0: res=file:/home/bwmcadams/.m2/repository/org/apache/ivy/ivy/2.0.0/ivy-2.0.0-javadoc.jar
-	 trying http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0-javadoc.jar
-		tried http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0-javadoc.jar
-javadoc artifact found for org.apache.ivy#ivy;2.0.0
-	default-cache: parsed downloaded md file for org.apache.ivy#ivy;2.0.0; parsed=org.apache.ivy#ivy;2.0.0
-	checking org.apache.ivy#ivy;2.0.0 from Maven Central against [none]
-	module revision kept as first found: org.apache.ivy#ivy;2.0.0 from Maven Central
-	found org.apache.ivy#ivy;2.0.0 in Maven Central
-== resolving dependencies sbt#simple-build-tool;0.5.6->org.apache.ivy#ivy;2.0.0 [base->runtime]
-loadData of org.apache.ivy#ivy;2.0.0 of rootConf=default
-== resolving dependencies sbt#simple-build-tool;0.5.6->org.apache.ivy#ivy;2.0.0 [base->compile]
-loadData of org.apache.ivy#ivy;2.0.0 of rootConf=default
-== resolving dependencies sbt#simple-build-tool;0.5.6->org.apache.ivy#ivy;2.0.0 [base->master]
-loadData of org.apache.ivy#ivy;2.0.0 of rootConf=default
-== resolving dependencies sbt#simple-build-tool;0.5.6->com.jcraft#jsch;0.1.31 [base->default]
-loadData of com.jcraft#jsch;0.1.31 of rootConf=default
-	using redefined-public to resolve com.jcraft#jsch;0.1.31
-redefined-public: Checking cache for: dependency: com.jcraft#jsch;0.1.31 {base=[default]}
-	no ivy file in cache for com.jcraft#jsch;0.1.31: tried /home/bwmcadams/.ivy2/cache/com.jcraft/jsch/ivy-0.1.31.xml
-	no ivy file in cache for com.jcraft#jsch;0.1.31: tried /home/bwmcadams/.ivy2/cache/com.jcraft/jsch/ivy-0.1.31.xml
-	 trying /home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/ivys/ivy.xml
-		tried /home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/ivys/ivy.xml
-	local: resource not reachable for com.jcraft#jsch;0.1.31: res=/home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/ivys/ivy.xml
-	 trying /home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/jars/jsch.jar
-		tried /home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/jars/jsch.jar
-	local: resource not reachable for com.jcraft#jsch;0.1.31: res=/home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/jars/jsch.jar
-	local: no ivy file nor artifact found for com.jcraft#jsch;0.1.31
-	no ivy file in cache for com.jcraft#jsch;0.1.31: tried /home/bwmcadams/.ivy2/cache/com.jcraft/jsch/ivy-0.1.31.xml
-	 trying file:///home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31.pom
-		tried file:///home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31.pom
-	Maven2 Local: resource not reachable for com/jcraft#jsch;0.1.31: res=file:/home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31.pom
-	 trying file:///home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-		tried file:///home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-	Maven2 Local: resource not reachable for com/jcraft#jsch;0.1.31: res=file:/home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-	Maven2 Local: no ivy file nor artifact found for com.jcraft#jsch;0.1.31
-	no ivy file in cache for com.jcraft#jsch;0.1.31: tried /home/bwmcadams/.ivy2/cache/com.jcraft/jsch/ivy-0.1.31.xml
-	 trying http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.pom
-		tried http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.pom
-	Maven Central: found md file for com.jcraft#jsch;0.1.31
-		=> http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.pom (0.1.31)
-	parser = pom parser
-	no ivy file in cache for com.jcraft#jsch;0.1.31: tried /home/bwmcadams/.ivy2/cache/com.jcraft/jsch/ivy-0.1.31.xml
-downloading http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.pom ...
-	Maven Central: downloading http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.pom
-		to /home/bwmcadams/.ivy2/cache/com.jcraft/jsch/ivy-0.1.31.xml.original.part
-	[SUCCESSFUL ] com.jcraft#jsch;0.1.31!jsch.pom(pom.original) (63ms)
-	 trying /home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/jars/jsch.jar
-		tried /home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/jars/jsch.jar
-	local: resource not reachable for com.jcraft#jsch;0.1.31: res=/home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/jars/jsch.jar
-	 trying file:///home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-		tried file:///home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-	Maven2 Local: resource not reachable for com/jcraft#jsch;0.1.31: res=file:/home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-	 trying http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-		tried http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-	 trying /home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/sources/jsch.jar
-		tried /home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/sources/jsch.jar
-	local: resource not reachable for com.jcraft#jsch;0.1.31: res=/home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/sources/jsch.jar
-	 trying file:///home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31-sources.jar
-		tried file:///home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31-sources.jar
-	Maven2 Local: resource not reachable for com/jcraft#jsch;0.1.31: res=file:/home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31-sources.jar
-	 trying http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31-sources.jar
-		tried http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31-sources.jar
-source artifact found for com.jcraft#jsch;0.1.31
-	 trying /home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/javadocs/jsch.jar
-		tried /home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/javadocs/jsch.jar
-	local: resource not reachable for com.jcraft#jsch;0.1.31: res=/home/bwmcadams/.ivy2/local/com.jcraft/jsch/0.1.31/javadocs/jsch.jar
-	 trying file:///home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31-javadoc.jar
-		tried file:///home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31-javadoc.jar
-	Maven2 Local: resource not reachable for com/jcraft#jsch;0.1.31: res=file:/home/bwmcadams/.m2/repository/com/jcraft/jsch/0.1.31/jsch-0.1.31-javadoc.jar
-	 trying http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31-javadoc.jar
-		tried http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31-javadoc.jar
-HTTP response status: 404 url=http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31-javadoc.jar
-CLIENT ERROR: Not Found url=http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31-javadoc.jar
-	Maven Central: resource not reachable for com/jcraft#jsch;0.1.31: res=http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31-javadoc.jar
-	 trying http://simple-build-tool.googlecode.com/svn/artifacts/0.1.31/javadocs/jsch.jar
-		tried http://simple-build-tool.googlecode.com/svn/artifacts/0.1.31/javadocs/jsch.jar
-HTTP response status: 404 url=http://simple-build-tool.googlecode.com/svn/artifacts/0.1.31/javadocs/jsch.jar
-CLIENT ERROR: Not Found url=http://simple-build-tool.googlecode.com/svn/artifacts/0.1.31/javadocs/jsch.jar
-	Sbt Repository: resource not reachable for com.jcraft#jsch;0.1.31: res=http://simple-build-tool.googlecode.com/svn/artifacts/0.1.31/javadocs/jsch.jar
-no javadoc artifact found for com.jcraft#jsch;0.1.31
-	default-cache: parsed downloaded md file for com.jcraft#jsch;0.1.31; parsed=com.jcraft#jsch;0.1.31
-	checking com.jcraft#jsch;0.1.31 from Maven Central against [none]
-	module revision kept as first found: com.jcraft#jsch;0.1.31 from Maven Central
-	found com.jcraft#jsch;0.1.31 in Maven Central
-== resolving dependencies sbt#simple-build-tool;0.5.6->com.jcraft#jsch;0.1.31 [base->runtime]
-loadData of com.jcraft#jsch;0.1.31 of rootConf=default
-== resolving dependencies sbt#simple-build-tool;0.5.6->com.jcraft#jsch;0.1.31 [base->compile]
-loadData of com.jcraft#jsch;0.1.31 of rootConf=default
-== resolving dependencies sbt#simple-build-tool;0.5.6->com.jcraft#jsch;0.1.31 [base->master]
-loadData of com.jcraft#jsch;0.1.31 of rootConf=default
-Nbr of module to sort : 3
-Sort dependencies of : sbt#simple-build-tool;0.5.6 / Number of dependencies = 2
-Sort dependencies of : org.apache.ivy#ivy;2.0.0 / Number of dependencies = 13
-Sort dependencies of : com.jcraft#jsch;0.1.31 / Number of dependencies = 1
-Sort done for : com.jcraft#jsch;0.1.31
-Sort done for : org.apache.ivy#ivy;2.0.0
-Module descriptor is processed : com.jcraft#jsch;0.1.31
-Sort done for : sbt#simple-build-tool;0.5.6
-Module descriptor is processed : org.apache.ivy#ivy;2.0.0
-Module descriptor is processed : com.jcraft#jsch;0.1.31
+	no ivy file in cache for sbt#simple-build-tool;0.7.1: tried /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/ivy-0.7.1.xml
+	 trying http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+		tried http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+HTTP response status: 404 url=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+CLIENT ERROR: Not Found url=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+	Sbt Repository: resource not reachable for sbt#simple-build-tool;0.7.1: res=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+	 trying http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+		tried http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+HTTP response status: 404 url=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+CLIENT ERROR: Not Found url=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+	Sbt Repository: resource not reachable for sbt#simple-build-tool;0.7.1: res=http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+	Sbt Repository: no ivy file nor artifact found for sbt#simple-build-tool;0.7.1
+WARN: 	module not found: sbt#simple-build-tool;0.7.1
+WARN: ==== local: tried
+WARN:   /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/ivys/ivy.xml
+WARN:   -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+WARN:   /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/jars/simple-build-tool.jar
+WARN: ==== Maven2 Local: tried
+WARN:   file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+WARN:   -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+WARN:   file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+WARN: ==== Maven Central: tried
+WARN:   http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+WARN:   -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+WARN:   http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+WARN: ==== Sbt Repository: tried
+WARN:   http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+WARN:   -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+WARN:   http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+Nbr of module to sort : 0
 	resolved ivy file produced in /home/bwmcadams/.ivy2/cache/resolved-sbt-boot-1.0.xml
 :: downloading artifacts ::
-	 trying http://simple-build-tool.googlecode.com/svn/artifacts/0.5.6/jars/sbt_2.7.7.jar
-		tried http://simple-build-tool.googlecode.com/svn/artifacts/0.5.6/jars/sbt_2.7.7.jar
-downloading http://simple-build-tool.googlecode.com/svn/artifacts/0.5.6/jars/sbt_2.7.7.jar ...
-	Sbt Repository: downloading http://simple-build-tool.googlecode.com/svn/artifacts/0.5.6/jars/sbt_2.7.7.jar
-		to /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/jars/sbt_2.7.7-0.5.6.jar.part
-	[SUCCESSFUL ] sbt#simple-build-tool;0.5.6!sbt_2.7.7.jar (3747ms)
-	 trying http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-		tried http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-downloading http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar ...
-	Maven Central: downloading http://repo1.maven.org/maven2/org/apache/ivy/ivy/2.0.0/ivy-2.0.0.jar
-		to /home/bwmcadams/.ivy2/cache/org.apache.ivy/ivy/jars/ivy-2.0.0.jar.part
-	[SUCCESSFUL ] org.apache.ivy#ivy;2.0.0!ivy.jar (1121ms)
-	 trying http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-		tried http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-downloading http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar ...
-	Maven Central: downloading http://repo1.maven.org/maven2/com/jcraft/jsch/0.1.31/jsch-0.1.31.jar
-		to /home/bwmcadams/.ivy2/cache/com.jcraft/jsch/jars/jsch-0.1.31.jar.part
-	[SUCCESSFUL ] com.jcraft#jsch;0.1.31!jsch.jar (261ms)
-:: resolution report :: resolve 8095ms :: artifacts dl 5133ms
-Nbr of module to sort : 3
-Sort dependencies of : sbt#simple-build-tool;0.5.6 / Number of dependencies = 2
-Sort dependencies of : org.apache.ivy#ivy;2.0.0 / Number of dependencies = 13
-Sort dependencies of : com.jcraft#jsch;0.1.31 / Number of dependencies = 1
-Sort done for : com.jcraft#jsch;0.1.31
-Sort done for : org.apache.ivy#ivy;2.0.0
-Module descriptor is processed : com.jcraft#jsch;0.1.31
-Sort done for : sbt#simple-build-tool;0.5.6
-Module descriptor is processed : org.apache.ivy#ivy;2.0.0
-Module descriptor is processed : com.jcraft#jsch;0.1.31
+:: resolution report :: resolve 1061ms :: artifacts dl 0ms
+WARN: 	::::::::::::::::::::::::::::::::::::::::::::::
+WARN: 	::          UNRESOLVED DEPENDENCIES         ::
+WARN: 	::::::::::::::::::::::::::::::::::::::::::::::
+WARN: 	:: sbt#simple-build-tool;0.7.1: not found
+WARN: 	::::::::::::::::::::::::::::::::::::::::::::::
+
+Nbr of module to sort : 0
 	report for sbt#boot;1.0 default produced in /home/bwmcadams/.ivy2/cache/sbt-boot-default.xml
-	resolve done (8095ms resolve - 5133ms download)
-:: retrieving :: sbt#boot
-	checkUpToDate=true
-no explicit confs given for retrieve, using ivy file: /home/bwmcadams/.ivy2/cache/resolved-sbt-boot-1.0.xml
-using ivy parser to parse /home/bwmcadams/.ivy2/cache/resolved-sbt-boot-1.0.xml
-pre 1.3 ivy file: using exactOrRegexp as default matcher
-	confs: [default]
-	retrieving /home/bwmcadams/.ivy2/cache/org.apache.ivy/ivy/jars/ivy-2.0.0.jar
-		to /home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7/sbt-0.5.6/ivy-2.0.0.jar
-	retrieving /home/bwmcadams/.ivy2/cache/com.jcraft/jsch/jars/jsch-0.1.31.jar
-		to /home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7/sbt-0.5.6/jsch-0.1.31.jar
-	retrieving /home/bwmcadams/.ivy2/cache/sbt/simple-build-tool/jars/sbt_2.7.7-0.5.6.jar
-		to /home/bwmcadams/code/mongo-scala-wrappers/project/boot/scala-2.7.7/sbt-0.5.6/sbt_2.7.7-0.5.6.jar
-	3 artifacts copied, 0 already retrieved (3409kB/37ms)
-	retrieve done (37ms)
+	resolve done (1061ms resolve - 0ms download)
+
+:: problems summary ::
+:::: WARNINGS
+		module not found: sbt#simple-build-tool;0.7.1
+
+	==== local: tried
+
+	  /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/ivys/ivy.xml
+
+	  -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+
+	  /home/bwmcadams/.ivy2/local/sbt/simple-build-tool/0.7.1/jars/simple-build-tool.jar
+
+	==== Maven2 Local: tried
+
+	  file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+
+	  -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+
+	  file:///home/bwmcadams/.m2/repository/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+
+	==== Maven Central: tried
+
+	  http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.pom
+
+	  -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+
+	  http://repo1.maven.org/maven2/sbt/simple-build-tool/0.7.1/simple-build-tool-0.7.1.jar
+
+	==== Sbt Repository: tried
+
+	  http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/ivys/ivy.xml
+
+	  -- artifact sbt#simple-build-tool;0.7.1!simple-build-tool.jar:
+
+	  http://simple-build-tool.googlecode.com/svn/artifacts/0.7.1/jars/simple-build-tool.jar
+
+		::::::::::::::::::::::::::::::::::::::::::::::
+
+		::          UNRESOLVED DEPENDENCIES         ::
+
+		::::::::::::::::::::::::::::::::::::::::::::::
+
+		:: sbt#simple-build-tool;0.7.1: not found
+
+		::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+:: USE VERBOSE OR DEBUG MESSAGE LEVEL FOR MORE DETAILS
+java.lang.RuntimeException: not found
+	at org.apache.ivy.core.resolve.IvyNode.loadData(IvyNode.java:236)
+	at org.apache.ivy.core.resolve.VisitNode.loadData(VisitNode.java:271)
+	at org.apache.ivy.core.resolve.ResolveEngine.fetchDependencies(ResolveEngine.java:671)
+	at org.apache.ivy.core.resolve.ResolveEngine.doFetchDependencies(ResolveEngine.java:757)
+	at org.apache.ivy.core.resolve.ResolveEngine.fetchDependencies(ResolveEngine.java:679)
+	at org.apache.ivy.core.resolve.ResolveEngine.getDependencies(ResolveEngine.java:551)
+	at org.apache.ivy.core.resolve.ResolveEngine.resolve(ResolveEngine.java:235)
+	at sbt.boot.Update.resolve(Update.scala:136)
+	at sbt.boot.Update.update(Update.scala:118)
+	at sbt.boot.Update.update(Update.scala:97)
+	at sbt.boot.Update.sbt$boot$Update$$update(Update.scala:71)
+	at sbt.boot.Update$$anonfun$sbt$boot$Update$$update$1.apply(Update.scala:55)
+	at sbt.boot.Update$$anonfun$sbt$boot$Update$$update$1.apply(Update.scala:55)
+	at scala.List.foreach(List.scala:834)
+	at sbt.boot.Update.sbt$boot$Update$$update(Update.scala:55)
+	at sbt.boot.Update$.apply(Update.scala:37)
+	at sbt.boot.Setup.getLoader(Boot.scala:248)
+	at sbt.boot.Setup.loader(Boot.scala:216)
+	at sbt.boot.Setup.loader(Boot.scala:202)
+	at sbt.boot.Boot$.load(Boot.scala:80)
+	at sbt.boot.Boot$.doLoad$1(Boot.scala:61)
+	at sbt.boot.Boot$.runBatch(Boot.scala:64)
+	at sbt.boot.Boot$.boot(Boot.scala:57)
+	at sbt.boot.Boot$.main(Boot.scala:33)
+	at sbt.boot.Boot.main(Boot.scala)
+Error retrieving required libraries
+	at sbt.boot.Update.resolve(Update.scala:141)
+	at sbt.boot.Update.update(Update.scala:118)
+	at sbt.boot.Update.update(Update.scala:97)
+	at sbt.boot.Update.sbt$boot$Update$$update(Update.scala:71)
+	at sbt.boot.Update$$anonfun$sbt$boot$Update$$update$1.apply(Update.scala:55)
+	at sbt.boot.Update$$anonfun$sbt$boot$Update$$update$1.apply(Update.scala:55)
+	at scala.List.foreach(List.scala:834)
+	at sbt.boot.Update.sbt$boot$Update$$update(Update.scala:55)
+	at sbt.boot.Update$.apply(Update.scala:37)
+	at sbt.boot.Setup.getLoader(Boot.scala:248)
+	at sbt.boot.Setup.loader(Boot.scala:216)
+	at sbt.boot.Setup.loader(Boot.scala:202)
+	at sbt.boot.Boot$.load(Boot.scala:80)
+	at sbt.boot.Boot$.doLoad$1(Boot.scala:61)
+	at sbt.boot.Boot$.runBatch(Boot.scala:64)
+	at sbt.boot.Boot$.boot(Boot.scala:57)
+	at sbt.boot.Boot$.main(Boot.scala:33)
+	at sbt.boot.Boot.main(Boot.scala)
+Error retrieving required libraries

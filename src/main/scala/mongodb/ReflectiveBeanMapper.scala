@@ -260,12 +260,17 @@ trait ReflectiveBeanMapper extends DBObject with Logging {
 
   def put[A](key: String, value: A)(implicit m: Manifest[A]) = {
     log.trace("Parametered put setting %s to %s[%s]", key, value, m.erasure)
-    setter(key, value)
-    value.asInstanceOf[Object]
+    if (value != null)  {
+      setter(key, value)
+      value.asInstanceOf[Object]
+    }
   }
 
 
-  def putAll(dbObj: DBObject) =  putAll(dbObj.toMap)
+  def putAll(dbObj: DBObject) =  {
+    log.trace("Doing a PutAll with %s", dbObj)
+    putAll(dbObj.toMap)
+  }
 
   def putAll(fieldMap: Map[_,_]) = {
     for ((k, v) <- fieldMap.asInstanceOf[Map[String, AnyRef]]) {
