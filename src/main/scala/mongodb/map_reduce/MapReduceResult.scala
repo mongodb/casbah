@@ -38,7 +38,14 @@ import Implicits._
 class MapReduceResult(resultObj: DBObject)(implicit db: ScalaMongoDB) extends Iterator[DBObject] with Logging {
   log.debug("Map Reduce Result: %s", resultObj)
   // Convert the object to a map to have a quicker, saner shred...
-  val result = if (resultObj.containsField("result")) resultObj.get("result") else throw new IllegalArgumentException("Cannot find field 'result' in Map/Reduce Results.")
+  val FAIL = "#FAIL"
+  val result = if (resultObj.containsField("result"))  {
+                 resultObj.get("result").toString
+               } else  {
+                 log.warning("Map/Reduce Result field is empty. Setting an error state explicitly.")
+                 FAIL
+               }// Unless you've defined a table named #FAIL this should give you empty results back.
+                
 /*  val result = resultMap.get("result") match {
     case Some(v) => v
     case None => throw new IllegalArgumentException("Cannot find field 'result' in Map/Reduce Results.")
@@ -68,7 +75,7 @@ class MapReduceResult(resultObj: DBObject)(implicit db: ScalaMongoDB) extends It
   if (!ok) log.warning("Job result is NOT OK.")
 
 
-  val err = resultObj.get("err")
+  val err = resultObj.get("errmsg")
 
   val success = err match {
     case Some(msg) => {

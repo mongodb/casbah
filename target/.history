@@ -147,3 +147,6 @@ release
 make-pom
 update
 package-all
+help
+projects
+actions

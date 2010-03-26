@@ -1,4 +1,0 @@
-#Source Hashes
-#Mon Mar 08 13:22:31 EST 2010
-src/test/scala/mongodb/FluidMongoSyntaxSpec.scala=475df86b1d628f47768280a942163a63b0690050
-src/test/scala/mongodb/ScalaMongoWrapperSpec.scala=859bf9e9c8a60fcc296484f23d4f6501f4274b20
