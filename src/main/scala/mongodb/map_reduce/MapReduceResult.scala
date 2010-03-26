@@ -62,13 +62,13 @@ class MapReduceResult(resultObj: DBObject)(implicit db: ScalaMongoDB) extends It
 
   private val counts = resultObj.get("counts").asInstanceOf[DBObject]
   // Number of objects scanned
-  val input_count: Int = counts.get("input").toString.toInt //, throw new IllegalArgumentException("Cannot find field 'counts.input' in Map/Reduce Results."))
+  val input_count: Int = if (counts != null) counts.get("input").toString.toInt else 0 //, throw new IllegalArgumentException("Cannot find field 'counts.input' in Map/Reduce Results."))
   // Number of times 'emit' was called
-  val emit_count: Int = counts.get("emit").toString.toInt//, throw new IllegalArgumentException("Cannot find field 'counts.emit' in Map/Reduce Results."))
+  val emit_count: Int = if (counts != null) counts.get("emit").toString.toInt else 0//, throw new IllegalArgumentException("Cannot find field 'counts.emit' in Map/Reduce Results."))
   // Number of items in output collection
-  val output_count: Int = counts.get("output").toString.toInt//throw new IllegalArgumentException("Cannot find field 'counts.output' in Map/Reduce Results."))
+  val output_count: Int = if (counts != null) counts.get("output").toString.toInt else 0//throw new IllegalArgumentException("Cannot find field 'counts.output' in Map/Reduce Results."))
 
-  val timeMillis = resultObj.get("timeMillis").toString.toInt//throw new IllegalArgumentException("Cannot find field 'timeMillis' in Map/Reduce Results."))
+  val timeMillis = if (counts != null) resultObj.get("timeMillis").toString.toInt else -1 //throw new IllegalArgumentException("Cannot find field 'timeMillis' in Map/Reduce Results."))
 
   val ok = if (resultObj.get("ok") == 1) true else false
 
@@ -78,13 +78,13 @@ class MapReduceResult(resultObj: DBObject)(implicit db: ScalaMongoDB) extends It
   val err = resultObj.get("errmsg")
 
   val success = err match {
-    case Some(msg) => {
-      log.error("Map/Reduce failed: %s", msg)
-      false
-    }
     case null => {
       log.debug("Map/ Reduce Success.")
       true
+    }
+    case msg => {
+      log.error("Map/Reduce failed: %s", msg)
+      false
     }
   }
 
