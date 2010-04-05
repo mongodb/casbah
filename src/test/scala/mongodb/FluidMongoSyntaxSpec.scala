@@ -22,9 +22,8 @@ package com.novus.test.mongodb
 import com.novus.mongodb._
 import Implicits._
 import com.mongodb._
-import org.scala_tools.javautils.Imports._
+import scalaj.collection.Imports._
 import org.scalatest.{GivenWhenThen, FeatureSpec}
-import org.scala_tools.javautils.s2j.RichSSeq
 
 class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen {
   feature("DBObject related syntax conversions.") {

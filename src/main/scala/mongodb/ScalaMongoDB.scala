@@ -20,7 +20,7 @@
 package com.novus.mongodb
 
 import com.mongodb._
-import org.scala_tools.javautils.Imports._
+import scalaj.collection.Implicits._
 import Implicits._
 
 

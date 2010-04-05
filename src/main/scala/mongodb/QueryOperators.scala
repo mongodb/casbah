@@ -20,7 +20,7 @@
 package com.novus.mongodb
 
 import com.mongodb.{DBObject, BasicDBObjectBuilder}
-import org.scala_tools.javautils.Imports._
+import scala.collection.JavaConversions._
 import Implicits._
 
 /**
@@ -189,8 +189,8 @@ trait GreaterThanEqualOp extends QueryOperator {
  * @version 1.0
  */
 trait InOp extends QueryOperator {
-  def $in(target: Array[Any]) = op("$in", target.asJava)
-  def $in(target: Any*) = op("$in", target.asJava)
+  def $in(target: Array[Any]) = op("$in", target)
+  def $in(target: Any*) = op("$in", target)
 }
 
 /**
@@ -209,8 +209,8 @@ trait InOp extends QueryOperator {
  * @version 1.0
  */
 trait NotInOp extends QueryOperator {
-  def $nin(target: Array[Any]) = op("$nin", target.asJava)
-  def $nin(target: Any*) = op("$nin", target.asJava)
+  def $nin(target: Array[Any]) = op("$nin", target)
+  def $nin(target: Any*) = op("$nin", target)
 }
 
 /**
@@ -229,8 +229,8 @@ trait NotInOp extends QueryOperator {
  * @version 1.0
  */
 trait AllOp extends QueryOperator {
-  def $all(target: Array[Any]) = op("$all", target.asJava)
-  def $all(target: Any*) = op("$all", target.asJava)
+  def $all(target: Array[Any]) = op("$all", target)
+  def $all(target: Any*) = op("$all", target)
 }
 
 /**

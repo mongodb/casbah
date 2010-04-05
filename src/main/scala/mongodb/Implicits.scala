@@ -20,8 +20,7 @@
 package com.novus.mongodb
 
 import com.mongodb._
-import org.scala_tools.javautils.Imports._
-
+import scalaj.collection.Imports._
 /**
  * <code>Implicits</code> object to expose implicit conversions to implementing classes
  * which facilitate more Scala-like functionality in Mongo.

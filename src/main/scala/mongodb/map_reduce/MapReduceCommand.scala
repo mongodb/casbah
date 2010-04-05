@@ -17,10 +17,11 @@
  * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
-package com.novus.mongodb.map_reduce
+package com.novus.mongodb;
+package map_reduce;
 
 import com.mongodb._
-import org.scala_tools.javautils.Imports._
+import scalaj.collection.Imports._
 import com.novus.util.Logging
 import com.novus.mongodb._
 import Implicits._

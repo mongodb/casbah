@@ -22,7 +22,7 @@ package com.novus.mongodb
 import com.mongodb._
 import com.novus.util.Logging
 import map_reduce.{MapReduceResult, MapReduceCommand}
-import org.scala_tools.javautils.Imports._
+import scalaj.collection.Imports._
 import Implicits._
 import collection.mutable.ArrayBuffer
 
@@ -118,7 +118,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
             }
           }""".format(field, field, field), "")
     log.trace("Max Grouping Result: %s", groupResult)
-    groupResult.first.get("max").asInstanceOf[Double]
+    groupResult.head.get("max").asInstanceOf[Double]
   }
   def maxDate(field: String, condition: DBObject) = {
     val initial = ("max" -> "")
@@ -134,7 +134,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
         }
       }""".format(field, field, field), "")
     log.trace("Max Date Grouping Result: %s", groupResult)
-    groupResult.first.get("max").asInstanceOf[java.util.Date]
+    groupResult.head.get("max").asInstanceOf[java.util.Date]
   }
   def minDate(field: String, condition: DBObject) = {
     val initial = ("max" -> "")
@@ -150,7 +150,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
         }
       }""".format(field, field, field), "")
     log.trace("Max Date Grouping Result: %s", groupResult)
-    groupResult.first.get("max").asInstanceOf[java.util.Date]
+    groupResult.head.get("max").asInstanceOf[java.util.Date]
   }
   /** Emulates a SQL MIN() call ever so gently **/
   def minValue(field: String, condition: DBObject) = {
@@ -166,7 +166,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
               aggr.min = obj.%s;
             }
            }""".format(field, field, field), "").
-        first.get("min").asInstanceOf[Double]
+        head.get("min").asInstanceOf[Double]
   }
 
   /** Emulates a SQL AVG() call ever so gently **/
@@ -181,7 +181,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
         aggr.count += 1; 
       }
       """.format(field),
-      "function(aggr) { aggr.avg = aggr.total / aggr.count }").first.get("avg").asInstanceOf[Double]
+      "function(aggr) { aggr.avg = aggr.total / aggr.count }").head.get("avg").asInstanceOf[Double]
   }
 
   override def hashCode() = underlying.hashCode
@@ -225,8 +225,6 @@ trait ScalaMongoCollectionWrapper extends Logging {
   def count() = getCount
   def count(query: DBObject) = getCount(query)
   def count(query: DBObject, fields: DBObject) = getCount(query, fields)
-
-  def size = count
 
   def lastError = underlying.getDB.getLastError
 
@@ -302,7 +300,8 @@ class ScalaMongoCollection(val underlying: DBCollection) extends ScalaMongoColle
     underlying = coll
   }*/
 
-  def elements: ScalaMongoCursor  = find
+  override def elements: ScalaMongoCursor  = find
+  override def iterator: ScalaMongoCursor  = find
   def find() = underlying.find.asScala
   def find(ref: DBObject) = underlying.find(ref) asScala
   def find(ref: DBObject, keys: DBObject) = underlying.find(ref, keys) asScala
@@ -312,9 +311,9 @@ class ScalaMongoCollection(val underlying: DBCollection) extends ScalaMongoColle
   def findOne(o: DBObject, fields: DBObject) = optWrap(underlying.findOne(o, fields))
   def findOne(obj: Object) = optWrap(underlying.findOne(obj))
   def findOne(obj: Object, fields: DBObject) = optWrap(underlying.findOne(obj, fields))
-  def head = headOption.get
-  def headOption = findOne
-  def tail = find.skip(1).toArray.toList
+  override def head = headOption.get
+  override def headOption = findOne
+  override def tail = find.skip(1).toArray.toList
 }
 
 /**
@@ -346,7 +345,8 @@ class ScalaTypedMongoCollection[A <: DBObject](val underlying: DBCollection)(imp
     underlying.setObjectClass(m.erasure)
   }*/
 
-  def elements = find
+  override def elements = find
+  override def iterator = find
   //override def setObjectClass[A](c: Class[A]) = this
   def find() = underlying.find.asScalaTyped(m)
   def find(ref: DBObject) = underlying.find(ref) asScalaTyped(m)
@@ -358,8 +358,8 @@ class ScalaTypedMongoCollection[A <: DBObject](val underlying: DBCollection)(imp
   def findOne(obj: Object, fields: DBObject) = optWrap(underlying.findOne(obj, fields).asInstanceOf[A])
   //override def find(ref: DBObject, fields: DBObject, numToSkip: Int, batchSize: Int): ScalaTypedMongoCursor[A] = underlying.find(ref, fields, numToSkip, batchSize) asScalaTyped
   //override def find(ref: DBObject, fields: DBObject, numToSkip: Int, batchSize: Int, options: Int) = underlying.find(ref, fields, numToSkip, batchSize, options) asScalaTyped
-  def head = findOne.get
-  def headOption = Some(findOne.get.asInstanceOf[A])
-  def tail = find.skip(1).map(_.asInstanceOf[A]).toList
+  override def head = findOne.get
+  override def headOption = Some(findOne.get.asInstanceOf[A])
+  override def tail = find.skip(1).map(_.asInstanceOf[A]).toList
 
 }

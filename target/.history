@@ -1,152 +1,17 @@
-run
-run -unchecked
-build -unchecked
+test
+verbose
 help
-actions
-publish
+debug on
+trace on
+test
+test-run
+run
+test-run
 clean
-compile
-clean
-run
-build
+trace on
+verbose on
 help
-build
-clean
-help
+debug 
+debug shell
 actions
-graph-pkg
-help
-actoins
-actions
-update
-reload
-update
- reload
-run
-update
-reload
-update
-reload
-update
-build
-compile
-update
-reload
-update
-reload
-update
-dependencyPath
-help
-actions
-reload
-update
-reload
-update
-reload
-update
-help
-compile
-actions
-make-pom
-ls
-update
-actions
-package-all
-publish-all
-action
-actions
-package-all
-update
-reload
-update
-reload
 test
-reload
-test
-actions
-package-all
-run
-test
-run
-test
- test
-test
- Seq
-Seq(5, 8, 12)
-hepl
-:help
-help
-run
-test
-run 
-run
-test
-test\
-test
-reload
-test
-run
-test
-clean
-package-all
-make pom
-make-pom
-hlp
-help
-package all
-package-all
-quit
-package-all
-1;2A
-package-all
-run
-package all
-package-all
-package all
-package-all
-test
-package-all
-make-pom
-package-all
-make-pom
-package-all
-make-pom
-help
-console-project
-help
-console
-package-all
-console
-ls
-help
-trace
-debug
-console
-package-all
-console
-package-all
-console'
-console
-package-all
-console
-package-all
-console'
-console
-package-all
-console
-package-all
-console
-package-all
-console
-package-all
-make-pom
-console
-package-all
-relaease
-release
-make-pom
-update
-package-all
-help
-projects
-actions
