@@ -20,7 +20,7 @@
 package com.novus.mongodb
 
 import com.mongodb._
-import org.scala_tools.javautils.Imports._
+import scalaj.collection.Implicits._
 import Implicits._
 
 /**
@@ -37,7 +37,7 @@ trait ScalaMongoCursorWrapper[A <: DBObject] extends Iterator[A] {
   def count() = underlying.count
   def itcount() = underlying.itcount()
   def jIterator() = underlying.iterator asScala
-  def length() = underlying.length
+  override def length() = underlying.length
   def numGetMores() = underlying.numGetMores
   def numSeen() =  underlying.numSeen
   def remove() = underlying.remove
