@@ -17,8 +17,8 @@
  * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
-package com.novus.mongodb;
-package map_reduce;
+package com.novus.mongodb
+package map_reduce
 
 import Implicits._
 

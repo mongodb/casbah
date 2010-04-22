@@ -45,7 +45,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
   implicit val db = underlying.getDB().asScala
   
   // there are two apply methods on the java api i've left out for now as they'll do whacky things to Scala probably.
-  def checkForIDIndex(key: DBObject) = underlying.checkForIDIndex(key)
+  //def checkForIDIndex(key: DBObject) = underlying.checkForIDIndex(key)
   def createIndex(keys: DBObject) = underlying.createIndex(keys)
   def distinct(key: String) = underlying.distinct(key).asScala
   def distinct(key: String, query: DBObject) = underlying.distinct(key, query).asScala
@@ -54,10 +54,10 @@ trait ScalaMongoCollectionWrapper extends Logging {
   def dropIndex(name: String) = underlying.dropIndex(name)
   def dropIndexes() = underlying.dropIndexes
   def dropIndexes(name: String) = underlying.dropIndexes
-  def ensureIDIndex() = underlying.ensureIDIndex
+  //def ensureIDIndex() = underlying.ensureIDIndex
   def ensureIndex(keys: DBObject) = underlying.ensureIndex(keys)
-  def ensureIndex(keys: DBObject, force: Boolean) = underlying.ensureIndex(keys, force)
-  def ensureIndex(keys: DBObject, force: Boolean, unique: Boolean) = underlying.ensureIndex(keys, force, unique)
+  //def ensureIndex(keys: DBObject, force: Boolean) = underlying.ensureIndex(keys, force)
+  //def ensureIndex(keys: DBObject, force: Boolean, unique: Boolean) = underlying.ensureIndex(keys, force, unique)
   def ensureIndex(keys: DBObject, name: String) = underlying.ensureIndex(keys, name)
   def ensureIndex(keys: DBObject, name: String, unique: Boolean) = underlying.ensureIndex(keys, name, unique)
 
