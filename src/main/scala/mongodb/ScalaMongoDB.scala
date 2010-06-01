@@ -17,7 +17,8 @@
  * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
-package com.novus.mongodb
+package com.novus.casbah
+package mongodb
 
 import com.mongodb._
 import scalaj.collection.Implicits._

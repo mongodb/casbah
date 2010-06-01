@@ -17,13 +17,15 @@
  * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
-package com.novus.mongodb;
-package map_reduce;
+package com.novus.casbah
+package mongodb
+package map_reduce
+
+import util.Logging
 
 import com.mongodb._
+
 import scalaj.collection.Imports._
-import com.novus.util.Logging
-import com.novus.mongodb._
 import Implicits._
 
 

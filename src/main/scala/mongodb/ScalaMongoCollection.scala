@@ -17,10 +17,13 @@
  * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
-package com.novus.mongodb
+package com.novus.casbah
+package mongodb
+
+import util.Logging
 
 import com.mongodb._
-import com.novus.util.Logging
+
 import map_reduce.{MapReduceResult, MapReduceCommand}
 import scalaj.collection.Imports._
 import Implicits._
@@ -313,7 +316,7 @@ class ScalaMongoCollection(val underlying: DBCollection) extends ScalaMongoColle
   def findOne(obj: Object, fields: DBObject) = optWrap(underlying.findOne(obj, fields))
   override def head = headOption.get
   override def headOption = findOne
-  override def tail = find.skip(1).toArray.toList
+  override def tail = find.skip(1).toList
 }
 
 /**

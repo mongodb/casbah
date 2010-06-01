@@ -17,11 +17,14 @@
  * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
-package com.novus.test.mongodb
+package com.novus.casbah
+package mongodb
+package test
 
-import com.novus.mongodb._
 import Implicits._
+
 import com.mongodb._
+
 import scalaj.collection.Imports._
 import org.scalatest.{GivenWhenThen, FeatureSpec}
 

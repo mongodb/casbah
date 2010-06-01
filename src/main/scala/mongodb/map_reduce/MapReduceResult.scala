@@ -17,15 +17,18 @@
  * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
-package com.novus.mongodb
+package com.novus.casbah
+package mongodb
 package map_reduce
+
+
+import util.Logging 
 
 import Implicits._
 
 import com.mongodb._
+
 import scalaj.collection.Imports._
-import com.novus.util.Logging
-import com.novus.mongodb._
 
 
 /**
@@ -60,7 +63,7 @@ class MapReduceResult(resultObj: DBObject)(implicit db: ScalaMongoDB) extends It
 
   def hasNext: Boolean = resultCursor.hasNext
 
-  def size = resultHandle.count
+  override def size = resultHandle.count.intValue
 
   private val counts = resultObj.get("counts").asInstanceOf[DBObject]
   // Number of objects scanned

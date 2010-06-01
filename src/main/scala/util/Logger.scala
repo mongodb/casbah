@@ -17,7 +17,7 @@
  * available from http://akkasource.org/
  */
 
-package com.novus.util
+package com.novus.casbah.util
 
 import net.lag.logging.Logger
 

@@ -17,11 +17,13 @@
  * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
-package com.novus.test.mongodb
+package com.novus.casbah
+package mongodb
+package test
 
-import com.novus.mongodb._
 import Implicits.{mongoDBAsScala, mongoConnAsScala, mongoCollAsScala, mongoCursorAsScala}
 import com.mongodb._
+
 import org.scalatest.{GivenWhenThen, FeatureSpec}
 
 class ScalaMongoWrapperSpec extends FeatureSpec with GivenWhenThen {
