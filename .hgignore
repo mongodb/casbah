@@ -1,8 +1,10 @@
 # use glob syntax
 syntax: glob
-
+project/boot
+lib_managed
 # switch  to regexp syntax
 syntax: regexp
 target/classes/*
 target/test-classes/*
+project/build/target/*
 target
