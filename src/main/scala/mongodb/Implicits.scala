@@ -1,11 +1,11 @@
 /**
- *  Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
- *
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,12 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://bitbucket.org/novus/casbah
+ * 
  * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
  * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
 package com.novus.casbah
 package mongodb
+
+import gridfs._
 
 import com.mongodb._
 import scalaj.collection.Imports._
@@ -106,7 +112,7 @@ object Implicits {
     * Return a GENERIC Scala wrapper object for the DBCursor specific to a given Parameter type.
     * @return ScalaMongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
     */
-    def asScalaTyped[A<:DBObject](implicit m: scala.reflect.Manifest[A])  = new ScalaTypedMongoCursor[A](cursor)(m)
+    def asScalaTyped[A <: DBObject : Manifest] = new ScalaTypedMongoCursor[A](cursor)
   }
 
   /**
@@ -198,5 +204,12 @@ object Implicits {
     }
     builder.get
   }
+
+  implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
+  implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
+
+  implicit def wrapDBObj(in: DBObject): ScalaDBObject = new ScalaDBObject { val underlying = in }
+  implicit def unwrapDBObj(in: ScalaDBObject): DBObject = in.underlying
+    
 
 }

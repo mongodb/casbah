@@ -31,16 +31,25 @@ import Implicits._
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-trait QueryOperators extends NotEqualsOp with
-                             LessThanOp with
-                             LessThanEqualOp with
-                             GreaterThanOp with
-                             GreaterThanEqualOp with
-                             InOp with
-                             NotInOp with
-                             ModuloOp with
-                             SizeOp with
-                             ExistsOp with AllOp with WhereOp
+trait QueryOperators extends NotEqualsOp 
+                        with LessThanOp 
+                        with LessThanEqualOp 
+                        with GreaterThanOp 
+                        with GreaterThanEqualOp 
+                        with InOp 
+                        with NotInOp 
+                        with ModuloOp 
+                        with SizeOp 
+                        with ExistsOp 
+                        with AllOp 
+                        with WhereOp 
+                        with NotOp
+                        with ArrayOps
+                        with SetOp
+                        with UnsetOp
+                        with IncOp
+
+
 
 
 /**
@@ -290,6 +299,134 @@ trait WhereOp extends QueryOperator {
   def $where(target: JSFunction) = op("$where", target)
 }
 
+/**
+ * Trait to provide the $not (Not) negation method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject or a Scala RegEx
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait NotOp extends QueryOperator {
+  def $not(target: DBObject) = op("$not", target)
+  def $not(target: scala.util.matching.Regex) = op("$not", target.pattern) // dump the java regex which mongo will understand in
+}
 
-// @Todo Regex support
+/**
+ * Trait to provide the $inc (Inc) increment method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait IncOp extends QueryOperator {
+  def $inc(target: DBObject) = op("$inc", target)
+}
+
+/**
+ * Trait to provide the $set (Set) Set method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait SetOp extends QueryOperator {
+  def $set(target: DBObject) = op("$set", target)
+}
+
+/**
+ * Trait to provide the $unset (UnSet) UnSet method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait UnsetOp extends QueryOperator {
+  def $unset(target: DBObject) = op("$unset", target)
+}
+
+
+trait ArrayOps extends PushOp
+                  with PushAllOp
+                  with AddToSetOp
+                  with PopOp
+                  with PullOp
+                  with PullAllOp
+
+/**
+ * Trait to provide the $push (push) push method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait PushOp extends QueryOperator {
+  def $push(target: DBObject) = op("$push", target)
+}
+
+/**
+ * Trait to provide the $pushAll (pushAll) pushAll method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * TODO: Value of the dbobject should be an array - verify target
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait PushAllOp extends QueryOperator {
+  def $pushAll(target: DBObject) = op("$pushAll", target)
+}
+
+/**
+ * Trait to provide the $addToSet (addToSet) addToSet method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait AddToSetOp extends QueryOperator {
+  def $addToSet(target: DBObject) = op("$addToSet", target)
+}
+
+/**
+ * Trait to provide the $pop (pop) pop method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait PopOp extends QueryOperator {
+  def $pop(target: DBObject) = op("$pop", target)
+}
+
+/**
+ * Trait to provide the $push (push) push method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait PullOp extends QueryOperator {
+  def $pull(target: DBObject) = op("$pull", target)
+}
+
+/**
+ * Trait to provide the $pushAll (pushAll) pushAll method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * TODO: Value of the dbobject should be an array - verify target
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ */
+trait PullAllOp extends QueryOperator {
+  def $pullAll(target: DBObject) = op("$pullAll", target)
+}
 

@@ -351,9 +351,9 @@ class ScalaTypedMongoCollection[A <: DBObject](val underlying: DBCollection)(imp
   override def elements = find
   override def iterator = find
   //override def setObjectClass[A](c: Class[A]) = this
-  def find() = underlying.find.asScalaTyped(m)
-  def find(ref: DBObject) = underlying.find(ref) asScalaTyped(m)
-  def find(ref: DBObject, keys: DBObject) = underlying.find(ref, keys) asScalaTyped(m)
+  def find() = underlying.find.asScalaTyped
+  def find(ref: DBObject) = underlying.find(ref) asScalaTyped
+  def find(ref: DBObject, keys: DBObject) = underlying.find(ref, keys) asScalaTyped
   def findOne() = optWrap(underlying.findOne().asInstanceOf[A])
   def findOne(o: DBObject) = optWrap(underlying.findOne(o).asInstanceOf[A])
   def findOne(o: DBObject, fields: DBObject) = optWrap(underlying.findOne(o, fields).asInstanceOf[A])

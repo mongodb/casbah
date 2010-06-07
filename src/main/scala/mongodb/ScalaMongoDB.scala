@@ -69,6 +69,7 @@ class ScalaMongoDB(val underlying: DB) {
   def getCollectionFromString(s: String) = underlying.getCollectionFromString(s)
   def getCollectionNames() = underlying.getCollectionNames().asScala
   def getLastError() = underlying.getLastError
+  def name = getName
   def getName() = underlying.getName
   def getPreviousError() = underlying.getPreviousError
   def getSisterDB(name: String) = underlying.getSisterDB(name)

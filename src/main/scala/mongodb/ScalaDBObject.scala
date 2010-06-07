@@ -1,0 +1,95 @@
+/**
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://bitbucket.org/novus/casbah
+ * 
+ * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
+ * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
+ */
+
+package com.novus.casbah
+package mongodb
+
+import Implicits._
+import util.Logging
+
+import com.mongodb._
+
+import scala.collection.JavaConversions._
+import scala.collection.generic._
+import scala.collection.mutable.Map
+import scala.reflect._
+
+/** 
+ *  MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
+ *  Cannot act as a DBObject or implement it's interface
+ * due to conflicts between the java methods and scala methods.
+ * Implicits and explicit methods allow you to convert to java though.
+ * 
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0, 06/02/10
+ * @since 1.0
+ * 
+ * @tparam String 
+ * @tparam Object 
+ */
+@BeanInfo
+trait ScalaDBObject extends Map[String, Object] with Logging {
+  val underlying: DBObject
+
+  def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
+
+  override def get(key: String): Option[Object] = underlying.get(key) match {
+    case null => None
+    case value => Some(value)
+  }
+
+  def +=(kv: (String, Object)) = {
+    //val e = findEntry(kv._1)
+    /*get(kv._1) match {
+      case Some(value) => underlying.put(kv._1, kv._2)
+      case None => put(kv._1, kv._2)
+    }*/
+    put(kv._1, kv._2)
+    this
+  }
+
+  def -=(key: String) = { 
+    underlying.removeField(key)
+    this
+  }
+
+    
+  /* Methods needed in order to be a proper DBObject */
+  def containsField(s: String) = underlying.containsField(s)
+  def containsKey(s: String) = underlying.containsKey(s)
+  //def get(s: String) = underlying.get(s)
+  def isPartialObject = underlying.isPartialObject
+  def markAsPartialObject = underlying.markAsPartialObject
+  def partialObject = isPartialObject
+  override def put(k: String, v: Object) = underlying.put(k, v) match {
+    case null => None
+    case value => Some(value)
+  }
+  def putAll(o: DBObject) = underlying.putAll(o)
+  def putAll(m: Map[_, _]) = underlying.putAll(m)
+  def putAll(m: java.util.Map[_, _]) = underlying.putAll(m)
+  def removeField(key: String) = underlying.removeField(key)
+  def toMap = underlying.toMap
+}
+
+// vim: set ts=2 sw=2 sts=2 et:

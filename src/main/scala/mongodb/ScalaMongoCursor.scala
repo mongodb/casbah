@@ -44,7 +44,7 @@ trait ScalaMongoCursorWrapper[A <: DBObject] extends Iterator[A] {
   def remove() = underlying.remove
 
   def curr() = underlying.curr.asInstanceOf[A]
-  def explain() = underlying.explain.asInstanceOf[A]
+  def explain() = underlying.explain
 
   def next(): A = underlying.next.asInstanceOf[A]
   def hasNext: Boolean = underlying.hasNext
@@ -61,7 +61,7 @@ trait ScalaMongoCursorWrapper[A <: DBObject] extends Iterator[A] {
  *
  * @param underlying A DBCursor object to wrap
  */
-protected class ScalaMongoCursor (val underlying: DBCursor) extends ScalaMongoCursorWrapper[DBObject]  {
+class ScalaMongoCursor protected[mongodb] (val underlying: DBCursor) extends ScalaMongoCursorWrapper[DBObject]  {
   //def addOption(option: Int) = underlying.addOption(option) asScala
   def batchSize(n: Int) = underlying.batchSize(n) asScala
   def copy() = underlying.copy asScala
@@ -105,20 +105,20 @@ protected class ScalaMongoCursor (val underlying: DBCursor) extends ScalaMongoCu
  * @param underlying DBCursor object to proxy
  * @param m Manifest[A] representing the erasure for the underlying type - used to get around the JVM's insanity
  */
-protected class ScalaTypedMongoCursor[A <: DBObject] (val underlying: DBCursor)(implicit m: scala.reflect.Manifest[A])  extends ScalaMongoCursorWrapper[A]  {
+class ScalaTypedMongoCursor[A <: DBObject : Manifest] protected[mongodb](val underlying: DBCursor) extends ScalaMongoCursorWrapper[A]  {
   //def addOption(option: Int) = underlying.addOption(option) asScala
-  def batchSize(n: Int) = underlying.batchSize(n) asScalaTyped(m)
-  def copy() = underlying.copy asScalaTyped(m)
+  def batchSize(n: Int) = underlying.batchSize(n) asScalaTyped
+  def copy() = underlying.copy asScalaTyped
   //def getKeysWanted() = underlying.getKeysWanted
   def getSizes() = underlying.getSizes asScala
-  def hint(indexKeys: DBObject) = underlying.hint(indexKeys) asScalaTyped(m)
-  def hint(indexName: String) = underlying.hint(indexName) asScalaTyped(m)
-  def limit(n: Int) = underlying.limit(n) asScalaTyped(m)
+  def hint(indexKeys: DBObject) = underlying.hint(indexKeys) asScalaTyped
+  def hint(indexName: String) = underlying.hint(indexName) asScalaTyped
+  def limit(n: Int) = underlying.limit(n) asScalaTyped
 
-  def skip(n: Int) = underlying.skip(n) asScalaTyped(m)
-  def snapshot() = underlying.snapshot() asScalaTyped(m)
+  def skip(n: Int) = underlying.skip(n) asScalaTyped
+  def snapshot() = underlying.snapshot() asScalaTyped
   // @todo Add fluid interface for sorting that doesn't require a DBObject
-  def sort(orderBy: DBObject) = underlying.sort(orderBy) asScalaTyped(m)
+  def sort(orderBy: DBObject) = underlying.sort(orderBy) asScalaTyped
   def toArray() = {
     //log.warning("WARNING: Converting a MongoDB Cursor to an Array incurs a huge memory and performance penalty (buffered network pointer vs. all in memory)")
     underlying.toArray() asScala
@@ -127,5 +127,5 @@ protected class ScalaTypedMongoCursor[A <: DBObject] (val underlying: DBCursor)(
     //log.warning("WARNING: Converting a MongoDB Cursor to an Array incurs a huge memory and performance penalty (buffered network pointer vs. all in memory)")
     underlying.toArray(min) asScala
   }
-  override def toString() =  "ScalaMongoCursor{Iterator[%s] with %d objects.}".format(m.toString, count)
+  override def toString() =  "ScalaMongoCursor{Iterator[_] with %d objects.}".format(count)
 }
