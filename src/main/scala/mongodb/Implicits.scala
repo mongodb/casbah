@@ -28,6 +28,8 @@ import gridfs._
 
 import com.mongodb._
 import scalaj.collection.Imports._
+
+import org.scala_tools.time.Imports._
 /**
  * <code>Implicits</code> object to expose implicit conversions to implementing classes
  * which facilitate more Scala-like functionality in Mongo.
@@ -204,6 +206,17 @@ object Implicits {
     }
     builder.get
   }
+  /**
+   * Implicit extension methods to convert Products to Mongo DBObject instances.
+   */
+  implicit def productAsDBObject(p: Product) = new {
+    /**
+     * Return a Mongo <code>DBObject</code> containing the Map values
+     * @return DBObject 
+     */
+    def asDBObject = productToMongoDBObject(p)
+  }
+
 
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
   implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
@@ -212,4 +225,14 @@ object Implicits {
   implicit def unwrapDBObj(in: ScalaDBObject): DBObject = in.underlying
     
 
+  /** Encoding hook for MongoDB To be able to persist JodaTime DateTime to MongoDB */
+  com.mongodb.Bytes.addEncodingHook(classOf[DateTime], new com.mongodb.Transformer {
+    val fmt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+
+    def transform(o: AnyRef): AnyRef = o match {
+      case d: DateTime => "\"%s\"".format(fmt.print(d))
+      case _ => o
+    }
+       
+  })
 }

@@ -1,5 +1,6 @@
 # use glob syntax
 syntax: glob
+project/build/target
 project/boot
 lib_managed
 # switch  to regexp syntax
