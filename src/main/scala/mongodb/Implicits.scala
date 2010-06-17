@@ -29,6 +29,8 @@ import query._
 import gridfs._
 
 import com.mongodb._
+import org.bson.{BSON, Transformer}
+
 import scalaj.collection.Imports._
 
 import org.scala_tools.time.Imports._
@@ -233,7 +235,7 @@ object Implicits extends FluidQueryBarewordOps {
     
 
   /** Encoding hook for MongoDB To be able to persist JodaTime DateTime to MongoDB */
-  com.mongodb.Bytes.addEncodingHook(classOf[DateTime], new com.mongodb.Transformer {
+  BSON.addEncodingHook(classOf[DateTime], new Transformer {
     val fmt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
 
     def transform(o: AnyRef): AnyRef = o match {

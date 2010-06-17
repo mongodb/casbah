@@ -28,7 +28,8 @@ package gridfs
 import Implicits._
 import util.Logging
 
-import com.mongodb.{DBObject, ObjectId}
+import org.bson.types._ // Base for BSON - ObjectId, etc come from here
+import com.mongodb.DBObject
 import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile, GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
 
 import java.io._ 

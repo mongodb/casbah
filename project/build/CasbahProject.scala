@@ -6,7 +6,7 @@ class CasbahProject(info: ProjectInfo) extends DefaultProject(info) {
   val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.RC3-SNAPSHOT"
   val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0.Beta1" % "1.0.Beta2"
 
-  val mongodb = "org.mongodb" % "mongo-java-driver" % "1.4"
+  val mongodb = "org.mongodb" % "mongo-java-driver" % "2.0"
 
   val scalaToolsRepo = "Scala Tools Release Repository" at "http://scala-tools.org/repo-releases"
   val scalaToolsSnapRepo = "Scala Tools Snapshot Repository" at "http://scala-tools.org/repo-snapshots"
