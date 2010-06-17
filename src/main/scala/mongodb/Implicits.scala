@@ -24,6 +24,8 @@
 package com.novus.casbah
 package mongodb
 
+import query._
+
 import gridfs._
 
 import com.mongodb._
@@ -52,7 +54,7 @@ import org.scala_tools.time.Imports._
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-object Implicits {
+object Implicits extends FluidQueryBarewordOps {
   type JSFunction = String
 
   /**
@@ -147,7 +149,8 @@ object Implicits {
    */
   implicit def mongoQueryStatements(left: String) = new {
     val field = left
-  } with QueryOperators
+  } with FluidQueryOperators
+
 
   /**
    * Implicit extension methods for Tuple2[String, DBObject] values
@@ -165,8 +168,12 @@ object Implicits {
    */
   implicit def mongoNestedQueryStatements(nested: Tuple2[String, DBObject]) = new {
     val field = nested._1
-  } with QueryOperators { dbObj = Some(nested._2) }
-
+  } with FluidQueryOperators { dbObj = Some(nested._2) }
+  
+  /*[>* For several of the items which are geared towards nested operations like $set/$unset,
+   * We tack other operators onto them for sanity.
+   <]
+   implicit def nestedQuerySet(nested: */
   /**
    * Hacky mildly absurd method for converting a <code>Product</code> (Example being any <code>Tuple</code>) to
    * a  Mongo <code>DBObject</code> on the fly to minimize spaghetti code from long builds of Maps or DBObjects.
@@ -235,4 +242,4 @@ object Implicits {
     }
        
   })
-}
+} 

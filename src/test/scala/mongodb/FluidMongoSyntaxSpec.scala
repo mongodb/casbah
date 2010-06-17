@@ -21,6 +21,8 @@ package com.novus.casbah
 package mongodb
 package test
 
+import util.Logging
+
 import Implicits._
 
 import com.mongodb._
@@ -28,7 +30,7 @@ import com.mongodb._
 import scalaj.collection.Imports._
 import org.scalatest.{GivenWhenThen, FeatureSpec}
 
-class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen {
+class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with Logging {
   feature("DBObject related syntax conversions.") {
     scenario("Products/Tuples can be cast to Mongo DBObjects.") {
       given("A tuple of tuple2s (a quirk of this syntax is that direct casting to DBObject doesn't work).")
@@ -99,6 +101,12 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen {
       val where = "foo" $where "function (x) { x.foo = 5; }"
       then("The implicit conversions provide a map-entry formatted Tuple-set matching the query.")
       assert(where == ("foo" -> new BasicDBObject("$where", "function (x) { x.foo = 5; }")))
+
+      given("A field, <NOT OPERATOR>, target statement, to negate statements")
+      // You must anchor the $not to the field.. but after that it will pickup any query syntax on itself.
+      val n = "foo".$not $gt 5 
+      log.info("Placeheld? %s containing %s - %s", n, n.get("foo").asInstanceOf[DBObject].get("$not").getClass, n.get("foo").asInstanceOf[DBObject].get("$not"))
+      and("Regular Expression matching functions as well.")
     }
     scenario("Operator chaining works.") {
       given("A field, <LESS THAN OPERATOR>, target statement")
@@ -127,8 +135,15 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen {
       assert(size == ("foo" -> new BasicDBObject("$exists", true).append("$size", 8)))
       given("A field, <MODULUS OPERATOR>, target statement")
       val mod = "foo" $exists true $mod 2
+      log.info("Mod: %s", mod)
       then("The implicit conversions provide a map-entry formatted Tuple-set matching the query.")
       assert(mod == ("foo" -> new BasicDBObject("$exists", true).append("$mod", 2)))
+      given("A field, <NOT OPERATOR>, target statement, to negate statements")
+      // this is a bogus statement but just tests that chained nesting works
+      val n = $set ("foo" -> 5, "bar" -> 25)
+      log.info("Chained Placeheld ? %s contains %s - %s", n, n.get("$set").getClass, n.get("$set"))
+      and("Regular Expression matching functions as well.")
     }
+
   }
 }

@@ -19,6 +19,9 @@
 
 package com.novus.casbah
 package mongodb
+package query
+
+import util.Logging
 
 import com.mongodb.{DBObject, BasicDBObjectBuilder}
 import scala.collection.JavaConversions._
@@ -31,25 +34,40 @@ import Implicits._
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-trait QueryOperators extends NotEqualsOp 
-                        with LessThanOp 
-                        with LessThanEqualOp 
-                        with GreaterThanOp 
-                        with GreaterThanEqualOp 
-                        with InOp 
-                        with NotInOp 
-                        with ModuloOp 
-                        with SizeOp 
-                        with ExistsOp 
-                        with AllOp 
-                        with WhereOp 
-                        with NotOp
-                        with ArrayOps
-                        with SetOp
-                        with UnsetOp
-                        with IncOp
+trait FluidQueryOperators extends NotEqualsOp 
+                             with LessThanOp 
+                             with LessThanEqualOp 
+                             with GreaterThanOp 
+                             with GreaterThanEqualOp 
+                             with InOp 
+                             with NotInOp 
+                             with ModuloOp 
+                             with SizeOp 
+                             with ExistsOp 
+                             with AllOp 
+                             with WhereOp 
+                             with NotOp
+                             with ArrayOps
+                             with IncOp
 
 
+trait ValueTestFluidQueryOperators extends LessThanOp 
+                                      with LessThanEqualOp 
+                                      with GreaterThanOp 
+                                      with GreaterThanEqualOp
+/*
+trait NestingFriendlyQueryOperators extends LessThanOp
+                                       with LessThanEqualOp
+                                       with GreaterThanOp
+                                       with GreaterThanEqualOp  
+                                       with Logging {
+  val field = null
+  protected val nested: DBObject
+  override def op(op: String, target: Any) = {
+    log.warning("Op: %s Target: %s DBObject: %s", op, target, dbObj)
+    ("" -> dbObj)
+  }
+}*/
 
 
 /**
@@ -80,19 +98,50 @@ sealed trait QueryOperator {
    * WARNING: This does NOT check that target is a serializable type.
    * That is, for the moment, your own problem.
    */
-  protected def op(op: String, target: Any) = {
-    dbObj match {
-      case Some(nested) => {
-        nested.put(op, target)
-        (field -> nested)
-      }
-      case None => {
-        val opMap = BasicDBObjectBuilder.start(op, target).get
-        (field -> opMap)
-      }
+  protected def op(op: String, target: Any) = dbObj match {
+    case Some(nested) => {
+      nested.put(op, target)
+      (field -> nested)
+    }
+    case None => {
+      val opMap = BasicDBObjectBuilder.start(op, target).get
+      (field -> opMap)
     }
   }
 }
+
+trait NestingQueryHelper extends QueryOperator with Logging {
+  import com.mongodb.BasicDBObject
+  val oper: String
+  val _dbObj: Option[DBObject]
+  dbObj = _dbObj
+  //Some(new com.mongodb.BasicDBObject(oper, ref))
+  //dbObj = //_dbObj
+
+  log.info("Instantiated Nesting Helper")
+  override protected def op(op: String, target: Any) = {
+    val entry = new BasicDBObject(oper, new BasicDBObject(op, target))
+    dbObj = dbObj match {
+      case Some(nested) => nested.put(oper, entry); Some(nested)
+      case None => Some(entry)
+    }
+    dbObj map { o => field -> o } head
+  }
+
+  def apply(target: Any) = { 
+    log.info("Apply - %s", target)
+    target match {
+      case sRE: scala.util.matching.Regex => op(field, sRE.pattern) 
+      case jRE: java.util.regex.Pattern => op(field, jRE)
+      case _ => {
+        // assume it's some other item we need to nest.
+        op(field, target)
+      }
+    }
+  }
+
+}
+
 
 /**
  * Trait to provide the $ne (Not Equal To) method on appropriate callers.
@@ -163,6 +212,7 @@ trait GreaterThanOp extends QueryOperator {
   def $gt(target: AnyVal) = op("$gt", target)
   def $gt(target: DBObject) = op("$gt", target)
   def $gt(target: Map[String, Any]) = op("$gt", target.asDBObject)
+  def $gt_:(target: Any) = op("$gt", target) 
 }
 
 /**
@@ -298,7 +348,6 @@ trait ExistsOp extends QueryOperator {
 trait WhereOp extends QueryOperator {
   def $where(target: JSFunction) = op("$where", target)
 }
-
 /**
  * Trait to provide the $not (Not) negation method on appropriate callers.
  *
@@ -308,8 +357,13 @@ trait WhereOp extends QueryOperator {
  * @version 1.0
  */
 trait NotOp extends QueryOperator {
-  def $not(target: DBObject) = op("$not", target)
-  def $not(target: scala.util.matching.Regex) = op("$not", target.pattern) // dump the java regex which mongo will understand in
+  /** Callbackey Nesting placeholding object for targetting correctly*/
+  case class NotOpNester(val field: String, _dbObj: Option[DBObject]) extends NestingQueryHelper 
+                                                                         with ValueTestFluidQueryOperators {
+    val oper = "$not"
+  }
+
+  def $not = NotOpNester(field, dbObj)
 }
 
 /**
@@ -323,31 +377,6 @@ trait NotOp extends QueryOperator {
 trait IncOp extends QueryOperator {
   def $inc(target: DBObject) = op("$inc", target)
 }
-
-/**
- * Trait to provide the $set (Set) Set method on appropriate callers.
- *
- * Targets (takes a right-hand value of) DBObject  
- *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0
- */
-trait SetOp extends QueryOperator {
-  def $set(target: DBObject) = op("$set", target)
-}
-
-/**
- * Trait to provide the $unset (UnSet) UnSet method on appropriate callers.
- *
- * Targets (takes a right-hand value of) DBObject  
- *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0
- */
-trait UnsetOp extends QueryOperator {
-  def $unset(target: DBObject) = op("$unset", target)
-}
-
 
 trait ArrayOps extends PushOp
                   with PushAllOp

@@ -17,3 +17,11 @@ actions
 test
 actions
 test
+~test
+~test-only com.novus.casbah.mongodb.test.FluidMongoSyntaxSpec
+clean
+test
+~test-only com.novus.casbah.mongodb.test.FluidMongoSyntaxSpec
+test-only com.novus.casbah.mongodb.test.FluidMongoSyntaxSpec
+clean
+test

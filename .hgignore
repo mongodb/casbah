@@ -3,6 +3,8 @@ syntax: glob
 project/build/target
 project/boot
 lib_managed
+**/*.swp
+**/*.swo
 # switch  to regexp syntax
 syntax: regexp
 target/classes/*
