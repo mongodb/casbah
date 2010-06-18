@@ -102,33 +102,80 @@ class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[Gr
   /**
    * apply methods with a file input create...
    */
-   def apply(data: scala.io.Source): GridFSInputFile = createFile(data)
+   //def apply(data: scala.io.Source): GridFSInputFile = createFile(data)
+   /**
+    * Create a new GridFS File from a scala.io.Source
+    * 
+    * Uses a loan pattern, so you need to pass a curried function which expects a GridFSInputFile
+    * as a parameter.
+    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
+    * If you don't want automatic saving/loaning please see the createFile method instead.
+    * @see createFile 
+    */
    def apply(data: scala.io.Source)(op: FileWriteOp) = withNewFile(data)(op)
-   def apply(data: Array[Byte]) = createFile(data)
+   //def apply(data: Array[Byte]) = createFile(data)
+   /**
+    * Create a new GridFS File from a Byte Array
+    * 
+    * Uses a loan pattern, so you need to pass a curried function which expects a GridFSInputFile
+    * as a parameter.
+    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
+    * If you don't want automatic saving/loaning please see the createFile method instead.
+    * @see createFile 
+    */
    def apply(data: Array[Byte])(op: FileWriteOp) = withNewFile(data)(op)
-   def apply(f: File) = createFile(f)
+   //def apply(f: File) = createFile(f)
+   /**
+    * Create a new GridFS File from a java.io.File
+    * 
+    * Uses a loan pattern, so you need to pass a curried function which expects a GridFSInputFile
+    * as a parameter.
+    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
+    * If you don't want automatic saving/loaning please see the createFile method instead.
+    * @see createFile 
+    */
    def apply(f: File)(op: FileWriteOp) = withNewFile(f)(op)
-   def apply(in: InputStream) = createFile(in)
+   //def apply(in: InputStream) = createFile(in)
+   /**
+    * Create a new GridFS File from a java.io.InputStream
+    * 
+    * Uses a loan pattern, so you need to pass a curried function which expects a GridFSInputFile
+    * as a parameter.
+    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
+    * If you don't want automatic saving/loaning please see the createFile method instead.
+    * @see createFile 
+    */
    def apply(in: InputStream)(op: FileWriteOp) = withNewFile(in)(op)
-   def apply(in: InputStream, filename: String) = createFile(in, filename)
+   //def apply(in: InputStream, filename: String) = createFile(in, filename)
+   /**
+    * Create a new GridFS File from a java.io.InputStream and a specific filename
+    * 
+    * Uses a loan pattern, so you need to pass a curried function which expects a GridFSInputFile
+    * as a parameter.
+    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
+    * If you don't want automatic saving/loaning please see the createFile method instead.
+    * @see createFile 
+    */
    def apply(in: InputStream, filename: String)(op: FileWriteOp) = withNewFile(in, filename)(op)
 
 
    /** 
     * createFile
     * 
-    * Creates a new file in GridFS with the 
+    * Creates a new file in GridFS
+    * 
+    * TODO - Should the curried versions give the option to not automatically save?
     */
    def createFile(data: scala.io.Source): GridFSInputFile = throw new UnsupportedOperationException("Currently no support for scala.io.Source")
    def withNewFile(data: scala.io.Source)(op: FileWriteOp) = throw new UnsupportedOperationException("Currently no support for scala.io.Source")
    def createFile(data: Array[Byte]): GridFSInputFile = underlying.createFile(data)
-   def withNewFile(data: Array[Byte])(op: FileWriteOp) { loan(createFile(data))(op) }
+   def withNewFile(data: Array[Byte])(op: FileWriteOp) { loan(createFile(data))({ fh => op(fh); fh.save } ) }
    def createFile(f: File): GridFSInputFile = underlying.createFile(f)
-   def withNewFile(f: File)(op: FileWriteOp) { loan(createFile(f))(op) }
+   def withNewFile(f: File)(op: FileWriteOp) { loan(createFile(f))({ fh => op(fh); fh.save }) }
    def createFile(in: InputStream): GridFSInputFile = underlying.createFile(in)
-   def withNewFile(in: InputStream)(op: FileWriteOp) { loan(createFile(in))(op) }
+   def withNewFile(in: InputStream)(op: FileWriteOp) { loan(createFile(in))({ fh => op(fh); fh.save }) }
    def createFile(in: InputStream, filename: String): GridFSInputFile = underlying.createFile(in, filename)
-   def withNewFile(in: InputStream, filename: String)(op: FileWriteOp) { loan(createFile(in, filename))(op) }
+   def withNewFile(in: InputStream, filename: String)(op: FileWriteOp) { loan(createFile(in, filename))({ fh => op(fh); fh.save }) }
 
    /** Find by query - returns a list */
    def find(query: DBObject) = underlying.find(query).asScala
@@ -188,6 +235,9 @@ trait GridFSFile extends MongoDBObject with Logging {
 @BeanInfo
 class GridFSDBFile protected[mongodb](override val underlying: MongoGridFSDBFile) extends GridFSFile 
 @BeanInfo
-class GridFSInputFile protected[mongodb](override val underlying: MongoGridFSInputFile) extends GridFSFile
+class GridFSInputFile protected[mongodb](override val underlying: MongoGridFSInputFile) extends GridFSFile {
+  def filename_=(name: String) = underlying.setFilename(name)
+  def contentType_=(cT: String) = underlying.setContentType(cT)
+}
 
 // vim: set ts=2 sw=2 sts=2 et:
