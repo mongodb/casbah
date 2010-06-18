@@ -6,9 +6,9 @@ lib_managed
 **/*.swp
 **/*.swo
 tags
+target/**/*classes/*
+target/**/*analysis/*
+target/**/*resources/*
 # switch  to regexp syntax
 syntax: regexp
-target/classes/*
-target/test-classes/*
 project/build/target/*
-target

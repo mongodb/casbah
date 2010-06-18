@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>Scaladoc for com.novus.casbah.mongodb.query</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		      <script type="text/javascript" src="../../../../../lib/jquery.js"></script>
+          
+      <link href="../../../../../lib/template.css" rel="stylesheet" type="text/css" media="screen" />
+      <script type="text/javascript" src="../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body class="value">
+
+      <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.novus">novus</a>.<a href="../../package.html" class="extype" name="com.novus.casbah">casbah</a>.<a href="../package.html" class="extype" name="com.novus.casbah.mongodb">mongodb</a></p>
+
+      <div id="definition">
+        <img src="../../../../../lib/package_big.png" />
+        <h1>query</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="kind">package</span>
+      <span class="symbol">
+        <span class="name">query</span>
+      </span>
+      </h4>
+      <div class="fullcomment" id="comment"></div>
+      
+      <div id="template">
+
+        <div id="mbrsel">
+          
+          <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in">Public</li><li class="all out">All</li></ol>
+          </div>
+        </div>
+        
+                
+        
+        <div class="members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="com.novus.casbah.mongodb.query.AddToSetOp">
+      <h4 class="signature"><a href="AddToSetOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">AddToSetOp</span><span class="result"> extends BarewordQueryOperator</span>
+      </span>
+      </a></h4>
+      
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.AllOp">
+      <h4 class="signature"><a href="AllOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">AllOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $all (Match ALL In Array) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.ArrayOps">
+      <h4 class="signature"><a href="ArrayOps.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">ArrayOps</span><span class="result"> extends PushOp with PushAllOp with AddToSetOp with PopOp with PullOp with PullAllOp</span>
+      </span>
+      </a></h4>
+      
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.BarewordQueryOperator">
+      <h4 class="signature"><a href="BarewordQueryOperator.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">BarewordQueryOperator</span><span class="result"> extends Logging</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Base Operator class for Bareword Operators.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.ExistsOp">
+      <h4 class="signature"><a href="ExistsOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">ExistsOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $exists (Exists) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.FluidQueryBarewordOps">
+      <h4 class="signature"><a href="FluidQueryBarewordOps.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">FluidQueryBarewordOps</span><span class="result"> extends SetOp with UnsetOp with IncOp with ArrayOps</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Aggregation object for Bareword Operators.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.FluidQueryOperators">
+      <h4 class="signature"><a href="FluidQueryOperators.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">FluidQueryOperators</span><span class="result"> extends NotEqualsOp with LessThanOp with LessThanEqualOp with GreaterThanOp with GreaterThanEqualOp with InOp with NotInOp with ModuloOp with SizeOp with ExistsOp with AllOp with WhereOp with NotOp</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Mixed trait which provides all possible
+operators.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.GreaterThanEqualOp">
+      <h4 class="signature"><a href="GreaterThanEqualOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">GreaterThanEqualOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $gte (Greater Than Or Equal To) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.GreaterThanOp">
+      <h4 class="signature"><a href="GreaterThanOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">GreaterThanOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $gt (Greater Than) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.InOp">
+      <h4 class="signature"><a href="InOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">InOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $in (In Array) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.IncOp">
+      <h4 class="signature"><a href="IncOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">IncOp</span><span class="result"> extends BarewordQueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $unset (UnSet) UnSet method as a bareword operator.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.LessThanEqualOp">
+      <h4 class="signature"><a href="LessThanEqualOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">LessThanEqualOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $lte (Less Than Or Equal To) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.LessThanOp">
+      <h4 class="signature"><a href="LessThanOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">LessThanOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $lt (Less Than) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.ModuloOp">
+      <h4 class="signature"><a href="ModuloOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">ModuloOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $mod (Modulo) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.NestingQueryHelper">
+      <h4 class="signature"><a href="NestingQueryHelper.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">NestingQueryHelper</span><span class="result"> extends QueryOperator with Logging</span>
+      </span>
+      </a></h4>
+      
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.NotEqualsOp">
+      <h4 class="signature"><a href="NotEqualsOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">NotEqualsOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $ne (Not Equal To) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.NotInOp">
+      <h4 class="signature"><a href="NotInOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">NotInOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $nin (NOT In Array) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.NotOp">
+      <h4 class="signature"><a href="NotOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">NotOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $not (Not) negation method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.PopOp">
+      <h4 class="signature"><a href="PopOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">PopOp</span><span class="result"> extends BarewordQueryOperator</span>
+      </span>
+      </a></h4>
+      
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.PullAllOp">
+      <h4 class="signature"><a href="PullAllOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">PullAllOp</span><span class="result"> extends BarewordQueryOperator</span>
+      </span>
+      </a></h4>
+      
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.PullOp">
+      <h4 class="signature"><a href="PullOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">PullOp</span><span class="result"> extends BarewordQueryOperator</span>
+      </span>
+      </a></h4>
+      
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.PushAllOp">
+      <h4 class="signature"><a href="PushAllOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">PushAllOp</span><span class="result"> extends BarewordQueryOperator</span>
+      </span>
+      </a></h4>
+      
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.PushOp">
+      <h4 class="signature"><a href="PushOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">PushOp</span><span class="result"> extends BarewordQueryOperator</span>
+      </span>
+      </a></h4>
+      
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.QueryOperator">
+      <h4 class="signature"><a href="QueryOperator.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">QueryOperator</span><span class="result"> extends AnyRef</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Base trait for QueryOperators, children
+are required to define a value for field, which is a String
+and refers to the left-hand of the Query (e.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.SetOp">
+      <h4 class="signature"><a href="SetOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">SetOp</span><span class="result"> extends BarewordQueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $set (Set) Set method as a bareword operator.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.SizeOp">
+      <h4 class="signature"><a href="SizeOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">SizeOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $size (Size) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.UnsetOp">
+      <h4 class="signature"><a href="UnsetOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">UnsetOp</span><span class="result"> extends BarewordQueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $unset (UnSet) UnSet method as a bareword operator.</p>
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.ValueTestFluidQueryOperators">
+      <h4 class="signature"><a href="ValueTestFluidQueryOperators.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">ValueTestFluidQueryOperators</span><span class="result"> extends LessThanOp with LessThanEqualOp with GreaterThanOp with GreaterThanEqualOp</span>
+      </span>
+      </a></h4>
+      
+    </li><li visbl="pub" name="com.novus.casbah.mongodb.query.WhereOp">
+      <h4 class="signature"><a href="WhereOp.html">
+      <span class="kind">trait</span>
+      <span class="symbol">
+        <span class="name">WhereOp</span><span class="result"> extends QueryOperator</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Trait to provide the $where (Where) method on appropriate callers.</p>
+    </li></ol>
+            </div>
+        
+        
+                
+      </div>
+      
+      <div id="tooltip"></div>
+      
+    </body>
+      </html>
