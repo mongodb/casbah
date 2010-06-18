@@ -29,6 +29,8 @@ import scalaj.collection.Imports._
 import Implicits._
 
 
+class MapReduceError(msg: String) extends Error("MongoDB Map/Reduce Error: " + msg)
+
 /**
  * Wrapper Object to provide apply methods for the MapReduceCommand class.
  *
@@ -99,20 +101,20 @@ class MapReduceCommand {
   def toDBObj = {
     val dataObj = BasicDBObjectBuilder.start
     collection match {
-      case "" => throw new NotDefinedError("collection must be defined.")
-      case null => throw new NotDefinedError("collection must be defined.")
+      case "" => throw new MapReduceError("collection must be defined.")
+      case null => throw new MapReduceError("collection must be defined.")
       case other => dataObj.add("mapreduce", collection)
     }
 
     mapFunction match {
-      case "" => throw new NotDefinedError("mapFunction must be defined.")
-      case null => throw new NotDefinedError("mapFunction must be defined.")
+      case "" => throw new MapReduceError("mapFunction must be defined.")
+      case null => throw new MapReduceError("mapFunction must be defined.")
       case other => dataObj.add("map", mapFunction.toString)
     }
 
     reduceFunction match {
-      case "" => throw new NotDefinedError("reduceFunction must be defined.")
-      case null => throw new NotDefinedError("reduceFunction must be defined.")
+      case "" => throw new MapReduceError("reduceFunction must be defined.")
+      case null => throw new MapReduceError("reduceFunction must be defined.")
       case other => dataObj.add("reduce", reduceFunction.toString)
     }
 

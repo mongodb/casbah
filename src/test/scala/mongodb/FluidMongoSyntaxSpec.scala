@@ -27,7 +27,7 @@ import Implicits._
 
 import com.mongodb._
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConversions._
 import org.scalatest.{GivenWhenThen, FeatureSpec}
 import org.scalatest.matchers.ShouldMatchers
 
@@ -105,9 +105,42 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
 
       given("A field, <NOT OPERATOR>, target statement, to negate statements")
       // You must anchor the $not to the field.. but after that it will pickup any query syntax on itself.
-      val n = "foo".$not $gt 5 
-      log.info("Placeheld? %s containing %s - %s", n, n.get("foo").asInstanceOf[DBObject].get("$not").getClass, n.get("foo").asInstanceOf[DBObject].get("$not"))
+      val not = "foo".$not $gt 5 
+      then("The implicit conversions provide a properly tiered DBObject matching the expected query.")
+      assert(not == ("foo" -> new BasicDBObject("$not", new BasicDBObject("$gt", 5))))
+      //log.info("Placeheld? %s containing %s - %s", no, n.get("foo").asInstanceOf[DBObject].get("$not").getClass, n.get("foo").asInstanceOf[DBObject].get("$not"))
       and("Regular Expression matching functions as well.")
+
+      given("A <SET OPERATOR>, a field & value")
+      then("A proper DBObject is returned with the expected data")
+      val set = $set ("foo" -> 5)
+      assert(set == Map("$set" -> Map("foo" -> 5).asDBObject).asDBObject)
+      and("Setting multiple values functions as well")
+      val setMulti = $set ("foo" -> 5, "bar" -> "N", "spam" -> "eggs")
+      setMulti should be (Map("$set" -> Map("foo" -> 5, "bar" -> "N", "spam" -> "eggs").asDBObject).asDBObject)
+
+      given("An <UNSET OPERATOR>, and a field")
+      then("A proper DBObject is returned, with an appropriate dataset")
+      val unset = $unset ("foo")
+      unset should be (Map("$unset" -> Map("foo" -> 1).asDBObject).asDBObject)
+      and("Setting multiple values functions as well")
+      val unsetMulti = $unset ("foo", "bar", "baz", "spam", "eggs")
+      unsetMulti should be (Map("$unset" -> Map("foo" -> 1, "bar" -> 1, "baz" -> 1, "spam" -> 1, "eggs" -> 1).asDBObject).asDBObject)
+
+      given("An <INCREMENT OPERATOR> and a field + value")
+      then("A proper increment DBObject is returned with an appropriate dataset")
+      val inc = $inc ("foo" -> 1)
+      inc should be (Map("$inc" -> Map("foo" -> 1).asDBObject).asDBObject)
+      and("Multiple fields works")
+      val incMulti = $inc ("foo" -> 5.0, "bar" -> 1.2, "spam" -> 212.0)
+      incMulti should be (Map("$inc" ->  Map("foo" -> 5, "bar" -> 1.2, "spam" -> 212.0).asDBObject).asDBObject)
+      //TODO - Finish testing array operators
+      given("A PushAll Operator")
+      then("It should return a structured object of the appropriate type.")
+      /*val pushAll = $pushAll ("foo" -> Array(5, 10, 12, "foo"))
+      log.info("Push All: %s", pushAll.get("$pushAll").asInstanceOf[DBObject].get("foo").getClass)
+      pushAll should be (Map("$pushAll" -> Map("foo" -> Array(5, 10, 12, "foo")).asDBObject).asDBObject)*/
+
     }
     scenario("Operator chaining works.") {
       given("A field, <LESS THAN OPERATOR>, target statement")
@@ -140,10 +173,6 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
       then("The implicit conversions provide a map-entry formatted Tuple-set matching the query.")
       assert(mod == ("foo" -> new BasicDBObject("$exists", true).append("$mod", 2)))
       given("A field, <NOT OPERATOR>, target statement, to negate statements")
-      // this is a bogus statement but just tests that chained nesting works
-      val n = $set ("foo" -> 5, "bar" -> 25)
-      log.info("Chained Placeheld ? %s contains %s - %s", n, n.get("$set").getClass, n.get("$set"))
-      and("Regular Expression matching functions as well.")
     }
 
   }

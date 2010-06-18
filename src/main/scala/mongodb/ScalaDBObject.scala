@@ -76,7 +76,8 @@ trait ScalaDBObject extends Map[String, Object] with Logging {
     
   /* Methods needed in order to be a proper DBObject */
   def containsField(s: String) = underlying.containsField(s)
-  def containsKey(s: String) = underlying.containsKey(s)
+  @deprecated("containsKey is deprecated in the MongoDB Driver. You should use containsField instead.")
+  def containsKey(s: String) = underlying.containsField(s) // method kept for backwards compatibility
   //def get(s: String) = underlying.get(s)
   def isPartialObject = underlying.isPartialObject
   def markAsPartialObject = underlying.markAsPartialObject
