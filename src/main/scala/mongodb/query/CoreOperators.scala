@@ -47,8 +47,6 @@ trait FluidQueryOperators extends NotEqualsOp
                              with AllOp 
                              with WhereOp 
                              with NotOp
-                             with ArrayOps
-                             with IncOp
 
 
 trait ValueTestFluidQueryOperators extends LessThanOp 
@@ -364,98 +362,5 @@ trait NotOp extends QueryOperator {
   }
 
   def $not = NotOpNester(field, dbObj)
-}
-
-/**
- * Trait to provide the $inc (Inc) increment method on appropriate callers.
- *
- * Targets (takes a right-hand value of) DBObject  
- *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0
- */
-trait IncOp extends QueryOperator {
-  def $inc(target: DBObject) = op("$inc", target)
-}
-
-trait ArrayOps extends PushOp
-                  with PushAllOp
-                  with AddToSetOp
-                  with PopOp
-                  with PullOp
-                  with PullAllOp
-
-/**
- * Trait to provide the $push (push) push method on appropriate callers.
- *
- * Targets (takes a right-hand value of) DBObject  
- *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0
- */
-trait PushOp extends QueryOperator {
-  def $push(target: DBObject) = op("$push", target)
-}
-
-/**
- * Trait to provide the $pushAll (pushAll) pushAll method on appropriate callers.
- *
- * Targets (takes a right-hand value of) DBObject  
- *
- * TODO: Value of the dbobject should be an array - verify target
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0
- */
-trait PushAllOp extends QueryOperator {
-  def $pushAll(target: DBObject) = op("$pushAll", target)
-}
-
-/**
- * Trait to provide the $addToSet (addToSet) addToSet method on appropriate callers.
- *
- * Targets (takes a right-hand value of) DBObject  
- *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0
- */
-trait AddToSetOp extends QueryOperator {
-  def $addToSet(target: DBObject) = op("$addToSet", target)
-}
-
-/**
- * Trait to provide the $pop (pop) pop method on appropriate callers.
- *
- * Targets (takes a right-hand value of) DBObject  
- *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0
- */
-trait PopOp extends QueryOperator {
-  def $pop(target: DBObject) = op("$pop", target)
-}
-
-/**
- * Trait to provide the $push (push) push method on appropriate callers.
- *
- * Targets (takes a right-hand value of) DBObject  
- *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0
- */
-trait PullOp extends QueryOperator {
-  def $pull(target: DBObject) = op("$pull", target)
-}
-
-/**
- * Trait to provide the $pushAll (pushAll) pushAll method on appropriate callers.
- *
- * Targets (takes a right-hand value of) DBObject  
- *
- * TODO: Value of the dbobject should be an array - verify target
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0
- */
-trait PullAllOp extends QueryOperator {
-  def $pullAll(target: DBObject) = op("$pullAll", target)
 }
 

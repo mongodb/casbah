@@ -5,6 +5,7 @@ project/boot
 lib_managed
 **/*.swp
 **/*.swo
+tags
 # switch  to regexp syntax
 syntax: regexp
 target/classes/*

@@ -30,33 +30,82 @@ import util.Logging
 import com.mongodb.{DBObject, BasicDBObjectBuilder}
 import scala.collection.JavaConversions._
 
+
+case class DefaultRValue(default: Any)
+
+
+/** 
+ * Base Operator class for Bareword Operators.
+ * 
+ * Bareword operators stand on their own - they lack the requirement for an LValue.
+ * 
+ * Operator implementations (see SetOp for an example) should partially apply apply with just their operator name.
+ * The apply method's type parameter can be used to restrict the valid RValue values at will.  
+ * 
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0, 06/17/10
+ * @since 1.0
+ * @see SetOp
+ */
 trait BarewordQueryOperator extends Logging {
   import com.mongodb.{BasicDBObject, BasicDBObjectBuilder}
   log.info("Instantiated SetterLike QueryHelper")
 
-  def apply(oper: String)(fields: (String, Any)*) = { 
-    log.info("Apply - %s", fields)
+  def apply[A : Manifest](oper: String, defaultRVal: DefaultRValue = DefaultRValue(None))(fields: A*) = {
+    val m = manifest[A]
+    log.info("Apply - %s (Manifest: %s)", fields, m.erasure)
     val bldr = new BasicDBObjectBuilder
-    for ((k, v) <- fields) bldr.add(k, v)
+    defaultRVal match {
+      // Assume without defaulting they're passing a pair in. TODO - fix this check for sanity
+      case DefaultRValue(x @ None) => 
+        if (m <:< manifest[Tuple2[String, _]]) 
+          for ((k, v) <- fields) bldr.add(k.asInstanceOf[String], v) 
+        else 
+          throw new IllegalArgumentException("Internal Error: BarewordQueryOperator() must be invoked with a Tuple2[String, _]. If you intended to not use a tuple you must pass an explicit instance of DefaultRValue.")
+      // If defaulting is set, it's not a pair
+      case DefaultRValue(default) =>
+        if (m <:< manifest[String]) 
+          for (k <- fields) bldr.add(k.asInstanceOf[String], default);
+        else 
+          throw new IllegalArgumentException("Internal Error: BarewordQueryOperator() with a DefaultRValue must be invoked with a String for it's Type arg.")
+    }
     new BasicDBObject(oper, bldr.get)
   }
 
 }
+
+/** 
+ * Aggregation object for Bareword Operators.
+ * Bareword operators stand on their own - they lack the requirement for an LValue.
+ * This mixes them in so they can be pulled down in a single import.
+ *
+ * Typically, you want to follow the model Implicits does, and mix this in
+ * if you want to use it but not import Implicits
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0, 06/17/10
+ * @since 1.0
+ * @see com.novus.casbah.mongodb.Implicits
+ */
+trait FluidQueryBarewordOps extends SetOp 
+                               with UnsetOp
+                               with IncOp
+
 
 /**
  * Trait to provide the $set (Set) Set method on appropriate callers.
  * 
  * Also provides a reversed version so you can bareword it such as:
  * 
- * $set_:("Foo" -> "bar")
+ * $set ("Foo" -> "bar")
  *
- * Targets (takes a right-hand value of) DBObject  
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject  
  *
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
 trait SetOp extends BarewordQueryOperator {
-  implicit def $set = apply("$set")_
+  implicit def $set = apply[(String, Any)]("$set")_
 }
 
 /**
@@ -64,20 +113,128 @@ trait SetOp extends BarewordQueryOperator {
  *
  * Also provides a reversed version so you can bareword it such as:
  * 
- * $unset:("Foo" -> "bar")
+ * $unset "foo"
  *
- * Targets (takes a right-hand value of) DBObject  
+ * Targets an RValue of String*, where String are field names to be converted to a  DBObject  
  *
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
 trait UnsetOp extends BarewordQueryOperator {
-  implicit def $unset = apply("$unset")_
+  implicit def $unset = apply[String]("$unset")_
 }
 
-trait FluidQueryBarewordOps extends SetOp 
-                               with UnsetOp
 
+/** 
+ * Trait to provide the $unset (UnSet) UnSet method on appropriate callers.
+ *
+ * Also provides a reversed version so you can bareword it such as:
+ * 
+ * $inc ("foo" -> 5)
+ *
+ * Targets an RValue of (String, Numeric)* to be converted to a  DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0, 06/17/10
+ * @since 1.0
+ */
+trait IncOp extends BarewordQueryOperator {
+  //implicit def $inc[T: Manifest]()(implicit numeric: Numeric[T]) = apply[T]("$inc", DefaultRValue(1))_
+}
 
+/*
+[>*
+ * Trait to provide the $inc (Inc) increment method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ <]
+trait IncOp extends QueryOperator {
+  def $inc(target: DBObject) = op("$inc", target)
+}
+
+trait ArrayOps extends PushOp
+                  with PushAllOp
+                  with AddToSetOp
+                  with PopOp
+                  with PullOp
+                  with PullAllOp
+
+[>*
+ * Trait to provide the $push (push) push method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ <]
+trait PushOp extends QueryOperator {
+  def $push(target: DBObject) = op("$push", target)
+}
+
+[>*
+ * Trait to provide the $pushAll (pushAll) pushAll method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * TODO: Value of the dbobject should be an array - verify target
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ <]
+trait PushAllOp extends QueryOperator {
+  def $pushAll(target: DBObject) = op("$pushAll", target)
+}
+
+[>*
+ * Trait to provide the $addToSet (addToSet) addToSet method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ <]
+trait AddToSetOp extends QueryOperator {
+  def $addToSet(target: DBObject) = op("$addToSet", target)
+}
+
+[>*
+ * Trait to provide the $pop (pop) pop method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ <]
+trait PopOp extends QueryOperator {
+  def $pop(target: DBObject) = op("$pop", target)
+}
+
+[>*
+ * Trait to provide the $push (push) push method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ <]
+trait PullOp extends QueryOperator {
+  def $pull(target: DBObject) = op("$pull", target)
+}
+
+[>*
+ * Trait to provide the $pushAll (pushAll) pushAll method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) DBObject  
+ *
+ * TODO: Value of the dbobject should be an array - verify target
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0
+ <]
+trait PullAllOp extends QueryOperator {
+  def $pullAll(target: DBObject) = op("$pullAll", target)
+}
+*/
 
 // vim: set ts=2 sw=2 sts=2 et:

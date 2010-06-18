@@ -29,8 +29,9 @@ import com.mongodb._
 
 import scalaj.collection.Imports._
 import org.scalatest.{GivenWhenThen, FeatureSpec}
+import org.scalatest.matchers.ShouldMatchers
 
-class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with Logging {
+class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers with Logging {
   feature("DBObject related syntax conversions.") {
     scenario("Products/Tuples can be cast to Mongo DBObjects.") {
       given("A tuple of tuple2s (a quirk of this syntax is that direct casting to DBObject doesn't work).")
