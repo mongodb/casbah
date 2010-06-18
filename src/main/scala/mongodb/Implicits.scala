@@ -244,4 +244,15 @@ object Implicits extends FluidQueryBarewordOps {
     }
        
   })
+  
+  /** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/
+
+  BSON.addEncodingHook(classOf[scala.util.matching.Regex], new Transformer {
+
+    def transform(o: AnyRef): AnyRef = o match {
+      case sRE: scala.util.matching.Regex => sRe.pattern
+      case _ => o
+    }
+       
+  })
 } 
