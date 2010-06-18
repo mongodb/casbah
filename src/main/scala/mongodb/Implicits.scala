@@ -250,7 +250,7 @@ object Implicits extends FluidQueryBarewordOps {
   BSON.addEncodingHook(classOf[scala.util.matching.Regex], new Transformer {
 
     def transform(o: AnyRef): AnyRef = o match {
-      case sRE: scala.util.matching.Regex => sRe.pattern
+      case sRE: scala.util.matching.Regex => sRE.pattern
       case _ => o
     }
        

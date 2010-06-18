@@ -145,7 +145,7 @@ trait UnsetOp extends BarewordQueryOperator {
  * @since 1.0
  */
 trait IncOp extends BarewordQueryOperator {
-  def $inc[T](args: (String, T)*)(implicit numeric: Numeric[T]) = apply[T]("$inc")(args: _*)
+  def $inc[T : Numeric](args: (String, T)*) = apply[T]("$inc")(args: _*)
 }
 
 trait ArrayOps extends PushOp
