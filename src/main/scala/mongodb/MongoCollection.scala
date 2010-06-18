@@ -40,7 +40,7 @@ import collection.mutable.ArrayBuffer
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-trait ScalaMongoCollectionWrapper extends Logging {
+trait MongoCollectionWrapper extends Logging {
   /**
    * The underlying Java Mongo Driver Collection object we proxy.
    */
@@ -213,7 +213,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
   def setInternalClass(path: String, c: Class[_]) = underlying.setInternalClass(path, c)
   def setObjectClass[A <: DBObject](c: Class[A])(implicit m: scala.reflect.Manifest[A]) = {
     underlying.setObjectClass(c)
-    new ScalaTypedMongoCollection[A](underlying)
+    new MongoTypedCollection[A](underlying)
   }
   def setWriteConcern(concern: DB.WriteConcern) = underlying.setWriteConcern(concern)
   override def toString() = underlying.toString
@@ -221,7 +221,7 @@ trait ScalaMongoCollectionWrapper extends Logging {
   def update(q: DBObject, o: DBObject, upsert: Boolean, multi: Boolean) = underlying.update(q, o, upsert, multi)
   def updateMulti(q: DBObject, o: DBObject) = underlying.updateMulti(q, o)
   override def equals(obj: Any) = obj match {
-    case other: ScalaMongoCollectionWrapper => underlying.equals(other.underlying)
+    case other: MongoCollectionWrapper => underlying.equals(other.underlying)
     case _ => false
   }
 
@@ -296,15 +296,15 @@ trait ScalaMongoCollectionWrapper extends Logging {
  *
  * @param underlying DBCollection object to proxy
  */
-class ScalaMongoCollection(val underlying: DBCollection) extends ScalaMongoCollectionWrapper with Iterable[DBObject] {
+class MongoCollection(val underlying: DBCollection) extends MongoCollectionWrapper with Iterable[DBObject] {
 
 /*  def this(coll: DBCollection) = {
     this()
     underlying = coll
   }*/
 
-  override def elements: ScalaMongoCursor  = find
-  override def iterator: ScalaMongoCursor  = find
+  override def elements: MongoCursor  = find
+  override def iterator: MongoCursor  = find
   def find() = underlying.find.asScala
   def find(ref: DBObject) = underlying.find(ref) asScala
   def find(ref: DBObject, keys: DBObject) = underlying.find(ref, keys) asScala
@@ -336,7 +336,8 @@ class ScalaMongoCollection(val underlying: DBCollection) extends ScalaMongoColle
  * @param underlying DBCollection object to proxy
  * @param m Manifest[A] representing the erasure for the underlying type - used to get around the JVM's insanity
  */
-class ScalaTypedMongoCollection[A <: DBObject](val underlying: DBCollection)(implicit m: scala.reflect.Manifest[A]) extends Iterable[A] with ScalaMongoCollectionWrapper {
+class MongoTypedCollection[A <: DBObject](val underlying: DBCollection)(implicit m: scala.reflect.Manifest[A]) extends Iterable[A] 
+                                                                                                                  with MongoCollectionWrapper {
   type UnderlyingObj = A
 
   log.debug("Manifest erasure: " + m.erasure)

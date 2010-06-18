@@ -67,9 +67,9 @@ object Implicits extends FluidQueryBarewordOps {
   implicit def mongoConnAsScala(conn: Mongo) = new {
    /**
     * Return a type-neutral Scala Wrapper object for the Connection
-    * @return ScalaMongoConn An instance of a scala wrapper containing the connection object
+    * @return MongoConnection An instance of a scala wrapper containing the connection object
     */
-    def asScala = new ScalaMongoConn(conn)
+    def asScala = new MongoConnection(conn)
   }
 
   /**
@@ -80,9 +80,9 @@ object Implicits extends FluidQueryBarewordOps {
   implicit def mongoDBAsScala(db: DB) = new {
     /**
      * Return a type-neutral Scala Wrapper object for the DB
-     * @return ScalaMongoDB An instance of a scala wrapper containing the DB object
+     * @return MongoDB An instance of a scala wrapper containing the DB object
      */
-    def asScala = new ScalaMongoDB(db)
+    def asScala = new MongoDB(db)
   }
 
   /**
@@ -93,14 +93,14 @@ object Implicits extends FluidQueryBarewordOps {
   implicit def mongoCollAsScala(coll: DBCollection) = new {
     /**
      * Return a type-neutral Scala wrapper object for the DBCollection
-     * @return ScalaMongoCollection An instance of the scala wrapper containing the collection object.
+     * @return MongoCollection An instance of the scala wrapper containing the collection object.
      */
-    def asScala = new ScalaMongoCollection(coll)
+    def asScala = new MongoCollection(coll)
     /**
      * Return a GENERIC Scala wrapper object for the DBCollection specific to a given Parameter type.
-     * @return ScalaMongoCollection[A<:DBObject] An instance of the scala wrapper containing the collection object.
+     * @return MongoCollection[A<:DBObject] An instance of the scala wrapper containing the collection object.
      */
-    def asScalaTyped[A<:DBObject](implicit m: scala.reflect.Manifest[A]) = new ScalaTypedMongoCollection[A](coll)(m)
+    def asScalaTyped[A<:DBObject](implicit m: scala.reflect.Manifest[A]) = new MongoTypedCollection[A](coll)(m)
   }
 
   /**
@@ -111,14 +111,14 @@ object Implicits extends FluidQueryBarewordOps {
   implicit def mongoCursorAsScala(cursor: DBCursor) = new {
     /**
      * Return a type-neutral Scala wrapper object for the DBCursor
-     * @return ScalaMongoCursor An instance of the scala wrapper containing the cursor object.
+     * @return MongoCursor An instance of the scala wrapper containing the cursor object.
      */
-    def asScala = new ScalaMongoCursor(cursor)
+    def asScala = new MongoCursor(cursor)
    /**
     * Return a GENERIC Scala wrapper object for the DBCursor specific to a given Parameter type.
-    * @return ScalaMongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
+    * @return MongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
     */
-    def asScalaTyped[A <: DBObject : Manifest] = new ScalaTypedMongoCursor[A](cursor)
+    def asScalaTyped[A <: DBObject : Manifest] = new MongoTypedCursor[A](cursor)
   }
 
   /**
@@ -230,8 +230,8 @@ object Implicits extends FluidQueryBarewordOps {
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
   implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
 
-  implicit def wrapDBObj(in: DBObject): ScalaDBObject = new ScalaDBObject { val underlying = in }
-  implicit def unwrapDBObj(in: ScalaDBObject): DBObject = in.underlying
+  implicit def wrapDBObj(in: DBObject): MongoDBObject = new MongoDBObject { val underlying = in }
+  implicit def unwrapDBObj(in: MongoDBObject): DBObject = in.underlying
     
 
   /** Encoding hook for MongoDB To be able to persist JodaTime DateTime to MongoDB */

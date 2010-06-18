@@ -31,14 +31,14 @@ import Implicits._
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-class ScalaMongoDB(val underlying: DB) {
+class MongoDB(val underlying: DB) {
   /**
    * Apply method to proxy  getCollection, to allow invocation of
    * <code>dbInstance("collectionName")</code>
    * instead of getCollection
    *
    * @param collection a  string for the collection name
-   * @return ScalaMongoCollection A wrapped instance of a Mongo DBCollection Class returning generic DBObjects
+   * @return MongoCollection A wrapped instance of a Mongo DBCollection Class returning generic DBObjects
    */
   def apply(collection: String) = underlying.getCollection(collection).asScala
   /**
@@ -52,7 +52,7 @@ class ScalaMongoDB(val underlying: DB) {
    *
    * @param collection a  string for the collection name
    * @param clazz Class[A] where A is the Subclass of DBOBject you wish to work with for this collection
-   * @return ScalaMongoCollection A wrapped instance of a Mongo DBCollection Class returning DBObject subclasses of type A
+   * @return MongoCollection A wrapped instance of a Mongo DBCollection Class returning DBObject subclasses of type A
    */
   def apply[A <: DBObject](collection: String, clazz: Class[A])(implicit m: scala.reflect.Manifest[A]) = underlying.getCollection(collection).asScalaTyped(m)
   def addUser(username: String, passwd: String) = underlying.addUser(username, passwd.toArray)

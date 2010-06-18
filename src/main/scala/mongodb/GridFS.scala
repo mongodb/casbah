@@ -49,12 +49,12 @@ import scalaj.collection.Imports._
  */
 object GridFS extends Logging {
   
-  def apply(db: ScalaMongoDB) = {
+  def apply(db: MongoDB) = {
     log.info("Creating a new GridFS Entry against DB '%s', using default bucket ('%s')", db.name, MongoGridFS.DEFAULT_BUCKET)
     new GridFS(new MongoGridFS(db.underlying))
   }
 
-  def apply(db: ScalaMongoDB, bucket: String) = { 
+  def apply(db: MongoDB, bucket: String) = { 
     log.info("Creating a new GridFS Entry against DB '%s', using specific bucket ('%s')", db.name, bucket)
     new GridFS(new MongoGridFS(db.underlying, bucket))
   }
@@ -157,7 +157,7 @@ class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[Gr
 
 // Todo - use this as basis for a new DBOBject wrapper object... (One that can take and return arbitrary json esp.)
 @BeanInfo
-trait GridFSFile extends ScalaDBObject with Logging {
+trait GridFSFile extends MongoDBObject with Logging {
   val underlying: MongoGridFSFile
   def save = underlying.save
 

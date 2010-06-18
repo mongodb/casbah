@@ -242,4 +242,5 @@ trait PullAllOp extends BarewordQueryOperator {
   def $pullAll = apply[Array[Any]]("$pullAll")_
 }
 
+
 // vim: set ts=2 sw=2 sts=2 et:

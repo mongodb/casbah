@@ -30,20 +30,20 @@ import Implicits._
 
 /**
  * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
- * Apply methods are called as ScalaMongoConn(<params>)
+ * Apply methods are called as MongoConnectionection(<params>)
  *
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-object ScalaMongoConn {
-  def apply() = new ScalaMongoConn(new Mongo())
-  def apply(addr: DBAddress) = new ScalaMongoConn(new Mongo(addr))
-  def apply(left: DBAddress, right: DBAddress) = new ScalaMongoConn(new Mongo(left, right))
-  def apply(left: DBAddress, right: DBAddress, options: MongoOptions) = new ScalaMongoConn(new Mongo(left, right, options))
-  def apply(addr: DBAddress, options: MongoOptions) = new ScalaMongoConn(new Mongo(addr, options))
-  def apply(host: String) = new ScalaMongoConn(new Mongo(host))
-  def apply(host: String, port: Int) = new ScalaMongoConn(new Mongo(host, port))
-  //def apply(host: String, options: MongoOptions) = new ScalaMongoConn(new Mongo(host, options))
+object MongoConnection {
+  def apply() = new MongoConnection(new Mongo())
+  def apply(addr: DBAddress) = new MongoConnection(new Mongo(addr))
+  def apply(left: DBAddress, right: DBAddress) = new MongoConnection(new Mongo(left, right))
+  def apply(left: DBAddress, right: DBAddress, options: MongoOptions) = new MongoConnection(new Mongo(left, right, options))
+  def apply(addr: DBAddress, options: MongoOptions) = new MongoConnection(new Mongo(addr, options))
+  def apply(host: String) = new MongoConnection(new Mongo(host))
+  def apply(host: String, port: Int) = new MongoConnection(new Mongo(host, port))
+  //def apply(host: String, options: MongoOptions) = new MongoConnection(new Mongo(host, options))
 }
 
 /**
@@ -52,13 +52,13 @@ object ScalaMongoConn {
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-class ScalaMongoConn(val underlying: Mongo) {
+class MongoConnection(val underlying: Mongo) {
   /**
    * Apply method which proxies getDB, allowing you to call
    * <code>connInstance("dbName")</code>
    *
    * @param dbName A string for the database name
-   * @return ScalaMongoDB A wrapped instance of a MongoDB Class.
+   * @return MongoDB A wrapped instance of a Mongo 'DB Class.
    */
   def apply(dbName: String) = underlying.getDB(dbName).asScala
   def getDB(dbName: String) = apply(dbName)

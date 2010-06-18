@@ -44,7 +44,7 @@ class ScalaMapReduceSpec extends FeatureSpec with GivenWhenThen with Logging {
 
     }
   }
-  def distinctKeySet(keys: String*)(implicit mongo: ScalaMongoCollection): MapReduceResult = {
+  def distinctKeySet(keys: String*)(implicit mongo: MongoCollection): MapReduceResult = {
     log.debug("Running a Distinct KeySet MapReduce for Keys (%s)", keys)
     val keySet = keys.flatMap(x => "'%s': this.%s, ".format(x, x)).mkString
     log.trace("KeySet: %s", keySet)

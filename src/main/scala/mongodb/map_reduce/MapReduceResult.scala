@@ -40,7 +40,7 @@ import scalaj.collection.Imports._
  * @param resultObj a DBObject directly conforming to the mapReduce result spec as defined in the MongoDB Docs.
  * 
  */
-class MapReduceResult(resultObj: DBObject)(implicit db: ScalaMongoDB) extends Iterator[DBObject] with Logging {
+class MapReduceResult(resultObj: DBObject)(implicit db: MongoDB) extends Iterator[DBObject] with Logging {
   log.debug("Map Reduce Result: %s", resultObj)
   // Convert the object to a map to have a quicker, saner shred...
   val FAIL = "#FAIL"

@@ -26,46 +26,46 @@ import com.mongodb._
 
 import org.scalatest.{GivenWhenThen, FeatureSpec}
 
-class ScalaMongoWrapperSpec extends FeatureSpec with GivenWhenThen {
+class MongoWrapperSpec extends FeatureSpec with GivenWhenThen {
     feature("The implicit extension methods allow for receiving wrapped versions of the Mongo Java objects.") {
 
       info("the Scala wrappers should provide .asScala methods on each of the Mongo Java connection-related objects.")
 
       val conn = new Mongo()
-      scenario("A Mongo connection object can be converted into a ScalaMongoConn wrapper instance.") {
+      scenario("A Mongo connection object can be converted into a MongoConnection wrapper instance.") {
         given("A Mongo object connected to the default [localhost]")
         assert(conn != null)
         when("The asScala extension method is invoked.")
         val scalaConn = conn.asScala
-        then("A ScalaMongoConn wrapper instance is returned.")
+        then("A MongoConnectionWrapper wrapper instance is returned.")
         assert(scalaConn != null)
-        assert(scalaConn.isInstanceOf[ScalaMongoConn])
+        assert(scalaConn.isInstanceOf[MongoConnection])
         and("The underlying connection is the Java mongo connection object.")
         assert(scalaConn.underlying == conn)
       }
 
       val db = conn.getDB("test")
-      scenario("A DB (database handle) object can be converted into a ScalaMongoDB wrapper instance.") {
+      scenario("A DB (database handle) object can be converted into a MongoDB wrapper instance.") {
         given("A Mongo DB handle upon the test db")
         assert(db != null)
         when("The asScala extension method is invoked.")
         val scalaDB = db.asScala
-        then("A ScalaMongoDB wrapper instance is returned.")
+        then("A MongoDB wrapper instance is returned.")
         assert(scalaDB != null)
-        assert(scalaDB.isInstanceOf[ScalaMongoDB])
+        assert(scalaDB.isInstanceOf[MongoDB])
         and("The underlying db is the Java mongo db object.")
         assert(scalaDB.underlying == db)
       }
 
       val coll = db.getCollection("foo")
-      scenario("A DBCollection object can be converted into a ScalaMongoCollection wrapper instance.") {
+      scenario("A DBCollection object can be converted into a MongoCollection wrapper instance.") {
         given("A Mongo DBCollection handle upon the test.foo collection")
         assert(coll != null)
         when("The asScala extension method is invoked.")
         val scalaColl = coll.asScala
-        then("A ScalaMongoCollection wrapper instance is returned.")
+        then("A MongoCollection wrapper instance is returned.")
         assert(scalaColl != null)
-        assert(scalaColl.isInstanceOf[ScalaMongoCollection])
+        assert(scalaColl.isInstanceOf[MongoCollection])
         and("The underlying collection is the Java mongo collection object.")
         assert(scalaColl.underlying != null)
         assert(scalaColl.underlying == coll)
@@ -73,11 +73,11 @@ class ScalaMongoWrapperSpec extends FeatureSpec with GivenWhenThen {
     }
 
     feature("The Scala wrapper connection can be instantiated directly, and the apply methods work for dbs/collections.") {
-      val conn = ScalaMongoConn()
-      scenario("A ScalaMongoConn object can be directly instantiated.") {
+      val conn = MongoConnection()
+      scenario("A MongoConnection object can be directly instantiated.") {
         given("A connected instance.")
         assert(conn != null)
-        assert(conn.isInstanceOf[ScalaMongoConn])
+        assert(conn.isInstanceOf[MongoConnection])
         then("The connected instance's underlying connection is the Java mongo connection object.")
         assert(conn.underlying != null)
         assert(conn.underlying.isInstanceOf[Mongo])
@@ -87,9 +87,9 @@ class ScalaMongoWrapperSpec extends FeatureSpec with GivenWhenThen {
         assert(conn != null)
         when("A database name is passed via apply()")
         val db = conn("test")
-        then("A valid instance of ScalaMongoDB is returned.")
+        then("A valid instance of MongoDB is returned.")
         assert(db != null)
-        assert(db.isInstanceOf[ScalaMongoDB])
+        assert(db.isInstanceOf[MongoDB])
         and("It is connected to the proper database.")
         assert(db.underlying != null)
         assert(db.getName == "test")
@@ -97,14 +97,14 @@ class ScalaMongoWrapperSpec extends FeatureSpec with GivenWhenThen {
         assert(db.underlying.isInstanceOf[DB])
       }
       scenario("The apply method can be invoked upon DBs instead of getCollection.") {
-        given("A connected ScalaMongoDB Instance.")
+        given("A connected MongoDB Instance.")
         assert(conn != null)
         val db = conn("test")
         when("A collection name is passed via apply()")
         val coll = db("foo")
-        then("A valid instance of the [non-genericized] ScalaMongoCollection is returned.")
+        then("A valid instance of the [non-genericized] MongoCollection is returned.")
         assert(coll != null)
-        assert(coll.isInstanceOf[ScalaMongoCollection])
+        assert(coll.isInstanceOf[MongoCollection])
       }
     }
 }

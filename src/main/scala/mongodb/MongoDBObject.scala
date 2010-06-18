@@ -48,7 +48,7 @@ import scala.reflect._
  * @tparam Object 
  */
 @BeanInfo
-trait ScalaDBObject extends Map[String, Object] with Logging {
+trait MongoDBObject extends Map[String, Object] with Logging {
   val underlying: DBObject
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
