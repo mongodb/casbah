@@ -56,7 +56,7 @@ import org.scala_tools.time.Imports._
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-object Implicits extends FluidQueryBarewordOps with DeprecatedTypeAliases {
+object Implicits extends FluidQueryBarewordOps {
   type JSFunction = String
 
   /**
@@ -234,33 +234,3 @@ object Implicits extends FluidQueryBarewordOps with DeprecatedTypeAliases {
   implicit def unwrapDBObj(in: MongoDBObject): DBObject = in.underlying
 
 } 
-
-/** 
- * Type aliases for deprecated object names (aka the "Old" object naming)
- * These should not be used and are provided for backwards compatibility only.
- *
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0, 06/22/10
- * @since 1.0
- * @deprecated
- */
-trait DeprecatedTypeAliases {
-  @deprecated("ScalaMongoDB has been deprecated. Please use com.novus.casbah.mongodb.MongoDB instead.")
-  type ScalaMongoDB = MongoDB
-  @deprecated("ScalaDBObject has been deprecated. Please use com.novus.casbah.mongodb.MongoDBObject instead.")
-  type ScalaDBObject = MongoDBObject
-  @deprecated("ScalaMongoConn has been deprecated. Please use com.novus.casbah.mongodb.MongoConnection instead.")
-  type ScalaMongoConn = MongoConnection
-  @deprecated("ScalaMongoCollectionWrapper has been deprecated. Please use com.novus.casbah.mongodb.MongoCollectionWrapper instead.")
-  type ScalaMongoCollectionWrapper = MongoCollectionWrapper
-  @deprecated("ScalaMongoCollection has been deprecated. Please use com.novus.casbah.mongodb.MongoCollection instead.")
-  type ScalaMongoCollection = MongoCollection
-  @deprecated("ScalaTypedMongoCollection[A <: DBObject] has been deprecated. Please use com.novus.casbah.mongodb.MongoTypedCollection[A <: DBObject] instead.")
-  type ScalaTypedMongoCollection[A <: DBObject] = MongoTypedCollection[A]
-  @deprecated("ScalaMongoCursorWrapper[A <: DBObject] has been deprecated. Please use com.novus.casbah.mongodb.MongoCursorWrapper[A <: DBObject] instead.")
-  type ScalaMongoCursorWrapper[A <: DBObject] = MongoCursorWrapper[A]
-  @deprecated("ScalaMongoCursor has been deprecated. Please use com.novus.casbah.mongodb.MongoCursor instead.")
-  type ScalaMongoCursor = MongoCursor
-  @deprecated("ScalaTypedMongoCursor[A <: DBObject] has been deprecated. Please use com.novus.casbah.mongodb.MongoTypedCursor[A <: DBObject] instead.")
-  type ScalaTypedMongoCursor[A <: DBObject] = MongoTypedCursor[A]
-}
