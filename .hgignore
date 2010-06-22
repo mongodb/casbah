@@ -9,6 +9,7 @@ tags
 target/**/*classes/*
 target/**/*analysis/*
 target/**/*resources/*
+target/**/doc/
 # switch  to regexp syntax
 syntax: regexp
 project/build/target/*
