@@ -232,29 +232,7 @@ object Implicits extends FluidQueryBarewordOps with DeprecatedTypeAliases {
 
   implicit def wrapDBObj(in: DBObject): MongoDBObject = new MongoDBObject { val underlying = in }
   implicit def unwrapDBObj(in: MongoDBObject): DBObject = in.underlying
-    
 
-  /** Encoding hook for MongoDB To be able to persist JodaTime DateTime to MongoDB */
-  BSON.addEncodingHook(classOf[DateTime], new Transformer {
-    val fmt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
-
-    def transform(o: AnyRef): AnyRef = o match {
-      case d: DateTime => "\"%s\"".format(fmt.print(d))
-      case _ => o
-    }
-       
-  })
-  
-  /** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/
-
-  BSON.addEncodingHook(classOf[scala.util.matching.Regex], new Transformer {
-
-    def transform(o: AnyRef): AnyRef = o match {
-      case sRE: scala.util.matching.Regex => sRE.pattern
-      case _ => o
-    }
-       
-  })
 } 
 
 /** 
