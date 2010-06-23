@@ -3,9 +3,11 @@ syntax: glob
 project/build/target
 project/boot
 lib_managed
+pages
 **/*.swp
 **/*.swo
 tags
+target
 target/**/*classes/*
 target/**/*analysis/*
 target/**/*resources/*

@@ -56,7 +56,7 @@ import org.scala_tools.time.Imports._
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-object Implicits extends FluidQueryBarewordOps {
+trait Implicits extends FluidQueryBarewordOps {
   type JSFunction = String
 
   /**
@@ -235,3 +235,14 @@ object Implicits extends FluidQueryBarewordOps {
   implicit def unwrapDBObj(in: MongoDBObject): DBObject = in.underlying
 
 } 
+
+object Implicits extends Implicits
+object Imports extends Imports 
+object BaseImports extends BaseImports
+
+trait Imports extends BaseImports with Implicits 
+
+trait BaseImports {
+  val MongoConnection = com.novus.casbah.mongodb.MongoConnection
+  val MongoDBObject = com.novus.casbah.mongodb.MongoDBObject
+}

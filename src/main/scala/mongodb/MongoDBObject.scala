@@ -40,6 +40,7 @@ import scala.reflect._
  * due to conflicts between the java methods and scala methods.
  * Implicits and explicit methods allow you to convert to java though.
  * 
+ * This is a very crappy, thin interface and likely to go away. Use it at your own risk.
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0, 06/02/10
  * @since 1.0
@@ -93,4 +94,28 @@ trait MongoDBObject extends Map[String, Object] with Logging {
   def toMap = underlying.toMap
 }
 
+
+object MongoDBObject  {
+  
+  def empty = new MongoDBObject { val underlying = new BasicDBObject }
+
+  def apply[A <: String, B <: AnyRef](elems: (A, B)*) = (newBuilder[A, B] ++= elems).result
+
+  def newBuilder[A <: String, B <: AnyRef]: MongoDBObjectBuilder = new MongoDBObjectBuilder
+
+}
+
+protected[mongodb] class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), MongoDBObject] {
+  protected val empty = BasicDBObjectBuilder.start
+  protected var elems = empty
+  override def +=(x: (String, Any)) = { 
+    //elems = elems.add(x._1, x._2)
+    elems.add(x._1, x._2)
+    this 
+  }
+  def clear() { elems = empty }
+  def result = new MongoDBObject { val underlying = elems.get }
+}
+
+// vim: set ts=2 sw=2 sts=2 et:
 // vim: set ts=2 sw=2 sts=2 et:
