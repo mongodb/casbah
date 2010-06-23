@@ -239,10 +239,20 @@ trait Implicits extends FluidQueryBarewordOps {
 object Implicits extends Implicits
 object Imports extends Imports 
 object BaseImports extends BaseImports
+object MongoTypeImports extends MongoTypeImports
 
-trait Imports extends BaseImports with Implicits 
+trait Imports extends BaseImports with MongoTypeImports with Implicits 
 
 trait BaseImports {
   val MongoConnection = com.novus.casbah.mongodb.MongoConnection
   val MongoDBObject = com.novus.casbah.mongodb.MongoDBObject
+  val GridFS = com.novus.casbah.mongodb.gridfs.GridFS
+}
+
+trait MongoTypeImports {
+
+  type DBObject = com.mongodb.DBObject
+  type BasicDBObject = com.mongodb.BasicDBObject
+  type BasicDBList = com.mongodb.BasicDBList
+  type ObjectId = org.bson.types.ObjectId
 }

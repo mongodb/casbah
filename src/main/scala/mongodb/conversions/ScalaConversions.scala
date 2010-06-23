@@ -163,7 +163,7 @@ trait JodaTimeDeserializer extends MongoConversionHelper {
     log.info("Setting up Joda Time Deserializers")
 
     log.info("Hooking up Joda DateTime deserializer")
-    /** Encoding hook for MongoDB To be able to read JodaTime DateTime from MongoDB */
+    /** Encoding hook for MongoDB To be able to read JodaTime DateTime from MongoDB's BSON Date */
     BSON.addDecodingHook(classOf[java.util.Date], new Transformer {
       log.trace("Decoding JDK Dates .")
 

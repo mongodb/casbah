@@ -23,9 +23,7 @@ package test
 
 import util.Logging
 
-import Implicits._
-
-import com.mongodb._
+import Imports._
 
 import scala.collection.JavaConversions._
 import org.scalatest.{GivenWhenThen, FeatureSpec}
@@ -59,6 +57,45 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
       val explicit = x.asDBObject
       assert(explicit.isInstanceOf[DBObject])
       assert(explicit.get("foo").equals("bar"))
+    }
+    /*scenario("Lists and Array type operations work correctly.") {
+      val mongoDB = MongoConnection()("test") 
+      mongoDB.dropDatabase
+      given("An Object with an Array")
+      val x = ("foo" -> "bar", "n" -> Set(2, 5, 8, 12, 24, 452, 9, 12, 13))
+      when("Serialized")
+      mongoDB("arrayTest").insert(x.asDBObject)
+      then("It doesn't fail")
+      and("Returns correctly.")
+    }*/
+  }
+  feature("Scala Style DBObject builder & factory for DBObject works correctly.") {
+    scenario("Factory apply is called with a new set of parameters") {
+      given("A series of parameters") 
+      // You must explicitly cast the result to a DBObject to receive it as such; you can also request it 'asDBObject'
+      val newObj: DBObject = MongoDBObject("foo" -> "bar", "x" -> "y", "pie" -> 3.14, "spam" -> "eggs")
+      then(" A proper Mongo DBObject is returned")
+      log.info("newObj: %s [%s]", newObj, newObj.getClass)
+      assert(newObj.isInstanceOf[com.mongodb.DBObject]) // matches mongodb dbobj and not just our loca import alias
+      and("A proper DB Spec is met")
+      newObj should be (com.mongodb.BasicDBObjectBuilder.start("foo", "bar").add("x", "y").add("pie", 3.14).add("spam", "eggs").get)
+    }
+    scenario(" A builder works as well.") {
+      given("A new builder") 
+      val builder = MongoDBObject.newBuilder
+      when("The result is invoked after adding data")
+      // You must explicitly cast the result to a DBObject to receive it as such; you can also request it 'asDBObject'
+      //("foo" -> "bar", "x" -> "y", "pie" -> 3.14, "spam" -> "eggs")
+      builder += "foo" -> "bar"
+      builder += "x" -> "y"
+      builder += ("pie" -> 3.14)
+      builder += ("spam" -> "eggs", "mmm" -> "bacon")
+      val newObj = builder.result.asDBObject
+      log.info("newObj: %s [%s]", newObj, newObj.getClass)
+      assert(newObj.isInstanceOf[com.mongodb.DBObject]) // matches mongodb dbobj and not just our loca import alias
+      and("A proper DB Spec is met")
+      newObj should be (com.mongodb.BasicDBObjectBuilder.start("foo", "bar").add("x", "y").add("pie", 3.14).add("spam", "eggs").add("mmm", "bacon").get)
+
     }
   }
   feature("Basic mongo style query syntax operators function."){

@@ -54,9 +54,18 @@ trait MongoDBObject extends Map[String, Object] with Logging {
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
+
   override def get(key: String): Option[Object] = underlying.get(key) match {
     case null => None
     case value => Some(value)
+  }
+
+  def apply[A : Manifest](key: String) = underlying.get(key).asInstanceOf[A]
+
+  /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
+  def getAs[A : Manifest](key: String): Option[A] = underlying.get(key) match {
+    case null => None
+    case value => Some(value.asInstanceOf[A])
   }
 
   def +=(kv: (String, Object)) = {
@@ -92,6 +101,7 @@ trait MongoDBObject extends Map[String, Object] with Logging {
   def putAll(m: java.util.Map[_, _]) = underlying.putAll(m)
   def removeField(key: String) = underlying.removeField(key)
   def toMap = underlying.toMap
+  def asDBObject = underlying
 }
 
 
@@ -99,9 +109,9 @@ object MongoDBObject  {
   
   def empty = new MongoDBObject { val underlying = new BasicDBObject }
 
-  def apply[A <: String, B <: AnyRef](elems: (A, B)*) = (newBuilder[A, B] ++= elems).result
+  def apply[A <: String, B <: Any](elems: (A, B)*) = (newBuilder[A, B] ++= elems).result
 
-  def newBuilder[A <: String, B <: AnyRef]: MongoDBObjectBuilder = new MongoDBObjectBuilder
+  def newBuilder[A <: String, B <: Any]: MongoDBObjectBuilder = new MongoDBObjectBuilder
 
 }
 
@@ -110,9 +120,14 @@ protected[mongodb] class MongoDBObjectBuilder extends scala.collection.mutable.B
   protected var elems = empty
   override def +=(x: (String, Any)) = { 
     //elems = elems.add(x._1, x._2)
+    //println(x)
     elems.add(x._1, x._2)
     this 
   }
+  /*override def ++=(xs: TraversableOnce[(String, Any)]) = { 
+    xs foreach (this.+=)
+    this
+  }*/
   def clear() { elems = empty }
   def result = new MongoDBObject { val underlying = elems.get }
 }
