@@ -23,6 +23,7 @@
 
 package com.novus.casbah.mongodb
 package conversions
+package scala
 
 import com.novus.casbah.util.Logging 
 
@@ -31,83 +32,174 @@ import org.bson.{BSON, Transformer}
 
 import org.scala_tools.time.Imports._
 
-package object scala {
-  implicit object Converters extends Serializers
-                                with Deserializers
-
-  /** 
-   * Converters for reading Scala types from MongoDB
-   *
-   * These should be setup in a way which requires
-   * an explicit invocation / registration of individual
-   * deserializers, else unexpected behavior will occur.
-   *
-   * @author Brendan W. McAdams <bmcadams@novus.com>
-   * @version 1.0, 06/22/10
-   * @since 1.0
-   */
-  trait Deserializers
-
-  /** 
-   * Converters for saving Scala types to MongoDB
-   *
-   * For the most part these are 'safe' to enable automatically,
-   * as they won't break existing code.
-   * Be very careful with the deserializers however as they can come with
-   * unexpected behavior.
-   *
-   * @author Brendan W. McAdams <bmcadams@novus.com>
-   * @version 1.0, 06/22/10
-   * @since 1.0
-   */
-  trait Serializers extends MongoSerializationHelper 
-                       with JodaTimeSerializer
-                       with ScalaRegexSerializer {
-    override def register() =  {
-      log.info("Serializers for Scala Conversions registering")
-      super.register()
-    }
+/** 
+ * " Register" Object, calls the registration methods.
+ * 
+ * By default does not include JodaTime as this may be undesired behavior.
+ * If you want JodaTime support, please use the RegisterJodaTimeConversionHelpers Object
+ * 
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0, 06/22/10
+ * @since 1.0
+ * @see RegisterJodaTimeConversionHelpers
+ */
+object RegisterConversionHelpers extends Serializers
+                              with Deserializers  {
+  def apply() = {
+    log.info("Registering Scala Conversions.")
+    super.register()
   }
+}
 
-
-  trait JodaTimeSerializer extends MongoSerializationHelper {
-
-    override def register() = {
-      log.info("Setting up Joda Time Serializers")
-
-      log.info("Hooking up Joda DateTime serializer")
-      /** Encoding hook for MongoDB To be able to persist JodaTime DateTime to MongoDB */
-      BSON.addEncodingHook(classOf[DateTime], new Transformer {
-        val fmt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
-
-        def transform(o: AnyRef): AnyRef = o match {
-          case d: DateTime => "\"%s\"".format(fmt.print(d))
-          case _ => o
-        }
-           
-      })
-
-      super.register()
-    }
+/** 
+ * "DeRegister" Object, calls the unregistration methods.
+ * 
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0, 06/22/10
+ * @since 1.0
+ */
+@deprecated("Be VERY careful using this - it will remove ALL third-party loaded BSON Encoding & Decoding hooks at runtime.")
+object DeregisterConversionHelpers extends Serializers
+                                     with Deserializers {
+  def apply() = {
+    log.info("Deregistering Scala Conversions.")
+    // TODO - Figure out how to clear specific hooks as this clobbers everything.
+    log.warning("Clobbering *ALL* Registered BSON Type Hooks.  Reregister any specific ones you may need.")
+    BSON.clearAllHooks()
   }
-    
-  trait ScalaRegexSerializer extends MongoSerializationHelper {
+}
 
-    override def register() = {
-      log.info("Setting up ScalaRegexSerializers")
+/** 
+ * Converters for reading Scala types from MongoDB
+ *
+ * These should be setup in a way which requires
+ * an explicit invocation / registration of individual
+ * deserializers, else unexpected behavior will occur.
+ *
+ * Because it's likely to be controversial, JodaTime is NOT mixed in by default.
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0, 06/22/10
+ * @since 1.0
+ */
+trait Deserializers extends MongoConversionHelper {
+  override def register() =  {
+    log.info("Deserializers for Scala Conversions registering")
+    super.register()
+  }
+  /*override def unregister() =  {
+    log.info("Deserializers for Scala Conversions deregistering")
+    // TODO - Find out how to clear a SPECIFIC hook.
+    log.warning("Unregistering *ALL* Decoding hooks for MongoDB. ")
+    CasbahBSONHelper.clearDecoders
+    //super.unregister()
+  }*/
+}
 
-      log.info("Hooking up scala.util.matching.Regex serializer")
-      /** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/
-      BSON.addEncodingHook(classOf[_root_.scala.util.matching.Regex], new Transformer {
+/** 
+ * Converters for saving Scala types to MongoDB
+ *
+ * For the most part these are 'safe' to enable automatically,
+ * as they won't break existing code.
+ * Be very careful with the deserializers however as they can come with
+ * unexpected behavior.
+ *
+ * Because it's likely to be controversial, JodaTime is NOT mixed in by default.
+ *
+ * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0, 06/22/10
+ * @since 1.0
+ */
+trait Serializers extends MongoConversionHelper 
+                     with ScalaRegexSerializer {
+  override def register() =  {
+    log.info("Serializers for Scala Conversions registering")
+    super.register()
+  }
+  /*override def unregister() =  {
+    log.info("Serializers for Scala Conversions deregistering")
+    // TODO - Find out how to clear a SPECIFIC hook.
+    log.warning("Unregistering *ALL* Encoding hooks for MongoDB. ")
+    CasbahBSONHelper.clearDecoders
+    //super.unregister()
+  }*/
+}
 
-        def transform(o: AnyRef): AnyRef = o match {
-          case sRE: _root_.scala.util.matching.Regex => sRE.pattern
-          case _ => o
+
+object RegisterJodaTimeConversionHelpers extends JodaTimeHelpers {
+  def apply() = {
+    log.info("Registering Scala Conversions.")
+    super.register()
+  }
+}
+
+trait JodaTimeHelpers extends JodaTimeSerializer with JodaTimeDeserializer 
+
+trait JodaTimeSerializer extends MongoConversionHelper {
+
+  override def register() = {
+    log.info("Setting up Joda Time Serializers")
+
+    log.info("Hooking up Joda DateTime serializer")
+    /** Encoding hook for MongoDB To be able to persist JodaTime DateTime to MongoDB */
+    BSON.addEncodingHook(classOf[DateTime], new Transformer {
+      log.trace("Encoding a JodaTime DateTime.")
+
+      def transform(o: AnyRef): AnyRef = o match {
+        case d: DateTime => d.toDate // Return a JDK Date object which BSON can encode
+        case unknownRef: AnyRef => throw new IllegalArgumentException("Don't know how to serialize an object of type '" + unknownRef.getClass + "'") 
+        case unknownVal => throw new IllegalArgumentException("Don't know how to serialize '" + unknownVal + "'")
+      }
+         
+    })
+
+    super.register()
+  }
+}
+
+trait JodaTimeDeserializer extends MongoConversionHelper {
+
+  override def register() = {
+    log.info("Setting up Joda Time Deserializers")
+
+    log.info("Hooking up Joda DateTime deserializer")
+    /** Encoding hook for MongoDB To be able to persist JodaTime DateTime to MongoDB */
+    BSON.addDecodingHook(classOf[java.util.Date], new Transformer {
+      log.trace("Decoding JDK Dates .")
+
+      def transform(o: AnyRef): AnyRef = o match {
+        case jdkDate: java.util.Date => new DateTime(jdkDate)
+        case d: DateTime => {
+          log.warning("Transformer got an actual JodaTime DateTime?")
+          d
         }
-           
-      })
-      super.register()
-    }
+        case unknownRef: AnyRef => throw new IllegalArgumentException("Don't know how to serialize an object of type '" + unknownRef.getClass + "'") 
+        case unknownVal => throw new IllegalArgumentException("Don't know how to serialize '" + unknownVal + "'")
+      }
+         
+    })
+
+    super.register()
+  }
+}
+  
+trait ScalaRegexSerializer extends MongoConversionHelper {
+
+  override def register() = {
+    log.info("Setting up ScalaRegexSerializers")
+
+    log.info("Hooking up scala.util.matching.Regex serializer")
+    /** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/
+    BSON.addEncodingHook(classOf[_root_.scala.util.matching.Regex], new Transformer {
+      log.trace("Encoding a Scala RegEx.")
+
+      def transform(o: AnyRef): AnyRef = o match {
+        case sRE: _root_.scala.util.matching.Regex => sRE.pattern
+        case _ => o
+      }
+         
+    })
+    super.register()
   }
 }
 

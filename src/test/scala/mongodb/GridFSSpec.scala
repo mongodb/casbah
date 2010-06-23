@@ -31,12 +31,16 @@ import Implicits._
 import com.mongodb._
 import org.scalatest.{GivenWhenThen, FeatureSpec}
 import org.scalatest.matchers.ShouldMatchers
+import conversions.scala._
 
 class GridFSSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers with Logging {
   val logoMD5 = "018612de54b1edd5053ff5a2be6b9763"
   val digest = MessageDigest.getInstance("MD5")
+
   feature("The map/reduce engine works correctly") {
     val conn = new Mongo().asScala
+    DeregisterConversionHelpers()
+    //DeRegisterJodaTimeConversionHelpers()
     scenario("Error conditions such as a non-existant collection should not blow up but return an error-state result") {
       given("A Mongo object connected to the default [localhost]")
       assert(conn != null)

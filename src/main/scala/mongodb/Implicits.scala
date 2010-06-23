@@ -193,7 +193,7 @@ object Implicits extends FluidQueryBarewordOps {
    * @return DBOBject a Proper mongoDB <code>DBObject</code> representative of the passed-in data
    * @throws IllegalArgumentException This will be thrown if nested values do not conform to Tuple2
    */
-  implicit def productToMongoDBObject(p: Product): DBObject = {
+  /*implicit def productToMongoDBObject(p: Product2[_, _]): DBObject = {
     val builder = BasicDBObjectBuilder.start
     val arityRange =  0.until(p.productArity)
     //println("Converting Product P %s with an Arity range of %s to a MongoDB Object".format(p, arityRange))
@@ -215,18 +215,18 @@ object Implicits extends FluidQueryBarewordOps {
     }
     builder.get
   }
-  /**
+  [>*
    * Implicit extension methods to convert Products to Mongo DBObject instances.
-   */
-  implicit def productAsDBObject(p: Product) = new {
-    /**
+   <]
+  implicit def productAsDBObject(p: Product2[_, _]) = new {
+    [>*
      * Return a Mongo <code>DBObject</code> containing the Map values
      * @return DBObject 
-     */
+     <]
     def asDBObject = productToMongoDBObject(p)
   }
 
-
+*/
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
   implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
 

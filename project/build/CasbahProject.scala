@@ -3,7 +3,7 @@ import sbt._
 class CasbahProject(info: ProjectInfo) extends DefaultProject(info) {
   override def compileOptions = super.compileOptions ++ Seq(Unchecked, Deprecation)
 
-  val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.RC6-SNAPSHOT"
+  val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.RC6-SNAPSHOT" % "test"
   val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0.Beta1" % "1.0.Beta2"
 
   val mongodb = "org.mongodb" % "mongo-java-driver" % "2.0"

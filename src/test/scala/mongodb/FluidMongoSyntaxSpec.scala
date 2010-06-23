@@ -33,7 +33,8 @@ import org.scalatest.matchers.ShouldMatchers
 
 class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers with Logging {
   feature("DBObject related syntax conversions.") {
-    scenario("Products/Tuples can be cast to Mongo DBObjects.") {
+    // Disabled - this causes people's code to catch fire and swallow small children
+    /*scenario("Products/Tuples can be cast to Mongo DBObjects.") {
       given("A tuple of tuple2s (a quirk of this syntax is that direct casting to DBObject doesn't work).")
       val x = (("foo" -> "bar"), ("n" -> 1))
       assert(!x.isInstanceOf[DBObject])
@@ -43,8 +44,10 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
       assert(dbObj.isInstanceOf[DBObject])
       and("Conforms to the DBObject spec.")
       assert(dbObj.get("foo").equals("bar"))
+    }*/
+    scenario("Maps of [String, Any] can be converted to DBObjects."){
+      pending
     }
-    scenario("Maps of [String, Any] can be converted to DBObjects."){}
   }
   feature("Basic mongo style query syntax operators function."){
     scenario("Conditional operators function against a string.") {

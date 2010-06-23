@@ -32,9 +32,12 @@ import org.bson.{BSON, Transformer}
 import org.scala_tools.time.Imports._
 
 
-trait MongoSerializationHelper extends Logging {
+trait MongoConversionHelper extends Logging {
   def register() = {
-    log.info("Reached base registration method on MongoSerializationHelper")
+    log.info("Reached base registration method on MongoConversionHelper")
+  }
+  def unregister() = {
+    log.info("Reached base de-registration method on MongoConversionHelper")
   }
 }
 

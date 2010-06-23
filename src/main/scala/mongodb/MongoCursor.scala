@@ -36,7 +36,7 @@ trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
   val underlying: DBCursor
 
   def count() = underlying.count
-  def itcount() = underlying.itcount()
+  //def itcount() = underlying.itcount()
   def jIterator() = underlying.iterator asScala
   override def length() = underlying.length
   def numGetMores() = underlying.numGetMores
@@ -85,7 +85,7 @@ class MongoCursor protected[mongodb] (val underlying: DBCursor) extends MongoCur
     underlying.toArray(min) asScala
   }
 
-  override def toString() =  "ScalaMongoCursor{Iterator[DBObject] with %d objects.}".format(count)
+  override def toString() =  "MongoCursor{Iterator[DBObject] with %d objects.}".format(count)
 }
 
 /**
@@ -127,5 +127,5 @@ class MongoTypedCursor[A <: DBObject : Manifest] protected[mongodb](val underlyi
     //log.warning("WARNING: Converting a MongoDB Cursor to an Array incurs a huge memory and performance penalty (buffered network pointer vs. all in memory)")
     underlying.toArray(min) asScala
   }
-  override def toString() =  "ScalaMongoCursor{Iterator[_] with %d objects.}".format(count)
+  override def toString() =  "MongoCursor{Iterator[_] with %d objects.}".format(count)
 }
