@@ -8,6 +8,9 @@ For the Scala side, contains series of wrappers and DSL-like functionality for u
 
 This code is available at both [GitHub][GitHub] and [BitBucket][BitBucket].  BitBucket is the primary repository, with clones pushed to GitHub on a regular basis.
 
+The latest API Documentation is available [here][here].
+
    [mongodb]: http://mongodb.org "MongoDB"
    [bitbucket]: http://bitbucket.org/novus/casbah "Casbah on BitBucket"
    [github]: http://github.com/novus/casbah "Casbah on GitHub"
+   [here]: http://novus.github.com/casbah/ "API Docs on GitHub"
