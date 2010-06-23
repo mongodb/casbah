@@ -132,8 +132,10 @@ object Implicits extends FluidQueryBarewordOps {
      * Return a Mongo <code>DBObject</code> containing the Map values
      * @return DBObject 
      */
-    def asDBObject = BasicDBObjectBuilder.start(map.asJava).get
+    def asDBObject = map2MongoDBObject(map)
   }
+
+  implicit def map2MongoDBObject(map: Map[String, Any]): DBObject = new BasicDBObject(map.asJava)
 
   /**
    * Implicit extension methods for String values (e.g. a field name)
@@ -193,7 +195,7 @@ object Implicits extends FluidQueryBarewordOps {
    * @return DBOBject a Proper mongoDB <code>DBObject</code> representative of the passed-in data
    * @throws IllegalArgumentException This will be thrown if nested values do not conform to Tuple2
    */
-  /*implicit def productToMongoDBObject(p: Product2[_, _]): DBObject = {
+  def productToMongoDBObject(p: Product): DBObject = {
     val builder = BasicDBObjectBuilder.start
     val arityRange =  0.until(p.productArity)
     //println("Converting Product P %s with an Arity range of %s to a MongoDB Object".format(p, arityRange))
@@ -215,18 +217,17 @@ object Implicits extends FluidQueryBarewordOps {
     }
     builder.get
   }
-  [>*
+  /*
    * Implicit extension methods to convert Products to Mongo DBObject instances.
-   <]
-  implicit def productAsDBObject(p: Product2[_, _]) = new {
-    [>*
+   */ 
+  implicit def productAsDBObject(p: Product) = new {
+    /*
      * Return a Mongo <code>DBObject</code> containing the Map values
      * @return DBObject 
-     <]
+     */ 
     def asDBObject = productToMongoDBObject(p)
   }
 
-*/
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
   implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
 

@@ -33,20 +33,32 @@ import org.scalatest.matchers.ShouldMatchers
 
 class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers with Logging {
   feature("DBObject related syntax conversions.") {
-    // Disabled - this causes people's code to catch fire and swallow small children
-    /*scenario("Products/Tuples can be cast to Mongo DBObjects.") {
-      given("A tuple of tuple2s (a quirk of this syntax is that direct casting to DBObject doesn't work).")
-      val x = (("foo" -> "bar"), ("n" -> 1))
+    // Disabled automatic conversion - this causes people's code to catch fire and swallow small children
+    scenario("Products/Tuples can be cast to Mongo DBObjects.") {
+      given("A tuple of tuples (a quirk of this syntax is that direct casting to DBObject doesn't work).")
+      val x = ("foo" -> "bar", "n" -> 1)
       assert(!x.isInstanceOf[DBObject])
       when("The tuple is recast to DBObject")
+      val dbObj = x.asDBObject
+      then("The conversion succeeds.")
+      assert(dbObj.isInstanceOf[DBObject])
+      and("Conforms to the DBObject spec.")
+      assert(dbObj.get("foo").equals("bar"))
+    }
+    scenario("Maps of [String, Any] can be converted to DBObjects."){
+      given("A Map of data")
+      val x = Map("foo" -> "bar", "n" -> 1)
+      assert(!x.isInstanceOf[DBObject])
+      when("The Map can be recast to DBObject")
       val dbObj: DBObject = x
       then("The conversion succeeds.")
       assert(dbObj.isInstanceOf[DBObject])
       and("Conforms to the DBObject spec.")
       assert(dbObj.get("foo").equals("bar"))
-    }*/
-    scenario("Maps of [String, Any] can be converted to DBObjects."){
-      pending
+      and("It can also be explicitly requested as a DBObject")
+      val explicit = x.asDBObject
+      assert(explicit.isInstanceOf[DBObject])
+      assert(explicit.get("foo").equals("bar"))
     }
   }
   feature("Basic mongo style query syntax operators function."){
