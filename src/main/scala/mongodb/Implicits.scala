@@ -236,7 +236,9 @@ trait Implicits extends FluidQueryBarewordOps {
 
 } 
 
-object Implicits extends Implicits
+object Implicits extends Implicits {
+  conversions.scala.RegisterConversionHelpers()
+}
 object Imports extends Imports 
 object BaseImports extends BaseImports
 object MongoTypeImports extends MongoTypeImports

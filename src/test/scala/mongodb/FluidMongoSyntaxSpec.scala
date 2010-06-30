@@ -28,8 +28,11 @@ import Imports._
 import scala.collection.JavaConversions._
 import org.scalatest.{GivenWhenThen, FeatureSpec}
 import org.scalatest.matchers.ShouldMatchers
+import net.lag.configgy.Configgy
+import net.lag.logging.Logger
 
 class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers with Logging {
+  Configgy.configure("src/test/resources/casbah.config")
   feature("DBObject related syntax conversions.") {
     // Disabled automatic conversion - this causes people's code to catch fire and swallow small children
     scenario("Products/Tuples can be cast to Mongo DBObjects.") {
@@ -137,6 +140,12 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
       then("The implicit conversions provide a map-entry formatted Tuple-set matching the query.")
       assert(in._1 == "foo")
       assert(in.toString != null) // Test to verify mongo's toString serialization doesn't choke
+      // One more test of bad data that keeps cropping up
+      val x = scala.collection.mutable.Buffer("X:YZ", "X:FOOBAR", "X:123", "Z:ABC", "Z:SPAM", "Z:EGGS")
+      for ((tag, values) <- x.map(_.split(":")).groupBy(_(0))) {
+        val inner_in = tag $in values
+        assert(inner_in.toString != null)
+      }
       // @TODO Figure out the proper type comparison statement. I know it's an array but the Scala conversion muddies it
       //assert(in._2.get("$in").asInstanceOf[RichSSeq[_]] == Seq(1, 8, 12).asJava)
       given("A field, <NOT IN OPERATOR>, target array")

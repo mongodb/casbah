@@ -24,7 +24,8 @@ package query
 import util.Logging
 
 import com.mongodb.{DBObject, BasicDBObjectBuilder}
-import scala.collection.JavaConversions._
+//import scala.collection.JavaConversions._
+import scalaj.collection.Imports._
 import Implicits._
 
 /**
@@ -98,10 +99,12 @@ sealed trait QueryOperator {
    */
   protected def op(op: String, target: Any) = dbObj match {
     case Some(nested) => {
+      log.debug("{nested} DBObj: %s Op: %s Target: %s [%s]", dbObj, op, target, target.asInstanceOf[AnyRef].getClass)
       nested.put(op, target)
       (field -> nested)
     }
     case None => {
+      log.debug("DBObj: %s Op: %s Target: %s [%s]", dbObj, op, target, target.asInstanceOf[AnyRef].getClass)
       val opMap = BasicDBObjectBuilder.start(op, target).get
       (field -> opMap)
     }
@@ -247,8 +250,8 @@ trait GreaterThanEqualOp extends QueryOperator {
  * @version 1.0
  */
 trait InOp extends QueryOperator {
-  def $in(target: Array[Any]) = op("$in", asList(target))
-  def $in(target: Any*) = op("$in", asList(target.toArray))
+  def $in(target: Array[Any]) = op("$in", target.toList.asJava)
+  def $in(target: Any*) = op("$in", target.toList.asJava)
 }
 
 /**
@@ -267,8 +270,8 @@ trait InOp extends QueryOperator {
  * @version 1.0
  */
 trait NotInOp extends QueryOperator {
-  def $nin(target: Array[Any]) = op("$nin", asList(target))
-  def $nin(target: Any*) = op("$nin", asList(target))
+  def $nin(target: Array[Any]) = op("$nin", target.toList.asJava)
+  def $nin(target: Any*) = op("$nin", target.toList.asJava)
 }
 
 /**
@@ -287,8 +290,8 @@ trait NotInOp extends QueryOperator {
  * @version 1.0
  */
 trait AllOp extends QueryOperator {
-  def $all(target: Array[Any]) = op("$all", asList(target))
-  def $all(target: Any*) = op("$all", asList(target))
+  def $all(target: Array[Any]) = op("$all", target.toList.asJava)
+  def $all(target: Any*) = op("$all", target.toList.asJava)
 }
 
 /**

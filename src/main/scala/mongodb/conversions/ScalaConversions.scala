@@ -111,7 +111,8 @@ trait Deserializers extends MongoConversionHelper {
  * @since 1.0
  */
 trait Serializers extends MongoConversionHelper 
-                     with ScalaRegexSerializer {
+                     with ScalaRegexSerializer 
+                     with ScalaArrayBufferSerializer {
   override def register() =  {
     log.info("Serializers for Scala Conversions registering")
     super.register()
@@ -195,6 +196,27 @@ trait ScalaRegexSerializer extends MongoConversionHelper {
 
       def transform(o: AnyRef): AnyRef = o match {
         case sRE: _root_.scala.util.matching.Regex => sRE.pattern
+        case _ => o
+      }
+         
+    })
+    super.register()
+  }
+}
+
+trait ScalaArrayBufferSerializer extends MongoConversionHelper {
+
+  override def register() = {
+    log.info("Setting up ScalaArrayBufferSerializers")
+
+    log.info("Hooking up scala.collection.mutable.ArrayBuffer serializer")
+    /** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/
+    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ArrayBuffer[_]], new Transformer {
+      import scalaj.collection.Imports._
+      log.debug("Encoding a Scala ArrayBuffer.")
+
+      def transform(o: AnyRef): AnyRef = o match {
+        case ab: _root_.scala.collection.mutable.ArrayBuffer[_] => ab.asJava
         case _ => o
       }
          
