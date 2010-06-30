@@ -35,20 +35,21 @@ import Implicits._
 trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
   val underlying: DBCursor
 
-  def count() = underlying.count
+  def count = underlying.count
   //def itcount() = underlying.itcount()
   def jIterator() = underlying.iterator asScala
-  override def length() = underlying.length
-  def numGetMores() = underlying.numGetMores
-  def numSeen() =  underlying.numSeen
+  //override def length = underlying.length
+  def numGetMores = underlying.numGetMores
+  def numSeen =  underlying.numSeen
   def remove() = underlying.remove
 
-  def curr() = underlying.curr.asInstanceOf[A]
-  def explain() = underlying.explain
+  def curr = underlying.curr.asInstanceOf[A]
+  def explain = underlying.explain
 
-  def next(): A = underlying.next.asInstanceOf[A]
+  def next: A = underlying.next.asInstanceOf[A]
   def hasNext: Boolean = underlying.hasNext
 
+  override def size = count.intValue
 }
 
 /**

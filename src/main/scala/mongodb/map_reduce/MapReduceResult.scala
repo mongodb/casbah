@@ -92,6 +92,15 @@ class MapReduceResult(resultObj: DBObject)(implicit db: MongoDB) extends Iterato
       false
     }
   }
+  /** 
+   * Sort the map/Reduce. Note - this returns a new MongoDB Result cursor.
+   */
+  def sort(orderBy: DBObject): MongoCursor = resultHandle.find.sort(orderBy)
+  
+  /**
+   * Returns the cursor to the underlying data. 
+   */
+  def cursor = resultHandle.find
 
   override def toString = {
     if (success) {

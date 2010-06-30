@@ -68,12 +68,22 @@ trait MongoCollectionWrapper extends Logging {
   def getCount() = underlying.getCount()
   def getCount(query: DBObject) = underlying.getCount(query)
   def getCount(query: DBObject, fields: DBObject) = underlying.getCount(query, fields)
+  /*def count = getCount()
+  def count(query: DBObject) = getCount(query)
+  def count(query: DBObject, fields: DBObject) = getCount(query, fields)*/
   def getDB() = underlying.getDB().asScala
+  //def DB = getDB()
   def getFullName() = underlying.getFullName
+  def fullName = getFullName()
   def getIndexInfo() = underlying.getIndexInfo.asScala
+  def indexInfo = getIndexInfo()
   def getName() = underlying.getName
+  def name = getName()
   def getObjectClass() = underlying.getObjectClass
+  def objectClass = getObjectClass()
   def getWriteConcern() = underlying.getWriteConcern
+  def writeConcern = getWriteConcern
+
   def group(key: DBObject, cond: DBObject, initial: DBObject, reduce: String) = {
     val result = underlying.group(key, cond, initial, reduce).toMap.asScala
     result.map(_._2.asInstanceOf[DBObject]).asInstanceOf[ArrayBuffer[DBObject]]
@@ -210,14 +220,14 @@ trait MongoCollectionWrapper extends Logging {
    * Additionally, it returns ZERO information about the actual results of the mapreduce,
    * just a cursor to the result collection.
    * This is less than ideal.  So I've wrapped it in something more useful.
-   * @deprecated Due to poor original design on my part, you should probably use the explicitly parameterized fversion of this on collection, or use the MapReduceCommand function on DB instead.
+   *
    * @param command An instance of MapReduceCommand representing the required MapReduce
    * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
    */
-  def mapReduce(collection: String, mapFunction: JSFunction, reduceFunction: JSFunction, outputCollection: Option[String] = None,
+  def mapReduce(mapFunction: JSFunction, reduceFunction: JSFunction, outputCollection: Option[String] = None,
                 query: Option[DBObject] = None, sort: Option[DBObject] = None, finalizeFunction: Option[JSFunction] = None, 
                 jsScope: Option[String] = None): MapReduceResult =  
-              new MapReduceResult(getDB.command(MapReduceCommand(collection, mapFunction, reduceFunction, 
+              new MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction, 
                                                                  outputCollection, query, sort, finalizeFunction,
                                                                  jsScope).asDBObject))
   def remove(o: DBObject) = underlying.remove(o)
@@ -240,7 +250,7 @@ trait MongoCollectionWrapper extends Logging {
     case _ => false
   }
 
-  def count() = getCount
+  def count = getCount
   def count(query: DBObject) = getCount(query)
   def count(query: DBObject, fields: DBObject) = getCount(query, fields)
 

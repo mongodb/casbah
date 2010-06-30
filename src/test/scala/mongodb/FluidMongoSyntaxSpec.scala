@@ -143,7 +143,12 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
       // One more test of bad data that keeps cropping up
       val x = scala.collection.mutable.Buffer("X:YZ", "X:FOOBAR", "X:123", "Z:ABC", "Z:SPAM", "Z:EGGS")
       for ((tag, values) <- x.map(_.split(":")).groupBy(_(0))) {
-        val inner_in = tag $in values
+        log.debug("Tag: %s / Values: %s", tag, values)
+        values foreach {x=>log.debug("Value: %s",x(1))}
+        val tags = values.map(_(1))
+        log.debug("Tags: %s", tags)
+        val inner_in = tag $in tags
+        log.debug("In: %s", inner_in)
         assert(inner_in.toString != null)
       }
       // @TODO Figure out the proper type comparison statement. I know it's an array but the Scala conversion muddies it
