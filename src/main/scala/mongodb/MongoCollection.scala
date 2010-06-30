@@ -197,14 +197,29 @@ trait MongoCollectionWrapper extends Logging {
    * Additionally, it returns ZERO information about the actual results of the mapreduce,
    * just a cursor to the result collection.
    * This is less than ideal.  So I've wrapped it in something more useful.
-   *
+   * @deprecated Due to poor original design on my part, you should probably use the explicitly parameterized fversion of this on collection, or use the MapReduceCommand function on DB instead.
    * @param command An instance of MapReduceCommand representing the required MapReduce
    * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
    */
   def mapReduce(command: MapReduceCommand): MapReduceResult  = {
-    val result = getDB.command(command.toDBObj)
+    val result = getDB.command(command.asDBObject)
     new MapReduceResult(result)
   }
+  /**
+   * The Java Driver is a bit outdated and is missing the finalize option.
+   * Additionally, it returns ZERO information about the actual results of the mapreduce,
+   * just a cursor to the result collection.
+   * This is less than ideal.  So I've wrapped it in something more useful.
+   * @deprecated Due to poor original design on my part, you should probably use the explicitly parameterized fversion of this on collection, or use the MapReduceCommand function on DB instead.
+   * @param command An instance of MapReduceCommand representing the required MapReduce
+   * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
+   */
+  def mapReduce(collection: String, mapFunction: JSFunction, reduceFunction: JSFunction, outputCollection: Option[String] = None,
+                query: Option[DBObject] = None, sort: Option[DBObject] = None, finalizeFunction: Option[JSFunction] = None, 
+                jsScope: Option[String] = None): MapReduceResult =  
+              new MapReduceResult(getDB.command(MapReduceCommand(collection, mapFunction, reduceFunction, 
+                                                                 outputCollection, query, sort, finalizeFunction,
+                                                                 jsScope).asDBObject))
   def remove(o: DBObject) = underlying.remove(o)
   def rename(newName: String) = underlying.rename(newName)
   def resetIndexCache() = underlying.resetIndexCache()

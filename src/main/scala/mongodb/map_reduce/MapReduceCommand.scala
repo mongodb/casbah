@@ -34,7 +34,7 @@ class MapReduceError(msg: String) extends Error("MongoDB Map/Reduce Error: " + m
 /**
  * Wrapper Object to provide apply methods for the MapReduceCommand class.
  *
- * @see http://www.mongodb.org/display/DOCS/MapReduce
+ * @see <a href="http://www.mongodb.org/display/DOCS/MapReduce">The MongoDB Map/Reduce Documentation</a>
  * 
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
@@ -43,11 +43,11 @@ object MapReduceCommand {
   def apply(collection: String,
             mapFunction: JSFunction,
             reduceFunction: JSFunction,
-            outputCollection: Option[String],
-            query: Option[DBObject],
-            sort: Option[DBObject],
-            finalizeFunction: Option[JSFunction],
-            jsScope: Option[String]) = {
+            outputCollection: Option[String] = None,
+            query: Option[DBObject] = None,
+            sort: Option[DBObject] = None,
+            finalizeFunction: Option[JSFunction] = None,
+            jsScope: Option[String] = None) = {
     val mrc = new MapReduceCommand()
     mrc.collection = collection
     mrc.mapFunction = mapFunction
@@ -97,6 +97,8 @@ class MapReduceCommand {
   var sort: Option[DBObject] = None
   var finalizeFunction: Option[JSFunction] = None
   var jsScope: Option[String] = None
+
+  def asDBObject = toDBObj 
 
   def toDBObj = {
     val dataObj = BasicDBObjectBuilder.start

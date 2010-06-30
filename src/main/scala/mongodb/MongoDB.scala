@@ -20,6 +20,8 @@
 package com.novus.casbah
 package mongodb
 
+import map_reduce._
+
 import com.mongodb._
 import scalaj.collection.Implicits._
 import Implicits._
@@ -81,5 +83,20 @@ class MongoDB(val underlying: DB) {
   def resetIndexCache() = underlying.resetIndexCache
   def setReadOnly(b: Boolean) = underlying.setReadOnly(b)
   def setWriteConcern(concern: DB.WriteConcern) = underlying.setWriteConcern(concern)
+
+  /**
+   * The Java Driver is a bit outdated and is missing the finalize option.
+   * Additionally, it returns ZERO information about the actual results of the mapreduce,
+   * just a cursor to the result collection.
+   * This is less than ideal.  So I've wrapped it in something more useful.
+   *
+   * @param command An instance of MapReduceCommand representing the required MapReduce
+   * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
+   */
+  def mapReduce(cmd: MapReduceCommand): MapReduceResult  = {
+    val result = command(cmd.asDBObject)
+    new MapReduceResult(result)(this)
+  }
+
   override def toString() = underlying.toString
 }

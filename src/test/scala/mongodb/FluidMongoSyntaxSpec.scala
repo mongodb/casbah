@@ -136,18 +136,21 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
       val in = "foo" $in (1, 8, 12)
       then("The implicit conversions provide a map-entry formatted Tuple-set matching the query.")
       assert(in._1 == "foo")
+      assert(in.toString != null) // Test to verify mongo's toString serialization doesn't choke
       // @TODO Figure out the proper type comparison statement. I know it's an array but the Scala conversion muddies it
       //assert(in._2.get("$in").asInstanceOf[RichSSeq[_]] == Seq(1, 8, 12).asJava)
       given("A field, <NOT IN OPERATOR>, target array")
       val nin = "foo" $nin (1, 8, 12)
       then("The implicit conversions provide a map-entry formatted Tuple-set matching the query.")
       assert(nin._1 == "foo")
+      assert(nin.toString != null) // Test to verify mongo's toString serialization doesn't choke
       // @TODO Figure out the proper type comparison statement. I know it's an array but the Scala conversion muddies it
       //assert(in._2.get("$in").asInstanceOf[RichSSeq[_]] == Seq(1, 8, 12).asJava)
       given("A field, <ALL OPERATOR>, target array")
       val all = "foo" $all (1, 8, 12)
       then("The implicit conversions provide a map-entry formatted Tuple-set matching the query.")
       assert(all._1 == "foo")
+      assert(all.toString != null) // Test to verify mongo's toString serialization doesn't choke
       // @TODO Figure out the proper type comparison statement. I know it's an array but the Scala conversion muddies it
       //assert(in._2.get("$in").asInstanceOf[RichSSeq[_]] == Seq(1, 8, 12).asJava)
       given("A field, <WHERE OPERATOR>, target statement")

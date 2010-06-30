@@ -247,8 +247,8 @@ trait GreaterThanEqualOp extends QueryOperator {
  * @version 1.0
  */
 trait InOp extends QueryOperator {
-  def $in(target: Array[Any]) = op("$in", target)
-  def $in(target: Any*) = op("$in", target)
+  def $in(target: Array[Any]) = op("$in", asList(target))
+  def $in(target: Any*) = op("$in", asList(target.toArray))
 }
 
 /**
@@ -267,8 +267,8 @@ trait InOp extends QueryOperator {
  * @version 1.0
  */
 trait NotInOp extends QueryOperator {
-  def $nin(target: Array[Any]) = op("$nin", target)
-  def $nin(target: Any*) = op("$nin", target)
+  def $nin(target: Array[Any]) = op("$nin", asList(target))
+  def $nin(target: Any*) = op("$nin", asList(target))
 }
 
 /**
@@ -287,8 +287,8 @@ trait NotInOp extends QueryOperator {
  * @version 1.0
  */
 trait AllOp extends QueryOperator {
-  def $all(target: Array[Any]) = op("$all", target)
-  def $all(target: Any*) = op("$all", target)
+  def $all(target: Array[Any]) = op("$all", asList(target))
+  def $all(target: Any*) = op("$all", asList(target))
 }
 
 /**
