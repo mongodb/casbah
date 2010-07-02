@@ -1,4 +1,3 @@
--*- markdown -*-
 # Casbah 
 ## formerly "mongo-scala-wrappers"
 ### Brendan W. McAdams <bmcadams@novus.com>
