@@ -35,8 +35,8 @@ import org.scala_tools.time.Imports._
 /** 
  * " Register" Object, calls the registration methods.
  * 
- * By default does not include JodaTime as this may be undesired behavior.
- * If you want JodaTime support, please use the RegisterJodaTimeConversionHelpers Object
+ * By default does not include JodaDateTime as this may be undesired behavior.
+ * If you want JodaDateTime support, please use the RegisterJodaTimeConversionHelpers Object
  * 
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0, 06/22/10
@@ -44,7 +44,7 @@ import org.scala_tools.time.Imports._
  * @see RegisterJodaTimeConversionHelpers
  */
 object RegisterConversionHelpers extends Serializers
-                              with Deserializers  {
+                                    with Deserializers  {
   def apply() = {
     log.info("Registering Scala Conversions.")
     super.register()
@@ -58,14 +58,14 @@ object RegisterConversionHelpers extends Serializers
  * @version 1.0, 06/22/10
  * @since 1.0
  */
-@deprecated("Be VERY careful using this - it will remove ALL third-party loaded BSON Encoding & Decoding hooks at runtime.")
+@deprecated("Be VERY careful using this - it will remove ALL of Casbah's loaded BSON Encoding & Decoding hooks at runtime. If you need to clear Joda Time use DeregisterJodaTimeConversionHelpers.")
 object DeregisterConversionHelpers extends Serializers
                                      with Deserializers {
   def apply() = {
     log.info("Deregistering Scala Conversions.")
     // TODO - Figure out how to clear specific hooks as this clobbers everything.
-    log.warning("Clobbering *ALL* Registered BSON Type Hooks.  Reregister any specific ones you may need.")
-    BSON.clearAllHooks()
+    log.warning("Clobbering Casbah's Registered BSON Type Hooks (EXCEPT Joda Time).  Reregister any specific ones you may need.")
+    super.unregister()
   }
 }
 
@@ -76,7 +76,7 @@ object DeregisterConversionHelpers extends Serializers
  * an explicit invocation / registration of individual
  * deserializers, else unexpected behavior will occur.
  *
- * Because it's likely to be controversial, JodaTime is NOT mixed in by default.
+ * Because it's likely to be controversial, JodaDateTime is NOT mixed in by default.
  *
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0, 06/22/10
@@ -87,13 +87,9 @@ trait Deserializers extends MongoConversionHelper {
     log.info("Deserializers for Scala Conversions registering")
     super.register()
   }
-  /*override def unregister() =  {
-    log.info("Deserializers for Scala Conversions deregistering")
-    // TODO - Find out how to clear a SPECIFIC hook.
-    log.warning("Unregistering *ALL* Decoding hooks for MongoDB. ")
-    CasbahBSONHelper.clearDecoders
-    //super.unregister()
-  }*/
+  override def unregister() = {
+    super.unregister()
+  }
 }
 
 /** 
@@ -104,7 +100,7 @@ trait Deserializers extends MongoConversionHelper {
  * Be very careful with the deserializers however as they can come with
  * unexpected behavior.
  *
- * Because it's likely to be controversial, JodaTime is NOT mixed in by default.
+ * Because it's likely to be controversial, JodaDateTime is NOT mixed in by default.
  *
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0, 06/22/10
@@ -117,110 +113,129 @@ trait Serializers extends MongoConversionHelper
     log.info("Serializers for Scala Conversions registering")
     super.register()
   }
-  /*override def unregister() =  {
-    log.info("Serializers for Scala Conversions deregistering")
-    // TODO - Find out how to clear a SPECIFIC hook.
-    log.warning("Unregistering *ALL* Encoding hooks for MongoDB. ")
-    CasbahBSONHelper.clearDecoders
-    //super.unregister()
-  }*/
+  override def unregister() = {
+    super.unregister()
+  }
 }
 
 
-object RegisterJodaTimeConversionHelpers extends JodaTimeHelpers {
+object RegisterJodaTimeConversionHelpers extends JodaDateTimeHelpers {
   def apply() = {
-    log.info("Registering Scala Conversions.")
+    log.info("Registering  Joda Time Scala Conversions.")
     super.register()
   }
 }
 
-trait JodaTimeHelpers extends JodaTimeSerializer with JodaTimeDeserializer 
+object DeregisterJodaTimeConversionHelpers extends JodaDateTimeHelpers {
+  def apply() = {
+    log.info("Unregistering Joda Time Scala Conversions.")
+    super.unregister()
+  }
+}
 
-trait JodaTimeSerializer extends MongoConversionHelper {
+trait JodaDateTimeHelpers extends JodaDateTimeSerializer with JodaDateTimeDeserializer 
+
+trait JodaDateTimeSerializer extends MongoConversionHelper {
+
+  private val encodeType = classOf[DateTime]
+  /** Encoding hook for MongoDB To be able to persist JodaDateTime DateTime to MongoDB */
+  private val transformer = new Transformer {
+    log.trace("Encoding a JodaDateTime DateTime.")
+
+    def transform(o: AnyRef): AnyRef = o match {
+      case d: DateTime => d.toDate // Return a JDK Date object which BSON can encode
+      case unknownRef: AnyRef => throw new IllegalArgumentException("Don't know how to serialize an object of type '" + unknownRef.getClass + "'") 
+      case unknownVal => throw new IllegalArgumentException("Don't know how to serialize '" + unknownVal + "'")
+    }
+       
+  }
 
   override def register() = {
-    log.info("Setting up Joda Time Serializers")
+    log.info("Hooking up Joda DateTime serializer.")
+    /** Encoding hook for MongoDB To be able to persist JodaDateTime DateTime to MongoDB */
+    BSON.addEncodingHook(encodeType, transformer)
+    super.register()
+  }
 
-    log.info("Hooking up Joda DateTime serializer")
-    /** Encoding hook for MongoDB To be able to persist JodaTime DateTime to MongoDB */
-    BSON.addEncodingHook(classOf[DateTime], new Transformer {
-      log.trace("Encoding a JodaTime DateTime.")
+  override def unregister() = {
+    log.info("De-registering Joda DateTime serializer.")
+    org.bson.BSONEncoders.remove(encodeType)
+    super.unregister()
+  }
+}
 
-      def transform(o: AnyRef): AnyRef = o match {
-        case d: DateTime => d.toDate // Return a JDK Date object which BSON can encode
-        case unknownRef: AnyRef => throw new IllegalArgumentException("Don't know how to serialize an object of type '" + unknownRef.getClass + "'") 
-        case unknownVal => throw new IllegalArgumentException("Don't know how to serialize '" + unknownVal + "'")
+trait JodaDateTimeDeserializer extends MongoConversionHelper {
+
+  private val encodeType = classOf[java.util.Date]
+  private val transformer = new Transformer {
+    log.trace("Decoding JDK Dates .")
+
+    def transform(o: AnyRef): AnyRef = o match {
+      case jdkDate: java.util.Date => new DateTime(jdkDate)
+      case d: DateTime => {
+        log.warning("Transformer got an actual JodaDateTime DateTime?")
+        d
       }
-         
-    })
-
-    super.register()
+      case unknownRef: AnyRef => throw new IllegalArgumentException("Don't know how to serialize an object of type '" + unknownRef.getClass + "'") 
+      case unknownVal => throw new IllegalArgumentException("Don't know how to serialize '" + unknownVal + "'")
+    }
   }
-}
-
-trait JodaTimeDeserializer extends MongoConversionHelper {
 
   override def register() = {
-    log.info("Setting up Joda Time Deserializers")
-
     log.info("Hooking up Joda DateTime deserializer")
-    /** Encoding hook for MongoDB To be able to read JodaTime DateTime from MongoDB's BSON Date */
-    BSON.addDecodingHook(classOf[java.util.Date], new Transformer {
-      log.trace("Decoding JDK Dates .")
-
-      def transform(o: AnyRef): AnyRef = o match {
-        case jdkDate: java.util.Date => new DateTime(jdkDate)
-        case d: DateTime => {
-          log.warning("Transformer got an actual JodaTime DateTime?")
-          d
-        }
-        case unknownRef: AnyRef => throw new IllegalArgumentException("Don't know how to serialize an object of type '" + unknownRef.getClass + "'") 
-        case unknownVal => throw new IllegalArgumentException("Don't know how to serialize '" + unknownVal + "'")
-      }
-         
-    })
-
+    /** Encoding hook for MongoDB To be able to read JodaDateTime DateTime from MongoDB's BSON Date */
+    BSON.addDecodingHook(encodeType, transformer)
     super.register()
+  }
+
+  override def unregister() = {
+    log.info("De-registering Joda DateTime dserializer.")
+    org.bson.BSONDecoders.remove(encodeType)
+    super.unregister()
   }
 }
   
 trait ScalaRegexSerializer extends MongoConversionHelper {
+  private val transformer = new Transformer { 
+    log.trace("Encoding a Scala RegEx.")
+
+    def transform(o: AnyRef): AnyRef = o match {
+      case sRE: _root_.scala.util.matching.Regex => sRE.pattern
+      case _ => o
+    }
+       
+  }
 
   override def register() = {
     log.info("Setting up ScalaRegexSerializers")
 
     log.info("Hooking up scala.util.matching.Regex serializer")
     /** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/
-    BSON.addEncodingHook(classOf[_root_.scala.util.matching.Regex], new Transformer {
-      log.trace("Encoding a Scala RegEx.")
+    BSON.addEncodingHook(classOf[_root_.scala.util.matching.Regex], transformer)
 
-      def transform(o: AnyRef): AnyRef = o match {
-        case sRE: _root_.scala.util.matching.Regex => sRE.pattern
-        case _ => o
-      }
-         
-    })
     super.register()
   }
 }
 
 trait ScalaArrayBufferSerializer extends MongoConversionHelper {
 
+  private val transformer = new Transformer {
+    import scalaj.collection.Imports._
+    log.debug("Encoding a Scala ArrayBuffer.")
+
+    def transform(o: AnyRef): AnyRef = o match {
+      case ab: _root_.scala.collection.mutable.ArrayBuffer[_] => ab.asJava
+      case _ => o
+    }
+  }
+
   override def register() = {
-    log.info("Setting up ScalaArrayBufferSerializers")
+    log.debug("Setting up ScalaArrayBufferSerializers")
 
-    log.info("Hooking up scala.collection.mutable.ArrayBuffer serializer")
+    log.debug("Hooking up scala.collection.mutable.ArrayBuffer serializer")
     /** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/
-    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ArrayBuffer[_]], new Transformer {
-      import scalaj.collection.Imports._
-      log.debug("Encoding a Scala ArrayBuffer.")
+    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ArrayBuffer[_]], transformer)
 
-      def transform(o: AnyRef): AnyRef = o match {
-        case ab: _root_.scala.collection.mutable.ArrayBuffer[_] => ab.asJava
-        case _ => o
-      }
-         
-    })
     super.register()
   }
 }

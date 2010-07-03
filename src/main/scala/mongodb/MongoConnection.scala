@@ -53,6 +53,8 @@ object MongoConnection {
  * @version 1.0
  */
 class MongoConnection(val underlying: Mongo) {
+  // Register the core Serialization helpers.
+  conversions.scala.RegisterConversionHelpers()
   /**
    * Apply method which proxies getDB, allowing you to call
    * <code>connInstance("dbName")</code>

@@ -37,7 +37,7 @@ import org.scala_tools.time.Imports._
 import conversions.scala._
 
 class ConversionSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers with Logging {
-  DeregisterConversionHelpers()
+  DeregisterJodaTimeConversionHelpers()
   feature("The conversions do not work unless explicitly brought into scope.") {
     val conn = new Mongo().asScala
     implicit val mongo = conn("conversions")
@@ -67,7 +67,7 @@ class ConversionSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers 
     }
     scenario("And Conversions can be deregistered....") {
       given("A Mongo object connected to the default [localhost]")
-      DeregisterConversionHelpers()
+      DeregisterJodaTimeConversionHelpers()
       assert(conn != null)
       log.info("Date: %s", now)
       evaluating { mongo("dateDeRegedFail").insert(Map("date" -> now).asDBObject) } should produce [IllegalArgumentException]
@@ -75,7 +75,7 @@ class ConversionSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers 
       mongo("dateDeRegedFail").insert(Map("date" -> jDate).asDBObject) 
       and("It should not come back as a Joda DateTime")
       val testRow = mongo("dateDeRegedFail").findOne()
-      log.info("Test Row: %s", testRow)
+      //log.info("Test Row: %s", testRow)
       testRow.get("date").isInstanceOf[java.util.Date]
       log.info("JDK Date: %s", testRow.get("date").asInstanceOf[java.util.Date])
       evaluating { testRow.get("date").asInstanceOf[DateTime] } should produce [ClassCastException]

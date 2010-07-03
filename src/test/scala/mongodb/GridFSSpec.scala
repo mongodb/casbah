@@ -39,7 +39,8 @@ class GridFSSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers with
 
   feature("The map/reduce engine works correctly") {
     val conn = new Mongo().asScala
-    DeregisterConversionHelpers()
+    // New functionality should forcibly unload Joda Helpers where they conflict; so load them explicitly
+    RegisterJodaTimeConversionHelpers()
     //DeRegisterJodaTimeConversionHelpers()
     scenario("Error conditions such as a non-existant collection should not blow up but return an error-state result") {
       given("A Mongo object connected to the default [localhost]")

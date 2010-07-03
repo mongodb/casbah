@@ -37,6 +37,8 @@ import java.io._
 import scala.reflect._
 import scalaj.collection.Imports._
 
+import org.scala_tools.time.Imports._
+
 // todo - look into potential naming conflicts... 
 
 /** 
@@ -177,15 +179,36 @@ class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[Gr
    def createFile(in: InputStream, filename: String): GridFSInputFile = underlying.createFile(in, filename)
    def withNewFile(in: InputStream, filename: String)(op: FileWriteOp) { loan(createFile(in, filename))({ fh => op(fh); fh.save }) }
 
+  /** Hacky fun - 
+   * Unload the Joda Time code, IF ITS LOADED, and reload it after we're done.
+   * This should minimize conflicts or exceptions from forgetting.
+   * This is hacky as it can potentially clobber anybody's "custom" java.util.Date deserializer with ours.  
+   * TODO - Make this more elegant
+   */
+   def sansJodaTime[T](op: => T) = org.bson.BSONDecoders(classOf[java.util.Date]) match {   
+      case Some(transformer) => {
+        log.info("DateTime Decoder was loaded; unloading before continuing.")
+        new conversions.scala.JodaDateTimeDeserializer { unregister() }
+        val ret = op
+        log.info("Retrieval finished.  Re-registering decoder.")
+        new conversions.scala.JodaDateTimeDeserializer { register() }
+        ret
+      }
+      case None => {
+        log.info("Didn't find a registration for JodaTime: %s", org.bson.BSONDecoders())
+        op
+      }
+    }
+
    /** Find by query - returns a list */
-   def find(query: DBObject) = underlying.find(query).asScala
+   def find(query: DBObject) = sansJodaTime { underlying.find(query).asScala }
    /** Find by query - returns a single item */
-   def find(id: ObjectId): GridFSDBFile = underlying.find(id)
+   def find(id: ObjectId): GridFSDBFile = sansJodaTime { underlying.find(id) }
    /** Find by query - returns a list */
-   def find(filename: String) = underlying.find(filename).asScala
-   def findOne(query: DBObject): GridFSDBFile = underlying.findOne(query)
-   def findOne(id: ObjectId): GridFSDBFile = underlying.findOne(id)
-   def findOne(filename: String): GridFSDBFile = underlying.findOne(filename)
+   def find(filename: String) = sansJodaTime { underlying.find(filename).asScala }
+   def findOne(query: DBObject): GridFSDBFile = sansJodaTime { underlying.findOne(query) }
+   def findOne(id: ObjectId): GridFSDBFile = sansJodaTime { underlying.findOne(id) }
+   def findOne(filename: String): GridFSDBFile = sansJodaTime { underlying.findOne(filename) }
 
    def bucketName = underlying.getBucketName
    //def db = new ScalaMongoDB(underlying.getDB)
@@ -194,8 +217,8 @@ class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[Gr
     * Returns a cursor for this filestore
     * of all of the files... 
     */
-   def files = underlying.getFileList
-   def files(query: DBObject) = underlying.getFileList(query)
+   def files = sansJodaTime { underlying.getFileList }
+   def files(query: DBObject) = sansJodaTime { underlying.getFileList(query) } 
 
    def remove(query: DBObject) = underlying.remove(query)
    def remove(id: ObjectId) = underlying.remove(id)

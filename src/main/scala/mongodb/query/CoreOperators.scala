@@ -100,15 +100,26 @@ sealed trait QueryOperator {
   protected def op(op: String, target: Any) = dbObj match {
     case Some(nested) => {
       log.debug("{nested} DBObj: %s Op: %s Target: %s [%s]", dbObj, op, target, target.asInstanceOf[AnyRef].getClass)
+      patchSerialization(target)
       nested.put(op, target)
       (field -> nested)
     }
     case None => {
       log.debug("DBObj: %s Op: %s Target: %s [%s]", dbObj, op, target, target.asInstanceOf[AnyRef].getClass)
+      patchSerialization(target)
       val opMap = BasicDBObjectBuilder.start(op, target).get
       (field -> opMap)
     }
   }
+  /** 
+   * Temporary fix code for making sure certain edge cases w/ the serialization libs 
+   * Don't happen.  This may impose a slight performance penalty.
+   */
+  protected def patchSerialization(target: Any): Unit = target match {
+    case ab: scala.collection.mutable.ArrayBuffer[_] => new conversions.scala.ScalaArrayBufferSerializer { register() }
+    case _ => {}
+  }
+     
 }
 
 trait NestingQueryHelper extends QueryOperator with Logging {

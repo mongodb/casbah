@@ -33,12 +33,13 @@ import org.scala_tools.time.Imports._
 
 
 trait MongoConversionHelper extends Logging {
+
   def register() = {
-    log.info("Reached base registration method on MongoConversionHelper")
+    log.info("Reached base registration method on MongoConversionHelper.")
   }
+
   def unregister() = {
-    log.info("Reached base de-registration method on MongoConversionHelper")
+    log.info("Reached base de-registration method on MongoConversionHelper.")
   }
 }
-
 // vim: set ts=2 sw=2 sts=2 et:
