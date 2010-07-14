@@ -236,7 +236,7 @@ trait MongoCollectionWrapper extends Logging {
   def save(jo: DBObject) = underlying.save(jo)
   def setHintFields(lst: List[DBObject]) = underlying.setHintFields(lst.asJava)
   def setInternalClass(path: String, c: Class[_]) = underlying.setInternalClass(path, c)
-  def setObjectClass[A <: DBObject](c: Class[A])(implicit m: scala.reflect.Manifest[A]) = {
+  def setObjectClass[A <: DBObject : Manifest](c: Class[A]) = {
     underlying.setObjectClass(c)
     new MongoTypedCollection[A](underlying)
   }
@@ -263,7 +263,7 @@ trait MongoCollectionWrapper extends Logging {
    * 
    * @param x object to insert into the collection
    */
-  def <<[A <: DBObject](x: A) =  insert(x)
+  def <<[A <% DBObject](x: A) =  insert(x)
 
   /**
    * MongoDB <code>insert</code> with subsequent check for object existence
@@ -274,7 +274,7 @@ trait MongoCollectionWrapper extends Logging {
    * @return <code>None</code> if such object exists already (with the same identity)
    * <code>Some(x)</code> in the case of success
    */
-  def <<?[A <: DBObject](x: A): Option[A] = {
+  def <<?[A <% DBObject](x: A): Option[A] = {
     insert(x)
     lastError get "err" match {
       case null => Some(x)
@@ -289,7 +289,7 @@ trait MongoCollectionWrapper extends Logging {
    * 
    * @param x object to save to the collection
    */
-  def +=[A <: DBObject](x: A)  = save(x)
+  def +=[A <% DBObject](x: A)  = save(x)
 
   /**
    * MongoDB DBCollection.remove method
@@ -298,7 +298,7 @@ trait MongoCollectionWrapper extends Logging {
    * 
    * @param x object to remove from the collection
    */
-  def -=[A <: DBObject](x: A) = remove(x)
+  def -=[A <% DBObject](x: A) = remove(x)
 
   /**
    * Helper method for anyone who returns an Option
@@ -306,7 +306,7 @@ trait MongoCollectionWrapper extends Logging {
    * to swap as None
    *
    */
-  def optWrap[A <: DBObject](obj: A): Option[A] = {
+  def optWrap[A <% DBObject](obj: A): Option[A] = {
     if (obj == null) None else Some(obj)
   }
   def findOne(o: DBObject): Option[DBObject]
@@ -361,10 +361,11 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionWrapp
  * @param underlying DBCollection object to proxy
  * @param m Manifest[A] representing the erasure for the underlying type - used to get around the JVM's insanity
  */
-class MongoTypedCollection[A <: DBObject](val underlying: DBCollection)(implicit m: scala.reflect.Manifest[A]) extends Iterable[A] 
-                                                                                                                  with MongoCollectionWrapper {
+class MongoTypedCollection[A <: DBObject : Manifest](val underlying: DBCollection) extends Iterable[A] 
+                                                                                   with MongoCollectionWrapper {
+                                                                                     
   type UnderlyingObj = A
-
+  val m = manifest[A]
   log.debug("Manifest erasure: " + m.erasure)
   underlying.setObjectClass(m.erasure)
   /*def this(coll: DBCollection)(implicit m: scala.reflect.Manifest[A]) = {

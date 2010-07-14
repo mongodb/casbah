@@ -127,7 +127,7 @@ trait Implicits extends FluidQueryBarewordOps {
    * Does not currently convert nested values.
    * @param map A map of [String, Any]
    */
-  implicit def mapAsDBObject(map: Map[String, Any]) = new {
+  implicit def mapAsDBObject(map: scala.collection.Map[String, Any]) = new {
     /**
      * Return a Mongo <code>DBObject</code> containing the Map values
      * @return DBObject 
@@ -135,7 +135,7 @@ trait Implicits extends FluidQueryBarewordOps {
     def asDBObject = map2MongoDBObject(map)
   }
 
-  implicit def map2MongoDBObject(map: Map[String, Any]): DBObject = new BasicDBObject(map.asJava)
+  implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject = new BasicDBObject(map.asJava)
 
   /**
    * Implicit extension methods for String values (e.g. a field name)
