@@ -116,7 +116,7 @@ trait MongoCollectionWrapper extends Logging {
     result.get("retval").asInstanceOf[DBObject].toMap.asScala.map(_._2.asInstanceOf[DBObject]).asInstanceOf[ArrayBuffer[DBObject]]
   }
 
-  /** Emulates a SQL MAX() call ever so gently **/
+  /** Emulates a SQL MAX() call ever so gently */
   def maxValue(field: String, condition: DBObject) = {
     val initial = Map("max" -> "").asDBObject
     val groupResult = group(new BasicDBObject,
@@ -165,7 +165,7 @@ trait MongoCollectionWrapper extends Logging {
     log.trace("Max Date Grouping Result: %s", groupResult)
     groupResult.head.get("max").asInstanceOf[java.util.Date]
   }
-  /** Emulates a SQL MIN() call ever so gently **/
+  /** Emulates a SQL MIN() call ever so gently */
   def minValue(field: String, condition: DBObject) = {
     val initial = Map("min" -> "").asDBObject
     group(new BasicDBObject,
@@ -182,7 +182,7 @@ trait MongoCollectionWrapper extends Logging {
         head.get("min").asInstanceOf[Double]
   }
 
-  /** Emulates a SQL AVG() call ever so gently **/
+  /** Emulates a SQL AVG() call ever so gently */
   def avgValue(field: String, condition: DBObject) = {
     val initial = Map("count" -> 0, "total" -> 0, "avg" -> 0).asDBObject
     group(new BasicDBObject,
