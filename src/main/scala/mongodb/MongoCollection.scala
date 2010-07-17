@@ -350,7 +350,7 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionWrapp
       log.debug("View convertable[mongodbobject] - rerouting.")
       findOne(dbobj.asDBObject)
     }
-    case map: Map[_, _] => {
+    case map: Map[String, Any] => {
       log.debug("View convertable[map]- rerouting.")
       findOne(map.asDBObject)
     }
@@ -365,11 +365,12 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionWrapp
    * It also serves to totally SCREW anyone trying to use context/view bounds of DBObject ;)
    */
   def findOne(obj: Object, fields: DBObject): Option[DBObject] =  obj match {
+
     case dbobj: MongoDBObject => {
       log.debug("View convertable[mongodbobject] - rerouting.")
       findOneView(dbobj.asDBObject, fields)
     }
-    case map: Map[_, _] => {
+    case map: Map[String, Any] => {
       log.debug("View convertable[map]- rerouting.")
       findOneView(map.asDBObject, fields)
     }
