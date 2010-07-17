@@ -227,6 +227,10 @@ trait Implicits extends FluidQueryBarewordOps {
      */ 
     def asDBObject = productToMongoDBObject(p)
   }
+  
+  // This may cause misbehavor ... aka "HERE BE DRAGONS"
+  implicit def tuplePairToDBObject(pair: (String, DBObject)): DBObject = 
+    pair.asDBObject
 
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
   implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)

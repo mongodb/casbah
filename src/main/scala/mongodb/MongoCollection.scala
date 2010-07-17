@@ -334,11 +334,51 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionWrapp
   def find(ref: DBObject) = underlying.find(ref) asScala
   def find(ref: DBObject, keys: DBObject) = underlying.find(ref, keys) asScala
   def find(ref: DBObject, fields: DBObject, numToSkip: Int, batchSize: Int) = underlying.find(ref, fields, numToSkip, batchSize) asScala
-  def findOne() = optWrap(underlying.findOne())
-  def findOne(o: DBObject) = optWrap(underlying.findOne(o))
-  def findOne(o: DBObject, fields: DBObject) = optWrap(underlying.findOne(o, fields))
-  def findOne(obj: Object) = optWrap(underlying.findOne(obj))
-  def findOne(obj: Object, fields: DBObject) = optWrap(underlying.findOne(obj, fields))
+  def findOne(): Option[DBObject] = optWrap(underlying.findOne())
+  def findOne(o: DBObject): Option[DBObject] = optWrap(underlying.findOne(o))
+  def findOne(o: DBObject, fields: DBObject): Option[DBObject] = optWrap(underlying.findOne(o, fields))
+  def findOneView[A <% DBObject : Manifest](o: A) = optWrap(underlying.findOne(o))
+  def findOneView[A <% DBObject : Manifest, B <% DBObject : Manifest](o: A, fields: B) = 
+    optWrap(underlying.findOne(o, fields))
+  /**
+   * Finds an object by its id. This compares the passed in value to the _id field of the document
+   * It also serves to totally SCREW anyone trying to use context/view bounds of DBObject ;)
+   * I've put some hackery in to try to detect possible conversions....
+   */
+  def findOne(obj: Object): Option[DBObject] = obj match {
+    case dbobj: MongoDBObject => {
+      log.debug("View convertable[mongodbobject] - rerouting.")
+      findOne(dbobj.asDBObject)
+    }
+    case map: Map[_, _] => {
+      log.debug("View convertable[map]- rerouting.")
+      findOne(map.asDBObject)
+    }
+    case prod: Product => {
+      log.debug("View convertable[product] - rerouting.")
+      findOne(prod.asDBObject)
+    }
+    case _ => optWrap(underlying.findOne(obj))
+  }
+  /**
+   * Finds an object by its id. This compares the passed in value to the _id field of the document
+   * It also serves to totally SCREW anyone trying to use context/view bounds of DBObject ;)
+   */
+  def findOne(obj: Object, fields: DBObject): Option[DBObject] =  obj match {
+    case dbobj: MongoDBObject => {
+      log.debug("View convertable[mongodbobject] - rerouting.")
+      findOneView(dbobj.asDBObject, fields)
+    }
+    case map: Map[_, _] => {
+      log.debug("View convertable[map]- rerouting.")
+      findOneView(map.asDBObject, fields)
+    }
+    case prod: Product => {
+      log.debug("View convertable[product] - rerouting.")
+      findOneView(prod.asDBObject, fields)
+    }
+     case _ => optWrap(underlying.findOne(obj, fields))
+   }
   override def head = headOption.get
   override def headOption = findOne
   override def tail = find.skip(1).toList

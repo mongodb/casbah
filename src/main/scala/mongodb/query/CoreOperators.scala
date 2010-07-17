@@ -99,13 +99,15 @@ sealed trait QueryOperator {
    */
   protected def op(op: String, target: Any) = dbObj match {
     case Some(nested) => {
-      log.debug("{nested} DBObj: %s Op: %s Target: %s [%s]", dbObj, op, target, target.asInstanceOf[AnyRef].getClass)
+      log.debug("{nested} DBObj: %s Op: %s Target: %s [%s]", dbObj, 
+                op, target, target.asInstanceOf[AnyRef].getClass)
       patchSerialization(target)
       nested.put(op, target)
       (field -> nested)
     }
     case None => {
-      log.debug("DBObj: %s Op: %s Target: %s [%s]", dbObj, op, target, target.asInstanceOf[AnyRef].getClass)
+      log.debug("DBObj: %s Op: %s Target: %s [%s]", dbObj, 
+                op, target, target.asInstanceOf[AnyRef].getClass)
       patchSerialization(target)
       val opMap = BasicDBObjectBuilder.start(op, target).get
       (field -> opMap)
@@ -137,7 +139,7 @@ trait NestingQueryHelper extends QueryOperator with Logging {
       case Some(nested) => nested.put(oper, entry); Some(nested)
       case None => Some(entry)
     }
-    dbObj map { o => field -> o } head
+    dbObj.map { o => field -> o }.head
   }
 
   def apply(target: Any) = { 
@@ -347,6 +349,8 @@ trait SizeOp extends QueryOperator {
  */
 trait ExistsOp extends QueryOperator {
   def $exists(target: Boolean) = op("$exists", target)
+/*  // Shortcut which assumes you meant "true"
+  def $exists = op("$exists", true)*/
 }
 
 /**
