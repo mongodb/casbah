@@ -5,8 +5,9 @@ class CasbahProject(info: ProjectInfo) extends DefaultProject(info) with rsync.R
 
   val scalaTime = "org.scala-tools" % "time" % "2.8.0.RC6-0.2-SNAPSHOT"
 
-  val configgy = "net.lag" % "configgy" % "1.5.2"
+  val configgy = "net.lag" %% "configgy" % "1.5.5"
   val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.RC6-SNAPSHOT" % "test"
+  val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
 
   val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0.Beta1" % "1.0.Beta2"
 
@@ -18,5 +19,5 @@ class CasbahProject(info: ProjectInfo) extends DefaultProject(info) with rsync.R
   val bumRepo = "Bum Networks Release Repository" at "http://repo.bumnetworks.com/releases/"
   val bumSnapsRepo = "Bum Networks Snapshots Repository" at "http://repo.bumnetworks.com/snapshots/"
 
-  def rsyncRepo = "repobum:/home/public/repo-rels"
+  def rsyncRepo = "repobum:/home/public/releases"
 }
