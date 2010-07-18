@@ -172,7 +172,11 @@ trait Implicits extends FluidQueryBarewordOps {
    */
   implicit def mongoNestedQueryStatements(nested: Tuple2[String, DBObject]) = new {
     val field = nested._1
-  } with FluidQueryOperators { dbObj = Some(nested._2) }
+  } with FluidQueryOperators { 
+    dbObj = Some(nested._2) 
+/*    def ++[A <% DBObject](right: A): DBObject = wrapDBObj(nested) ++ wrapDBObj(right)
+*/  }
+  
   
   /*[>* For several of the items which are geared towards nested operations like $set/$unset,
    * We tack other operators onto them for sanity.
@@ -220,18 +224,25 @@ trait Implicits extends FluidQueryBarewordOps {
   /*
    * Implicit extension methods to convert Products to Mongo DBObject instances.
    */ 
-  implicit def productAsDBObject(p: Product) = new {
+  implicit def productPimp(p: Product) = new {
     /*
      * Return a Mongo <code>DBObject</code> containing the Map values
      * @return DBObject 
      */ 
     def asDBObject = productToMongoDBObject(p)
+    def ++[A <% DBObject : Manifest](right: A): DBObject = asDBObject ++ wrapDBObj(right)
   }
   
   // This may cause misbehavor ... aka "HERE BE DRAGONS"
   implicit def tuplePairToDBObject(pair: (String, DBObject)): DBObject = 
     pair.asDBObject
 
+  // A few hacks for defining straight off conversions
+  implicit def tuplePairUtils(pair: (String, Any)) = new {
+    def ++[A <% DBObject : Manifest](right: A): DBObject = pair.asDBObject ++ wrapDBObj(right)
+    def ++(right: (String, Any)): DBObject = pair.asDBObject ++ right.asDBObject
+  }
+  
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
   implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
 

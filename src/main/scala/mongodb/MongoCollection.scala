@@ -289,7 +289,7 @@ trait MongoCollectionWrapper extends Logging {
    * 
    * @param x object to save to the collection
    */
-  def +=[A <% DBObject](x: A)  = save(x)
+  def +=[A <% DBObject : Manifest](x: A)  = save(x)
 
   /**
    * MongoDB DBCollection.remove method
@@ -298,7 +298,7 @@ trait MongoCollectionWrapper extends Logging {
    * 
    * @param x object to remove from the collection
    */
-  def -=[A <% DBObject](x: A) = remove(x)
+  def -=[A <% DBObject : Manifest](x: A) = remove(x)
 
   /**
    * Helper method for anyone who returns an Option
