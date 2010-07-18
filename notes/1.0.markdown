@@ -1,5 +1,6 @@
 First public full release.  
-    * GridFS enhanced via Loan Pattern
-    * Full support for MongoDB Query operators via fluid syntax (now with lots of testing to minimize breakage)
-    * Added support for Scala 2.8-style Map interaction w/ DBObject. Builder pattern, +=, etc.
-    * Tutorial Available
+
++ GridFS enhanced via Loan Pattern
++ Full support for MongoDB Query operators via fluid syntax (now with lots of testing to minimize breakage)
++ Added support for Scala 2.8-style Map interaction w/ DBObject. Builder pattern, +=, etc.
++ Tutorial Available
