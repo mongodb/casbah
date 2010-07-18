@@ -21,17 +21,23 @@ package com.novus.casbah
 package mongodb
 package test
 
-import Implicits.{mongoDBAsScala, mongoConnAsScala, mongoCollAsScala, mongoCursorAsScala}
-import com.mongodb._
+import util.Logging
 
 import org.scalatest.{GivenWhenThen, FeatureSpec}
+import org.scalatest.matchers.ShouldMatchers
 
-class MongoWrapperSpec extends FeatureSpec with GivenWhenThen {
+import net.lag.configgy.Configgy
+import net.lag.logging.Logger
+
+import com.novus.casbah.mongodb.Imports._
+
+class MongoWrapperSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers with Logging {
+    Configgy.configure("src/test/resources/casbah.config")
     feature("The implicit extension methods allow for receiving wrapped versions of the Mongo Java objects.") {
 
       info("the Scala wrappers should provide .asScala methods on each of the Mongo Java connection-related objects.")
 
-      val conn = new Mongo()
+      val conn = new com.mongodb.Mongo()
       scenario("A Mongo connection object can be converted into a MongoConnection wrapper instance.") {
         given("A Mongo object connected to the default [localhost]")
         assert(conn != null)
@@ -80,7 +86,7 @@ class MongoWrapperSpec extends FeatureSpec with GivenWhenThen {
         assert(conn.isInstanceOf[MongoConnection])
         then("The connected instance's underlying connection is the Java mongo connection object.")
         assert(conn.underlying != null)
-        assert(conn.underlying.isInstanceOf[Mongo])
+        assert(conn.underlying.isInstanceOf[com.mongodb.Mongo])
       }
       scenario("The apply method can be invoked on Connections instead of getDB.") {
         given("A connected instance.")
@@ -94,7 +100,7 @@ class MongoWrapperSpec extends FeatureSpec with GivenWhenThen {
         assert(db.underlying != null)
         assert(db.getName == "test")
         and("The underlying database is the Java mongo database object.")
-        assert(db.underlying.isInstanceOf[DB])
+        assert(db.underlying.isInstanceOf[com.mongodb.DB])
       }
       scenario("The apply method can be invoked upon DBs instead of getCollection.") {
         given("A connected MongoDB Instance.")
@@ -105,6 +111,37 @@ class MongoWrapperSpec extends FeatureSpec with GivenWhenThen {
         then("A valid instance of the [non-genericized] MongoCollection is returned.")
         assert(coll != null)
         assert(coll.isInstanceOf[MongoCollection])
+      }
+    }
+    feature("Tutorial related edge cases function properly...") {
+      val mongoColl = MongoConnection()("casbah_test")("test_data")
+      scenario("$Exists tests are working") {
+        when("A explicit cast of fluid text is done...")
+        val q: DBObject = "email" $exists true
+        then("The expected object is assembled")
+        log.info("Q: %s", q)
+        q should be (MongoDBObject("email" -> MongoDBObject("$exists" -> true).asDBObject).asDBObject) 
+      }
+      scenario("Tracking down doc bugs in single test") {
+        val q = "email" $exists true
+        // q: (String, com.mongodb.DBObject) = 
+        // (email,{ "$exists" : true})
+        val users = for (x <- mongoColl.find(q)) yield x
+        log.info("users: %s", users.size)
+      }
+      scenario("Implicit conversion can take place when passing into something that needs a DBObject") {
+        when("Finding off a fluid query")
+        val q = "email" $exists true
+        // q: (String, com.mongodb.DBObject) = 
+        // (email,{ "$exists" : true})
+        val n = for (x <- mongoColl.find(q)) yield x
+        log.info("N: %s", n.next)
+        then("Nothing blew up") // yes ,this test is poor.
+        and("Another quick test works...")
+        val q2  = MongoDBObject.empty
+        val fields = MongoDBObject("user" -> 1)
+        val z = for (x <- mongoColl.find(q2, fields)) yield x
+        log.info("Z: %s / %s", z, z.next)
       }
     }
 }
