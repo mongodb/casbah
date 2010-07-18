@@ -82,7 +82,8 @@ trait MongoDBObject extends Map[String, Object] with Logging {
     underlying.removeField(key)
     this
   }
-
+  /*override def ++[A <% DBObject](right: A): DBObject = asDBObject ++ wrapDBObj(right)
+    */
     
   /* Methods needed in order to be a proper DBObject */
   def containsField(s: String) = underlying.containsField(s)
