@@ -31,14 +31,14 @@ import scala.collection.mutable.ArrayBuffer
 import scala.reflect.BeanInfo
 
 import Imports._
-import Imports.log
 import mongodb.mapper.Mapper
 import mongodb.mapper.annotations._
 
 @BeanInfo
 @MappedBy(classOf[WidgetMapper])
-class Widget(@ID var name: String, @Key var price: Int, @Key var tags: ArrayBuffer[String]) {
-  override def toString() = "Widget(" + name + ", " + price + ", " + tags + ")"
+class Widget(@ID var name: String, @Key var price: Int) {
+  def this() = this(null, 0)
+  override def toString() = "Widget(" + name + ", " + price + ")"
 }
 
 @BeanInfo
@@ -74,9 +74,7 @@ class MapperSpec extends Specification with PendingUntilFixed {
   "a mapper" should {
     shareVariables
 
-    val widget = new Widget("something", 7824,
-			    ArrayBuffer("one", "two", "three"))
-
+    val widget = new Widget("something", 7824)
     Mapper[Widget].upsert(widget)
 
     "discover mapper for a class" in {
@@ -94,7 +92,6 @@ class MapperSpec extends Specification with PendingUntilFixed {
 
     "convert object to MongoDBObject" in {
       val dbo = Mapper[Widget].to_dbo(widget)
-      log.info("MongoDBObject: %s", dbo)
       dbo must havePair("_id", "something")
     }
 
@@ -103,19 +100,13 @@ class MapperSpec extends Specification with PendingUntilFixed {
         loaded =>
           loaded.name must_== widget.name
         loaded.price must_== widget.price
-        loaded.tags.toSet must_== widget.tags.toSet
       }
-    } pendingUntilFixed
+    }
 
     "automatically assign MongoDB OID-s" in {
       val piggy = new Piggy
       piggy.giggity = "oy vey"
-      log.info("piggy dbo: %s", Mapper[Piggy].to_dbo(piggy))
       Some(Mapper[Piggy].upsert(piggy)) must beSome[Piggy].which(_.id must notBeNull)
     }
-
-    "retrieve all stored objects" in {
-      Mapper[Piggy].find must notBeEmpty
-    } pendingUntilFixed
   }
 }

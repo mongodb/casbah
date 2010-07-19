@@ -9,9 +9,9 @@ import java.beans.{Introspector, PropertyDescriptor}
 import scala.reflect.{BeanInfo, Manifest}
 import scala.collection.JavaConversions._
 
-import mongodb.{MongoDB, MongoCollection, MongoDBObject}
 import annotations.raw._
 import util.Logging
+import Implicits._
 
 import org.bson.types.ObjectId
 
@@ -158,17 +158,23 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
     .result
   }
 
-  def from_dbo(map: Map[String, AnyRef]): P =
+  def from_dbo(dbo: MongoDBObject): P =
     all_props.foldLeft(obj_klass.newInstance) {
       (p, prop) =>
-        val key = get_key(prop)
-      if (map.contains(key))
-        prop.getWriteMethod.invoke(p, map(key))
+	dbo.get(get_key(prop)) match {
+	  case Some(v) => prop.getWriteMethod.invoke(p, v)
+	  case _ =>
+	}
       p
     }
 
-  def find_one(id: I): Option[P] = None
-  def find: Seq[P] = Nil
+  def find_one(id: I): Option[P] =
+    coll.findOne(id) match {
+      case None => None
+      case Some(dbo) => Some(from_dbo(dbo))
+    }
+
+  // XXX: if <<? returns None, does it indicate failure?
   def upsert(p: P): P = coll <<? to_dbo(p).asDBObject match {
     case Some(dbo) => p
     case None => p
