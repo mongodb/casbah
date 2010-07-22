@@ -250,8 +250,19 @@ trait Implicits extends FluidQueryBarewordOps {
 
   implicit def wrapDBObj(in: DBObject): MongoDBObject = new MongoDBObject { val underlying = in }
   implicit def unwrapDBObj(in: MongoDBObject): DBObject = in.underlying
-
 } 
+
+trait MapperImplicits[P <: AnyRef] {
+  import com.novus.casbah.mongodb.mapper.Mapper
+  val mapper: Mapper[_, P]
+
+  implicit def dbo2p(dbo: DBObject): P = mapper.from_dbo(Implicits.wrapDBObj(dbo))
+  implicit def optdbo2optp(odbo: Option[DBObject]): Option[P] =
+    odbo match {
+      case None => None
+      case Some(dbo) => Some(dbo2p(dbo))
+    }
+}
 
 object Implicits extends Implicits
 object Imports extends Imports 
