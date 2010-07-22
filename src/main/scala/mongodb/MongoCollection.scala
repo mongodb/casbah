@@ -309,7 +309,6 @@ trait MongoCollectionWrapper extends Logging {
   def optWrap[A <% DBObject](obj: A): Option[A] = {
     if (obj == null) None else Some(obj)
   }
-  def findOne(o: DBObject): Option[DBObject]
 }
 
 /**
