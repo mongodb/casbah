@@ -101,6 +101,7 @@ trait Implicits extends FluidQueryBarewordOps {
      * @return MongoCollection[A<:DBObject] An instance of the scala wrapper containing the collection object.
      */
     def asScalaTyped[A<:DBObject](implicit m: scala.reflect.Manifest[A]) = new MongoTypedCollection[A](coll)(m)
+    def asScalaMapped[P <: AnyRef](implicit m: scala.reflect.Manifest[P]) = new mapper.MongoMappedCollection[P](coll)(m)
   }
 
   /**
@@ -119,6 +120,7 @@ trait Implicits extends FluidQueryBarewordOps {
     * @return MongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
     */
     def asScalaTyped[A <: DBObject : Manifest] = new MongoTypedCursor[A](cursor)
+    def asScalaMapped[P <: AnyRef : Manifest] = new mapper.MongoMappedCursor[P](cursor)
   }
 
   /**
