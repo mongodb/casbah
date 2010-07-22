@@ -32,10 +32,9 @@ import Implicits._
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
+sealed trait MongoCursorWrapper[A] {
   val underlying: DBCursor
 
-  def count = underlying.count
   //def itcount() = underlying.itcount()
   def jIterator() = underlying.iterator asScala
   //override def length = underlying.length
@@ -45,11 +44,19 @@ trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
 
   def curr = underlying.curr.asInstanceOf[A]
   def explain = underlying.explain
+}
+
+/**
+ * A trait that iterates over DBObject or subclasses.
+ */
+trait DBObjectIterator[A <: DBObject] extends MongoCursorWrapper[A] with Iterator[A] {
+  val underlying: DBCursor
+
+  def count = underlying.count
+  override def size = count.intValue
 
   def next: A = underlying.next.asInstanceOf[A]
   def hasNext: Boolean = underlying.hasNext
-
-  override def size = count.intValue
 }
 
 /**
@@ -62,7 +69,7 @@ trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
  *
  * @param underlying A DBCursor object to wrap
  */
-class MongoCursor protected[mongodb] (val underlying: DBCursor) extends MongoCursorWrapper[DBObject]  {
+class MongoCursor protected[mongodb] (val underlying: DBCursor) extends DBObjectIterator[DBObject] {
   //def addOption(option: Int) = underlying.addOption(option) asScala
   def batchSize(n: Int) = underlying.batchSize(n) asScala
   def copy() = underlying.copy asScala
@@ -106,7 +113,7 @@ class MongoCursor protected[mongodb] (val underlying: DBCursor) extends MongoCur
  * @param underlying DBCursor object to proxy
  * @param m Manifest[A] representing the erasure for the underlying type - used to get around the JVM's insanity
  */
-class MongoTypedCursor[A <: DBObject : Manifest] protected[mongodb](val underlying: DBCursor) extends MongoCursorWrapper[A]  {
+class MongoTypedCursor[A <: DBObject : Manifest] protected[mongodb](val underlying: DBCursor) extends MongoCursorWrapper[A] with DBObjectIterator[A] {
   //def addOption(option: Int) = underlying.addOption(option) asScala
   def batchSize(n: Int) = underlying.batchSize(n) asScalaTyped
   def copy() = underlying.copy asScalaTyped
@@ -129,4 +136,33 @@ class MongoTypedCursor[A <: DBObject : Manifest] protected[mongodb](val underlyi
     underlying.toArray(min) asScala
   }
   override def toString() =  "MongoCursor{Iterator[_] with %d objects.}".format(count)
+}
+
+package mapper {
+
+  trait MappedIterator[P <: AnyRef] extends MongoCursorWrapper[P] with Iterator[P] {
+    val underlying: DBCursor
+    val mapper: Mapper[_, P]
+
+    def count = underlying.count
+    override def size = count.intValue
+
+    def next: P = mapper.from_dbo(underlying.next)
+    def hasNext: Boolean = underlying.hasNext
+  }
+
+  class MongoMappedCursor[P <: AnyRef : Manifest] protected[mapper](val underlying: DBCursor) extends MappedIterator[P] with MapperImplicits[P] {
+    val mapper = Mapper[P]
+
+    def batchSize(n: Int) = underlying.batchSize(n) asScalaMapped
+    def copy() = underlying.copy asScalaMapped
+    def hint(indexKeys: DBObject) = underlying.hint(indexKeys) asScalaMapped
+    def hint(indexName: String) = underlying.hint(indexName) asScalaMapped
+    def limit(n: Int) = underlying.limit(n) asScalaMapped
+    def skip(n: Int) = underlying.skip(n) asScalaMapped
+    def snapshot() = underlying.snapshot() asScalaMapped
+    def sort(orderBy: DBObject) = underlying.sort(orderBy) asScalaMapped
+    override def toString() =  "MongoMappedCursor{Iterator[_] with %d objects.}".format(count)
+  }
+
 }
