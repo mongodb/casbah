@@ -260,12 +260,20 @@ trait Imports extends BaseImports with MongoTypeImports with Implicits
 
 trait BaseImports {
   val MongoConnection = com.novus.casbah.mongodb.MongoConnection
+  val MongoDBAddress = com.novus.casbah.mongodb.MongoDBAddress
   val MongoDBObject = com.novus.casbah.mongodb.MongoDBObject
   val GridFS = com.novus.casbah.mongodb.gridfs.GridFS
+  val MapReduceCommand = com.novus.casbah.mongodb.map_reduce.MapReduceCommand
 }
 
 trait MongoTypeImports {
-
+  type MongoConnection = com.novus.casbah.mongodb.MongoConnection
+  type MongoCollection = com.novus.casbah.mongodb.MongoCollection
+  type MongoDBObject = com.novus.casbah.mongodb.MongoDBObject
+  type MongoCursor = com.novus.casbah.mongodb.MongoCursor
+  type MapReduceCommand = com.novus.casbah.mongodb.map_reduce.MapReduceCommand
+  type MapReduceResult = com.novus.casbah.mongodb.map_reduce.MapReduceResult
+  type DBAddress = com.mongodb.DBAddress
   type DBObject = com.mongodb.DBObject
   type BasicDBObject = com.mongodb.BasicDBObject
   type BasicDBList = com.mongodb.BasicDBList

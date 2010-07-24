@@ -3,10 +3,10 @@ import sbt._
 class CasbahProject(info: ProjectInfo) extends DefaultProject(info) with rsync.RsyncPublishing with  posterous.Publish {
   override def compileOptions = super.compileOptions ++ Seq(Unchecked, Deprecation)
 
-  val scalaTime = "org.scala-tools" % "time" % "2.8.0.RC6-0.2-SNAPSHOT"
+  val scalaTime = "org.scala-tools" % "time" % "2.8.0-0.2-SNAPSHOT"
 
   val configgy = "net.lag" % "configgy" % "1.5.2"
-  val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.RC6-SNAPSHOT" % "test"
+  val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
 
   val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0.Beta1" % "1.0.Beta2"
 
