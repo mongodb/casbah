@@ -1,0 +1,4 @@
+Minor bugfixes/enhancements.
+
++ Added implicit target to convert (String, ObjectId) to DBObject
++ Changed $in, $notin, $all to always generate an array in Any* mode

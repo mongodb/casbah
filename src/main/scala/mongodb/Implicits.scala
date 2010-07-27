@@ -237,6 +237,9 @@ trait Implicits extends FluidQueryBarewordOps {
   implicit def tuplePairToDBObject(pair: (String, DBObject)): DBObject = 
     pair.asDBObject
 
+  implicit def tupleIDPairToDBObject(pair: (String, org.bson.types.ObjectId)): DBObject =
+    pair.asDBObject
+
   // A few hacks for defining straight off conversions
   implicit def tuplePairUtils(pair: (String, Any)) = new {
     def ++[A <% DBObject : Manifest](right: A): DBObject = pair.asDBObject ++ wrapDBObj(right)
