@@ -71,3 +71,63 @@ class MongoConnection(val underlying: Mongo) {
   def getConnectPoint = underlying.getConnectPoint
   def getAddress = underlying.getAddress
 }
+
+/**
+ * 
+ * @author  Brendan W. McAdams <bmcadams@novus.com>
+ * @version 1.0, 07/24/10
+ * @since   1.0.1
+ */
+object MongoDBAddress { 
+  
+  /**
+   * Connects to a given database using the host/port info from an existing
+   * DBAddress instance.
+   * 
+   * @param  other  DBAddress the existing DBAddress
+   * @param  dbName String the database to which to connect
+   * @return com.mongodb.DBAddress       
+   * @throws java.net.UnknownHostException
+   */
+  def apply(other: DBAddress, dbName: String) = new DBAddress(other, dbName)
+  
+  /**
+   * Creates a new DBAddress... acceptable formats:
+   *
+   * <pre>
+   *   name ("myDB")
+   *   <host>/name ("127.0.0.1/myDB")
+   *   <host>:<port>/name ("127.0.0.1:8080/myDB")
+   * </pre>
+   *
+   * @param  urlFormat String
+   * @return com.mongodb.DBAddress       
+   *
+   * @throws java.net.UnknownHostException
+   *
+   */
+  def apply(urlFormat: String) = new DBAddress(urlFormat)
+
+  /**
+   * Connects to a database with a given name at a given host.
+   *
+   * @param  host   String
+   * @param  dbName String
+   * @return com.mongodb.DBAddress       
+   * @throws java.net.UnknownHostException
+   */
+  def apply(host: String, dbName: String) = new DBAddress(host, dbName)
+
+  /**
+   * Connects to a database with a given host, port &amp; name at a given host.
+   *
+   * @param  host   String
+   * @param  port   Int
+   * @param  dbName String
+   * @return com.mongodb.DBAddress       
+   * @throws java.net.UnknownHostException
+   */
+  def apply(host: String, port: Int, dbName: String) = 
+    new DBAddress(host, port, dbName)
+}
+
