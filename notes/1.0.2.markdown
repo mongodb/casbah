@@ -1,4 +1,4 @@
 Minor bugfixes/enhancements.
 
 + Changed $in, $notin, $all to always generate an array in Any* mode
-+ Added default type alias import for com.mongodb.DBRef
++ Added default type alias import for com.mongodb.DBRef & Casbah's MongoDB class

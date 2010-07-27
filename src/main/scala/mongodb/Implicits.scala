@@ -273,6 +273,7 @@ trait MongoTypeImports {
   type MongoConnection = com.novus.casbah.mongodb.MongoConnection
   type MongoCollection = com.novus.casbah.mongodb.MongoCollection
   type MongoDBObject = com.novus.casbah.mongodb.MongoDBObject
+  type MongoDB = com.novus.casbah.mongodb.MongoDB
   type MongoCursor = com.novus.casbah.mongodb.MongoCursor
   type MapReduceCommand = com.novus.casbah.mongodb.map_reduce.MapReduceCommand
   type MapReduceResult = com.novus.casbah.mongodb.map_reduce.MapReduceResult
