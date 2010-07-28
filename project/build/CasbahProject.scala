@@ -1,7 +1,7 @@
 import sbt._
 
 class CasbahProject(info: ProjectInfo) extends DefaultProject(info) with rsync.RsyncPublishing with  posterous.Publish {
-  override def compileOptions = super.compileOptions ++ Seq(Unchecked, Deprecation)
+  override def compileOptions = super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
 
   val scalaTime = "org.scala-tools" % "time" % "2.8.0-0.2-SNAPSHOT"
 
