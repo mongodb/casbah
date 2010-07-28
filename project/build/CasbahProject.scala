@@ -5,7 +5,7 @@ class CasbahProject(info: ProjectInfo) extends DefaultProject(info) with rsync.R
 
   val scalaTime = "org.scala-tools" % "time" % "2.8.0-0.2-SNAPSHOT"
 
-  val configgy = "net.lag" %% "configgy" % "1.5.5"
+  val configgy = "net.lag" % "configgy" % "1.5.2"
   val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
   val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
 
