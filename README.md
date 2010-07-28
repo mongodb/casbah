@@ -3,7 +3,7 @@
 ### Brendan W. McAdams <bmcadams@novus.com>
 ### Max Afonov <mafonov@novus.com>
 
-Casbah is an interface for [MongoDB][MongoDB] to be provide more flexible access from both Java and Scala.  Most specifically focused on providing a Scala oriented wrapper interface around the Java mongo driver.
+Casbah is an interface for [MongoDB][MongoDB] designed to provide more flexible access from both Java and Scala.  While the current cor focus is on providing a Scala oriented wrapper interface around the Java mongo driver, support for other JVM languages may come in the future.
 
 For the Scala side, contains series of wrappers and DSL-like functionality for utilizing MongoDB from within Scala. This currently utilises the very Java-oriented Mongo Java driver, and attempts to provide more scala-like functionality on top of it. This has been tested with MongoDB 1.2.x+ and v2.x of the Mongo java driver.
 
