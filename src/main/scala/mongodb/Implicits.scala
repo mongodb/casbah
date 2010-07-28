@@ -239,6 +239,9 @@ trait Implicits extends FluidQueryBarewordOps {
   implicit def tuplePairToDBObject(pair: (String, DBObject)): DBObject = 
     pair.asDBObject
 
+  //implicit def tupleIDPairToDBObject(pair: (String, org.bson.types.ObjectId)): DBObject =
+  //  pair.asDBObject
+
   // A few hacks for defining straight off conversions
   implicit def tuplePairUtils(pair: (String, Any)) = new {
     def ++[A <% DBObject : Manifest](right: A): DBObject = pair.asDBObject ++ wrapDBObj(right)
@@ -283,6 +286,7 @@ trait MongoTypeImports {
   type MongoConnection = com.novus.casbah.mongodb.MongoConnection
   type MongoCollection = com.novus.casbah.mongodb.MongoCollection
   type MongoDBObject = com.novus.casbah.mongodb.MongoDBObject
+  type MongoDB = com.novus.casbah.mongodb.MongoDB
   type MongoCursor = com.novus.casbah.mongodb.MongoCursor
   type MapReduceCommand = com.novus.casbah.mongodb.map_reduce.MapReduceCommand
   type MapReduceResult = com.novus.casbah.mongodb.map_reduce.MapReduceResult
@@ -291,4 +295,5 @@ trait MongoTypeImports {
   type BasicDBObject = com.mongodb.BasicDBObject
   type BasicDBList = com.mongodb.BasicDBList
   type ObjectId = org.bson.types.ObjectId
+  type DBRef = com.mongodb.DBRef
 }

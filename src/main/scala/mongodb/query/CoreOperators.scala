@@ -264,7 +264,7 @@ trait GreaterThanEqualOp extends QueryOperator {
  */
 trait InOp extends QueryOperator {
   def $in(target: Array[Any]) = op("$in", target.toList.asJava)
-  def $in(target: Any*) = if (target.size > 1) op("$in", target.toList.asJava) else op("$in", target(0))
+  def $in(target: Any*) = op("$in", target.toList.asJava) 
 }
 
 /**
@@ -284,7 +284,7 @@ trait InOp extends QueryOperator {
  */
 trait NotInOp extends QueryOperator {
   def $nin(target: Array[Any]) = op("$nin", target.toList.asJava)
-    def $nin(target: Any*) = if (target.size > 1) op("$nin", target.toList.asJava) else op("$nin", target(0))
+    def $nin(target: Any*) = op("$nin", target.toList.asJava)
 }
 
 /**
@@ -304,7 +304,7 @@ trait NotInOp extends QueryOperator {
  */
 trait AllOp extends QueryOperator {
   def $all(target: Array[Any]) = op("$all", target.toList.asJava)
-  def $all(target: Any*) = if (target.size > 1) op("$all", target.toList.asJava) else op("$all", target(0))
+  def $all(target: Any*) = op("$all", target.toList.asJava)
 }
 
 /**

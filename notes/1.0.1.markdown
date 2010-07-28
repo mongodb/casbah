@@ -1,6 +1,6 @@
 Minor bugfixes/enhancements from 1.0 release.
     
-    + Updated externals to link against 2.8.0 final - 1.0 release had some RC/Beta built externals. (scalaj-collection is still linked against Beta)
-    + Added an Object interface, MongoDBAddress, for static construction of DBAddress instances.
-    + Added type aliases in MongoTypeImports for all Casbah companion objects - please report any odd behavior this causes.
-    + Added MapReduceCommand to BaseImports
++ Updated externals to link against 2.8.0 final - 1.0 release had some RC/Beta built externals. (scalaj-collection is still linked against Beta)
++ Added an Object interface, MongoDBAddress, for static construction of DBAddress instances.
++ Added type aliases in MongoTypeImports for all Casbah companion objects - please report any odd behavior this causes.
++ Added MapReduceCommand to BaseImports
