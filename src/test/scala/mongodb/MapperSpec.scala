@@ -112,8 +112,8 @@ class MapperSpec extends Specification with PendingUntilFixed {
   }
 
   "a mapped collection" should {
+    val coll = MongoConnection()("mapper_test").mapped[Piggy]
     "return objects of required class" in {
-      val coll = MongoConnection()("mapper_test").mapped[Piggy]
       coll.findOne must beSome[Piggy]
     }
   }
