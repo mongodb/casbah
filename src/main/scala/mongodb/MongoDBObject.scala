@@ -60,10 +60,13 @@ trait MongoDBObject extends Map[String, Object] with Logging {
     case value => Some(value)
   }
 
-  def apply[A : Manifest](key: String) = underlying.get(key).asInstanceOf[A]
+  def apply[A <% AnyRef : Manifest](key: String): A = {
+    require(manifest[A] != manifest[scala.Nothing], "Type inference failed; apply() requires an explicit type argument (e.g. dbObject[<ReturnType](\"someKey\") ) to function correctly.")
+    underlying.get(key).asInstanceOf[A]
+  }
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A](key: String): Option[A] = underlying.get(key) match {
+  def getAs[A <% AnyRef : Manifest](key: String): Option[A] = underlying.get(key) match {
     case null => None
     case value => Some(value.asInstanceOf[A])
   }
