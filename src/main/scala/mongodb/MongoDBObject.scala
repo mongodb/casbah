@@ -60,23 +60,17 @@ trait MongoDBObject extends Map[String, Object] with Logging {
     case value => Some(value)
   }
 
-  def apply[A <% AnyRef : Manifest](key: String): A = {
-    require(manifest[A] != manifest[scala.Nothing], "Type inference failed; apply() requires an explicit type argument (e.g. dbObject[<ReturnType](\"someKey\") ) to function correctly.")
-    underlying.get(key).asInstanceOf[A]
-  }
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A <% AnyRef : Manifest](key: String): Option[A] = underlying.get(key) match {
-    case null => None
-    case value => Some(value.asInstanceOf[A])
+  def getAs[A <% AnyRef : Manifest](key: String): Option[A] = {
+    require(manifest[A] != manifest[scala.Nothing], "Type inference failed; getAs[A]() requires an explicit type argument (e.g. dbObject[<ReturnType](\"someKey\") ) to function correctly.")
+    underlying.get(key) match {
+      case null => None
+      case value => Some(value.asInstanceOf[A])
+    }
   }
 
   def +=(kv: (String, Object)) = {
-    //val e = findEntry(kv._1)
-    /*get(kv._1) match {
-      case Some(value) => underlying.put(kv._1, kv._2)
-      case None => put(kv._1, kv._2)
-    }*/
     put(kv._1, kv._2)
     this
   }
@@ -85,8 +79,6 @@ trait MongoDBObject extends Map[String, Object] with Logging {
     underlying.removeField(key)
     this
   }
-  /*override def ++[A <% DBObject](right: A): DBObject = asDBObject ++ wrapDBObj(right)
-    */
     
   /* Methods needed in order to be a proper DBObject */
   def containsField(s: String) = underlying.containsField(s)
@@ -96,9 +88,12 @@ trait MongoDBObject extends Map[String, Object] with Logging {
   def isPartialObject = underlying.isPartialObject
   def markAsPartialObject = underlying.markAsPartialObject
   def partialObject = isPartialObject
-  override def put(k: String, v: Object) = underlying.put(k, v) match {
-    case null => None
-    case value => Some(value)
+  override def put(k: String, v: AnyRef) = v match {
+    case x: MongoDBObject => put(k, x.asDBObject) 
+    case _ => underlying.put(k, v) match {
+      case null => None
+      case value => Some(value)
+    }
   }
   def putAll(o: DBObject) = underlying.putAll(o)
   def putAll(m: Map[_, _]) = underlying.putAll(m)
@@ -123,18 +118,12 @@ protected[mongodb] class MongoDBObjectBuilder extends scala.collection.mutable.B
   protected val empty = BasicDBObjectBuilder.start
   protected var elems = empty
   override def +=(x: (String, Any)) = { 
-    //elems = elems.add(x._1, x._2)
-    //println(x)
     elems.add(x._1, x._2)
     this 
   }
-  /*override def ++=(xs: TraversableOnce[(String, Any)]) = { 
-    xs foreach (this.+=)
-    this
-  }*/
+
   def clear() { elems = empty }
   def result = new MongoDBObject { val underlying = elems.get }
 }
 
-// vim: set ts=2 sw=2 sts=2 et:
 // vim: set ts=2 sw=2 sts=2 et:

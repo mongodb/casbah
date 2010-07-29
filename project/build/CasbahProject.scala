@@ -8,7 +8,7 @@ class CasbahProject(info: ProjectInfo) extends DefaultProject(info) with rsync.R
   val configgy = "net.lag" % "configgy" % "1.5.2"
   val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
 
-  val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0.Beta1" % "1.0.Beta2"
+  val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
 
   val mongodb = "org.mongodb" % "mongo-java-driver" % "2.0"
 
