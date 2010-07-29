@@ -118,7 +118,6 @@ sealed trait QueryOperator {
    * Don't happen.  This may impose a slight performance penalty.
    */
   protected def patchSerialization(target: Any): Unit = target match {
-    case ab: scala.collection.mutable.ArrayBuffer[_] => new conversions.scala.ScalaArrayBufferSerializer { register() }
     case _ => {}
   }
      

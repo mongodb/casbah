@@ -82,7 +82,8 @@ object DeregisterConversionHelpers extends Serializers
  * @version 1.0, 06/22/10
  * @since 1.0
  */
-trait Deserializers extends MongoConversionHelper {
+trait Deserializers extends MongoConversionHelper 
+                       with ScalaJCollectionDeserializer {
   override def register() =  {
     log.info("Deserializers for Scala Conversions registering")
     super.register()
@@ -108,7 +109,7 @@ trait Deserializers extends MongoConversionHelper {
  */
 trait Serializers extends MongoConversionHelper 
                      with ScalaRegexSerializer 
-                     with ScalaArrayBufferSerializer {
+                     with ScalaJCollectionSerializer {
   override def register() =  {
     log.info("Serializers for Scala Conversions registering")
     super.register()
@@ -217,27 +218,77 @@ trait ScalaRegexSerializer extends MongoConversionHelper {
   }
 }
 
-trait ScalaArrayBufferSerializer extends MongoConversionHelper {
 
+
+/**
+ * Implementation which is aware of the possible conversions in scalaj-collection and attempts to Leverage it...
+ * Not all of these may be serializable by Mongo However... this is a first pass attempt at moving them to Java types
+ */
+trait ScalaJCollectionSerializer extends MongoConversionHelper {
+  
   private val transformer = new Transformer {
     import scalaj.collection.Imports._
-    log.debug("Encoding a Scala ArrayBuffer.")
 
     def transform(o: AnyRef): AnyRef = o match {
-      case ab: _root_.scala.collection.mutable.ArrayBuffer[_] => ab.asJava
-      case _ => o
+      case b: _root_.scala.collection.mutable.Buffer[_] => b.asJava
+      case s: _root_.scala.collection.mutable.Seq[_] => s.asJava
+      case s: _root_.scala.collection.Seq[_] => s.asJava
+      case s: _root_.scala.collection.mutable.Set[_] => s.asJava
+      case s: _root_.scala.collection.Set[_] => s.asJava
+      /*case m: _root_.scala.collection.mutable.Map[_, _] => m.asJava
+      case m: _root_.scala.collection.Map[_, _] => m.asJava*/
+      case i: _root_.scala.collection.Iterable[_] => i.asJava
+      case i: _root_.scala.collection.Iterator[_] => i.asJava
+      case _ => o // don't warn because we get EVERYTHING
     }
   }
 
   override def register() = {
-    log.debug("Setting up ScalaArrayBufferSerializers")
-
-    log.debug("Hooking up scala.collection.mutable.ArrayBuffer serializer")
-    /** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/
+    log.info("Setting up ScalaJCollectionSerializer")
+    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Buffer[_]], transformer)
     BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ArrayBuffer[_]], transformer)
-
+    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ObservableBuffer[_]], transformer)
+    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.SynchronizedBuffer[_]], transformer)
+    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ListBuffer[_]], transformer)
+    BSON.addEncodingHook(classOf[_root_.scala.collection.Iterator[_]], transformer)
+    BSON.addEncodingHook(classOf[_root_.scala.collection.Iterable[_]], transformer) 
+    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Seq[_]], transformer)
+    BSON.addEncodingHook(classOf[_root_.scala.collection.Seq[_]], transformer) 
+    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Set[_]], transformer) 
+    BSON.addEncodingHook(classOf[_root_.scala.collection.Set[_]], transformer)
+    /*BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Map[_, _]], transformer) 
+    BSON.addEncodingHook(classOf[_root_.scala.collection.Map[_, _]], transformer) */
     super.register()
   }
 }
 
+trait ScalaJCollectionDeserializer extends MongoConversionHelper {
+  
+  private val transformer = new Transformer {
+    import scalaj.collection.Imports._
+
+    def transform(o: AnyRef): AnyRef = o match {
+      case l: java.util.List[_] => l.asScala
+      case s: java.util.Set[_] => s.asScala
+      /*case m: java.util.Map[_, _] => m.asScala
+      case d: java.util.Dictionary[_, _] => d.asScala*/
+      case e: java.util.Enumeration[_] => e.asScala
+      case i: java.util.Iterator[_] => i.asScala
+      case i: java.lang.Iterable[_] => i.asScala
+      case _ => o // don't warn because we get EVERYTHING
+    }
+  }
+
+  override def register() = {
+    log.info("Setting up ScalaJCollectionDeserializer")
+    BSON.addDecodingHook(classOf[java.util.Enumeration[_]], transformer)
+    BSON.addDecodingHook(classOf[java.util.Iterator[_]], transformer)
+    BSON.addDecodingHook(classOf[java.lang.Iterable[_]], transformer)
+    BSON.addDecodingHook(classOf[java.util.List[_]], transformer)
+    BSON.addDecodingHook(classOf[java.util.Set[_]], transformer)
+    /*BSON.addDecodingHook(classOf[java.util.Map[_, _]], transformer)
+    BSON.addDecodingHook(classOf[java.util.Dictionary[_, _]], transformer)*/
+    super.register()
+  }
+}
 // vim: set ts=2 sw=2 sts=2 et:
