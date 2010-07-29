@@ -50,6 +50,27 @@ class Piggy {
 
   @Key
   var giggity: String = _
+
+  def this(g: String) = {
+    this()
+    giggity = g
+  }
+}
+
+@BeanInfo
+@MappedBy(classOf[ChairMapper])
+class Chair {
+  @ID(auto = true)
+  var id: String = _
+
+  @Key
+  var optional_piggy: Option[Piggy] = None
+}
+
+class ChairMapper extends Mapper[String, Chair] {
+  conn = MongoConnection()
+  db = "mapper_test"
+  coll = "chairs"
 }
 
 class WidgetMapper extends Mapper[String, Widget] {
@@ -105,9 +126,21 @@ class MapperSpec extends Specification with PendingUntilFixed {
     }
 
     "automatically assign MongoDB OID-s" in {
-      val piggy = new Piggy
-      piggy.giggity = "oy vey"
+      val piggy = new Piggy("oy vey")
       Some(Mapper[Piggy].upsert(piggy)) must beSome[Piggy].which(_.id must notBeNull)
+    }
+
+    "output nested documents" in {
+      val chair = new Chair
+      chair.optional_piggy = Some(new Piggy("this piggy is optional"))
+      log.info("chair: %s", Mapper[Chair].to_dbo(chair).toString)
+    }
+
+    "de-serialize nested documents" in {
+      val before = new Chair
+      before.optional_piggy = Some(new Piggy("foo"))
+      val after = Mapper[Chair].from_dbo(Mapper[Chair].to_dbo(before))
+      after.optional_piggy must beSome[Piggy].which(_.giggity == before.optional_piggy.get.giggity)
     }
   }
 

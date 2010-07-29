@@ -18,8 +18,9 @@ import org.bson.types.ObjectId
 object Mapper {
   private val _m = new java.util.concurrent.ConcurrentHashMap[Class[_], Mapper[_,_]]
 
-  def apply[P <: AnyRef : Manifest](): Mapper[AnyRef, P] = {
-    val klass = manifest[P].erasure
+  def apply[P <: AnyRef : Manifest](): Mapper[AnyRef, P] = apply[P](manifest[P].erasure.asInstanceOf[Class[P]])(manifest[P])
+
+  def apply[P <: AnyRef : Manifest](klass: Class[P]) = {
     if (_m.containsKey(klass)) _m.get(klass).asInstanceOf[Mapper[AnyRef, P]]
     else if (klass.isAnnotationPresent(classOf[MappedBy])) {
       val svc = klass.getAnnotation(classOf[MappedBy]).value().newInstance.asInstanceOf[Mapper[AnyRef, P]]
@@ -64,7 +65,11 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
 
   override def toString =
     "Mapper(%s -> id_prop: %s, is_auto_id: %s, all_props: %s)".format(
-      obj_klass.getSimpleName, id_prop.getName, is_auto_id_?, all_props.map(_.getName)
+      obj_klass.getSimpleName, id_prop.getName, is_auto_id_?,
+      all_props.map(p =>
+        "Prop(%s -> %s, is_option: %s)".format(p.getName,
+                                               prop_type(p),
+                                               is_option_prop_?(p)))
     )
 
   private def get_annotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
@@ -81,6 +86,12 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
   private def is_id_prop_?(prop: PropertyDescriptor) =
     is_annotated_with_?(prop, classOf[ID])
 
+  private def is_option_prop_?(prop: PropertyDescriptor) =
+    prop.getPropertyType == classOf[Option[_]]
+
+  private def is_embedded_prop_?(prop: PropertyDescriptor) =
+    prop_type(prop).isAnnotationPresent(classOf[MappedBy]) && is_annotated_with_?(prop, classOf[Key])
+
   def get_prop_named(key: String) =
     non_id_props.filter(_.getName == key).toList match {
       case List(prop) => Some(prop)
@@ -89,13 +100,12 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
 
   def get_prop_value[V <: AnyRef : Manifest](o: AnyRef, prop: PropertyDescriptor): Option[V] = {
     val cv = manifest[V].erasure.asInstanceOf[Class[V]]
-    def do_get_prop_value0(p: AnyRef): Option[V] = {
+    def do_get_prop_value0(p: AnyRef): Option[V] =
       prop.getReadMethod.invoke(p) match {
         case v if v == null => None
         case v if cv.isAssignableFrom(v.getClass) => Some(cv.cast(v))
         case _ => None
       }
-    }
 
     o match {
       case None => None
@@ -148,6 +158,10 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
             throw new Exception("null detected in %s of %s".format(get_key(prop), p))
           }
         }
+        case v if is_embedded_prop_?(prop) =>
+          Some(Mapper(prop_type(prop)).to_dbo(v match {
+            case Some(vv: AnyRef) if is_option_prop_?(prop) => vv case _ => v
+          }))
         case v => Some(v)
       }
 
@@ -161,10 +175,15 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
   def from_dbo(dbo: MongoDBObject): P =
     all_props.foldLeft(obj_klass.newInstance) {
       (p, prop) =>
-	dbo.get(get_key(prop)) match {
-	  case Some(v) => prop.getWriteMethod.invoke(p, v)
-	  case _ =>
+        val write = prop.getWriteMethod
+      dbo.get(get_key(prop)) match {
+        case Some(v: MongoDBObject) if is_embedded_prop_?(prop) => {
+	  val e = Mapper(prop_type(prop)).from_dbo(v)
+	  write.invoke(p, if (is_option_prop_?(prop)) Some(e) else e)
 	}
+        case Some(v) => write.invoke(p, v)
+        case _ =>
+      }
       p
     }
 
