@@ -34,6 +34,7 @@ object Mapper {
 
 abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends Logging {
   import Mapper._
+  import MapperUtils._
 
   protected val id_klass = manifest[I].erasure.asInstanceOf[Class[I]]
   protected val obj_klass = manifest[P].erasure.asInstanceOf[Class[P]]
@@ -72,26 +73,6 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
                                                is_option_prop_?(p)))
     )
 
-  private def get_annotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
-    (List(prop.getReadMethod, prop.getWriteMethod).filter {
-      meth => meth.isAnnotationPresent(ak)
-    }) match {
-      case Nil => None
-      case x => Some(x.head.getAnnotation(ak))
-    }
-
-  private def is_annotated_with_?[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Boolean =
-    get_annotation(prop, ak) match { case Some(a) => true case _ => false }
-
-  private def is_id_prop_?(prop: PropertyDescriptor) =
-    is_annotated_with_?(prop, classOf[ID])
-
-  private def is_option_prop_?(prop: PropertyDescriptor) =
-    prop.getPropertyType == classOf[Option[_]]
-
-  private def is_embedded_prop_?(prop: PropertyDescriptor) =
-    prop_type(prop).isAnnotationPresent(classOf[MappedBy]) && is_annotated_with_?(prop, classOf[Key])
-
   def get_prop_named(key: String) =
     non_id_props.filter(_.getName == key).toList match {
       case List(prop) => Some(prop)
@@ -115,36 +96,6 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
   }
 
   def get_id(o: AnyRef): Option[I] = get_prop_value[I](o, id_prop)
-
-  implicit private def prop_type(prop: PropertyDescriptor): Class[AnyRef] =
-    (prop.getPropertyType match {
-      case c if c == classOf[Option[_]] => {
-        prop.getWriteMethod.getGenericParameterTypes
-        .toList
-        .map {
-          _.asInstanceOf[java.lang.reflect.ParameterizedType]
-          .getActualTypeArguments.head
-        }.toList.head
-      }
-      case c => c
-    }).asInstanceOf[Class[AnyRef]]
-
-  private def get_key(prop: PropertyDescriptor): String =
-    if (is_annotated_with_?(prop, classOf[ID])) "_id"
-    else {
-      get_annotation(prop, classOf[Key]) match {
-        case None => prop.getName
-        case Some(ann) => ann.value match {
-          case "" => prop.getName
-          case x => x
-        }
-      }
-    }
-
-  private def get_key(key: String): String = get_prop_named(key) match {
-    case Some(prop) => get_key(prop)
-    case None => key
-  }
 
   def to_dbo(p: P): MongoDBObject = {
     def v(p: P, prop: PropertyDescriptor): Option[AnyRef] =
@@ -178,9 +129,9 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
         val write = prop.getWriteMethod
       dbo.get(get_key(prop)) match {
         case Some(v: MongoDBObject) if is_embedded_prop_?(prop) => {
-	  val e = Mapper(prop_type(prop)).from_dbo(v)
-	  write.invoke(p, if (is_option_prop_?(prop)) Some(e) else e)
-	}
+          val e = Mapper(prop_type(prop)).from_dbo(v)
+          write.invoke(p, if (is_option_prop_?(prop)) Some(e) else e)
+        }
         case Some(v) => write.invoke(p, v)
         case _ =>
       }
@@ -198,4 +149,51 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
     case Some(dbo) => p
     case None => p
   }
+}
+
+object MapperUtils {
+  def get_annotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
+    (List(prop.getReadMethod, prop.getWriteMethod).filter {
+      meth => meth.isAnnotationPresent(ak)
+    }) match {
+      case Nil => None
+      case x => Some(x.head.getAnnotation(ak))
+    }
+
+  def is_annotated_with_?[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Boolean =
+    get_annotation(prop, ak) match { case Some(a) => true case _ => false }
+
+  def is_id_prop_?(prop: PropertyDescriptor) =
+    is_annotated_with_?(prop, classOf[ID])
+
+  def is_option_prop_?(prop: PropertyDescriptor) =
+    prop.getPropertyType == classOf[Option[_]]
+
+  def is_embedded_prop_?(prop: PropertyDescriptor) =
+    prop_type(prop).isAnnotationPresent(classOf[MappedBy]) && is_annotated_with_?(prop, classOf[Key])
+
+  implicit def prop_type(prop: PropertyDescriptor): Class[AnyRef] =
+    (prop.getPropertyType match {
+      case c if c == classOf[Option[_]] => {
+        prop.getWriteMethod.getGenericParameterTypes
+        .toList
+        .map {
+          _.asInstanceOf[java.lang.reflect.ParameterizedType]
+          .getActualTypeArguments.head
+        }.toList.head
+      }
+      case c => c
+    }).asInstanceOf[Class[AnyRef]]
+
+  def get_key(prop: PropertyDescriptor): String =
+    if (is_annotated_with_?(prop, classOf[ID])) "_id"
+    else {
+      get_annotation(prop, classOf[Key]) match {
+        case None => prop.getName
+        case Some(ann) => ann.value match {
+          case "" => prop.getName
+          case x => x
+        }
+      }
+    }
 }
