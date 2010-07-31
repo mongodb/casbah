@@ -38,6 +38,7 @@ import Implicits._
 object MongoConnection {
   def apply() = new MongoConnection(new Mongo())
   def apply(addr: DBAddress) = new MongoConnection(new Mongo(addr))
+  def connect(addr: DBAddress) = new MongoDB(Mongo.connect(addr))
   def apply(left: DBAddress, right: DBAddress) = new MongoConnection(new Mongo(left, right))
   def apply(left: DBAddress, right: DBAddress, options: MongoOptions) = new MongoConnection(new Mongo(left, right, options))
   def apply(addr: DBAddress, options: MongoOptions) = new MongoConnection(new Mongo(addr, options))
