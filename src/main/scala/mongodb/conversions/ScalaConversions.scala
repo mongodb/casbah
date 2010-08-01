@@ -82,8 +82,7 @@ object DeregisterConversionHelpers extends Serializers
  * @version 1.0, 06/22/10
  * @since 1.0
  */
-trait Deserializers extends MongoConversionHelper 
-                       with ScalaJCollectionDeserializer {
+trait Deserializers extends MongoConversionHelper {
   override def register() =  {
     log.info("Deserializers for Scala Conversions registering")
     super.register()
@@ -262,7 +261,7 @@ trait ScalaJCollectionSerializer extends MongoConversionHelper {
   }
 }
 
-trait ScalaJCollectionDeserializer extends MongoConversionHelper {
+/*trait ScalaJCollectionDeserializer extends MongoConversionHelper {
   
   private val transformer = new Transformer {
     import scalaj.collection.Imports._
@@ -270,8 +269,8 @@ trait ScalaJCollectionDeserializer extends MongoConversionHelper {
     def transform(o: AnyRef): AnyRef = o match {
       case l: java.util.List[_] => l.asScala
       case s: java.util.Set[_] => s.asScala
-      /*case m: java.util.Map[_, _] => m.asScala
-      case d: java.util.Dictionary[_, _] => d.asScala*/
+      [>case m: java.util.Map[_, _] => m.asScala
+      case d: java.util.Dictionary[_, _] => d.asScala<]
       case e: java.util.Enumeration[_] => e.asScala
       case i: java.util.Iterator[_] => i.asScala
       case i: java.lang.Iterable[_] => i.asScala
@@ -286,9 +285,9 @@ trait ScalaJCollectionDeserializer extends MongoConversionHelper {
     BSON.addDecodingHook(classOf[java.lang.Iterable[_]], transformer)
     BSON.addDecodingHook(classOf[java.util.List[_]], transformer)
     BSON.addDecodingHook(classOf[java.util.Set[_]], transformer)
-    /*BSON.addDecodingHook(classOf[java.util.Map[_, _]], transformer)
-    BSON.addDecodingHook(classOf[java.util.Dictionary[_, _]], transformer)*/
+    [>BSON.addDecodingHook(classOf[java.util.Map[_, _]], transformer)
+    BSON.addDecodingHook(classOf[java.util.Dictionary[_, _]], transformer)<]
     super.register()
   }
-}
+}*/
 // vim: set ts=2 sw=2 sts=2 et:
