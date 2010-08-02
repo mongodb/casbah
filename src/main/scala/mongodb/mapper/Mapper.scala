@@ -9,6 +9,8 @@ import java.beans.{Introspector, PropertyDescriptor}
 import scala.reflect.{BeanInfo, Manifest}
 import scala.collection.JavaConversions._
 
+import com.mongodb.DBObject
+
 import annotations.raw._
 import util.Logging
 import Implicits._
@@ -116,27 +118,39 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
         case v => Some(v)
       }
 
-    allProps
+    val result = allProps
     .foldLeft(MongoDBObject.newBuilder) {
       (builder, prop) => builder += getKey(prop) -> v(p, prop).get
     }
     .result
+
+    log.debug("%s: %s -> %s", obj_klass.getSimpleName, p, result)
+    result
   }
 
-  def asObject(dbo: MongoDBObject): P =
+  def asObject(dbo: MongoDBObject): P = {
+    def writeNested(p: P, prop: PropertyDescriptor, nested: MongoDBObject) = {
+      val e = Mapper(getPropType(prop)).asObject(nested)
+      val write = prop.getWriteMethod
+      log.debug("write nested '%s' to '%s'.'%s' using: %s", nested, p, getKey(prop), write)
+      write.invoke(p, if (isOptionProp_?(prop)) Some(e) else e)
+    }
+
     allProps.foldLeft(obj_klass.newInstance) {
       (p, prop) =>
-        val write = prop.getWriteMethod
-      dbo.get(getKey(prop)) match {
-        case Some(v: MongoDBObject) if isEmbeddedProp_?(prop) => {
-          val e = Mapper(getPropType(prop)).asObject(v)
-          write.invoke(p, if (isOptionProp_?(prop)) Some(e) else e)
+        dbo.get(getKey(prop)) match {
+          case Some(v: MongoDBObject) if isEmbeddedProp_?(prop) => writeNested(p, prop, v)
+          case Some(v: DBObject) if isEmbeddedProp_?(prop) => writeNested(p, prop, v)
+          case Some(v) => {
+            val write = prop.getWriteMethod
+            log.debug("write raw '%s' to '%s'.'%s' using: %s", v, p, getKey(prop), write)
+            write.invoke(p, v)
+          }
+          case _ =>
         }
-        case Some(v) => write.invoke(p, v)
-        case _ =>
-      }
       p
     }
+  }
 
   def findOne(id: I): Option[P] =
     coll.findOne(id) match {

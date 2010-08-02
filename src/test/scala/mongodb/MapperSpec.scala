@@ -125,22 +125,32 @@ class MapperSpec extends Specification with PendingUntilFixed {
       }
     }
 
-    "automatically assign MongoDB OID-s" in {
+    "automatically assign (& retrieve objects by) MongoDB OID-s" in {
       val piggy = new Piggy("oy vey")
-      Some(Mapper[Piggy].upsert(piggy)) must beSome[Piggy].which(_.id must notBeNull)
+      Some(Mapper[Piggy].upsert(piggy)) must beSome[Piggy].which {
+        saved =>
+          saved.id must notBeNull
+        Mapper[Piggy].findOne(saved.id) must beSome[Piggy].which {
+          retrieved =>
+            retrieved.id must_== saved.id
+          retrieved.giggity must_== piggy.giggity
+        }
+      }
     }
 
-    "output nested documents" in {
-      val chair = new Chair
-      chair.optional_piggy = Some(new Piggy("this piggy is optional"))
-      log.info("chair: %s", Mapper[Chair].asMongoDBObject(chair).toString)
-    }
-
-    "de-serialize nested documents" in {
+    "save & de-serialize nested documents" in {
       val before = new Chair
       before.optional_piggy = Some(new Piggy("foo"))
-      val after = Mapper[Chair].asObject(Mapper[Chair].asMongoDBObject(before))
-      after.optional_piggy must beSome[Piggy].which(_.giggity == before.optional_piggy.get.giggity)
+
+      val id = Mapper[Chair].upsert(before).id
+
+      Mapper[Chair].findOne(id) must beSome[Chair].which {
+        after =>
+          after.optional_piggy must beSome[Piggy].which {
+            piggy =>
+              piggy.giggity == before.optional_piggy.get.giggity
+          }
+      }
     }
   }
 
