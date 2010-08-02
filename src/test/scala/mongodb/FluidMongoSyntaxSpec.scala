@@ -138,9 +138,18 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
       assert(exists == ("foo" -> new BasicDBObject("$exists", false)))
       given("A field, <IN OPERATOR>, target array")
       val in = "foo" $in (1, 8, 12)
+      log.info("in: %s", in)
+      log.info("in: %s", in.get("foo"))
       then("The implicit conversions provide a map-entry formatted Tuple-set matching the query.")
       assert(in._1 == "foo")
       assert(in.toString != null) // Test to verify mongo's toString serialization doesn't choke
+      and("Iterables serialize correctly")
+      val in2 = "foo" $in List(1, 2, 3)
+      log.info("in2: %s", in2)
+      log.info("in2: %s", in2.get("foo"))
+      val in3 = "bar" $in List("Test")
+      log.info("in3: %s", in3)
+      log.info("in3: %s", in3.get("bar"))
       // One more test of bad data that keeps cropping up
       val x = scala.collection.mutable.Buffer("X:YZ", "X:FOOBAR", "X:123", "Z:ABC", "Z:SPAM", "Z:EGGS")
       for ((tag, values) <- x.map(_.split(":")).groupBy(_(0))) {
