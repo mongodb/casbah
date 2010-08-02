@@ -2,6 +2,7 @@ class Plugins(info: sbt.ProjectInfo) extends sbt.PluginDefinition(info) {
   val codaRepo = "Coda Hale's Repository" at "http://repo.codahale.com/"
   val rsyncSBT = "com.codahale" % "rsync-sbt" % "0.1.0"
   val posterousRepo = "t_repo" at "http://tristanhunt.com:8081/content/groups/public/"
+  val repo_with_snuggletex = "ph.ed.ac.uk" at "http://www2.ph.ed.ac.uk/maven2"
   val posterous = "net.databinder" % "posterous-sbt" % "0.1.6"
 }
 
