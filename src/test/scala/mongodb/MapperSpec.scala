@@ -104,21 +104,21 @@ class MapperSpec extends Specification with PendingUntilFixed {
     }
 
     "compute id" in {
-      Mapper[Widget].id_prop must haveClass[java.beans.PropertyDescriptor]
-      Mapper[Widget].id_prop.getName must_== "name"
+      Mapper[Widget].idProp must haveClass[java.beans.PropertyDescriptor]
+      Mapper[Widget].idProp.getName must_== "name"
     }
 
     "cull non-ids" in {
-      Mapper[Widget].non_id_props must exist(pd => pd.getName == "price")
+      Mapper[Widget].nonIdProps must exist(pd => pd.getName == "price")
     }
 
     "convert object to MongoDBObject" in {
-      val dbo = Mapper[Widget].to_dbo(widget)
+      val dbo = Mapper[Widget].asMongoDBObject(widget)
       dbo must havePair("_id", "something")
     }
 
     "retrieve an object" in {
-      Mapper[Widget].find_one(widget.name) must beSome[Widget].which {
+      Mapper[Widget].findOne(widget.name) must beSome[Widget].which {
         loaded =>
           loaded.name must_== widget.name
         loaded.price must_== widget.price
@@ -133,13 +133,13 @@ class MapperSpec extends Specification with PendingUntilFixed {
     "output nested documents" in {
       val chair = new Chair
       chair.optional_piggy = Some(new Piggy("this piggy is optional"))
-      log.info("chair: %s", Mapper[Chair].to_dbo(chair).toString)
+      log.info("chair: %s", Mapper[Chair].asMongoDBObject(chair).toString)
     }
 
     "de-serialize nested documents" in {
       val before = new Chair
       before.optional_piggy = Some(new Piggy("foo"))
-      val after = Mapper[Chair].from_dbo(Mapper[Chair].to_dbo(before))
+      val after = Mapper[Chair].asObject(Mapper[Chair].asMongoDBObject(before))
       after.optional_piggy must beSome[Piggy].which(_.giggity == before.optional_piggy.get.giggity)
     }
   }

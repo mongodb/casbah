@@ -147,7 +147,7 @@ package mapper {
     def count = underlying.count
     override def size = count.intValue
 
-    def next: P = mapper.from_dbo(underlying.next)
+    def next: P = mapper.asObject(underlying.next)
     def hasNext: Boolean = underlying.hasNext
   }
 

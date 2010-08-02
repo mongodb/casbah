@@ -48,40 +48,40 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
 
   lazy val info = Introspector.getBeanInfo(obj_klass)
 
-  lazy val all_props =
+  lazy val allProps =
     info.getPropertyDescriptors.filter {
-      prop => (is_annotated_with_?(prop, classOf[ID]) || is_annotated_with_?(prop, classOf[Key]))
+      prop => (isAnnotatedWith_?(prop, classOf[ID]) || isAnnotatedWith_?(prop, classOf[Key]))
     }.toSet
 
-  lazy val id_prop =
-    (all_props.filter(is_id_prop_? _)).toList match {
+  lazy val idProp =
+    (allProps.filter(isIdProp_? _)).toList match {
       case List(prop) => prop
       case Nil => throw new Exception("no @ID on " + obj_klass)
       case _ => throw new Exception("more than one @ID on " + obj_klass)
     }
 
-  lazy val non_id_props = all_props - id_prop
+  lazy val nonIdProps = allProps - idProp
 
-  lazy val is_auto_id_? = get_annotation(id_prop, classOf[ID]).get.auto
+  lazy val isAutoId_? = getAnnotation(idProp, classOf[ID]).get.auto
 
   override def toString =
-    "Mapper(%s -> id_prop: %s, is_auto_id: %s, all_props: %s)".format(
-      obj_klass.getSimpleName, id_prop.getName, is_auto_id_?,
-      all_props.map(p =>
+    "Mapper(%s -> idProp: %s, is_auto_id: %s, allProps: %s)".format(
+      obj_klass.getSimpleName, idProp.getName, isAutoId_?,
+      allProps.map(p =>
         "Prop(%s -> %s, is_option: %s)".format(p.getName,
-                                               prop_type(p),
-                                               is_option_prop_?(p)))
+                                               getPropType(p),
+                                               isOptionProp_?(p)))
     )
 
-  def get_prop_named(key: String) =
-    non_id_props.filter(_.getName == key).toList match {
+  def getPropNamed(key: String) =
+    nonIdProps.filter(_.getName == key).toList match {
       case List(prop) => Some(prop)
       case _ => None
     }
 
-  def get_prop_value[V <: AnyRef : Manifest](o: AnyRef, prop: PropertyDescriptor): Option[V] = {
+  def getPropValue[V <: AnyRef : Manifest](o: AnyRef, prop: PropertyDescriptor): Option[V] = {
     val cv = manifest[V].erasure.asInstanceOf[Class[V]]
-    def do_get_prop_value0(p: AnyRef): Option[V] =
+    def getPropValue0(p: AnyRef): Option[V] =
       prop.getReadMethod.invoke(p) match {
         case v if v == null => None
         case v if cv.isAssignableFrom(v.getClass) => Some(cv.cast(v))
@@ -90,47 +90,47 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
 
     o match {
       case None => None
-      case Some(p) => { do_get_prop_value0(p.asInstanceOf[AnyRef]) }
-      case _ => do_get_prop_value0(o)
+      case Some(p) => { getPropValue0(p.asInstanceOf[AnyRef]) }
+      case _ => getPropValue0(o)
     }
   }
 
-  def get_id(o: AnyRef): Option[I] = get_prop_value[I](o, id_prop)
+  def getId(o: AnyRef): Option[I] = getPropValue[I](o, idProp)
 
-  def to_dbo(p: P): MongoDBObject = {
+  def asMongoDBObject(p: P): MongoDBObject = {
     def v(p: P, prop: PropertyDescriptor): Option[AnyRef] =
       prop.getReadMethod.invoke(p) match {
         case null => {
-          if (is_id_prop_?(prop) && is_auto_id_?) {
+          if (isIdProp_?(prop) && isAutoId_?) {
             val id = "" + new ObjectId
             prop.getWriteMethod.invoke(p, id)
             Some(id)
           } else {
-            throw new Exception("null detected in %s of %s".format(get_key(prop), p))
+            throw new Exception("null detected in %s of %s".format(getKey(prop), p))
           }
         }
-        case v if is_embedded_prop_?(prop) =>
-          Some(Mapper(prop_type(prop)).to_dbo(v match {
-            case Some(vv: AnyRef) if is_option_prop_?(prop) => vv case _ => v
+        case v if isEmbeddedProp_?(prop) =>
+          Some(Mapper(getPropType(prop)).asMongoDBObject(v match {
+            case Some(vv: AnyRef) if isOptionProp_?(prop) => vv case _ => v
           }))
         case v => Some(v)
       }
 
-    all_props
+    allProps
     .foldLeft(MongoDBObject.newBuilder) {
-      (builder, prop) => builder += get_key(prop) -> v(p, prop).get
+      (builder, prop) => builder += getKey(prop) -> v(p, prop).get
     }
     .result
   }
 
-  def from_dbo(dbo: MongoDBObject): P =
-    all_props.foldLeft(obj_klass.newInstance) {
+  def asObject(dbo: MongoDBObject): P =
+    allProps.foldLeft(obj_klass.newInstance) {
       (p, prop) =>
         val write = prop.getWriteMethod
-      dbo.get(get_key(prop)) match {
-        case Some(v: MongoDBObject) if is_embedded_prop_?(prop) => {
-          val e = Mapper(prop_type(prop)).from_dbo(v)
-          write.invoke(p, if (is_option_prop_?(prop)) Some(e) else e)
+      dbo.get(getKey(prop)) match {
+        case Some(v: MongoDBObject) if isEmbeddedProp_?(prop) => {
+          val e = Mapper(getPropType(prop)).asObject(v)
+          write.invoke(p, if (isOptionProp_?(prop)) Some(e) else e)
         }
         case Some(v) => write.invoke(p, v)
         case _ =>
@@ -138,21 +138,21 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
       p
     }
 
-  def find_one(id: I): Option[P] =
+  def findOne(id: I): Option[P] =
     coll.findOne(id) match {
       case None => None
-      case Some(dbo) => Some(from_dbo(dbo))
+      case Some(dbo) => Some(asObject(dbo))
     }
 
-  // XXX: if <<? returns None, does it indicate failure?
-  def upsert(p: P): P = coll <<? to_dbo(p).asDBObject match {
+  // XXX: if <<? returns None, does it indicate failure_?
+  def upsert(p: P): P = coll <<? asMongoDBObject(p).asDBObject match {
     case Some(dbo) => p
     case None => p
   }
 }
 
 object MapperUtils {
-  def get_annotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
+  def getAnnotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
     (List(prop.getReadMethod, prop.getWriteMethod).filter {
       meth => meth.isAnnotationPresent(ak)
     }) match {
@@ -160,19 +160,19 @@ object MapperUtils {
       case x => Some(x.head.getAnnotation(ak))
     }
 
-  def is_annotated_with_?[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Boolean =
-    get_annotation(prop, ak) match { case Some(a) => true case _ => false }
+  def isAnnotatedWith_?[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Boolean =
+    getAnnotation(prop, ak) match { case Some(a) => true case _ => false }
 
-  def is_id_prop_?(prop: PropertyDescriptor) =
-    is_annotated_with_?(prop, classOf[ID])
+  def isIdProp_?(prop: PropertyDescriptor) =
+    isAnnotatedWith_?(prop, classOf[ID])
 
-  def is_option_prop_?(prop: PropertyDescriptor) =
+  def isOptionProp_?(prop: PropertyDescriptor) =
     prop.getPropertyType == classOf[Option[_]]
 
-  def is_embedded_prop_?(prop: PropertyDescriptor) =
-    prop_type(prop).isAnnotationPresent(classOf[MappedBy]) && is_annotated_with_?(prop, classOf[Key])
+  def isEmbeddedProp_?(prop: PropertyDescriptor) =
+    getPropType(prop).isAnnotationPresent(classOf[MappedBy]) && isAnnotatedWith_?(prop, classOf[Key])
 
-  implicit def prop_type(prop: PropertyDescriptor): Class[AnyRef] =
+  implicit def getPropType(prop: PropertyDescriptor): Class[AnyRef] =
     (prop.getPropertyType match {
       case c if c == classOf[Option[_]] => {
         prop.getWriteMethod.getGenericParameterTypes
@@ -185,10 +185,10 @@ object MapperUtils {
       case c => c
     }).asInstanceOf[Class[AnyRef]]
 
-  def get_key(prop: PropertyDescriptor): String =
-    if (is_annotated_with_?(prop, classOf[ID])) "_id"
+  def getKey(prop: PropertyDescriptor): String =
+    if (isAnnotatedWith_?(prop, classOf[ID])) "_id"
     else {
-      get_annotation(prop, classOf[Key]) match {
+      getAnnotation(prop, classOf[Key]) match {
         case None => prop.getName
         case Some(ann) => ann.value match {
           case "" => prop.getName
