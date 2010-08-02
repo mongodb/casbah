@@ -229,6 +229,7 @@ trait ScalaJCollectionSerializer extends MongoConversionHelper {
     import scalaj.collection.Imports._
 
     def transform(o: AnyRef): AnyRef = o match {
+      case mdbo: MongoDBObject => mdbo.underlying
       case b: _root_.scala.collection.mutable.Buffer[_] => b.asJava
       case s: _root_.scala.collection.mutable.Seq[_] => s.asJava
       case s: _root_.scala.collection.Seq[_] => s.asJava
