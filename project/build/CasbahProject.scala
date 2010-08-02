@@ -1,15 +1,15 @@
 import sbt._
 
-class CasbahProject(info: ProjectInfo) extends DefaultProject(info) with rsync.RsyncPublishing {
-  override def compileOptions = super.compileOptions ++ Seq(Unchecked, Deprecation)
+class CasbahProject(info: ProjectInfo) extends DefaultProject(info) with rsync.RsyncPublishing with  posterous.Publish {
+  override def compileOptions = super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
 
   val scalaTime = "org.scala-tools" % "time" % "2.8.0-0.2-SNAPSHOT"
 
-  val configgy = "net.lag" % "configgy" % "1.5.2"
+  val configgy = "net.lag" % "configgy_2.8.0" % "1.5.2"
   val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
   val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
 
-  val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0.Beta1" % "1.0.Beta2"
+  val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
 
   val mongodb = "org.mongodb" % "mongo-java-driver" % "2.0"
 

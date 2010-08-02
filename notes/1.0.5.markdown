@@ -1,0 +1,10 @@
+Minor bugfixes/enhancements.
+
++ Due to oddities and ambiguities, stripped the type parameter apply[A] method from MongoDBObject.  If you want a cast return, please use MongoDBObject.getAs[A]. This should minimize odd runtime failures. 
++ Added toplevel detection in MongoDBObject's +=/put methods to try and convert a MongoDBObject value to DBObject for you.
++ Added "Product" arguments to $pushAll - this means you can pass a Tuple-style list, where previously it required an Iterable ( $pushAll ("foo" -> (5, 10, 23, "spam", eggs") should now work).
++ Updated to scalaj-collection 1.0 release, built against 2.8.0 final
++ Added a new ScalaJ-Collection based Deserializer and Serializer layer. All base types supported by ScalaJ collection now use asJava / asScala to cleanly ser/deser where possible. This excludes Comparator/Comparable and Map types for sanity reasons.  See com.novus.casbah.mongodb.conversions.scala.ScalaConversions for detail.  Please report bugs if this breaks your code - it's nascent and a bit naive!
++ New Committer - Max Afonov
++ Removed the BitBucket Mirror; we're purely on GitHub now. Bug tracker linked from Github page.
++ Created a user mailing list - http://groups.google.com/group/mongodb-casbah-users

@@ -33,6 +33,7 @@ import net.lag.logging.Logger
 
 class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers with Logging {
   Configgy.configure("src/test/resources/casbah.config")
+  com.novus.casbah.mongodb.conversions.scala.RegisterConversionHelpers()
   feature("DBObject related syntax conversions.") {
     // Disabled automatic conversion - this causes people's code to catch fire and swallow small children
     scenario("Products/Tuples can be cast to Mongo DBObjects.") {
@@ -137,9 +138,18 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
       assert(exists == ("foo" -> new BasicDBObject("$exists", false)))
       given("A field, <IN OPERATOR>, target array")
       val in = "foo" $in (1, 8, 12)
+      log.info("in: %s", in)
+      log.info("in: %s", in.get("foo"))
       then("The implicit conversions provide a map-entry formatted Tuple-set matching the query.")
       assert(in._1 == "foo")
       assert(in.toString != null) // Test to verify mongo's toString serialization doesn't choke
+      and("Iterables serialize correctly")
+      val in2 = "foo" $in List(1, 2, 3)
+      log.info("in2: %s", in2)
+      log.info("in2: %s", in2.get("foo"))
+      val in3 = "bar" $in List("Test")
+      log.info("in3: %s", in3)
+      log.info("in3: %s", in3.get("bar"))
       // One more test of bad data that keeps cropping up
       val x = scala.collection.mutable.Buffer("X:YZ", "X:FOOBAR", "X:123", "Z:ABC", "Z:SPAM", "Z:EGGS")
       for ((tag, values) <- x.map(_.split(":")).groupBy(_(0))) {
@@ -183,6 +193,7 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
       given("A <SET OPERATOR>, a field & value")
       then("A proper DBObject is returned with the expected data")
       val set = $set ("foo" -> 5)
+      log.info("Set: %s", set)
       assert(set == Map("$set" -> Map("foo" -> 5).asDBObject).asDBObject)
       and("Setting multiple values functions as well")
       val setMulti = $set ("foo" -> 5, "bar" -> "N", "spam" -> "eggs")
@@ -206,9 +217,12 @@ class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMat
       //TODO - Finish testing array operators
       given("A PushAll Operator")
       then("It should return a structured object of the appropriate type.")
-      /*val pushAll = $pushAll ("foo" -> Array(5, 10, 12, "foo"))
+      val pushAll = $pushAll ("foo" -> Array(5, 10, 12, "foo"))
+      // Product syntax
+      val pushAll2 = $pushAll ("foo" -> (5, 10, 15, 20, 25, 38, 12, "bar", "spam", 86, "eggs", "omg", 412, "ponies"))
       log.info("Push All: %s", pushAll.get("$pushAll").asInstanceOf[DBObject].get("foo").getClass)
-      pushAll should be (Map("$pushAll" -> Map("foo" -> Array(5, 10, 12, "foo")).asDBObject).asDBObject)*/
+      log.info("Push All 2: %s", pushAll2)
+      //pushAll should be (Map("$pushAll" -> Map("foo" -> Array(5, 10, 12, "foo")).asDBObject).asDBObject)
 
     }
     scenario("Operator chaining works.") {

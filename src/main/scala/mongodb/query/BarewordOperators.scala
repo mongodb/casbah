@@ -49,11 +49,11 @@ trait BarewordQueryOperator extends Logging {
   /*
    * TODO - Implicit filtering of 'valid' (aka convertable) types for [A]
    */
-  def apply[A](oper: String)(fields: (String, A)*) = { 
+  def apply[A](oper: String)(fields: (String, A)*): DBObject = { 
     log.trace("Apply - %s", fields)
-    val bldr = new BasicDBObjectBuilder
-    for ((k, v) <- fields) bldr.add(k, v)
-    new BasicDBObject(oper, bldr.get)
+    val bldr = MongoDBObject.newBuilder
+    for ((k, v) <- fields) bldr += k -> v
+    MongoDBObject(oper -> bldr.result.asDBObject).asDBObject
   }
 
 }
@@ -182,7 +182,19 @@ trait PushOp extends BarewordQueryOperator {
  */
 trait PushAllOp extends BarewordQueryOperator {
   //def $pushAll = apply[Array[Any]]("$pushAll")_
-  def $pushAll(args: (String, Iterable[Any])*) = apply("$pushAll")(args.map(z => (z._1, z._2.toArray)):_*)
+  /*def $pushAll(args: (String, Iterable[Any])*): DBObject = apply("$pushAll")(args.map(z => (z._1, z._2.toArray)):_*)
+  def $pushAll(args: (String, Product)): DBObject = $pushAll(args._1 -> args._2.productIterator.toIterable)
+  def $pushAll(args: (String, Array[Any])): DBObject = $pushAll(args._1 -> args._2.toIterable)*/
+    //else if (manifest[A].toString.startsWith("Array[")) // WARNING: HACK! 
+  def $pushAll[A <: Any : Manifest](args: (String, A)*): DBObject = 
+    if (manifest[A] <:< manifest[Iterable[_]]) 
+      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]):_*)
+    else if (manifest[A] <:< manifest[Product]) 
+      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Product].productIterator.toIterable): _*)
+    else if (manifest[A].erasure.isArray) 
+      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Array[_]].toIterable): _*)
+    else 
+      throw new IllegalArgumentException("$pushAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
 }
 
 /*
@@ -200,7 +212,7 @@ trait AddToSetOp extends BarewordQueryOperator {
 /*
  * Trait to provide the $pop (pop) method as a bareword operator..
  *
- * Targets an RValue of String* which should be fields. 
+ 
  *
  * TODO - Support the "unshift" version in which a -1 is specified
  * 
