@@ -8,8 +8,10 @@ import java.beans.{Introspector, PropertyDescriptor}
 
 import scala.reflect.{BeanInfo, Manifest}
 import scala.collection.JavaConversions._
+import scala.collection.mutable.{Buffer, ArrayBuffer}
+import scala.collection.immutable.List
 
-import com.mongodb.DBObject
+import com.mongodb.{DBObject, BasicDBList}
 
 import annotations.raw._
 import util.Logging
@@ -56,7 +58,7 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
     }.toSet
 
   lazy val idProp =
-    (allProps.filter(isIdProp_? _)).toList match {
+    (allProps.filter(isId_? _)).toList match {
       case List(prop) => prop
       case Nil => throw new Exception("no @ID on " + obj_klass)
       case _ => throw new Exception("more than one @ID on " + obj_klass)
@@ -71,8 +73,8 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
       obj_klass.getSimpleName, idProp.getName, isAutoId_?,
       allProps.map(p =>
         "Prop(%s -> %s, is_option: %s)".format(p.getName,
-                                               getPropType(p),
-                                               isOptionProp_?(p)))
+                                               propType(p),
+                                               isOption_?(p)))
     )
 
   def getPropNamed(key: String) =
@@ -100,10 +102,15 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
   def getId(o: AnyRef): Option[I] = getPropValue[I](o, idProp)
 
   def asMongoDBObject(p: P): MongoDBObject = {
-    def v(p: P, prop: PropertyDescriptor): Option[AnyRef] =
+    def v(p: P, prop: PropertyDescriptor): Option[AnyRef] = {
+      def vEmbed(e: AnyRef) = Mapper(propType(prop)).asMongoDBObject(e match {
+        case Some(vv: AnyRef) if isOption_?(prop) => vv
+        case _ => e
+      })
+
       prop.getReadMethod.invoke(p) match {
         case null => {
-          if (isIdProp_?(prop) && isAutoId_?) {
+          if (isId_?(prop) && isAutoId_?) {
             val id = "" + new ObjectId
             prop.getWriteMethod.invoke(p, id)
             Some(id)
@@ -111,12 +118,15 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
             throw new Exception("null detected in %s of %s".format(getKey(prop), p))
           }
         }
-        case v if isEmbeddedProp_?(prop) =>
-          Some(Mapper(getPropType(prop)).asMongoDBObject(v match {
-            case Some(vv: AnyRef) if isOptionProp_?(prop) => vv case _ => v
-          }))
+        case l: List[AnyRef] if isEmbedded_?(prop) => Some(l.map(vEmbed _))
+        case b: Buffer[AnyRef] if isEmbedded_?(prop) => Some(b.map(vEmbed _))
+        case v if isEmbedded_?(prop) => {
+          log.info("fall through embedded: %s", v)
+          Some(vEmbed(v))
+        }
         case v => Some(v)
       }
+    }
 
     val result = allProps
     .foldLeft(MongoDBObject.newBuilder) {
@@ -130,20 +140,45 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
 
   def asObject(dbo: MongoDBObject): P = {
     def writeNested(p: P, prop: PropertyDescriptor, nested: MongoDBObject) = {
-      val e = Mapper(getPropType(prop)).asObject(nested)
+      val e = Mapper(propType(prop)).asObject(nested)
       val write = prop.getWriteMethod
       log.debug("write nested '%s' to '%s'.'%s' using: %s", nested, p, getKey(prop), write)
-      write.invoke(p, if (isOptionProp_?(prop)) Some(e) else e)
+      write.invoke(p, if (isOption_?(prop)) Some(e) else e)
+    }
+
+    def writeSeq(p: P, prop: PropertyDescriptor, src: MongoDBObject) = {
+      def init: Seq[Any] =
+        if (isList_?(prop)) Nil
+        else if (isBuffer_?(prop)) ArrayBuffer()
+        else throw new Exception("whaaa! whaa! I'm lost! %s.%s".format(p, prop.getName))
+
+      val dst = src.foldLeft(init) {
+        case (list, (k, v)) =>
+          init ++ (list.toList ::: (v match {
+            case nested: MongoDBObject if isEmbedded_?(prop) =>
+              Mapper(propType(prop)).asObject(nested)
+            case _ => v
+          }) :: Nil)
+      }
+
+      val write = prop.getWriteMethod
+      log.debug("write list '%s' (%s) to '%s'.'%s' using %s",
+                dst, dst.getClass.getName, p, getKey(prop), write)
+
+      write.invoke(p, dst)
     }
 
     allProps.foldLeft(obj_klass.newInstance) {
       (p, prop) =>
         dbo.get(getKey(prop)) match {
-          case Some(v: MongoDBObject) if isEmbeddedProp_?(prop) => writeNested(p, prop, v)
-          case Some(v: DBObject) if isEmbeddedProp_?(prop) => writeNested(p, prop, v)
+          case Some(l: BasicDBList) => writeSeq(p, prop, l)
+          case Some(v: MongoDBObject) if isEmbedded_?(prop) => writeNested(p, prop, v)
+          case Some(v: DBObject) if isEmbedded_?(prop) => writeNested(p, prop, v)
+
           case Some(v) => {
             val write = prop.getWriteMethod
-            log.debug("write raw '%s' to '%s'.'%s' using: %s", v, p, getKey(prop), write)
+            log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s",
+                      v, v.getClass.getName, p, getKey(prop), write)
             write.invoke(p, v)
           }
           case _ =>
@@ -177,27 +212,40 @@ object MapperUtils {
   def isAnnotatedWith_?[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Boolean =
     getAnnotation(prop, ak) match { case Some(a) => true case _ => false }
 
-  def isIdProp_?(prop: PropertyDescriptor) =
+  def isId_?(prop: PropertyDescriptor) =
     isAnnotatedWith_?(prop, classOf[ID])
 
-  def isOptionProp_?(prop: PropertyDescriptor) =
+  def isOption_?(prop: PropertyDescriptor) =
     prop.getPropertyType == classOf[Option[_]]
 
-  def isEmbeddedProp_?(prop: PropertyDescriptor) =
-    getPropType(prop).isAnnotationPresent(classOf[MappedBy]) && isAnnotatedWith_?(prop, classOf[Key])
+  def isEmbedded_?(prop: PropertyDescriptor) =
+    (if (isSeq_?(propType(prop))) extractTypeParams(prop.getWriteMethod).head
+     else propType(prop)).isAnnotationPresent(classOf[MappedBy]) && isAnnotatedWith_?(prop, classOf[Key])
 
-  implicit def getPropType(prop: PropertyDescriptor): Class[AnyRef] =
+  implicit def propClass(prop: PropertyDescriptor): Class[AnyRef] =
+    prop.getPropertyType.asInstanceOf[Class[AnyRef]]
+
+  def isSeq_?(c: Class[_])    = isList_?(c) || isBuffer_?(c)
+  def isList_?(c: Class[_])   = c.isAssignableFrom(classOf[List[_]])
+  def isBuffer_?(c: Class[_]) = c.isAssignableFrom(classOf[Buffer[_]])
+
+  def extractTypeParams(m: Method) =
+    (m.getGenericParameterTypes
+     .toList
+     .map {
+       _.asInstanceOf[java.lang.reflect.ParameterizedType]
+       .getActualTypeArguments.head
+     }).map(_.asInstanceOf[Class[_]]).toList
+
+  def propType(prop: PropertyDescriptor): Class[AnyRef] = {
+    def writeType = extractTypeParams(prop.getWriteMethod)
+
     (prop.getPropertyType match {
-      case c if c == classOf[Option[_]] => {
-        prop.getWriteMethod.getGenericParameterTypes
-        .toList
-        .map {
-          _.asInstanceOf[java.lang.reflect.ParameterizedType]
-          .getActualTypeArguments.head
-        }.toList.head
-      }
+      case c if c == classOf[Option[_]] => writeType.head
+      case c if isSeq_?(c) => writeType.head
       case c => c
     }).asInstanceOf[Class[AnyRef]]
+  }
 
   def getKey(prop: PropertyDescriptor): String =
     if (isAnnotatedWith_?(prop, classOf[ID])) "_id"

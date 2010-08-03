@@ -27,7 +27,7 @@ import net.lag.configgy.Configgy
 import org.specs._
 import org.specs.specification.PendingUntilFixed
 
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.{Buffer, ArrayBuffer}
 import scala.reflect.BeanInfo
 
 import Imports._
@@ -51,6 +51,12 @@ class Piggy {
   @Key
   var giggity: String = _
 
+  @Key
+  var favorite_foods: List[String] = Nil
+
+  @Key
+  var badges: Buffer[Badge] = ArrayBuffer()
+
   def this(g: String) = {
     this()
     giggity = g
@@ -65,6 +71,18 @@ class Chair {
 
   @Key
   var optional_piggy: Option[Piggy] = None
+}
+
+@BeanInfo
+@MappedBy(classOf[BadgeMapper])
+class Badge {
+  @ID
+  var name: String = _
+
+  def this(n: String) = {
+    this()
+    name = n
+  }
 }
 
 class ChairMapper extends Mapper[String, Chair] {
@@ -84,6 +102,8 @@ class PiggyMapper extends Mapper[String, Piggy] {
   db = "mapper_test"
   coll = "piggies"
 }
+
+class BadgeMapper extends Mapper[String, Badge]
 
 class MapperSpec extends Specification with PendingUntilFixed {
   detailedDiffs()
@@ -139,8 +159,15 @@ class MapperSpec extends Specification with PendingUntilFixed {
     }
 
     "save & de-serialize nested documents" in {
+      val FOODS = "bacon" :: "steak" :: "eggs" :: "club mate" :: Nil
+      val BADGES = ArrayBuffer(new Badge("mile high"), new Badge("swine"))
+
       val before = new Chair
-      before.optional_piggy = Some(new Piggy("foo"))
+
+      val piggy = new Piggy("foo")
+      piggy.favorite_foods = FOODS
+      piggy.badges = BADGES
+      before.optional_piggy = Some(piggy)
 
       val id = Mapper[Chair].upsert(before).id
 
@@ -149,6 +176,7 @@ class MapperSpec extends Specification with PendingUntilFixed {
           after.optional_piggy must beSome[Piggy].which {
             piggy =>
               piggy.giggity == before.optional_piggy.get.giggity
+	    piggy.favorite_foods must containAll(FOODS)
           }
       }
     }
