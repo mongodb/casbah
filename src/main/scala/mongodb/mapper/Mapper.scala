@@ -53,7 +53,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
   lazy val allProps =
     info.getPropertyDescriptors.filter {
       prop => (isAnnotatedWith_?(prop, classOf[ID]) || isAnnotatedWith_?(prop, classOf[Key]))
-    }.toSet
+    }.map(validatePropKey _).toSet
 
   lazy val idProp =
     (allProps.filter(isId_? _)).toList match {
@@ -263,4 +263,13 @@ object MapperUtils {
         }
       }
     }
+
+  def validatePropKey(prop: PropertyDescriptor) = {
+    getKey(prop) match {
+      case "_id" if !isId_?(prop) => throw new Exception("only @ID props can have key == \"_id\"")
+      case s if s.startsWith("_") && !isId_?(prop) => throw new Exception("keys can't start with underscores")
+      case s if s.contains(".") || s.contains("$") => throw new Exception("keys can't contain . or $")
+      case _ => prop
+    }
+  }
 }
