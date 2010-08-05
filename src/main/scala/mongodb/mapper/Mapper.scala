@@ -115,9 +115,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
             val id = new ObjectId
             prop.getWriteMethod.invoke(p, id)
             Some(id)
-          } else {
-            throw new Exception("null detected in %s of %s".format(getKey(prop), p))
-          }
+          } else { None }
         }
         case l: List[AnyRef] if isEmbedded_?(prop) => Some(l.map(vEmbed _))
         case b: Buffer[AnyRef] if isEmbedded_?(prop) => Some(b.map(vEmbed _))
@@ -131,7 +129,10 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
 
     val result = allProps
     .foldLeft(MongoDBObject.newBuilder) {
-      (builder, prop) => builder += getKey(prop) -> v(p, prop).get
+      (builder, prop) => v(p, prop) match {
+        case Some(value) => builder += getKey(prop) -> value
+        case _ => builder
+      }
     }
     .result
 
@@ -181,10 +182,10 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
             log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s",
                       v, v.getClass.getName, p, getKey(prop), write)
             write.invoke(p, v match {
-	      case oid: ObjectId => oid
-	      case s: String if isId_?(prop) && isAutoId_? => new ObjectId(s)
-	      case x => x
-	    })
+              case oid: ObjectId => oid
+              case s: String if isId_?(prop) && isAutoId_? => new ObjectId(s)
+              case x => x
+            })
           }
           case _ =>
         }

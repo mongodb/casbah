@@ -55,6 +55,9 @@ class Piggy {
   var favorite_foods: List[String] = Nil
 
   @Key
+  var this_field_is_always_null: String = null
+
+  @Key
   var badges: Buffer[Badge] = ArrayBuffer()
 
   def this(g: String) = {
@@ -158,6 +161,11 @@ class MapperSpec extends Specification with PendingUntilFixed {
           retrieved.giggity must_== piggy.giggity
         }
       }
+    }
+
+    "exclude null non-@ID fields from output" in {
+      val dbo = Mapper[Piggy].asMongoDBObject(new Piggy("has a null field"))
+      dbo must notHaveKey("this_field_is_always_null")
     }
 
     "save & de-serialize nested documents" in {
