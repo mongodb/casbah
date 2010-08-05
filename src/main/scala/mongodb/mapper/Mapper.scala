@@ -102,9 +102,9 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
 
   def getId(o: AnyRef): Option[AnyRef] = getPropValue[AnyRef](o, idProp)
 
-  def asMongoDBObject(p: P): MongoDBObject = {
+  def asDBObject(p: P): DBObject = {
     def v(p: P, prop: PropertyDescriptor): Option[AnyRef] = {
-      def vEmbed(e: AnyRef) = Mapper(propType(prop)).get.asMongoDBObject(e match {
+      def vEmbed(e: AnyRef) = Mapper(propType(prop)).get.asDBObject(e match {
         case Some(vv: AnyRef) if isOption_?(prop) => vv
         case _ => e
       })
@@ -200,7 +200,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
     }
 
   // XXX: if <<? returns None, does it indicate failure_?
-  def upsert(p: P): P = coll <<? asMongoDBObject(p).asDBObject match {
+  def upsert(p: P): P = coll <<? asDBObject(p).asDBObject match {
     case Some(dbo) => p
     case None => p
   }
