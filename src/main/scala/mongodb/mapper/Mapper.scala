@@ -57,7 +57,10 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
 
   lazy val idProp =
     (allProps.filter(isId_? _)).toList match {
-      case List(prop) => prop
+      case List(prop: PropertyDescriptor) =>
+        if (getAnnotation(prop, classOf[ID]).get.auto && propType(prop) != classOf[ObjectId])
+          throw new Exception("only ObjectId _id fields are supported when auto = true (%s . %s)".format(obj_klass.getName, prop.getName))
+        else prop
       case Nil => throw new Exception("no @ID on " + obj_klass)
       case _ => throw new Exception("more than one @ID on " + obj_klass)
     }
@@ -109,7 +112,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
       prop.getReadMethod.invoke(p) match {
         case null => {
           if (isId_?(prop) && isAutoId_?) {
-            val id = "" + new ObjectId
+            val id = new ObjectId
             prop.getWriteMethod.invoke(p, id)
             Some(id)
           } else {
@@ -177,7 +180,11 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
             val write = prop.getWriteMethod
             log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s",
                       v, v.getClass.getName, p, getKey(prop), write)
-            write.invoke(p, v)
+            write.invoke(p, v match {
+	      case oid: ObjectId => oid
+	      case s: String if isId_?(prop) && isAutoId_? => new ObjectId(s)
+	      case x => x
+	    })
           }
           case _ =>
         }
