@@ -16,24 +16,27 @@ import util.Logging
 import Imports._
 
 object Mapper extends Logging {
-  val _m = new java.util.concurrent.ConcurrentHashMap[String, Mapper[_,_]]
+  private val _m = new java.util.concurrent.ConcurrentHashMap[String, Mapper[_]]
 
-  def apply[P <: AnyRef : Manifest](): Mapper[AnyRef, P] =
-    apply(manifest[P].erasure.getName).get
+  def apply[P <: AnyRef : Manifest](): Mapper[P] =
+    apply(manifest[P].erasure.getName).get.asInstanceOf[Mapper[P]]
 
-  def apply[P <: AnyRef](p: String): Option[Mapper[AnyRef, P]] =
-    if (_m.containsKey(p)) Some(_m.get(p).asInstanceOf[Mapper[AnyRef, P]])
+  def apply[P <: AnyRef : Manifest](p: String): Option[Mapper[P]] =
+    if (_m.containsKey(p)) Some(_m.get(p).asInstanceOf[Mapper[P]])
     else None
 
-  def update[P <: AnyRef](p: String, m: Mapper[_, _]) =
-    if (!_m.contains(p)) _m(p) = m.asInstanceOf[Mapper[AnyRef, P]]
+  def apply[P <: AnyRef : Manifest](p: Class[P]): Option[Mapper[P]] = apply(p.getName)
+
+  def update[P <: AnyRef : Manifest](p: String, m: Mapper[P]): Unit =
+    if (!_m.contains(p)) _m(p) = m.asInstanceOf[Mapper[P]]
+
+  def update[P <: AnyRef : Manifest](p: Class[P], m: Mapper[P]): Unit = update(p.getName, m)(manifest[P])
 }
 
-abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends Logging {
+abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
   import Mapper._
   import MapperUtils._
 
-  protected val id_klass = manifest[I].erasure.asInstanceOf[Class[I]]
   protected val obj_klass = manifest[P].erasure.asInstanceOf[Class[P]]
 
   Mapper(obj_klass) = this
@@ -94,7 +97,7 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
     }
   }
 
-  def getId(o: AnyRef): Option[I] = getPropValue[I](o, idProp)
+  def getId(o: AnyRef): Option[AnyRef] = getPropValue[AnyRef](o, idProp)
 
   def asMongoDBObject(p: P): MongoDBObject = {
     def v(p: P, prop: PropertyDescriptor): Option[AnyRef] = {
@@ -182,7 +185,7 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
     }
   }
 
-  def findOne(id: I): Option[P] =
+  def findOne(id: AnyRef): Option[P] =
     coll.findOne(id) match {
       case None => None
       case Some(dbo) => Some(asObject(dbo))
@@ -253,6 +256,4 @@ object MapperUtils {
         }
       }
     }
-
-  implicit def class2string(c: Class[_]): String = c.getName
 }

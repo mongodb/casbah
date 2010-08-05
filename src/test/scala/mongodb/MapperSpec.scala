@@ -85,25 +85,25 @@ class Badge {
   }
 }
 
-object ChairMapper extends Mapper[String, Chair] {
+object ChairMapper extends Mapper[Chair] {
   conn = MongoConnection()
   db = "mapper_test"
   coll = "chairs"
 }
 
-object WidgetMapper extends Mapper[String, Widget] {
+object WidgetMapper extends Mapper[Widget] {
   conn = MongoConnection()
   db = "mapper_test"
   coll = "widgets"
 }
 
-object PiggyMapper extends Mapper[String, Piggy] {
+object PiggyMapper extends Mapper[Piggy] {
   conn = MongoConnection()
   db = "mapper_test"
   coll = "piggies"
 }
 
-object BadgeMapper extends Mapper[String, Badge]
+object BadgeMapper extends Mapper[Badge]
 
 class MapperSpec extends Specification with PendingUntilFixed {
   List(ChairMapper, WidgetMapper, PiggyMapper, BadgeMapper)

@@ -257,7 +257,7 @@ trait Implicits extends FluidQueryBarewordOps {
 
 trait MapperImplicits[P <: AnyRef] {
   import com.novus.casbah.mongodb.mapper.Mapper
-  val mapper: Mapper[_, P]
+  val mapper: Mapper[P]
 
   implicit def dbo2p(dbo: DBObject): P = mapper.asObject(Implicits.wrapDBObj(dbo))
   implicit def optdbo2optp(odbo: Option[DBObject]): Option[P] =

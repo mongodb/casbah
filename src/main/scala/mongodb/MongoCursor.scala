@@ -142,7 +142,7 @@ package mapper {
 
   trait MappedIterator[P <: AnyRef] extends MongoCursorWrapper[P] with Iterator[P] {
     val underlying: DBCursor
-    val mapper: Mapper[_, P]
+    val mapper: Mapper[P]
 
     def count = underlying.count
     override def size = count.intValue
