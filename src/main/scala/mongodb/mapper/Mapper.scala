@@ -11,13 +11,9 @@ import scala.collection.JavaConversions._
 import scala.collection.mutable.{Buffer, ArrayBuffer}
 import scala.collection.immutable.List
 
-import com.mongodb.{DBObject, BasicDBList}
-
 import annotations.raw._
 import util.Logging
-import Implicits._
-
-import org.bson.types.ObjectId
+import Imports._
 
 object Mapper extends Logging {
   val _m = new java.util.concurrent.ConcurrentHashMap[String, Mapper[_,_]]
