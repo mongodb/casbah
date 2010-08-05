@@ -19,21 +19,18 @@ import Implicits._
 
 import org.bson.types.ObjectId
 
-object Mapper {
-  private val _m = new java.util.concurrent.ConcurrentHashMap[Class[_], Mapper[_,_]]
+object Mapper extends Logging {
+  val _m = new java.util.concurrent.ConcurrentHashMap[String, Mapper[_,_]]
 
-  def apply[P <: AnyRef : Manifest](): Mapper[AnyRef, P] = apply[P](manifest[P].erasure.asInstanceOf[Class[P]])(manifest[P])
+  def apply[P <: AnyRef : Manifest](): Mapper[AnyRef, P] =
+    apply(manifest[P].erasure.getName).get
 
-  def apply[P <: AnyRef : Manifest](klass: Class[P]) = {
-    if (_m.containsKey(klass)) _m.get(klass).asInstanceOf[Mapper[AnyRef, P]]
-    else if (klass.isAnnotationPresent(classOf[MappedBy])) {
-      val svc = klass.getAnnotation(classOf[MappedBy]).value().newInstance.asInstanceOf[Mapper[AnyRef, P]]
-      _m.put(klass, svc)
-      svc
-    } else {
-      throw new Exception("please annotate " + klass + " with @MappedBy")
-    }
-  }
+  def apply[P <: AnyRef](p: String): Option[Mapper[AnyRef, P]] =
+    if (_m.containsKey(p)) Some(_m.get(p).asInstanceOf[Mapper[AnyRef, P]])
+    else None
+
+  def update[P <: AnyRef](p: String, m: Mapper[_, _]) =
+    if (!_m.contains(p)) _m(p) = m.asInstanceOf[Mapper[AnyRef, P]]
 }
 
 abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends Logging {
@@ -42,6 +39,8 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
 
   protected val id_klass = manifest[I].erasure.asInstanceOf[Class[I]]
   protected val obj_klass = manifest[P].erasure.asInstanceOf[Class[P]]
+
+  Mapper(obj_klass) = this
 
   implicit protected def s2db(name: String): MongoDB = conn(name)
   implicit protected def s2coll(name: String): MongoCollection = db(name)
@@ -103,7 +102,7 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
 
   def asMongoDBObject(p: P): MongoDBObject = {
     def v(p: P, prop: PropertyDescriptor): Option[AnyRef] = {
-      def vEmbed(e: AnyRef) = Mapper(propType(prop)).asMongoDBObject(e match {
+      def vEmbed(e: AnyRef) = Mapper(propType(prop)).get.asMongoDBObject(e match {
         case Some(vv: AnyRef) if isOption_?(prop) => vv
         case _ => e
       })
@@ -140,7 +139,7 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
 
   def asObject(dbo: MongoDBObject): P = {
     def writeNested(p: P, prop: PropertyDescriptor, nested: MongoDBObject) = {
-      val e = Mapper(propType(prop)).asObject(nested)
+      val e = Mapper(propType(prop)).get.asObject(nested)
       val write = prop.getWriteMethod
       log.debug("write nested '%s' to '%s'.'%s' using: %s", nested, p, getKey(prop), write)
       write.invoke(p, if (isOption_?(prop)) Some(e) else e)
@@ -156,7 +155,7 @@ abstract class Mapper[I <: AnyRef : Manifest, P <: AnyRef : Manifest]() extends 
         case (list, (k, v)) =>
           init ++ (list.toList ::: (v match {
             case nested: MongoDBObject if isEmbedded_?(prop) =>
-              Mapper(propType(prop)).asObject(nested)
+              Mapper(propType(prop)).get.asObject(nested)
             case _ => v
           }) :: Nil)
       }
@@ -258,4 +257,6 @@ object MapperUtils {
         }
       }
     }
+
+  implicit def class2string(c: Class[_]): String = c.getName
 }
