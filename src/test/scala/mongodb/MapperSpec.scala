@@ -36,14 +36,14 @@ import mongodb.mapper.Mapper
 import mongodb.mapper.annotations._
 
 @BeanInfo
-@MappedBy(classOf[Any])
+@MappedBy(classOf[WidgetMapper])
 class Widget(@ID var name: String, @Key var price: Int) {
   def this() = this(null, 0)
   override def toString() = "Widget(" + name + ", " + price + ")"
 }
 
 @BeanInfo
-@MappedBy(classOf[Any])
+@MappedBy(classOf[PiggyMapper])
 class Piggy {
   @ID(auto = true)
   var id: String = _
@@ -64,7 +64,7 @@ class Piggy {
 }
 
 @BeanInfo
-@MappedBy(classOf[Any])
+@MappedBy(classOf[ChairMapper])
 class Chair {
   @ID(auto = true)
   var id: String = _
@@ -74,7 +74,7 @@ class Chair {
 }
 
 @BeanInfo
-@MappedBy(classOf[Any])
+@MappedBy(classOf[BadgeMapper])
 class Badge {
   @ID
   var name: String = _
@@ -85,29 +85,27 @@ class Badge {
   }
 }
 
-object ChairMapper extends Mapper[String, Chair] {
+class ChairMapper extends Mapper[String, Chair] {
   conn = MongoConnection()
   db = "mapper_test"
   coll = "chairs"
 }
 
-object WidgetMapper extends Mapper[String, Widget] {
+class WidgetMapper extends Mapper[String, Widget] {
   conn = MongoConnection()
   db = "mapper_test"
   coll = "widgets"
 }
 
-object PiggyMapper extends Mapper[String, Piggy] {
+class PiggyMapper extends Mapper[String, Piggy] {
   conn = MongoConnection()
   db = "mapper_test"
   coll = "piggies"
 }
 
-object BadgeMapper extends Mapper[String, Badge]
+class BadgeMapper extends Mapper[String, Badge]
 
 class MapperSpec extends Specification with PendingUntilFixed {
-  List(ChairMapper, WidgetMapper, PiggyMapper, BadgeMapper)
-
   detailedDiffs()
 
   doBeforeSpec {
@@ -122,7 +120,7 @@ class MapperSpec extends Specification with PendingUntilFixed {
     Mapper[Widget].upsert(widget)
 
     "discover mapper for a class" in {
-      Mapper[Piggy] must_== PiggyMapper
+      Mapper[Piggy].getClass.getSimpleName must_== classOf[PiggyMapper].getSimpleName
     }
 
     "compute id" in {
