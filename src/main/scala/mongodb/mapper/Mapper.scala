@@ -170,7 +170,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
       write.invoke(p, dst)
     }
 
-    allProps.foldLeft(obj_klass.newInstance) {
+    allProps.filter(!isReadOnly_?(_)).foldLeft(obj_klass.newInstance) {
       (p, prop) =>
         dbo.get(getKey(prop)) match {
           case Some(l: BasicDBList) => writeSeq(p, prop, l)
@@ -208,7 +208,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
 
 object MapperUtils {
   def getAnnotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
-    (List(prop.getReadMethod, prop.getWriteMethod).filter {
+    (List(prop.getReadMethod, prop.getWriteMethod).filter(_ != null).filter {
       meth => meth.isAnnotationPresent(ak)
     }) match {
       case Nil => None
@@ -221,11 +221,13 @@ object MapperUtils {
   def isId_?(prop: PropertyDescriptor) =
     isAnnotatedWith_?(prop, classOf[ID])
 
+  def isReadOnly_?(prop: PropertyDescriptor) = prop.getWriteMethod == null
+
   def isOption_?(prop: PropertyDescriptor) =
     prop.getPropertyType == classOf[Option[_]]
 
   def isEmbedded_?(prop: PropertyDescriptor) =
-    (if (isSeq_?(propType(prop))) extractTypeParams(prop.getWriteMethod).head
+    (if (isSeq_?(propType(prop))) extractTypeParams(prop.getReadMethod).head
      else propType(prop)).isAnnotationPresent(classOf[MappedBy]) && isAnnotatedWith_?(prop, classOf[Key])
 
   implicit def propClass(prop: PropertyDescriptor): Class[AnyRef] =
@@ -235,16 +237,15 @@ object MapperUtils {
   def isList_?(c: Class[_])   = c.isAssignableFrom(classOf[List[_]])
   def isBuffer_?(c: Class[_]) = c.isAssignableFrom(classOf[Buffer[_]])
 
-  def extractTypeParams(m: Method) =
-    (m.getGenericParameterTypes
-     .toList
-     .map {
-       _.asInstanceOf[java.lang.reflect.ParameterizedType]
-       .getActualTypeArguments.head
-     }).map(_.asInstanceOf[Class[_]]).toList
+  def extractTypeParams(m: Method) = {
+    m.getGenericReturnType
+    .asInstanceOf[java.lang.reflect.ParameterizedType]
+    .getActualTypeArguments.toList
+    .map(_.asInstanceOf[Class[_]])
+  }
 
   def propType(prop: PropertyDescriptor): Class[AnyRef] = {
-    def writeType = extractTypeParams(prop.getWriteMethod)
+    def writeType = extractTypeParams(prop.getReadMethod)
 
     (prop.getPropertyType match {
       case c if c == classOf[Option[_]] => writeType.head

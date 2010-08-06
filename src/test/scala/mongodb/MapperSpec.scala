@@ -21,6 +21,7 @@ package com.novus.casbah
 package mongodb
 package test
 
+import java.util.Date
 
 import net.lag.configgy.Configgy
 
@@ -75,6 +76,9 @@ class Chair {
 
   @Key
   var optional_piggy: Option[Piggy] = None
+
+  @Key
+  lazy val timestamp: Date = new Date
 }
 
 @BeanInfo
