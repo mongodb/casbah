@@ -227,8 +227,8 @@ object MapperUtils {
     prop.getPropertyType == classOf[Option[_]]
 
   def isEmbedded_?(prop: PropertyDescriptor) =
-    (if (isSeq_?(propType(prop))) extractTypeParams(prop.getReadMethod).head
-     else propType(prop)).isAnnotationPresent(classOf[MappedBy]) && isAnnotatedWith_?(prop, classOf[Key])
+    Mapper((if (isSeq_?(propType(prop))) extractTypeParams(prop.getReadMethod).head
+            else propType(prop)).getName).isDefined && isAnnotatedWith_?(prop, classOf[Key])
 
   implicit def propClass(prop: PropertyDescriptor): Class[AnyRef] =
     prop.getPropertyType.asInstanceOf[Class[AnyRef]]
