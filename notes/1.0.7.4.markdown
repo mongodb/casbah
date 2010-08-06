@@ -1,0 +1,6 @@
+Minor bugfix / tweak release.
+
++ Fixed some issues w/ GridFS libraries attempting to call toMap in iteration, which isn't implemented on the Java side; added custom toString methods on the GridFS files [BWM]
++ Cleaned up log spam [BWM / MA]
++ Added serialization hook for MongoDBObject to help catch any nested instances [MA]
++ Cleaned up some stray references to java.lang.Object, replaced with AnyRef for good Scala coding practices [BWM]

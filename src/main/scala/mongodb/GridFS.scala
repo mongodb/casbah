@@ -63,7 +63,7 @@ object GridFS extends Logging {
 
 }
 
-class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[GridFSFile] with Logging {
+class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[GridFSDBFile] with Logging {
   log.info("Instantiated a new GridFS instance against '%s'", underlying) 
 
   type FileOp = GridFSFile => Unit
@@ -72,7 +72,7 @@ class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[Gr
 
   implicit val db = underlying.getDB().asScala
 
-  def iterator = new Iterator[GridFSFile] {
+  def iterator = new Iterator[GridFSDBFile] {
     val fileSet = files
     def count() = fileSet.count
     def itcount() = fileSet.itcount()
@@ -187,15 +187,15 @@ class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[Gr
    */
    def sansJodaTime[T](op: => T) = org.bson.BSONDecoders(classOf[java.util.Date]) match {   
       case Some(transformer) => {
-        log.info("DateTime Decoder was loaded; unloading before continuing.")
+        log.trace("DateTime Decoder was loaded; unloading before continuing.")
         new conversions.scala.JodaDateTimeDeserializer { unregister() }
         val ret = op
-        log.info("Retrieval finished.  Re-registering decoder.")
+        log.trace("Retrieval finished.  Re-registering decoder.")
         new conversions.scala.JodaDateTimeDeserializer { register() }
         ret
       }
       case None => {
-        log.info("Didn't find a registration for JodaTime: %s", org.bson.BSONDecoders())
+        log.trace("Didn't find a registration for JodaTime: %s", org.bson.BSONDecoders())
         op
       }
     }
@@ -225,12 +225,14 @@ class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[Gr
    def remove(filename: String) = underlying.remove(filename)
 }
 
-// Todo - use this as basis for a new DBOBject wrapper object... (One that can take and return arbitrary json esp.)
 @BeanInfo
 trait GridFSFile extends MongoDBObject with Logging {
   val underlying: MongoGridFSFile
   def save = underlying.save
 
+  override def iterator = underlying.keySet.asScala.map { k =>
+    k -> underlying.get(k)
+  }.toMap.iterator.asInstanceOf[Iterator[(String, AnyRef)]]
   /** 
    * validate the object.
    * Throws an exception if it fails
@@ -251,12 +253,17 @@ trait GridFSFile extends MongoDBObject with Logging {
   def metaData: DBObject = underlying.getMetaData
   def md5: String = underlying.getMD5
   
-  override def toString = underlying.toString
+  override def toString = "{ GridFSFile(id=%s, filename=%s, contentType=%s) }".
+                              format(id, filename, contentType)
 
 }
 
 @BeanInfo
-class GridFSDBFile protected[mongodb](override val underlying: MongoGridFSDBFile) extends GridFSFile 
+class GridFSDBFile protected[mongodb](override val underlying: MongoGridFSDBFile) extends GridFSFile {
+  override def toString = "{ GridFSDBFile(id=%s, filename=%s, contentType=%s) }".
+                              format(id, filename, contentType)
+}
+
 @BeanInfo
 class GridFSInputFile protected[mongodb](override val underlying: MongoGridFSInputFile) extends GridFSFile {
   def filename_=(name: String) = underlying.setFilename(name)

@@ -49,13 +49,13 @@ import scala.reflect._
  * @tparam Object 
  */
 @BeanInfo
-trait MongoDBObject extends Map[String, Object] with Logging {
+trait MongoDBObject extends Map[String, AnyRef] with Logging {
   val underlying: DBObject
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
 
-  override def get(key: String): Option[Object] = underlying.get(key) match {
+  override def get(key: String): Option[AnyRef] = underlying.get(key) match {
     case null => None
     case value => Some(value)
   }
@@ -70,7 +70,7 @@ trait MongoDBObject extends Map[String, Object] with Logging {
     }
   }
 
-  def +=(kv: (String, Object)) = {
+  def +=(kv: (String, AnyRef)) = {
     put(kv._1, kv._2)
     this
   }
