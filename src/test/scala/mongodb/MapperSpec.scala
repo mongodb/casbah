@@ -74,12 +74,15 @@ class Chair {
   @Key
   var optional_piggy: Option[Piggy] = None
 
+  @Key var always_here: Option[String] = Some("foo")
+  @Key var never_here: Option[String] = None
+
   @Key
   lazy val timestamp: Date = new Date
 }
 
 @BeanInfo
-class Badge {
+class Badge extends Foo {
   @ID
   var name: String = _
 
@@ -87,6 +90,10 @@ class Badge {
     this()
     name = n
   }
+}
+
+trait Foo {
+  @Key var bar: String = _
 }
 
 object ChairMapper extends Mapper[Chair] {
@@ -189,6 +196,8 @@ class MapperSpec extends Specification with PendingUntilFixed {
               piggy.giggity == before.optional_piggy.get.giggity
 	    piggy.favorite_foods must containAll(FOODS)
           }
+	after.always_here must beSome[String]
+	after.never_here must beNone
       }
     }
   }

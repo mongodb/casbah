@@ -71,7 +71,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
 
   override def toString =
     "Mapper(%s -> idProp: %s, is_auto_id: %s, allProps: %s)".format(
-      obj_klass.getSimpleName, idProp.getName, isAutoId_?,
+      obj_klass.getName, idProp.getName, isAutoId_?,
       allProps.map(p =>
         "Prop(%s -> %s, is_option: %s)".format(p.getName,
                                                propType(p),
@@ -103,7 +103,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
   def getId(o: AnyRef): Option[AnyRef] = getPropValue[AnyRef](o, idProp)
 
   def asDBObject(p: P): DBObject = {
-    def v(p: P, prop: PropertyDescriptor): Option[AnyRef] = {
+    def v(p: P, prop: PropertyDescriptor): Option[Any] = {
       def vEmbed(e: AnyRef) = Mapper(propType(prop)).get.asDBObject(e match {
         case Some(vv: AnyRef) if isOption_?(prop) => vv
         case _ => e
@@ -123,6 +123,8 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
           log.info("fall through embedded: %s", v)
           Some(vEmbed(v))
         }
+        case Some(v: Any) if isOption_?(prop) => Some(v)
+	case None if isOption_?(prop) => None
         case v => Some(v)
       }
     }
@@ -136,7 +138,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
     }
     .result
 
-    log.debug("%s: %s -> %s", obj_klass.getSimpleName, p, result)
+    log.debug("%s: %s -> %s", obj_klass.getName, p, result)
     result
   }
 
@@ -184,6 +186,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
             write.invoke(p, v match {
               case oid: ObjectId => oid
               case s: String if isId_?(prop) && isAutoId_? => new ObjectId(s)
+              case x if x != null && isOption_?(prop) => Some(x)
               case x => x
             })
           }
