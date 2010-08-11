@@ -137,12 +137,11 @@ class MapperSpec extends Specification with PendingUntilFixed {
     }
 
     "compute id" in {
-      Mapper[Widget].idProp must haveClass[java.beans.PropertyDescriptor]
-      Mapper[Widget].idProp.getName must_== "name"
+      Mapper[Widget].idProp.name must_== "name"
     }
 
     "cull non-ids" in {
-      Mapper[Widget].nonIdProps must exist(pd => pd.getName == "price")
+      Mapper[Widget].nonIdProps must exist(pd => pd.name == "price")
     }
 
     "convert object to MongoDBObject" in {

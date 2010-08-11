@@ -33,13 +33,72 @@ object Mapper extends Logging {
   def update[P <: AnyRef : Manifest](p: Class[P], m: Mapper[P]): Unit = update(p.getName, m)(manifest[P])
 }
 
+class RichPropertyDescriptor(val pd: PropertyDescriptor, val parent: Class[_]) {
+  import MapperUtils._
+
+  lazy val name = pd.getName
+  lazy val key = {
+    (if (isAnnotatedWith_?(pd, classOf[ID])) "_id"
+     else {
+       getAnnotation(pd, classOf[Key]) match {
+         case None => name
+         case Some(ann) => ann.value match {
+           case "" => name
+           case x => x
+         }
+       }
+     }) match {
+      case "_id" if !id_? => throw new Exception("only @ID props can have key == \"_id\"")
+      case s if s.startsWith("_") && !id_? => throw new Exception("keys can't start with underscores")
+      case s if s.contains(".") || s.contains("$") => throw new Exception("keys can't contain . or $")
+      case p => p
+    }
+  }
+
+  lazy val read = pd.getReadMethod
+  lazy val write = if (pd.getWriteMethod == null) None else Some(pd.getWriteMethod)
+
+  lazy val innerType = {
+    lazy val typeParams = extractTypeParams(read)
+
+    (pd.getPropertyType match {
+      case c if c == classOf[Option[_]] => typeParams.head
+      case c if seq_? => typeParams.head
+      case c => c
+    }).asInstanceOf[Class[AnyRef]]
+  }
+
+  lazy val outerType = pd.getPropertyType.asInstanceOf[Class[AnyRef]]
+
+  lazy val option_? = outerType == classOf[Option[_]]
+  lazy val readOnly_? = write == null
+  lazy val id_? = isAnnotatedWith_?(pd, classOf[ID])
+  lazy val autoId_? = id_? && getAnnotation(pd, classOf[ID]).get.auto
+  lazy val embedded_? = {
+    Mapper((if (seq_?) extractTypeParams(read).head
+            else innerType).getName).isDefined && isAnnotatedWith_?(pd, classOf[Key])
+  }
+
+  lazy val seq_? = list_? || buffer_?
+  lazy val list_? = outerType.isAssignableFrom(classOf[List[_]])
+  lazy val buffer_? = outerType.isAssignableFrom(classOf[Buffer[_]])
+
+  override def equals(o: Any): Boolean = o match {
+    case other: RichPropertyDescriptor => pd.equals(other.pd)
+    case _ => false
+  }
+
+  override def hashCode(): Int = pd.hashCode()
+}
+
 abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
   import Mapper._
   import MapperUtils._
 
   protected val obj_klass = manifest[P].erasure.asInstanceOf[Class[P]]
-
   Mapper(obj_klass) = this
+
+  //implicit def rpd2pd(prop: RichPropertyDescriptor): PropertyDescriptor = prop.pd
 
   implicit protected def s2db(name: String): MongoDB = conn(name)
   implicit protected def s2coll(name: String): MongoCollection = db(name)
@@ -53,41 +112,38 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
   lazy val allProps =
     info.getPropertyDescriptors.filter {
       prop => (isAnnotatedWith_?(prop, classOf[ID]) || isAnnotatedWith_?(prop, classOf[Key]))
-    }.map(validatePropKey _).toSet
+    }.map(new RichPropertyDescriptor(_, obj_klass)).toSet
 
-  lazy val idProp =
-    (allProps.filter(isId_? _)).toList match {
-      case List(prop: PropertyDescriptor) =>
-        if (getAnnotation(prop, classOf[ID]).get.auto && propType(prop) != classOf[ObjectId])
-          throw new Exception("only ObjectId _id fields are supported when auto = true (%s . %s)".format(obj_klass.getName, prop.getName))
-        else prop
-      case Nil => throw new Exception("no @ID on " + obj_klass)
-      case _ => throw new Exception("more than one @ID on " + obj_klass)
-    }
+  lazy val idProp = allProps.filter(_.id_?).headOption match {
+    case Some(id) if id.autoId_? =>
+      if (id.innerType != classOf[ObjectId])
+        throw new Exception("only ObjectId _id fields are supported when auto = true (%s . %s)".format(obj_klass.getName, id.name))
+      else id
+    case Some(id) => id
+    case _ => throw new Exception("no @ID on " + obj_klass)
+  }
 
   lazy val nonIdProps = allProps - idProp
 
-  lazy val isAutoId_? = getAnnotation(idProp, classOf[ID]).get.auto
-
   override def toString =
     "Mapper(%s -> idProp: %s, is_auto_id: %s, allProps: %s)".format(
-      obj_klass.getName, idProp.getName, isAutoId_?,
+      obj_klass.getName, idProp.name, idProp.autoId_?,
       allProps.map(p =>
-        "Prop(%s -> %s, is_option: %s)".format(p.getName,
-                                               propType(p),
-                                               isOption_?(p)))
+        "Prop(%s -> %s, is_option: %s)".format(p.name,
+                                               p.innerType,
+                                               p.option_?))
     )
 
   def getPropNamed(key: String) =
-    nonIdProps.filter(_.getName == key).toList match {
+    nonIdProps.filter(_.name == key).toList match {
       case List(prop) => Some(prop)
       case _ => None
     }
 
-  def getPropValue[V <: AnyRef : Manifest](o: AnyRef, prop: PropertyDescriptor): Option[V] = {
+  def getPropValue[V <: AnyRef : Manifest](o: AnyRef, prop: RichPropertyDescriptor): Option[V] = {
     val cv = manifest[V].erasure.asInstanceOf[Class[V]]
     def getPropValue0(p: AnyRef): Option[V] =
-      prop.getReadMethod.invoke(p) match {
+      prop.read.invoke(p) match {
         case v if v == null => None
         case v if cv.isAssignableFrom(v.getClass) => Some(cv.cast(v))
         case _ => None
@@ -103,28 +159,28 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
   def getId(o: AnyRef): Option[AnyRef] = getPropValue[AnyRef](o, idProp)
 
   def asKeyValueTuples(p: P) = {
-    def v(p: P, prop: PropertyDescriptor): Option[Any] = {
-      def vEmbed(e: AnyRef) = Mapper(propType(prop)).get.asDBObject(e match {
-        case Some(vv: AnyRef) if isOption_?(prop) => vv
+    def v(p: P, prop: RichPropertyDescriptor): Option[Any] = {
+      def vEmbed(e: AnyRef) = Mapper(prop.innerType).get.asDBObject(e match {
+        case Some(vv: AnyRef) if prop.option_? => vv
         case _ => e
       })
 
-      prop.getReadMethod.invoke(p) match {
+      prop.read.invoke(p) match {
         case null => {
-          if (isId_?(prop) && isAutoId_?) {
+          if (prop.id_? && prop.autoId_?) {
             val id = new ObjectId
-            prop.getWriteMethod.invoke(p, id)
+            prop.write.get.invoke(p, id)
             Some(id)
           } else { None }
         }
-        case l: List[AnyRef] if isEmbedded_?(prop) => Some(l.map(vEmbed _))
-        case b: Buffer[AnyRef] if isEmbedded_?(prop) => Some(b.map(vEmbed _))
-        case v if isEmbedded_?(prop) => {
+        case l: List[AnyRef] if prop.embedded_? => Some(l.map(vEmbed _))
+        case b: Buffer[AnyRef] if prop.embedded_? => Some(b.map(vEmbed _))
+        case v if prop.embedded_? => {
           log.info("fall through embedded: %s", v)
           Some(vEmbed(v))
         }
-        case Some(v: Any) if isOption_?(prop) => Some(v)
-        case None if isOption_?(prop) => None
+        case Some(v: Any) if prop.option_? => Some(v)
+        case None if prop.option_? => None
         case v => Some(v)
       }
     }
@@ -132,7 +188,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
     allProps
     .map {
       prop => v(p, prop) match {
-        case Some(value) => Some(getKey(prop) -> value)
+        case Some(value) => Some(prop.key -> value)
         case _ => None
       }
     }.filter(_.isDefined).map(_.get)
@@ -150,52 +206,56 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
   }
 
   def asObject(dbo: MongoDBObject): P = {
-    def writeNested(p: P, prop: PropertyDescriptor, nested: MongoDBObject) = {
-      val e = Mapper(propType(prop)).get.asObject(nested)
-      val write = prop.getWriteMethod
-      log.debug("write nested '%s' to '%s'.'%s' using: %s", nested, p, getKey(prop), write)
-      write.invoke(p, if (isOption_?(prop)) Some(e) else e)
+    def writeNested(p: P, prop: RichPropertyDescriptor, nested: MongoDBObject) = {
+      val e = Mapper(prop.innerType).get.asObject(nested)
+      val write = prop.write.get
+      log.debug("write nested '%s' to '%s'.'%s' using: %s", nested, p, prop.key, write)
+      write.invoke(p, if (prop.option_?) Some(e) else e)
     }
 
-    def writeSeq(p: P, prop: PropertyDescriptor, src: MongoDBObject) = {
+    def writeSeq(p: P, prop: RichPropertyDescriptor, src: MongoDBObject) = {
       def init: Seq[Any] =
-        if (isList_?(prop)) Nil
-        else if (isBuffer_?(prop)) ArrayBuffer()
-        else throw new Exception("whaaa! whaa! I'm lost! %s.%s".format(p, prop.getName))
+        if (prop.list_?) Nil
+        else if (prop.buffer_?) ArrayBuffer()
+        else throw new Exception("whaaa! whaa! I'm lost! %s.%s".format(p, prop.name))
 
       val dst = src.foldLeft(init) {
         case (list, (k, v)) =>
           init ++ (list.toList ::: (v match {
-            case nested: MongoDBObject if isEmbedded_?(prop) =>
-              Mapper(propType(prop)).get.asObject(nested)
+            case nested: MongoDBObject if prop.embedded_? =>
+              Mapper(prop.innerType).get.asObject(nested)
             case _ => v
           }) :: Nil)
       }
 
-      val write = prop.getWriteMethod
+      val write = prop.write.get
       log.debug("write list '%s' (%s) to '%s'.'%s' using %s",
-                dst, dst.getClass.getName, p, getKey(prop), write)
+                dst, dst.getClass.getName, p, prop.key, write)
 
       write.invoke(p, dst)
     }
 
-    allProps.filter(!isReadOnly_?(_)).foldLeft(obj_klass.newInstance) {
+    allProps.filter(!_.readOnly_?).foldLeft(obj_klass.newInstance) {
       (p, prop) =>
-        dbo.get(getKey(prop)) match {
+        dbo.get(prop.key) match {
           case Some(l: BasicDBList) => writeSeq(p, prop, l)
-          case Some(v: MongoDBObject) if isEmbedded_?(prop) => writeNested(p, prop, v)
-          case Some(v: DBObject) if isEmbedded_?(prop) => writeNested(p, prop, v)
+          case Some(v: MongoDBObject) if prop.embedded_? => writeNested(p, prop, v)
+          case Some(v: DBObject) if prop.embedded_? => writeNested(p, prop, v)
 
           case Some(v) => {
-            val write = prop.getWriteMethod
-            log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s",
-                      v, v.getClass.getName, p, getKey(prop), write)
-            write.invoke(p, v match {
-              case oid: ObjectId => oid
-              case s: String if isId_?(prop) && isAutoId_? => new ObjectId(s)
-              case x if x != null && isOption_?(prop) => Some(x)
-              case x => x
-            })
+            prop.write match {
+              case None => log.info("discarding raw '%s' for read-only: %s . %s", v, obj_klass.getName, prop.key)
+              case Some(write) => {
+                log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s",
+                          v, v.getClass.getName, p, prop.key, write)
+                write.invoke(p, v match {
+                  case oid: ObjectId => oid
+                  case s: String if prop.id_? && idProp.autoId_? => new ObjectId(s)
+                  case x if x != null && prop.option_? => Some(x)
+                  case x => x
+                })
+              }
+            }
           }
           case _ =>
         }
@@ -228,60 +288,10 @@ object MapperUtils {
   def isAnnotatedWith_?[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Boolean =
     getAnnotation(prop, ak) match { case Some(a) => true case _ => false }
 
-  def isId_?(prop: PropertyDescriptor) =
-    isAnnotatedWith_?(prop, classOf[ID])
-
-  def isReadOnly_?(prop: PropertyDescriptor) = prop.getWriteMethod == null
-
-  def isOption_?(prop: PropertyDescriptor) =
-    prop.getPropertyType == classOf[Option[_]]
-
-  def isEmbedded_?(prop: PropertyDescriptor) =
-    Mapper((if (isSeq_?(propType(prop))) extractTypeParams(prop.getReadMethod).head
-            else propType(prop)).getName).isDefined && isAnnotatedWith_?(prop, classOf[Key])
-
-  implicit def propClass(prop: PropertyDescriptor): Class[AnyRef] =
-    prop.getPropertyType.asInstanceOf[Class[AnyRef]]
-
-  def isSeq_?(c: Class[_])    = isList_?(c) || isBuffer_?(c)
-  def isList_?(c: Class[_])   = c.isAssignableFrom(classOf[List[_]])
-  def isBuffer_?(c: Class[_]) = c.isAssignableFrom(classOf[Buffer[_]])
-
   def extractTypeParams(m: Method) = {
     m.getGenericReturnType
     .asInstanceOf[java.lang.reflect.ParameterizedType]
     .getActualTypeArguments.toList
     .map(_.asInstanceOf[Class[_]])
-  }
-
-  def propType(prop: PropertyDescriptor): Class[AnyRef] = {
-    def writeType = extractTypeParams(prop.getReadMethod)
-
-    (prop.getPropertyType match {
-      case c if c == classOf[Option[_]] => writeType.head
-      case c if isSeq_?(c) => writeType.head
-      case c => c
-    }).asInstanceOf[Class[AnyRef]]
-  }
-
-  def getKey(prop: PropertyDescriptor): String =
-    if (isAnnotatedWith_?(prop, classOf[ID])) "_id"
-    else {
-      getAnnotation(prop, classOf[Key]) match {
-        case None => prop.getName
-        case Some(ann) => ann.value match {
-          case "" => prop.getName
-          case x => x
-        }
-      }
-    }
-
-  def validatePropKey(prop: PropertyDescriptor) = {
-    getKey(prop) match {
-      case "_id" if !isId_?(prop) => throw new Exception("only @ID props can have key == \"_id\"")
-      case s if s.startsWith("_") && !isId_?(prop) => throw new Exception("keys can't start with underscores")
-      case s if s.contains(".") || s.contains("$") => throw new Exception("keys can't contain . or $")
-      case _ => prop
-    }
   }
 }
