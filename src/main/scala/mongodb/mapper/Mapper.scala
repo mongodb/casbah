@@ -102,7 +102,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
 
   def getId(o: AnyRef): Option[AnyRef] = getPropValue[AnyRef](o, idProp)
 
-  def asDBObject(p: P): DBObject = {
+  def asKeyValueTuples(p: P) = {
     def v(p: P, prop: PropertyDescriptor): Option[Any] = {
       def vEmbed(e: AnyRef) = Mapper(propType(prop)).get.asDBObject(e match {
         case Some(vv: AnyRef) if isOption_?(prop) => vv
@@ -124,17 +124,24 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
           Some(vEmbed(v))
         }
         case Some(v: Any) if isOption_?(prop) => Some(v)
-	case None if isOption_?(prop) => None
+        case None if isOption_?(prop) => None
         case v => Some(v)
       }
     }
 
-    val result = allProps
-    .foldLeft(MongoDBObject.newBuilder) {
-      (builder, prop) => v(p, prop) match {
-        case Some(value) => builder += getKey(prop) -> value
-        case _ => builder
+    allProps
+    .map {
+      prop => v(p, prop) match {
+        case Some(value) => Some(getKey(prop) -> value)
+        case _ => None
       }
+    }.filter(_.isDefined).map(_.get)
+  }
+
+  def asDBObject(p: P): DBObject = {
+    val result = asKeyValueTuples(p)
+    .foldLeft(MongoDBObject.newBuilder) {
+      (builder, t) => builder += t
     }
     .result
 
