@@ -85,14 +85,14 @@ trait MongoCollectionWrapper extends Logging {
   def writeConcern = getWriteConcern
 
   def group(key: DBObject, cond: DBObject, initial: DBObject, reduce: String) = {
-    val result = underlying.group(key, cond, initial, reduce).toMap.asScala
-    result.map(_._2.asInstanceOf[DBObject]).asInstanceOf[ArrayBuffer[DBObject]]
+    val result = underlying.group(key, cond, initial, reduce)   
+    result.map(_._2.asInstanceOf[DBObject])
   }
   /**
    * Perform an absurdly simple grouping with no initial object or reduce function.
    */
-  def group(key: DBObject, cond: DBObject): ArrayBuffer[DBObject] = group(key, cond, new BasicDBObject, "function(obj, prev) {}")
-  def group(key: DBObject, cond: DBObject, function: String): ArrayBuffer[DBObject] = group(key, cond, new BasicDBObject, function)
+  def group(key: DBObject, cond: DBObject): Iterable[DBObject] = group(key, cond, new BasicDBObject, "function(obj, prev) {}")
+  def group(key: DBObject, cond: DBObject, function: String): Iterable[DBObject] = group(key, cond, new BasicDBObject, function)
 
   /**
    * Enables you to call group with the finalize parameter (a function that runs on each
