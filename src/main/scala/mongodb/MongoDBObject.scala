@@ -29,6 +29,7 @@ import util.Logging
 
 import com.mongodb._
 
+import scala.annotation.tailrec
 import scala.collection.JavaConversions._
 import scala.collection.generic._
 import scala.collection.mutable.Map
@@ -68,6 +69,38 @@ trait MongoDBObject extends Map[String, AnyRef] with Logging {
       case null => None
       case value => Some(value.asInstanceOf[A])
     }
+  }
+
+
+  /**
+   * Utility method to emulate javascript dot notation
+   * Designed to simplify the occasional insanity of working with nested objects.
+   * Your type parameter must be that of the item at the bottom of the tree you specify...
+   * If cast fails - it's your own fault.
+   */
+  def expand[A <% AnyRef : Manifest](key: String): Option[A] = {
+    require(manifest[A] != manifest[scala.Nothing], "Type inference failed; expand[A]() requires an explicit type argument (e.g. dbObject[<ReturnType](\"someKey\") ) to function correctly.")
+    @tailrec def _dot(dbObj: DBObject, key: String): Option[DBObject] = 
+      if (key.indexOf('.') < 0) {
+        log.trace("_dot returning on key '%s'", key)
+        dbObj.getAs[DBObject](key) 
+      }
+      else {
+        val (pfx, sfx) = key.splitAt(key.indexOf('.'))
+        log.trace("_dot recursing on pfx: '%s', sfx: '%s'", pfx, sfx)
+        dbObj.getAs[DBObject](pfx) match {
+          case Some(base) => _dot(base, sfx.stripPrefix("."))
+          case None => {
+            log.debug("Split key '%s' to '%s' & '%s' but found no value in object.", key, pfx, sfx.stripPrefix(".")); 
+            None
+          }
+        }
+      }
+
+      _dot(this, key) match {
+        case None => None
+        case Some(value) => Some(value.asInstanceOf[A])
+      }
   }
 
   def +=(kv: (String, AnyRef)) = {
