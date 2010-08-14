@@ -33,7 +33,7 @@ object Mapper extends Logging {
   def update[P <: AnyRef : Manifest](p: Class[P], m: Mapper[P]): Unit = update(p.getName, m)(manifest[P])
 }
 
-class RichPropertyDescriptor(val pd: PropertyDescriptor, val parent: Class[_]) {
+class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val parent: Class[_]) {
   import MapperUtils._
 
   lazy val name = pd.getName
@@ -55,6 +55,17 @@ class RichPropertyDescriptor(val pd: PropertyDescriptor, val parent: Class[_]) {
     }
   }
 
+  lazy val pid: Option[Any] = {
+    def pid0(t: Class[Any]): Option[Any] =
+      innerType match {
+	case _ if seq_? => None // `pid` is undefined for sequences
+	case _ if embedded_? => None // ditto for embedded documents
+	case t if option_? => pid0(t)
+	case _ => Some(1)
+      }
+    pid0(innerType)
+  }
+
   lazy val read = pd.getReadMethod
   lazy val write = if (pd.getWriteMethod == null) None else Some(pd.getWriteMethod)
 
@@ -65,10 +76,10 @@ class RichPropertyDescriptor(val pd: PropertyDescriptor, val parent: Class[_]) {
       case c if c == classOf[Option[_]] => typeParams.head
       case c if seq_? => typeParams.head
       case c => c
-    }).asInstanceOf[Class[AnyRef]]
+    }).asInstanceOf[Class[Any]]
   }
 
-  lazy val outerType = pd.getPropertyType.asInstanceOf[Class[AnyRef]]
+  lazy val outerType = pd.getPropertyType.asInstanceOf[Class[Any]]
 
   lazy val option_? = outerType == classOf[Option[_]]
   lazy val readOnly_? = write == null
@@ -109,10 +120,16 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
 
   lazy val info = Introspector.getBeanInfo(obj_klass)
 
-  lazy val allProps =
+  lazy val allProps = {
     info.getPropertyDescriptors.filter {
       prop => (isAnnotatedWith_?(prop, classOf[ID]) || isAnnotatedWith_?(prop, classOf[Key]))
-    }.map(new RichPropertyDescriptor(_, obj_klass)).toSet
+    }
+    .sortWith { case (a, b) => a.getName.compareTo(b.getName) < 0 }
+    .zipWithIndex.map {
+      case (pd: PropertyDescriptor, idx: Int) =>
+	new RichPropertyDescriptor(idx, pd, obj_klass)
+    }.toSet
+  }
 
   lazy val idProp = allProps.filter(_.id_?).headOption match {
     case Some(id) if id.autoId_? =>
@@ -140,7 +157,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
       case _ => None
     }
 
-  def getPropValue[V <: AnyRef : Manifest](o: AnyRef, prop: RichPropertyDescriptor): Option[V] = {
+  def getPropValue[V <: Any : Manifest](p: AnyRef, prop: RichPropertyDescriptor): Option[V] = {
     val cv = manifest[V].erasure.asInstanceOf[Class[V]]
     def getPropValue0(p: AnyRef): Option[V] =
       prop.read.invoke(p) match {
@@ -149,18 +166,18 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
         case _ => None
       }
 
-    o match {
+    p match {
       case None => None
       case Some(p) => { getPropValue0(p.asInstanceOf[AnyRef]) }
-      case _ => getPropValue0(o)
+      case _ => getPropValue0(p)
     }
   }
 
-  def getId(o: AnyRef): Option[AnyRef] = getPropValue[AnyRef](o, idProp)
+  def getId(o: AnyRef): Option[Any] = getPropValue[Any](o, idProp)
 
   def asKeyValueTuples(p: P) = {
     def v(p: P, prop: RichPropertyDescriptor): Option[Any] = {
-      def vEmbed(e: AnyRef) = Mapper(prop.innerType).get.asDBObject(e match {
+      def vEmbed(e: AnyRef) = Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asDBObject(e match {
         case Some(vv: AnyRef) if prop.option_? => vv
         case _ => e
       })
@@ -207,7 +224,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
 
   def asObject(dbo: MongoDBObject): P = {
     def writeNested(p: P, prop: RichPropertyDescriptor, nested: MongoDBObject) = {
-      val e = Mapper(prop.innerType).get.asObject(nested)
+      val e = Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
       val write = prop.write.get
       log.debug("write nested '%s' to '%s'.'%s' using: %s", nested, p, prop.key, write)
       write.invoke(p, if (prop.option_?) Some(e) else e)
@@ -223,7 +240,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
         case (list, (k, v)) =>
           init ++ (list.toList ::: (v match {
             case nested: MongoDBObject if prop.embedded_? =>
-              Mapper(prop.innerType).get.asObject(nested)
+              Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
             case _ => v
           }) :: Nil)
       }
@@ -263,8 +280,8 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
     }
   }
 
-  def findOne(id: AnyRef): Option[P] =
-    coll.findOne(id) match {
+  def findOne(id: Any): Option[P] =
+    coll.findOne("_id" -> id) match {
       case None => None
       case Some(dbo) => Some(asObject(dbo))
     }
