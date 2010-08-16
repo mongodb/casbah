@@ -36,6 +36,8 @@ object Mapper extends Logging {
 class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val parent: Class[_]) {
   import MapperUtils._
 
+  override def toString = "Prop(%s @ %d (%s <- %s))".format(name, idx, innerType, outerType)
+
   lazy val name = pd.getName
   lazy val key = {
     (if (isAnnotatedWith_?(pd, classOf[ID])) "_id"
@@ -56,13 +58,20 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
   }
 
   lazy val pid: Option[Any] = {
-    def pid0(t: Class[Any]): Option[Any] =
-      innerType match {
-	case _ if seq_? => None // `pid` is undefined for sequences
-	case _ if embedded_? => None // ditto for embedded documents
-	case t if option_? => pid0(t)
-	case _ => Some(1)
-      }
+    // XXX ?!
+    def pid0(t: Class[Any]): Option[Any] = t match {
+      case _ if seq_? => None // `pid` is undefined for sequences
+      case _ if embedded_? => None // ditto for embedded documents
+      case _ if option_? => None // N/A to Option-s
+      case _ if t.isAssignableFrom(classOf[Double]) => Some(idx.toDouble)
+      case _ if t.isAssignableFrom(classOf[Float]) => Some(idx.toFloat)
+      case _ if t.isAssignableFrom(classOf[Long]) => Some(idx.toLong)
+      case _ if t.isAssignableFrom(classOf[Int]) => Some(idx)
+      case _ if t.isAssignableFrom(classOf[Short]) => Some(idx.toShort)
+      case _ if t.isAssignableFrom(classOf[Byte]) => Some(idx.toByte)
+      case _ if t == classOf[String] => Some("%d".format(idx))
+      case _ => None
+    }
     pid0(innerType)
   }
 
@@ -127,9 +136,16 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
     .sortWith { case (a, b) => a.getName.compareTo(b.getName) < 0 }
     .zipWithIndex.map {
       case (pd: PropertyDescriptor, idx: Int) =>
-	new RichPropertyDescriptor(idx, pd, obj_klass)
+        new RichPropertyDescriptor(idx, pd, obj_klass)
     }.toSet
   }
+
+  lazy val propsByPid = Map.empty ++ (allProps.map {
+    p => p.pid match {
+      case Some(pid) => Some(pid -> p)
+      case None => None
+    }
+  }).filter(_.isDefined).map(_.get)
 
   lazy val idProp = allProps.filter(_.id_?).headOption match {
     case Some(id) if id.autoId_? =>
@@ -193,7 +209,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
         case l: List[AnyRef] if prop.embedded_? => Some(l.map(vEmbed _))
         case b: Buffer[AnyRef] if prop.embedded_? => Some(b.map(vEmbed _))
         case v if prop.embedded_? => {
-          log.info("fall through embedded: %s", v)
+          log.debug("fall through embedded: %s", v)
           Some(vEmbed(v))
         }
         case Some(v: Any) if prop.option_? => Some(v)
@@ -222,68 +238,77 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
     result
   }
 
-  def asObject(dbo: MongoDBObject): P = {
-    def writeNested(p: P, prop: RichPropertyDescriptor, nested: MongoDBObject) = {
-      val e = Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
-      val write = prop.write.get
-      log.debug("write nested '%s' to '%s'.'%s' using: %s", nested, p, prop.key, write)
-      write.invoke(p, if (prop.option_?) Some(e) else e)
+  private def writeNested(p: P, prop: RichPropertyDescriptor, nested: MongoDBObject) = {
+    val e = Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
+    val write = prop.write.get
+    log.debug("write nested '%s' to '%s'.'%s' using: %s", nested, p, prop.key, write)
+    write.invoke(p, if (prop.option_?) Some(e) else e)
+  }
+
+  private def writeSeq(p: P, prop: RichPropertyDescriptor, src: MongoDBObject) = {
+    def init: Seq[Any] =
+      if (prop.list_?) Nil
+      else if (prop.buffer_?) ArrayBuffer()
+      else throw new Exception("whaaa! whaa! I'm lost! %s.%s".format(p, prop.name))
+
+    val dst = src.foldLeft(init) {
+      case (list, (k, v)) =>
+        init ++ (list.toList ::: (v match {
+          case nested: MongoDBObject if prop.embedded_? =>
+            Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
+          case _ => v
+        }) :: Nil)
     }
 
-    def writeSeq(p: P, prop: RichPropertyDescriptor, src: MongoDBObject) = {
-      def init: Seq[Any] =
-        if (prop.list_?) Nil
-        else if (prop.buffer_?) ArrayBuffer()
-        else throw new Exception("whaaa! whaa! I'm lost! %s.%s".format(p, prop.name))
+    val write = prop.write.get
+    log.debug("write list '%s' (%s) to '%s'.'%s' using %s",
+              dst, dst.getClass.getName, p, prop.key, write)
 
-      val dst = src.foldLeft(init) {
-        case (list, (k, v)) =>
-          init ++ (list.toList ::: (v match {
-            case nested: MongoDBObject if prop.embedded_? =>
-              Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
-            case _ => v
-          }) :: Nil)
-      }
+    write.invoke(p, dst)
+  }
 
-      val write = prop.write.get
-      log.debug("write list '%s' (%s) to '%s'.'%s' using %s",
-                dst, dst.getClass.getName, p, prop.key, write)
+  private def write(p: P, prop: RichPropertyDescriptor, v: Any): Unit =
+    v match {
+      case Some(l: BasicDBList) => writeSeq(p, prop, l)
+      case Some(v: MongoDBObject) if prop.embedded_? => writeNested(p, prop, v)
+      case Some(v: DBObject) if prop.embedded_? => writeNested(p, prop, v)
 
-      write.invoke(p, dst)
-    }
-
-    allProps.filter(!_.readOnly_?).foldLeft(obj_klass.newInstance) {
-      (p, prop) =>
-        dbo.get(prop.key) match {
-          case Some(l: BasicDBList) => writeSeq(p, prop, l)
-          case Some(v: MongoDBObject) if prop.embedded_? => writeNested(p, prop, v)
-          case Some(v: DBObject) if prop.embedded_? => writeNested(p, prop, v)
-
-          case Some(v) => {
-            prop.write match {
-              case None => log.info("discarding raw '%s' for read-only: %s . %s", v, obj_klass.getName, prop.key)
-              case Some(write) => {
-                log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s",
-                          v, v.getClass.getName, p, prop.key, write)
-                write.invoke(p, v match {
-                  case oid: ObjectId => oid
-                  case s: String if prop.id_? && idProp.autoId_? => new ObjectId(s)
-                  case x if x != null && prop.option_? => Some(x)
-                  case x => x
-                })
-              }
-            }
+      case Some(v) => {
+        prop.write match {
+          case None => log.debug("discarding raw '%s' for read-only: %s . %s", v, obj_klass.getName, prop.key)
+          case Some(write) => {
+            log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s",
+                      v, v.asInstanceOf[AnyRef].getClass.getName, p, prop.key, write)
+            write.invoke(p, v match {
+              case oid: ObjectId => oid
+              case s: String if prop.id_? && idProp.autoId_? => new ObjectId(s)
+              case x if x != null && prop.option_? => Some(x)
+              case x => x.asInstanceOf[AnyRef]
+            })
           }
-          case _ =>
         }
+      }
+      case _ => log.info("failed to write %s -> %s", prop, p)
+    }
+
+  def asObject(dbo: MongoDBObject): P =
+    allProps.filter(!_.readOnly_?).foldLeft(obj_klass.newInstance) {
+      (p, prop) => write(p, prop, dbo.get(prop.key))
       p
     }
-  }
 
   def findOne(id: Any): Option[P] =
     coll.findOne("_id" -> id) match {
       case None => None
       case Some(dbo) => Some(asObject(dbo))
+    }
+
+  def example: P =
+    (propsByPid.map { case (k,v) => v->k }).foldLeft(obj_klass.newInstance) {
+      case (e, (prop, pid)) => {
+        write(e, prop, Some(pid))
+        e
+      }
     }
 
   // XXX: if <<? returns None, does it indicate failure_?
