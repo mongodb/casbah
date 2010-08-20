@@ -17,17 +17,13 @@
  *
  *     http://bitbucket.org/novus/casbah
  * 
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
-
 package com.novus.casbah
 package mongodb
 package query
 
 import util.Logging
 
-import com.mongodb.{DBObject, BasicDBObject, BasicDBObjectBuilder}
 import scala.collection.JavaConversions._
 
 /** 

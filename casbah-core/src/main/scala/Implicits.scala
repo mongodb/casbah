@@ -26,10 +26,7 @@ package mongodb
 
 import query._
 
-import gridfs._
-
 import com.mongodb._
-import org.bson.{BSON, Transformer}
 
 import scalaj.collection.Imports._
 import org.scala_tools.time.Imports._
@@ -122,22 +119,6 @@ trait Implicits extends FluidQueryBarewordOps {
   }
 
   /**
-   * Implicit extension methods for Scala <code>Map[String, Any]</code>
-   * to convert to Mongo DBObject instances.
-   * Does not currently convert nested values.
-   * @param map A map of [String, Any]
-   */
-  implicit def mapAsDBObject(map: scala.collection.Map[String, Any]) = new {
-    /**
-     * Return a Mongo <code>DBObject</code> containing the Map values
-     * @return DBObject 
-     */
-    def asDBObject = map2MongoDBObject(map)
-  }
-
-  implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject = new BasicDBObject(map.asJava)
-
-  /**
    * Implicit extension methods for String values (e.g. a field name)
    * to add Mongo's query operators, minimizing the need to write long series'
    * of nested maps.
@@ -177,80 +158,8 @@ trait Implicits extends FluidQueryBarewordOps {
 /*    def ++[A <% DBObject](right: A): DBObject = wrapDBObj(nested) ++ wrapDBObj(right)
 */  }
   
-  
-  /*[>* For several of the items which are geared towards nested operations like $set/$unset,
-   * We tack other operators onto them for sanity.
-   <]
-   implicit def nestedQuerySet(nested: */
-  /**
-   * Hacky mildly absurd method for converting a <code>Product</code> (Example being any <code>Tuple</code>) to
-   * a  Mongo <code>DBObject</code> on the fly to minimize spaghetti code from long builds of Maps or DBObjects.
-   *
-   * Intended to facilitate fluid code but may be dangerous.
-   *
-   * Note that due to built in limits on the base max arity of <code>Product</code> in Scala 2.7.x, you are limited to
-   * a MAXIMUM of 22 arguments.  Scala will presumably handle this for you (There is no Tuple23 object...).
-   *
-   * Currently doesn't use Manifests to check the nested type but looks at it on the fly - you're responsible for
-   * passing a Product containing nested Tuple2[] where _1 is your Key (a string but no manifest used so type erasure wins)
-   * and _2 is your Value which can be anything Mongo can serialize (e.g. you need to explicitly convert nested products for now)
-   *
-   * @param p A Product such as a Tuple containing Tuple2's of Key/Value query pairs for MongoDB
-   * @return DBOBject a Proper mongoDB <code>DBObject</code> representative of the passed-in data
-   * @throws IllegalArgumentException This will be thrown if nested values do not conform to Tuple2
-   */
-  def productToMongoDBObject(p: Product): DBObject = {
-    val builder = BasicDBObjectBuilder.start
-    val arityRange =  0.until(p.productArity)
-    //println("Converting Product P %s with an Arity range of %s to a MongoDB Object".format(p, arityRange))
-    for (i <- arityRange) {
-      val x = p.productElement(i)
-      //println("\tI: %s X: %s".format(i, x))
-      if (x.isInstanceOf[Tuple2[_,_]]) {
-        val t = x.asInstanceOf[Tuple2[String, Any]]
-        //println("\t\tT: %s".format(t))
-        builder.add(t._1, t._2)
-      } else if (p.productArity == 2 && p.productElement(0).isInstanceOf[String]) {
-        // backup plan if it's a one entry tuple, the outer wrapper gets stripped
-        val t = p.asInstanceOf[Tuple2[String, Any]]
-        builder.add(t._1, t._2)
-        return builder.get
-      } else {
-        throw new IllegalArgumentException("Products to convert to DBObject must contain Tuple2's.")
-      }
-    }
-    builder.get
-  }
-  /*
-   * Implicit extension methods to convert Products to Mongo DBObject instances.
-   */ 
-  implicit def productPimp(p: Product) = new {
-    /*
-     * Return a Mongo <code>DBObject</code> containing the Map values
-     * @return DBObject 
-     */ 
-    def asDBObject = productToMongoDBObject(p)
-    def ++[A <% DBObject : Manifest](right: A): DBObject = asDBObject ++ wrapDBObj(right)
-  }
-  
-  // This may cause misbehavor ... aka "HERE BE DRAGONS"
-  implicit def tuplePairToDBObject(pair: (String, DBObject)): DBObject = 
-    pair.asDBObject
-
-  //implicit def tupleIDPairToDBObject(pair: (String, org.bson.types.ObjectId)): DBObject =
-  //  pair.asDBObject
-
-  // A few hacks for defining straight off conversions
-  implicit def tuplePairUtils(pair: (String, Any)) = new {
-    def ++[A <% DBObject : Manifest](right: A): DBObject = pair.asDBObject ++ wrapDBObj(right)
-    def ++(right: (String, Any)): DBObject = pair.asDBObject ++ right.asDBObject
-  }
-  
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
   implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
-
-  implicit def wrapDBObj(in: DBObject): MongoDBObject = new MongoDBObject { val underlying = in }
-  implicit def unwrapDBObj(in: MongoDBObject): DBObject = in.underlying
 
 } 
 
@@ -264,23 +173,16 @@ trait Imports extends BaseImports with MongoTypeImports with Implicits
 trait BaseImports {
   val MongoConnection = com.novus.casbah.mongodb.MongoConnection
   val MongoDBAddress = com.novus.casbah.mongodb.MongoDBAddress
-  val MongoDBObject = com.novus.casbah.mongodb.MongoDBObject
   val GridFS = com.novus.casbah.mongodb.gridfs.GridFS
   val MapReduceCommand = com.novus.casbah.mongodb.map_reduce.MapReduceCommand
 }
 
-trait MongoTypeImports {
+trait TypeImports {
   type MongoConnection = com.novus.casbah.mongodb.MongoConnection
   type MongoCollection = com.novus.casbah.mongodb.MongoCollection
-  type MongoDBObject = com.novus.casbah.mongodb.MongoDBObject
   type MongoDB = com.novus.casbah.mongodb.MongoDB
   type MongoCursor = com.novus.casbah.mongodb.MongoCursor
   type MapReduceCommand = com.novus.casbah.mongodb.map_reduce.MapReduceCommand
   type MapReduceResult = com.novus.casbah.mongodb.map_reduce.MapReduceResult
   type DBAddress = com.mongodb.DBAddress
-  type DBObject = com.mongodb.DBObject
-  type BasicDBObject = com.mongodb.BasicDBObject
-  type BasicDBList = com.mongodb.BasicDBList
-  type ObjectId = org.bson.types.ObjectId
-  type DBRef = com.mongodb.DBRef
 }

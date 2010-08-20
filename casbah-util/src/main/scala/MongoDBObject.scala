@@ -17,15 +17,14 @@
  *
  *     http://bitbucket.org/novus/casbah
  * 
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
 package com.novus.casbah
 package mongodb
+package util
 
 import Implicits._
-import util.Logging
+import com.novus.casbah.util.Logging
 
 import com.mongodb._
 
@@ -41,7 +40,7 @@ import scala.reflect._
  * due to conflicts between the java methods and scala methods.
  * Implicits and explicit methods allow you to convert to java though.
  * 
- * This is a very crappy, thin interface and likely to go away. Use it at your own risk.
+ * We will likely reimplement DBObject itself longterm as a pure base. on the wire format
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0, 06/02/10
  * @since 1.0
@@ -147,7 +146,7 @@ object MongoDBObject  {
 
 }
 
-protected[mongodb] class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), MongoDBObject] {
+sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), MongoDBObject] {
   protected val empty = BasicDBObjectBuilder.start
   protected var elems = empty
   override def +=(x: (String, Any)) = { 

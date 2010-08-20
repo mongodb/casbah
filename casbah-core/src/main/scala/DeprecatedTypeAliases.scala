@@ -17,13 +17,11 @@
  *
  *     http://bitbucket.org/novus/casbah
  * 
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
 package com.novus.casbah
 
-import com.mongodb._
+import com.novus.casbah.mongodb.Imports._
 
 /** 
  * Type aliases for deprecated object names (aka the "Old" object naming)
