@@ -6,3 +6,4 @@ project/boot/
 project/plugins/project
 java_pid*.hprof
 *.swp
+tags
