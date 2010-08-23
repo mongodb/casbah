@@ -227,6 +227,12 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
         }
         case l: List[AnyRef] if prop.embedded_? => Some(l.map(vEmbed _))
         case b: Buffer[AnyRef] if prop.embedded_? => Some(b.map(vEmbed _))
+        case m if prop.map_? => Some(m.asInstanceOf[scala.collection.Map[String, Any]].map {
+          case (k, v) => {
+            k -> (if (prop.embedded_?) vEmbed(v.asInstanceOf[AnyRef])
+                  else v)
+          }
+        }.asDBObject)
         case v if prop.embedded_? => {
           log.debug("fall through embedded: %s", v)
           Some(vEmbed(v))
@@ -237,7 +243,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       }
     }
 
-    allProps
+    allProps.toList
     .map {
       prop => v(p, prop) match {
         case Some(value) => Some(prop.key -> value)
@@ -286,14 +292,37 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
     prop.write(p, dst)
   }
 
+  private def writeMap(p: P, prop: RichPropertyDescriptor, src: MongoDBObject) = {
+    // XXX: provide sensible defaults based on (im)mutable interface used/inferred
+    def init: scala.collection.Map[String, Any] = scala.collection.mutable.HashMap.empty[String, Any]
+
+    val dst = src.map {
+      case (k, v) =>
+        k -> (v match {
+          case nested: DBObject if prop.embedded_? =>
+            Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
+          case _ => v
+        })
+    }
+
+    log.debug("write ---MAP--- '%s' (%s) to '%s'.'%s' using: %s -OR- %s",
+              dst, dst.getClass.getName, p, prop.key, prop.write, prop.field)
+
+    prop.write(p, dst)
+  }
+
   private def write(p: P, prop: RichPropertyDescriptor, v: Any): Unit =
     v match {
       case Some(l: BasicDBList) => writeSeq(p, prop, l)
+
+      case Some(m: MongoDBObject) if prop.map_? => writeMap(p, prop, m)
       case Some(v: MongoDBObject) if prop.embedded_? => writeNested(p, prop, v)
+
+      case Some(m: DBObject) if prop.map_? => writeMap(p, prop, m)
       case Some(v: DBObject) if prop.embedded_? => writeNested(p, prop, v)
 
       case Some(v) => {
-        log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s -OR - %s",
+        log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s -OR- %s",
                   v, v.asInstanceOf[AnyRef].getClass.getName, p, prop.key, prop.write, prop.field)
         prop.write(p, v match {
           case oid: ObjectId => oid
@@ -302,7 +331,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
           case x => x.asInstanceOf[AnyRef]
         })
       }
-      case _ => log.info("failed to write %s -> %s", prop, p)
+      case _ =>
     }
 
   def empty: P = try {

@@ -58,13 +58,11 @@ class Piggy(@Key val giggity: String) {
   @Key
   var badges: Buffer[Badge] = ArrayBuffer()
 
-/*
   @Key
   var political_views: Map[String, String] = MMap.empty[String, String]
 
   @Key
   var family: Map[String, Piggy] = MMap.empty[String, Piggy]
-*/
 }
 
 @BeanInfo
@@ -180,11 +178,16 @@ class MapperSpec extends Specification with PendingUntilFixed {
       val FOODS = "bacon" :: "steak" :: "eggs" :: "club mate" :: Nil
       val BADGES = ArrayBuffer(new Badge("mile high"), new Badge("swine"))
 
+      val POLITICAL_VIEWS = Map("wikileaks" -> "is my favorite site", "democrats" -> "have ruined the economy")
+      val FAMILY = Map("father" -> new Piggy("father"), "mother" -> new Piggy("mother"))
+
       val before = new Chair
 
       val piggy = new Piggy("foo")
       piggy.favorite_foods = FOODS
       piggy.badges = BADGES
+      piggy.political_views = POLITICAL_VIEWS
+      piggy.family = FAMILY
       before.optional_piggy = Some(piggy)
 
       val id = Mapper[Chair].upsert(before).id
@@ -195,6 +198,10 @@ class MapperSpec extends Specification with PendingUntilFixed {
             piggy =>
               piggy.giggity == before.optional_piggy.get.giggity
 	    piggy.favorite_foods must containAll(FOODS)
+	    piggy.political_views must havePairs(POLITICAL_VIEWS.toList : _*)
+	    piggy.family.get("father") must beSome[Piggy].which {
+	      father => father.giggity must_== "father"
+	    }
           }
 	after.always_here must beSome[String]
 	after.never_here must beNone
