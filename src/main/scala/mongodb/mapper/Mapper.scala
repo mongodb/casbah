@@ -33,7 +33,7 @@ object Mapper extends Logging {
   def update[P <: AnyRef : Manifest](p: Class[P], m: Mapper[P]): Unit = update(p.getName, m)(manifest[P])
 }
 
-class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val parent: Class[_]) {
+class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val parent: Class[_]) extends Logging {
   import MapperUtils._
 
   override def toString = "Prop(%s @ %d (%s <- %s))".format(name, idx, innerType, outerType)
@@ -78,11 +78,32 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
   lazy val read = pd.getReadMethod
   lazy val write = if (pd.getWriteMethod == null) None else Some(pd.getWriteMethod)
 
-  lazy val innerType = {
-    lazy val typeParams = extractTypeParams(read)
+  lazy val field = try {
+    val f = parent.getDeclaredField(name)
+    f.setAccessible(true)
+    Some(f)
+  }
+  catch {
+    case _ => None
+  }
 
+  def write(dest: AnyRef, value: AnyRef): Unit =
+    field match {
+      case Some(field) => field.set(dest, value)
+      case None => write match {
+        case Some(write) => write.invoke(dest, value)
+        case None => // NOOP
+      }
+    }
+
+  lazy val typeParams = extractTypeParams(read)
+  lazy val innerType = {
     (pd.getPropertyType match {
       case c if c == classOf[Option[_]] => typeParams.head
+      case c if map_? => {
+        log.info("[%s] is a map. type params => %s", name, typeParams.map(t => "(%s, %s)".format(t.getClass, t)))
+        typeParams.tail
+      }
       case c if seq_? => typeParams.head
       case c => c
     }).asInstanceOf[Class[Any]]
@@ -99,9 +120,10 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
             else innerType).getName).isDefined && isAnnotatedWith_?(pd, classOf[Key])
   }
 
-  lazy val seq_? = list_? || buffer_?
+  lazy val seq_? = !map_? && (list_? || buffer_?)
   lazy val list_? = outerType.isAssignableFrom(classOf[List[_]])
   lazy val buffer_? = outerType.isAssignableFrom(classOf[Buffer[_]])
+  lazy val map_? = outerType.isAssignableFrom(classOf[Map[_,_]])
 
   override def equals(o: Any): Boolean = o match {
     case other: RichPropertyDescriptor => pd.equals(other.pd)
@@ -111,7 +133,7 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
   override def hashCode(): Int = pd.hashCode()
 }
 
-abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
+abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   import Mapper._
   import MapperUtils._
 
@@ -242,7 +264,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
     val e = Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
     val write = prop.write.get
     log.debug("write nested '%s' to '%s'.'%s' using: %s", nested, p, prop.key, write)
-    write.invoke(p, if (prop.option_?) Some(e) else e)
+    prop.write(p, if (prop.option_?) Some(e) else e)
   }
 
   private def writeSeq(p: P, prop: RichPropertyDescriptor, src: MongoDBObject) = {
@@ -264,7 +286,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
     log.debug("write list '%s' (%s) to '%s'.'%s' using %s",
               dst, dst.getClass.getName, p, prop.key, write)
 
-    write.invoke(p, dst)
+    prop.write(p, dst)
   }
 
   private def write(p: P, prop: RichPropertyDescriptor, v: Any): Unit =
@@ -274,25 +296,26 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
       case Some(v: DBObject) if prop.embedded_? => writeNested(p, prop, v)
 
       case Some(v) => {
-        prop.write match {
-          case None => log.debug("discarding raw '%s' for read-only: %s . %s", v, obj_klass.getName, prop.key)
-          case Some(write) => {
-            log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s",
-                      v, v.asInstanceOf[AnyRef].getClass.getName, p, prop.key, write)
-            write.invoke(p, v match {
-              case oid: ObjectId => oid
-              case s: String if prop.id_? && idProp.autoId_? => new ObjectId(s)
-              case x if x != null && prop.option_? => Some(x)
-              case x => x.asInstanceOf[AnyRef]
-            })
-          }
-        }
+        log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s -OR - %s",
+                  v, v.asInstanceOf[AnyRef].getClass.getName, p, prop.key, prop.write, prop.field)
+        prop.write(p, v match {
+          case oid: ObjectId => oid
+          case s: String if prop.id_? && idProp.autoId_? => new ObjectId(s)
+          case x if x != null && prop.option_? => Some(x)
+          case x => x.asInstanceOf[AnyRef]
+        })
       }
       case _ => log.info("failed to write %s -> %s", prop, p)
     }
 
+  def empty: P = try {
+    obj_klass.newInstance
+  } catch {
+    case _ => newInstance[P](obj_klass)(manifest[P])
+  }
+
   def asObject(dbo: MongoDBObject): P =
-    allProps.filter(!_.readOnly_?).foldLeft(obj_klass.newInstance) {
+    allProps.filter(!_.readOnly_?).foldLeft(empty) {
       (p, prop) => write(p, prop, dbo.get(prop.key))
       p
     }
@@ -304,7 +327,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging {
     }
 
   def example: P =
-    (propsByPid.map { case (k,v) => v->k }).foldLeft(obj_klass.newInstance) {
+    (propsByPid.map { case (k,v) => v->k }).foldLeft(empty) {
       case (e, (prop, pid)) => {
         write(e, prop, Some(pid))
         e
@@ -336,4 +359,13 @@ object MapperUtils {
     .getActualTypeArguments.toList
     .map(_.asInstanceOf[Class[_]])
   }
+}
+
+trait OJ {
+  import org.objenesis.ObjenesisStd
+
+  val objenesis = new ObjenesisStd
+
+  def newInstance[T: Manifest](clazz: Class[T]): T =
+    manifest[T].erasure.cast(objenesis.newInstance(clazz)).asInstanceOf[T]
 }

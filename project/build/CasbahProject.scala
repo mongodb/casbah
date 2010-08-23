@@ -10,6 +10,7 @@ class CasbahProject(info: ProjectInfo) extends DefaultProject(info) with rsync.R
   val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
 
   val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
+  val objenesis = "org.objenesis" % "objenesis" % "1.2"
 
   val mongodb = "org.mongodb" % "mongo-java-driver" % "2.0"
 
