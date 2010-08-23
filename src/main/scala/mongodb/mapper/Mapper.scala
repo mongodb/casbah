@@ -40,9 +40,9 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
 
   lazy val name = pd.getName
   lazy val key = {
-    (if (isAnnotatedWith_?(pd, classOf[ID])) "_id"
+    (if (annotated_?(pd, classOf[ID])) "_id"
      else {
-       getAnnotation(pd, classOf[Key]) match {
+       annotation(pd, classOf[Key]) match {
          case None => name
          case Some(ann) => ann.value match {
            case "" => name
@@ -96,15 +96,12 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
       }
     }
 
-  lazy val typeParams = extractTypeParams(read)
+  lazy val innerTypes = typeParams(read)
   lazy val innerType = {
     (pd.getPropertyType match {
-      case c if c == classOf[Option[_]] => typeParams.head
-      case c if map_? => {
-        log.info("[%s] is a map. type params => %s", name, typeParams.map(t => "(%s, %s)".format(t.getClass, t)))
-        typeParams.tail
-      }
-      case c if seq_? => typeParams.head
+      case c if c == classOf[Option[_]] => innerTypes.head
+      case c if map_? => innerTypes.last
+      case c if seq_? => innerTypes.head
       case c => c
     }).asInstanceOf[Class[Any]]
   }
@@ -113,11 +110,11 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
 
   lazy val option_? = outerType == classOf[Option[_]]
   lazy val readOnly_? = write == null
-  lazy val id_? = isAnnotatedWith_?(pd, classOf[ID])
-  lazy val autoId_? = id_? && getAnnotation(pd, classOf[ID]).get.auto
+  lazy val id_? = annotated_?(pd, classOf[ID])
+  lazy val autoId_? = id_? && annotation(pd, classOf[ID]).get.auto
   lazy val embedded_? = {
-    Mapper((if (seq_?) extractTypeParams(read).head
-            else innerType).getName).isDefined && isAnnotatedWith_?(pd, classOf[Key])
+    Mapper((if (seq_?) innerTypes.head
+            else innerType).getName).isDefined && annotated_?(pd, classOf[Key])
   }
 
   lazy val seq_? = !map_? && (list_? || buffer_?)
@@ -153,7 +150,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
 
   lazy val allProps = {
     info.getPropertyDescriptors.filter {
-      prop => (isAnnotatedWith_?(prop, classOf[ID]) || isAnnotatedWith_?(prop, classOf[Key]))
+      prop => (annotated_?(prop, classOf[ID]) || annotated_?(prop, classOf[Key]))
     }
     .sortWith { case (a, b) => a.getName.compareTo(b.getName) < 0 }
     .zipWithIndex.map {
@@ -189,15 +186,15 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
                                                p.option_?))
     )
 
-  def getPropNamed(key: String) =
+  def propNamed(key: String) =
     nonIdProps.filter(_.name == key).toList match {
       case List(prop) => Some(prop)
       case _ => None
     }
 
-  def getPropValue[V <: Any : Manifest](p: AnyRef, prop: RichPropertyDescriptor): Option[V] = {
+  def propValue[V <: Any : Manifest](p: AnyRef, prop: RichPropertyDescriptor): Option[V] = {
     val cv = manifest[V].erasure.asInstanceOf[Class[V]]
-    def getPropValue0(p: AnyRef): Option[V] =
+    def propValue0(p: AnyRef): Option[V] =
       prop.read.invoke(p) match {
         case v if v == null => None
         case v if cv.isAssignableFrom(v.getClass) => Some(cv.cast(v))
@@ -206,12 +203,12 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
 
     p match {
       case None => None
-      case Some(p) => { getPropValue0(p.asInstanceOf[AnyRef]) }
-      case _ => getPropValue0(p)
+      case Some(p) => { propValue0(p.asInstanceOf[AnyRef]) }
+      case _ => propValue0(p)
     }
   }
 
-  def getId(o: AnyRef): Option[Any] = getPropValue[Any](o, idProp)
+  def id(o: AnyRef): Option[Any] = propValue[Any](o, idProp)
 
   def asKeyValueTuples(p: P) = {
     def v(p: P, prop: RichPropertyDescriptor): Option[Any] = {
@@ -342,7 +339,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
 }
 
 object MapperUtils {
-  def getAnnotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
+  def annotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
     (List(prop.getReadMethod, prop.getWriteMethod).filter(_ != null).filter {
       meth => meth.isAnnotationPresent(ak)
     }) match {
@@ -350,10 +347,10 @@ object MapperUtils {
       case x => Some(x.head.getAnnotation(ak))
     }
 
-  def isAnnotatedWith_?[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Boolean =
-    getAnnotation(prop, ak) match { case Some(a) => true case _ => false }
+  def annotated_?[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Boolean =
+    annotation(prop, ak) match { case Some(a) => true case _ => false }
 
-  def extractTypeParams(m: Method) = {
+  def typeParams(m: Method) = {
     m.getGenericReturnType
     .asInstanceOf[java.lang.reflect.ParameterizedType]
     .getActualTypeArguments.toList
