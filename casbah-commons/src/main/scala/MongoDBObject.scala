@@ -15,18 +15,15 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://bitbucket.org/novus/casbah
+ *     http://github.com/novus/casbah
  * 
  */
 
 package com.novus.casbah
-package mongodb
-package util
+package commons
 
-import Implicits._
-import com.novus.casbah.util.Logging
-
-import com.mongodb._
+import com.novus.casbah.commons.Imports._
+import com.novus.casbah.commons.util.Logging
 
 import scala.annotation.tailrec
 import scala.collection.JavaConversions._
@@ -147,6 +144,8 @@ object MongoDBObject  {
 }
 
 sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), MongoDBObject] {
+  import com.mongodb.BasicDBObjectBuilder 
+
   protected val empty = BasicDBObjectBuilder.start
   protected var elems = empty
   override def +=(x: (String, Any)) = { 

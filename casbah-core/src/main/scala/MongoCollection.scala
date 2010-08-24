@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
- *
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/novus/casbah
+ * 
  */
 
 package com.novus.casbah
-package mongodb
 
-import util.Logging
+import com.novus.casbah.Imports._
+import com.novus.casbah.commons.util.Logging
 
-import com.mongodb._
+import com.novus.casbah.map_reduce.{MapReduceResult, MapReduceCommand}
 
-import map_reduce.{MapReduceResult, MapReduceCommand}
+
 import scalaj.collection.Imports._
-import Implicits._
 import collection.mutable.ArrayBuffer
 
 
@@ -44,7 +45,7 @@ trait MongoCollectionWrapper extends Logging {
   /**
    * The underlying Java Mongo Driver Collection object we proxy.
    */
-  val underlying: DBCollection
+  val underlying: com.mongodb.DBCollection
   implicit val db = underlying.getDB().asScala
   
   // there are two apply methods on the java api i've left out for now as they'll do whacky things to Scala probably.
@@ -52,7 +53,7 @@ trait MongoCollectionWrapper extends Logging {
   def createIndex(keys: DBObject) = underlying.createIndex(keys)
   def distinct(key: String) = underlying.distinct(key).asScala
   def distinct(key: String, query: DBObject) = underlying.distinct(key, query).asScala
-  def drop() = underlying.drop
+  def dropCollection() = underlying.drop
   def dropIndex(keys: DBObject) = underlying.dropIndex(keys)
   def dropIndex(name: String) = underlying.dropIndex(name)
   def dropIndexes() = underlying.dropIndexes
@@ -91,8 +92,8 @@ trait MongoCollectionWrapper extends Logging {
   /**
    * Perform an absurdly simple grouping with no initial object or reduce function.
    */
-  def group(key: DBObject, cond: DBObject): Iterable[DBObject] = group(key, cond, new BasicDBObject, "function(obj, prev) {}")
-  def group(key: DBObject, cond: DBObject, function: String): Iterable[DBObject] = group(key, cond, new BasicDBObject, function)
+  def group(key: DBObject, cond: DBObject): Iterable[DBObject] = group(key, cond, MongoDBObject.empty, "function(obj, prev) {}")
+  def group(key: DBObject, cond: DBObject, function: String): Iterable[DBObject] = group(key, cond, MongoDBObject.empty, function)
 
   /**
    * Enables you to call group with the finalize parameter (a function that runs on each
@@ -100,15 +101,15 @@ trait MongoCollectionWrapper extends Logging {
    * support, by sending a direct DBObject command.  Messy, but it works.
    */
   def group(key: DBObject, cond: DBObject, initial: DBObject, reduce: String, finalize: String) = {
-    val cmdData = Map[String, Any](
-      ("ns" -> getName),
-      ("key" -> key),
-      ("cond" -> cond),
-      ("$reduce" -> reduce),
-      ("initial" -> initial),
-      ("finalize", finalize)).asDBObject
+    val cmdData = MongoDBObject(
+      "ns" -> getName,
+      "key" -> key,
+      "cond" -> cond,
+      "$reduce" -> reduce,
+      "initial" -> initial,
+      "finalize" -> finalize)
     log.trace("Executing group command: %s", cmdData)
-    val result = getDB.command(BasicDBObjectBuilder.start("group", cmdData).get)
+    val result = getDB.command(MongoDBObject("group" -> cmdData))
     if (result.get("ok").asInstanceOf[Double] != 1) {
       log.warning("Group Statement Failed.")
     }
@@ -118,8 +119,8 @@ trait MongoCollectionWrapper extends Logging {
 
   /** Emulates a SQL MAX() call ever so gently **/
   def maxValue(field: String, condition: DBObject) = {
-    val initial = Map("max" -> "").asDBObject
-    val groupResult = group(new BasicDBObject,
+    val initial = MongoDBObject("max" -> "")
+    val groupResult = group(MongoDBObject.empty,
           condition,
           initial,
           """
@@ -133,9 +134,10 @@ trait MongoCollectionWrapper extends Logging {
     log.trace("Max Grouping Result: %s", groupResult)
     groupResult.head.get("max").asInstanceOf[Double]
   }
+
   def maxDate(field: String, condition: DBObject) = {
     val initial = Map("max" -> "").asDBObject
-    val groupResult = group(new BasicDBObject,
+    val groupResult = group(MongoDBObject.empty,
       condition,
       initial,
       """
@@ -151,7 +153,7 @@ trait MongoCollectionWrapper extends Logging {
   }
   def minDate(field: String, condition: DBObject) = {
     val initial = Map("max" -> "").asDBObject
-    val groupResult = group(new BasicDBObject,
+    val groupResult = group(MongoDBObject.empty,
       condition,
       initial,
       """
@@ -168,7 +170,7 @@ trait MongoCollectionWrapper extends Logging {
   /** Emulates a SQL MIN() call ever so gently **/
   def minValue(field: String, condition: DBObject) = {
     val initial = Map("min" -> "").asDBObject
-    group(new BasicDBObject,
+    group(MongoDBObject.empty,
           condition,
           initial,
           """
@@ -185,7 +187,7 @@ trait MongoCollectionWrapper extends Logging {
   /** Emulates a SQL AVG() call ever so gently **/
   def avgValue(field: String, condition: DBObject) = {
     val initial = Map("count" -> 0, "total" -> 0, "avg" -> 0).asDBObject
-    group(new BasicDBObject,
+    group(MongoDBObject.empty,
       condition,
       initial,
       """
@@ -199,7 +201,7 @@ trait MongoCollectionWrapper extends Logging {
 
   override def hashCode() = underlying.hashCode
   def insert(doc: DBObject) = underlying.insert(doc)
-  def insert(doc: Array[DBObject]) = underlying.insert(doc)
+  def insert(doc: DBObject*) = underlying.insert(doc: _*)
   def insert(lst: List[DBObject]) = underlying.insert(lst.asJava)
 
   /**
@@ -240,7 +242,7 @@ trait MongoCollectionWrapper extends Logging {
     underlying.setObjectClass(c)
     new MongoTypedCollection[A](underlying)
   }
-  def setWriteConcern(concern: DB.WriteConcern) = underlying.setWriteConcern(concern)
+  def setWriteConcern(concern: com.mongodb.WriteConcern) = underlying.setWriteConcern(concern)
   override def toString() = underlying.toString
   def update(q: DBObject, o: DBObject) = underlying.update(q, o)
   def update(q: DBObject, o: DBObject, upsert: Boolean, multi: Boolean) = underlying.update(q, o, upsert, multi)
@@ -255,32 +257,6 @@ trait MongoCollectionWrapper extends Logging {
   def count(query: DBObject, fields: DBObject) = getCount(query, fields)
 
   def lastError = underlying.getDB.getLastError
-
-  /**
-   * MongoDB <code>insert</code> method
-   *
-   * @author Alexander Azarov <azarov@osinka.ru>
-   * 
-   * @param x object to insert into the collection
-   */
-  def <<[A <% DBObject](x: A) =  insert(x)
-
-  /**
-   * MongoDB <code>insert</code> with subsequent check for object existence
-   *
-   * @author Alexander Azarov <azarov@osinka.ru>
-   *
-   * @param x object to insert into the collection
-   * @return <code>None</code> if such object exists already (with the same identity)
-   * <code>Some(x)</code> in the case of success
-   */
-  def <<?[A <% DBObject](x: A): Option[A] = {
-    insert(x)
-    lastError get "err" match {
-      case null => Some(x)
-      case msg: String => None
-    }
-  }
 
   /**
    * MongoDB DB collection.save method
@@ -321,7 +297,7 @@ trait MongoCollectionWrapper extends Logging {
  *
  * @param underlying DBCollection object to proxy
  */
-class MongoCollection(val underlying: DBCollection) extends MongoCollectionWrapper with Iterable[DBObject] {
+class MongoCollection(val underlying: com.mongodb.DBCollection) extends MongoCollectionWrapper with Iterable[DBObject] {
 
 /*  def this(coll: DBCollection) = {
     this()
@@ -402,8 +378,8 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionWrapp
  * @param underlying DBCollection object to proxy
  * @param m Manifest[A] representing the erasure for the underlying type - used to get around the JVM's insanity
  */
-class MongoTypedCollection[A <: DBObject : Manifest](val underlying: DBCollection) extends Iterable[A] 
-                                                                                   with MongoCollectionWrapper {
+class MongoTypedCollection[A <: DBObject : Manifest](val underlying: com.mongodb.DBCollection) extends Iterable[A] 
+                                                                                       with MongoCollectionWrapper {
                                                                                      
   type UnderlyingObj = A
   val m = manifest[A]

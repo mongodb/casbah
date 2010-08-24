@@ -15,19 +15,25 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://bitbucket.org/novus/casbah
+ *     http://github.com/novus/casbah
  * 
  */
 
 package com.novus.casbah
-package mongodb
-package util
+package commons
 
-import com.mongodb._
 import scalaj.collection.Imports._
 
 trait Implicits {
+  import com.mongodb.{DBObject, BasicDBObject}
 
+  /*
+   * Placeholder Type Alias 
+   *
+   * TODO - Make me a Type Class to define boundaries
+   */
+  type JSFunction = String
+  
   /**
    * Implicit extension methods for Scala <code>Map[String, Any]</code>
    * to convert to Mongo DBObject instances.
@@ -126,11 +132,11 @@ object TypeImports extends TypeImports
 trait Imports extends BaseImports with TypeImports with Implicits
 
 trait BaseImports {
-  val MongoDBObject = com.novus.casbah.mongodb.util.MongoDBObject
+  val MongoDBObject = com.novus.casbah.commons.MongoDBObject
 }
 
 trait TypeImports {
-  type MongoDBObject = com.novus.casbah.mongodb.util.MongoDBObject
+  type MongoDBObject = com.novus.casbah.commons.MongoDBObject
   type DBObject = com.mongodb.DBObject
   type BasicDBObject = com.mongodb.BasicDBObject
   type BasicDBList = com.mongodb.BasicDBList

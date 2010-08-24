@@ -15,14 +15,15 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://bitbucket.org/novus/casbah
+ *     http://github.com/novus/casbah
  * 
  */
+
 package com.novus.casbah
-package mongodb
 package query
 
-import util.Logging
+import com.novus.casbah.commons.Imports._
+import com.novus.casbah.commons.util.Logging
 
 import scala.collection.JavaConversions._
 

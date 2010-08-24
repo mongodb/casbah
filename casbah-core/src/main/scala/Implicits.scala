@@ -15,18 +15,12 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://bitbucket.org/novus/casbah
+ *     http://github.com/novus/casbah
  * 
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
 package com.novus.casbah
-package mongodb
 
-import query._
-
-import com.mongodb._
 
 import scalaj.collection.Imports._
 import org.scala_tools.time.Imports._
@@ -53,15 +47,14 @@ import org.scala_tools.time.Imports._
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-trait Implicits extends FluidQueryBarewordOps {
-  type JSFunction = String
+trait Implicits {
 
   /**
    * Implicit extension methods for Mongo's connection object.
    * Capable of returning a Scala optimized wrapper object.
    * @param conn A <code>Mongo</code> object to wrap
    */
-  implicit def mongoConnAsScala(conn: Mongo) = new {
+  implicit def mongoConnAsScala(conn: com.mongodb.Mongo) = new {
    /**
     * Return a type-neutral Scala Wrapper object for the Connection
     * @return MongoConnection An instance of a scala wrapper containing the connection object
@@ -74,7 +67,7 @@ trait Implicits extends FluidQueryBarewordOps {
    * Capable of returning a Scala optimized wrapper object.
    * @param db A <code>DB</code> object to wrap
    */
-  implicit def mongoDBAsScala(db: DB) = new {
+  implicit def mongoDBAsScala(db: com.mongodb.DB) = new {
     /**
      * Return a type-neutral Scala Wrapper object for the DB
      * @return MongoDB An instance of a scala wrapper containing the DB object
@@ -87,7 +80,7 @@ trait Implicits extends FluidQueryBarewordOps {
    * Capable of returning a Scala optimized wrapper object.
    * @param coll A <code>DBCollection</code> object to wrap
    */
-  implicit def mongoCollAsScala(coll: DBCollection) = new {
+  implicit def mongoCollAsScala(coll: com.mongodb.DBCollection) = new {
     /**
      * Return a type-neutral Scala wrapper object for the DBCollection
      * @return MongoCollection An instance of the scala wrapper containing the collection object.
@@ -97,7 +90,7 @@ trait Implicits extends FluidQueryBarewordOps {
      * Return a GENERIC Scala wrapper object for the DBCollection specific to a given Parameter type.
      * @return MongoCollection[A<:DBObject] An instance of the scala wrapper containing the collection object.
      */
-    def asScalaTyped[A<:DBObject](implicit m: scala.reflect.Manifest[A]) = new MongoTypedCollection[A](coll)(m)
+    def asScalaTyped[A <: com.mongodb.DBObject](implicit m: scala.reflect.Manifest[A]) = new MongoTypedCollection[A](coll)(m)
   }
 
   /**
@@ -105,7 +98,7 @@ trait Implicits extends FluidQueryBarewordOps {
    * Capable of returning a Scala optimized wrapper object.
    * @param cursor A <code>DBCursor</code> object to wrap
    */
-  implicit def mongoCursorAsScala(cursor: DBCursor) = new {
+  implicit def mongoCursorAsScala(cursor: com.mongodb.DBCursor) = new {
     /**
      * Return a type-neutral Scala wrapper object for the DBCursor
      * @return MongoCursor An instance of the scala wrapper containing the cursor object.
@@ -115,74 +108,30 @@ trait Implicits extends FluidQueryBarewordOps {
     * Return a GENERIC Scala wrapper object for the DBCursor specific to a given Parameter type.
     * @return MongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
     */
-    def asScalaTyped[A <: DBObject : Manifest] = new MongoTypedCursor[A](cursor)
+    def asScalaTyped[A <: com.mongodb.DBObject : Manifest] = new MongoTypedCursor[A](cursor)
   }
-
-  /**
-   * Implicit extension methods for String values (e.g. a field name)
-   * to add Mongo's query operators, minimizing the need to write long series'
-   * of nested maps.
-   *
-   * Mixes in the QueryOperators defined in the QueryOperators mixin.
-   * The NestedQuery implicit [Defined below] allows you to call chained operators on the return value of this
-   * method.  Chained operators will place the subsequent operators within the same DBObject,
-   * e.g. <code>"fooDate" $lte yesterday $gte tomorrow</code> maps to a Mongo query of:
-   * <code>{"fooDate": {"$lte": <yesterday>, "$gte": <tomorrow>}}</code>
-   * 
-   * @param left A string which should be the field name, the left hand of the query
-   * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
-   */
-  implicit def mongoQueryStatements(left: String) = new {
-    val field = left
-  } with FluidQueryOperators
-
-
-  /**
-   * Implicit extension methods for Tuple2[String, DBObject] values
-   * to add Mongo's query operators, minimizing the need to write long series'
-   * of nested maps.
-   *
-   * Mixes in the QueryOperators defined in the QueryOperators mixin.
-   * The NestedQuery implicits allows you to call chained operators on the return value of the
-   * base String method method.  Chained operators will place the subsequent operators within the same DBObject,
-   * e.g. <code>"fooDate" $lte yesterday $gte tomorrow</code> maps to a Mongo query of:
-   * <code>{"fooDate": {"$lte": <yesterday>, "$gte": <tomorrow>}}</code>
-   *
-   * @param left A string which should be the field name, the left hand of the query
-   * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
-   */
-  implicit def mongoNestedQueryStatements(nested: Tuple2[String, DBObject]) = new {
-    val field = nested._1
-  } with FluidQueryOperators { 
-    dbObj = Some(nested._2) 
-/*    def ++[A <% DBObject](right: A): DBObject = wrapDBObj(nested) ++ wrapDBObj(right)
-*/  }
-  
-  implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
-  implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
 
 } 
 
-object Implicits extends Implicits
-object Imports extends Imports 
-object BaseImports extends BaseImports
-object MongoTypeImports extends MongoTypeImports
+object Implicits extends Implicits with commons.Implicits with query.Implicits
+object Imports extends Imports  with commons.Imports with query.Imports
+object BaseImports extends BaseImports with commons.BaseImports with query.BaseImports
+object TypeImports extends TypeImports with commons.TypeImports with query.TypeImports
 
-trait Imports extends BaseImports with MongoTypeImports with Implicits 
+trait Imports extends BaseImports with TypeImports with Implicits 
 
 trait BaseImports {
-  val MongoConnection = com.novus.casbah.mongodb.MongoConnection
-  val MongoDBAddress = com.novus.casbah.mongodb.MongoDBAddress
-  val GridFS = com.novus.casbah.mongodb.gridfs.GridFS
-  val MapReduceCommand = com.novus.casbah.mongodb.map_reduce.MapReduceCommand
+  val MongoConnection = com.novus.casbah.MongoConnection
+  val MongoDBAddress = com.novus.casbah.MongoDBAddress
+  val MapReduceCommand = com.novus.casbah.map_reduce.MapReduceCommand
 }
 
 trait TypeImports {
-  type MongoConnection = com.novus.casbah.mongodb.MongoConnection
-  type MongoCollection = com.novus.casbah.mongodb.MongoCollection
-  type MongoDB = com.novus.casbah.mongodb.MongoDB
-  type MongoCursor = com.novus.casbah.mongodb.MongoCursor
-  type MapReduceCommand = com.novus.casbah.mongodb.map_reduce.MapReduceCommand
-  type MapReduceResult = com.novus.casbah.mongodb.map_reduce.MapReduceResult
+  type MongoConnection = com.novus.casbah.MongoConnection
+  type MongoCollection = com.novus.casbah.MongoCollection
+  type MongoDB = com.novus.casbah.MongoDB
+  type MongoCursor = com.novus.casbah.MongoCursor
+  type MapReduceCommand = com.novus.casbah.map_reduce.MapReduceCommand
+  type MapReduceResult = com.novus.casbah.map_reduce.MapReduceResult
   type DBAddress = com.mongodb.DBAddress
 }

@@ -15,13 +15,13 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://bitbucket.org/novus/casbah
+ *     http://github.com/novus/casbah
  * 
  */
 
 package com.novus.casbah
 
-import com.novus.casbah.mongodb.Imports._
+import com.novus.casbah.Imports._
 
 /** 
  * Type aliases for deprecated object names (aka the "Old" object naming)
@@ -33,6 +33,7 @@ import com.novus.casbah.mongodb.Imports._
  * @deprecated
  */
 package object mongodb {
+  import com.mongodb.Mongo
   /**
    * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
    * Apply methods are called as MongoConnectionection(<params>)
@@ -45,8 +46,8 @@ package object mongodb {
     def apply() = new MongoConnection(new Mongo())
     def apply(addr: DBAddress) = new MongoConnection(new Mongo(addr))
     def apply(left: DBAddress, right: DBAddress) = new MongoConnection(new Mongo(left, right))
-    def apply(left: DBAddress, right: DBAddress, options: MongoOptions) = new MongoConnection(new Mongo(left, right, options))
-    def apply(addr: DBAddress, options: MongoOptions) = new MongoConnection(new Mongo(addr, options))
+    def apply(left: DBAddress, right: DBAddress, options: com.mongodb.MongoOptions) = new MongoConnection(new Mongo(left, right, options))
+    def apply(addr: DBAddress, options: com.mongodb.MongoOptions) = new MongoConnection(new Mongo(addr, options))
     def apply(host: String) = new MongoConnection(new Mongo(host))
     def apply(host: String, port: Int) = new MongoConnection(new Mongo(host, port))
     //def apply(host: String, options: MongoOptions) = new MongoConnection(new Mongo(host, options))
@@ -70,6 +71,25 @@ package object mongodb {
   type ScalaMongoCursor = MongoCursor
   @deprecated("ScalaTypedMongoCursor[A <: DBObject] has been deprecated. Please use com.novus.casbah.mongodb.MongoTypedCursor[A <: DBObject] instead.")
   type ScalaTypedMongoCursor[A <: DBObject] = MongoTypedCursor[A]
+
+
+
+  trait BaseImports {
+    val MongoConnection = com.novus.casbah.MongoConnection
+    val MongoDBAddress = com.novus.casbah.MongoDBAddress
+    //val GridFS = com.novus.casbah.gridfs.GridFS
+    val MapReduceCommand = com.novus.casbah.map_reduce.MapReduceCommand
+  }
+
+  trait TypeImports {
+    type MongoConnection = com.novus.casbah.MongoConnection
+    type MongoCollection = com.novus.casbah.MongoCollection
+    type MongoDB = com.novus.casbah.MongoDB
+    type MongoCursor = com.novus.casbah.MongoCursor
+    type MapReduceCommand = com.novus.casbah.map_reduce.MapReduceCommand
+    type MapReduceResult = com.novus.casbah.map_reduce.MapReduceResult
+    type DBAddress = com.mongodb.DBAddress
+  }
 }
 
 

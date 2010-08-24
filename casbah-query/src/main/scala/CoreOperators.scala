@@ -13,20 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
 package com.novus.casbah
-package mongodb
 package query
 
-import util.Logging
+import com.novus.casbah.commons.Imports._
+import com.novus.casbah.commons.util.Logging
 
 import com.mongodb.{DBObject, BasicDBObjectBuilder}
-//import scala.collection.JavaConversions._
 import scalaj.collection.Imports._
-import Implicits._
+
 
 /**
  * Mixed trait which provides all possible
@@ -54,21 +51,6 @@ trait ValueTestFluidQueryOperators extends LessThanOp
                                       with LessThanEqualOp 
                                       with GreaterThanOp 
                                       with GreaterThanEqualOp
-/*
-trait NestingFriendlyQueryOperators extends LessThanOp
-                                       with LessThanEqualOp
-                                       with GreaterThanOp
-                                       with GreaterThanEqualOp  
-                                       with Logging {
-  val field = null
-  protected val nested: DBObject
-  override def op(op: String, target: Any) = {
-    log.warning("Op: %s Target: %s DBObject: %s", op, target, dbObj)
-    ("" -> dbObj)
-  }
-}*/
-
-
 /**
  * Base trait for QueryOperators, children
  * are required to define a value for field, which is a String
@@ -99,15 +81,11 @@ sealed trait QueryOperator {
    */
   protected def op(op: String, target: Any) = dbObj match {
     case Some(nested) => {
-      log.debug("{nested} DBObj: %s Op: %s Target: %s [%s]", dbObj, 
-                op, target, target.asInstanceOf[AnyRef].getClass)
       patchSerialization(target)
       nested.put(op, target)
       (field -> nested)
     }
     case None => {
-      log.debug("DBObj: %s Op: %s Target: %s [%s]", dbObj, 
-                op, target, target.asInstanceOf[AnyRef].getClass)
       patchSerialization(target)
       val opMap = BasicDBObjectBuilder.start(op, target).get
       (field -> opMap)
@@ -123,17 +101,14 @@ sealed trait QueryOperator {
      
 }
 
-trait NestingQueryHelper extends QueryOperator with Logging {
+trait NestingQueryHelper extends QueryOperator {
   import com.mongodb.BasicDBObject
   val oper: String
   val _dbObj: Option[DBObject]
   dbObj = _dbObj
-  //Some(new com.mongodb.BasicDBObject(oper, ref))
-  //dbObj = //_dbObj
 
-  log.info("Instantiated Nesting Helper")
   override protected def op(op: String, target: Any) = {
-    val entry = new BasicDBObject(oper, new BasicDBObject(op, target))
+    val entry = MongoDBObject(oper -> MongoDBObject(op -> target))
     dbObj = dbObj match {
       case Some(nested) => nested.put(oper, entry); Some(nested)
       case None => Some(entry)
@@ -142,7 +117,6 @@ trait NestingQueryHelper extends QueryOperator with Logging {
   }
 
   def apply(target: Any) = { 
-    log.info("Apply - %s", target)
     target match {
       case sRE: scala.util.matching.Regex => op(field, sRE.pattern) 
       case jRE: java.util.regex.Pattern => op(field, jRE)

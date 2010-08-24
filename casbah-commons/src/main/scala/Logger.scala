@@ -18,6 +18,7 @@
  */
 
 package com.novus.casbah 
+package commons
 package util
 
 import net.lag.logging.Logger

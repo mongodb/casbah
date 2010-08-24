@@ -15,18 +15,17 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://bitbucket.org/novus/casbah
- *
+ *     http://github.com/novus/casbah
+ * 
  */
 
 package com.novus.casbah
-package mongodb
 package gridfs
 
-import Implicits._
-import util.Logging
+import com.novus.casbah.Imports._
+import com.novus.casbah.gridfs.Imports._
+import com.novus.casbah.commons.util.Logging
 
-import org.bson.types._ // Base for BSON - ObjectId, etc come from here
 import com.mongodb.DBObject
 import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile, GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
 
@@ -61,7 +60,7 @@ object GridFS extends Logging {
 
 }
 
-class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[GridFSDBFile] with Logging {
+class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[GridFSDBFile] with Logging {
   log.info("Instantiated a new GridFS instance against '%s'", underlying) 
 
   type FileOp = GridFSFile => Unit
@@ -97,7 +96,7 @@ class GridFS protected[mongodb](val underlying: MongoGridFS) extends Iterable[Gr
    * a code block.
    * 
    */
-   protected[mongodb] def loan[T <: GridFSFile](file: T)(op: T => Unit) = op(file)
+   protected[gridfs] def loan[T <: GridFSFile](file: T)(op: T => Unit) = op(file)
 
   /**
    * apply methods with a file input create...
@@ -257,13 +256,13 @@ trait GridFSFile extends MongoDBObject with Logging {
 }
 
 @BeanInfo
-class GridFSDBFile protected[mongodb](override val underlying: MongoGridFSDBFile) extends GridFSFile {
+class GridFSDBFile protected[gridfs](override val underlying: MongoGridFSDBFile) extends GridFSFile {
   override def toString = "{ GridFSDBFile(id=%s, filename=%s, contentType=%s) }".
                               format(id, filename, contentType)
 }
 
 @BeanInfo
-class GridFSInputFile protected[mongodb](override val underlying: MongoGridFSInputFile) extends GridFSFile {
+class GridFSInputFile protected[gridfs](override val underlying: MongoGridFSInputFile) extends GridFSFile {
   def filename_=(name: String) = underlying.setFilename(name)
   def contentType_=(cT: String) = underlying.setContentType(cT)
 }
