@@ -20,5 +20,5 @@ class CasbahProject(info: ProjectInfo) extends DefaultProject(info) with rsync.R
   val bumRepo = "Bum Networks Release Repository" at "http://repo.bumnetworks.com/releases/"
   val bumSnapsRepo = "Bum Networks Snapshots Repository" at "http://repo.bumnetworks.com/snapshots/"
 
-  def rsyncRepo = "repobum:/home/public/releases"
+  def rsyncRepo = "repobum_repobum@repobum:/home/public/releases"
 }
