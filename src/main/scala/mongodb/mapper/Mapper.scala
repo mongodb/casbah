@@ -11,6 +11,9 @@ import scala.collection.JavaConversions._
 import scala.collection.mutable.{Buffer, ArrayBuffer}
 import scala.collection.immutable.List
 
+import _root_.scala.math.{BigDecimal => ScalaBigDecimal}
+import java.math.{BigDecimal => JavaBigDecimal, RoundingMode, MathContext}
+
 import annotations.raw._
 import util.Logging
 import Imports._
@@ -87,11 +90,11 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
     case _ => None
   }
 
-  def write(dest: AnyRef, value: AnyRef): Unit =
+  def write(dest: AnyRef, value: Any): Unit =
     field match {
       case Some(field) => field.set(dest, value)
       case None => write match {
-        case Some(write) => write.invoke(dest, value)
+        case Some(write) => write.invoke(dest, value.asInstanceOf[AnyRef])
         case None => // NOOP
       }
     }
@@ -217,7 +220,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
         case _ => e
       })
 
-      prop.read.invoke(p) match {
+      (prop.read.invoke(p) match {
         case null => {
           if (prop.id_? && prop.autoId_?) {
             val id = new ObjectId
@@ -240,6 +243,10 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
         case Some(v: Any) if prop.option_? => Some(v)
         case None if prop.option_? => None
         case v => Some(v)
+      }) match {
+	case Some(bd: ScalaBigDecimal) => Some(bd(MATH_CONTEXT).toDouble)
+	case Some(bd: JavaBigDecimal) => Some(bd.round(MATH_CONTEXT).doubleValue)
+	case x => x
       }
     }
 
@@ -324,12 +331,17 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case Some(v) => {
         log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s -OR- %s",
                   v, v.asInstanceOf[AnyRef].getClass.getName, p, prop.key, prop.write, prop.field)
-        prop.write(p, v match {
+        prop.write(p, (v match {
           case oid: ObjectId => oid
           case s: String if prop.id_? && idProp.autoId_? => new ObjectId(s)
-          case x if x != null && prop.option_? => Some(x)
-          case x => x.asInstanceOf[AnyRef]
-        })
+	  case d: Double if prop.innerType == classOf[JavaBigDecimal] => new JavaBigDecimal(d, MATH_CONTEXT)
+	  case d: Double if prop.innerType == classOf[ScalaBigDecimal] => ScalaBigDecimal(d, MATH_CONTEXT)
+	  case _ => v
+        }) match {
+	  case x if x != null && prop.option_? => Some(x)
+	  case x if x == null && prop.option_? => None
+	  case x => x
+	})
       }
       case _ =>
     }
@@ -368,6 +380,8 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
 }
 
 object MapperUtils {
+  val MATH_CONTEXT = new MathContext(16, RoundingMode.UNNECESSARY);
+
   def annotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
     (List(prop.getReadMethod, prop.getWriteMethod).filter(_ != null).filter {
       meth => meth.isAnnotationPresent(ak)

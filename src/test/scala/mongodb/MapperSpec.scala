@@ -33,6 +33,8 @@ import scala.collection.mutable.{Buffer, ArrayBuffer, Map => MMap}
 import scala.collection.JavaConversions._
 import scala.reflect.BeanInfo
 
+import java.math.BigInteger
+
 import Imports._
 import Imports.log
 import mongodb.mapper.Mapper
@@ -63,6 +65,9 @@ class Piggy(@Key val giggity: String) {
 
   @Key
   var family: Map[String, Piggy] = MMap.empty[String, Piggy]
+
+  @Key
+  var balance: Option[BigDecimal] = None
 }
 
 @BeanInfo
@@ -180,6 +185,7 @@ class MapperSpec extends Specification with PendingUntilFixed {
 
       val POLITICAL_VIEWS = Map("wikileaks" -> "is my favorite site", "democrats" -> "have ruined the economy")
       val FAMILY = Map("father" -> new Piggy("father"), "mother" -> new Piggy("mother"))
+      val BALANCE = BigDecimal("0.12345678901234")
 
       val before = new Chair
 
@@ -188,6 +194,7 @@ class MapperSpec extends Specification with PendingUntilFixed {
       piggy.badges = BADGES
       piggy.political_views = POLITICAL_VIEWS
       piggy.family = FAMILY
+      piggy.balance = Some(BALANCE)
       before.optional_piggy = Some(piggy)
 
       val id = Mapper[Chair].upsert(before).id
@@ -201,6 +208,9 @@ class MapperSpec extends Specification with PendingUntilFixed {
 	    piggy.political_views must havePairs(POLITICAL_VIEWS.toList : _*)
 	    piggy.family.get("father") must beSome[Piggy].which {
 	      father => father.giggity must_== "father"
+	    }
+	    piggy.balance must beSome[BigDecimal].which {
+	      b => b must_== BALANCE
 	    }
           }
 	after.always_here must beSome[String]
