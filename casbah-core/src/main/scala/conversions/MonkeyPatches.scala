@@ -15,18 +15,14 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://bitbucket.org/novus/casbah
+ *     http://github.com/novus/casbah
  * 
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
-import com.novus.casbah.util.Logging 
+import com.novus.casbah.commons.util.Logging 
 
-import com.mongodb._
 import org.bson.{BSON, Transformer}
 
-import org.scala_tools.time.Imports._
 
 package org.bson {
   object BSONTransformMonkeyPatch extends Logging {

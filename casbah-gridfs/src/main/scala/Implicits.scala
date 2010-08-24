@@ -15,17 +15,39 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://bitbucket.org/novus/casbah
+ *     http://github.com/novus/casbah
  * 
  */
 
 package com.novus.casbah
-package mongodb
 package gridfs
 
-import com.novus.casbah.mongodb.Imports._
+import com.novus.casbah.Imports._
+import com.novus.casbah.gridfs.Imports._
 
 import scalaj.collection.Imports._
-import org.scala_tools.time.Imports._
 
+
+trait Implicits {
+  implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
+  implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
+}
+
+object Implicits extends Implicits
+object Imports extends Imports
+object BaseImports extends BaseImports 
+object TypeImports extends TypeImports
+
+trait Imports extends BaseImports with TypeImports with Implicits 
+
+trait BaseImports {
+  val MongoConnection = com.novus.casbah.gridfs.GridFS
+}
+
+trait TypeImports {
+  type GridFS = com.novus.casbah.gridfs.GridFS
+  type GridFSDBFile = com.novus.casbah.gridfs.GridFSDBFile
+  type GridFSInputFile = com.novus.casbah.gridfs.GridFSInputFile
+  type GridFSFile = com.novus.casbah.gridfs.GridFSFile
+}
 // vim: set ts=2 sw=2 sts=2 et:

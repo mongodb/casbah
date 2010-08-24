@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
 package com.novus.casbah
-package mongodb
 package map_reduce
 
-import util.Logging
-
-import com.mongodb._
+import com.novus.casbah.Imports._
+import com.novus.casbah.commons.util.Logging
 
 import scalaj.collection.Imports._
-import Implicits._
 
 
 class MapReduceError(msg: String) extends Error("MongoDB Map/Reduce Error: " + msg)
@@ -101,55 +96,55 @@ class MapReduceCommand {
   def asDBObject = toDBObj 
 
   def toDBObj = {
-    val dataObj = BasicDBObjectBuilder.start
+    val dataObj = MongoDBObject.newBuilder
     collection match {
       case "" => throw new MapReduceError("collection must be defined.")
       case null => throw new MapReduceError("collection must be defined.")
-      case other => dataObj.add("mapreduce", collection)
+      case other => dataObj += "mapreduce" -> collection
     }
 
     mapFunction match {
       case "" => throw new MapReduceError("mapFunction must be defined.")
       case null => throw new MapReduceError("mapFunction must be defined.")
-      case other => dataObj.add("map", mapFunction.toString)
+      case other => dataObj += "map" -> mapFunction.toString
     }
 
     reduceFunction match {
       case "" => throw new MapReduceError("reduceFunction must be defined.")
       case null => throw new MapReduceError("reduceFunction must be defined.")
-      case other => dataObj.add("reduce", reduceFunction.toString)
+      case other => dataObj += "reduce" -> reduceFunction.toString
     }
 
-    dataObj.add("keepTemp", keepTemp)
-    dataObj.add("verbose", verbose)
+    dataObj += "keepTemp" -> keepTemp
+    dataObj += "verbose" -> verbose
 
     outputCollection match {
-      case Some(out) => dataObj.add("out", out)
+      case Some(out) => dataObj += "out" -> out
       case None => {}
     }
 
     query match {
-      case Some(q) => dataObj.add("query", q)
+      case Some(q) => dataObj += "query" -> q
       case None => {}
     }
 
     sort match {
-      case Some(s) => dataObj.add("sort", s)
+      case Some(s) => dataObj += "sort" -> s
       case None => {}
     }
 
     finalizeFunction match {
-      case Some(fF) => dataObj.add("finalize", fF.toString)
+      case Some(fF) => dataObj += "finalize" -> fF.toString
       case None => {}
     }
 
     jsScope match {
-      case Some(s) => dataObj.add("scope", s)
+      case Some(s) => dataObj += "scope" -> s
       case None => {}
     }
 
 
-    dataObj.get
+    dataObj.result
 
   }
 

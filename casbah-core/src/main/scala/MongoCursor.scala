@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
- *
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/novus/casbah
+ * 
  */
 
 package com.novus.casbah
-package mongodb
 
-import com.mongodb._
-import scalaj.collection.Implicits._
-import Implicits._
+import com.novus.casbah.Imports._
+
+import scalaj.collection.Imports._
 
 /**
  * Base trait for all cursor wrappers.
@@ -33,7 +34,7 @@ import Implicits._
  * @version 1.0
  */
 trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
-  val underlying: DBCursor
+  val underlying: com.mongodb.DBCursor
 
   def count = underlying.count
   //def itcount() = underlying.itcount()
@@ -62,7 +63,7 @@ trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
  *
  * @param underlying A DBCursor object to wrap
  */
-class MongoCursor protected[mongodb] (val underlying: DBCursor) extends MongoCursorWrapper[DBObject]  {
+class MongoCursor protected[casbah] (val underlying: com.mongodb.DBCursor) extends MongoCursorWrapper[DBObject]  {
   //def addOption(option: Int) = underlying.addOption(option) asScala
   def batchSize(n: Int) = underlying.batchSize(n) asScala
   def copy() = underlying.copy asScala
@@ -106,7 +107,7 @@ class MongoCursor protected[mongodb] (val underlying: DBCursor) extends MongoCur
  * @param underlying DBCursor object to proxy
  * @param m Manifest[A] representing the erasure for the underlying type - used to get around the JVM's insanity
  */
-class MongoTypedCursor[A <: DBObject : Manifest] protected[mongodb](val underlying: DBCursor) extends MongoCursorWrapper[A]  {
+class MongoTypedCursor[A <: DBObject : Manifest] protected[casbah](val underlying: com.mongodb.DBCursor) extends MongoCursorWrapper[A]  {
   //def addOption(option: Int) = underlying.addOption(option) asScala
   def batchSize(n: Int) = underlying.batchSize(n) asScalaTyped
   def copy() = underlying.copy asScalaTyped

@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
- *
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/novus/casbah
+ * 
  */
 
 package com.novus.casbah
-package mongodb
 
-import map_reduce._
+import com.novus.casbah.Imports._
+import com.novus.casbah.commons.util.Logging
 
-import com.mongodb._
-import scalaj.collection.Implicits._
-import Implicits._
+import scalaj.collection.Imports._
 
 
 /**
@@ -33,7 +33,7 @@ import Implicits._
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0
  */
-class MongoDB(val underlying: DB) {
+class MongoDB(val underlying: com.mongodb.DB) {
   /**
    * Apply method to proxy  getCollection, to allow invocation of
    * <code>dbInstance("collectionName")</code>
@@ -62,12 +62,10 @@ class MongoDB(val underlying: DB) {
   def command(cmd: DBObject) = underlying.command(cmd)
   def createCollection(name: String, o: DBObject) = underlying.createCollection(name, o)
   def doEval(code: String, args: AnyRef*) = underlying.doEval(code, args: _*)
-  //def doGetCollection(name: String) = underlying.doGetCollection(name)
   def dropDatabase() = underlying.dropDatabase()
   def eval(code: String, args: AnyRef*) = underlying.eval(code, args: _*)
   def forceError() = underlying.forceError
   def getCollection(name: String) = underlying.getCollection(name)
-  def getCollectionFromFull(fullNameSpace: String) = underlying.getCollectionFromFull(fullNameSpace)
   def getCollectionFromString(s: String) = underlying.getCollectionFromString(s)
   def getCollectionNames() = underlying.getCollectionNames().asScala
   def getLastError() = underlying.getLastError
@@ -82,7 +80,7 @@ class MongoDB(val underlying: DB) {
   def resetError() = underlying.resetError
   def resetIndexCache() = underlying.resetIndexCache
   def setReadOnly(b: Boolean) = underlying.setReadOnly(b)
-  def setWriteConcern(concern: DB.WriteConcern) = underlying.setWriteConcern(concern)
+  def setWriteConcern(concern: com.mongodb.WriteConcern) = underlying.setWriteConcern(concern)
 
   /**
    * The Java Driver is a bit outdated and is missing the finalize option.

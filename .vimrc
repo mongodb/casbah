@@ -25,7 +25,7 @@ let b:scommenter_company_name = 'Novus Partners, Inc. <http://novus.com>'
 "	\' limitations under the License.',
 "	\'',
 "    \' For questions and comments about this product, please see the project page at:',
-"    \'      http://bitbucket.org/novus/casbah',
+"    \'      http://github.com/novus/casbah',
 "    \'',
 "    \] 
 
@@ -47,7 +47,7 @@ function! SCommenter_OwnFileComments()
 	call append(14, ' *')
     call append(15, ' * For questions and comments about this product, please see the project page at:')
     call append(16, ' *')
-    call append(17, ' *     http://bitbucket.org/novus/casbah')
+    call append(17, ' *     http://github.com/novus/casbah')
     call append(18, ' * ')
     call append(19, ' */')
     call append(20, '')

@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work
- * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver
  */
 
 package com.novus.casbah
