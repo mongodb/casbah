@@ -173,16 +173,19 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
     case Some(id) if id.autoId_? =>
       if (id.innerType != classOf[ObjectId])
         throw new Exception("only ObjectId _id fields are supported when auto = true (%s . %s)".format(obj_klass.getName, id.name))
-      else id
-    case Some(id) => id
-    case _ => throw new Exception("no @ID on " + obj_klass)
+      else Some(id)
+    case Some(id) => Some(id)
+    case _ => None
   }
 
-  lazy val nonIdProps = allProps - idProp
+  lazy val nonIdProps = idProp match {
+    case Some(id) => allProps - id
+    case None => allProps
+  }
 
   override def toString =
     "Mapper(%s -> idProp: %s, is_auto_id: %s, allProps: %s)".format(
-      obj_klass.getName, idProp.name, idProp.autoId_?,
+      obj_klass.getName, idProp.map(_.name).getOrElse("N/A"), idProp.map(_.autoId_?).getOrElse(false),
       allProps.map(p =>
         "Prop(%s -> %s, is_option: %s)".format(p.name,
                                                p.innerType,
@@ -211,7 +214,10 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
     }
   }
 
-  def id(o: AnyRef): Option[Any] = propValue[Any](o, idProp)
+  def id(o: AnyRef): Option[Any] = idProp match {
+    case Some(ip) => propValue[Any](o, ip)
+    case _ => None
+  }
 
   def asKeyValueTuples(p: P) = {
     def v(p: P, prop: RichPropertyDescriptor): Option[Any] = {
@@ -333,7 +339,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
                   v, v.asInstanceOf[AnyRef].getClass.getName, p, prop.key, prop.write, prop.field)
         prop.write(p, (v match {
           case oid: ObjectId => oid
-          case s: String if prop.id_? && idProp.autoId_? => new ObjectId(s)
+          case s: String if prop.id_? && idProp.map(_.autoId_?).getOrElse(false) => new ObjectId(s)
 	  case d: Double if prop.innerType == classOf[JavaBigDecimal] => new JavaBigDecimal(d, MATH_CONTEXT)
 	  case d: Double if prop.innerType == classOf[ScalaBigDecimal] => ScalaBigDecimal(d, MATH_CONTEXT)
 	  case _ => v

@@ -133,7 +133,7 @@ class MapperSpec extends Specification with PendingUntilFixed {
     }
 
     "compute id" in {
-      Mapper[Widget].idProp.name must_== "name"
+      Mapper[Widget].idProp.get.name must_== "name"
     }
 
     "cull non-ids" in {
