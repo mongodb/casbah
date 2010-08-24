@@ -86,15 +86,7 @@ class Chair {
 }
 
 @BeanInfo
-class Badge extends Foo {
-  @ID
-  var name: String = _
-
-  def this(n: String) = {
-    this()
-    name = n
-  }
-}
+case class Badge(@ID val name: String) extends Foo
 
 trait Foo {
   @Key var bar: String = _
@@ -181,7 +173,7 @@ class MapperSpec extends Specification with PendingUntilFixed {
 
     "save & de-serialize nested documents" in {
       val FOODS = "bacon" :: "steak" :: "eggs" :: "club mate" :: Nil
-      val BADGES = ArrayBuffer(new Badge("mile high"), new Badge("swine"))
+      val BADGES = ArrayBuffer(Badge("mile high"), Badge("swine"))
 
       val POLITICAL_VIEWS = Map("wikileaks" -> "is my favorite site", "democrats" -> "have ruined the economy")
       val FAMILY = Map("father" -> new Piggy("father"), "mother" -> new Piggy("mother"))
