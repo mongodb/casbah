@@ -36,6 +36,7 @@ import scalaj.collection.Imports._
 trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
   val underlying: com.mongodb.DBCursor
 
+  def count = underlying.count
   //def itcount() = underlying.itcount()
   def jIterator() = underlying.iterator asScala
   //override def length = underlying.length
@@ -45,19 +46,11 @@ trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
 
   def curr = underlying.curr.asInstanceOf[A]
   def explain = underlying.explain
-}
-
-/**
- * A trait that iterates over DBObject or subclasses.
- */
-trait DBObjectIterator[A <: DBObject] extends MongoCursorWrapper[A] with Iterator[A] {
-  val underlying: DBCursor
-
-  def count = underlying.count
-  override def size = count.intValue
 
   def next: A = underlying.next.asInstanceOf[A]
   def hasNext: Boolean = underlying.hasNext
+
+  override def size = count.intValue
 }
 
 /**
