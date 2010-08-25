@@ -41,7 +41,7 @@ object TypeImports extends TypeImports
 trait Imports extends BaseImports with TypeImports with Implicits 
 
 trait BaseImports {
-  val MongoConnection = com.novus.casbah.gridfs.GridFS
+  val GridFS = com.novus.casbah.gridfs.GridFS
 }
 
 trait TypeImports {
