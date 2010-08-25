@@ -31,14 +31,25 @@ import org.specs._
 import org.specs.specification.PendingUntilFixed
 
 class ConversionsSpec extends Specification with PendingUntilFixed {
+
+  type JDKDate = java.util.Date
   
-  "Casbah's Conversion Helpers" should {
+
+  def clearConversions = beforeContext { 
+    //println("\n*** Deregistering conversion helpers.\n\n")
+    DeregisterConversionHelpers()
+    DeregisterJodaTimeConversionHelpers()
+  }
+  
+  "Casbah's Conversion Helpers"  ->-(clearConversions) should {
     shareVariables
     
     implicit val mongoDB = MongoConnection()("casbahTest")
     mongoDB.dropDatabase()
-    val jodaDate = DateTime.now
-    val jdkDate = new java.util.Date
+    val jodaDate: DateTime = DateTime.now
+    val jdkDate: JDKDate = new JDKDate(jodaDate.getMillis)
+
+    jodaDate.getMillis must beEqualTo(jdkDate.getTime)
 
     "Fail to serialize Joda DateTime Objects unless explicitly loaded." in {
       mongoDB must notBeNull
@@ -57,7 +68,7 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       jdkEntry must beSomething
 
       jdkEntry.get must notBeNull
-      jdkEntry.get.getAs[java.util.Date]("date") must beSome(jdkDate)
+      jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
     }
 
     "Successfully serialize & deserialize Joda DateTime Objects when convertors are loaded." in {
@@ -77,9 +88,74 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       jodaEntry.get must notBeNull
       //jodaEntry.get.get("date") must beSome[DateTime]
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
-      lazy val getDate = { jodaEntry.get.getAs[java.util.Date]("date") } 
+      // Casting it as something it isn't will fail
+      lazy val getDate = { jodaEntry.get.getAs[JDKDate]("date") } 
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
+      getDate.get must throwA[ClassCastException] 
+    } 
+
+    "Be successfully deregistered." in {
+      mongoDB must notBeNull
+      val mongo = mongoDB("conversionDeReg")
+      mongo.dropCollection()
+      RegisterConversionHelpers()
+      RegisterJodaTimeConversionHelpers()
+      DeregisterConversionHelpers()
+      DeregisterJodaTimeConversionHelpers()
+      lazy val testJodaInsert = { mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda") } 
+
+      testJodaInsert must throwA[IllegalArgumentException]
+
+      // Normal JDK Date should work
+      mongo += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
       
-      getDate must throwA[ClassCastException]
+      val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"), 
+                                   MongoDBObject("date" -> 1))
+
+      jdkEntry must beSomething
+
+      jdkEntry.get must notBeNull
+      jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
+      // Casting it as something it isn't will fail
+      lazy val getDate = { jdkEntry.get.getAs[DateTime]("date") } 
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
+      getDate.get must throwA[ClassCastException] 
+    }
+    "Inserting a JDKDate should still allow retrieval as JodaTime after Conversions load" in {
+      mongoDB must notBeNull
+      val mongo = mongoDB("conversionConversion")
+      mongo.dropCollection()
+      RegisterConversionHelpers()
+
+      mongo += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
+      
+      val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"), 
+                                   MongoDBObject("date" -> 1))
+
+
+      jdkEntry must beSomething
+
+      jdkEntry.get must notBeNull
+      jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
+      // Casting it as something it isn't will fail
+      lazy val getDate = { jdkEntry.get.getAs[DateTime]("date") } 
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
+      getDate.get must throwA[ClassCastException] 
+
+      RegisterJodaTimeConversionHelpers()
+
+      val jodaEntry = mongo.findOne(MongoDBObject("type" -> "jdk"), 
+                                    MongoDBObject("date" -> 1))
+
+
+      jodaEntry must beSomething
+
+      jodaEntry.get must notBeNull
+      jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
+      // Casting it as something it isn't will fail
+      lazy val getConvertedDate = { jodaEntry.get.getAs[JDKDate]("date") } 
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
+      getConvertedDate.get must throwA[ClassCastException] 
     }
   }
 }
