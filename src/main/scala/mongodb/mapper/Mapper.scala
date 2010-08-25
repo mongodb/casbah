@@ -245,7 +245,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
     dbo
   }
 
-  private def propValue(p: P, prop: RichPropertyDescriptor): Option[Any] = {
+  def propValue(p: P, prop: RichPropertyDescriptor): Option[Any] = {
     log.trace("V: %s , %s with %s", p, prop, prop.read)
 
     val readValue = try {
