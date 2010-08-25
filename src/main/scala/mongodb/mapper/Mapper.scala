@@ -24,22 +24,22 @@ object Mapper extends Logging {
   def apply[P <: AnyRef : Manifest](): Mapper[P] =
     apply(manifest[P].erasure.getName).get.asInstanceOf[Mapper[P]]
 
-  def apply[P <: AnyRef : Manifest](p: String): Option[Mapper[P]] =
+  def apply[P <: AnyRef](p: String): Option[Mapper[P]] =
     if (_m.containsKey(p)) Some(_m.get(p).asInstanceOf[Mapper[P]])
     else None
 
   def apply[P <: AnyRef : Manifest](p: Class[P]): Option[Mapper[P]] = apply(p.getName)
 
-  def update[P <: AnyRef : Manifest](p: String, m: Mapper[P]): Unit =
+  def update[P <: AnyRef](p: String, m: Mapper[P]): Unit =
     if (!_m.contains(p)) _m(p) = m.asInstanceOf[Mapper[P]]
 
-  def update[P <: AnyRef : Manifest](p: Class[P], m: Mapper[P]): Unit = update(p.getName, m)(manifest[P])
+  def update[P <: AnyRef : Manifest](p: Class[P], m: Mapper[P]): Unit = update(p.getName, m)
 }
 
 class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val parent: Class[_]) extends Logging {
   import MapperUtils._
 
-  override def toString = "Prop(%s @ %d (%s <- %s))".format(name, idx, innerType, outerType)
+  override def toString = "Prop/%s(%s @ %d (%s <- %s))".format(parent.getSimpleName, name, idx, innerType, outerType)
 
   lazy val name = pd.getName
   lazy val key = {
@@ -101,13 +101,13 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
 
   lazy val innerTypes = typeParams(read)
   lazy val innerType = {
-    (pd.getPropertyType match {
+    outerType match {
       case c if c == classOf[Option[_]] => innerTypes.head
       case c if map_? => innerTypes.last
       case c if seq_? => innerTypes.head
       case c => c
-    }).asInstanceOf[Class[Any]]
-  }
+    }
+  }.asInstanceOf[Class[Any]]
 
   lazy val outerType = pd.getPropertyType.asInstanceOf[Class[Any]]
 
@@ -115,15 +115,39 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
   lazy val readOnly_? = write == null
   lazy val id_? = annotated_?(pd, classOf[ID])
   lazy val autoId_? = id_? && annotation(pd, classOf[ID]).get.auto
-  lazy val embedded_? = {
-    Mapper((if (seq_?) innerTypes.head
-            else innerType).getName).isDefined && annotated_?(pd, classOf[Key])
-  }
+  lazy val embedded_? = annotated_?(pd, classOf[Key]) && (annotated_?(pd, classOf[UseTypeHints]) || Mapper(innerType.getName).isDefined)
 
   lazy val seq_? = !map_? && (list_? || buffer_?)
   lazy val list_? = outerType.isAssignableFrom(classOf[List[_]])
   lazy val buffer_? = outerType.isAssignableFrom(classOf[Buffer[_]])
   lazy val map_? = outerType.isAssignableFrom(classOf[Map[_,_]])
+
+  lazy val useTypeHints_? = annotation[UseTypeHints](pd, classOf[UseTypeHints]) match {
+    case Some(ann) if ann.value => true
+    case _ => false
+  }
+
+  def readMapper(p: AnyRef) = {
+    log.trace("readMapper: %s -> %s, %s", p, Mapper(innerType.getName).isDefined, Mapper(p.getClass.getName).isDefined)
+    Mapper(innerType.getName) match {
+      case Some(mapper) => Some(mapper)
+      case None if useTypeHints_? => Mapper(p.getClass.getName)
+      case _ => None
+    }
+  }.asInstanceOf[Option[Mapper[AnyRef]]]
+
+  def writeMapper(dbo: MongoDBObject) = {
+    log.trace("writeMapper: %s -> %s, %s", dbo, Mapper(innerType.getName).isDefined,
+              dbo.get(TYPE_HINT).isDefined && Mapper(dbo(TYPE_HINT).asInstanceOf[String]).isDefined)
+    Mapper(innerType.getName) match {
+      case Some(mapper) => Some(mapper)
+      case None if useTypeHints_? => dbo.get(TYPE_HINT) match {
+        case Some(typeHint: String) => Mapper(typeHint)
+        case _ => None
+      }
+      case _ => None
+    }
+  }.asInstanceOf[Option[Mapper[AnyRef]]]
 
   override def equals(o: Any): Boolean = o match {
     case other: RichPropertyDescriptor => pd.equals(other.pd)
@@ -198,67 +222,77 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case _ => None
     }
 
-  def propValue[V <: Any : Manifest](p: AnyRef, prop: RichPropertyDescriptor): Option[V] = {
-    val cv = manifest[V].erasure.asInstanceOf[Class[V]]
-    def propValue0(p: AnyRef): Option[V] =
-      prop.read.invoke(p) match {
-        case v if v == null => None
-        case v if cv.isAssignableFrom(v.getClass) => Some(cv.cast(v))
-        case _ => None
-      }
+  private def embeddedPropValue(p: P, prop: RichPropertyDescriptor, embedded: AnyRef) = {
+    log.trace("EMB: %s -> %s -> %s", p, prop, embedded)
 
-    p match {
-      case None => None
-      case Some(p) => { propValue0(p.asInstanceOf[AnyRef]) }
-      case _ => propValue0(p)
-    }
+    val dbo = prop.readMapper(embedded).get.asDBObject(embedded match {
+      case Some(vv: AnyRef) if prop.option_? => vv
+      case _ => embedded
+    })
+
+    if (prop.useTypeHints_?)
+      dbo(TYPE_HINT) = (embedded match {
+        case Some(vv: AnyRef) if prop.option_? => vv.getClass
+        case _ => embedded.getClass
+      }).getName
+
+    dbo
   }
 
-  def id(o: AnyRef): Option[Any] = idProp match {
-    case Some(ip) => propValue[Any](o, ip)
-    case _ => None
+  private def propValue(p: P, prop: RichPropertyDescriptor): Option[Any] = {
+    log.trace("V: %s , %s with %s", p, prop, prop.read)
+
+    val readValue = try {
+      prop.read.invoke(p)
+    }
+    catch {
+      case t =>
+        throw new Exception("failed to read: V: %s , %s with %s".format(p, prop, prop.read))
+    }
+    (readValue match {
+      case null => {
+        if (prop.id_? && prop.autoId_?) {
+          val id = new ObjectId
+          prop.write.get.invoke(p, id)
+          Some(id)
+        } else { None }
+      }
+      case l: List[AnyRef] if prop.embedded_? => Some(l.map(embeddedPropValue(p, prop, _)))
+      case b: Buffer[AnyRef] if prop.embedded_? => Some(b.map(embeddedPropValue(p, prop, _)))
+      case m if prop.map_? => Some(m.asInstanceOf[scala.collection.Map[String, Any]].map {
+        case (k, v) => {
+          k -> (if (prop.embedded_?) embeddedPropValue(p, prop, v.asInstanceOf[AnyRef])
+                else v)
+        }
+      }.asDBObject)
+      case Some(v: Any) if prop.option_? => {
+        log.trace("option: embedded_? %s <- %s -> %s", prop.embedded_?, prop, v)
+        if (prop.embedded_?)
+          Some(embeddedPropValue(p, prop, v.asInstanceOf[AnyRef]))
+        else
+          Some(v)
+      }
+      case v if prop.embedded_? => {
+        log.trace("bare embedded: %s", v)
+        Some(embeddedPropValue(p, prop, v))
+      }
+      case None if prop.option_? => None
+      case v => Some(v)
+    }) match {
+      case Some(bd: ScalaBigDecimal) => Some(bd(MATH_CONTEXT).toDouble)
+      case Some(bd: JavaBigDecimal) => Some(bd.round(MATH_CONTEXT).doubleValue)
+      case x => x
+    }
   }
 
   def asKeyValueTuples(p: P) = {
-    def v(p: P, prop: RichPropertyDescriptor): Option[Any] = {
-      def vEmbed(e: AnyRef) = Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asDBObject(e match {
-        case Some(vv: AnyRef) if prop.option_? => vv
-        case _ => e
-      })
-
-      (prop.read.invoke(p) match {
-        case null => {
-          if (prop.id_? && prop.autoId_?) {
-            val id = new ObjectId
-            prop.write.get.invoke(p, id)
-            Some(id)
-          } else { None }
-        }
-        case l: List[AnyRef] if prop.embedded_? => Some(l.map(vEmbed _))
-        case b: Buffer[AnyRef] if prop.embedded_? => Some(b.map(vEmbed _))
-        case m if prop.map_? => Some(m.asInstanceOf[scala.collection.Map[String, Any]].map {
-          case (k, v) => {
-            k -> (if (prop.embedded_?) vEmbed(v.asInstanceOf[AnyRef])
-                  else v)
-          }
-        }.asDBObject)
-        case v if prop.embedded_? => {
-          log.debug("fall through embedded: %s", v)
-          Some(vEmbed(v))
-        }
-        case Some(v: Any) if prop.option_? => Some(v)
-        case None if prop.option_? => None
-        case v => Some(v)
-      }) match {
-	case Some(bd: ScalaBigDecimal) => Some(bd(MATH_CONTEXT).toDouble)
-	case Some(bd: JavaBigDecimal) => Some(bd.round(MATH_CONTEXT).doubleValue)
-	case x => x
-      }
-    }
+    log.trace("AKVT: %s", p)
 
     allProps.toList
     .map {
-      prop => v(p, prop) match {
+      prop =>
+        log.trace("AKVT: %s -> %s", p, prop)
+      propValue(p, prop) match {
         case Some(value) => Some(prop.key -> value)
         case _ => None
       }
@@ -266,20 +300,22 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   }
 
   def asDBObject(p: P): DBObject = {
-    val result = asKeyValueTuples(p)
-    .foldLeft(MongoDBObject.newBuilder) {
-      (builder, t) => builder += t
+    val result = {
+      asKeyValueTuples(p)
+      .foldLeft(MongoDBObject.newBuilder) {
+        (builder, t) => builder += t
+      }
+      .result
     }
-    .result
 
-    log.debug("%s: %s -> %s", obj_klass.getName, p, result)
+    log.trace("%s: %s -> %s", obj_klass.getName, p, result)
     result
   }
 
   private def writeNested(p: P, prop: RichPropertyDescriptor, nested: MongoDBObject) = {
-    val e = Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
+    val e = prop.writeMapper(nested).get.asObject(nested)
     val write = prop.write.get
-    log.debug("write nested '%s' to '%s'.'%s' using: %s", nested, p, prop.key, write)
+    log.trace("write nested '%s' to '%s'.'%s' using: %s", nested, p, prop.key, write)
     prop.write(p, if (prop.option_?) Some(e) else e)
   }
 
@@ -293,13 +329,15 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case (list, (k, v)) =>
         init ++ (list.toList ::: (v match {
           case nested: MongoDBObject if prop.embedded_? =>
-            Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
+            prop.writeMapper(nested).get.asObject(nested)
+          case nested: DBObject if prop.embedded_? =>
+            prop.writeMapper(nested).get.asObject(nested)
           case _ => v
         }) :: Nil)
     }
 
     val write = prop.write.get
-    log.debug("write list '%s' (%s) to '%s'.'%s' using %s",
+    log.trace("write list '%s' (%s) to '%s'.'%s' using %s",
               dst, dst.getClass.getName, p, prop.key, write)
 
     prop.write(p, dst)
@@ -313,12 +351,12 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case (k, v) =>
         k -> (v match {
           case nested: DBObject if prop.embedded_? =>
-            Mapper(prop.innerType.asInstanceOf[Class[AnyRef]]).get.asObject(nested)
+            prop.writeMapper(nested).get.asObject(nested)
           case _ => v
         })
     }
 
-    log.debug("write ---MAP--- '%s' (%s) to '%s'.'%s' using: %s -OR- %s",
+    log.trace("write ---MAP--- '%s' (%s) to '%s'.'%s' using: %s -OR- %s",
               dst, dst.getClass.getName, p, prop.key, prop.write, prop.field)
 
     prop.write(p, dst)
@@ -335,19 +373,19 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case Some(v: DBObject) if prop.embedded_? => writeNested(p, prop, v)
 
       case Some(v) => {
-        log.debug("write raw '%s' (%s) to '%s'.'%s' using: %s -OR- %s",
+        log.trace("write raw '%s' (%s) to '%s'.'%s' using: %s -OR- %s",
                   v, v.asInstanceOf[AnyRef].getClass.getName, p, prop.key, prop.write, prop.field)
         prop.write(p, (v match {
           case oid: ObjectId => oid
           case s: String if prop.id_? && idProp.map(_.autoId_?).getOrElse(false) => new ObjectId(s)
-	  case d: Double if prop.innerType == classOf[JavaBigDecimal] => new JavaBigDecimal(d, MATH_CONTEXT)
-	  case d: Double if prop.innerType == classOf[ScalaBigDecimal] => ScalaBigDecimal(d, MATH_CONTEXT)
-	  case _ => v
+          case d: Double if prop.innerType == classOf[JavaBigDecimal] => new JavaBigDecimal(d, MATH_CONTEXT)
+          case d: Double if prop.innerType == classOf[ScalaBigDecimal] => ScalaBigDecimal(d, MATH_CONTEXT)
+          case _ => v
         }) match {
-	  case x if x != null && prop.option_? => Some(x)
-	  case x if x == null && prop.option_? => None
-	  case x => x
-	})
+          case x if x != null && prop.option_? => Some(x)
+          case x if x == null && prop.option_? => None
+          case x => x
+        })
       }
       case _ =>
     }
@@ -387,6 +425,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
 
 object MapperUtils {
   val MATH_CONTEXT = new MathContext(16, RoundingMode.UNNECESSARY);
+  val TYPE_HINT = "_typeHint"
 
   def annotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
     (List(prop.getReadMethod, prop.getWriteMethod).filter(_ != null).filter {

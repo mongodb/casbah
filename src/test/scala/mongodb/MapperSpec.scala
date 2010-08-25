@@ -57,7 +57,7 @@ class Piggy(@Key val giggity: String) {
   @Key
   var this_field_is_always_null: String = null
 
-  @Key
+  @Key @UseTypeHints
   var badges: Buffer[Badge] = ArrayBuffer()
 
   @Key
@@ -75,7 +75,7 @@ class Chair {
   @ID(auto = true)
   var id: ObjectId = _
 
-  @Key
+  @Key @UseTypeHints
   var optional_piggy: Option[Piggy] = None
 
   @Key var always_here: Option[String] = Some("foo")
@@ -85,11 +85,18 @@ class Chair {
   lazy val timestamp: Date = new Date
 }
 
-@BeanInfo
-case class Badge(@ID val name: String) extends Foo
+trait Badge {
+  @Key var name: String = _
+}
 
-trait Foo {
-  @Key var bar: String = _
+@BeanInfo
+case class WorldOutsideOfManhattan(@ID scrum: String) extends Badge {
+  name = "world outside of Manhattan"
+}
+
+@BeanInfo
+case class OnABoat(@ID water: String) extends Badge {
+  name = "I'm on a boat"
 }
 
 object ChairMapper extends Mapper[Chair] {
@@ -110,16 +117,19 @@ object PiggyMapper extends Mapper[Piggy] {
   coll = "piggies"
 }
 
-object BadgeMapper extends Mapper[Badge]
+object WOOM_Mapper extends Mapper[WorldOutsideOfManhattan]
+object OAB_Mapper extends Mapper[OnABoat]
 
 class MapperSpec extends Specification with PendingUntilFixed {
-  List(ChairMapper, WidgetMapper, PiggyMapper, BadgeMapper)
-
   detailedDiffs()
 
   doBeforeSpec {
     Configgy.configure("src/test/resources/casbah.config")
-    // drop db
+    ChairMapper
+    WidgetMapper
+    PiggyMapper
+    WOOM_Mapper
+    OAB_Mapper
   }
 
   "a mapper" should {
@@ -173,7 +183,7 @@ class MapperSpec extends Specification with PendingUntilFixed {
 
     "save & de-serialize nested documents" in {
       val FOODS = "bacon" :: "steak" :: "eggs" :: "club mate" :: Nil
-      val BADGES = ArrayBuffer(Badge("mile high"), Badge("swine"))
+      val BADGES: Buffer[Badge] = ArrayBuffer(WorldOutsideOfManhattan("mile high"), OnABoat("swine"))
 
       val POLITICAL_VIEWS = Map("wikileaks" -> "is my favorite site", "democrats" -> "have ruined the economy")
       val FAMILY = Map("father" -> new Piggy("father"), "mother" -> new Piggy("mother"))
@@ -196,17 +206,17 @@ class MapperSpec extends Specification with PendingUntilFixed {
           after.optional_piggy must beSome[Piggy].which {
             piggy =>
               piggy.giggity == before.optional_piggy.get.giggity
-	    piggy.favorite_foods must containAll(FOODS)
-	    piggy.political_views must havePairs(POLITICAL_VIEWS.toList : _*)
-	    piggy.family.get("father") must beSome[Piggy].which {
-	      father => father.giggity must_== "father"
-	    }
-	    piggy.balance must beSome[BigDecimal].which {
-	      b => b must_== BALANCE
-	    }
+            piggy.favorite_foods must containAll(FOODS)
+            piggy.political_views must havePairs(POLITICAL_VIEWS.toList : _*)
+            piggy.family.get("father") must beSome[Piggy].which {
+              father => father.giggity must_== "father"
+            }
+            piggy.balance must beSome[BigDecimal].which {
+              b => b must_== BALANCE
+            }
           }
-	after.always_here must beSome[String]
-	after.never_here must beNone
+        after.always_here must beSome[String]
+        after.never_here must beNone
       }
     }
   }
