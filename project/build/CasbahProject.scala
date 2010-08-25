@@ -10,12 +10,18 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
   lazy val gridfs = project("casbah-gridfs", "casbah-gridfs", new CasbahGridFSProject(_), core)
   lazy val mapper = project("casbah-mapper", "casbah-mapper", new CasbahMapperProject(_), core)
 
-  abstract class CasbahBaseProject(info: ProjectInfo) extends DefaultProject(info) {
-    override def compileOptions = 
+  abstract class CasbahBaseProject(info: ProjectInfo) extends DefaultProject(info) with rsync.RsyncPublishing {
+    override def compileOptions =
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
     // Testing Deps
     val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
     val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
+
+    def rsyncRepo =
+      "repobum_repobum@repobum:/home/public/%s".format(
+        if (projectVersion.value.toString.endsWith("-SNAPSHOT")) "snapshots"
+        else "releases"
+      )
   }
 
   class CasbahCommonsProject(info: ProjectInfo) extends CasbahBaseProject(info) {
@@ -44,7 +50,4 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
   val bumRepo = "Bum Networks Release Repository" at "http://repo.bumnetworks.com/releases/"
   val bumSnapsRepo = "Bum Networks Snapshots Repository" at "http://repo.bumnetworks.com/snapshots/"
-
-  // Build / Dist Config
-  def rsyncRepo = "repobum_repobum@repobum:/home/public/releases"
 }
