@@ -91,11 +91,17 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
     case _ => None
   }
 
+  private def squashNulls(value: Any): Any =
+    value match {
+      case null if option_? => None
+      case _ => value
+    }
+
   def write(dest: AnyRef, value: Any): Unit =
     field match {
-      case Some(field) => field.set(dest, value)
+      case Some(field) => field.set(dest, squashNulls(value))
       case None => write match {
-        case Some(write) => write.invoke(dest, value.asInstanceOf[AnyRef])
+        case Some(write) => write.invoke(dest, squashNulls(value).asInstanceOf[AnyRef])
         case None => // NOOP
       }
     }
