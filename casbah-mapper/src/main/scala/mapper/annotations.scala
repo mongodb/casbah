@@ -1,4 +1,4 @@
-package com.novus.casbah.mongodb.mapper
+package com.novus.casbah.mapper
 
 import scala.reflect.BeanInfo
 import scala.annotation.target.{getter, setter}

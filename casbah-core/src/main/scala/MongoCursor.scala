@@ -138,32 +138,3 @@ class MongoTypedCursor[A <: DBObject : Manifest] protected[casbah](val underlyin
   }
   override def toString() =  "MongoCursor{Iterator[_] with %d objects.}".format(count)
 }
-
-package mapper {
-
-  trait MappedIterator[P <: AnyRef] extends MongoCursorWrapper[P] with Iterator[P] {
-    val underlying: DBCursor
-    val mapper: Mapper[P]
-
-    def count = underlying.count
-    override def size = count.intValue
-
-    def next: P = mapper.asObject(underlying.next)
-    def hasNext: Boolean = underlying.hasNext
-  }
-
-  class MongoMappedCursor[P <: AnyRef : Manifest] protected[mapper](val underlying: DBCursor) extends MappedIterator[P] with MapperImplicits[P] {
-    val mapper = Mapper[P]
-
-    def batchSize(n: Int) = underlying.batchSize(n) asScalaMapped
-    def copy() = underlying.copy asScalaMapped
-    def hint(indexKeys: DBObject) = underlying.hint(indexKeys) asScalaMapped
-    def hint(indexName: String) = underlying.hint(indexName) asScalaMapped
-    def limit(n: Int) = underlying.limit(n) asScalaMapped
-    def skip(n: Int) = underlying.skip(n) asScalaMapped
-    def snapshot() = underlying.snapshot() asScalaMapped
-    def sort(orderBy: DBObject) = underlying.sort(orderBy) asScalaMapped
-    override def toString() =  "MongoMappedCursor{Iterator[_] with %d objects.}".format(count)
-  }
-
-}

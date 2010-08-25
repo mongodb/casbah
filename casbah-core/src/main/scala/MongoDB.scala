@@ -57,8 +57,6 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @return MongoCollection A wrapped instance of a Mongo DBCollection Class returning DBObject subclasses of type A
    */
   def apply[A <: DBObject](collection: String, clazz: Class[A])(implicit m: scala.reflect.Manifest[A]) = underlying.getCollection(collection).asScalaTyped(m)
-  def mapped[P <: AnyRef : Manifest] =
-    underlying.getCollection(mapper.Mapper[P].coll.getName).asScalaMapped(manifest[P])
   def addUser(username: String, passwd: String) = underlying.addUser(username, passwd.toArray)
   def authenticate(username: String, passwd: String) = underlying.authenticate(username, passwd.toArray)
   def command(cmd: DBObject) = underlying.command(cmd)

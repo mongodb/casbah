@@ -1,4 +1,4 @@
-package com.novus.casbah.mongodb.mapper.annotations.raw;
+package com.novus.casbah.mapper.annotations.raw;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
