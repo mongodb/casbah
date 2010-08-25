@@ -15,7 +15,7 @@ import _root_.scala.math.{BigDecimal => ScalaBigDecimal}
 import java.math.{BigDecimal => JavaBigDecimal, RoundingMode, MathContext}
 
 import annotations.raw._
-import util.Logging
+import commons.util.Logging
 import Imports._
 
 object Mapper extends Logging {
@@ -432,10 +432,9 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       }
     }
 
-  // XXX: if <<? returns None, does it indicate failure_?
-  def upsert(p: P): P = coll <<? asDBObject(p).asDBObject match {
-    case Some(dbo) => p
-    case None => p
+  def upsert(p: P): P = {
+    coll.insert(asDBObject(p))
+    p // XXX: errors? dragons?
   }
 }
 
