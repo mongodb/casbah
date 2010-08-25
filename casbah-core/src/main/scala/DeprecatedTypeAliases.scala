@@ -19,7 +19,7 @@
  * 
  */
 
-import com.novus.casbah.Imports._
+//import com.novus.casbah.Imports._
 
 /** 
  * BRIDGE CODE.
@@ -75,7 +75,7 @@ package com.novus.casbah {
     type MongoCursor = com.novus.casbah.MongoCursor
 
     @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
-    type MongoCursorWrapper[A <: DBObject] = com.novus.casbah.MongoCursorWrapper[A]
+    type MongoCursorWrapper[A <: com.mongodb.DBObject] = com.novus.casbah.MongoCursorWrapper[A]
 
     @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
     type MongoDB = com.novus.casbah.MongoDB
@@ -92,10 +92,10 @@ package com.novus.casbah {
     type MongoDBObjectBuilder = com.novus.casbah.commons.MongoDBObjectBuilder
 
     @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
-    type MongoTypedCollection[A <: DBObject] = com.novus.casbah.MongoTypedCollection[A]
+    type MongoTypedCollection[A <: com.mongodb.DBObject] = com.novus.casbah.MongoTypedCollection[A]
 
     @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
-    type MongoTypedCursor[A <: DBObject] = com.novus.casbah.MongoTypedCursor[A]
+    type MongoTypedCursor[A <: com.mongodb.DBObject] = com.novus.casbah.MongoTypedCursor[A]
   }
   package mongodb {
     package object conversions {
