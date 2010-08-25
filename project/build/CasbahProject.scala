@@ -10,52 +10,32 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
   lazy val gridfs = project("casbah-gridfs", "casbah-gridfs", new CasbahGridFSProject(_), core)
   lazy val mapper = project("casbah-mapper", "casbah-mapper", new CasbahMapperProject(_), core)
 
-  class CasbahCommonsProject(info: ProjectInfo) extends DefaultProject(info) {
+  abstract class CasbahBaseProject(info: ProjectInfo) extends DefaultProject(info) {
     override def compileOptions = 
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
+    // Testing Deps
+    val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
+    val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
+  }
+
+  class CasbahCommonsProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     // Runtime deps
     val mongodb = "org.mongodb" % "mongo-java-driver" % "2.1"
     val configgy = "net.lag" % "configgy" % "2.0.0" intransitive()
     val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
-    // Testing Deps
-    val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
-    val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
   }
 
-  class CasbahCoreProject(info: ProjectInfo) extends DefaultProject(info) {
-    override def compileOptions = 
-      super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
+  class CasbahCoreProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     // Runtime Deps
     val scalaTime = "org.scala-tools" % "time" % "2.8.0-0.2-SNAPSHOT"
-    // Testing Deps
-    val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
-    val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
   }
 
-  class CasbahQueryProject(info: ProjectInfo) extends DefaultProject(info) {
-    override def compileOptions = 
-      super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
-    // Testing Deps
-    val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
-    val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
+  class CasbahQueryProject(info: ProjectInfo) extends CasbahBaseProject(info)
 
-  }
+  class CasbahGridFSProject(info: ProjectInfo) extends CasbahBaseProject(info)
 
-  class CasbahGridFSProject(info: ProjectInfo) extends DefaultProject(info) {
-    override def compileOptions = 
-      super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
-    // Testing Deps
-    val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
-    val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
-  }
-
-  class CasbahMapperProject(info: ProjectInfo) extends DefaultProject(info) {
-    override def compileOptions = 
-      super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
+  class CasbahMapperProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     val objenesis = "org.objenesis" % "objenesis" % "1.2"
-    // Testing Deps
-    val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
-    val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
   }
 
   // Repositories
