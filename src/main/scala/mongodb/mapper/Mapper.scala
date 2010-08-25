@@ -9,7 +9,8 @@ import java.beans.{Introspector, PropertyDescriptor}
 import scala.reflect.{BeanInfo, Manifest}
 import scala.collection.JavaConversions._
 import scala.collection.mutable.{Buffer, ArrayBuffer}
-import scala.collection.immutable.List
+import scala.collection.immutable.{List, Map => IMap}
+import scala.collection.mutable.{Map => MMap, HashMap}
 
 import _root_.scala.math.{BigDecimal => ScalaBigDecimal}
 import java.math.{BigDecimal => JavaBigDecimal, RoundingMode, MathContext}
@@ -132,8 +133,8 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
     Mapper(innerType.getName) match {
       case Some(mapper) => mapper
       case None if useTypeHints_? => Mapper(p.getClass.getName) match {
-	case Some(mapper) => mapper
-	case _ => throw new MissingMapper(ReadMapper, p.getClass)
+        case Some(mapper) => mapper
+        case _ => throw new MissingMapper(ReadMapper, p.getClass)
       }
       case _ => throw new MissingMapper(ReadMapper, innerType)
     }
@@ -146,9 +147,9 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
       case Some(mapper) => mapper
       case None if useTypeHints_? => dbo.get(TYPE_HINT) match {
         case Some(typeHint: String) => Mapper(typeHint) match {
-	  case Some(mapper) => mapper
-	  case _ => throw new MissingMapper(WriteMapper, Class.forName(typeHint))
-	}
+          case Some(mapper) => mapper
+          case _ => throw new MissingMapper(WriteMapper, Class.forName(typeHint))
+        }
         case _ => throw new MissingMapper(WriteMapper, innerType, "no @UseTypeHints on %s".format(this))
       }
       case _ => throw new MissingMapper(WriteMapper, innerType)
@@ -349,10 +350,15 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   }
 
   private def writeMap(p: P, prop: RichPropertyDescriptor, src: MongoDBObject) = {
-    // XXX: provide sensible defaults based on (im)mutable interface used/inferred
-    def init: scala.collection.Map[String, Any] = scala.collection.mutable.HashMap.empty[String, Any]
+    def init: scala.collection.Map[String, Any] =
+      if (prop.outerType.isAssignableFrom(classOf[IMap[_,_]]))
+        IMap.empty[String, Any]
+      else if (prop.outerType.isAssignableFrom(classOf[MMap[_,_]]))
+        HashMap.empty[String, Any]
+      else
+	throw new Exception("%s: unable to find proper Map[String, Any] impl".format(prop))
 
-    val dst = src.map {
+    val dst = init ++ src.map {
       case (k, v) =>
         k -> (v match {
           case nested: DBObject if prop.embedded_? =>
