@@ -25,10 +25,8 @@ let b:scommenter_company_name = 'Novus Partners, Inc. <http://novus.com>'
 "	\' limitations under the License.',
 "	\'',
 "    \' For questions and comments about this product, please see the project page at:',
-"    \'      http://bitbucket.org/novus/casbah',
+"    \'      http://github.com/novus/casbah',
 "    \'',
-"	\' NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work',
-"	\' by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver',
 "    \] 
 
 function! SCommenter_OwnFileComments()
@@ -49,12 +47,10 @@ function! SCommenter_OwnFileComments()
 	call append(14, ' *')
     call append(15, ' * For questions and comments about this product, please see the project page at:')
     call append(16, ' *')
-    call append(17, ' *     http://bitbucket.org/novus/casbah')
+    call append(17, ' *     http://github.com/novus/casbah')
     call append(18, ' * ')
-	call append(19, ' * NOTICE: Portions of this work are derived from the Apache License 2.0 "mongo-scala-driver" work')
-	call append(20, ' * by Alexander Azarov <azarov@osinka.ru>, available from http://github.com/alaz/mongo-scala-driver')
-    call append(21, ' */')
-    call append(22, '')
+    call append(19, ' */')
+    call append(20, '')
 endfunction
 
 let tlist_scala_settings = 'scala;p:packages;c:classes;t:traits;T:types;m:methods;C:constants;l:local variables;c:case classes;o:objects;r:defs'
