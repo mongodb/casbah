@@ -25,6 +25,7 @@ package com.novus.casbah
 package mongodb
 
 import Implicits._
+import Imports.ObjectId
 import util.Logging
 
 import com.mongodb._
@@ -134,6 +135,12 @@ trait MongoDBObject extends Map[String, AnyRef] with Logging {
   def removeField(key: String) = underlying.removeField(key)
   def toMap = underlying.toMap
   def asDBObject = underlying
+
+  // convenice method to get _id as ObjectId
+  def `_id`: Option[ObjectId] = get("_id") match {
+    case Some(id: ObjectId) => Some(id)
+    case _ => None
+  }
 }
 
 
