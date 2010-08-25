@@ -130,24 +130,30 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
   def readMapper(p: AnyRef) = {
     log.trace("readMapper: %s -> %s, %s", p, Mapper(innerType.getName).isDefined, Mapper(p.getClass.getName).isDefined)
     Mapper(innerType.getName) match {
-      case Some(mapper) => Some(mapper)
-      case None if useTypeHints_? => Mapper(p.getClass.getName)
-      case _ => None
+      case Some(mapper) => mapper
+      case None if useTypeHints_? => Mapper(p.getClass.getName) match {
+	case Some(mapper) => mapper
+	case _ => throw new MissingMapper(ReadMapper, p.getClass)
+      }
+      case _ => throw new MissingMapper(ReadMapper, innerType)
     }
-  }.asInstanceOf[Option[Mapper[AnyRef]]]
+  }.asInstanceOf[Mapper[AnyRef]]
 
   def writeMapper(dbo: MongoDBObject) = {
     log.trace("writeMapper: %s -> %s, %s", dbo, Mapper(innerType.getName).isDefined,
               dbo.get(TYPE_HINT).isDefined && Mapper(dbo(TYPE_HINT).asInstanceOf[String]).isDefined)
     Mapper(innerType.getName) match {
-      case Some(mapper) => Some(mapper)
+      case Some(mapper) => mapper
       case None if useTypeHints_? => dbo.get(TYPE_HINT) match {
-        case Some(typeHint: String) => Mapper(typeHint)
-        case _ => None
+        case Some(typeHint: String) => Mapper(typeHint) match {
+	  case Some(mapper) => mapper
+	  case _ => throw new MissingMapper(WriteMapper, Class.forName(typeHint))
+	}
+        case _ => throw new MissingMapper(WriteMapper, innerType, "no @UseTypeHints on %s".format(this))
       }
-      case _ => None
+      case _ => throw new MissingMapper(WriteMapper, innerType)
     }
-  }.asInstanceOf[Option[Mapper[AnyRef]]]
+  }.asInstanceOf[Mapper[AnyRef]]
 
   override def equals(o: Any): Boolean = o match {
     case other: RichPropertyDescriptor => pd.equals(other.pd)
@@ -225,7 +231,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   private def embeddedPropValue(p: P, prop: RichPropertyDescriptor, embedded: AnyRef) = {
     log.trace("EMB: %s -> %s -> %s", p, prop, embedded)
 
-    val dbo = prop.readMapper(embedded).get.asDBObject(embedded match {
+    val dbo = prop.readMapper(embedded).asDBObject(embedded match {
       case Some(vv: AnyRef) if prop.option_? => vv
       case _ => embedded
     })
@@ -313,7 +319,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   }
 
   private def writeNested(p: P, prop: RichPropertyDescriptor, nested: MongoDBObject) = {
-    val e = prop.writeMapper(nested).get.asObject(nested)
+    val e = prop.writeMapper(nested).asObject(nested)
     val write = prop.write.get
     log.trace("write nested '%s' to '%s'.'%s' using: %s", nested, p, prop.key, write)
     prop.write(p, if (prop.option_?) Some(e) else e)
@@ -329,9 +335,9 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case (list, (k, v)) =>
         init ++ (list.toList ::: (v match {
           case nested: MongoDBObject if prop.embedded_? =>
-            prop.writeMapper(nested).get.asObject(nested)
+            prop.writeMapper(nested).asObject(nested)
           case nested: DBObject if prop.embedded_? =>
-            prop.writeMapper(nested).get.asObject(nested)
+            prop.writeMapper(nested).asObject(nested)
           case _ => v
         }) :: Nil)
     }
@@ -351,7 +357,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case (k, v) =>
         k -> (v match {
           case nested: DBObject if prop.embedded_? =>
-            prop.writeMapper(nested).get.asObject(nested)
+            prop.writeMapper(nested).asObject(nested)
           case _ => v
         })
     }
@@ -454,3 +460,8 @@ trait OJ {
   def newInstance[T: Manifest](clazz: Class[T]): T =
     manifest[T].erasure.cast(objenesis.newInstance(clazz)).asInstanceOf[T]
 }
+
+private[mapper] sealed trait MapperDirection
+private[mapper] case object ReadMapper extends MapperDirection
+private[mapper] case object WriteMapper extends MapperDirection
+class MissingMapper(d: MapperDirection, c: Class[_], m: String = "no further info") extends Exception("%s is missing for: %s (%s)".format(d, c, m))
