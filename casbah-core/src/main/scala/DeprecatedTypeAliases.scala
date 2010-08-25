@@ -19,78 +19,149 @@
  * 
  */
 
-package com.novus.casbah
-
 import com.novus.casbah.Imports._
 
 /** 
+ * BRIDGE CODE.
  * Type aliases for deprecated object names (aka the "Old" object naming)
  * These should not be used and are provided for backwards compatibility only.
  *
  * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0, 06/22/10
+ * @version 1.1
  * @since 1.0
- * @deprecated
+ * @deprecated The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.
  */
-package object mongodb {
-  import com.mongodb.Mongo
-  /**
-   * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
-   * Apply methods are called as MongoConnectionection(<params>)
-   *
-   * @author Brendan W. McAdams <bmcadams@novus.com>
-   * @version 1.0
-   */
-  @deprecated("ScalaMongoConn has been deprecated. Please use com.novus.casbah.mongodb.MongoConnection instead.")
-  object ScalaMongoConn {
-    def apply() = new MongoConnection(new Mongo())
-    def apply(addr: DBAddress) = new MongoConnection(new Mongo(addr))
-    def apply(left: DBAddress, right: DBAddress) = new MongoConnection(new Mongo(left, right))
-    def apply(left: DBAddress, right: DBAddress, options: com.mongodb.MongoOptions) = new MongoConnection(new Mongo(left, right, options))
-    def apply(addr: DBAddress, options: com.mongodb.MongoOptions) = new MongoConnection(new Mongo(addr, options))
-    def apply(host: String) = new MongoConnection(new Mongo(host))
-    def apply(host: String, port: Int) = new MongoConnection(new Mongo(host, port))
-    //def apply(host: String, options: MongoOptions) = new MongoConnection(new Mongo(host, options))
-  }
 
-  @deprecated("ScalaMongoDB has been deprecated. Please use com.novus.casbah.mongodb.MongoDB instead.")
-  type ScalaMongoDB = MongoDB
-  @deprecated("ScalaDBObject has been deprecated. Please use com.novus.casbah.mongodb.MongoDBObject instead.")
-  type ScalaDBObject = MongoDBObject
-  @deprecated("ScalaMongoConn has been deprecated. Please use com.novus.casbah.mongodb.MongoConnection instead.")
-  type ScalaMongoConn = MongoConnection
-  @deprecated("ScalaMongoCollectionWrapper has been deprecated. Please use com.novus.casbah.mongodb.MongoCollectionWrapper instead.")
-  type ScalaMongoCollectionWrapper = MongoCollectionWrapper
-  @deprecated("ScalaMongoCollection has been deprecated. Please use com.novus.casbah.mongodb.MongoCollection instead.")
-  type ScalaMongoCollection = MongoCollection
-  @deprecated("ScalaTypedMongoCollection[A <: DBObject] has been deprecated. Please use com.novus.casbah.mongodb.MongoTypedCollection[A <: DBObject] instead.")
-  type ScalaTypedMongoCollection[A <: DBObject] = MongoTypedCollection[A]
-  @deprecated("ScalaMongoCursorWrapper[A <: DBObject] has been deprecated. Please use com.novus.casbah.mongodb.MongoCursorWrapper[A <: DBObject] instead.")
-  type ScalaMongoCursorWrapper[A <: DBObject] = MongoCursorWrapper[A]
-  @deprecated("ScalaMongoCursor has been deprecated. Please use com.novus.casbah.mongodb.MongoCursor instead.")
-  type ScalaMongoCursor = MongoCursor
-  @deprecated("ScalaTypedMongoCursor[A <: DBObject] has been deprecated. Please use com.novus.casbah.mongodb.MongoTypedCursor[A <: DBObject] instead.")
-  type ScalaTypedMongoCursor[A <: DBObject] = MongoTypedCursor[A]
+package com.novus.casbah {
+  package object mongodb {
+    import com.mongodb.Mongo
 
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    val BaseImports = com.novus.casbah.BaseImports
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type BaseImports = com.novus.casbah.BaseImports
 
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    val MongoTypeImports = com.novus.casbah.TypeImports
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type MongoTypeImports = com.novus.casbah.TypeImports
 
-  trait BaseImports {
-    val MongoConnection = com.novus.casbah.MongoConnection
-    val MongoDBAddress = com.novus.casbah.MongoDBAddress
-    //val GridFS = com.novus.casbah.gridfs.GridFS
-    val MapReduceCommand = com.novus.casbah.map_reduce.MapReduceCommand
-  }
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    val TypeImports = com.novus.casbah.TypeImports
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type TypeImports = com.novus.casbah.TypeImports
+    
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    val Implicits = com.novus.casbah.Implicits
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type Implicits = com.novus.casbah.Implicits
 
-  trait TypeImports {
-    type MongoConnection = com.novus.casbah.MongoConnection
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    val Imports = com.novus.casbah.Imports
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type Imports = com.novus.casbah.Imports
+
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
     type MongoCollection = com.novus.casbah.MongoCollection
-    type MongoDB = com.novus.casbah.MongoDB
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type MongoCollectionWrapper = com.novus.casbah.MongoCollectionWrapper
+
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    val MongoConnection = com.novus.casbah.MongoConnection
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type MongoConnection = com.novus.casbah.MongoConnection
+
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
     type MongoCursor = com.novus.casbah.MongoCursor
-    type MapReduceCommand = com.novus.casbah.map_reduce.MapReduceCommand
-    type MapReduceResult = com.novus.casbah.map_reduce.MapReduceResult
-    type DBAddress = com.mongodb.DBAddress
+
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type MongoCursorWrapper[A <: DBObject] = com.novus.casbah.MongoCursorWrapper[A]
+
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type MongoDB = com.novus.casbah.MongoDB
+
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    val MongoDBAddress = com.novus.casbah.MongoDBAddress
+
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    val MongoDBObject = com.novus.casbah.commons.MongoDBObject
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type MongoDBObject = com.novus.casbah.commons.MongoDBObject
+
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type MongoDBObjectBuilder = com.novus.casbah.commons.MongoDBObjectBuilder
+
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type MongoTypedCollection[A <: DBObject] = com.novus.casbah.MongoTypedCollection[A]
+
+    @deprecated("The com.novus.casbah.mongodb package has been deprecated in favor of com.novus.casbah; please update your code accordingly.")
+    type MongoTypedCursor[A <: DBObject] = com.novus.casbah.MongoTypedCursor[A]
   }
+  package mongodb {
+    package object conversions {
+      @deprecated("The com.novus.casbah.mongodb.conversions package has been deprecated in favor of com.novus.casbah.conversions; please update your code accordingly.")
+      type MongoConversionHelper = com.novus.casbah.conversions.MongoConversionHelper
+    }
+    package object scala {
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      val DeregisterConversionHelpers = com.novus.casbah.conversions.scala.DeregisterConversionHelpers
+
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      val DeregisterJodaTimeConversionHelpers = com.novus.casbah.conversions.scala.DeregisterJodaTimeConversionHelpers
+
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      type Deserializers = com.novus.casbah.conversions.scala.Deserializers
+
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      type JodaDateTimeDeserializer = com.novus.casbah.conversions.scala.JodaDateTimeDeserializer
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      type JodaDateTimeHelpers = com.novus.casbah.conversions.scala.JodaDateTimeHelpers
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      type JodaDateTimeSerializer = com.novus.casbah.conversions.scala.JodaDateTimeSerializer
+
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      val RegisterConversionHelpers = com.novus.casbah.conversions.scala.RegisterConversionHelpers
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      val RegisterJodaTimeConversionHelpers = com.novus.casbah.conversions.scala.RegisterJodaTimeConversionHelpers
+
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      type ScalaJCollectionSerializer = com.novus.casbah.conversions.scala.ScalaJCollectionSerializer
+        
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      type ScalaRegexSerializer = com.novus.casbah.conversions.scala.ScalaRegexSerializer
+
+      @deprecated("The com.novus.casbah.mongodb.conversions.scala package has been deprecated in favor of com.novus.casbah.conversions.scala; please update your code accordingly.")
+      type Serializers = com.novus.casbah.conversions.scala.Serializers
+    }
+
+    /*package object gridfs {
+      @deprecated("The com.novus.casbah.mongodb.gridfs package has been deprecated in favor of com.novus.casbah.gridfs; please update your code accordingly.")
+      val GridFS = com.novus.casbah.gridfs.GridFS
+      @deprecated("The com.novus.casbah.mongodb.gridfs package has been deprecated in favor of com.novus.casbah.gridfs; please update your code accordingly.")
+      type GridFS = com.novus.casbah.gridfs.GridFS
+
+      @deprecated("The com.novus.casbah.mongodb.gridfs package has been deprecated in favor of com.novus.casbah.gridfs; please update your code accordingly.")
+      type GridFSDBFile = com.novus.casbah.gridfs.GridFSDBFile
+
+      @deprecated("The com.novus.casbah.mongodb.gridfs package has been deprecated in favor of com.novus.casbah.gridfs; please update your code accordingly.")
+      type GridFSFile = com.novus.casbah.gridfs.GridFSFile
+
+      @deprecated("The com.novus.casbah.mongodb.gridfs package has been deprecated in favor of com.novus.casbah.gridfs; please update your code accordingly.")
+      type GridFSInputFile = com.novus.casbah.gridfs.GridFSInputFile
+    }*/
+
+    package object map_reduce {
+      @deprecated("The com.novus.casbah.mongodb.map_reduce package has been deprecated in favor of com.novus.casbah.map_reduce; please update your code accordingly.")
+      val MapReduceCommand = com.novus.casbah.map_reduce.MapReduceCommand
+      @deprecated("The com.novus.casbah.mongodb.map_reduce package has been deprecated in favor of com.novus.casbah.map_reduce; please update your code accordingly.")
+      type MapReduceCommand = com.novus.casbah.map_reduce.MapReduceCommand
+  
+      @deprecated("The com.novus.casbah.mongodb.map_reduce package has been deprecated in favor of com.novus.casbah.map_reduce; please update your code accordingly.")
+      type MapReduceError = com.novus.casbah.map_reduce.MapReduceError
+
+      @deprecated("The com.novus.casbah.mongodb.map_reduce package has been deprecated in favor of com.novus.casbah.map_reduce; please update your code accordingly.")
+      type MapReduceResult = com.novus.casbah.map_reduce.MapReduceResult
+    }
+  }
+
 }
-
-
-// vim: set ts=2 sw=2 sts=2 et:
