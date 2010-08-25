@@ -259,7 +259,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case null => {
         if (prop.id_? && prop.autoId_?) {
           val id = new ObjectId
-          prop.write.get.invoke(p, id)
+          prop.write(p, id)
           Some(id)
         } else { None }
       }
@@ -283,6 +283,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
         Some(embeddedPropValue(p, prop, v))
       }
       case None if prop.option_? => None
+      case None if !prop.option_? => throw new Exception("%s should be option but is not?".format(prop))
       case v => Some(v)
     }) match {
       case Some(bd: ScalaBigDecimal) => Some(bd(MATH_CONTEXT).toDouble)
@@ -320,8 +321,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
 
   private def writeNested(p: P, prop: RichPropertyDescriptor, nested: MongoDBObject) = {
     val e = prop.writeMapper(nested).asObject(nested)
-    val write = prop.write.get
-    log.trace("write nested '%s' to '%s'.'%s' using: %s", nested, p, prop.key, write)
+    log.trace("write nested '%s' to '%s'.'%s' using: %s -OR- %s", nested, p, prop.key, prop.write, prop.field)
     prop.write(p, if (prop.option_?) Some(e) else e)
   }
 
@@ -342,9 +342,8 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
         }) :: Nil)
     }
 
-    val write = prop.write.get
-    log.trace("write list '%s' (%s) to '%s'.'%s' using %s",
-              dst, dst.getClass.getName, p, prop.key, write)
+    log.trace("write list '%s' (%s) to '%s'.'%s' using %s -OR- %s",
+              dst, dst.getClass.getName, p, prop.key, prop.write, prop.field)
 
     prop.write(p, dst)
   }
