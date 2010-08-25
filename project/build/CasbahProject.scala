@@ -5,9 +5,10 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
   override def parallelExecution = true
 
   lazy val commons = project("casbah-commons", "casbah-commons", new CasbahCommonsProject(_))
-  lazy val core = project("casbah-core", "casbah-core", new CasbahCoreProject(_), query)
+  lazy val core = project("casbah-core", "casbah-core", new CasbahCoreProject(_), commons, query)
   lazy val query = project("casbah-query", "casbah-query", new CasbahQueryProject(_), commons)
   lazy val gridfs = project("casbah-gridfs", "casbah-gridfs", new CasbahGridFSProject(_), core)
+  lazy val mapper = project("casbah-mapper", "casbah-mapper", new CasbahMapperProject(_), core)
 
   class CasbahCommonsProject(info: ProjectInfo) extends DefaultProject(info) {
     override def compileOptions = 
@@ -48,6 +49,14 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
     val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
   }
 
+  class CasbahMapperProject(info: ProjectInfo) extends DefaultProject(info) {
+    override def compileOptions = 
+      super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
+    val objenesis = "org.objenesis" % "objenesis" % "1.2"
+    // Testing Deps
+    val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
+    val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
+  }
 
   // Repositories
   val scalaToolsRepo = "Scala Tools Release Repository" at "http://scala-tools.org/repo-releases"
