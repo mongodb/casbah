@@ -120,6 +120,17 @@ object PiggyMapper extends Mapper[Piggy] {
 object WOOM_Mapper extends Mapper[WorldOutsideOfManhattan]
 object OAB_Mapper extends Mapper[OnABoat]
 
+@BeanInfo
+case class One(@Key one: Option[String] = Some("one"))
+
+@BeanInfo
+case class Two(@Key two: String = "two") {
+  @Key val three: Option[String] = None
+}
+
+object OneMapper extends Mapper[One]
+object TwoMapper extends Mapper[Two]
+
 class MapperSpec extends Specification with PendingUntilFixed {
   detailedDiffs()
 
@@ -130,6 +141,8 @@ class MapperSpec extends Specification with PendingUntilFixed {
     PiggyMapper
     WOOM_Mapper
     OAB_Mapper
+    OneMapper
+    TwoMapper
   }
 
   "a mapper" should {
@@ -219,6 +232,19 @@ class MapperSpec extends Specification with PendingUntilFixed {
         after.never_here must beNone
       }
     }
+
+    "preserve default values" in {
+      val one = One()
+      val _one = OneMapper.asObject(OneMapper.asDBObject(one))
+      _one must_== one
+      _one.one must beSome[String].which { _ == "one" }
+
+      val two = Two()
+      val _two = TwoMapper.asObject(TwoMapper.asDBObject(two))
+      _two must_== two
+      _two.two must_== "two"
+      _two.three must beNone
+    } pendingUntilFixed
   }
 
   "a mapped collection" should {

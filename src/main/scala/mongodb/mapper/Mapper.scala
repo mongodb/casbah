@@ -464,12 +464,17 @@ object MapperUtils {
 }
 
 trait OJ {
-  import org.objenesis.ObjenesisStd
+  import org.objenesis._
 
-  val objenesis = new ObjenesisStd
+  val std = new ObjenesisStd
+  val ser = new ObjenesisSerializer
+
+  def choose(clazz: Class[_]) =
+    if (classOf[java.io.Serializable].isAssignableFrom(clazz)) ser
+    else std
 
   def newInstance[T: Manifest](clazz: Class[T]): T =
-    manifest[T].erasure.cast(objenesis.newInstance(clazz)).asInstanceOf[T]
+    manifest[T].erasure.cast(choose(clazz).newInstance(clazz)).asInstanceOf[T]
 }
 
 private[mapper] sealed trait MapperDirection
