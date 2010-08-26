@@ -118,7 +118,6 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
   lazy val outerType = pd.getPropertyType.asInstanceOf[Class[Any]]
 
   lazy val option_? = outerType == classOf[Option[_]]
-  lazy val readOnly_? = write == null
   lazy val id_? = annotated_?(pd, classOf[ID])
   lazy val autoId_? = id_? && annotation(pd, classOf[ID]).get.auto
   lazy val embedded_? = annotated_?(pd, classOf[Key]) && (annotated_?(pd, classOf[UseTypeHints]) || Mapper(innerType.getName).isDefined)
@@ -403,6 +402,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
           case x => x
         })
       }
+      case None if prop.option_? => prop.write(p, None)
       case _ =>
     }
 
@@ -413,7 +413,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   }
 
   def asObject(dbo: MongoDBObject): P =
-    allProps.filter(!_.readOnly_?).foldLeft(empty) {
+    allProps.foldLeft(empty) {
       (p, prop) => write(p, prop, dbo.get(prop.key))
       p
     }

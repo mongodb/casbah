@@ -242,6 +242,6 @@ class MapperSpec extends Specification with PendingUntilFixed {
       _two must_== two
       _two.two must_== "two"
       _two.three must beNone
-    } pendingUntilFixed
+    }
   }
 }
