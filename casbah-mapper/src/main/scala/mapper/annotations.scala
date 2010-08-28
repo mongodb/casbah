@@ -7,4 +7,5 @@ package object annotations {
   type ID           = raw.ID           @getter
   type Key          = raw.Key          @getter
   type UseTypeHints = raw.UseTypeHints @getter
+  type KeyStrategy  = raw.KeyStrategy  @getter
 }
