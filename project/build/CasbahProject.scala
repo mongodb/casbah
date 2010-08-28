@@ -2,7 +2,8 @@ import sbt._
 
 class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterous.Publish {
 
-  override def parallelExecution = true
+  // this was nice while it lasted
+  override def parallelExecution = false
 
   lazy val commons = project("casbah-commons", "casbah-commons", new CasbahCommonsProject(_))
   lazy val core = project("casbah-core", "casbah-core", new CasbahCoreProject(_), commons, query)
