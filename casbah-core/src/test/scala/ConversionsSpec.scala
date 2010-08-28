@@ -157,6 +157,23 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
       getConvertedDate.get must throwA[ClassCastException] 
     }
+    "toString-ing a JODA Date with JODA Conversions loaded doesn't choke horribly." in {
+      RegisterConversionHelpers()
+      val jodaEntry: DBObject = MongoDBObject("type" -> "jdk",
+                                              "date" -> jdkDate)
+
+      jodaEntry must notBeNull
+      /*jodaEntry.getAs[DateTime]("date") must beSome(jdkDate)
+      // Casting it as something it isn't will fail
+      lazy val getDate = { jodaEntry.getAs[JDKDate]("date") } 
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
+      getDate.get must throwA[ClassCastException] */
+      RegisterJodaTimeConversionHelpers()
+      
+      val json = jodaEntry.toString
+
+      json must notBeNull
+    }
   }
 }
 // vim: set ts=2 sw=2 sts=2 et:
