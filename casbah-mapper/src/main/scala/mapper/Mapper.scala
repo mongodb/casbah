@@ -132,6 +132,25 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
     case _ => false
   }
 
+  lazy val mapKeyStrategy = annotation[KeyStrategy](pd, classOf[KeyStrategy]) match {
+    case Some(ann) => Some(ann.value.newInstance.asInstanceOf[MapKeyStrategy])
+    case _ => None
+  }
+
+  def mapKey(k: Any): String = {
+    k match {
+      case s: String if s != null && s != "" => s
+      case _ => mapKeyStrategy match {
+	case Some(strategy) => strategy.transform(k)
+	case _ => {
+	  log.warning("%s: transforming non-string map key '%s' (%s) using toString",
+		      this, k, (if (k == null) "NULL" else k.asInstanceOf[AnyRef].getClass))
+	  "%s".format(k)
+	}
+      }
+    }
+  }
+
   def readMapper(p: AnyRef) = {
     log.trace("readMapper: %s -> %s, %s", p, Mapper(innerType.getName).isDefined, Mapper(p.getClass.getName).isDefined)
     Mapper(innerType.getName) match {
@@ -272,7 +291,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case b: Buffer[AnyRef] if prop.embedded_? => Some(b.map(embeddedPropValue(p, prop, _)))
       case m if prop.map_? => Some(m.asInstanceOf[scala.collection.Map[String, Any]].map {
         case (k, v) => {
-          k -> (if (prop.embedded_?) embeddedPropValue(p, prop, v.asInstanceOf[AnyRef])
+          prop.mapKey(k) -> (if (prop.embedded_?) embeddedPropValue(p, prop, v.asInstanceOf[AnyRef])
                 else v)
         }
       }.asDBObject)
@@ -479,3 +498,7 @@ private[mapper] sealed trait MapperDirection
 private[mapper] case object ReadMapper extends MapperDirection
 private[mapper] case object WriteMapper extends MapperDirection
 class MissingMapper(d: MapperDirection, c: Class[_], m: String = "no further info") extends Exception("%s is missing for: %s (%s)".format(d, c, m))
+
+trait MapKeyStrategy {
+  def transform(k: Any): String
+}
