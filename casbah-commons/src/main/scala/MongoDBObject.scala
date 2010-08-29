@@ -149,7 +149,7 @@ object MongoDBObject  {
 
 }
 
-sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), MongoDBObject] {
+sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), DBObject] {
   import com.mongodb.BasicDBObjectBuilder 
 
   protected val empty = BasicDBObjectBuilder.start
@@ -160,7 +160,7 @@ sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(Stri
   }
 
   def clear() { elems = empty }
-  def result: MongoDBObject = new MongoDBObject { val underlying = elems.get }
+  def result: DBObject = new MongoDBObject { val underlying = elems.get }
 }
 
 // vim: set ts=2 sw=2 sts=2 et:
