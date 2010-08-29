@@ -20,7 +20,7 @@
  */
 
 package com.novus.casbah
-package conversions
+package test 
 
 import com.novus.casbah.commons.Imports._
 
@@ -62,6 +62,19 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
       c must beSome(List(5, 4, 3, 2, 1))
     }
   }
+
+  "MongoDBObject issues reported by users" should {
+    "Not break like tommy chheng reported" in {
+      val q = MongoDBObject.empty
+
+      val fields = MongoDBObject("name" -> 1)
+
+      // Simple test of Is it a DBObject?
+      q must haveSuperClass[DBObject]
+      fields must haveSuperClass[DBObject]
+    }
+  }
+
 }
 
 
