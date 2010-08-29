@@ -53,7 +53,7 @@ trait BarewordQueryOperator extends Logging {
     log.trace("Apply - %s", fields)
     val bldr = MongoDBObject.newBuilder
     for ((k, v) <- fields) bldr += k -> v
-    MongoDBObject(oper -> bldr.result.asDBObject).asDBObject
+    MongoDBObject(oper -> bldr.result)
   }
 
 }

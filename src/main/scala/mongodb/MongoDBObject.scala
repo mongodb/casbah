@@ -41,7 +41,7 @@ import scala.reflect._
  * due to conflicts between the java methods and scala methods.
  * Implicits and explicit methods allow you to convert to java though.
  * 
- * This is a very crappy, thin interface and likely to go away. Use it at your own risk.
+ * We will likely reimplement DBObject itself longterm as a pure base. on the wire format
  * @author Brendan W. McAdams <bmcadams@novus.com>
  * @version 1.0, 06/02/10
  * @since 1.0
@@ -63,7 +63,7 @@ trait MongoDBObject extends Map[String, AnyRef] with Logging {
 
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A <% AnyRef : Manifest](key: String): Option[A] = {
+  def getAs[A <: Any : Manifest](key: String): Option[A] = {
     require(manifest[A] != manifest[scala.Nothing], "Type inference failed; getAs[A]() requires an explicit type argument (e.g. dbObject[<ReturnType](\"someKey\") ) to function correctly.")
     underlying.get(key) match {
       case null => None
@@ -78,12 +78,12 @@ trait MongoDBObject extends Map[String, AnyRef] with Logging {
    * Your type parameter must be that of the item at the bottom of the tree you specify...
    * If cast fails - it's your own fault.
    */
-  def expand[A <% AnyRef : Manifest](key: String): Option[A] = {
+  def expand[A <: Any : Manifest](key: String): Option[A] = {
     require(manifest[A] != manifest[scala.Nothing], "Type inference failed; expand[A]() requires an explicit type argument (e.g. dbObject[<ReturnType](\"someKey\") ) to function correctly.")
-    @tailrec def _dot(dbObj: DBObject, key: String): Option[DBObject] = 
+    @tailrec def _dot(dbObj: MongoDBObject, key: String): Option[_] = 
       if (key.indexOf('.') < 0) {
         log.trace("_dot returning on key '%s'", key)
-        dbObj.getAs[DBObject](key) 
+        dbObj.getAs[AnyRef](key) 
       }
       else {
         val (pfx, sfx) = key.splitAt(key.indexOf('.'))
@@ -139,15 +139,15 @@ trait MongoDBObject extends Map[String, AnyRef] with Logging {
 
 object MongoDBObject  {
   
-  def empty = new MongoDBObject { val underlying = new BasicDBObject }
+  def empty: DBObject = new MongoDBObject { val underlying = new BasicDBObject }
 
-  def apply[A <: String, B <: Any](elems: (A, B)*) = (newBuilder[A, B] ++= elems).result
+  def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result
 
   def newBuilder[A <: String, B <: Any]: MongoDBObjectBuilder = new MongoDBObjectBuilder
 
 }
 
-protected[mongodb] class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), MongoDBObject] {
+sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), DBObject] {
   protected val empty = BasicDBObjectBuilder.start
   protected var elems = empty
   override def +=(x: (String, Any)) = { 
@@ -156,7 +156,7 @@ protected[mongodb] class MongoDBObjectBuilder extends scala.collection.mutable.B
   }
 
   def clear() { elems = empty }
-  def result = new MongoDBObject { val underlying = elems.get }
+  def result: DBObject = new MongoDBObject { val underlying = elems.get }
 }
 
 // vim: set ts=2 sw=2 sts=2 et:
