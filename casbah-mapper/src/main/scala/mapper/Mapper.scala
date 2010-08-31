@@ -458,7 +458,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
 }
 
 object MapperUtils {
-  val MATH_CONTEXT = new MathContext(16, RoundingMode.UNNECESSARY);
+  val MATH_CONTEXT = new MathContext(16, RoundingMode.HALF_UP);
   val TYPE_HINT = "_typeHint"
 
   def annotation[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Option[A] =
