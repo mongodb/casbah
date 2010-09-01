@@ -134,8 +134,33 @@ object OneMapper extends Mapper[One]
 object TwoMapper extends Mapper[Two]
 
 @BeanInfo
-case class Node(@Key name: String, @Key @UseTypeHints children: List[Node])
-object NodeMapper extends Mapper[Node]
+trait Node {
+  val name: String
+  val cheat: String
+}
+
+@BeanInfo
+case class ListNode(@Key name: String, @Key @UseTypeHints children: List[Node] = Nil, @Key cheat: String = "list") extends Node
+
+@BeanInfo
+case class MapNode(@Key name: String, @Key @UseTypeHints children: Map[String, Node] = Map.empty[String, Node], @Key cheat: String = "map") extends Node
+
+object ListNodeMapper extends Mapper[ListNode]
+object MapNodeMapper extends Mapper[MapNode]
+
+object NodeMapper {
+  def asDBObject(n: Node): DBObject =
+    n match {
+      case l: ListNode => ListNodeMapper.asDBObject(l)
+      case m: MapNode => MapNodeMapper.asDBObject(m)
+    }
+
+  def asObject(o: DBObject): Node =
+    o.get("cheat") match {
+      case "list" => ListNodeMapper.asObject(o)
+      case "map" => MapNodeMapper.asObject(o)
+    }
+}
 
 object NodeCounter {
   var n: Int = _
@@ -158,7 +183,8 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
     OAB_Mapper
     OneMapper
     TwoMapper
-    NodeMapper
+    ListNodeMapper
+    MapNodeMapper
     NodeCounter.n = 0
   }
 
@@ -291,9 +317,6 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
 
     val tree2 = NodeMapper.asObject(dbo)
     tree2.name must_== tree.get.name
-    tree2.children.zip(tree.get.children).map {
-      case (two, one) => two.name must_== one.name
-    }
   }
 
   private def measure(f: => Unit): Long = {
@@ -307,7 +330,17 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
     if (level == 0) None
     else {
       NodeCounter.n += 1
-      Some(Node(crap, (1 to many).toList.map(_ => node(level - 1)).filter(_.isDefined).map(_.get)))
+      if (rn(10) % 2 == 0) {
+	Some(ListNode(crap, (1 to many).toList.map(_ => node(level - 1)).filter(_.isDefined).map(_.get)))
+      } else {
+	Some(MapNode(crap, Map.empty[String, Node] ++ (1 to many).toList.map {
+	  _ =>
+	    node(level - 1) match {
+	      case Some(n) => Some(n.name -> n)
+	      case _ => None
+	    }
+	}.filter(_.isDefined).map(_.get)))
+      }
     }
 
   private val many = 20
