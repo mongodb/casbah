@@ -1,3 +1,5 @@
+// this stuff rocks!
+
 package com.novus.casbah
 package mapper
 
