@@ -141,12 +141,12 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
     k match {
       case s: String if s != null && s != "" => s
       case _ => mapKeyStrategy match {
-	case Some(strategy) => strategy.transform(k)
-	case _ => {
-	  log.warning("%s: transforming non-string map key '%s' (%s) using toString",
-		      this, k, (if (k == null) "NULL" else k.asInstanceOf[AnyRef].getClass))
-	  "%s".format(k)
-	}
+        case Some(strategy) => strategy.transform(k)
+        case _ => {
+          log.warning("%s: transforming non-string map key '%s' (%s) using toString",
+                      this, k, (if (k == null) "NULL" else k.asInstanceOf[AnyRef].getClass))
+          "%s".format(k)
+        }
       }
     }
   }
@@ -292,7 +292,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case m if prop.map_? => Some(m.asInstanceOf[scala.collection.Map[String, Any]].map {
         case (k, v) => {
           prop.mapKey(k) -> (if (prop.embedded_?) embeddedPropValue(p, prop, v.asInstanceOf[AnyRef])
-                else v)
+                             else v)
         }
       }.asDBObject)
       case Some(v: Any) if prop.option_? => {
@@ -349,21 +349,21 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
     prop.write(p, if (prop.option_?) Some(e) else e)
   }
 
-  private def writeSeq(p: P, prop: RichPropertyDescriptor, src: MongoDBObject) = {
+  private def writeSeq(p: P, prop: RichPropertyDescriptor, src: MongoDBObject): Unit =
+    writeSeq(p, prop, src.map { case (k, v) => v }.toList)
+
+  private def writeSeq(p: P, prop: RichPropertyDescriptor, src: Seq[_]): Unit = {
     def init: Seq[Any] =
       if (prop.list_?) Nil
       else if (prop.buffer_?) ArrayBuffer()
       else throw new Exception("whaaa! whaa! I'm lost! %s.%s".format(p, prop.name))
 
     val dst = src.foldLeft(init) {
-      case (list, (k, v)) =>
-        init ++ (list.toList ::: (v match {
-          case nested: MongoDBObject if prop.embedded_? =>
-            prop.writeMapper(nested).asObject(nested)
-          case nested: DBObject if prop.embedded_? =>
-            prop.writeMapper(nested).asObject(nested)
-          case _ => v
-        }) :: Nil)
+      case (list, v) =>
+        init ++ (list.toList ::: (if (prop.embedded_?) {
+          val nested = v.asInstanceOf[DBObject]
+          prop.writeMapper(nested).asObject(nested)
+        } else v) :: Nil)
     }
 
     log.trace("write list '%s' (%s) to '%s'.'%s' using %s -OR- %s",
@@ -379,7 +379,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       else if (prop.outerType.isAssignableFrom(classOf[MMap[_,_]]))
         HashMap.empty[String, Any]
       else
-	throw new Exception("%s: unable to find proper Map[String, Any] impl".format(prop))
+        throw new Exception("%s: unable to find proper Map[String, Any] impl".format(prop))
 
     val dst = init ++ src.map {
       case (k, v) =>
@@ -398,7 +398,9 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
 
   private def write(p: P, prop: RichPropertyDescriptor, v: Any): Unit =
     v match {
-      case Some(l: BasicDBList) => writeSeq(p, prop, l)
+      case Some(l: MongoDBObject) if prop.seq_? => writeSeq(p, prop, l)
+      case Some(l: DBObject) if prop.seq_? => writeSeq(p, prop, l)
+      case Some(l: List[_]) if prop.seq_? => writeSeq(p, prop, l)
 
       case Some(m: MongoDBObject) if prop.map_? => writeMap(p, prop, m)
       case Some(v: MongoDBObject) if prop.embedded_? => writeNested(p, prop, v)

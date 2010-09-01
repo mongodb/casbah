@@ -37,6 +37,10 @@ import java.math.BigInteger
 import Imports._
 import mapper.Mapper
 import mapper.annotations._
+import commons.util.Logging
+
+import org.apache.commons.lang.RandomStringUtils.{randomAscii => rs}
+import org.apache.commons.lang.math.RandomUtils.{nextInt => rn}
 
 @BeanInfo
 class Widget(@ID var name: String, @Key var price: Int) {
@@ -56,7 +60,7 @@ class Piggy(@Key val giggity: String) {
   var this_field_is_always_null: String = null
 
   @Key @UseTypeHints
-  var badges: Buffer[Badge] = ArrayBuffer()
+  var badges: List[Badge] = Nil
 
   @Key
   var political_views: Map[String, String] = MMap.empty[String, String]
@@ -129,11 +133,24 @@ case class Two(@Key two: String = "two") {
 object OneMapper extends Mapper[One]
 object TwoMapper extends Mapper[Two]
 
-class MapperSpec extends Specification with PendingUntilFixed {
+@BeanInfo
+case class Node(@Key name: String, @Key @UseTypeHints children: List[Node])
+object NodeMapper extends Mapper[Node]
+
+object NodeCounter {
+  var n: Int = _
+}
+
+class MapperSpec extends Specification with PendingUntilFixed with Logging {
+  private implicit def pimpTimes(n: Int) = new {
+    def times[T](f: => T) = (1 to n).toList.map(_ => f.apply)
+  }
+
   detailedDiffs()
 
   doBeforeSpec {
     Configgy.configure("casbah-commons/src/test/resources/casbah.config")
+    com.novus.casbah.conversions.scala.RegisterConversionHelpers()
     ChairMapper
     WidgetMapper
     PiggyMapper
@@ -141,6 +158,8 @@ class MapperSpec extends Specification with PendingUntilFixed {
     OAB_Mapper
     OneMapper
     TwoMapper
+    NodeMapper
+    NodeCounter.n = 0
   }
 
   "a mapper" should {
@@ -194,7 +213,7 @@ class MapperSpec extends Specification with PendingUntilFixed {
 
     "save & de-serialize nested documents" in {
       val FOODS = "bacon" :: "steak" :: "eggs" :: "club mate" :: Nil
-      val BADGES: Buffer[Badge] = ArrayBuffer(WorldOutsideOfManhattan("mile high"), OnABoat("swine"))
+      val BADGES: List[Badge] = List(WorldOutsideOfManhattan("mile high"), OnABoat("swine"))
 
       val POLITICAL_VIEWS = Map("wikileaks" -> "is my favorite site", "democrats" -> "have ruined the economy")
       val FAMILY = Map("father" -> new Piggy("father"), "mother" -> new Piggy("mother"))
@@ -244,4 +263,60 @@ class MapperSpec extends Specification with PendingUntilFixed {
       _two.three must beNone
     }
   }
+
+  "not take too much time doing stuff" in {
+    var tree: Option[Node] = None
+    val generateTree = measure { tree = node(5) }
+    log.info("generated %d nodes in %d ms", NodeCounter.n, generateTree)
+    tree must beSome[Node]
+
+    val outTimes = 10.times {
+      val readTree = measure { Some(NodeMapper.asDBObject(tree.get)) }
+      log.info("serialized tree in %d ms", readTree)
+      readTree
+    }
+
+    log.info("serialization times: min( %d ms ) <<< avg( %d ms ) <<< max( %d ms )",
+             outTimes.min, outTimes.sum / outTimes.size, outTimes.max)
+
+    val dbo = NodeMapper.asDBObject(tree.get)
+    val inTimes = 10.times {
+      val writeTree = measure { NodeMapper.asObject(dbo) }
+      log.info("de-serialized tree in %d ms ", writeTree)
+      writeTree
+    }
+
+    log.info("de-serialization times: min( %d ms ) <<< avg( %d ms ) <<< max( %d ms )",
+             inTimes.min, inTimes.sum / inTimes.size, inTimes.max)
+
+    val tree2 = NodeMapper.asObject(dbo)
+    tree2.name must_== tree.get.name
+    tree2.children.zip(tree.get.children).map {
+      case (two, one) => two.name must_== one.name
+    }
+  }
+
+  private def measure(f: => Unit): Long = {
+    val start = System.currentTimeMillis
+    f.apply
+    val stop = System.currentTimeMillis
+    stop - start
+  }
+
+  private def node(level: Int): Option[Node] =
+    if (level == 0) None
+    else {
+      NodeCounter.n += 1
+      Some(Node(crap, (1 to many).toList.map(_ => node(level - 1)).filter(_.isDefined).map(_.get)))
+    }
+
+  private val many = 20
+
+  private def _many: Int =
+    rn(10) match {
+      case n if n < 3 => many
+      case n => n
+    }
+
+  private def crap: String = rs(many)
 }
