@@ -43,6 +43,7 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
 
   class CasbahMapperProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     val objenesis = "org.objenesis" % "objenesis" % "1.2"
+    val commonsLang = "commons-lang" % "commons-lang" % "2.5" % "test->default"
   }
 
   // Repositories
