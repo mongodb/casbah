@@ -1,5 +1,3 @@
-// this stuff rocks!
-
 package com.novus.casbah
 package mapper
 
@@ -159,9 +157,9 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
       case Some(mapper) => mapper
       case None if useTypeHints_? => Mapper(p.getClass.getName) match {
         case Some(mapper) => mapper
-        case _ => throw new MissingMapper(ReadMapper, p.getClass)
+        case _ => throw new MissingMapper(ReadMapper, p.getClass, "in %s".format(this))
       }
-      case _ => throw new MissingMapper(ReadMapper, innerType)
+      case _ => throw new MissingMapper(ReadMapper, innerType, "in %s".format(this))
     }
   }.asInstanceOf[Mapper[AnyRef]]
 
