@@ -203,7 +203,14 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   var db  : MongoDB         = _
   var coll: MongoCollection = _
 
-  lazy val info = Introspector.getBeanInfo(obj_klass)
+  lazy val info = {
+    try {
+      Introspector.getBeanInfo(obj_klass)
+    }
+    catch {
+      case t: Throwable => throw new InfoError(obj_klass, t)
+    }
+  }
 
   lazy val allProps = {
     info.getPropertyDescriptors.filter {
@@ -474,12 +481,12 @@ object MapperUtils {
   def annotated_?[A <: Annotation](prop: PropertyDescriptor, ak: Class[A]): Boolean =
     annotation(prop, ak) match { case Some(a) => true case _ => false }
 
-  def typeParams(m: Method) = {
-    m.getGenericReturnType
-    .asInstanceOf[java.lang.reflect.ParameterizedType]
-    .getActualTypeArguments.toList
+  def typeParams(m: Method) =
+    (m.getGenericReturnType match {
+      case c: Class[_] => c :: Nil
+      case t => t.asInstanceOf[java.lang.reflect.ParameterizedType].getActualTypeArguments.toList
+    })
     .map(_.asInstanceOf[Class[_]])
-  }
 }
 
 trait OJ {
@@ -500,6 +507,7 @@ private[mapper] sealed trait MapperDirection
 private[mapper] case object ReadMapper extends MapperDirection
 private[mapper] case object WriteMapper extends MapperDirection
 class MissingMapper(d: MapperDirection, c: Class[_], m: String = "no further info") extends Exception("%s is missing for: %s (%s)".format(d, c, m))
+class InfoError(c: Class[_], t: Throwable) extends Exception("%s: unable to retrieve info".format(c), t)
 
 trait MapKeyStrategy {
   def transform(k: Any): String
