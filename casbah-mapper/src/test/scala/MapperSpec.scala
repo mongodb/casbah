@@ -85,6 +85,9 @@ class Chair {
 
   @Key
   lazy val timestamp: Date = new Date
+
+  @Key
+  var things: Set[String] = Set.empty[String]
 }
 
 trait Badge {
@@ -255,6 +258,8 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
       piggy.balance = Some(BALANCE)
       before.optional_piggy = Some(piggy)
 
+      before.things = Set("foo", "bar", "baz", "quux", "foo", "baz")
+
       val id = Mapper[Chair].upsert(before).id
 
       Mapper[Chair].findOne(id) must beSome[Chair].which {
@@ -273,6 +278,8 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
           }
         after.always_here must beSome[String]
         after.never_here must beNone
+	after.things.size must_== before.things.size
+	after.things must containAll(before.things)
       }
     }
 

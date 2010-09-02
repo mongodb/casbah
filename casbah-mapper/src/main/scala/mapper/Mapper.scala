@@ -63,7 +63,7 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
   lazy val pid: Option[Any] = {
     // XXX ?!
     def pid0(t: Class[Any]): Option[Any] = t match {
-      case _ if seq_? => None // `pid` is undefined for sequences
+      case _ if iterable_? => None // `pid` is undefined for iterables
       case _ if embedded_? => None // ditto for embedded documents
       case _ if option_? => None // N/A to Option-s
       case _ if t.isAssignableFrom(classOf[Double]) => Some(idx.toDouble)
@@ -110,7 +110,8 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
     outerType match {
       case c if c == classOf[Option[_]] => innerTypes.head
       case c if map_? => innerTypes.last
-      case c if seq_? => innerTypes.head
+      case c if iterable_? => innerTypes.head
+      case c if set_? => innerTypes.head
       case c => c
     }
   }.asInstanceOf[Class[Any]]
@@ -122,10 +123,11 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
   lazy val autoId_? = id_? && annotation(pd, classOf[ID]).get.auto
   lazy val embedded_? = annotated_?(pd, classOf[Key]) && (annotated_?(pd, classOf[UseTypeHints]) || Mapper(innerType.getName).isDefined)
 
-  lazy val seq_? = !map_? && (list_? || buffer_?)
+  lazy val iterable_? = !map_? && (list_? || buffer_?)
   lazy val list_? = outerType.isAssignableFrom(classOf[List[_]])
   lazy val buffer_? = outerType.isAssignableFrom(classOf[Buffer[_]])
   lazy val map_? = outerType.isAssignableFrom(classOf[Map[_,_]])
+  lazy val set_? = outerType.isAssignableFrom(classOf[Set[_]])
 
   lazy val useTypeHints_? = annotation[UseTypeHints](pd, classOf[UseTypeHints]) match {
     case Some(ann) if ann.value => true
@@ -296,6 +298,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       }
       case l: List[AnyRef] if prop.embedded_? => Some(l.map(embeddedPropValue(p, prop, _)))
       case b: Buffer[AnyRef] if prop.embedded_? => Some(b.map(embeddedPropValue(p, prop, _)))
+      case s: Set[AnyRef] if prop.set_? && prop.embedded_? => Some(s.map(embeddedPropValue(p, prop, _)))
       case m if prop.map_? => Some(m.asInstanceOf[scala.collection.Map[String, Any]].map {
         case (k, v) => {
           prop.mapKey(k) -> (if (prop.embedded_?) embeddedPropValue(p, prop, v.asInstanceOf[AnyRef])
@@ -360,9 +363,10 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
     writeSeq(p, prop, src.map { case (k, v) => v }.toList)
 
   private def writeSeq(p: P, prop: RichPropertyDescriptor, src: Seq[_]): Unit = {
-    def init: Seq[Any] =
+    def init: Iterable[Any] =
       if (prop.list_?) Nil
       else if (prop.buffer_?) ArrayBuffer()
+      else if (prop.set_?) Set()
       else throw new Exception("whaaa! whaa! I'm lost! %s.%s".format(p, prop.name))
 
     val dst = src.foldLeft(init) {
@@ -405,9 +409,9 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
 
   private def write(p: P, prop: RichPropertyDescriptor, v: Any): Unit =
     v match {
-      case Some(l: MongoDBObject) if prop.seq_? => writeSeq(p, prop, l)
-      case Some(l: DBObject) if prop.seq_? => writeSeq(p, prop, l)
-      case Some(l: List[_]) if prop.seq_? => writeSeq(p, prop, l)
+      case Some(l: MongoDBObject) if prop.iterable_? || prop.set_? => writeSeq(p, prop, l)
+      case Some(l: DBObject) if prop.iterable_? || prop.set_? => writeSeq(p, prop, l)
+      case Some(l: List[_]) if prop.iterable_? || prop.set_? => writeSeq(p, prop, l)
 
       case Some(m: MongoDBObject) if prop.map_? => writeMap(p, prop, m)
       case Some(v: MongoDBObject) if prop.embedded_? => writeNested(p, prop, v)
