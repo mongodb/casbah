@@ -269,7 +269,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case _ => embedded
     })
 
-    if (prop.useTypeHints_?)
+    if (prop.useTypeHints_? && !(prop.iterable_? || prop.set_?))
       dbo(TYPE_HINT) = (embedded match {
         case Some(vv: AnyRef) if prop.option_? => vv.getClass
         case _ => embedded.getClass
@@ -489,8 +489,10 @@ object MapperUtils {
     (m.getGenericReturnType match {
       case c: Class[_] => c :: Nil
       case t => t.asInstanceOf[java.lang.reflect.ParameterizedType].getActualTypeArguments.toList
-    })
-    .map(_.asInstanceOf[Class[_]])
+    }).map {
+      case pt: java.lang.reflect.ParameterizedType => pt.getRawType
+      case c => c
+    }.map(_.asInstanceOf[Class[_]])
 }
 
 trait OJ {
