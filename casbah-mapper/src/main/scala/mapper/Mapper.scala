@@ -181,6 +181,12 @@ class RichPropertyDescriptor(val idx: Int, val pd: PropertyDescriptor, val paren
     }
   }.asInstanceOf[Mapper[AnyRef]]
 
+  var enum: Option[AnyRef] = None
+  lazy val enum_? = enum.isDefined
+  private lazy val enumWithName = enum.get.getClass.getMethod("withName", classOf[String])
+  def deserializeEnum(s: String) = enumWithName.invoke(enum.get, s)
+  def serializeEnum(p: AnyRef) = read.invoke(p).toString
+
   override def equals(o: Any): Boolean = o match {
     case other: RichPropertyDescriptor => pd.equals(other.pd)
     case _ => false
@@ -200,6 +206,12 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
 
   implicit protected def s2db(name: String): MongoDB = conn(name)
   implicit protected def s2coll(name: String): MongoCollection = db(name)
+
+  class PimpedString(p: String) {
+    def enum(e: AnyRef) = propNamed(p).get.enum = Some(e)
+  }
+
+  implicit def pimpString(p: String) = new PimpedString(p)
 
   var conn: MongoConnection = _
   var db  : MongoDB         = _
@@ -269,7 +281,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
       case _ => embedded
     })
 
-    if (prop.useTypeHints_? && !(prop.iterable_? || prop.set_?))
+    if (prop.useTypeHints_?)
       dbo(TYPE_HINT) = (embedded match {
         case Some(vv: AnyRef) if prop.option_? => vv.getClass
         case _ => embedded.getClass
@@ -296,6 +308,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
           Some(id)
         } else { None }
       }
+      case _ if prop.enum_? => Some(prop.serializeEnum(p))
       case l: List[AnyRef] if prop.embedded_? => Some(l.map(embeddedPropValue(p, prop, _)))
       case b: Buffer[AnyRef] if prop.embedded_? => Some(b.map(embeddedPropValue(p, prop, _)))
       case s: Set[AnyRef] if prop.set_? && prop.embedded_? => Some(s.map(embeddedPropValue(p, prop, _)))
@@ -424,6 +437,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
                   v, v.asInstanceOf[AnyRef].getClass.getName, p, prop.key, prop.write, prop.field)
         prop.write(p, (v match {
           case oid: ObjectId => oid
+	  case e: String if prop.enum_? => prop.deserializeEnum(e)
           case s: String if prop.id_? && idProp.map(_.autoId_?).getOrElse(false) => new ObjectId(s)
           case d: Double if prop.innerType == classOf[JavaBigDecimal] => new JavaBigDecimal(d, MATH_CONTEXT)
           case d: Double if prop.innerType == classOf[ScalaBigDecimal] => ScalaBigDecimal(d, MATH_CONTEXT)
