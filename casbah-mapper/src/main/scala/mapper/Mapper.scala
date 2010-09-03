@@ -295,6 +295,11 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
     dbo
   }
 
+  def ensureID(p: P): Option[ObjectId] = idProp match {
+    case Some(ip) if ip.autoId_? => Some(propValue(p, ip).asInstanceOf[ObjectId])
+    case _ => None
+  }
+
   def propValue(p: P, prop: RichPropertyDescriptor): Option[Any] = {
     log.trace("V: %s , %s with %s", p, prop, prop.read)
 
