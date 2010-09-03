@@ -312,6 +312,8 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
         } else { None }
       }
       case _ if prop.enum_? => Some(prop.serializeEnum(p))
+      case v: AnyRef if v.getClass.getName.contains("Enum") && !prop.enum_? =>
+	throw new Exception("achtung! %s in %s is not an enum, but should be one!".format(prop, obj_klass))
       case l: List[AnyRef] if prop.embedded_? => Some(l.map(embeddedPropValue(p, prop, _)))
       case b: Buffer[AnyRef] if prop.embedded_? => Some(b.map(embeddedPropValue(p, prop, _)))
       case s: Set[AnyRef] if prop.set_? && prop.embedded_? => Some(s.map(embeddedPropValue(p, prop, _)))
