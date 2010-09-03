@@ -11,18 +11,18 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
   lazy val gridfs = project("casbah-gridfs", "casbah-gridfs", new CasbahGridFSProject(_), core)
   lazy val mapper = project("casbah-mapper", "casbah-mapper", new CasbahMapperProject(_), core)
 
-  abstract class CasbahBaseProject(info: ProjectInfo) extends DefaultProject(info) with rsync.RsyncPublishing {
+  abstract class CasbahBaseProject(info: ProjectInfo) extends DefaultProject(info) {
     override def compileOptions =
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
     // Testing Deps
     val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
     val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
 
-    def rsyncRepo =
-      "repobum_repobum@repobum:/home/public/%s".format(
-        if (projectVersion.value.toString.endsWith("-SNAPSHOT")) "snapshots"
-        else "releases"
-      )
+    val publishTo = Resolver.sftp("repobum", "repobum", "/home/public/%s".format(
+      if (projectVersion.value.toString.endsWith("-SNAPSHOT")) "snapshots"
+      else "releases"
+    )) as("repobum_repobum", new java.io.File(Path.userHome + "/.ssh/id_rsa"))
+      
   }
 
   class CasbahCommonsProject(info: ProjectInfo) extends CasbahBaseProject(info) {
