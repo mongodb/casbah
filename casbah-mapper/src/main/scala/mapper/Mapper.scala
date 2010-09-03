@@ -296,7 +296,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   }
 
   def ensureID(p: P): Option[ObjectId] = idProp match {
-    case Some(ip) if ip.autoId_? => Some(propValue(p, ip).asInstanceOf[ObjectId])
+    case Some(ip) if ip.autoId_? => Some(propValue(p, ip).get.asInstanceOf[ObjectId])
     case _ => None
   }
 
