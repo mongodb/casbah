@@ -208,7 +208,10 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   implicit protected def s2coll(name: String): MongoCollection = db(name)
 
   class PimpedString(p: String) {
-    def enum(e: AnyRef) = propNamed(p).get.enum = Some(e)
+    def enum(e: AnyRef) = propNamed(p) match {
+      case Some(prop) => prop.enum = Some(e)
+      case _ => throw new Exception("no such prop '%s' in '%s'".format(p, obj_klass))
+    }
   }
 
   implicit def pimpString(p: String) = new PimpedString(p)
