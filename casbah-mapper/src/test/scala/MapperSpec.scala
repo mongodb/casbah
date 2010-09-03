@@ -42,7 +42,7 @@ import commons.util.Logging
 import org.apache.commons.lang.RandomStringUtils.{randomAscii => rs}
 import org.apache.commons.lang.math.RandomUtils.{nextInt => rn}
 
-@BeanInfo
+@BeanInfo @UseTypeHints
 class Widget(@ID var name: String, @Key var price: Int) {
   def this() = this(null, 0)
   override def toString() = "Widget(" + name + ", " + price + ")"
@@ -228,6 +228,13 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
         loaded =>
           loaded.name must_== widget.name
         loaded.price must_== widget.price
+      }
+    }
+
+    "preserve collection-level type hints" in {
+      Mapper[Widget].coll.findOne(Map("_id" -> widget.name).asDBObject) must beSome[DBObject].which {
+	dbo =>
+	  dbo("_typeHint") must_== classOf[Widget].getName
       }
     }
 

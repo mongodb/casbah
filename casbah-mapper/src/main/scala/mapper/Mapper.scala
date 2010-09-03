@@ -261,6 +261,8 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
     case None => allProps
   }
 
+  lazy val useTypeHints_? = obj_klass.isAnnotationPresent(classOf[UseTypeHints])
+
   override def toString =
     "Mapper(%s -> idProp: %s, is_auto_id: %s, allProps: %s)".format(
       obj_klass.getName, idProp.map(_.name).getOrElse("N/A"), idProp.map(_.autoId_?).getOrElse(false),
@@ -347,7 +349,7 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   def asKeyValueTuples(p: P) = {
     log.trace("AKVT: %s", p)
 
-    allProps.toList
+    val tuples = allProps.toList
     .map {
       prop =>
         log.trace("AKVT: %s -> %s", p, prop)
@@ -356,6 +358,11 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
         case _ => None
       }
     }.filter(_.isDefined).map(_.get)
+
+    if (useTypeHints_?)
+      tuples ::: (TYPE_HINT -> p.getClass.getName) :: Nil
+    else
+      tuples
   }
 
   def asDBObject(p: P): DBObject = {
@@ -464,9 +471,18 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
   }
 
   def asObject(dbo: MongoDBObject): P =
-    allProps.foldLeft(empty) {
-      (p, prop) => write(p, prop, dbo.get(prop.key))
-      p
+    dbo.get(TYPE_HINT) match {
+      case Some(hint: String) if hint != obj_klass.getName => {
+	Mapper(hint) match {
+	  case Some(hintedMapper) => hintedMapper.asObject(dbo).asInstanceOf[P]
+	  case _ => throw new MissingMapper(ReadMapper, Class.forName(hint), "while loading type-hinted DBO in %s".format(this))
+	}
+      }
+      case _ =>
+	allProps.foldLeft(empty) {
+	  (p, prop) => write(p, prop, dbo.get(prop.key))
+	  p
+	}
     }
 
   def findOne(id: Any): Option[P] =
