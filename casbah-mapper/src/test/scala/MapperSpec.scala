@@ -94,6 +94,9 @@ class Chair {
   lazy val timestamp: Date = new Date
 
   @Key
+  lazy val argh: String = { "boo" }
+
+  @Key
   var things: Set[String] = Set.empty[String]
 }
 
@@ -274,12 +277,13 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
       piggy.balance = Some(BALANCE)
       piggy.freshness = Freshness.Stale
       before.optional_piggy = Some(piggy)
-
       before.things = Set("foo", "bar", "baz", "quux", "foo", "baz")
 
       val id = Mapper[Chair].upsert(before).id
 
-      Mapper[Chair].findOne(id) must beSome[Chair].which {
+      val dbo = Mapper[Chair].coll.findOne(id).get
+      dbo("argh") = "ya"
+      Some(ChairMapper.asObject(dbo)) must beSome[Chair].which {
         after =>
           after.optional_piggy must beSome[Piggy].which {
             piggy =>
@@ -298,6 +302,7 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
         after.never_here must beNone
 	after.things.size must_== before.things.size
 	after.things must containAll(before.things)
+	//after.argh must_== "ya"
       }
     }
 
@@ -317,7 +322,7 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
 
   "not take too much time doing stuff" in {
     var tree: Option[Node] = None
-    val generateTree = measure { tree = node(5) }
+    val generateTree = measure { tree = node(2) }
     log.info("generated %d nodes in %d ms", NodeCounter.n, generateTree)
     tree must beSome[Node]
 
@@ -368,7 +373,7 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
       }
     }
 
-  private val many = 20
+  private val many = 3
 
   private def _many: Int =
     rn(10) match {
