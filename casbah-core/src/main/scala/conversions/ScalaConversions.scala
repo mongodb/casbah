@@ -142,8 +142,7 @@ trait JodaDateTimeSerializer extends MongoConversionHelper {
 
     def transform(o: AnyRef): AnyRef = o match {
       case d: DateTime => d.toDate // Return a JDK Date object which BSON can encode
-      case unknownRef: AnyRef => throw new IllegalArgumentException("Don't know how to serialize an object of type '" + unknownRef.getClass + "'") 
-      case unknownVal => throw new IllegalArgumentException("Don't know how to serialize '" + unknownVal + "'")
+      case _ => o
     }
        
   }
@@ -174,8 +173,7 @@ trait JodaDateTimeDeserializer extends MongoConversionHelper {
         log.warning("Transformer got an actual JodaDateTime DateTime?")
         d
       }
-      case unknownRef: AnyRef => throw new IllegalArgumentException("Don't know how to serialize an object of type '" + unknownRef.getClass + "'") 
-      case unknownVal => throw new IllegalArgumentException("Don't know how to serialize '" + unknownVal + "'")
+      case _ => o
     }
   }
 
