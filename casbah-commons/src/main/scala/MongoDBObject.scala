@@ -133,7 +133,7 @@ trait MongoDBObject extends Map[String, AnyRef] {
 }
 
 
-object MongoDBObject  {
+object MongoDBObject {
   
   def empty: DBObject = new MongoDBObject { val underlying = new BasicDBObject }
 

@@ -25,43 +25,40 @@ package commons
 import com.novus.casbah.commons.Imports._
 
 import scala.annotation.tailrec
-import scala.collection.JavaConversions._
 import scala.collection.generic._
 import scala.collection.mutable.Buffer
 import scala.reflect._
+
+import scalaj.collection.Imports._
 
 
 import com.mongodb.BasicDBList
 
 
-trait MongoDBList extends Buffer[Any] {
+trait MongoDBList extends Buffer[AnyRef] {
   val underlying: BasicDBList
   
   def apply(i: Int) = underlying.get(i)
   
-  def update(i: Int, elem: Any) = update[Any](i, elem)
-  def update[A <: Any](i: Int, elem: A) = 
-    underlying.set(i, elem.asInstanceOf[AnyRef])
+  def update(i: Int, elem: AnyRef) = 
+    underlying.set(i, elem)
 
-  def +=:(elem: Any): this.type = +=:[Any](elem)
-  def +=:[A <: Any](elem: A): this.type = { 
-    underlying.subList(0, 0).add(elem.asInstanceOf[AnyRef])
+  def +=:(elem: AnyRef): this.type = { 
+    underlying.subList(0, 0).add(elem)
     this
   }
 
-  def +=(elem: Any): this.type = +=[Any](elem)
-  def +=[A <: Any](elem: A): this.type = {
-    underlying.add(elem.asInstanceOf[AnyRef])
+  def +=(elem: AnyRef): this.type = {
+    underlying.add(elem)
     this
   }
 
-  def insertAll(i: Int, elems: Traversable[Any]) = insertAll[Any](i, elems)
-  def insertAll[A <: Any](i: Int, elems: Traversable[A]) = {
+  def insertAll(i: Int, elems: Traversable[AnyRef]) = {
     val ins = underlying.subList(0, i)
-    elems.foreach(x => ins.add(x.asInstanceOf[AnyRef])) 
+    elems.foreach(x => ins.add(x)) 
   }
 
-  def remove(i: Int) = underlying.remove(i) 
+  def remove(i: Int) = underlying.remove(i)
 
   def clear = underlying.clear
 
@@ -70,7 +67,7 @@ trait MongoDBList extends Buffer[Any] {
   def length = underlying.size
 
   override def isEmpty = underlying.isEmpty
-  override def iterator: Iterator[Any] = underlying.iterator
+  override def iterator = underlying.iterator.asScala
 }
 
 object MongoDBList {
@@ -78,8 +75,27 @@ object MongoDBList {
   def empty: BasicDBList = 
     new MongoDBList { val underlying = new BasicDBList }
 
-  def apply[A <: Any](elems: A*): DBObject = 
-    (newBuilder[A] ++= elems).result
+  def apply[A <: Any](elems: A*): BasicDBList = {
+    val b = newBuilder[A]
+    for (xs <- elems) {
+      xs match {
+        case t: Traversable[_] => for (x <- t) b += x
+        case p: Product => b += p.asDBObject
+        case _ => b += xs 
+      }
+    }
+    b.result
+  }
+
+  def concat[A](xss: Traversable[A]*): BasicDBList = {
+    val b = newBuilder[A]
+    if (xss forall (_.isInstanceOf[IndexedSeq[_]]))
+      b.sizeHint(xss map (_.size) sum)
+
+    for (xs <- xss) b ++= xs
+    b.result
+  }
+
 
   def newBuilder[A <: Any]: MongoDBListBuilder = 
     new MongoDBListBuilder
@@ -94,7 +110,11 @@ sealed class MongoDBListBuilder
   protected var elems = empty
 
   override def +=(x: Any) = { 
-    elems.add(x.asInstanceOf[AnyRef])
+    val v = x match {
+      case p: Product => p.asDBObject
+      case _ => x.asInstanceOf[AnyRef]
+    }
+    elems.add(v)
     this 
   }
 
