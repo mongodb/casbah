@@ -23,7 +23,6 @@ package com.novus.casbah
 package commons
 
 import com.novus.casbah.commons.Imports._
-import com.novus.casbah.commons.util.Logging
 
 import scala.annotation.tailrec
 import scala.collection.JavaConversions._
@@ -46,7 +45,7 @@ import scala.reflect._
  * @tparam Object 
  */
 @BeanInfo
-trait MongoDBObject extends Map[String, AnyRef] with Logging {
+trait MongoDBObject extends Map[String, AnyRef] {
   val underlying: DBObject
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
@@ -78,18 +77,13 @@ trait MongoDBObject extends Map[String, AnyRef] with Logging {
     require(manifest[A] != manifest[scala.Nothing], "Type inference failed; expand[A]() requires an explicit type argument (e.g. dbObject[<ReturnType](\"someKey\") ) to function correctly.")
     @tailrec def _dot(dbObj: MongoDBObject, key: String): Option[_] = 
       if (key.indexOf('.') < 0) {
-        log.trace("_dot returning on key '%s'", key)
         dbObj.getAs[AnyRef](key) 
       }
       else {
         val (pfx, sfx) = key.splitAt(key.indexOf('.'))
-        log.trace("_dot recursing on pfx: '%s', sfx: '%s'", pfx, sfx)
         dbObj.getAs[DBObject](pfx) match {
           case Some(base) => _dot(base, sfx.stripPrefix("."))
-          case None => {
-            log.debug("Split key '%s' to '%s' & '%s' but found no value in object.", key, pfx, sfx.stripPrefix(".")); 
-            None
-          }
+          case None => None
         }
       }
 

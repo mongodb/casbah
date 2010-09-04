@@ -24,7 +24,7 @@ package gridfs
 
 import com.novus.casbah.Imports._
 import com.novus.casbah.gridfs.Imports._
-import com.novus.casbah.commons.util.Logging
+import com.novus.casbah.util.Logging
 
 import com.mongodb.DBObject
 import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile, GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}

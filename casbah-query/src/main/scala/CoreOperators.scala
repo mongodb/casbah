@@ -19,7 +19,6 @@ package com.novus.casbah
 package query
 
 import com.novus.casbah.commons.Imports._
-import com.novus.casbah.commons.util.Logging
 
 import com.mongodb.{DBObject, BasicDBObjectBuilder}
 import scalaj.collection.Imports._
