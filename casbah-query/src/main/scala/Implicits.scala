@@ -27,7 +27,7 @@ import com.novus.casbah.commons.Imports._
 
 import scalaj.collection.Imports._
 
-trait Implicits {
+trait Implicits extends FluidQueryBarewordOps {
 
   /**
    * Implicit extension methods for String values (e.g. a field name)
@@ -62,7 +62,7 @@ trait Implicits {
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
-  implicit def mongoNestedQueryStatements(nested: Tuple2[String, DBObject]) = new {
+  implicit def mongoNestedTupledQueryStatements(nested: Tuple2[String, DBObject]) = new {
     val field = nested._1
   } with FluidQueryOperators { 
     dbObj = Some(nested._2) 
@@ -71,7 +71,7 @@ trait Implicits {
 
 }
 
-object Implicits extends Implicits with commons.Implicits with FluidQueryBarewordOps 
+object Implicits extends Implicits with commons.Implicits 
 object Imports extends Imports with commons.Imports
 object BaseImports extends BaseImports with commons.BaseImports
 object TypeImports extends TypeImports with commons.TypeImports
