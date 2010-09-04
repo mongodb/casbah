@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Key {
-    String value() default "";
-    int pri() default -1;
+public @interface Ignore {
+    boolean out() default false;
+    boolean in() default false;
 }
