@@ -8,4 +8,5 @@ package object annotations {
   type Key          = raw.Key          @getter
   type UseTypeHints = raw.UseTypeHints @getter
   type KeyStrategy  = raw.KeyStrategy  @getter
+  type Ignore       = raw.Ignore       @getter
 }

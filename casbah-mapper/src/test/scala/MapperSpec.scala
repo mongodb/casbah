@@ -40,7 +40,7 @@ import com.novus.casbah.util.Logging
 import org.apache.commons.lang.RandomStringUtils.{randomAscii => rs}
 import org.apache.commons.lang.math.RandomUtils.{nextInt => rn}
 
-@BeanInfo
+@BeanInfo @UseTypeHints
 class Widget(@ID var name: String, @Key var price: Int) {
   def this() = this(null, 0)
   override def toString() = "Widget(" + name + ", " + price + ")"
@@ -68,6 +68,13 @@ class Piggy(@Key val giggity: String) {
 
   @Key
   var balance: Option[BigDecimal] = None
+
+  @Key
+  var freshness: Freshness.Value = Freshness.Fresh
+}
+
+object Freshness extends Enumeration("fresh", "stale") {
+  val Fresh, Stale = Value
 }
 
 @BeanInfo
@@ -83,6 +90,12 @@ class Chair {
 
   @Key
   lazy val timestamp: Date = new Date
+
+  @Key
+  lazy val argh: String = { "boo" }
+
+  @Key
+  var things: Set[String] = Set.empty[String]
 }
 
 trait Badge {
@@ -115,6 +128,8 @@ object PiggyMapper extends Mapper[Piggy] {
   conn = MongoConnection()
   db = "mapper_test"
   coll = "piggies"
+
+  "freshness".enum(Freshness)
 }
 
 object WOOM_Mapper extends Mapper[WorldOutsideOfManhattan]
@@ -217,6 +232,13 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
       }
     }
 
+    "preserve collection-level type hints" in {
+      Mapper[Widget].coll.findOne(Map("_id" -> widget.name).asDBObject) must beSome[DBObject].which {
+	dbo =>
+	  dbo("_typeHint") must_== classOf[Widget].getName
+      }
+    }
+
     "automatically assign (& retrieve objects by) MongoDB OID-s" in {
       val piggy = new Piggy("oy vey")
       Some(Mapper[Piggy].upsert(piggy)) must beSome[Piggy].which {
@@ -251,11 +273,15 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
       piggy.political_views = POLITICAL_VIEWS
       piggy.family = FAMILY
       piggy.balance = Some(BALANCE)
+      piggy.freshness = Freshness.Stale
       before.optional_piggy = Some(piggy)
+      before.things = Set("foo", "bar", "baz", "quux", "foo", "baz")
 
       val id = Mapper[Chair].upsert(before).id
 
-      Mapper[Chair].findOne(id) must beSome[Chair].which {
+      val dbo = Mapper[Chair].coll.findOne(id).get
+      dbo("argh") = "ya"
+      Some(ChairMapper.asObject(dbo)) must beSome[Chair].which {
         after =>
           after.optional_piggy must beSome[Piggy].which {
             piggy =>
@@ -268,9 +294,13 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
             piggy.balance must beSome[BigDecimal].which {
               b => b must_== BALANCE
             }
+	    piggy.freshness must_== Freshness.Stale
           }
         after.always_here must beSome[String]
         after.never_here must beNone
+	after.things.size must_== before.things.size
+	after.things must containAll(before.things)
+	//after.argh must_== "ya"
       }
     }
 
@@ -290,7 +320,7 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
 
   "not take too much time doing stuff" in {
     var tree: Option[Node] = None
-    val generateTree = measure { tree = node(5) }
+    val generateTree = measure { tree = node(2) }
     log.info("generated %d nodes in %d ms", NodeCounter.n, generateTree)
     tree must beSome[Node]
 
@@ -341,7 +371,7 @@ class MapperSpec extends Specification with PendingUntilFixed with Logging {
       }
     }
 
-  private val many = 20
+  private val many = 3
 
   private def _many: Int =
     rn(10) match {
