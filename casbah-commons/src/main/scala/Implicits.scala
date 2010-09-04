@@ -25,7 +25,7 @@ package commons
 import scalaj.collection.Imports._
 
 trait Implicits {
-  import com.mongodb.{DBObject, BasicDBObject}
+  import com.mongodb.{DBObject, BasicDBObject, BasicDBList}
 
   /*
    * Placeholder Type Alias 
@@ -122,6 +122,12 @@ trait Implicits {
   implicit def unwrapDBObj(in: MongoDBObject): DBObject = 
     in.underlying
 
+  implicit def wrapDBList(in: BasicDBList): MongoDBList = 
+    new MongoDBList { val underlying = in }
+
+  implicit def unwrapDBList(in: MongoDBList): BasicDBList =
+    in.underlying
+
 }
 
 object Implicits extends Implicits
@@ -133,10 +139,12 @@ trait Imports extends BaseImports with TypeImports with Implicits
 
 trait BaseImports {
   val MongoDBObject = com.novus.casbah.commons.MongoDBObject
+  val MongoDBList = com.novus.casbah.commons.MongoDBList
 }
 
 trait TypeImports {
   type MongoDBObject = com.novus.casbah.commons.MongoDBObject
+  type MongoDBList = com.novus.casbah.commons.MongoDBList
   type DBObject = com.mongodb.DBObject
   type BasicDBObject = com.mongodb.BasicDBObject
   type BasicDBList = com.mongodb.BasicDBList
