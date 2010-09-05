@@ -75,6 +75,44 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
     }
   }
 
+  "MongoDBObject Factory & Builder" should {
+    "Support 'empty', returning a DBObject" in {
+      val dbObj = MongoDBObject.empty
+
+      dbObj must haveSuperClass[DBObject]
+      dbObj must haveSize(0)
+    }
+    "support a 2.8 factory interface which returns a DBObject" in {
+      val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
+                                "embedded" -> MongoDBObject("foo" -> "bar"))
+      // A Java version to compare with
+      val jBldr = new com.mongodb.BasicDBObjectBuilder
+      jBldr.add("x", 5)
+      jBldr.add("y", 212.8)
+      jBldr.add("spam", "eggs")
+      jBldr.add("embedded", new com.mongodb.BasicDBObject("foo", "bar"))
+      val jObj = jBldr.get
+
+      dbObj must haveSuperClass[DBObject]
+      jObj must haveSuperClass[DBObject]
+      dbObj must beEqualTo(jObj)
+    }
+    "Support a 2.8 builder interface which returns a DBObject" in {
+      val builder = MongoDBObject.newBuilder
+
+      builder += "foo" -> "bar"
+      builder += "x" -> 5
+      builder += "y" -> 212.8
+
+      builder ++= List("spam" -> "eggs", "type erasure" -> "sucks", "omg" -> "ponies!")
+
+      val dbObj = builder.result
+
+      dbObj must haveSuperClass[DBObject]
+      dbObj must haveSize(6)
+    }
+  }
+
 }
 
 

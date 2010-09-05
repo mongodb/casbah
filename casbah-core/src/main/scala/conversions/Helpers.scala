@@ -22,7 +22,7 @@
 package com.novus.casbah
 package conversions
 
-import com.novus.casbah.commons.util.Logging 
+import com.novus.casbah.util.Logging 
 
 
 trait MongoConversionHelper extends Logging {

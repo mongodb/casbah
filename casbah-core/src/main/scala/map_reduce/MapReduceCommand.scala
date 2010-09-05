@@ -19,7 +19,7 @@ package com.novus.casbah
 package map_reduce
 
 import com.novus.casbah.Imports._
-import com.novus.casbah.commons.util.Logging
+import com.novus.casbah.util.Logging
 
 import scalaj.collection.Imports._
 

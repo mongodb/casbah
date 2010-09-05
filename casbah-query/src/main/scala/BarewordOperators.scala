@@ -23,7 +23,6 @@ package com.novus.casbah
 package query
 
 import com.novus.casbah.commons.Imports._
-import com.novus.casbah.commons.util.Logging
 
 import scala.collection.JavaConversions._
 
@@ -41,42 +40,20 @@ import scala.collection.JavaConversions._
  * @since 1.0
  * @see SetOp
  */
-trait BarewordQueryOperator extends Logging {
+trait BarewordQueryOperator {
 
   /*
    * TODO - Implicit filtering of 'valid' (aka convertable) types for [A]
    */
-  def apply[A](oper: String)(fields: (String, A)*): DBObject = { 
-    log.trace("Apply - %s", fields)
+  def apply[A](oper: String)(fields: (String, A)*) = { 
     val bldr = MongoDBObject.newBuilder
     for ((k, v) <- fields) bldr += k -> v
-    MongoDBObject(oper -> bldr.result.asDBObject).asDBObject
+    MongoDBObject(oper -> bldr.result.asDBObject)
   }
 
 }
 
 
-/*[>* 
- * A "Targetted" Bareword Query Operator.
- * 
- * Specifically, operators who only target a field - they don't specify a value
- *
- * $unset is an example of this, where you simply specify the fields to Unset.
- * While in the MongoDB Shell you would say {$unset: {"Foo": 1}} why bother in Scala?
- * The 1 is implied.
- * 
- * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0, 06/17/10
- * @since 1.0
- <]
-trait BarewordTargetedQueryOperator extends BarewordQueryOperator {
-  def apply[A](oper: String)(fields: A*) = {
-    val invoc = super.apply(oper)_
-    log.debug("Invocation object: %s", invoc)
-    invoc
-  }
-}
-*/
 /** 
  * Aggregation object for Bareword Operators.
  * Bareword operators stand on their own - they lack the requirement for an LValue.
