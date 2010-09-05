@@ -19,7 +19,7 @@
  * 
  */
 
-import com.novus.casbah.commons.util.Logging 
+import com.novus.casbah.util.Logging 
 
 import org.bson.{BSON, Transformer}
 

@@ -15,7 +15,7 @@ import _root_.scala.math.{BigDecimal => ScalaBigDecimal}
 import java.math.{BigDecimal => JavaBigDecimal, RoundingMode, MathContext}
 
 import annotations.raw._
-import commons.util.Logging
+import util.Logging
 import Imports._
 
 object Mapper extends Logging {
