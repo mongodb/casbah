@@ -478,7 +478,8 @@ abstract class Mapper[P <: AnyRef : Manifest]() extends Logging with OJ {
           case s: String if prop.id_? && idProp.map(_.autoId_?).getOrElse(false) => new ObjectId(s)
           case d: Double if prop.innerType == classOf[JavaBigDecimal] => new JavaBigDecimal(d, MATH_CONTEXT)
           case d: Double if prop.innerType == classOf[ScalaBigDecimal] => ScalaBigDecimal(d, MATH_CONTEXT)
-          case d: java.lang.Double if prop.innerType == classOf[ScalaBigDecimal] => ScalaBigDecimal(d.asInstanceOf[scala.Double], MATH_CONTEXT)
+          case x if prop.innerType == classOf[ScalaBigDecimal] => ScalaBigDecimal(x.toString, MATH_CONTEXT)
+          case x if prop.innerType == classOf[JavaBigDecimal] => new JavaBigDecimal(x.toString, MATH_CONTEXT)
           case _ => v
         }) match {
           case x if x != null && prop.option_? => Some(x)
