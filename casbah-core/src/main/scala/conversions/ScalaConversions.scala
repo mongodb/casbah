@@ -169,10 +169,7 @@ trait JodaDateTimeDeserializer extends MongoConversionHelper {
 
     def transform(o: AnyRef): AnyRef = o match {
       case jdkDate: java.util.Date => new DateTime(jdkDate)
-      case d: DateTime => {
-        log.warning("Transformer got an actual JodaDateTime DateTime?")
-        d
-      }
+      case d: DateTime => d
       case _ => o
     }
   }
