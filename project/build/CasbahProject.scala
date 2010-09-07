@@ -5,6 +5,9 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
   // this was nice while it lasted
   override def parallelExecution = false
 
+  // we want to publish POMs
+  override def managedStyle = ManagedStyle.Maven
+
   lazy val commons = project("casbah-commons", "casbah-commons", new CasbahCommonsProject(_))
   lazy val core = project("casbah-core", "casbah-core", new CasbahCoreProject(_), commons, query)
   lazy val query = project("casbah-query", "casbah-query", new CasbahQueryProject(_), commons)
