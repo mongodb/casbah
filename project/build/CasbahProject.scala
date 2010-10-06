@@ -37,7 +37,7 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
 
   class CasbahCoreProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     // Runtime Deps
-    val scalaTime = "org.scala-tools" % "time" % "2.8.0-0.2-SNAPSHOT"
+    val scalaTime = "org.scala-tools.time" % "time_2.8.0" % "0.2"
   }
 
   class CasbahQueryProject(info: ProjectInfo) extends CasbahBaseProject(info)
