@@ -12,7 +12,6 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
   lazy val core = project("casbah-core", "casbah-core", new CasbahCoreProject(_), commons, query)
   lazy val query = project("casbah-query", "casbah-query", new CasbahQueryProject(_), commons)
   lazy val gridfs = project("casbah-gridfs", "casbah-gridfs", new CasbahGridFSProject(_), core)
-  lazy val mapper = project("casbah-mapper", "casbah-mapper", new CasbahMapperProject(_), core)
 
   abstract class CasbahBaseProject(info: ProjectInfo) extends DefaultProject(info) {
     override def compileOptions =
