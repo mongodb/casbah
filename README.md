@@ -1,7 +1,13 @@
 # Casbah 
-## formerly "mongo-scala-wrappers"
-### Brendan W. McAdams <bmcadams@novus.com>
-### Max Afonov <mafonov@novus.com>
+## Scala toolkit for MongoDB (com.mongodb.casbah)
+
+Maintainers
+-----------
+Brendan W. McAdams <brendan@10gen.com>
+
+Contributors
+-----------
+Max Afonov <max@bumnetworks.com>
 
 Casbah is an interface for [MongoDB][MongoDB] designed to provide more flexible access from both Java and Scala.  While the current cor focus is on providing a Scala oriented wrapper interface around the Java mongo driver, support for other JVM languages may come in the future.
 
@@ -9,7 +15,7 @@ For the Scala side, contains series of wrappers and DSL-like functionality for u
 
 We are constantly adding new functionality, and maintain a detailed [Tutorial][Tutorial].
 
-Please report any issues at our [Lighthouse Issue Tracker](http://novus.lighthouseapp.com/projects/57054-casbah/overview), or post to the [Casbah Mailing List][mongodb-casbah-users] on Google Groups.
+Please address any questions or problems to the [Casbah Mailing List][mongodb-casbah-users] on Google Groups.
 
 GitHub kindly hosts our [Documentation][Documentation] including the [API Docs][API Docs] & [Tutorial][Tutorial].
 
