@@ -1,4 +1,5 @@
 /**
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,11 +16,11 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/novus/casbah
+ *     http://github.com/mongodb/casbah
  * 
  */
 
-package com.novus.casbah
+package com.mongodb.casbah
 
 
 import scalaj.collection.Imports._
@@ -44,7 +45,7 @@ import org.scala_tools.time.Imports._
  * Type oriented Collections and Cursors will ALWAYS try to deserialize DBObjects to their type where appropriate
  * (exceptions are things like group and mapReduce which return non-standard data and will be DBObjects)
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait Implicits {
@@ -121,17 +122,19 @@ object TypeImports extends TypeImports with commons.TypeImports with query.TypeI
 trait Imports extends BaseImports with TypeImports with Implicits 
 
 trait BaseImports {
-  val MongoConnection = com.novus.casbah.MongoConnection
-  val MongoDBAddress = com.novus.casbah.MongoDBAddress
-  val MapReduceCommand = com.novus.casbah.map_reduce.MapReduceCommand
+  val MongoConnection = com.mongodb.casbah.MongoConnection
+  val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
+  val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
 }
 
 trait TypeImports {
-  type MongoConnection = com.novus.casbah.MongoConnection
-  type MongoCollection = com.novus.casbah.MongoCollection
-  type MongoDB = com.novus.casbah.MongoDB
-  type MongoCursor = com.novus.casbah.MongoCursor
-  type MapReduceCommand = com.novus.casbah.map_reduce.MapReduceCommand
-  type MapReduceResult = com.novus.casbah.map_reduce.MapReduceResult
+  type MongoConnection = com.mongodb.casbah.MongoConnection
+  type MongoCollection = com.mongodb.casbah.MongoCollection
+  type MongoDB = com.mongodb.casbah.MongoDB
+  type MongoCursor = com.mongodb.casbah.MongoCursor
+  type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
+  type MapReduceResult = com.mongodb.casbah.map_reduce.MapReduceResult
   type DBAddress = com.mongodb.DBAddress
 }
+
+// vim: set ts=2 sw=2 sts=2 et:

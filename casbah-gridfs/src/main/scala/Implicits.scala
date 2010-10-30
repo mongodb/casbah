@@ -1,4 +1,5 @@
 /**
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,15 +16,15 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/novus/casbah
+ *     http://github.com/mongodb/casbah
  * 
  */
 
-package com.novus.casbah
+package com.mongodb.casbah
 package gridfs
 
-import com.novus.casbah.Imports._
-import com.novus.casbah.gridfs.Imports._
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.gridfs.Imports._
 
 import scalaj.collection.Imports._
 
@@ -41,13 +42,13 @@ object TypeImports extends TypeImports
 trait Imports extends BaseImports with TypeImports with Implicits 
 
 trait BaseImports {
-  val GridFS = com.novus.casbah.gridfs.GridFS
+  val GridFS = com.mongodb.casbah.gridfs.GridFS
 }
 
 trait TypeImports {
-  type GridFS = com.novus.casbah.gridfs.GridFS
-  type GridFSDBFile = com.novus.casbah.gridfs.GridFSDBFile
-  type GridFSInputFile = com.novus.casbah.gridfs.GridFSInputFile
-  type GridFSFile = com.novus.casbah.gridfs.GridFSFile
+  type GridFS = com.mongodb.casbah.gridfs.GridFS
+  type GridFSDBFile = com.mongodb.casbah.gridfs.GridFSDBFile
+  type GridFSInputFile = com.mongodb.casbah.gridfs.GridFSInputFile
+  type GridFSFile = com.mongodb.casbah.gridfs.GridFSFile
 }
 // vim: set ts=2 sw=2 sts=2 et:

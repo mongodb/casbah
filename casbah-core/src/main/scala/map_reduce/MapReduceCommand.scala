@@ -1,11 +1,12 @@
 /**
- * Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
- *
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,13 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
  */
 
-package com.novus.casbah
+package com.mongodb.casbah
 package map_reduce
 
-import com.novus.casbah.Imports._
-import com.novus.casbah.util.Logging
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
 
@@ -31,7 +36,7 @@ class MapReduceError(msg: String) extends Error("MongoDB Map/Reduce Error: " + m
  *
  * @see <a href="http://www.mongodb.org/display/DOCS/MapReduce">The MongoDB Map/Reduce Documentation</a>
  * 
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 object MapReduceCommand {
@@ -78,7 +83,7 @@ object MapReduceCommand {
  *
  * @see http://www.mongodb.org/display/DOCS/MapReduce
  * 
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 class MapReduceCommand {

@@ -1,11 +1,12 @@
 /**
- * Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
- *
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,12 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
  */
 
-package com.novus.casbah
+package com.mongodb.casbah
 package query
 
-import com.novus.casbah.commons.Imports._
+import com.mongodb.casbah.commons.Imports._
 
 import com.mongodb.{DBObject, BasicDBObjectBuilder}
 import scalaj.collection.Imports._
@@ -28,7 +33,7 @@ import scalaj.collection.Imports._
  * Mixed trait which provides all possible
  * operators.  See Implicits for examples of usage.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait FluidQueryOperators extends NotEqualsOp 
@@ -56,7 +61,7 @@ trait ValueTestFluidQueryOperators extends LessThanOp
  * and refers to the left-hand of the Query (e.g. in Mongo:
  * <code>{"foo": {"$ne": "bar"}}</code> "foo" is the field.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 sealed trait QueryOperator {
@@ -136,7 +141,7 @@ trait NestingQueryHelper extends QueryOperator {
  * DBObject and Map[String, Any].
  *
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait NotEqualsOp extends QueryOperator {
@@ -153,7 +158,7 @@ trait NotEqualsOp extends QueryOperator {
  * DBObject and Map[String, Any].
  *
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait LessThanOp extends QueryOperator {
@@ -171,7 +176,7 @@ trait LessThanOp extends QueryOperator {
  * DBObject and Map[String, Any].
  *
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait LessThanEqualOp extends QueryOperator {
@@ -189,7 +194,7 @@ trait LessThanEqualOp extends QueryOperator {
  * DBObject and Map[String, Any].
  *
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait GreaterThanOp extends QueryOperator {
@@ -208,7 +213,7 @@ trait GreaterThanOp extends QueryOperator {
  * DBObject and Map[String, Any].
  *
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait GreaterThanEqualOp extends QueryOperator {
@@ -231,7 +236,7 @@ trait GreaterThanEqualOp extends QueryOperator {
  * As a valid statement - (1...28) is taken as the argument list to $in and converted
  * to an Array under the covers. 
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait InOp extends QueryOperator {
@@ -257,7 +262,7 @@ trait InOp extends QueryOperator {
  * As a valid statement - (1...28) is taken as the argument list to $nin and converted
  * to an Array under the covers.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait NotInOp extends QueryOperator {
@@ -283,7 +288,7 @@ trait NotInOp extends QueryOperator {
  * As a valid statement - (1...28) is taken as the argument list to $all and converted
  * to an Array under the covers.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait AllOp extends QueryOperator {
@@ -304,7 +309,7 @@ trait AllOp extends QueryOperator {
  * DBObject and Map[String, Any].  
  *
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait ModuloOp extends QueryOperator {
@@ -320,7 +325,7 @@ trait ModuloOp extends QueryOperator {
  * Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
  * DBObject.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait SizeOp extends QueryOperator {
@@ -334,7 +339,7 @@ trait SizeOp extends QueryOperator {
  *
  * Targets (takes a right-hand value of) Booleans.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait ExistsOp extends QueryOperator {
@@ -348,7 +353,7 @@ trait ExistsOp extends QueryOperator {
  *
  * Targets (takes a right-hand value of) JSFunction
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait WhereOp extends QueryOperator {
@@ -359,7 +364,7 @@ trait WhereOp extends QueryOperator {
  *
  * Targets (takes a right-hand value of) DBObject or a Scala RegEx
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait NotOp extends QueryOperator {

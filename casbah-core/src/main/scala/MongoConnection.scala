@@ -1,4 +1,5 @@
 /**
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +16,13 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/novus/casbah
+ *     http://github.com/mongodb/casbah
  * 
  */
 
-package com.novus.casbah
+package com.mongodb.casbah
 
-import com.novus.casbah.Imports._
+import com.mongodb.casbah.Imports._
 
 import scalaj.collection.Imports._
 
@@ -31,7 +32,7 @@ import com.mongodb.Mongo
  * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
  * Apply methods are called as MongoConnectionection(<params>)
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 object MongoConnection {
@@ -49,7 +50,7 @@ object MongoConnection {
 /**
  * Wrapper class for the Mongo Connection object.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 class MongoConnection(val underlying: Mongo) {
@@ -74,7 +75,7 @@ class MongoConnection(val underlying: Mongo) {
 
 /**
  * 
- * @author  Brendan W. McAdams <bmcadams@novus.com>
+ * @author  Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0, 07/24/10
  * @since   1.0.1
  */
