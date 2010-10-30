@@ -1,4 +1,5 @@
 /**
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,11 +16,11 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/novus/casbah
+ *     http://github.com/mongodb/casbah
  * 
  */
 
-package com.novus.casbah
+package com.mongodb.casbah
 package commons
 
 import scalaj.collection.Imports._
@@ -138,13 +139,13 @@ object TypeImports extends TypeImports
 trait Imports extends BaseImports with TypeImports with Implicits
 
 trait BaseImports {
-  val MongoDBObject = com.novus.casbah.commons.MongoDBObject
-  val MongoDBList = com.novus.casbah.commons.MongoDBList
+  val MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
+  val MongoDBList = com.mongodb.casbah.commons.MongoDBList
 }
 
 trait TypeImports {
-  type MongoDBObject = com.novus.casbah.commons.MongoDBObject
-  type MongoDBList = com.novus.casbah.commons.MongoDBList
+  type MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
+  type MongoDBList = com.mongodb.casbah.commons.MongoDBList
   type DBObject = com.mongodb.DBObject
   type BasicDBObject = com.mongodb.BasicDBObject
   type BasicDBList = com.mongodb.BasicDBList

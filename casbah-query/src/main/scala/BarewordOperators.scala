@@ -1,4 +1,5 @@
 /**
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,14 +16,14 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/novus/casbah
+ *     http://github.com/mongodb/casbah
  * 
  */
 
-package com.novus.casbah
+package com.mongodb.casbah
 package query
 
-import com.novus.casbah.commons.Imports._
+import com.mongodb.casbah.commons.Imports._
 
 import scala.collection.JavaConversions._
 
@@ -35,7 +36,7 @@ import scala.collection.JavaConversions._
  * The apply method's type parameter can be used to restrict the valid RValue values at will.  
  * 
  * 
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0, 06/17/10
  * @since 1.0
  * @see SetOp
@@ -62,10 +63,10 @@ trait BarewordQueryOperator {
  * Typically, you want to follow the model Implicits does, and mix this in
  * if you want to use it but not import Implicits
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0, 06/17/10
  * @since 1.0
- * @see com.novus.casbah.mongodb.Implicits
+ * @see com.mongodb.casbah.mongodb.Implicits
  */
 trait FluidQueryBarewordOps extends SetOp 
                                with UnsetOp
@@ -80,7 +81,7 @@ trait FluidQueryBarewordOps extends SetOp
  *
  * Targets an RValue of (String, Any)* to be converted to a  DBObject  
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait SetOp extends BarewordQueryOperator {
@@ -94,7 +95,7 @@ trait SetOp extends BarewordQueryOperator {
  *
  * Targets an RValue of String*, where String are field names to be converted to a  DBObject  
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait UnsetOp extends BarewordQueryOperator {
@@ -114,7 +115,7 @@ trait UnsetOp extends BarewordQueryOperator {
  * 
  *   $inc ("foo" -> 5.0, "bar" -> 1.6)
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0, 06/17/10
  * @since 1.0
  */
@@ -136,7 +137,7 @@ trait ArrayOps extends PushOp
  *
  * If Field exists but is not an array an error will occurr.
  * 
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait PushOp extends BarewordQueryOperator {
@@ -151,7 +152,7 @@ trait PushOp extends BarewordQueryOperator {
  * RValue MUST Be an array - otherwise use push.
  *
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait PushAllOp extends BarewordQueryOperator {
@@ -176,7 +177,7 @@ trait PushAllOp extends BarewordQueryOperator {
  *
  * Targets an RValue of (String, Any)* to be converted to a  DBObject  
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait AddToSetOp extends BarewordQueryOperator {
@@ -192,7 +193,7 @@ trait AddToSetOp extends BarewordQueryOperator {
  * 
  * If Field exists but is not an array an error will occurr.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait PopOp extends BarewordQueryOperator {
@@ -206,7 +207,7 @@ trait PopOp extends BarewordQueryOperator {
  *
  * If Field exists but is not an array an error will occurr.
  * 
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait PullOp extends BarewordQueryOperator {
@@ -221,7 +222,7 @@ trait PullOp extends BarewordQueryOperator {
  * RValue MUST Be an array - otherwise use pull.
  *
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait PullAllOp extends BarewordQueryOperator {

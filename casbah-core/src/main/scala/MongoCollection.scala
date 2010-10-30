@@ -1,4 +1,5 @@
 /**
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,16 +16,16 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/novus/casbah
+ *     http://github.com/mongodb/casbah
  * 
  */
 
-package com.novus.casbah
+package com.mongodb.casbah
 
-import com.novus.casbah.Imports._
-import com.novus.casbah.util.Logging
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.util.Logging
 
-import com.novus.casbah.map_reduce.{MapReduceResult, MapReduceCommand}
+import com.mongodb.casbah.map_reduce.{MapReduceResult, MapReduceCommand}
 
 
 import scalaj.collection.Imports._
@@ -38,7 +39,7 @@ import collection.mutable.ArrayBuffer
  *
  * @todo Copy the MongoDB docs over for the proxied methods.
  * 
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  */
 trait MongoCollectionWrapper extends Logging {
@@ -291,7 +292,7 @@ trait MongoCollectionWrapper extends Logging {
  * A Non-Generic, DBObject returning implementation of the <code>ScalaMongoCollectionWrapper</code>
  * Which implements Iterable, to allow iterating directly over it to list all of the underlying objects.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  *
  * @param underlying DBCollection object to proxy
@@ -410,7 +411,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection) extends MongoCol
  *
  * implements Iterable, to allow iterating directly over it to list all of the underlying objects.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
  *
  * @param A  type representing a DBObject subclass which this class should return instead of generic DBObjects

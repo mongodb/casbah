@@ -1,4 +1,5 @@
 /**
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,16 +16,16 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/novus/casbah
+ *     http://github.com/mongodb/casbah
  * 
  */
 
-package com.novus.casbah
+package com.mongodb.casbah
 package conversions
 package scala
 
-import com.novus.casbah.Imports._
-import com.novus.casbah.util.Logging 
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.util.Logging 
 
 import org.bson.{BSON, Transformer}
 
@@ -36,7 +37,7 @@ import org.scala_tools.time.Imports._
  * By default does not include JodaDateTime as this may be undesired behavior.
  * If you want JodaDateTime support, please use the RegisterJodaTimeConversionHelpers Object
  * 
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0, 06/22/10
  * @since 1.0
  * @see RegisterJodaTimeConversionHelpers
@@ -52,7 +53,7 @@ object RegisterConversionHelpers extends Serializers
 /** 
  * "DeRegister" Object, calls the unregistration methods.
  * 
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0, 06/22/10
  * @since 1.0
  */
@@ -76,7 +77,7 @@ object DeregisterConversionHelpers extends Serializers
  *
  * Because it's likely to be controversial, JodaDateTime is NOT mixed in by default.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0, 06/22/10
  * @since 1.0
  */
@@ -100,7 +101,7 @@ trait Deserializers extends MongoConversionHelper {
  *
  * Because it's likely to be controversial, JodaDateTime is NOT mixed in by default.
  *
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0, 06/22/10
  * @since 1.0
  */

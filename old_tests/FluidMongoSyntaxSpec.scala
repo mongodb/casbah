@@ -1,11 +1,12 @@
 /**
- * Copyright (c) 2010, Novus Partners, Inc. <http://novus.com>
- *
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,9 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
  */
 
-package com.novus.casbah
+package com.mongodb.casbah
 package mongodb
 package test
 
@@ -31,7 +36,7 @@ import net.lag.logging.Logger
 
 class FluidMongoSyntaxSpec extends FeatureSpec with GivenWhenThen with ShouldMatchers with Logging {
   Configgy.configure("src/test/resources/casbah.config")
-  com.novus.casbah.mongodb.conversions.scala.RegisterConversionHelpers()
+  com.mongodb.casbah.mongodb.conversions.scala.RegisterConversionHelpers()
   feature("DBObject related syntax conversions.") {
     // Disabled automatic conversion - this causes people's code to catch fire and swallow small children
     scenario("Products/Tuples can be cast to Mongo DBObjects.") {
