@@ -17,7 +17,7 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
     override def compileOptions =
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
     // Testing Deps
-    val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test->default"
+    val specs = "org.scala-tools.testing" % "specs_2.8.0" % "1.6.5" % "test->default"
     val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
 
     val publishTo = Resolver.sftp("repobum", "repobum", "/home/public/%s".format(
