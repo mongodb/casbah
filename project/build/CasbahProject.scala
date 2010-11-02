@@ -15,7 +15,6 @@ class CasbahProject(info: ProjectInfo)
   lazy val core = project("casbah-core", "casbah-core", new CasbahCoreProject(_), commons, query)
   lazy val query = project("casbah-query", "casbah-query", new CasbahQueryProject(_), commons)
   lazy val gridfs = project("casbah-gridfs", "casbah-gridfs", new CasbahGridFSProject(_), core)
-  lazy val pkgbridge = project("casbah-pkgbridge", "casbah-pkgbridge", new CasbahPackageBridgeProject(_), core, gridfs)
 
   abstract class CasbahBaseProject(info: ProjectInfo) 
       extends DefaultProject(info) 
@@ -61,11 +60,6 @@ class CasbahProject(info: ProjectInfo)
   class CasbahQueryProject(info: ProjectInfo) extends CasbahBaseProject(info)
 
   class CasbahGridFSProject(info: ProjectInfo) extends CasbahBaseProject(info)
-
-  class CasbahPackageBridgeProject(info: ProjectInfo) extends CasbahBaseProject(info) {
-    // Docs don't build correctly on my wonky bridging so disable
-    lazy override val doc = task { None } 
-  }
 
   // Repositories
   val scalaToolsRepo = "Scala Tools Release Repository" at "http://scala-tools.org/repo-releases"
