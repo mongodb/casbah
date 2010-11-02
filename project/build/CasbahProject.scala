@@ -1,6 +1,9 @@
 import sbt._
 
-class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterous.Publish {
+class CasbahProject(info: ProjectInfo) 
+    extends ParentProject(info) 
+    with posterous.Publish {
+
 
   // this was nice while it lasted
   override def parallelExecution = false
@@ -13,9 +16,19 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
   lazy val query = project("casbah-query", "casbah-query", new CasbahQueryProject(_), commons)
   lazy val gridfs = project("casbah-gridfs", "casbah-gridfs", new CasbahGridFSProject(_), core)
 
-  abstract class CasbahBaseProject(info: ProjectInfo) extends DefaultProject(info) {
+  abstract class CasbahBaseProject(info: ProjectInfo) 
+      extends DefaultProject(info) 
+      with AutoCompilerPlugins {
+
+    /**
+     * SXR Support 
+     */
+    val sxr = compilerPlugin("org.scala-tools.sxr" % "sxr_2.8.0" % "0.2.6")
+
     override def compileOptions =
+      CompileOption("-P:sxr:base-directory:" + mainScalaSourcePath.absolutePath) ::
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
+
     // Testing Deps
     val specs = "org.scala-tools.testing" % "specs_2.8.0" % "1.6.5" % "test->default"
     val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
