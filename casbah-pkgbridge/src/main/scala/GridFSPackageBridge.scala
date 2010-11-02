@@ -31,7 +31,6 @@
  * @since 1.0
  * @deprecated The com.novus.casbah.mongodb package has been changed to com.mongodb.casbah; please update your code accordingly. This package alias is provided as a convenience and will be going away in the next major release.
  */
-
 package com.novus.casbah {
   package mongodb {
     import com.mongodb.Mongo

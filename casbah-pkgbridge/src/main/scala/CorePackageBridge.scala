@@ -31,7 +31,6 @@
  * @since 1.0
  * @deprecated The com.novus.casbah.mongodb package has been changed to com.mongodb.casbah; please update your code accordingly. This package alias is provided as a convenience and will be going away in the next major release.
  */
-
 package com.novus.casbah {
   package object mongodb {
     import com.mongodb.Mongo
@@ -190,6 +189,7 @@ package com.novus.casbah {
   package object map_reduce {
     @deprecated("The com.novus.casbah.map_reduce package has been changed to com.mongodb.casbah.map_reduce; please update your code accordingly. This package alias is provided as a convenience and will be going away in the next major release.")
     val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
+
     @deprecated("The com.novus.casbah.map_reduce package has been changed to com.mongodb.casbah.map_reduce; please update your code accordingly. This package alias is provided as a convenience and will be going away in the next major release.")
     type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
 
