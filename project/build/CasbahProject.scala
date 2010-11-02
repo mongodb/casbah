@@ -20,10 +20,15 @@ class CasbahProject(info: ProjectInfo) extends ParentProject(info) with posterou
     val specs = "org.scala-tools.testing" % "specs_2.8.0" % "1.6.5" % "test->default"
     val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
 
-    val publishTo = Resolver.sftp("repobum", "repobum", "/home/public/%s".format(
-      if (projectVersion.value.toString.endsWith("-SNAPSHOT")) "snapshots"
-      else "releases"
-    )) as("repobum_repobum", new java.io.File(Path.userHome + "/.ssh/id_rsa"))
+    val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/%s/".format( 
+      if (projectVersion.value.toString.endsWith("-SNAPSHOT"))
+        "snapshots"
+      else
+        "releases"
+    )
+
+    Credentials(Path.userHome / ".ivy2" / ".scalatools_credentials", log)
+
       
   }
 
