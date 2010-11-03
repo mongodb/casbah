@@ -98,16 +98,15 @@ class MongoDB(val underlying: com.mongodb.DB) {
   }
 
   /**
-   * "Safe" mode operation for update ops.
+   * write concern aware write op block.
+   *
    * Guarantees that the operations in the passed
    * block are executed in the same connection
    * via requestStart() and requestDone().
-   * Calls getLastError afterwards,
+   * 
+   * Calls &amp; throws getLastError afterwards,
    * so if you run multiple ops you'll only get the final 
    * error.
-   * 
-   * If you want to do "safe" batch ops, run
-   * batchSafely()
    * 
    * Your op function gets a copy of this MongoDB.
    * 
@@ -116,7 +115,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * 
    * @throws MongoException
    */
-  def safely(op: MongoDB => Unit) { 
+  def request(op: MongoDB => Unit) { 
     // Lock the connection handle (e.g. no pooled calls)
     requestStart
     
