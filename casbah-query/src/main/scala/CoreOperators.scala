@@ -49,6 +49,7 @@ trait FluidQueryOperators extends NotEqualsOp
                              with AllOp 
                              with WhereOp 
                              with NotOp
+                             with SliceOp
 
 
 trait ValueTestFluidQueryOperators extends LessThanOp 
@@ -370,10 +371,32 @@ trait WhereOp extends QueryOperator {
 trait NotOp extends QueryOperator {
   /** Callbackey Nesting placeholding object for targetting correctly*/
   case class NotOpNester(val field: String, _dbObj: Option[DBObject]) extends NestingQueryHelper 
-                                                                         with ValueTestFluidQueryOperators {
+                                                                      with ValueTestFluidQueryOperators {
     val oper = "$not"
   }
 
   def $not = NotOpNester(field, dbObj)
 }
 
+/**
+ * Trait to provide the $slice (Slice of Array) method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) either an Int of slice indicator or a tuple
+ * of skip and limit.
+ *
+ * &gt; "foo" $slice 5 
+ * res0: (String, com.mongodb.DBObject) = (foo,{ "$slice" : 5})
+ *
+ * &gt; "foo" $slice (5, -1)
+ * res1: (String, com.mongodb.DBObject) = (foo,{ "$slice" : [ 5 , -1]})
+ *
+ * @author Brendan W. McAdams <brendan@10gen.comeger>
+ * @version 1.0
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24sliceoperator
+ *
+ */
+trait SliceOp extends QueryOperator {
+  def $slice(target: Int) = op("$slice", target)
+  def $slice(slice: Int, limit: Int) = op("$slice", List(slice, limit).asJava)
+}
