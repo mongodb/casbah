@@ -25,7 +25,7 @@ package query
 
 import com.mongodb.casbah.commons.Imports._
 
-import scala.collection.JavaConversions._
+import scalaj.collection.Imports._
 
 /** 
  * Base Operator class for Bareword Operators.
@@ -71,6 +71,7 @@ trait BarewordQueryOperator {
 trait FluidQueryBarewordOps extends SetOp 
                                with UnsetOp
                                with IncOp
+                               with OrOp
                                with ArrayOps
 
 
@@ -131,7 +132,7 @@ trait ArrayOps extends PushOp
                   with PullAllOp
 
 /*
- * Trait to provide the $push (push) method as a bareword operator..
+ * Trait to provide the $push (push) method as a bareword operator.
  *
  * Targets an RValue of (String, Any)* to be converted to a  DBObject  
  *
@@ -229,5 +230,32 @@ trait PullAllOp extends BarewordQueryOperator {
   def $pullAll = apply[Array[Any]]("$pullAll")_
 }
 
+/**
+ * Trait to provide the $or method as a bareword operator.
+ *
+ * $or ("Foo" -> "bar")
+ *
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject  
+ *
+ * TODO - Test that rvalue ends up being an array e.g.:
+ * 
+ *   scala> $or ("foo" -> "bar", "X" -> 5)           
+ *   res1: com.mongodb.casbah.commons.Imports.DBObject = { "$or" : [ { "foo" : "bar" , "X" : 5}]}
+ *  
+ * 
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @version 1.0
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24or
+ */
 
+trait OrOp extends BarewordQueryOperator {
+  override def apply[A](oper: String)(fields: (String, A)*) = { 
+    val bldr = MongoDBObject.newBuilder
+    for ((k, v) <- fields) bldr += k -> v
+    MongoDBObject(oper -> List(bldr.result.asDBObject).asJava)
+  }
+
+  def $or = apply[Any]("$or")_
+}
 // vim: set ts=2 sw=2 sts=2 et:
