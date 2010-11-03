@@ -129,41 +129,5 @@ class MongoDB(val underlying: com.mongodb.DB) {
     requestDone
   }
 
-  /**
-   * "Safe" mode operation for batch update ops.
-   * Guarantees that the operations in the passed
-   * block are executed in the same connection
-   * via requestStart() and requestDone().
-   * Resets errors &amp; Calls getPRevError afterwards,
-   * 
-   * IF you need only to do one op, use safely.
-   *
-   * Your op function gets a copy of this MongoDB.
-   * 
-   * This is for update ops only - you cannot return data from it.
-   * 
-   * 
-   * @throws MongoException
-   */
-  def batchSafely(op: MongoDB => Unit) { 
-    // Reset the error memory for the DB
-    resetError 
-
-    // Lock the connection handle (e.g. no pooled calls)
-    requestStart
-    
-    // Exec the op
-    op(this)
-
-    // If anything failed, throw the exception 
-    getPreviousError.throwOnError
-
-    // Unlock the connection
-    requestDone
-  }
-
-
-
-
   override def toString() = underlying.toString
 }
