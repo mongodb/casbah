@@ -323,10 +323,7 @@ trait AllOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24mod
  */
 trait ModuloOp extends QueryOperator {
-  def $mod(target: String) = op("$mod", target)
-  def $mod(target: AnyVal) = op("$mod", target)
-  def $mod(target: DBObject) = op("$mod", target)
-  def $mod(target: Map[String, Any]) = op("$mod", target.asDBObject)
+  def $mod(left: Int, right: Int) = op("$mod", List(left, right).asJava)
 }
 
 /**
@@ -413,3 +410,4 @@ trait SliceOp extends QueryOperator {
   def $slice(target: Int) = op("$slice", target)
   def $slice(slice: Int, limit: Int) = op("$slice", List(slice, limit).asJava)
 }
+
