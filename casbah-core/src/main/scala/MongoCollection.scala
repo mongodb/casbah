@@ -381,24 +381,6 @@ class MongoCollection(val underlying: com.mongodb.DBCollection) extends MongoCol
    */
   def request(op: MongoCollection => Unit) = getDB.request(db => op(db(name)))
 
-  /**
-   * "Safe" mode operation for batch update ops.
-   * Guarantees that the operations in the passed
-   * block are executed in the same connection
-   * via requestStart() and requestDone().
-   * Resets errors &amp; Calls getPRevError afterwards,
-   * 
-   * IF you need only to do one op, use safely.
-   *
-   * Your op function gets a copy of this MongoDB.
-   * 
-   * This is for update ops only - you cannot return data from it.
-   * 
-   * 
-   * @throws MongoException
-   */
-  def batchSafely(op: MongoCollection => Unit) = getDB.batchSafely(db => op(db(name))) 
-
 }
 
 /**
