@@ -56,6 +56,10 @@ trait ValueTestFluidQueryOperators extends LessThanOp
                                       with LessThanEqualOp 
                                       with GreaterThanOp 
                                       with GreaterThanEqualOp
+                                      with ModuloOp
+                                      with SizeOp
+                                      with AllOp
+                                      with WhereOp
 /**
  * Base trait for QueryOperators, children
  * are required to define a value for field, which is a String
@@ -371,6 +375,10 @@ trait WhereOp extends QueryOperator {
 }
 /**
  * Trait to provide the $not (Not) negation method on appropriate callers.
+ * 
+ * Make sure your anchor it when you have multiple operators e.g.
+ * 
+ * "foo".$not $mod(5, 10)
  *
  * Targets (takes a right-hand value of) DBObject or a Scala RegEx
  *
