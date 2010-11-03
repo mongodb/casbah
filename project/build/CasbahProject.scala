@@ -29,6 +29,10 @@ class CasbahProject(info: ProjectInfo)
       CompileOption("-P:sxr:base-directory:" + mainScalaSourcePath.absolutePath) ::
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
 
+    override def documentOptions = Seq(
+      CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah/source.sxr/") 
+    ) ++ super.documentOptions 
+
     // Testing Deps
     val specs = "org.scala-tools.testing" % "specs_2.8.0" % "1.6.5" % "test->default"
     val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
