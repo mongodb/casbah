@@ -83,6 +83,7 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
       dbObj must haveSuperClass[DBObject]
       dbObj must haveSize(0)
     }
+
     "support a 2.8 factory interface which returns a DBObject" in {
       val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
                                 "embedded" -> MongoDBObject("foo" -> "bar"))
@@ -111,6 +112,25 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
 
       dbObj must haveSuperClass[DBObject]
       dbObj must haveSize(6)
+    }
+  }
+
+  "MongoDBObject type conversions" should {
+    "Support converting Maps of [String, Any] to DBObjects" in {
+      val control: DBObject = MongoDBObject("foo" -> "bar", "n" -> 2)
+      control must haveSuperClass[DBObject]
+
+      val map = Map("foo" -> "bar", "n" -> 2)
+
+      val cast: DBObject = map
+
+      cast must haveSuperClass[DBObject]
+      cast must beEqualTo(control)
+
+      val explicit = map.asDBObject
+
+      explicit must haveSuperClass[DBObject]
+      explicit must beEqualTo(control)
     }
   }
 
