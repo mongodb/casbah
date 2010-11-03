@@ -88,7 +88,7 @@ sealed trait QueryOperator {
    * WARNING: This does NOT check that target is a serializable type.
    * That is, for the moment, your own problem.
    */
-  protected def op(op: String, target: Any) = dbObj match {
+  protected def op(op: String, target: Any) = MongoDBObject(dbObj match {
     case Some(nested) => {
       patchSerialization(target)
       nested.put(op, target)
@@ -99,7 +99,7 @@ sealed trait QueryOperator {
       val opMap = BasicDBObjectBuilder.start(op, target).get
       (field -> opMap)
     }
-  }
+  })
   /** 
    * Temporary fix code for making sure certain edge cases w/ the serialization libs 
    * Don't happen.  This may impose a slight performance penalty.
