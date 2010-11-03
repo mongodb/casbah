@@ -144,6 +144,7 @@ trait NestingQueryHelper extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24ne
  */
 trait NotEqualsOp extends QueryOperator {
   def $ne(target: String) = op("$ne", target)
@@ -161,6 +162,7 @@ trait NotEqualsOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait LessThanOp extends QueryOperator {
   def $lt(target: String) = op("$lt", target)
@@ -179,6 +181,7 @@ trait LessThanOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait LessThanEqualOp extends QueryOperator {
   def $lte(target: String) = op("$lte", target)
@@ -197,6 +200,7 @@ trait LessThanEqualOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait GreaterThanOp extends QueryOperator {
   def $gt(target: String) = op("$gt", target)
@@ -216,6 +220,7 @@ trait GreaterThanOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait GreaterThanEqualOp extends QueryOperator {
   def $gte(target: String) = op("$gte", target)
@@ -239,6 +244,7 @@ trait GreaterThanEqualOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24in 
  */
 trait InOp extends QueryOperator {
   def $in(target: Array[Any]) = op("$in", target.toList.asJava)
@@ -265,6 +271,7 @@ trait InOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nin
  */
 trait NotInOp extends QueryOperator {
   def $nin(target: Array[Any]) = op("$nin", target.toList.asJava)
@@ -291,6 +298,7 @@ trait NotInOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24all
  */
 trait AllOp extends QueryOperator {
   def $all(target: Array[Any]) = op("$all", target.toList.asJava)
@@ -312,6 +320,7 @@ trait AllOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24mod
  */
 trait ModuloOp extends QueryOperator {
   def $mod(target: String) = op("$mod", target)
@@ -328,6 +337,7 @@ trait ModuloOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24size
  */
 trait SizeOp extends QueryOperator {
   def $size(target: String) = op("$size", target)
@@ -342,6 +352,7 @@ trait SizeOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24exists%7D%7D
  */
 trait ExistsOp extends QueryOperator {
   def $exists(target: Boolean) = op("$exists", target)
@@ -356,6 +367,7 @@ trait ExistsOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-JavascriptExpressionsand%7B%7B%24where%7D%7D
  */
 trait WhereOp extends QueryOperator {
   def $where(target: JSFunction) = op("$where", target)
@@ -367,6 +379,7 @@ trait WhereOp extends QueryOperator {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-Metaoperator%3A%24not
  */
 trait NotOp extends QueryOperator {
   /** Callbackey Nesting placeholding object for targetting correctly*/
