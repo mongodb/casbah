@@ -360,17 +360,17 @@ class MongoCollection(val underlying: com.mongodb.DBCollection) extends MongoCol
   override def headOption = findOne
   override def tail = find.skip(1).toList
 
+
   /**
-   * "Safe" mode operation for update ops.
+   * write concern aware write op block.
+   *
    * Guarantees that the operations in the passed
    * block are executed in the same connection
    * via requestStart() and requestDone().
-   * Calls getLastError afterwards,
+   * 
+   * Calls &amp; throws getLastError afterwards,
    * so if you run multiple ops you'll only get the final 
    * error.
-   * 
-   * If you want to do "safe" batch ops, run
-   * batchSafely()
    * 
    * Your op function gets a copy of this MongoDB.
    * 
@@ -379,7 +379,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection) extends MongoCol
    * 
    * @throws MongoException
    */
-  def safely(op: MongoCollection => Unit) = getDB.safely(db => op(db(name)))
+  def request(op: MongoCollection => Unit) = getDB.request(db => op(db(name)))
 
   /**
    * "Safe" mode operation for batch update ops.
