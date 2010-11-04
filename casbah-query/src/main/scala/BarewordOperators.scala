@@ -172,17 +172,31 @@ trait PushAllOp extends BarewordQueryOperator {
  *
  * Targets an RValue of (String, Any)* to be converted to a  DBObject  
  *
+ *   scala> $addToSet ("foo" -> List(5, 10))
+ *   res4: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : [ { "foo" : [ 5 , 10]}]}
+ *
+ *   scala> $addToSet ("foo" -> MongoDBList(5, 10))
+ *  res5: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : [ { "foo" : [ 5 , 10]}]}
+ *
+ *   scala> $addToSet ("foo" $each (5, 10, 15, "20"))
+ *  res6: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : { "foo" : { "$each" : [ 5 , 10 , 15 , "20"]}}}
+ *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
  */
 trait AddToSetOp extends BarewordQueryOperator {
-  def $addToSet = apply[Any]("$addToSet")_
+
+  def $addToSet[T <% DBObject](arg: T) = 
+    MongoDBObject("$addToSet" -> arg)
+
+  def $addToSet[A <: Any : Manifest](arg: (String, A)): DBObject = 
+      apply("$addToSet")(arg)
 }
+
 
 /*
  * Trait to provide the $pop (pop) method as a bareword operator..
  *
- 
  *
  * TODO - Support the "unshift" version in which a -1 is specified
  * 
