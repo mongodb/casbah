@@ -34,7 +34,6 @@ import scalaj.collection.Imports._
  * operators.  See Implicits for examples of usage.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  */
 trait FluidQueryOperators extends NotEqualsOp 
                              with LessThanOp 
@@ -67,7 +66,6 @@ trait ValueTestFluidQueryOperators extends LessThanOp
  * <code>{"foo": {"$ne": "bar"}}</code> "foo" is the field.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  */
 sealed trait QueryOperator {
   val field: String
@@ -147,7 +145,6 @@ trait NestingQueryHelper extends QueryOperator {
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24ne
  */
 trait NotEqualsOp extends QueryOperator {
@@ -165,7 +162,6 @@ trait NotEqualsOp extends QueryOperator {
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait LessThanOp extends QueryOperator {
@@ -184,7 +180,6 @@ trait LessThanOp extends QueryOperator {
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait LessThanEqualOp extends QueryOperator {
@@ -203,7 +198,6 @@ trait LessThanEqualOp extends QueryOperator {
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait GreaterThanOp extends QueryOperator {
@@ -223,7 +217,6 @@ trait GreaterThanOp extends QueryOperator {
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait GreaterThanEqualOp extends QueryOperator {
@@ -247,7 +240,6 @@ trait GreaterThanEqualOp extends QueryOperator {
  * to an Array under the covers. 
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24in 
  */
 trait InOp extends QueryOperator {
@@ -274,7 +266,6 @@ trait InOp extends QueryOperator {
  * to an Array under the covers.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nin
  */
 trait NotInOp extends QueryOperator {
@@ -301,7 +292,6 @@ trait NotInOp extends QueryOperator {
  * to an Array under the covers.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24all
  */
 trait AllOp extends QueryOperator {
@@ -323,7 +313,6 @@ trait AllOp extends QueryOperator {
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24mod
  */
 trait ModuloOp extends QueryOperator {
@@ -337,7 +326,6 @@ trait ModuloOp extends QueryOperator {
  * DBObject.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24size
  */
 trait SizeOp extends QueryOperator {
@@ -352,7 +340,6 @@ trait SizeOp extends QueryOperator {
  * Targets (takes a right-hand value of) Booleans.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24exists%7D%7D
  */
 trait ExistsOp extends QueryOperator {
@@ -367,7 +354,6 @@ trait ExistsOp extends QueryOperator {
  * Targets (takes a right-hand value of) JSFunction
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-JavascriptExpressionsand%7B%7B%24where%7D%7D
  */
 trait WhereOp extends QueryOperator {
@@ -383,7 +369,6 @@ trait WhereOp extends QueryOperator {
  * Targets (takes a right-hand value of) DBObject or a Scala RegEx
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-Metaoperator%3A%24not
  */
 trait NotOp extends QueryOperator {
@@ -409,7 +394,6 @@ trait NotOp extends QueryOperator {
  * res1: (String, com.mongodb.DBObject) = (foo,{ "$slice" : [ 5 , -1]})
  *
  * @author Brendan W. McAdams <brendan@10gen.comeger>
- * @version 1.0
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24sliceoperator
  *

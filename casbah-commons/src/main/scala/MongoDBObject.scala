@@ -40,7 +40,6 @@ import scala.reflect._
  * 
  * We will likely reimplement DBObject itself longterm as a pure base. on the wire format
  * @author Brendan W. McAdams <bmcadams@novus.com>
- * @version 1.0, 06/02/10
  * @since 1.0
  * 
  * @tparam String 
