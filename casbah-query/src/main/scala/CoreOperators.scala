@@ -28,6 +28,9 @@ import com.mongodb.casbah.commons.Imports._
 import com.mongodb.{DBObject, BasicDBObjectBuilder}
 import scalaj.collection.Imports._
 
+import scala.util.matching._
+import org.bson._
+import org.bson.types.BasicBSONList
 
 /**
  * Mixed trait which provides all possible
@@ -49,6 +52,7 @@ trait FluidQueryOperators extends NotEqualsOp
                              with WhereOp 
                              with NotOp
                              with SliceOp
+                             with TypeOp
 
 
 trait ValueTestFluidQueryOperators extends LessThanOp 
@@ -422,4 +426,78 @@ trait AddToSetEachOp extends QueryOperator {
              !target(0).isInstanceOf[Array[_]])
       op("$each", List(target(0)))
     else op("$each", target(0))
+}
+
+abstract class BSONType[A]
+
+object BSONType {
+  implicit object BSONDouble extends BSONType[Double]
+  implicit object BSONString extends BSONType[String]
+  implicit object BSONObject extends BSONType[BSONObject]
+  implicit object DBObject extends BSONType[DBObject]
+  implicit object DBList extends BSONType[BasicDBList]
+  implicit object BSONDBList extends BSONType[BasicBSONList]
+  implicit object BSONBinary extends BSONType[Array[Byte]]
+  implicit object BSONArray extends BSONType[Array[_]]
+  implicit object BSONList extends BSONType[List[_]]
+  implicit object BSONObjectId extends BSONType[ObjectId]
+  implicit object BSONBoolean extends BSONType[Boolean]
+  implicit object BSONJDKDate extends BSONType[java.util.Date]
+  implicit object BSONNull extends BSONType[Option[Nothing]]
+  implicit object BSONRegex extends BSONType[Regex]
+  implicit object BSONSymbol extends BSONType[Symbol]
+  implicit object BSON32BitInt extends BSONType[Int]
+  implicit object BSON64BitInt extends BSONType[Long]
+  implicit object BSONSQLTimestamp extends BSONType[java.sql.Timestamp]
+}
+
+/**
+ * $type operator to query by type.
+ * 
+ * Can type a BSON.<enum value> or a Context Bounded check.
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24type%7D%7D 
+ */
+trait TypeOp extends QueryOperator {
+  def $type(arg: Byte) = op("$type", arg)
+
+  def $type[A : BSONType : Manifest] = 
+    if (manifest[A] <:< manifest[Double]) 
+      op("$type", BSON.NUMBER)
+    else if (manifest[A] <:< manifest[String])
+      op("$type", BSON.STRING)
+    else if (manifest[A] <:< manifest[BSONObject] || 
+             manifest[A] <:< manifest[DBObject] )
+      op("$type", BSON.OBJECT)
+    else if (manifest[A] <:< manifest[BasicDBList] || 
+             manifest[A] <:< manifest[BasicBSONList] || 
+             manifest[A] <:< manifest[List[_]])
+      op("$type", BSON.ARRAY)
+    else if (manifest[A] <:< manifest[ObjectId])
+      op("$type", BSON.OID)
+    else if (manifest[A] <:< manifest[Boolean])
+      op("$type", BSON.BOOLEAN)
+    else if (manifest[A] <:< manifest[java.util.Date])
+      op("$type", BSON.DATE)
+    else if (manifest[A] <:< manifest[Option[Nothing]])
+      op("$type", BSON.NULL)
+    else if (manifest[A] <:< manifest[Regex])
+      op("$type", BSON.REGEX)
+    else if (manifest[A] <:< manifest[Symbol])
+      op("$type", BSON.SYMBOL)
+    else if (manifest[A] <:< manifest[Int])
+      op("$type", BSON.NUMBER_INT)
+    else if (manifest[A] <:< manifest[Long])
+      op("$type", BSON.NUMBER_LONG)
+    else if (manifest[A] <:< manifest[java.sql.Timestamp])
+      op("$type", BSON.TIMESTAMP)
+    else if (manifest[A].erasure.isArray) 
+      if (manifest[A] <:< manifest[Byte]) 
+        op("$type", BSON.BINARY)
+      else 
+        op("$type", BSON.ARRAY)
+    else
+      throw new IllegalArgumentException("Invalid BSON Type '%s' for matching".format(manifest.erasure))
 }
