@@ -23,11 +23,11 @@ class CasbahProject(info: ProjectInfo)
     /**
      * SXR Support 
      */
-    val sxr = compilerPlugin("org.scala-tools.sxr" % "sxr_2.8.0" % "0.2.6")
+    //val sxr = compilerPlugin("org.scala-tools.sxr" % "sxr_2.8.0" % "0.2.6")
 
     override def compileOptions =
-      CompileOption("-P:sxr:base-directory:" + mainScalaSourcePath.absolutePath) ::
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
+      //CompileOption("-P:sxr:base-directory:" + mainScalaSourcePath.absolutePath) ::
 
     override def documentOptions = Seq(
       CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah/source.sxr/") 
@@ -51,7 +51,7 @@ class CasbahProject(info: ProjectInfo)
 
   class CasbahCommonsProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     // Runtime deps
-    val mongodb = "org.mongodb" % "mongo-java-driver" % "2.1"
+    val mongodb = "org.mongodb" % "mongo-java-driver" % "2.3"
     val configgy = "net.lag" % "configgy" % "2.0.0" intransitive()
     val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
   }
