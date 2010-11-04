@@ -251,9 +251,9 @@ trait PullAllOp extends BarewordQueryOperator {
 
 trait OrOp extends BarewordQueryOperator {
   override def apply[A](oper: String)(fields: (String, A)*) = { 
-    val bldr = MongoDBObject.newBuilder
-    for ((k, v) <- fields) bldr += k -> v
-    MongoDBObject(oper -> List(bldr.result.asDBObject).asJava)
+    val bldr = MongoDBList.newBuilder
+    for ((k, v) <- fields) bldr += MongoDBObject(k -> v)
+    MongoDBObject(oper -> bldr.result.asDBObject)
   }
 
   def $or = apply[Any]("$or")_
