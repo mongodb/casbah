@@ -314,6 +314,34 @@ class MongoCollection(val underlying: com.mongodb.DBCollection) extends MongoCol
   def findOneView[A <% DBObject : Manifest](o: A) = optWrap(underlying.findOne(o))
   def findOneView[A <% DBObject : Manifest, B <% DBObject : Manifest](o: A, fields: B) = 
     optWrap(underlying.findOne(o, fields))
+
+  /**
+   * Finds the first document in the query (sorted) and updates it. 
+   * If remove is specified it will be removed. If new is specified then the updated 
+   * document will be returned, otherwise the old document is returned (or it would be lost forever).
+   * You can also specify the fields to return in the document, optionally.
+   * @return the found document (before, or after the update)
+   */
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = optWrap(underlying.findAndModify(query, update))
+  /**
+   * Finds the first document in the query (sorted) and updates it. 
+   * @return the old document
+   */
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](query: A, sort: B, update: C) = optWrap(underlying.findAndModify(query, sort, update))
+  /**
+   * Finds the first document in the query and updates it. 
+   * @return the old document
+   */
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest, D <% DBObject : Manifest](
+    query: A, fields: B, sort: C, remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean
+  ) = optWrap(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
+
+  /**
+   * Finds the first document in the query and removes it. 
+   * @return the removed document
+   */
+  def findAndRemove[A <% DBObject : Manifest](query: A) = optWrap(underlying.findAndRemove(query))
+
   /**
    * Finds an object by its id. This compares the passed in value to the _id field of the document
    * It also serves to totally SCREW anyone trying to use context/view bounds of DBObject ;)
@@ -353,7 +381,10 @@ class MongoCollection(val underlying: com.mongodb.DBCollection) extends MongoCol
       findOneView(prod.asDBObject, fields)
     }
      case _ => optWrap(underlying.findOne(obj, fields))
-   }
+  }
+
+
+
   override def head = headOption.get
   override def headOption = findOne
   override def tail = find.skip(1).toList
@@ -395,13 +426,12 @@ class MongoCollection(val underlying: com.mongodb.DBCollection) extends MongoCol
  *
  * @param A  type representing a DBObject subclass which this class should return instead of generic DBObjects
  * @param underlying DBCollection object to proxy
- * @param m Manifest[A] representing the erasure for the underlying type - used to get around the JVM's insanity
  */
-class MongoTypedCollection[A <: DBObject : Manifest](val underlying: com.mongodb.DBCollection) extends Iterable[A] 
+class MongoTypedCollection[T <: DBObject : Manifest](val underlying: com.mongodb.DBCollection) extends Iterable[T] 
                                                                                        with MongoCollectionWrapper {
                                                                                      
-  type UnderlyingObj = A
-  val m = manifest[A]
+  type UnderlyingObj = T
+  val m = manifest[T]
   log.debug("Manifest erasure: " + m.erasure)
   underlying.setObjectClass(m.erasure)
   /*def this(coll: DBCollection)(implicit m: scala.reflect.Manifest[A]) = {
@@ -417,15 +447,44 @@ class MongoTypedCollection[A <: DBObject : Manifest](val underlying: com.mongodb
   def find() = underlying.find.asScalaTyped
   def find(ref: DBObject) = underlying.find(ref) asScalaTyped
   def find(ref: DBObject, keys: DBObject) = underlying.find(ref, keys) asScalaTyped
-  def findOne() = optWrap(underlying.findOne().asInstanceOf[A])
-  def findOne(o: DBObject) = optWrap(underlying.findOne(o).asInstanceOf[A])
-  def findOne(o: DBObject, fields: DBObject) = optWrap(underlying.findOne(o, fields).asInstanceOf[A])
-  def findOne(obj: Object) = optWrap(underlying.findOne(obj).asInstanceOf[A])
-  def findOne(obj: Object, fields: DBObject) = optWrap(underlying.findOne(obj, fields).asInstanceOf[A])
+  def findOne() = optWrap(underlying.findOne().asInstanceOf[T])
+  def findOne(o: DBObject) = optWrap(underlying.findOne(o).asInstanceOf[T])
+  def findOne(o: DBObject, fields: DBObject) = optWrap(underlying.findOne(o, fields).asInstanceOf[T])
+  def findOne(obj: Object) = optWrap(underlying.findOne(obj).asInstanceOf[T])
+  def findOne(obj: Object, fields: DBObject) = optWrap(underlying.findOne(obj, fields).asInstanceOf[T])
+
+  /**
+   * Finds the first document in the query (sorted) and updates it. 
+   * If remove is specified it will be removed. If new is specified then the updated 
+   * document will be returned, otherwise the old document is returned (or it would be lost forever).
+   * You can also specify the fields to return in the document, optionally.
+   * @return the found document (before, or after the update)
+   */
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = optWrap(underlying.findAndModify(query, update)).asInstanceOf[T]
+  /**
+   * Finds the first document in the query (sorted) and updates it. 
+   * @return the old document
+   */
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](query: A, sort: B, update: C) = optWrap(underlying.findAndModify(query, sort, update)).asInstanceOf[T]
+  /**
+   * Finds the first document in the query and updates it. 
+   * @return the old document
+   */
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest, D <% DBObject : Manifest](
+    query: A, fields: B, sort: C, remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean
+  ) = optWrap(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert)).asInstanceOf[T]
+
+  /**
+   * Finds the first document in the query and removes it. 
+   * @return the removed document
+   */
+  def findAndRemove[A <% DBObject : Manifest](query: A) = optWrap(underlying.findAndRemove(query)).asInstanceOf[T]
+
+
   //override def find(ref: DBObject, fields: DBObject, numToSkip: Int, batchSize: Int): ScalaTypedMongoCursor[A] = underlying.find(ref, fields, numToSkip, batchSize) asScalaTyped
   //override def find(ref: DBObject, fields: DBObject, numToSkip: Int, batchSize: Int, options: Int) = underlying.find(ref, fields, numToSkip, batchSize, options) asScalaTyped
   override def head = findOne.get
-  override def headOption = Some(findOne.get.asInstanceOf[A])
-  override def tail = find.skip(1).map(_.asInstanceOf[A]).toList
+  override def headOption = Some(findOne.get.asInstanceOf[T])
+  override def tail = find.skip(1).map(_.asInstanceOf[T]).toList
 
 }
