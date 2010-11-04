@@ -70,6 +70,7 @@ trait FluidQueryBarewordOps extends SetOp
                                with UnsetOp
                                with IncOp
                                with OrOp
+                               with RenameOp
                                with ArrayOps
 
 
@@ -257,12 +258,30 @@ trait PullAllOp extends BarewordQueryOperator {
  */
 
 trait OrOp extends BarewordQueryOperator {
-  override def apply[A](oper: String)(fields: (String, A)*) = { 
+
+  def $or(fields: (String, Any)*) = { 
     val bldr = MongoDBList.newBuilder
     for ((k, v) <- fields) bldr += MongoDBObject(k -> v)
-    MongoDBObject(oper -> bldr.result.asDBObject)
+    MongoDBObject("$or" -> bldr.result.asDBObject)
   }
 
-  def $or = apply[Any]("$or")_
 }
+
+/** 
+ * Trait to provide the $rename (Rename field) as a bareword operator
+ *
+ * Targets (takes a right-hand value of) a DBObject or a Tuple of (String, String) 
+ * 
+ * WORKS ONLY IN MONGODB 1.7.2+
+ * 
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24rename
+ *
+ */
+trait RenameOp extends BarewordQueryOperator {
+  def $rename = apply[Any]("$rename")_
+}
+
+
 // vim: set ts=2 sw=2 sts=2 et:
