@@ -207,7 +207,7 @@ trait AddToSetOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pop
  */
 trait PopOp extends BarewordQueryOperator {
-  def $pop(args: String*) = apply("$pop")(args.map(_ -> 1): _*)
+  def $pop[T : Numeric](args: (String, T)*) = apply[T]("$pop")(args: _*)
 }
 
 /*
