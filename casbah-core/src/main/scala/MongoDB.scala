@@ -32,7 +32,6 @@ import scalaj.collection.Imports._
  * Wrapper for the Mongo <code>DB</code> object providing scala-friendly functionality.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  */
 class MongoDB(val underlying: com.mongodb.DB) {
   /**

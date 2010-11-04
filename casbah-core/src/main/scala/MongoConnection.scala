@@ -33,7 +33,6 @@ import com.mongodb.Mongo
  * Apply methods are called as MongoConnectionection(<params>)
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  */
 object MongoConnection {
   def apply() = new MongoConnection(new Mongo())
@@ -51,7 +50,6 @@ object MongoConnection {
  * Wrapper class for the Mongo Connection object.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  */
 class MongoConnection(val underlying: Mongo) {
   // Register the core Serialization helpers.
@@ -76,7 +74,6 @@ class MongoConnection(val underlying: Mongo) {
 /**
  * 
  * @author  Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0, 07/24/10
  * @since   1.0.1
  */
 object MongoDBAddress { 

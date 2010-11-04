@@ -37,7 +37,6 @@ class MapReduceError(msg: String) extends Error("MongoDB Map/Reduce Error: " + m
  * @see <a href="http://www.mongodb.org/display/DOCS/MapReduce">The MongoDB Map/Reduce Documentation</a>
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  */
 object MapReduceCommand {
   def apply(collection: String,
@@ -84,7 +83,6 @@ object MapReduceCommand {
  * @see http://www.mongodb.org/display/DOCS/MapReduce
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  */
 class MapReduceCommand {
   var collection: String = ""

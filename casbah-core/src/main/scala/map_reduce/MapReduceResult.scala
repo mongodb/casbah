@@ -33,7 +33,6 @@ import scalaj.collection.Imports._
  * Wrapper for MongoDB MapReduceResults, implementing iterator to allow direct iterator over the result set.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  *
  * @param resultObj a DBObject directly conforming to the mapReduce result spec as defined in the MongoDB Docs.
  * 

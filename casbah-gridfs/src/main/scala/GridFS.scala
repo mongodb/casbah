@@ -44,7 +44,6 @@ import org.scala_tools.time.Imports._
  * Entry point for creation of GridFS Instances.
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0, 06/02/10
  * @since 1.0
  */
 object GridFS extends Logging {

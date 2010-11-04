@@ -37,7 +37,6 @@ import scalaj.collection.Imports._
  * 
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0, 06/17/10
  * @since 1.0
  * @see SetOp
  */
@@ -64,9 +63,8 @@ trait BarewordQueryOperator {
  * if you want to use it but not import Implicits
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0, 06/17/10
  * @since 1.0
- * @see com.mongodb.casbah.mongodb.Implicits
+ * @see com.mongodb.casbah.Implicits
  */
 trait FluidQueryBarewordOps extends SetOp 
                                with UnsetOp
@@ -83,7 +81,7 @@ trait FluidQueryBarewordOps extends SetOp
  * Targets an RValue of (String, Any)* to be converted to a  DBObject  
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24set
  */
 trait SetOp extends BarewordQueryOperator {
   def $set = apply[Any]("$set")_
@@ -97,7 +95,7 @@ trait SetOp extends BarewordQueryOperator {
  * Targets an RValue of String*, where String are field names to be converted to a  DBObject  
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24unset
  */
 trait UnsetOp extends BarewordQueryOperator {
   def $unset(args: String*) = apply("$unset")(args.map(_ -> 1): _*)
@@ -105,20 +103,20 @@ trait UnsetOp extends BarewordQueryOperator {
 
 
 /** 
- * Trait to provide the $unset (UnSet) UnSet method as a bareword operator..
+ * Trait to provide the $inc (inc) method as a bareword operator..
  *
  *   $inc ("foo" -> 5)
  *
  * Targets an RValue of (String, Numeric)* to be converted to a  DBObject  
  *
- * Due to a bug in the way I implemented type detection this fails if you mix numeric types.  E.g. floats work, but not mixing floats and ints.
+ * Due to a quirk in the way I implemented type detection this fails if you mix numeric types.  E.g. floats work, but not mixing floats and ints.
  * This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:
  * 
  *   $inc ("foo" -> 5.0, "bar" -> 1.6)
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0, 06/17/10
  * @since 1.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24inc
  */
 trait IncOp extends BarewordQueryOperator {
   def $inc[T : Numeric](args: (String, T)*) = apply[T]("$inc")(args: _*)
@@ -136,10 +134,11 @@ trait ArrayOps extends PushOp
  *
  * Targets an RValue of (String, Any)* to be converted to a  DBObject  
  *
- * If Field exists but is not an array an error will occurr.
+ * If Field exists but is not an array an error will occur
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24push
+ * 
  */
 trait PushOp extends BarewordQueryOperator {
   def $push = apply[Any]("$push")_
@@ -154,15 +153,10 @@ trait PushOp extends BarewordQueryOperator {
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pushAll
  */
 trait PushAllOp extends BarewordQueryOperator {
-  //def $pushAll = apply[Array[Any]]("$pushAll")_
-  /*def $pushAll(args: (String, Iterable[Any])*): DBObject = apply("$pushAll")(args.map(z => (z._1, z._2.toArray)):_*)
-  def $pushAll(args: (String, Product)): DBObject = $pushAll(args._1 -> args._2.productIterator.toIterable)
-  def $pushAll(args: (String, Array[Any])): DBObject = $pushAll(args._1 -> args._2.toIterable)*/
-    //else if (manifest[A].toString.startsWith("Array[")) // WARNING: HACK! 
-  def $pushAll[A <: Any : Manifest](args: (String, A)*): DBObject = 
+   def $pushAll[A <: Any : Manifest](args: (String, A)*): DBObject = 
     if (manifest[A] <:< manifest[Iterable[_]]) 
       apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]):_*)
     else if (manifest[A] <:< manifest[Product]) 
@@ -179,7 +173,7 @@ trait PushAllOp extends BarewordQueryOperator {
  * Targets an RValue of (String, Any)* to be converted to a  DBObject  
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
  */
 trait AddToSetOp extends BarewordQueryOperator {
   def $addToSet = apply[Any]("$addToSet")_
@@ -195,7 +189,7 @@ trait AddToSetOp extends BarewordQueryOperator {
  * If Field exists but is not an array an error will occurr.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pop
  */
 trait PopOp extends BarewordQueryOperator {
   def $pop(args: String*) = apply("$pop")(args.map(_ -> 1): _*)
@@ -209,7 +203,7 @@ trait PopOp extends BarewordQueryOperator {
  * If Field exists but is not an array an error will occurr.
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pull
  */
 trait PullOp extends BarewordQueryOperator {
   def $pull = apply[Any]("$pull")_
@@ -224,7 +218,7 @@ trait PullOp extends BarewordQueryOperator {
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pullAll
  */
 trait PullAllOp extends BarewordQueryOperator {
   def $pullAll = apply[Array[Any]]("$pullAll")_
@@ -244,7 +238,6 @@ trait PullAllOp extends BarewordQueryOperator {
  *  
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24or
  */
