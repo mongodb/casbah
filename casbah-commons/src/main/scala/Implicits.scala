@@ -153,4 +153,19 @@ trait TypeImports {
   type DBRef = com.mongodb.DBRef
 }
 
+abstract class ValidBSONType[T]
+
+object ValidBSONType {
+  implicit object BasicBSONList extends ValidBSONType[org.bson.types.BasicBSONList]
+  implicit object BasicDBList extends ValidBSONType[com.mongodb.BasicDBList]
+  implicit object Binary extends ValidBSONType[org.bson.types.Binary]
+  implicit object BSONTimestamp extends ValidBSONType[org.bson.types.BSONTimestamp]
+  implicit object Code extends ValidBSONType[org.bson.types.Code]
+  implicit object CodeWScope extends ValidBSONType[org.bson.types.CodeWScope]
+  implicit object ObjectId extends ValidBSONType[org.bson.types.ObjectId]
+  implicit object Symbol extends ValidBSONType[org.bson.types.Symbol]
+  implicit object BSONObject extends ValidBSONType[org.bson.BSONObject]
+  implicit object BasicDBObject extends ValidBSONType[com.mongodb.BasicDBObject]
+  implicit object DBObject extends ValidBSONType[com.mongodb.DBObject]
+}
 // vim: set ts=2 sw=2 sts=2 et:
