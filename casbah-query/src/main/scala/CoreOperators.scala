@@ -54,6 +54,7 @@ trait FluidQueryOperators extends NotEqualsOp
                              with SliceOp
                              with TypeOp
                              with ElemMatchOp
+                             with GeospatialOps
 
 
 trait ValueTestFluidQueryOperators extends LessThanOp 
@@ -95,6 +96,7 @@ sealed trait QueryOperator {
     case Some(nested) => {
       patchSerialization(target)
       nested.put(op, target)
+      println("Field: %s Nested: %s".format(field, nested))
       (field -> nested)
     }
     case None => {
@@ -409,12 +411,15 @@ trait SliceOp extends QueryOperator {
   def $slice(slice: Int, limit: Int) = op("$slice", MongoDBList(slice, limit))
 }
 
+
+
 /**
  * Trait to provide the $elemMatch method on appropriate callers.
  *
  * Targets (takes a right-hand value of) a DBObject view context
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
+ * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Dot+Notation+(Reaching+into+Objects)#DotNotation%28ReachingintoObjects%29-Matchingwith%24elemMatch 
  *
  */
@@ -522,4 +527,90 @@ trait TypeOp extends QueryOperator {
         op("$type", BSON.ARRAY)
     else
       throw new IllegalArgumentException("Invalid BSON Type '%s' for matching".format(manifest.erasure))
+}
+
+
+trait GeospatialOps extends GeoNearOp
+                       with GeoNearSphereOp
+                       with GeoWithinOps
+
+
+case class GeoCoords[T : Numeric : Manifest](val lat: T, val lon: T) {
+  def toList = MongoDBList(lat, lon)
+}
+  
+
+/**
+ * 
+ * Trait to provide the $near geospatial search method on appropriate callers
+ *
+ *
+ * Note that  the args aren't TECHNICALLY latitude and longitude as they depend on:
+ *   a) the order you specified your actual index in
+ *   b) if you're using actual world maps or something else
+ *
+ * Due to a quirk in the way I implemented type detection this fails if you mix numeric types.  E.g. floats work, but not mixing floats and ints.
+ *
+ * This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
+ */
+trait GeoNearOp extends QueryOperator {
+  def $near(coords: GeoCoords[_]) = op("$near", coords.toList)
+}
+
+/**
+ * 
+ * Trait to provide the $nearSphere geospatial search method on appropriate callers
+ *
+ *
+ * Note that  the args aren't TECHNICALLY latitude and longitude as they depend on:
+ *   a) the order you specified your actual index in
+ *   b) if you're using actual world maps or something else
+ *
+ * Due to a quirk in the way I implemented type detection this fails if you mix numeric types.  E.g. floats work, but not mixing floats and ints.
+ *
+ * This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
+ */
+trait GeoNearSphereOp extends QueryOperator {
+  def $nearSphere(coords: GeoCoords[_]) = op("$nearSphere", coords.toList)
+}
+
+/**
+ * 
+ * Trait to provide the $within geospatial search method on appropriate callers
+ *
+ *
+ * Note that  the args aren't TECHNICALLY latitude and longitude as they depend on:
+ *   a) the order you specified your actual index in
+ *   b) if you're using actual world maps or something else
+ *
+ * Due to a quirk in the way I implemented type detection this fails if you mix numeric types.  E.g. floats work, but not mixing floats and ints.
+ *
+ * This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
+ */
+trait GeoWithinOps extends QueryOperator {
+  def $within = new QueryOperator {
+    val field = "$within" 
+
+    def $box(lowerLeft: GeoCoords[_], upperRight: GeoCoords[_]) =
+      op("$box", MongoDBList(lowerLeft.toList, upperRight.toList))
+
+    def $center[T : Numeric](center: GeoCoords[_], radius: T) = 
+      op("$center", MongoDBList(center.toList, radius))
+
+    def $centerSphere[T : Numeric](center: GeoCoords[_], radius: T) = 
+      op("$centerSphere", MongoDBList(center.toList, radius))
+  }
+  
 }
