@@ -53,6 +53,7 @@ trait FluidQueryOperators extends NotEqualsOp
                              with NotOp
                              with SliceOp
                              with TypeOp
+                             with ElemMatchOp
 
 
 trait ValueTestFluidQueryOperators extends LessThanOp 
@@ -377,8 +378,9 @@ trait WhereOp extends QueryOperator {
  */
 trait NotOp extends QueryOperator {
   /** Callbackey Nesting placeholding object for targetting correctly*/
-  case class NotOpNester(val field: String, _dbObj: Option[DBObject]) extends NestingQueryHelper 
-                                                                      with ValueTestFluidQueryOperators {
+  case class NotOpNester(val field: String, _dbObj: Option[DBObject]) 
+      extends NestingQueryHelper 
+      with ValueTestFluidQueryOperators {
     val oper = "$not"
   }
 
@@ -405,6 +407,26 @@ trait NotOp extends QueryOperator {
 trait SliceOp extends QueryOperator {
   def $slice(target: Int) = op("$slice", target)
   def $slice(slice: Int, limit: Int) = op("$slice", MongoDBList(slice, limit))
+}
+
+/**
+ * Trait to provide the $elemMatch method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) a DBObject view context
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @see http://www.mongodb.org/display/DOCS/Dot+Notation+(Reaching+into+Objects)#DotNotation%28ReachingintoObjects%29-Matchingwith%24elemMatch 
+ *
+ */
+trait ElemMatchOp extends QueryOperator {
+  /** Callbackey Nesting placeholding object for targetting correctly*/
+  case class ElemMatchNester(val field: String, _dbObj: Option[DBObject]) 
+      extends NestingQueryHelper 
+      with ValueTestFluidQueryOperators {
+    val oper = "$elemMatch"
+  }
+
+  def $elemMatch = ElemMatchNester(field, dbObj)
 }
 
 /**
