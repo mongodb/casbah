@@ -400,7 +400,7 @@ trait NotOp extends QueryOperator {
  */
 trait SliceOp extends QueryOperator {
   def $slice(target: Int) = op("$slice", target)
-  def $slice(slice: Int, limit: Int) = op("$slice", List(slice, limit).asJava)
+  def $slice(slice: Int, limit: Int) = op("$slice", MongoDBList(slice, limit))
 }
 
 /**
