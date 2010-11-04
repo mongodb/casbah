@@ -393,7 +393,7 @@ trait NotOp extends QueryOperator {
  * &gt; "foo" $slice (5, -1)
  * res1: (String, com.mongodb.DBObject) = (foo,{ "$slice" : [ 5 , -1]})
  *
- * @author Brendan W. McAdams <brendan@10gen.comeger>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24sliceoperator
  *
@@ -403,3 +403,23 @@ trait SliceOp extends QueryOperator {
   def $slice(slice: Int, limit: Int) = op("$slice", List(slice, limit).asJava)
 }
 
+/**
+ * Special query operator only available on the right-hand side of an 
+ * $addToSet which takes a list of values.
+ *
+ * THIS WILL NOT WORK IN MONGOD ANYWHERE BUT INSIDE AN ADDTOSET 
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
+ */
+trait AddToSetEachOp extends QueryOperator {
+  def $each(target: Array[Any]) = op("$each", target.toList.asJava)
+  def $each(target: Any*) = 
+    if (target.size > 1)
+      op("$each", target.toList.asJava) 
+    else if (!target(0).isInstanceOf[Iterable[_]] &&
+             !target(0).isInstanceOf[Array[_]])
+      op("$each", List(target(0)))
+    else op("$each", target(0))
+}
