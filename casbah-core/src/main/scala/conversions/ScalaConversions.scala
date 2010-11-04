@@ -38,7 +38,6 @@ import org.scala_tools.time.Imports._
  * If you want JodaDateTime support, please use the RegisterJodaTimeConversionHelpers Object
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0, 06/22/10
  * @since 1.0
  * @see RegisterJodaTimeConversionHelpers
  */
@@ -54,7 +53,6 @@ object RegisterConversionHelpers extends Serializers
  * "DeRegister" Object, calls the unregistration methods.
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0, 06/22/10
  * @since 1.0
  */
 @deprecated("Be VERY careful using this - it will remove ALL of Casbah's loaded BSON Encoding & Decoding hooks at runtime. If you need to clear Joda Time use DeregisterJodaTimeConversionHelpers.")
@@ -78,7 +76,6 @@ object DeregisterConversionHelpers extends Serializers
  * Because it's likely to be controversial, JodaDateTime is NOT mixed in by default.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0, 06/22/10
  * @since 1.0
  */
 trait Deserializers extends MongoConversionHelper {
@@ -102,7 +99,6 @@ trait Deserializers extends MongoConversionHelper {
  * Because it's likely to be controversial, JodaDateTime is NOT mixed in by default.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0, 06/22/10
  * @since 1.0
  */
 trait Serializers extends MongoConversionHelper 

@@ -32,7 +32,6 @@ import scalaj.collection.Imports._
  * implements Scala's iterable - call jIterator if you want a Java iterator.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  */
 trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
   val underlying: com.mongodb.DBCursor
@@ -60,7 +59,6 @@ trait MongoCursorWrapper[A <: DBObject] extends Iterator[A] {
  * implements Scala's iterable - call jIterator if you want a Java iterator.
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  *
  * @param underlying A DBCursor object to wrap
  */
@@ -102,7 +100,6 @@ class MongoCursor protected[casbah] (val underlying: com.mongodb.DBCursor) exten
  * implements Scala's iterable - call <code>jIterator</code> if you want a Java iterator.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  *
  * @param A  type representing a DBObject subclass which this class should return instead of generic DBObjects
  * @param underlying DBCursor object to proxy

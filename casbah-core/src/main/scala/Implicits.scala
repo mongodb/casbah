@@ -46,7 +46,6 @@ import org.scala_tools.time.Imports._
  * (exceptions are things like group and mapReduce which return non-standard data and will be DBObjects)
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  */
 trait Implicits {
 

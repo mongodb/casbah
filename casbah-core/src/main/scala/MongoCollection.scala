@@ -40,7 +40,6 @@ import collection.mutable.ArrayBuffer
  * @todo Copy the MongoDB docs over for the proxied methods.
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  */
 trait MongoCollectionWrapper extends Logging {
   /**
@@ -293,7 +292,6 @@ trait MongoCollectionWrapper extends Logging {
  * Which implements Iterable, to allow iterating directly over it to list all of the underlying objects.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  *
  * @param underlying DBCollection object to proxy
  */
@@ -394,7 +392,6 @@ class MongoCollection(val underlying: com.mongodb.DBCollection) extends MongoCol
  * implements Iterable, to allow iterating directly over it to list all of the underlying objects.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 1.0
  *
  * @param A  type representing a DBObject subclass which this class should return instead of generic DBObjects
  * @param underlying DBCollection object to proxy
