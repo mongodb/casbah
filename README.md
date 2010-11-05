@@ -15,7 +15,14 @@ Novus Partners, Inc. <http://novus.com> kindly sponsored the development of this
 Notice for users of old, Pre-2.0 versions of Casbah
 ---------------------------------------------------
 
-The package has changed as of version 2.0 to `com.mongodb.casbah`; version 1.1 of Casbah used the package `com.novus.casbah` and versions 1.0 and below were packaged as `com.novus.casbah.mongodb`.  For convenience sake, a Maven artifact has been provided as `casbah-pkgbridge` for 2.0 which provides the old packagespaces from prior to 2.0.  These will throw deprecation warnings of  course but will help migration.  These *WILL* go away in the next major point release (presumably, 2.1).
+The package has changed as of version 2.0 to `com.mongodb.casbah`; version 1.1 of Casbah used the package `com.novus.casbah` and versions 1.0 and below were packaged as `com.novus.casbah.mongodb`. 
+
+In addition, we have broken the project out into several artifacts:
+  
+  * `casbah-commons` - Provides utilities to improve working with Scala and MongoDB together without dependencies on anything but the MongoDB Java Driver and ScalaJ-Collection.  This includes Scala Collections 2.8 compatible wrappers for DBList and DBObject as well as type conversion facilities to simplify the use of Scala types with MongoDB (and register your own custom types)
+  * `casbah-query` - The Query DSL which provides an internal Scala DSL for querying MongoDB using native, MongoDB syntax operators.  This only depends upon Commons and can be used standalone without the rest of Casbah.
+  * `casbah-core` - This is the wrappers for interacting directly with MongoDB providing more Scala-like interactions.  It depends upon both Commons and Query as well as ScalaTime for use of JodaTime (which we prefer over JDK date but you are welcome to use JDK Dates).
+  * `casbah-gridfs` - This provides enhancement wrappers to GridFS including loan pattern support.  It is dependent on Core (and by transitive property, Commons & Query as well) but is not included in Core - you must explicitly load if it you want to use GridFS.
 
 About
 -----
