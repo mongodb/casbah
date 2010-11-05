@@ -352,20 +352,22 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @see com.mongodb.Bytes
    */
   def resetOptions() = underlying.resetOptions() // use parens because this side-effects
+
   /** 
    * Manipulate Network Options
    * 
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
-   def getOptions() = underlying.getOptions
+  def getOptions() = underlying.getOptions
+
   /** 
    * Manipulate Network Options
    * 
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
-   def options = getOptions
+  def options = getOptions
 
 
   override def toString() = underlying.toString
