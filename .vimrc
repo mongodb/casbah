@@ -6,11 +6,12 @@ map <leader>fsc :call ScalaCommentFormatter()<CR>
 map cm :call ScalaCommentWriter()<CR> 
 map cf :call ScalaCommentFormatter()<CR> 
 let b:scommenter_class_svn_id = ''
-let b:scommenter_class_author='Brendan W. McAdams <bmcadams@novus.com>' 
-let b:scommenter_file_author='Brendan W. McAdams <bmcadams@novus.com>' 
+let b:scommenter_class_author='Brendan W. McAdams <brendan@10gen.com>' 
+let b:scommenter_file_author='Brendan W. McAdams <brendan@10gen.com>' 
 let b:scommenter_company_name = 'Novus Partners, Inc. <http://novus.com>'
 "let g:scommenter_file_copyright_list = [ 
-"    \    'Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>',
+"   \'Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+"   \'Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>',
 "	\'',
 "	\' Licensed under the Apache License, Version 2.0 (the "License");',
 "	\' you may not use this file except in compliance with the License.',
@@ -25,32 +26,33 @@ let b:scommenter_company_name = 'Novus Partners, Inc. <http://novus.com>'
 "	\' limitations under the License.',
 "	\'',
 "    \' For questions and comments about this product, please see the project page at:',
-"    \'      http://github.com/novus/casbah',
+"    \'      http://github.com/mongodb/casbah',
 "    \'',
 "    \] 
 
 function! SCommenter_OwnFileComments()
     call append(0,  '/**')
-    call append(1, ' * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>')
-	call append(2, ' * ')
-	call append(3, ' * Licensed under the Apache License, Version 2.0 (the "License");')
-	call append(4, ' * you may not use this file except in compliance with the License.')
-	call append(5, ' * You may obtain a copy of the License at')
-	call append(6, ' * ')
-	call append(7, ' *   http://www.apache.org/licenses/LICENSE-2.0')
-	call append(8, ' *')
-	call append(9, ' * Unless required by applicable law or agreed to in writing, software')
-	call append(10, ' * distributed under the License is distributed on an "AS IS" BASIS,')
-	call append(11, ' * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.')
-	call append(12, ' * See the License for the specific language governing permissions and')
-	call append(13, ' * limitations under the License.')
-	call append(14, ' *')
-    call append(15, ' * For questions and comments about this product, please see the project page at:')
-    call append(16, ' *')
-    call append(17, ' *     http://github.com/novus/casbah')
-    call append(18, ' * ')
-    call append(19, ' */')
-    call append(20, '')
+    call append(1, ' * Copyright (c) 2010 10gen, Inc. <http://10gen.com>')
+    call append(2, ' * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>')
+	call append(3, ' * ')
+	call append(4, ' * Licensed under the Apache License, Version 2.0 (the "License");')
+	call append(5, ' * you may not use this file except in compliance with the License.')
+	call append(6, ' * You may obtain a copy of the License at')
+	call append(7, ' * ')
+	call append(8, ' *   http://www.apache.org/licenses/LICENSE-2.0')
+	call append(9, ' *')
+	call append(10, ' * Unless required by applicable law or agreed to in writing, software')
+	call append(11, ' * distributed under the License is distributed on an "AS IS" BASIS,')
+	call append(12, ' * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.')
+	call append(13, ' * See the License for the specific language governing permissions and')
+	call append(14, ' * limitations under the License.')
+	call append(15, ' *')
+    call append(16, ' * For questions and comments about this product, please see the project page at:')
+    call append(17, ' *')
+    call append(18, ' *     http://github.com/mongodb/casbah')
+    call append(19, ' * ')
+    call append(20, ' */')
+    call append(21, '')
 endfunction
 
 let tlist_scala_settings = 'scala;p:packages;c:classes;t:traits;T:types;m:methods;C:constants;l:local variables;c:case classes;o:objects;r:defs'
