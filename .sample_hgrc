@@ -1,9 +1,0 @@
-# This is the recommended HGRC so you can properly push to both github and bitbucket
-# Default `hg push` goes to bitbucket - `hg push github` pushes a copy to github.
-# You need the 'hg-git' extension to do this.  `sudo easy_install hg-git` is the quick way.
-[paths]
-default = ssh://bitbucket.org/novus/casbah
-github = git+ssh://github.com/novus/casbah.git
-[extensions]
-hgext.bookmarks = 
-hggit =
