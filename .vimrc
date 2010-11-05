@@ -8,7 +8,7 @@ map cf :call ScalaCommentFormatter()<CR>
 let b:scommenter_class_svn_id = ''
 let b:scommenter_class_author='Brendan W. McAdams <brendan@10gen.com>' 
 let b:scommenter_file_author='Brendan W. McAdams <brendan@10gen.com>' 
-let b:scommenter_company_name = 'Novus Partners, Inc. <http://novus.com>'
+let b:scommenter_company_name = '10gen, Inc. <http://10gen.com>'
 "let g:scommenter_file_copyright_list = [ 
 "   \'Copyright (c) 2010 10gen, Inc. <http://10gen.com>
 "   \'Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>',
