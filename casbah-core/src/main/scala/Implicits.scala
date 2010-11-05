@@ -124,6 +124,7 @@ trait BaseImports {
   val MongoConnection = com.mongodb.casbah.MongoConnection
   val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
   val MongoOptions = com.mongodb.casbah.MongoOptions
+  val WriteConcern = com.mongodb.casbah.WriteConcern
   val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
 }
 
