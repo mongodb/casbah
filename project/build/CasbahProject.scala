@@ -8,13 +8,21 @@ class CasbahProject(info: ProjectInfo)
   // this was nice while it lasted
   override def parallelExecution = false
 
-  // we want to publish POMs
   override def managedStyle = ManagedStyle.Maven
 
-  lazy val commons = project("casbah-commons", "casbah-commons", new CasbahCommonsProject(_))
-  lazy val core = project("casbah-core", "casbah-core", new CasbahCoreProject(_), commons, query)
-  lazy val query = project("casbah-query", "casbah-query", new CasbahQueryProject(_), commons)
-  lazy val gridfs = project("casbah-gridfs", "casbah-gridfs", new CasbahGridFSProject(_), core)
+  val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/%s/".format( 
+    if (projectVersion.value.toString.endsWith("-SNAPSHOT"))
+      "snapshots"
+    else
+      "releases"
+  )
+
+  Credentials(Path.userHome / ".ivy2" / ".scalatools_credentials", log)
+
+  lazy val commons = project("casbah-commons", "commons", new CasbahCommonsProject(_))
+  lazy val core = project("casbah-core", "core", new CasbahCoreProject(_), commons, query)
+  lazy val query = project("casbah-query", "query", new CasbahQueryProject(_), commons)
+  lazy val gridfs = project("casbah-gridfs","gridfs", new CasbahGridFSProject(_), core)
 
   abstract class CasbahBaseProject(info: ProjectInfo) 
       extends DefaultProject(info) 
@@ -37,14 +45,6 @@ class CasbahProject(info: ProjectInfo)
     val specs = "org.scala-tools.testing" % "specs_2.8.0" % "1.6.5" % "test->default"
     val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
 
-    val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/%s/".format( 
-      if (projectVersion.value.toString.endsWith("-SNAPSHOT"))
-        "snapshots"
-      else
-        "releases"
-    )
-
-    Credentials(Path.userHome / ".ivy2" / ".scalatools_credentials", log)
 
       
   }
@@ -52,8 +52,8 @@ class CasbahProject(info: ProjectInfo)
   class CasbahCommonsProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     // Runtime deps
     val mongodb = "org.mongodb" % "mongo-java-driver" % "2.3"
-    val configgy = "net.lag" % "configgy" % "2.0.0" intransitive()
     val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
+    val slf4j = "org.slf4j" % "slf4j-api" % "1.6.0"
   }
 
   class CasbahCoreProject(info: ProjectInfo) extends CasbahBaseProject(info) {
