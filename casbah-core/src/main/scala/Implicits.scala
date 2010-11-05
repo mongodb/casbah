@@ -123,6 +123,7 @@ trait Imports extends BaseImports with TypeImports with Implicits
 trait BaseImports {
   val MongoConnection = com.mongodb.casbah.MongoConnection
   val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
+  val MongoOptions = com.mongodb.casbah.MongoOptions
   val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
 }
 
@@ -131,6 +132,9 @@ trait TypeImports {
   type MongoCollection = com.mongodb.casbah.MongoCollection
   type MongoDB = com.mongodb.casbah.MongoDB
   type MongoCursor = com.mongodb.casbah.MongoCursor
+  type MongoURI = com.mongodb.casbah.MongoURI
+  type MongoOptions = com.mongodb.MongoOptions
+  type WriteConcern = com.mongodb.WriteConcern
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   type MapReduceResult = com.mongodb.casbah.map_reduce.MapReduceResult
   type DBAddress = com.mongodb.DBAddress
