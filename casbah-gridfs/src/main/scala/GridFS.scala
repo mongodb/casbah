@@ -26,6 +26,7 @@ package gridfs
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.commons.conversions.scala._
 
 import com.mongodb.DBObject
 import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile, GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
@@ -185,10 +186,10 @@ class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[Gri
    def sansJodaTime[T](op: => T) = org.bson.BSONDecoders(classOf[java.util.Date]) match {   
       case Some(transformer) => {
         log.trace("DateTime Decoder was loaded; unloading before continuing.")
-        new conversions.scala.JodaDateTimeDeserializer { unregister() }
+        new JodaDateTimeDeserializer { unregister() }
         val ret = op
         log.trace("Retrieval finished.  Re-registering decoder.")
-        new conversions.scala.JodaDateTimeDeserializer { register() }
+        new JodaDateTimeDeserializer { register() }
         ret
       }
       case None => {
