@@ -20,7 +20,7 @@
  * 
  */
 
-import com.mongodb.casbah.util.Logging 
+import com.mongodb.casbah.commons.Logging 
 
 import org.bson.{BSON, Transformer}
 
