@@ -86,7 +86,7 @@ trait Implicits {
         builder += t._1 -> t._2
         return builder.result
       } else {
-        throw new IllegalArgumentException("Products to convert to DBObject must contain Tuple2's.")
+        throw new IllegalArgumentException("Products to convert to DBObject must contain Tuple2s of (String, Any).")
       }
     }
     builder.result
@@ -129,6 +129,8 @@ trait Implicits {
   implicit def unwrapDBList(in: MongoDBList): BasicDBList =
     in.underlying
 
+  // Register the core Serialization helpers.
+  conversions.scala.RegisterConversionHelpers()
 }
 
 object Implicits extends Implicits
