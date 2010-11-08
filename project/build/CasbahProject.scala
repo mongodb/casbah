@@ -31,16 +31,16 @@ class CasbahProject(info: ProjectInfo)
     /**
      * SXR Support 
      */
-    //val sxr = compilerPlugin("org.scala-tools.sxr" % "sxr_2.8.0" % "0.2.6")
+    val sxr = compilerPlugin("org.scala-tools.sxr" % "sxr_2.8.0" % "0.2.6")
 
     override def compileOptions =
+      CompileOption("-P:sxr:base-directory:" + mainScalaSourcePath) ::
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
-      //CompileOption("-P:sxr:base-directory:" + mainScalaSourcePath.absolutePath) ::
 
     override def documentOptions = Seq(
-      CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah/source.sxr/") 
-    ) ++ super.documentOptions 
-
+      CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah/source.sxr/"),
+      CompoundDocOption("-d", mainScalaSourcePath.toString)
+    ) 
     // Testing Deps
     val specs = "org.scala-tools.testing" % "specs_2.8.0" % "1.6.5" % "test->default"
     val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
