@@ -20,11 +20,11 @@
  * 
  */
 
-package com.mongodb.casbah
+package com.mongodb.casbah.commons
 package conversions
 package scala
 
-import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.commons.Logging 
 
 import org.bson.{BSON, Transformer}
@@ -246,39 +246,8 @@ trait ScalaJCollectionSerializer extends MongoConversionHelper {
     BSON.addEncodingHook(classOf[_root_.scala.collection.Seq[_]], transformer) 
     BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Set[_]], transformer) 
     BSON.addEncodingHook(classOf[_root_.scala.collection.Set[_]], transformer)
-    /*BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Map[_, _]], transformer) 
-    BSON.addEncodingHook(classOf[_root_.scala.collection.Map[_, _]], transformer) */
     super.register()
   }
 }
 
-/*trait ScalaJCollectionDeserializer extends MongoConversionHelper {
-  
-  private val transformer = new Transformer {
-    import scalaj.collection.Imports._
-
-    def transform(o: AnyRef): AnyRef = o match {
-      case l: java.util.List[_] => l.asScala
-      case s: java.util.Set[_] => s.asScala
-      [>case m: java.util.Map[_, _] => m.asScala
-      case d: java.util.Dictionary[_, _] => d.asScala<]
-      case e: java.util.Enumeration[_] => e.asScala
-      case i: java.util.Iterator[_] => i.asScala
-      case i: java.lang.Iterable[_] => i.asScala
-      case _ => o // don't warn because we get EVERYTHING
-    }
-  }
-
-  override def register() = {
-    log.debug("Setting up ScalaJCollectionDeserializer")
-    BSON.addDecodingHook(classOf[java.util.Enumeration[_]], transformer)
-    BSON.addDecodingHook(classOf[java.util.Iterator[_]], transformer)
-    BSON.addDecodingHook(classOf[java.lang.Iterable[_]], transformer)
-    BSON.addDecodingHook(classOf[java.util.List[_]], transformer)
-    BSON.addDecodingHook(classOf[java.util.Set[_]], transformer)
-    [>BSON.addDecodingHook(classOf[java.util.Map[_, _]], transformer)
-    BSON.addDecodingHook(classOf[java.util.Dictionary[_, _]], transformer)<]
-    super.register()
-  }
-}*/
 // vim: set ts=2 sw=2 sts=2 et:

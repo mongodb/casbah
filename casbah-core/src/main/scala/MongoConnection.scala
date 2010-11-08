@@ -169,8 +169,9 @@ object MongoConnection {
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
 class MongoConnection(val underlying: Mongo) {
+  import com.mongodb.casbah.commons.conversions.scala._
   // Register the core Serialization helpers.
-  conversions.scala.RegisterConversionHelpers()
+  RegisterConversionHelpers()
   /**
    * Apply method which proxies getDB, allowing you to call
    * <code>connInstance("dbName")</code>
