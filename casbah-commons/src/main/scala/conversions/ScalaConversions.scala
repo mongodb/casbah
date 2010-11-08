@@ -225,10 +225,9 @@ trait ScalaJCollectionSerializer extends MongoConversionHelper {
       case s: _root_.scala.collection.Seq[_] => s.asJava
       case s: _root_.scala.collection.mutable.Set[_] => s.asJava
       case s: _root_.scala.collection.Set[_] => s.asJava
-      /*case m: _root_.scala.collection.mutable.Map[_, _] => m.asJava
-      case m: _root_.scala.collection.Map[_, _] => m.asJava*/
       case i: _root_.scala.collection.Iterable[_] => i.asJava
       case i: _root_.scala.collection.Iterator[_] => i.asJava
+      case p: Product => productToMongoDBObject(p)
       case _ => o // don't warn because we get EVERYTHING
     }
   }
@@ -246,6 +245,7 @@ trait ScalaJCollectionSerializer extends MongoConversionHelper {
     BSON.addEncodingHook(classOf[_root_.scala.collection.Seq[_]], transformer) 
     BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Set[_]], transformer) 
     BSON.addEncodingHook(classOf[_root_.scala.collection.Set[_]], transformer)
+    BSON.addEncodingHook(classOf[Product], transformer)
     super.register()
   }
 }
