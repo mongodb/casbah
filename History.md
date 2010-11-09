@@ -1,4 +1,15 @@
 
+2.0b2 / 2010-11-09 
+==================
+
+  * Added documentation build script
+  * Moved loading of ConversionHelpers from Connection creation to instantiation of Commons' Implicits 
+    - This means conversions are ALWAYS loaded now for everyone
+  * Added registered conversion for Product (tuples) which fixes open issues with serialization
+  * Migrated Conversions code from core to commons, repackaging as com.mongodb.casbah.commons.conversions   
+    - Unit Test remains in Core as it uses core code to test loading/unloading which is fine for buildtime tests
+  * Moved Logger from core to commons, package changed from com.mongodb.casbah.util.Logging to com.mongodb.casbah.commons.Logging
+
 2.0b1 / 2010-11-05 
 ==================
 
