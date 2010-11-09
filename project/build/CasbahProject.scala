@@ -38,8 +38,9 @@ class CasbahProject(info: ProjectInfo)
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
 
     override def documentOptions = Seq(
-      CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah/source.sxr/"),
-      CompoundDocOption("-d", mainScalaSourcePath.toString)
+      CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah-%s/casbah-%s/sxr/€{FILE_PATH}".format(projectVersion.value, projectName.value)),
+      CompoundDocOption("-doc-version", "v%s".format(projectVersion.value)),
+      CompoundDocOption("-doc-title", "Casbah %s".format(projectName.value))
     ) 
     // Testing Deps
     val specs = "org.scala-tools.testing" % "specs_2.8.0" % "1.6.5" % "test->default"
