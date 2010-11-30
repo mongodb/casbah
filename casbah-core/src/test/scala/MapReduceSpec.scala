@@ -21,32 +21,44 @@
  */
 
 package com.mongodb.casbah
-package mongodb
-package test
+package map_reduce
 
-import util.Logging
-import map_reduce._
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.commons.conversions.scala._
 
-import Implicits.{mongoDBAsScala, mongoConnAsScala, mongoCollAsScala, mongoCursorAsScala}
-import com.mongodb._
-import org.scalatest.{GivenWhenThen, FeatureSpec}
+import org.scala_tools.time.Imports._
 
-class ScalaMapReduceSpec extends FeatureSpec with GivenWhenThen with Logging {
-  feature("The map/reduce engine works correctly") {
-    val conn = new Mongo().asScala
-    scenario("Error conditions such as a non-existant collection should not blow up but return an error-state result") {
-      given("A Mongo object connected to the default [localhost]")
-      assert(conn != null)
-      implicit val mongo = conn("foo")("barBazFooBar") // should be nonexistant - @todo ensure it is random
-      when("A Map Reduce is run, it doesn't explode despite failure")
+import org.specs._
+import org.specs.specification.PendingUntilFixed
+
+class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
+
+  "Casbah's Map/Reduce Engine" should {
+    shareVariables
+
+    implicit val mongoDB = MongoConnection()("casbahTest")
+    mongoDB.dropDatabase()
+
+    "Handle error conditions such as non-existent collections gracefully" in {
+      mongoDB must notBeNull
+
+      val seed = DateTime.now.getMillis
+      implicit val mongo = mongoDB("mapReduce.nonexistant.foo.bar.baz.%s".format(seed))
+      mongo.dropCollection()
+      
       val keySet = distinctKeySet("Foo", "bar", "Baz")
-      then("Iteration doesn't blow up either")
+
       for (x <- keySet) {
-        log.info("Keyset entry: %s", x)
+        log.trace("noop.")
       }
+
+      keySet must notBeNull
+      keySet must beEmpty 
 
     }
   }
+
   def distinctKeySet(keys: String*)(implicit mongo: MongoCollection): MapReduceResult = {
     log.debug("Running a Distinct KeySet MapReduce for Keys (%s)", keys)
     val keySet = keys.flatMap(x => "'%s': this.%s, ".format(x, x)).mkString
@@ -62,3 +74,5 @@ class ScalaMapReduceSpec extends FeatureSpec with GivenWhenThen with Logging {
     result
   }
 }
+
+// vim: set ts=2 sw=2 sts=2 et:
