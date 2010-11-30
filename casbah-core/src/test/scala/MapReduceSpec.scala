@@ -60,17 +60,16 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
   }
 
   def distinctKeySet(keys: String*)(implicit mongo: MongoCollection): MapReduceResult = {
-    log.debug("Running a Distinct KeySet MapReduce for Keys (%s)", keys)
     val keySet = keys.flatMap(x => "'%s': this.%s, ".format(x, x)).mkString
-    log.trace("KeySet: %s", keySet)
+
     val map = "function () { emit({%s}, 1); }".format(keySet)
-    log.debug("Map Function: %s", map)
+
     val reduce = "function(k, v) { return 1; }"
-    log.trace("Reduce Function: %s", reduce)
+
     val mr = MapReduceCommand(mongo.getName, map, reduce, None, None, None, None, None)
-    log.debug("Map/Reduce Command: %s", mr)
+
     val result = mongo.mapReduce(mr)
-    log.trace("M/R Result: %s", result)
+
     result
   }
 }
