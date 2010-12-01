@@ -108,7 +108,6 @@ trait MongoDBObject extends Map[String, AnyRef] {
   def containsField(s: String) = underlying.containsField(s)
   @deprecated("containsKey is deprecated in the MongoDB Driver. You should use containsField instead.")
   def containsKey(s: String) = underlying.containsField(s) // method kept for backwards compatibility
-  //def get(s: String) = underlying.get(s)
   def isPartialObject = underlying.isPartialObject
   def markAsPartialObject = underlying.markAsPartialObject
   def partialObject = isPartialObject
@@ -126,7 +125,7 @@ trait MongoDBObject extends Map[String, AnyRef] {
   def toMap = underlying.toMap
   def asDBObject = underlying
 
-  // convenice method to get _id as ObjectId
+  // convenience method to get _id as ObjectId
   def `_id`: Option[ObjectId] = get("_id") match {
     case Some(id: ObjectId) => Some(id)
     case _ => None
