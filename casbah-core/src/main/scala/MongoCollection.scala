@@ -749,10 +749,6 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
       log.debug("View convertable[map]- rerouting.")
       findOne(map.asDBObject)
     }
-    case prod: Product => {
-      log.debug("View convertable[product] - rerouting.")
-      findOne(prod.asDBObject)
-    }
     case _ => optWrap(underlying.findOne(obj))
   }
   /**
@@ -776,10 +772,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
       log.debug("View convertable[map]- rerouting.")
       findOneView(map.asDBObject, fields)
     }
-    case prod: Product => {
-      log.debug("View convertable[product] - rerouting.")
-      findOneView(prod.asDBObject, fields)
-    }
+
      case _ => optWrap(underlying.findOne(obj, fields))
   }
 
