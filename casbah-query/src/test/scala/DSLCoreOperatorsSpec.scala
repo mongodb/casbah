@@ -165,13 +165,6 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         neShort must haveSuperClass[DBObject]
         neShort must beEqualTo(nonDSL("foo", "$ne", java.lang.Short.parseShort("10")))
       }
-      // [info]       json can't serialize type : class java.lang.Character (JSON.java:203)
-      /*"with Char" in {
-        val neChar = "foo" $ne 'x'
-        neChar must notBeNull
-        neChar must haveSuperClass[DBObject]
-        neChar must beEqualTo(nonDSL("foo", "$ne", 'x'))
-      }*/
 
     }
   
