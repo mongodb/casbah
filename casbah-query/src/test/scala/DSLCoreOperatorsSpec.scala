@@ -1017,6 +1017,33 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
     }
   
   }
+  
+  "Casbah's $size operator" should {
+    "Function as expected" in {
+      val size = "x" $size 12
+      size must notBeNull
+      size.toString must notBeNull
+      size must haveSuperClass[DBObject]
+      size.toString must beEqualTo("""{ "x" : { "$size" : 12}}""")
+    }
+    "Accept a BigInt" in {
+      val size = "x" $size BigInt("555565363612")
+      size must notBeNull
+      size.toString must notBeNull
+      size must haveSuperClass[DBObject]
+      size.toString must beEqualTo("""{ "x" : { "$size" : 555565363612}}""")
+    }
+  }
+
+  "Casbah's $exists operator" should {
+    "Function as expected" in {
+      val exists = "x" $exists true
+      exists must notBeNull
+      exists.toString must notBeNull
+      exists must haveSuperClass[DBObject]
+      exists.toString must beEqualTo("""{ "x" : { "$exists" : true}}""")
+    }
+  }
 
 
 }
