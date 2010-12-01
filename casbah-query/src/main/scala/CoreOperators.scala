@@ -241,9 +241,8 @@ trait LessThanOp extends QueryOperator {
 /**
  * Trait to provide the $lte (Less Than Or Equal To) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
- * DBObject and Map[String, Any].
- *
+ * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates, 
+ * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.*
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
@@ -252,18 +251,39 @@ trait LessThanEqualOp extends QueryOperator {
   private val oper = "$lte" 
 
   def $lte(target: String) = op(oper, target)
-  def $lte(target: java.util.Date) = op(oper, target)
-  def $lte(target: AnyVal) = op(oper, target)
   def $lte(target: DBObject) = op(oper, target)
-  def $lte(target: Map[String, Any]) = op(oper, target.asDBObject)
+  def $lte(target: Array[_]) = op(oper, target.toList.asJava)
+  def $lte(target: Tuple1[_]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple4[_, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple5[_, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple6[_, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple7[_, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple8[_, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple9[_, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple10[_, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple11[_, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple12[_, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple13[_, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple14[_, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple15[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple16[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple17[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple18[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple19[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple20[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lte(target: Iterable[_]) = op(oper, target.toList)
+  def $lte[T : ValidDateOrNumericType](target: T) = op(oper, target)
 }
 
 /**
  * Trait to provide the $gt (Greater Than) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
- * DBObject and Map[String, Any].
- *
+ * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates, 
+ * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.*
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
@@ -272,19 +292,39 @@ trait GreaterThanOp extends QueryOperator {
   private val oper = "$gt" 
 
   def $gt(target: String) = op(oper, target)
-  def $gt(target: java.util.Date) = op(oper, target)
-  def $gt(target: AnyVal) = op(oper, target)
   def $gt(target: DBObject) = op(oper, target)
-  def $gt(target: Map[String, Any]) = op(oper, target.asDBObject)
-  def $gt_:(target: Any) = op(oper, target) 
+  def $gt(target: Array[_]) = op(oper, target.toList.asJava)
+  def $gt(target: Tuple1[_]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple4[_, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple5[_, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple6[_, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple7[_, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple8[_, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple9[_, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple10[_, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple11[_, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple12[_, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple13[_, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple14[_, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple15[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple16[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple17[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple18[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple19[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple20[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gt(target: Iterable[_]) = op(oper, target.toList)
+  def $gt[T : ValidDateOrNumericType](target: T) = op(oper, target)
 }
 
 /**
  * Trait to provide the $gte (Greater Than Or Equal To) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
- * DBObject and Map[String, Any].
- *
+ * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates, 
+ * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.*
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
@@ -293,10 +333,32 @@ trait GreaterThanEqualOp extends QueryOperator {
   private val oper = "$gte" 
 
   def $gte(target: String) = op(oper, target)
-  def $gte(target: java.util.Date) = op(oper, target)
-  def $gte(target: AnyVal) = op(oper, target)
   def $gte(target: DBObject) = op(oper, target)
-  def $gte(target: Map[String, Any]) = op(oper, target.asDBObject)
+  def $gte(target: Array[_]) = op(oper, target.toList.asJava)
+  def $gte(target: Tuple1[_]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple4[_, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple5[_, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple6[_, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple7[_, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple8[_, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple9[_, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple10[_, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple11[_, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple12[_, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple13[_, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple14[_, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple15[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple16[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple17[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple18[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple19[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple20[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $gte(target: Iterable[_]) = op(oper, target.toList)
+  def $gte[T : ValidDateOrNumericType](target: T) = op(oper, target)
 }
 
 /**
