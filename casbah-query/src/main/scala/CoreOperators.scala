@@ -150,7 +150,37 @@ trait NestingQueryHelper extends QueryOperator {
   }
 
 }
+/**
+ * TODO - Doc that to use this behavior you must import ValidProduct._
+ */
+trait ValidProduct[T <: Product] {
+  def toList(p: T) = p.productIterator.toList
+}
 
+object ValidProduct {
+  implicit object Tuple1Ok extends ValidProduct[Tuple1[Any]] 
+  implicit object Tuple2Ok extends ValidProduct[Tuple2[Any, Any]]
+  implicit object Tuple3Ok extends ValidProduct[Tuple3[Any, Any, Any]]
+  implicit object Tuple4Ok extends ValidProduct[Tuple4[Any, Any, Any, Any]]
+  implicit object Tuple5Ok extends ValidProduct[Tuple5[Any, Any, Any, Any, Any]]
+  implicit object Tuple6Ok extends ValidProduct[Tuple6[Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple7Ok extends ValidProduct[Tuple7[Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple8Ok extends ValidProduct[Tuple8[Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple9Ok extends ValidProduct[Tuple9[Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple10Ok extends ValidProduct[Tuple10[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple11Ok extends ValidProduct[Tuple11[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple12Ok extends ValidProduct[Tuple12[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple13Ok extends ValidProduct[Tuple13[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple14Ok extends ValidProduct[Tuple14[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple15Ok extends ValidProduct[Tuple15[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple16Ok extends ValidProduct[Tuple16[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple17Ok extends ValidProduct[Tuple17[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple18Ok extends ValidProduct[Tuple18[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple19Ok extends ValidProduct[Tuple19[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple20Ok extends ValidProduct[Tuple20[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple21Ok extends ValidProduct[Tuple21[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+  implicit object Tuple22Ok extends ValidProduct[Tuple22[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]]
+}
 
 /**
  * Trait to provide the $ne (Not Equal To) method on appropriate callers.
@@ -166,32 +196,13 @@ trait NotEqualsOp extends QueryOperator {
   private val oper = "$ne" 
 
   def $ne(target: String) = op(oper, target)
-  def $ne[N : Numeric](target: N) = op(oper, target)
   def $ne(target: DBObject) = op(oper, target)
   def $ne(target: Map[String, Any]) = op(oper, target.asDBObject)
   def $ne(target: Array[Any]) = op(oper, target.toList.asJava)
-  def $ne(target: Tuple1[_]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple4[_, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple5[_, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple6[_, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple7[_, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple8[_, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple9[_, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple10[_, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple11[_, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple12[_, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple13[_, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple14[_, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple15[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple16[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple17[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple18[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple19[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple20[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
-  def $ne(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+
+  /** Bounded values */
+  def $ne[N : Numeric](target: N) = op(oper, target)
+  def $ne[P <: Product : ValidProduct](target: P) = op(oper, target) 
 }
 
 /**
