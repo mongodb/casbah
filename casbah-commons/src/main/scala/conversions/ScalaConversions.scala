@@ -227,7 +227,7 @@ trait ScalaJCollectionSerializer extends MongoConversionHelper {
       case s: _root_.scala.collection.Set[_] => s.asJava
       case i: _root_.scala.collection.Iterable[_] => i.asJava
       case i: _root_.scala.collection.Iterator[_] => i.asJava
-      case p: Product => productToMongoDBObject(p)
+      case p: Product => p.productIterator.toList.asJava
       case _ => o // don't warn because we get EVERYTHING
     }
   }

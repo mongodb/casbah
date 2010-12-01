@@ -81,7 +81,6 @@ object MongoDBList {
     for (xs <- elems) {
       xs match {
         case t: Traversable[_] => for (x <- t) b += x
-        case p: Product => b += p.asDBObject
         case _ => b += xs 
       }
     }
@@ -112,7 +111,6 @@ sealed class MongoDBListBuilder
 
   override def +=(x: Any) = { 
     val v = x match {
-      case p: Product => p.asDBObject
       case _ => x.asInstanceOf[AnyRef]
     }
     elems.add(v)
