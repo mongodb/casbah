@@ -496,8 +496,9 @@ trait AllOp extends QueryOperator {
 /**
  * Trait to provide the $mod (Modulo) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
- * DBObject and Map[String, Any].  
+ * Targets a left and right value where the formula is (field % left == right)
+ *
+ * Left and Right can be any ValidNumericType and of two differing types (e.g. one int, one float)
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
@@ -512,8 +513,7 @@ trait ModuloOp extends QueryOperator {
 /**
  * Trait to provide the $size (Size) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
- * DBObject.
+ * Test value must be an Int or BigInt.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24size
@@ -521,9 +521,8 @@ trait ModuloOp extends QueryOperator {
 trait SizeOp extends QueryOperator {
   private val oper = "$size"
 
-  def $size(target: String) = op(oper, target)
-  def $size(target: AnyVal) = op(oper, target)
-  def $size(target: DBObject) = op(oper, target)
+  def $size(target: Int) = op(oper, target)
+  def $size(target: BigInt) = op(oper, target)
 }
 
 /**
