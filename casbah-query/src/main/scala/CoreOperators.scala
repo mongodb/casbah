@@ -137,7 +137,7 @@ trait NestingQueryHelper extends QueryOperator {
       case Some(nested) => nested.put(nestedOper, entry); Some(nested)
       case None => Some(entry)
     }
-    dbObj.map { o => field -> o }.head
+    dbObj.map { o => MongoDBObject(field -> o) }.head
   }
 
   def apply(target: Any) = { 
@@ -379,14 +379,30 @@ trait GreaterThanEqualOp extends QueryOperator {
 trait InOp extends QueryOperator {
   private val oper = "$in" 
   
-  def $in(target: Array[Any]) = op(oper, target.toList.asJava)
-  def $in(target: Any*) = 
-    if (target.size > 1)
-      op(oper, target.toList.asJava) 
-    else if (!target(0).isInstanceOf[Iterable[_]] &&
-             !target(0).isInstanceOf[Array[_]]) 
-      op(oper, List(target(0)))
-    else op(oper, target(0))
+  def $in(target: Array[_]) = op(oper, target.toList.asJava)
+  def $in(target: Tuple1[_]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple4[_, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple5[_, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple6[_, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple7[_, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple8[_, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple9[_, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple10[_, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple11[_, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple12[_, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple13[_, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple14[_, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple15[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple16[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple17[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple18[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple19[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple20[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $in(target: Iterable[_]) = op(oper, target.toList)
 }
 
 /**
@@ -407,14 +423,30 @@ trait InOp extends QueryOperator {
 trait NotInOp extends QueryOperator {
   private val oper = "$nin" 
 
-  def $nin(target: Array[Any]) = op(oper, target.toList.asJava)
-  def $nin(target: Any*) = 
-    if (target.size > 1)
-      op(oper, target.toList.asJava) 
-    else if (!target(0).isInstanceOf[Iterable[_]] &&
-             !target(0).isInstanceOf[Array[_]]) 
-      op(oper, List(target(0)))
-    else op(oper, target(0))
+  def $nin(target: Array[_]) = op(oper, target.toList.asJava)
+  def $nin(target: Tuple1[_]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple4[_, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple5[_, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple6[_, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple7[_, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple8[_, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple9[_, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple10[_, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple11[_, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple12[_, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple13[_, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple14[_, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple15[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple16[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple17[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple18[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple19[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple20[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $nin(target: Iterable[_]) = op(oper, target.toList)
 }
 
 /**
@@ -435,14 +467,30 @@ trait NotInOp extends QueryOperator {
 trait AllOp extends QueryOperator {
   private val oper = "$all" 
 
-  def $all(target: Array[Any]) = op(oper, target.toList.asJava)
-  def $all(target: Any*) = 
-    if (target.size > 1)
-      op(oper, target.toList.asJava) 
-    else if (!target(0).isInstanceOf[Iterable[_]] &&
-             !target(0).isInstanceOf[Array[_]])
-      op(oper, List(target(0)))
-    else op(oper, target(0))
+  def $all(target: Array[_]) = op(oper, target.toList.asJava)
+  def $all(target: Tuple1[_]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple4[_, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple5[_, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple6[_, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple7[_, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple8[_, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple9[_, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple10[_, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple11[_, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple12[_, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple13[_, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple14[_, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple15[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple16[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple17[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple18[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple19[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple20[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $all(target: Iterable[_]) = op(oper, target.toList)
 }
 
 /**
@@ -458,7 +506,7 @@ trait AllOp extends QueryOperator {
 trait ModuloOp extends QueryOperator {
   private val oper = "$mod" 
 
-  def $mod(left: Int, right: Int) = op(oper, List(left, right).asJava)
+  def $mod[A : ValidNumericType, B : ValidNumericType](left: A, right: B) = op(oper, MongoDBList(left, right))
 }
 
 /**

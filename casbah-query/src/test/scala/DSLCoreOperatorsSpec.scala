@@ -114,63 +114,63 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
     "Accept a right hand value of ValidDateOrNumericType" in {
       "with Int" in {
         val neInt = "foo" $ne 10
-        neInt.toString // Test that JSON Serialization works
+        neInt.toString must notBeNull // Test that JSON Serialization works
         neInt must notBeNull
         neInt must haveSuperClass[DBObject]
         neInt must beEqualTo(nonDSL("foo", "$ne", 10))
       }
       "with BigDecimal" in {
         val neBD = "foo" $ne BigDecimal("5.8233232")
-        neBD.toString // Test that JSON Serialization works
+        neBD.toString must notBeNull // Test that JSON Serialization works
         neBD must notBeNull
         neBD must haveSuperClass[DBObject]
         neBD must beEqualTo(nonDSL("foo", "$ne", BigDecimal("5.8233232")))
       }
       "with BigInt" in {
         val neBI = "foo" $ne BigInt("1000000000000000000425425245252")
-        neBI.toString // Test that JSON Serialization works
+        neBI.toString must notBeNull // Test that JSON Serialization works
         neBI must notBeNull
         neBI must haveSuperClass[DBObject]
         neBI must beEqualTo(nonDSL("foo", "$ne",  BigInt("1000000000000000000425425245252")))
       }
       "with Byte" in {
         val neByte = "foo" $ne java.lang.Byte.parseByte("51")
-        neByte.toString // Test that JSON Serialization works
+        neByte.toString must notBeNull // Test that JSON Serialization works
         neByte must notBeNull
         neByte must haveSuperClass[DBObject]
         neByte must beEqualTo(nonDSL("foo", "$ne", java.lang.Byte.parseByte("51")))
       }
       "with Double" in {
         val neDouble = "foo" $ne 5.232352
-        neDouble.toString // Test that JSON Serialization works
+        neDouble.toString must notBeNull // Test that JSON Serialization works
         neDouble must notBeNull
         neDouble must haveSuperClass[DBObject]
         neDouble must beEqualTo(nonDSL("foo", "$ne", 5.232352))
       }
       "with Float" in {
         val neFloat = "foo" $ne java.lang.Float.parseFloat("5.232352")
-        neFloat.toString // Test that JSON Serialization works
+        neFloat.toString must notBeNull // Test that JSON Serialization works
         neFloat must notBeNull
         neFloat must haveSuperClass[DBObject]
         neFloat must beEqualTo(nonDSL("foo", "$ne", java.lang.Float.parseFloat("5.232352")))
       }
       "with Long" in {
         val neLong = "foo" $ne 10L
-        neLong.toString // Test that JSON Serialization works
+        neLong.toString must notBeNull // Test that JSON Serialization works
         neLong must notBeNull
         neLong must haveSuperClass[DBObject]
         neLong must beEqualTo(nonDSL("foo", "$ne", 10L))
       }
       "with Short" in {
         val neShort = "foo" $ne java.lang.Short.parseShort("10")
-        neShort.toString // Test that JSON Serialization works
+        neShort.toString must notBeNull // Test that JSON Serialization works
         neShort must notBeNull
         neShort must haveSuperClass[DBObject]
         neShort must beEqualTo(nonDSL("foo", "$ne", java.lang.Short.parseShort("10")))
       }
       "with JDKDate" in {
         val neJDKDate = "foo" $ne testDate
-        neJDKDate.toString // Test that JSON Serialization works
+        neJDKDate.toString must notBeNull // Test that JSON Serialization works
         neJDKDate must notBeNull
         neJDKDate must haveSuperClass[DBObject]
         neJDKDate must beEqualTo(nonDSL("foo", "$ne", testDate))
@@ -178,7 +178,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
       "with JodaDT" in {
         RegisterJodaTimeConversionHelpers()
         val neJodaDT = "foo" $ne new org.joda.time.DateTime(testDate.getTime)
-        neJodaDT.toString // Test that JSON Serialization works
+        neJodaDT.toString must notBeNull // Test that JSON Serialization works
         neJodaDT must notBeNull
         neJodaDT must haveSuperClass[DBObject]
         neJodaDT must beEqualTo(nonDSL("foo", "$ne", new org.joda.time.DateTime(testDate.getTime)))
@@ -265,63 +265,63 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
     "Accept a right hand value of ValidDateOrNumericType" in {
       "with Int" in {
         val neInt = "foo" $lt 10
-        neInt.toString // Test that JSON Serialization works
+        neInt.toString must notBeNull // Test that JSON Serialization works
         neInt must notBeNull
         neInt must haveSuperClass[DBObject]
         neInt must beEqualTo(nonDSL("foo", "$lt", 10))
       }
       "with BigDecimal" in {
         val neBD = "foo" $lt BigDecimal("5.8233232")
-        neBD.toString // Test that JSON Serialization works
+        neBD.toString must notBeNull // Test that JSON Serialization works
         neBD must notBeNull
         neBD must haveSuperClass[DBObject]
         neBD must beEqualTo(nonDSL("foo", "$lt", BigDecimal("5.8233232")))
       }
       "with BigInt" in {
         val neBI = "foo" $lt BigInt("1000000000000000000425425245252")
-        neBI.toString // Test that JSON Serialization works
+        neBI.toString must notBeNull // Test that JSON Serialization works
         neBI must notBeNull
         neBI must haveSuperClass[DBObject]
         neBI must beEqualTo(nonDSL("foo", "$lt",  BigInt("1000000000000000000425425245252")))
       }
       "with Byte" in {
         val neByte = "foo" $lt java.lang.Byte.parseByte("51")
-        neByte.toString // Test that JSON Serialization works
+        neByte.toString must notBeNull // Test that JSON Serialization works
         neByte must notBeNull
         neByte must haveSuperClass[DBObject]
         neByte must beEqualTo(nonDSL("foo", "$lt", java.lang.Byte.parseByte("51")))
       }
       "with Double" in {
         val neDouble = "foo" $lt 5.232352
-        neDouble.toString // Test that JSON Serialization works
+        neDouble.toString must notBeNull // Test that JSON Serialization works
         neDouble must notBeNull
         neDouble must haveSuperClass[DBObject]
         neDouble must beEqualTo(nonDSL("foo", "$lt", 5.232352))
       }
       "with Float" in {
         val neFloat = "foo" $lt java.lang.Float.parseFloat("5.232352")
-        neFloat.toString // Test that JSON Serialization works
+        neFloat.toString must notBeNull // Test that JSON Serialization works
         neFloat must notBeNull
         neFloat must haveSuperClass[DBObject]
         neFloat must beEqualTo(nonDSL("foo", "$lt", java.lang.Float.parseFloat("5.232352")))
       }
       "with Long" in {
         val neLong = "foo" $lt 10L
-        neLong.toString // Test that JSON Serialization works
+        neLong.toString must notBeNull // Test that JSON Serialization works
         neLong must notBeNull
         neLong must haveSuperClass[DBObject]
         neLong must beEqualTo(nonDSL("foo", "$lt", 10L))
       }
       "with Short" in {
         val neShort = "foo" $lt java.lang.Short.parseShort("10")
-        neShort.toString // Test that JSON Serialization works
+        neShort.toString must notBeNull // Test that JSON Serialization works
         neShort must notBeNull
         neShort must haveSuperClass[DBObject]
         neShort must beEqualTo(nonDSL("foo", "$lt", java.lang.Short.parseShort("10")))
       }
       "with JDKDate" in {
         val neJDKDate = "foo" $lt testDate
-        neJDKDate.toString // Test that JSON Serialization works
+        neJDKDate.toString must notBeNull // Test that JSON Serialization works
         neJDKDate must notBeNull
         neJDKDate must haveSuperClass[DBObject]
         neJDKDate must beEqualTo(nonDSL("foo", "$lt", testDate))
@@ -329,7 +329,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
       "with JodaDT" in {
         RegisterJodaTimeConversionHelpers()
         val neJodaDT = "foo" $lt new org.joda.time.DateTime(testDate.getTime)
-        neJodaDT.toString // Test that JSON Serialization works
+        neJodaDT.toString must notBeNull // Test that JSON Serialization works
         neJodaDT must notBeNull
         neJodaDT must haveSuperClass[DBObject]
         neJodaDT must beEqualTo(nonDSL("foo", "$lt", new org.joda.time.DateTime(testDate.getTime)))
@@ -416,63 +416,63 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
     "Accept a right hand value of ValidDateOrNumericType" in {
       "with Int" in {
         val neInt = "foo" $lte 10
-        neInt.toString // Test that JSON Serialization works
+        neInt.toString must notBeNull // Test that JSON Serialization works
         neInt must notBeNull
         neInt must haveSuperClass[DBObject]
         neInt must beEqualTo(nonDSL("foo", "$lte", 10))
       }
       "with BigDecimal" in {
         val neBD = "foo" $lte BigDecimal("5.8233232")
-        neBD.toString // Test that JSON Serialization works
+        neBD.toString must notBeNull // Test that JSON Serialization works
         neBD must notBeNull
         neBD must haveSuperClass[DBObject]
         neBD must beEqualTo(nonDSL("foo", "$lte", BigDecimal("5.8233232")))
       }
       "with BigInt" in {
         val neBI = "foo" $lte BigInt("1000000000000000000425425245252")
-        neBI.toString // Test that JSON Serialization works
+        neBI.toString must notBeNull // Test that JSON Serialization works
         neBI must notBeNull
         neBI must haveSuperClass[DBObject]
         neBI must beEqualTo(nonDSL("foo", "$lte",  BigInt("1000000000000000000425425245252")))
       }
       "with Byte" in {
         val neByte = "foo" $lte java.lang.Byte.parseByte("51")
-        neByte.toString // Test that JSON Serialization works
+        neByte.toString must notBeNull // Test that JSON Serialization works
         neByte must notBeNull
         neByte must haveSuperClass[DBObject]
         neByte must beEqualTo(nonDSL("foo", "$lte", java.lang.Byte.parseByte("51")))
       }
       "with Double" in {
         val neDouble = "foo" $lte 5.232352
-        neDouble.toString // Test that JSON Serialization works
+        neDouble.toString must notBeNull // Test that JSON Serialization works
         neDouble must notBeNull
         neDouble must haveSuperClass[DBObject]
         neDouble must beEqualTo(nonDSL("foo", "$lte", 5.232352))
       }
       "with Float" in {
         val neFloat = "foo" $lte java.lang.Float.parseFloat("5.232352")
-        neFloat.toString // Test that JSON Serialization works
+        neFloat.toString must notBeNull // Test that JSON Serialization works
         neFloat must notBeNull
         neFloat must haveSuperClass[DBObject]
         neFloat must beEqualTo(nonDSL("foo", "$lte", java.lang.Float.parseFloat("5.232352")))
       }
       "with Long" in {
         val neLong = "foo" $lte 10L
-        neLong.toString // Test that JSON Serialization works
+        neLong.toString must notBeNull // Test that JSON Serialization works
         neLong must notBeNull
         neLong must haveSuperClass[DBObject]
         neLong must beEqualTo(nonDSL("foo", "$lte", 10L))
       }
       "with Short" in {
         val neShort = "foo" $lte java.lang.Short.parseShort("10")
-        neShort.toString // Test that JSON Serialization works
+        neShort.toString must notBeNull // Test that JSON Serialization works
         neShort must notBeNull
         neShort must haveSuperClass[DBObject]
         neShort must beEqualTo(nonDSL("foo", "$lte", java.lang.Short.parseShort("10")))
       }
       "with JDKDate" in {
         val neJDKDate = "foo" $lte testDate
-        neJDKDate.toString // Test that JSON Serialization works
+        neJDKDate.toString must notBeNull // Test that JSON Serialization works
         neJDKDate must notBeNull
         neJDKDate must haveSuperClass[DBObject]
         neJDKDate must beEqualTo(nonDSL("foo", "$lte", testDate))
@@ -480,7 +480,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
       "with JodaDT" in {
         RegisterJodaTimeConversionHelpers()
         val neJodaDT = "foo" $lte new org.joda.time.DateTime(testDate.getTime)
-        neJodaDT.toString // Test that JSON Serialization works
+        neJodaDT.toString must notBeNull // Test that JSON Serialization works
         neJodaDT must notBeNull
         neJodaDT must haveSuperClass[DBObject]
         neJodaDT must beEqualTo(nonDSL("foo", "$lte", new org.joda.time.DateTime(testDate.getTime)))
@@ -567,63 +567,63 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
     "Accept a right hand value of ValidDateOrNumericType" in {
       "with Int" in {
         val neInt = "foo" $gt 10
-        neInt.toString // Test that JSON Serialization works
+        neInt.toString must notBeNull // Test that JSON Serialization works
         neInt must notBeNull
         neInt must haveSuperClass[DBObject]
         neInt must beEqualTo(nonDSL("foo", "$gt", 10))
       }
       "with BigDecimal" in {
         val neBD = "foo" $gt BigDecimal("5.8233232")
-        neBD.toString // Test that JSON Serialization works
+        neBD.toString must notBeNull // Test that JSON Serialization works
         neBD must notBeNull
         neBD must haveSuperClass[DBObject]
         neBD must beEqualTo(nonDSL("foo", "$gt", BigDecimal("5.8233232")))
       }
       "with BigInt" in {
         val neBI = "foo" $gt BigInt("1000000000000000000425425245252")
-        neBI.toString // Test that JSON Serialization works
+        neBI.toString must notBeNull // Test that JSON Serialization works
         neBI must notBeNull
         neBI must haveSuperClass[DBObject]
         neBI must beEqualTo(nonDSL("foo", "$gt",  BigInt("1000000000000000000425425245252")))
       }
       "with Byte" in {
         val neByte = "foo" $gt java.lang.Byte.parseByte("51")
-        neByte.toString // Test that JSON Serialization works
+        neByte.toString must notBeNull // Test that JSON Serialization works
         neByte must notBeNull
         neByte must haveSuperClass[DBObject]
         neByte must beEqualTo(nonDSL("foo", "$gt", java.lang.Byte.parseByte("51")))
       }
       "with Double" in {
         val neDouble = "foo" $gt 5.232352
-        neDouble.toString // Test that JSON Serialization works
+        neDouble.toString must notBeNull // Test that JSON Serialization works
         neDouble must notBeNull
         neDouble must haveSuperClass[DBObject]
         neDouble must beEqualTo(nonDSL("foo", "$gt", 5.232352))
       }
       "with Float" in {
         val neFloat = "foo" $gt java.lang.Float.parseFloat("5.232352")
-        neFloat.toString // Test that JSON Serialization works
+        neFloat.toString must notBeNull // Test that JSON Serialization works
         neFloat must notBeNull
         neFloat must haveSuperClass[DBObject]
         neFloat must beEqualTo(nonDSL("foo", "$gt", java.lang.Float.parseFloat("5.232352")))
       }
       "with Long" in {
         val neLong = "foo" $gt 10L
-        neLong.toString // Test that JSON Serialization works
+        neLong.toString must notBeNull // Test that JSON Serialization works
         neLong must notBeNull
         neLong must haveSuperClass[DBObject]
         neLong must beEqualTo(nonDSL("foo", "$gt", 10L))
       }
       "with Short" in {
         val neShort = "foo" $gt java.lang.Short.parseShort("10")
-        neShort.toString // Test that JSON Serialization works
+        neShort.toString must notBeNull // Test that JSON Serialization works
         neShort must notBeNull
         neShort must haveSuperClass[DBObject]
         neShort must beEqualTo(nonDSL("foo", "$gt", java.lang.Short.parseShort("10")))
       }
       "with JDKDate" in {
         val neJDKDate = "foo" $gt testDate
-        neJDKDate.toString // Test that JSON Serialization works
+        neJDKDate.toString must notBeNull // Test that JSON Serialization works
         neJDKDate must notBeNull
         neJDKDate must haveSuperClass[DBObject]
         neJDKDate must beEqualTo(nonDSL("foo", "$gt", testDate))
@@ -631,7 +631,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
       "with JodaDT" in {
         RegisterJodaTimeConversionHelpers()
         val neJodaDT = "foo" $gt new org.joda.time.DateTime(testDate.getTime)
-        neJodaDT.toString // Test that JSON Serialization works
+        neJodaDT.toString must notBeNull // Test that JSON Serialization works
         neJodaDT must notBeNull
         neJodaDT must haveSuperClass[DBObject]
         neJodaDT must beEqualTo(nonDSL("foo", "$gt", new org.joda.time.DateTime(testDate.getTime)))
@@ -719,63 +719,63 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
     "Accept a right hand value of ValidDateOrNumericType" in {
       "with Int" in {
         val neInt = "foo" $gte 10
-        neInt.toString // Test that JSON Serialization works
+        neInt.toString must notBeNull // Test that JSON Serialization works
         neInt must notBeNull
         neInt must haveSuperClass[DBObject]
         neInt must beEqualTo(nonDSL("foo", "$gte", 10))
       }
       "with BigDecimal" in {
         val neBD = "foo" $gte BigDecimal("5.8233232")
-        neBD.toString // Test that JSON Serialization works
+        neBD.toString must notBeNull // Test that JSON Serialization works
         neBD must notBeNull
         neBD must haveSuperClass[DBObject]
         neBD must beEqualTo(nonDSL("foo", "$gte", BigDecimal("5.8233232")))
       }
       "with BigInt" in {
         val neBI = "foo" $gte BigInt("1000000000000000000425425245252")
-        neBI.toString // Test that JSON Serialization works
+        neBI.toString must notBeNull // Test that JSON Serialization works
         neBI must notBeNull
         neBI must haveSuperClass[DBObject]
         neBI must beEqualTo(nonDSL("foo", "$gte",  BigInt("1000000000000000000425425245252")))
       }
       "with Byte" in {
         val neByte = "foo" $gte java.lang.Byte.parseByte("51")
-        neByte.toString // Test that JSON Serialization works
+        neByte.toString must notBeNull // Test that JSON Serialization works
         neByte must notBeNull
         neByte must haveSuperClass[DBObject]
         neByte must beEqualTo(nonDSL("foo", "$gte", java.lang.Byte.parseByte("51")))
       }
       "with Double" in {
         val neDouble = "foo" $gte 5.232352
-        neDouble.toString // Test that JSON Serialization works
+        neDouble.toString must notBeNull // Test that JSON Serialization works
         neDouble must notBeNull
         neDouble must haveSuperClass[DBObject]
         neDouble must beEqualTo(nonDSL("foo", "$gte", 5.232352))
       }
       "with Float" in {
         val neFloat = "foo" $gte java.lang.Float.parseFloat("5.232352")
-        neFloat.toString // Test that JSON Serialization works
+        neFloat.toString must notBeNull // Test that JSON Serialization works
         neFloat must notBeNull
         neFloat must haveSuperClass[DBObject]
         neFloat must beEqualTo(nonDSL("foo", "$gte", java.lang.Float.parseFloat("5.232352")))
       }
       "with Long" in {
         val neLong = "foo" $gte 10L
-        neLong.toString // Test that JSON Serialization works
+        neLong.toString must notBeNull // Test that JSON Serialization works
         neLong must notBeNull
         neLong must haveSuperClass[DBObject]
         neLong must beEqualTo(nonDSL("foo", "$gte", 10L))
       }
       "with Short" in {
         val neShort = "foo" $gte java.lang.Short.parseShort("10")
-        neShort.toString // Test that JSON Serialization works
+        neShort.toString must notBeNull // Test that JSON Serialization works
         neShort must notBeNull
         neShort must haveSuperClass[DBObject]
         neShort must beEqualTo(nonDSL("foo", "$gte", java.lang.Short.parseShort("10")))
       }
       "with JDKDate" in {
         val neJDKDate = "foo" $gte testDate
-        neJDKDate.toString // Test that JSON Serialization works
+        neJDKDate.toString must notBeNull // Test that JSON Serialization works
         neJDKDate must notBeNull
         neJDKDate must haveSuperClass[DBObject]
         neJDKDate must beEqualTo(nonDSL("foo", "$gte", testDate))
@@ -783,7 +783,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
       "with JodaDT" in {
         RegisterJodaTimeConversionHelpers()
         val neJodaDT = "foo" $gte new org.joda.time.DateTime(testDate.getTime)
-        neJodaDT.toString // Test that JSON Serialization works
+        neJodaDT.toString must notBeNull // Test that JSON Serialization works
         neJodaDT must notBeNull
         neJodaDT must haveSuperClass[DBObject]
         neJodaDT must beEqualTo(nonDSL("foo", "$gte", new org.joda.time.DateTime(testDate.getTime)))
@@ -793,6 +793,230 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
     }
   }
 
+  "Casbah's DSL $in operator" should {
+    val baseline = """{ "foo" : { "$in" : [ 1 , 8 , 12 , "x"]}}"""
+
+    "Accept Arrays as values" in {
+      val in = "foo" $in Array(1, 8, 12, "x")
+      in must notBeNull
+      in.toString must notBeNull // Test That JSON Serialization works
+      in must haveSuperClass[DBObject]
+      in.toString must beEqualTo(baseline)
+    }
+
+    "Accept Tuples of varying arity for values" in {
+      "A Tuple4 works" in {
+        val in = "foo" $in (1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+      "A Tuple9 works" in {
+        val in = "foo" $in (1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        /*in.toString must beEqualTo(baseline)*/
+      }
+    }
+    "Accept Iterables as values" in {
+      "An immutable List works" in {
+        import scala.collection.immutable.List
+        val in = "foo" $in List(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+
+      "An immutable Seq works" in {
+        import scala.collection.immutable.Seq
+        val in = "foo" $in Seq(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+
+      "An immutable Set works" in {
+        import scala.collection.immutable.Set
+        val in = "foo" $in Set(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+
+      "An mutable HashSet works" in {
+        import scala.collection.mutable.HashSet
+        val in = "foo" $in HashSet(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo("""{ "foo" : { "$in" : [ 12 , "x" , 1 , 8]}}""")
+      }
+    }
+  }
+
+  "Casbah's DSL $nin operator" should {
+    val baseline = """{ "foo" : { "$nin" : [ 1 , 8 , 12 , "x"]}}"""
+
+    "Accept Arrays as values" in {
+      val in = "foo" $nin Array(1, 8, 12, "x")
+      in must notBeNull
+      in.toString must notBeNull // Test That JSON Serialization works
+      in must haveSuperClass[DBObject]
+      in.toString must beEqualTo(baseline)
+    }
+
+    "Accept Tuples of varying arity for values" in {
+      "A Tuple4 works" in {
+        val in = "foo" $nin (1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+      "A Tuple9 works" in {
+        val in = "foo" $nin (1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        /*in.toString must beEqualTo(baseline)*/
+      }
+    }
+    "Accept Iterables as values" in {
+      "An immutable List works" in {
+        import scala.collection.immutable.List
+        val in = "foo" $nin List(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+
+      "An immutable Seq works" in {
+        import scala.collection.immutable.Seq
+        val in = "foo" $nin Seq(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+
+      "An immutable Set works" in {
+        import scala.collection.immutable.Set
+        val in = "foo" $nin Set(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+
+      "An mutable HashSet works" in {
+        import scala.collection.mutable.HashSet
+        val in = "foo" $nin HashSet(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo("""{ "foo" : { "$nin" : [ 12 , "x" , 1 , 8]}}""")
+      }
+    }
+  }
+
+  "Casbah's DSL $all operator" should {
+    val baseline = """{ "foo" : { "$all" : [ 1 , 8 , 12 , "x"]}}"""
+
+    "Accept Arrays as values" in {
+      val in = "foo" $all Array(1, 8, 12, "x")
+      in must notBeNull
+      in.toString must notBeNull // Test That JSON Serialization works
+      in must haveSuperClass[DBObject]
+      in.toString must beEqualTo(baseline)
+    }
+
+    "Accept Tuples of varying arity for values" in {
+      "A Tuple4 works" in {
+        val in = "foo" $all (1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+      "A Tuple9 works" in {
+        val in = "foo" $all (1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        /*in.toString must beEqualTo(baseline)*/
+      }
+    }
+    "Accept Iterables as values" in {
+      "An immutable List works" in {
+        import scala.collection.immutable.List
+        val in = "foo" $all List(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+
+      "An immutable Seq works" in {
+        import scala.collection.immutable.Seq
+        val in = "foo" $all Seq(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+
+      "An immutable Set works" in {
+        import scala.collection.immutable.Set
+        val in = "foo" $all Set(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo(baseline)
+      }
+
+      "An mutable HashSet works" in {
+        import scala.collection.mutable.HashSet
+        val in = "foo" $all HashSet(1, 8, 12, "x")
+        in must notBeNull
+        in.toString must notBeNull // Test That JSON Serialization works
+        in must haveSuperClass[DBObject]
+        in.toString must beEqualTo("""{ "foo" : { "$all" : [ 12 , "x" , 1 , 8]}}""")
+      }
+    }
+  }
+
+  "Casbah's $mod modulo operator" should {
+    "Function as expected" in {
+      val mod = "x" $mod (5, 2)
+      mod must notBeNull
+      mod.toString must notBeNull
+      mod must haveSuperClass[DBObject]
+      mod.toString must beEqualTo("""{ "x" : { "$mod" : [ 5 , 2]}}""")
+    }
+
+    "Take non-integer valid numeric values" in {
+      val mod = "x" $mod (5.12, 2.9)
+      mod must notBeNull
+      mod.toString must notBeNull
+      mod must haveSuperClass[DBObject]
+      mod.toString must beEqualTo("""{ "x" : { "$mod" : [ 5.12 , 2.9]}}""")
+    }
+
+    "Accept differing numeric types for left v. right" in {
+      val mod = "x" $mod (5, 2.8300000000000125)
+      mod must notBeNull
+      mod.toString must notBeNull
+      mod must haveSuperClass[DBObject]
+      mod.toString must beEqualTo("""{ "x" : { "$mod" : [ 5 , 2.8300000000000125]}}""")
+    }
+  
+  }
 
 
 }
