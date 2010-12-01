@@ -85,23 +85,23 @@ sealed trait QueryOperator {
    * <code>{"foo": {"$ne": "bar"}}</code>
    * 
    * Optionally, if dbObj, being <code>Some(DBObject)<code> is defined,
-   * the <code>op()</code> method will nest the target value and operator
+   * the <code>op(oper, )</code> method will nest the target value and operator
    * inside the existing dbObj - this is useful for things like mixing
    * <code>$lte</code> and <code>$gte</code>
    *
    * WARNING: This does NOT check that target is a serializable type.
    * That is, for the moment, your own problem.
    */
-  protected def op(op: String, target: Any) = MongoDBObject(dbObj match {
+  protected def op(oper: String, target: Any) = MongoDBObject(dbObj match {
     case Some(nested) => {
       patchSerialization(target)
-      nested.put(op, target)
+      nested.put(oper, target)
       println("Field: %s Nested: %s".format(field, nested))
       (field -> nested)
     }
     case None => {
       patchSerialization(target)
-      val opMap = BasicDBObjectBuilder.start(op, target).get
+      val opMap = MongoDBObject(oper -> target)
       (field -> opMap)
     }
   })
@@ -112,19 +112,27 @@ sealed trait QueryOperator {
   protected def patchSerialization(target: Any): Unit = target match {
     case _ => {}
   }
+
+  def anyListop(oper: String, target: Any*) = 
+    if (target.size > 1)
+      op(oper, target.toList.asJava) 
+    else if (!target(0).isInstanceOf[Iterable[_]] &&
+             !target(0).isInstanceOf[Array[_]]) 
+      op(oper, List(target(0)))
+    else op(oper, target(0))
      
 }
 
 trait NestingQueryHelper extends QueryOperator {
   import com.mongodb.BasicDBObject
-  val oper: String
+  val nestedOper: String
   val _dbObj: Option[DBObject]
   dbObj = _dbObj
 
-  override protected def op(op: String, target: Any) = {
-    val entry = MongoDBObject(oper -> MongoDBObject(op -> target))
+  override protected def op(oper: String, target: Any) = {
+    val entry = MongoDBObject(nestedOper -> MongoDBObject(oper -> target))
     dbObj = dbObj match {
-      case Some(nested) => nested.put(oper, entry); Some(nested)
+      case Some(nested) => nested.put(nestedOper, entry); Some(nested)
       case None => Some(entry)
     }
     dbObj.map { o => field -> o }.head
@@ -147,18 +155,43 @@ trait NestingQueryHelper extends QueryOperator {
 /**
  * Trait to provide the $ne (Not Equal To) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
- * DBObject and Map[String, Any].
+ * Targets (takes a right-hand value of) String, Numeric,  
+ * Array, DBObject (and DBList) and Map[String, Any].
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24ne
  */
 trait NotEqualsOp extends QueryOperator {
-  def $ne(target: String) = op("$ne", target)
-  def $ne(target: AnyVal) = op("$ne", target)
-  def $ne(target: DBObject) = op("$ne", target)
-  def $ne(target: Map[String, Any]) = op("$ne", target.asDBObject)
+  private val oper = "$ne" 
+
+  def $ne(target: String) = op(oper, target)
+  def $ne[N : Numeric](target: N) = op(oper, target)
+  def $ne(target: DBObject) = op(oper, target)
+  def $ne(target: Map[String, Any]) = op(oper, target.asDBObject)
+  def $ne(target: Array[Any]) = op(oper, target.toList.asJava)
+  def $ne(target: Tuple1[_]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple4[_, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple5[_, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple6[_, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple7[_, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple8[_, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple9[_, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple10[_, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple11[_, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple12[_, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple13[_, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple14[_, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple15[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple16[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple17[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple18[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple19[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple20[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $ne(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
 }
 
 /**
@@ -172,11 +205,13 @@ trait NotEqualsOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait LessThanOp extends QueryOperator {
-  def $lt(target: String) = op("$lt", target)
-  def $lt(target: java.util.Date) = op("$lt", target)
-  def $lt(target: AnyVal) = op("$lt", target)
-  def $lt(target: DBObject) = op("$lt", target)
-  def $lt(target: Map[String, Any]) = op("$lt", target.asDBObject)
+  private val oper = "$lt" 
+
+  def $lt(target: String) = op(oper, target)
+  def $lt(target: java.util.Date) = op(oper, target)
+  def $lt(target: AnyVal) = op(oper, target)
+  def $lt(target: DBObject) = op(oper, target)
+  def $lt(target: Map[String, Any]) = op(oper, target.asDBObject)
 }
 
 /**
@@ -190,11 +225,13 @@ trait LessThanOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait LessThanEqualOp extends QueryOperator {
-  def $lte(target: String) = op("$lte", target)
-  def $lte(target: java.util.Date) = op("$lte", target)
-  def $lte(target: AnyVal) = op("$lte", target)
-  def $lte(target: DBObject) = op("$lte", target)
-  def $lte(target: Map[String, Any]) = op("$lte", target.asDBObject)
+  private val oper = "$lte" 
+
+  def $lte(target: String) = op(oper, target)
+  def $lte(target: java.util.Date) = op(oper, target)
+  def $lte(target: AnyVal) = op(oper, target)
+  def $lte(target: DBObject) = op(oper, target)
+  def $lte(target: Map[String, Any]) = op(oper, target.asDBObject)
 }
 
 /**
@@ -208,12 +245,14 @@ trait LessThanEqualOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait GreaterThanOp extends QueryOperator {
-  def $gt(target: String) = op("$gt", target)
-  def $gt(target: java.util.Date) = op("$gt", target)
-  def $gt(target: AnyVal) = op("$gt", target)
-  def $gt(target: DBObject) = op("$gt", target)
-  def $gt(target: Map[String, Any]) = op("$gt", target.asDBObject)
-  def $gt_:(target: Any) = op("$gt", target) 
+  private val oper = "$gt" 
+
+  def $gt(target: String) = op(oper, target)
+  def $gt(target: java.util.Date) = op(oper, target)
+  def $gt(target: AnyVal) = op(oper, target)
+  def $gt(target: DBObject) = op(oper, target)
+  def $gt(target: Map[String, Any]) = op(oper, target.asDBObject)
+  def $gt_:(target: Any) = op(oper, target) 
 }
 
 /**
@@ -227,11 +266,13 @@ trait GreaterThanOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait GreaterThanEqualOp extends QueryOperator {
-  def $gte(target: String) = op("$gte", target)
-  def $gte(target: java.util.Date) = op("$gte", target)
-  def $gte(target: AnyVal) = op("$gte", target)
-  def $gte(target: DBObject) = op("$gte", target)
-  def $gte(target: Map[String, Any]) = op("$gte", target.asDBObject)
+  private val oper = "$gte" 
+
+  def $gte(target: String) = op(oper, target)
+  def $gte(target: java.util.Date) = op(oper, target)
+  def $gte(target: AnyVal) = op(oper, target)
+  def $gte(target: DBObject) = op(oper, target)
+  def $gte(target: Map[String, Any]) = op(oper, target.asDBObject)
 }
 
 /**
@@ -250,14 +291,16 @@ trait GreaterThanEqualOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24in 
  */
 trait InOp extends QueryOperator {
-  def $in(target: Array[Any]) = op("$in", target.toList.asJava)
+  private val oper = "$in" 
+  
+  def $in(target: Array[Any]) = op(oper, target.toList.asJava)
   def $in(target: Any*) = 
     if (target.size > 1)
-      op("$in", target.toList.asJava) 
+      op(oper, target.toList.asJava) 
     else if (!target(0).isInstanceOf[Iterable[_]] &&
              !target(0).isInstanceOf[Array[_]]) 
-      op("$in", List(target(0)))
-    else op("$in", target(0))
+      op(oper, List(target(0)))
+    else op(oper, target(0))
 }
 
 /**
@@ -276,14 +319,16 @@ trait InOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nin
  */
 trait NotInOp extends QueryOperator {
-  def $nin(target: Array[Any]) = op("$nin", target.toList.asJava)
+  private val oper = "$nin" 
+
+  def $nin(target: Array[Any]) = op(oper, target.toList.asJava)
   def $nin(target: Any*) = 
     if (target.size > 1)
-      op("$nin", target.toList.asJava) 
+      op(oper, target.toList.asJava) 
     else if (!target(0).isInstanceOf[Iterable[_]] &&
              !target(0).isInstanceOf[Array[_]]) 
-      op("$nin", List(target(0)))
-    else op("$nin", target(0))
+      op(oper, List(target(0)))
+    else op(oper, target(0))
 }
 
 /**
@@ -302,14 +347,16 @@ trait NotInOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24all
  */
 trait AllOp extends QueryOperator {
-  def $all(target: Array[Any]) = op("$all", target.toList.asJava)
+  private val oper = "$all" 
+
+  def $all(target: Array[Any]) = op(oper, target.toList.asJava)
   def $all(target: Any*) = 
     if (target.size > 1)
-      op("$all", target.toList.asJava) 
+      op(oper, target.toList.asJava) 
     else if (!target(0).isInstanceOf[Iterable[_]] &&
              !target(0).isInstanceOf[Array[_]])
-      op("$all", List(target(0)))
-    else op("$all", target(0))
+      op(oper, List(target(0)))
+    else op(oper, target(0))
 }
 
 /**
@@ -323,7 +370,9 @@ trait AllOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24mod
  */
 trait ModuloOp extends QueryOperator {
-  def $mod(left: Int, right: Int) = op("$mod", List(left, right).asJava)
+  private val oper = "$mod" 
+
+  def $mod(left: Int, right: Int) = op(oper, List(left, right).asJava)
 }
 
 /**
@@ -336,9 +385,11 @@ trait ModuloOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24size
  */
 trait SizeOp extends QueryOperator {
-  def $size(target: String) = op("$size", target)
-  def $size(target: AnyVal) = op("$size", target)
-  def $size(target: DBObject) = op("$size", target)
+  private val oper = "$size"
+
+  def $size(target: String) = op(oper, target)
+  def $size(target: AnyVal) = op(oper, target)
+  def $size(target: DBObject) = op(oper, target)
 }
 
 /**
@@ -350,9 +401,9 @@ trait SizeOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24exists%7D%7D
  */
 trait ExistsOp extends QueryOperator {
-  def $exists(target: Boolean) = op("$exists", target)
-/*  // Shortcut which assumes you meant "true"
-  def $exists = op("$exists", true)*/
+  private val oper = "$exists"
+
+  def $exists(target: Boolean) = op(oper, target)
 }
 
 /**
@@ -364,8 +415,11 @@ trait ExistsOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-JavascriptExpressionsand%7B%7B%24where%7D%7D
  */
 trait WhereOp extends QueryOperator {
-  def $where(target: JSFunction) = op("$where", target)
+  private val oper = "$where"
+
+  def $where(target: JSFunction) = op(oper, target)
 }
+
 /**
  * Trait to provide the $not (Not) negation method on appropriate callers.
  * 
@@ -379,11 +433,13 @@ trait WhereOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-Metaoperator%3A%24not
  */
 trait NotOp extends QueryOperator {
+  private val oper = "$not"
+
   /** Callbackey Nesting placeholding object for targetting correctly*/
   case class NotOpNester(val field: String, _dbObj: Option[DBObject]) 
       extends NestingQueryHelper 
       with ValueTestFluidQueryOperators {
-    val oper = "$not"
+    val nestedOper = "$not"
   }
 
   def $not = NotOpNester(field, dbObj)
@@ -407,8 +463,10 @@ trait NotOp extends QueryOperator {
  *
  */
 trait SliceOp extends QueryOperator {
-  def $slice(target: Int) = op("$slice", target)
-  def $slice(slice: Int, limit: Int) = op("$slice", MongoDBList(slice, limit))
+  private val oper = "$slice"
+
+  def $slice(target: Int) = op(oper, target)
+  def $slice(slice: Int, limit: Int) = op(oper, MongoDBList(slice, limit))
 }
 
 
@@ -424,11 +482,13 @@ trait SliceOp extends QueryOperator {
  *
  */
 trait ElemMatchOp extends QueryOperator {
+  private val oper = "$elemMatch"
+
   /** Callbackey Nesting placeholding object for targetting correctly*/
   case class ElemMatchNester(val field: String, _dbObj: Option[DBObject]) 
       extends NestingQueryHelper 
       with ValueTestFluidQueryOperators {
-    val oper = "$elemMatch"
+    val nestedOper = "$elemMatch"
   }
 
   def $elemMatch = ElemMatchNester(field, dbObj)
@@ -445,14 +505,16 @@ trait ElemMatchOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
  */
 trait AddToSetEachOp extends QueryOperator {
-  def $each(target: Array[Any]) = op("$each", target.toList.asJava)
+  private val oper = "$each" 
+  
+  def $each(target: Array[Any]) = op(oper, target.toList.asJava)
   def $each(target: Any*) = 
     if (target.size > 1)
-      op("$each", target.toList.asJava) 
+      op(oper, target.toList.asJava) 
     else if (!target(0).isInstanceOf[Iterable[_]] &&
              !target(0).isInstanceOf[Array[_]])
-      op("$each", List(target(0)))
-    else op("$each", target(0))
+      op(oper, List(target(0)))
+    else op(oper, target(0))
 }
 
 abstract class BSONType[A]
@@ -488,43 +550,45 @@ object BSONType {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24type%7D%7D 
  */
 trait TypeOp extends QueryOperator {
-  def $type(arg: Byte) = op("$type", arg)
+  private val oper = "$type" 
+
+  def $type(arg: Byte) = op(oper, arg)
 
   def $type[A : BSONType : Manifest] = 
     if (manifest[A] <:< manifest[Double]) 
-      op("$type", BSON.NUMBER)
+      op(oper, BSON.NUMBER)
     else if (manifest[A] <:< manifest[String])
-      op("$type", BSON.STRING)
+      op(oper, BSON.STRING)
     else if (manifest[A] <:< manifest[BSONObject] || 
              manifest[A] <:< manifest[DBObject] )
-      op("$type", BSON.OBJECT)
+      op(oper, BSON.OBJECT)
     else if (manifest[A] <:< manifest[BasicDBList] || 
              manifest[A] <:< manifest[BasicBSONList] || 
              manifest[A] <:< manifest[List[_]])
-      op("$type", BSON.ARRAY)
+      op(oper, BSON.ARRAY)
     else if (manifest[A] <:< manifest[ObjectId])
-      op("$type", BSON.OID)
+      op(oper, BSON.OID)
     else if (manifest[A] <:< manifest[Boolean])
-      op("$type", BSON.BOOLEAN)
+      op(oper, BSON.BOOLEAN)
     else if (manifest[A] <:< manifest[java.util.Date])
-      op("$type", BSON.DATE)
+      op(oper, BSON.DATE)
     else if (manifest[A] <:< manifest[Option[Nothing]])
-      op("$type", BSON.NULL)
+      op(oper, BSON.NULL)
     else if (manifest[A] <:< manifest[Regex])
-      op("$type", BSON.REGEX)
+      op(oper, BSON.REGEX)
     else if (manifest[A] <:< manifest[Symbol])
-      op("$type", BSON.SYMBOL)
+      op(oper, BSON.SYMBOL)
     else if (manifest[A] <:< manifest[Int])
-      op("$type", BSON.NUMBER_INT)
+      op(oper, BSON.NUMBER_INT)
     else if (manifest[A] <:< manifest[Long])
-      op("$type", BSON.NUMBER_LONG)
+      op(oper, BSON.NUMBER_LONG)
     else if (manifest[A] <:< manifest[java.sql.Timestamp])
-      op("$type", BSON.TIMESTAMP)
+      op(oper, BSON.TIMESTAMP)
     else if (manifest[A].erasure.isArray) 
       if (manifest[A] <:< manifest[Byte]) 
-        op("$type", BSON.BINARY)
+        op(oper, BSON.BINARY)
       else 
-        op("$type", BSON.ARRAY)
+        op(oper, BSON.ARRAY)
     else
       throw new IllegalArgumentException("Invalid BSON Type '%s' for matching".format(manifest.erasure))
 }
@@ -558,7 +622,9 @@ case class GeoCoords[T : Numeric : Manifest](val lat: T, val lon: T) {
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
  */
 trait GeoNearOp extends QueryOperator {
-  def $near(coords: GeoCoords[_]) = op("$near", coords.toList)
+  private val oper = "$near"
+
+  def $near(coords: GeoCoords[_]) = op(oper, coords.toList)
 }
 
 /**
@@ -579,7 +645,9 @@ trait GeoNearOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
  */
 trait GeoNearSphereOp extends QueryOperator {
-  def $nearSphere(coords: GeoCoords[_]) = op("$nearSphere", coords.toList)
+  private val oper = "$nearSphere"
+  
+  def $nearSphere(coords: GeoCoords[_]) = op(oper, coords.toList)
 }
 
 /**
@@ -600,17 +668,20 @@ trait GeoNearSphereOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
  */
 trait GeoWithinOps extends QueryOperator {
+  private val oper = "$within" 
+
   def $within = new QueryOperator {
+    val nestedOper = "$within"
     val field = "$within" 
 
     def $box(lowerLeft: GeoCoords[_], upperRight: GeoCoords[_]) =
-      op("$box", MongoDBList(lowerLeft.toList, upperRight.toList))
+      op(oper, MongoDBList(lowerLeft.toList, upperRight.toList))
 
     def $center[T : Numeric](center: GeoCoords[_], radius: T) = 
-      op("$center", MongoDBList(center.toList, radius))
+      op(oper, MongoDBList(center.toList, radius))
 
     def $centerSphere[T : Numeric](center: GeoCoords[_], radius: T) = 
-      op("$centerSphere", MongoDBList(center.toList, radius))
+      op(oper, MongoDBList(center.toList, radius))
   }
   
 }
