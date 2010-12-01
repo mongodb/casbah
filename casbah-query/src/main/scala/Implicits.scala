@@ -72,6 +72,8 @@ trait Implicits extends FluidQueryBarewordOps {
   implicit def tupleToGeoCoords[T : Numeric : Manifest](coords: (T, T)) = GeoCoords(coords._1, coords._2)
   
 
+
+
 }
 
 object Implicits extends Implicits with commons.Implicits 
@@ -79,11 +81,58 @@ object Imports extends Imports with commons.Imports
 object BaseImports extends BaseImports with commons.BaseImports
 object TypeImports extends TypeImports with commons.TypeImports
 
-trait Imports extends BaseImports with TypeImports with Implicits 
+trait Imports extends BaseImports with TypeImports with Implicits with ValidDateOrNumericTypeHolder
 
 trait BaseImports
 
 trait TypeImports { 
   type GeoCoords = com.mongodb.casbah.query.GeoCoords[_]
 }
+
+trait ValidNumericType[T]
+
+trait ValidDateType[T] 
+
+trait ValidDateOrNumericType[T]
+
+trait ValidDateTypeHolder {
+  trait JDKDateOk extends ValidDateType[java.util.Date]
+  implicit object JDKDateOk extends JDKDateOk
+  trait JodaDateTimeOk extends ValidDateOrNumericType[org.joda.time.DateTime]
+  implicit object JodaDateTimeOk extends JodaDateTimeOk
+}
+
+trait ValidNumericTypeHolder {
+  import Numeric._
+  trait BigIntOk extends ValidNumericType[BigInt] with BigIntIsIntegral with Ordering.BigIntOrdering
+  implicit object BigIntOk extends BigIntOk
+  trait IntOk extends ValidNumericType[Int] with IntIsIntegral with Ordering.IntOrdering
+  implicit object IntOk extends IntOk
+  trait ShortOk extends ValidNumericType[Short] with ShortIsIntegral with Ordering.ShortOrdering
+  implicit object ShortOk extends ShortOk
+  trait ByteOk extends ValidNumericType[Byte] with ByteIsIntegral with Ordering.ByteOrdering
+  implicit object ByteOk extends ByteOk
+  trait LongOk extends ValidNumericType[Long] with LongIsIntegral with Ordering.LongOrdering
+  implicit object LongOk extends LongOk
+  trait FloatOk extends ValidNumericType[Float] with FloatIsFractional with Ordering.FloatOrdering
+  implicit object FloatOk extends FloatOk
+  trait BigDecimalOk extends ValidNumericType[BigDecimal] with BigDecimalIsFractional with Ordering.BigDecimalOrdering 
+  implicit object BigDecimalOk extends BigDecimalOk
+  trait DoubleOk extends ValidNumericType[Double] with DoubleIsFractional with Ordering.DoubleOrdering
+  implicit object DoubleOk extends DoubleOk
+}
+
+trait ValidDateOrNumericTypeHolder extends ValidDateTypeHolder with ValidNumericTypeHolder {
+  implicit object JDKDateDoNOk extends JDKDateOk with ValidDateOrNumericType[java.util.Date]
+  implicit object JodaDateTimeDoNOk extends JDKDateOk with ValidDateOrNumericType[org.joda.time.DateTime]
+  implicit object BigIntDoNOk extends BigIntOk with ValidDateOrNumericType[BigInt]
+  implicit object IntDoNOk extends IntOk with ValidDateOrNumericType[Int]
+  implicit object ShortDoNOk extends ShortOk with ValidDateOrNumericType[Short]
+  implicit object ByteDoNOk extends ByteOk with ValidDateOrNumericType[Byte]
+  implicit object LongDoNOk extends LongOk with ValidDateOrNumericType[Long]
+  implicit object FloatDoNOk extends FloatOk with ValidDateOrNumericType[Float]
+  implicit object BigDecimalDoNOk extends BigDecimalOk with ValidDateOrNumericType[BigDecimal]
+  implicit object DoubleDoNOk extends DoubleOk with ValidDateOrNumericType[Double]
+}
+
 // vim: set ts=2 sw=2 sts=2 et:

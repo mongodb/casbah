@@ -158,7 +158,7 @@ trait NestingQueryHelper extends QueryOperator {
  * Trait to provide the $ne (Not Equal To) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) String, Numeric,  
- * Array, DBObject (and DBList) and Map[String, Any].
+ * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
@@ -168,7 +168,6 @@ trait NotEqualsOp extends QueryOperator {
   private val oper = "$ne" 
 
   def $ne(target: String) = op(oper, target)
-  def $ne[N : Numeric](target: N) = op(oper, target)
   def $ne(target: DBObject) = op(oper, target)
   def $ne(target: Array[_]) = op(oper, target.toList.asJava)
   def $ne(target: Tuple1[_]) = op(oper, target.productIterator.toList)
@@ -194,13 +193,14 @@ trait NotEqualsOp extends QueryOperator {
   def $ne(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
   def $ne(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
   def $ne(target: Iterable[_]) = op(oper, target.toList)
+  def $ne[T : ValidDateOrNumericType](target: T) = op(oper, target)
 }
 
 /**
  * Trait to provide the $lt (Less Than) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, AnyVal (see Scala docs but basically Int, Long, Char, Byte, etc)
- * DBObject and Map[String, Any].
+ * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates, 
+ * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.
  *
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
@@ -210,10 +210,32 @@ trait LessThanOp extends QueryOperator {
   private val oper = "$lt" 
 
   def $lt(target: String) = op(oper, target)
-  def $lt(target: java.util.Date) = op(oper, target)
-  def $lt(target: AnyVal) = op(oper, target)
   def $lt(target: DBObject) = op(oper, target)
-  def $lt(target: Map[String, Any]) = op(oper, target.asDBObject)
+  def $lt(target: Array[_]) = op(oper, target.toList.asJava)
+  def $lt(target: Tuple1[_]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple4[_, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple5[_, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple6[_, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple7[_, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple8[_, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple9[_, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple10[_, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple11[_, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple12[_, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple13[_, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple14[_, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple15[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple16[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple17[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple18[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple19[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple20[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = op(oper, target.productIterator.toList)
+  def $lt(target: Iterable[_]) = op(oper, target.toList)
+  def $lt[T : ValidDateOrNumericType](target: T) = op(oper, target)
 }
 
 /**
