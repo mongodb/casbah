@@ -715,6 +715,8 @@ trait TypeOp extends QueryOperator {
       op(oper, BSON.OID)
     else if (manifest[A] <:< manifest[Boolean])
       op(oper, BSON.BOOLEAN)
+    else if (manifest[A] <:< manifest[java.sql.Timestamp])
+      op(oper, BSON.TIMESTAMP)
     else if (manifest[A] <:< manifest[java.util.Date] ||
              manifest[A] <:< manifest[org.joda.time.DateTime])
       op(oper, BSON.DATE)
@@ -728,8 +730,6 @@ trait TypeOp extends QueryOperator {
       op(oper, BSON.NUMBER_INT)
     else if (manifest[A] <:< manifest[Long])
       op(oper, BSON.NUMBER_LONG)
-    else if (manifest[A] <:< manifest[java.sql.Timestamp])
-      op(oper, BSON.TIMESTAMP)
     else if (manifest[A].erasure.isArray) 
       if (manifest[A] <:< manifest[Byte]) 
         op(oper, BSON.BINARY)
