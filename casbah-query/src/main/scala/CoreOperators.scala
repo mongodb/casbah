@@ -686,20 +686,31 @@ object BSONType {
 trait TypeOp extends QueryOperator {
   private val oper = "$type" 
 
+  /** 
+   * For those who want to pass the static byte from org.bson.BSON explicitly
+   * (or with the simple BSON spec indicator)
+   * TODO: Test for a valid byte, right now we accept anything you say.
+   */
   def $type(arg: Byte) = op(oper, arg)
 
+  /**
+   * Matches types based on a Context Bound.
+   * Requires anchoring to prevent compiler confusion:
+   *
+   *    "foo".$type[Double]
+   *
+   */
   def $type[A : BSONType : Manifest] = 
     if (manifest[A] <:< manifest[Double]) 
       op(oper, BSON.NUMBER)
     else if (manifest[A] <:< manifest[String])
       op(oper, BSON.STRING)
-    else if (manifest[A] <:< manifest[BSONObject] || 
-             manifest[A] <:< manifest[DBObject] )
-      op(oper, BSON.OBJECT)
     else if (manifest[A] <:< manifest[BasicDBList] || 
-             manifest[A] <:< manifest[BasicBSONList] || 
-             manifest[A] <:< manifest[List[_]])
+             manifest[A] <:< manifest[BasicBSONList])
       op(oper, BSON.ARRAY)
+    else if (manifest[A] <:< manifest[BSONObject] || 
+             manifest[A] <:< manifest[DBObject])
+      op(oper, BSON.OBJECT)
     else if (manifest[A] <:< manifest[ObjectId])
       op(oper, BSON.OID)
     else if (manifest[A] <:< manifest[Boolean])
