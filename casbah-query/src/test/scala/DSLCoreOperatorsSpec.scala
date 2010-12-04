@@ -1045,6 +1045,120 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
     }
   }
 
+  "Casbah's $where operator" should {
+    "Function as expected" in {
+      val where = "x" $where "function () { this.foo }"
+      where must notBeNull
+      where.toString must notBeNull
+      where must haveSuperClass[DBObject]
+    }
+  }
 
+  "Casbah's $not operator" should {
+    "Function in a normal passing" in {
+      val not = "foo" $not 5.1
+      not must notBeNull
+      not.toString must notBeNull
+      not must haveSuperClass[DBObject]
+    }
+
+
+    "Function with anchoring and subobjects" in {
+      val not = "foo".$not $mod (5, 10)
+      not must notBeNull
+      not.toString must notBeNull
+      not must haveSuperClass[DBObject]
+      not must beEqualTo(nonDSL("foo", "$not", MongoDBObject("$mod" -> MongoDBList(5, 10))))
+    }
+  }
+
+  "Casbah's $slice operator" should {
+    "Function with a single value" in {
+      val slice = "foo" $slice 5
+      slice must notBeNull
+      slice.toString must notBeNull
+      slice must haveSuperClass[DBObject]
+      slice must beEqualTo(nonDSL("foo", "$slice", 5))
+    }
+    "Function with a slice and limit " in {
+      val slice = "foo" $slice (5, -1)
+      slice must notBeNull
+      slice.toString must notBeNull
+      slice must haveSuperClass[DBObject]
+      slice must beEqualTo(nonDSL("foo", "$slice", MongoDBList(5, -1)))
+    }
+  }
+
+
+  "Casbah's $elemMatch operator" should {
+    "Function as expected" in {
+      val elemMatch = "foo" $elemMatch MongoDBObject("x" -> 5, "y" -> MongoDBList("x", "y", "z", "abc", 123, 12.8))
+      elemMatch must notBeNull
+      elemMatch.toString must notBeNull
+      elemMatch must haveSuperClass[DBObject]
+      //elemMatch must beEqualTo(nonDSL("foo", "$elemMatch", MongoDBObject("x" -> 5, "y" -> MongoDBList("x", "y", "z", "abc", 123, 12.8))))
+    }
+  }
+
+  "Casbah's $type operator" should {
+    "Accept raw Byte indicators (e.g. from org.bson.BSON)" in {
+      // Don't need to test every value here since it's just a byte
+      val typeOper = "foo" $type org.bson.BSON.NUMBER_LONG
+      typeOper must notBeNull
+      typeOper.toString must notBeNull
+      typeOper must haveSuperClass[DBObject]
+      typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.NUMBER_LONG))
+    }
+
+    "Accept manifested Type arguments" in {
+      "Doubles" in {
+        val typeOper = "foo".$type[Double]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.NUMBER))
+      }
+      "Strings" in {
+        val typeOper = "foo".$type[String]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.STRING))
+      }
+      "Object" in {
+        "via BSONObject" in {
+          val typeOper = "foo".$type[org.bson.BSONObject]
+          typeOper must notBeNull
+          typeOper.toString must notBeNull
+          typeOper must haveSuperClass[DBObject]
+          typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.OBJECT))
+        }
+        "via DBObject" in {
+          val typeOper = "foo".$type[DBObject]
+          typeOper must notBeNull
+          typeOper.toString must notBeNull
+          typeOper must haveSuperClass[DBObject]
+          typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.OBJECT))
+        }
+      }
+      "Array" in {
+        "via BasicDBList" in {
+          val typeOper = "foo".$type[BasicDBList]
+          typeOper must notBeNull
+          typeOper.toString must notBeNull
+          typeOper must haveSuperClass[DBObject]
+          typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.ARRAY))
+        }
+        "via BasicBSONList" in {
+          val typeOper = "foo".$type[org.bson.types.BasicBSONList]
+          typeOper must notBeNull
+          typeOper.toString must notBeNull
+          typeOper must haveSuperClass[DBObject]
+          typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.ARRAY))
+        }
+      }
+    }
+
+  }
 }
 // vim: set ts=2 sw=2 sts=2 et:
