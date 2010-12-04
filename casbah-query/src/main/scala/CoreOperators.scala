@@ -542,7 +542,7 @@ trait ExistsOp extends QueryOperator {
 /**
  * Trait to provide the $where (Where) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) JSFunction
+ * Targets (takes a right-hand value of) JSFunction [which is currently just as string containing a javascript function]
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-JavascriptExpressionsand%7B%7B%24where%7D%7D
@@ -665,6 +665,7 @@ object BSONType {
   implicit object BSONObjectId extends BSONType[ObjectId]
   implicit object BSONBoolean extends BSONType[Boolean]
   implicit object BSONJDKDate extends BSONType[java.util.Date]
+  implicit object BSONJodaDateTime extends BSONType[org.joda.time.DateTime]
   implicit object BSONNull extends BSONType[Option[Nothing]]
   implicit object BSONRegex extends BSONType[Regex]
   implicit object BSONSymbol extends BSONType[Symbol]
@@ -703,7 +704,8 @@ trait TypeOp extends QueryOperator {
       op(oper, BSON.OID)
     else if (manifest[A] <:< manifest[Boolean])
       op(oper, BSON.BOOLEAN)
-    else if (manifest[A] <:< manifest[java.util.Date])
+    else if (manifest[A] <:< manifest[java.util.Date] ||
+             manifest[A] <:< manifest[org.joda.time.DateTime])
       op(oper, BSON.DATE)
     else if (manifest[A] <:< manifest[Option[Nothing]])
       op(oper, BSON.NULL)
