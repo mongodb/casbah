@@ -1157,6 +1157,94 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
           typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.ARRAY))
         }
       }
+      "OID" in {
+        val typeOper = "foo".$type[ObjectId]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.OID))
+      }
+      "Boolean" in {
+        val typeOper = "foo".$type[Boolean]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.BOOLEAN))
+      }
+      "Date" in {
+        "via JDKDate" in {
+          val typeOper = "foo".$type[java.util.Date]
+          typeOper must notBeNull
+          typeOper.toString must notBeNull
+          typeOper must haveSuperClass[DBObject]
+          typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.DATE))
+        }
+        "via Joda DateTime" in {
+          val typeOper = "foo".$type[org.joda.time.DateTime]
+          typeOper must notBeNull
+          typeOper.toString must notBeNull
+          typeOper must haveSuperClass[DBObject]
+          typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.DATE))
+        }
+      }
+      "None (null)" in {
+        // For some reason you can't use NONE 
+        val typeOper = "foo".$type[Option[Nothing]]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.NULL))
+      }
+      "Regex" in {
+        val typeOper = "foo".$type[Double]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.REGEX))
+      }
+      "Symbol" in {
+        val typeOper = "foo".$type[Symbol]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.SYMBOL))
+      }
+      "Number (integer)" in {
+        val typeOper = "foo".$type[Int]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.NUMBER_INT))
+      }
+      "Number (Long)" in {
+        val typeOper = "foo".$type[Long]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.NUMBER_LONG))
+      }
+      "Timestamp" in {
+        val typeOper = "foo".$type[java.sql.Timestamp]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.TIMESTAMP))
+      }
+      "Binary" in {
+        val typeOper = "foo".$type[Array[Byte]]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.BINARY))
+      }
+      /*"Non-Binary Array" in {
+        val typeOper = "foo".$type[Array[_]]
+        typeOper must notBeNull
+        typeOper.toString must notBeNull
+        typeOper must haveSuperClass[DBObject]
+        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.ARRAY))
+
+      }*/
     }
 
   }
