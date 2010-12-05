@@ -67,6 +67,21 @@ trait ValueTestFluidQueryOperators extends LessThanOp
                                       with SizeOp
                                       with AllOp
                                       with WhereOp
+
+trait DSLDBObject {
+  val field: String
+}
+
+object DSLDBObject {
+  
+  def apply[A <: String, B <: Any](kv: (A, B)): DBObject with DSLDBObject = {
+    val obj = new BasicDBObject with DSLDBObject { val field = kv._1 }
+    obj.put(kv._1, kv._2)
+    obj
+  }
+
+
+}
 /**
  * Base trait for QueryOperators, children
  * are required to define a value for field, which is a String
@@ -94,11 +109,10 @@ sealed trait QueryOperator {
    * WARNING: This does NOT check that target is a serializable type.
    * That is, for the moment, your own problem.
    */
-  protected def op(oper: String, target: Any) = MongoDBObject(dbObj match {
+  protected def op(oper: String, target: Any) = DSLDBObject(dbObj match {
     case Some(nested) => {
       patchSerialization(target)
       nested.put(oper, target)
-      println("Field: %s Nested: %s".format(field, nested))
       (field -> nested)
     }
     case None => {
@@ -132,12 +146,12 @@ trait NestingQueryHelper extends QueryOperator {
   dbObj = _dbObj
 
   override protected def op(oper: String, target: Any) = {
-    val entry = MongoDBObject(nestedOper -> MongoDBObject(oper -> target))
+    val entry = DSLDBObject(nestedOper -> MongoDBObject(oper -> target))
     dbObj = dbObj match {
       case Some(nested) => nested.put(nestedOper, entry); Some(nested)
       case None => Some(entry)
     }
-    dbObj.map { o => MongoDBObject(field -> o) }.head
+    dbObj.map { o => DSLDBObject(field -> o) }.head
   }
 
   def apply(target: Any) = { 
