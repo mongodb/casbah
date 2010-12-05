@@ -722,7 +722,7 @@ trait TypeOp extends QueryOperator {
       op(oper, BSON.DATE)
     else if (manifest[A] <:< manifest[Option[Nothing]])
       op(oper, BSON.NULL)
-    else if (manifest[A] <:< manifest[Regex])
+    else if (manifest[A] <:< manifest[Regex]) 
       op(oper, BSON.REGEX)
     else if (manifest[A] <:< manifest[Symbol])
       op(oper, BSON.SYMBOL)
@@ -730,11 +730,9 @@ trait TypeOp extends QueryOperator {
       op(oper, BSON.NUMBER_INT)
     else if (manifest[A] <:< manifest[Long])
       op(oper, BSON.NUMBER_LONG)
-    else if (manifest[A].erasure.isArray) 
-      if (manifest[A] <:< manifest[Byte]) 
+    else if (manifest[A].erasure.isArray &&
+             manifest[A] <:< manifest[Array[Byte]]) 
         op(oper, BSON.BINARY)
-      else 
-        op(oper, BSON.ARRAY)
     else
       throw new IllegalArgumentException("Invalid BSON Type '%s' for matching".format(manifest.erasure))
 }
