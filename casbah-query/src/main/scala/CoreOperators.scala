@@ -40,7 +40,8 @@ import org.bson.types.BasicBSONList
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
-trait FluidQueryOperators extends NotEqualsOp 
+trait FluidQueryOperators extends EqualsOp
+                             with NotEqualsOp 
                              with LessThanOp 
                              with LessThanEqualOp 
                              with GreaterThanOp 
@@ -165,6 +166,50 @@ trait NestingQueryHelper extends QueryOperator {
     }
   }
 
+}
+
+
+/**
+ * Trait to provide a fake $eq (Equals) method on appropriate callers.
+ *
+ * This is a fake 'concession' operator to allow easy integration of key = value into the DSL with chaining
+ *
+ * Targets (takes a right-hand value of) String, Numeric,  
+ * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.
+ *
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24ne
+ */
+trait EqualsOp extends QueryOperator {
+
+  def $eq(target: String) = MongoDBObject(field -> target)
+  def $eq(target: DBObject) = MongoDBObject(field -> target)
+  def $eq(target: Array[_]) = MongoDBObject(field -> target.toList.asJava)
+  def $eq(target: Tuple1[_]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple2[_, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple3[_, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple4[_, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple5[_, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple6[_, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple7[_, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple8[_, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple9[_, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple10[_, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple11[_, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple12[_, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple13[_, _, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple14[_, _, _, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple15[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple16[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple17[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple18[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple19[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple20[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple21[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Tuple22[_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _]) = MongoDBObject(field -> target.productIterator.toList)
+  def $eq(target: Iterable[_]) = MongoDBObject(field -> target.toList)
+  def $eq[T : ValidDateOrNumericType](target: T) = MongoDBObject(field -> target)
 }
 
 
