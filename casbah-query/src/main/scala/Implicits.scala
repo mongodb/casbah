@@ -69,7 +69,7 @@ trait Implicits extends FluidQueryBarewordOps {
     dbObj = Some(nested._2) 
   }
 
-  implicit def tupleToGeoCoords[T : Numeric : Manifest](coords: (T, T)) = GeoCoords(coords._1, coords._2)
+  implicit def tupleToGeoCoords[A : Numeric : Manifest, B : Numeric : Manifest](coords: (A, B)) = GeoCoords(coords._1, coords._2)
   
 
 
@@ -86,7 +86,7 @@ trait Imports extends BaseImports with TypeImports with Implicits with ValidDate
 trait BaseImports
 
 trait TypeImports { 
-  type GeoCoords = com.mongodb.casbah.query.GeoCoords[_]
+  type GeoCoords = com.mongodb.casbah.query.GeoCoords[_,_]
 }
 
 trait ValidNumericType[T]

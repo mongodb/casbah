@@ -1237,14 +1237,18 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         typeOper must haveSuperClass[DBObject]
         typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.BINARY))
       }
-      /*"Non-Binary Array" in {
-        val typeOper = "foo".$type[Array[_]]
-        typeOper must notBeNull
-        typeOper.toString must notBeNull
-        typeOper must haveSuperClass[DBObject]
-        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.ARRAY))
 
-      }*/
+    }
+
+  }
+
+
+  "Casbah's GeoSpatial Operators" should {
+    "Allow construction of GeoCoords" in {
+      "With two different numeric types" in {
+        val geo = GeoCoords(5.23, -123)
+        geo must notBeNull
+      }
     }
 
   }
