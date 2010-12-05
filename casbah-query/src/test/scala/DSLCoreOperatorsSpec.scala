@@ -1251,6 +1251,85 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         val geo = GeoCoords(5.23, -123)
         geo must notBeNull
       }
+      "Be convertible from a tuple" in {
+        val geo = tupleToGeoCoords((5.23, -123))
+        geo must notBeNull
+        geo must haveClass[GeoCoords[_,_]]
+      }
+    }
+
+    "Support $near" in {
+      "With an explicit GeoCoords instance" in {
+        val near = "foo" $near GeoCoords(74.2332, -75.23452)
+        near must notBeNull
+        near must haveSuperClass[DBObject]
+        /*near must beEqualTo(nonDSL("foo", "$near", MongoDBList(74.2332, -75.23542)))*/
+      }
+      "With a tuple converted coordinate set" in {
+        val near = "foo" $near (74.2332, -75.23452)
+        near must notBeNull
+        near must haveSuperClass[DBObject]
+        /*near must beEqualTo(nonDSL("foo", "$near", MongoDBList(74.2332, -75.23542)))*/
+      }
+    }
+
+    "Support $nearSphere" in {
+      "With an explicit GeoCoords instance" in {
+        val near = "foo" $nearSphere GeoCoords(74.2332, -75.23452)
+        near must notBeNull
+        near must haveSuperClass[DBObject]
+        /*near must beEqualTo(nonDSL("foo", "$nearSphere", MongoDBList(74.2332, -75.23542)))*/
+      }
+      "With a tuple converted coordinate set" in {
+        val near = "foo" $nearSphere (74.2332, -75.23452)
+        near must notBeNull
+        near must haveSuperClass[DBObject]
+        /*near must beEqualTo(nonDSL("foo", "$nearSphere", MongoDBList(74.2332, -75.23542)))*/
+      }
+    }
+    "Support.$within ..." in {
+      "... $box" in {
+        "With an explicit GeoCoords instance" in {
+          val near = "foo".$within $box (GeoCoords(74.2332, -75.23452), GeoCoords(123, 456))
+          near must notBeNull
+          near must haveSuperClass[DBObject]
+          /*near must beEqualTo(nonDSL("foo", "$box", MongoDBList(74.2332, -75.23542)))*/
+        }
+        "With a tuple converted coordinate set" in {
+          val near = "foo".$within $box ((74.2332, -75.23452), (123, 456))
+          near must notBeNull
+          near must haveSuperClass[DBObject]
+          /*near must beEqualTo(nonDSL("foo", "$box", MongoDBList(74.2332, -75.23542)))*/
+        }
+      }
+      "... $center" in {
+        "With an explicit GeoCoords instance" in {
+          val near = "foo".$within $center (GeoCoords(74.2332, -75.23452), 5)
+          near must notBeNull
+          near must haveSuperClass[DBObject]
+          /*near must beEqualTo(nonDSL("foo", "$center", MongoDBList(74.2332, -75.23542)))*/
+        }
+        "With a tuple converted coordinate set" in {
+          val near = "foo".$within $center ((74.2332, -75.23452), 5)
+          near must notBeNull
+          near must haveSuperClass[DBObject]
+          /*near must beEqualTo(nonDSL("foo", "$center", MongoDBList(74.2332, -75.23542)))*/
+        }
+      }
+      "... $centerSphere" in {
+        "With an explicit GeoCoords instance" in {
+          val near = "foo".$within $centerSphere (GeoCoords(74.2332, -75.23452), 5)
+          near must notBeNull
+          near must haveSuperClass[DBObject]
+          /*near must beEqualTo(nonDSL("foo", "$centerSphere", MongoDBList(74.2332, -75.23542)))*/
+        }
+        "With a tuple converted coordinate set" in {
+          val near = "foo".$within $centerSphere ((74.2332, -75.23452), 5)
+          near must notBeNull
+          near must haveSuperClass[DBObject]
+          /*near must beEqualTo(nonDSL("foo", "$centerSphere", MongoDBList(74.2332, -75.23542)))*/
+        }
+      }
     }
 
   }

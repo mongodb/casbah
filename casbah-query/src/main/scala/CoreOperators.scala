@@ -778,9 +778,6 @@ trait GeoNearOp extends QueryOperator {
  *   a) the order you specified your actual index in
  *   b) if you're using actual world maps or something else
  *
- * Due to a quirk in the way I implemented type detection this fails if you mix numeric types.  E.g. floats work, but not mixing floats and ints.
- *
- * This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
@@ -800,10 +797,6 @@ trait GeoNearSphereOp extends QueryOperator {
  * Note that  the args aren't TECHNICALLY latitude and longitude as they depend on:
  *   a) the order you specified your actual index in
  *   b) if you're using actual world maps or something else
- *
- * Due to a quirk in the way I implemented type detection this fails if you mix numeric types.  E.g. floats work, but not mixing floats and ints.
- *
- * This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
