@@ -745,8 +745,11 @@ trait GeospatialOps extends GeoNearOp
                        with GeoWithinOps
 
 
-case class GeoCoords[T : Numeric : Manifest](val lat: T, val lon: T) {
+case class GeoCoords[A : Numeric : Manifest, B : Numeric : Manifest]
+                    (val lat: A, val lon: B) {
   def toList = MongoDBList(lat, lon)
+
+  override def toString = "GeoCoords(%s, %s)".format(lat, lon)
 }
   
 
@@ -754,14 +757,9 @@ case class GeoCoords[T : Numeric : Manifest](val lat: T, val lon: T) {
  * 
  * Trait to provide the $near geospatial search method on appropriate callers
  *
- *
- * Note that  the args aren't TECHNICALLY latitude and longitude as they depend on:
+ * Note that the args aren't TECHNICALLY latitude and longitude as they depend on:
  *   a) the order you specified your actual index in
  *   b) if you're using actual world maps or something else
- *
- * Due to a quirk in the way I implemented type detection this fails if you mix numeric types.  E.g. floats work, but not mixing floats and ints.
- *
- * This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
@@ -770,7 +768,7 @@ case class GeoCoords[T : Numeric : Manifest](val lat: T, val lon: T) {
 trait GeoNearOp extends QueryOperator {
   private val oper = "$near"
 
-  def $near(coords: GeoCoords[_]) = op(oper, coords.toList)
+  def $near(coords: GeoCoords[_, _]) = op(oper, coords.toList)
 }
 
 /**
@@ -793,7 +791,7 @@ trait GeoNearOp extends QueryOperator {
 trait GeoNearSphereOp extends QueryOperator {
   private val oper = "$nearSphere"
   
-  def $nearSphere(coords: GeoCoords[_]) = op(oper, coords.toList)
+  def $nearSphere(coords: GeoCoords[_,_]) = op(oper, coords.toList)
 }
 
 /**
@@ -820,13 +818,13 @@ trait GeoWithinOps extends QueryOperator {
     val nestedOper = "$within"
     val field = "$within" 
 
-    def $box(lowerLeft: GeoCoords[_], upperRight: GeoCoords[_]) =
+    def $box(lowerLeft: GeoCoords[_,_], upperRight: GeoCoords[_,_]) =
       op(oper, MongoDBList(lowerLeft.toList, upperRight.toList))
 
-    def $center[T : Numeric](center: GeoCoords[_], radius: T) = 
+    def $center[T : Numeric](center: GeoCoords[_,_], radius: T) = 
       op(oper, MongoDBList(center.toList, radius))
 
-    def $centerSphere[T : Numeric](center: GeoCoords[_], radius: T) = 
+    def $centerSphere[T : Numeric](center: GeoCoords[_,_], radius: T) = 
       op(oper, MongoDBList(center.toList, radius))
   }
   
