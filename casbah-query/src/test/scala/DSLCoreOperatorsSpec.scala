@@ -1196,11 +1196,13 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.NULL))
       }
       "Regex" in {
-        val typeOper = "foo".$type[Double]
-        typeOper must notBeNull
-        typeOper.toString must notBeNull
-        typeOper must haveSuperClass[DBObject]
-        typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.REGEX))
+        "Scala Regex" in {
+          val typeOper = "foo".$type[scala.util.matching.Regex]
+          typeOper must notBeNull
+          typeOper.toString must notBeNull
+          typeOper must haveSuperClass[DBObject]
+          typeOper must beEqualTo(nonDSL("foo", "$type", org.bson.BSON.REGEX))
+        }
       }
       "Symbol" in {
         val typeOper = "foo".$type[Symbol]
