@@ -523,16 +523,6 @@ trait MongoCollectionWrapper extends Logging {
    */
   def -=[A <% DBObject : Manifest](x: A) = remove(x)
 
-  /**
-   * Helper method for anyone who returns an Option
-   * to quickly wrap their dbObject, determining null
-   * to swap as None
-   *
-   */
-  def optWrap[A <% DBObject](obj: A): Option[A] = {
-    if (obj == null) None else Some(obj)
-  }
-
 
 
   /**
@@ -678,6 +668,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * @dochub find
    */
   def find(ref: DBObject, fields: DBObject, numToSkip: Int, batchSize: Int) = underlying.find(ref, fields, numToSkip, batchSize) asScala
+
   /** 
    * Returns a single object from this collection.
    * @return the object found, or <code>null</code> if the collection is empty
@@ -710,7 +701,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * You can also specify the fields to return in the document, optionally.
    * @return the found document (before, or after the update)
    */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = optWrap(underlying.findAndModify(query, update))
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = (underlying.findAndModify(query, update))
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * @return the old document
