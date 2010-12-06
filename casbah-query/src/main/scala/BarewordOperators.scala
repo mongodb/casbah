@@ -91,7 +91,7 @@ trait SetOp extends BarewordQueryOperator {
 /**
  * Trait to provide the $unset (UnSet) UnSet method as a bareword operator..
  *
- * $unset "foo"
+ * $unset ("foo")
  *
  * Targets an RValue of String*, where String are field names to be converted to a  DBObject  
  *
@@ -108,9 +108,9 @@ trait UnsetOp extends BarewordQueryOperator {
  *
  *   $inc ("foo" -> 5)
  *
- * Targets an RValue of (String, Numeric)* to be converted to a  DBObject  
+ * Targets an RValue of (String, ValidNumericType)* to be converted to a  DBObject  
  *
- * Due to a quirk in the way I implemented type detection this fails if you mix numeric types.  E.g. floats work, but not mixing floats and ints.
+ * Due to a quirk in the way I implemented type detection this fails if you mix ValidNumericType types.  E.g. floats work, but not mixing floats and ints.
  * This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:
  * 
  *   $inc ("foo" -> 5.0, "bar" -> 1.6)
@@ -120,7 +120,7 @@ trait UnsetOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24inc
  */
 trait IncOp extends BarewordQueryOperator {
-  def $inc[T : Numeric](args: (String, T)*) = apply[T]("$inc")(args: _*)
+  def $inc[T : ValidNumericType](args: (String, T)*) = apply[T]("$inc")(args: _*)
 }
 
 trait ArrayOps extends PushOp
@@ -199,7 +199,7 @@ trait AddToSetOp extends BarewordQueryOperator {
  * Trait to provide the $pop (pop) method as a bareword operator..
  *
  *
- * TODO - Support the "unshift" version in which a -1 is specified
+ * TODO - Restrict to a 'Whole Number' type
  * 
  * If Field exists but is not an array an error will occurr.
  *
@@ -207,7 +207,7 @@ trait AddToSetOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pop
  */
 trait PopOp extends BarewordQueryOperator {
-  def $pop[T : Numeric](args: (String, T)*) = apply[T]("$pop")(args: _*)
+  def $pop[T : ValidNumericType](args: (String, T)*) = apply[T]("$pop")(args: _*)
 }
 
 /*
