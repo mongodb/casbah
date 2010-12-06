@@ -69,7 +69,7 @@ trait Implicits extends FluidQueryBarewordOps {
     dbObj = Some(nested.get(nested.field).asInstanceOf[DBObject])  // TODO - shore the safety of this up
   }
 
-  implicit def tupleToGeoCoords[A : Numeric : Manifest, B : Numeric : Manifest](coords: (A, B)) = GeoCoords(coords._1, coords._2)
+  implicit def tupleToGeoCoords[A : ValidNumericType : Manifest, B : ValidNumericType : Manifest](coords: (A, B)) = GeoCoords(coords._1, coords._2)
   
 
 

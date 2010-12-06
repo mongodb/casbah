@@ -802,7 +802,7 @@ trait GeospatialOps extends GeoNearOp
                        with GeoWithinOps
 
 
-case class GeoCoords[A : Numeric : Manifest, B : Numeric : Manifest]
+case class GeoCoords[A : ValidNumericType : Manifest, B : ValidNumericType : Manifest]
                     (val lat: A, val lon: B) {
   def toList = MongoDBList(lat, lon)
 
