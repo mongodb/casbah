@@ -68,6 +68,9 @@ trait ValueTestFluidQueryOperators extends LessThanOp
                                       with SizeOp
                                       with AllOp
                                       with WhereOp
+                                      with NotEqualsOp
+                                      with EqualsOp
+                                      with TypeOp
 
 trait DSLDBObject {
   val field: String
@@ -152,7 +155,11 @@ trait NestingQueryHelper extends QueryOperator {
       case Some(nested) => nested.put(nestedOper, entry); Some(nested)
       case None => Some(entry)
     }
-    dbObj.map { o => DSLDBObject(field -> o) }.head
+    dbObj.map { o => 
+      val obj = new BasicDBObject with DSLDBObject { val field = nestedOper }
+      obj.put(field, o)
+      obj
+    }.head
   }
 
   def apply(target: Any) = { 
