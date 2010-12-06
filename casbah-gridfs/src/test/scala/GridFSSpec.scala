@@ -55,11 +55,17 @@ class GridFSSpec extends Specification with PendingUntilFixed {
     }
 
     "Find the file in GridFS later" in {
-      val file = gridfs.findOne("powered_by_mongo.png")
-      file must notBeNull
-      file must haveSuperClass[GridFSDBFile]
-      file.md5 must beEqualTo(logo_md5)
-      println(file.md5)
+      gridfs.findOne("powered_by_mongo.png") must beSome[GridFSDBFile]
+      gridfs.findOne("powered_by_mongo.png") foreach { file =>
+        file must notBeNull
+        file must haveSuperClass[GridFSDBFile]
+        file.md5 must beEqualTo(logo_md5)
+        println(file.md5)
+      }
+    }
+
+    "Correctly catch the non-existence of a file and fail gracefully" in {
+      gridfs.findOne("powered_by_mongoFOOBAR235254252.png") must beNone
     }
 
   }

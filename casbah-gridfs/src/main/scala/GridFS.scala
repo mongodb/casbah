@@ -204,12 +204,27 @@ class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[Gri
    def find(id: ObjectId): GridFSDBFile = sansJodaTime { underlying.find(id) }
    /** Find by query - returns a list */
    def find(filename: String) = sansJodaTime { underlying.find(filename).asScala }
-   def findOne(query: DBObject): GridFSDBFile = sansJodaTime { underlying.findOne(query) }
-   def findOne(id: ObjectId): GridFSDBFile = sansJodaTime { underlying.findOne(id) }
-   def findOne(filename: String): GridFSDBFile = sansJodaTime { underlying.findOne(filename) }
+
+   def findOne(query: DBObject): Option[GridFSDBFile] = sansJodaTime {
+     underlying.findOne(query) match {
+      case null => None
+      case x => Some(x)
+     }
+   }
+   def findOne(id: ObjectId): Option[GridFSDBFile] = sansJodaTime {
+     underlying.findOne(id) match {
+      case null => None
+      case x => Some(x)
+     }
+   }
+   def findOne(filename: String): Option[GridFSDBFile] = sansJodaTime {
+     underlying.findOne(filename) match {
+      case null => None
+      case x => Some(x)
+     }
+   }
 
    def bucketName = underlying.getBucketName
-   //def db = new ScalaMongoDB(underlying.getDB)
    
    /**
     * Returns a cursor for this filestore
