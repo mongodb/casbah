@@ -173,13 +173,9 @@ trait PushAllOp extends BarewordQueryOperator {
  *
  * Targets an RValue of (String, Any)* to be converted to a  DBObject  
  *
- *   scala> $addToSet ("foo" -> List(5, 10))
- *   res4: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : [ { "foo" : [ 5 , 10]}]}
+ * Can also combined with the $each operator for adding many values:
  *
- *   scala> $addToSet ("foo" -> MongoDBList(5, 10))
- *  res5: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : [ { "foo" : [ 5 , 10]}]}
- *
- *   scala> $addToSet ("foo" $each (5, 10, 15, "20"))
+ *   scala> $addToSet ("foo") $each (5, 10, 15, "20"))
  *  res6: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : { "foo" : { "$each" : [ 5 , 10 , 15 , "20"]}}}
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
@@ -190,8 +186,36 @@ trait AddToSetOp extends BarewordQueryOperator {
   def $addToSet[T <% DBObject](arg: T) = 
     MongoDBObject("$addToSet" -> arg)
 
-  def $addToSet[A <: Any : Manifest](arg: (String, A)): DBObject = 
-      apply("$addToSet")(arg)
+  /* $each-able */
+  def $addToSet(field: String) = {
+    /**
+     * Special query operator only available on the right-hand side of an 
+     * $addToSet which takes a list of values.
+     *
+     * Slightly hacky to prevent it from returning unless completed with a $each
+     *
+     * THIS WILL NOT WORK IN MONGOD ANYWHERE BUT INSIDE AN ADDTOSET 
+     *
+     * @author Brendan W. McAdams <brendan@10gen.com>
+     * @since 2.0
+     * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
+     */
+    new {
+      protected def op(target: Any) = 
+        MongoDBObject("$addToSet" -> MongoDBObject(field -> MongoDBObject("$each" -> target))) 
+
+      def $each(target: Array[Any]) = op(target.toList.asJava)
+      def $each(target: Any*) = 
+        if (target.size > 1)
+          op(target.toList.asJava) 
+        else if (!target(0).isInstanceOf[Iterable[_]] &&
+                 !target(0).isInstanceOf[Array[_]])
+          op(List(target(0)))
+        else op(target(0))
+    }
+  }
+
+  def $addToSet = apply[Any]("$addToSet")_
 }
 
 

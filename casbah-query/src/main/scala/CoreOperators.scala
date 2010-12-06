@@ -130,7 +130,7 @@ sealed trait QueryOperator {
     case _ => {}
   }
 
-  def anyListop(oper: String, target: Any*) = 
+  def anyListOp(oper: String, target: Any*) = 
     if (target.size > 1)
       op(oper, target.toList.asJava) 
     else if (!target(0).isInstanceOf[Iterable[_]] &&
@@ -686,28 +686,6 @@ trait ElemMatchOp extends QueryOperator {
   def $elemMatch = ElemMatchNester(field, dbObj)
 }
 
-/**
- * Special query operator only available on the right-hand side of an 
- * $addToSet which takes a list of values.
- *
- * THIS WILL NOT WORK IN MONGOD ANYWHERE BUT INSIDE AN ADDTOSET 
- *
- * @author Brendan W. McAdams <brendan@10gen.com>
- * @since 2.0
- * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
- */
-trait AddToSetEachOp extends QueryOperator {
-  private val oper = "$each" 
-  
-  def $each(target: Array[Any]) = op(oper, target.toList.asJava)
-  def $each(target: Any*) = 
-    if (target.size > 1)
-      op(oper, target.toList.asJava) 
-    else if (!target(0).isInstanceOf[Iterable[_]] &&
-             !target(0).isInstanceOf[Array[_]])
-      op(oper, List(target(0)))
-    else op(oper, target(0))
-}
 
 abstract class BSONType[A]
 
