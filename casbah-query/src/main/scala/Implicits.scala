@@ -63,10 +63,12 @@ trait Implicits extends FluidQueryBarewordOps {
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
-  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with DSLDBObject) = new {
-    val field = nested.field
-  } with FluidQueryOperators { 
-    dbObj = Some(nested.get(nested.field).asInstanceOf[DBObject])  // TODO - shore the safety of this up
+  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with DSLDBObject) = { 
+    new {
+      val field = nested.field
+    } with ValueTestFluidQueryOperators { 
+      dbObj = nested.getAs[DBObject](nested.field)  // TODO - shore the safety of this up
+    }
   }
 
   implicit def tupleToGeoCoords[A : ValidNumericType : Manifest, B : ValidNumericType : Manifest](coords: (A, B)) = GeoCoords(coords._1, coords._2)

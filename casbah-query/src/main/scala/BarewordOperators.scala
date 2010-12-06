@@ -241,11 +241,24 @@ trait PopOp extends BarewordQueryOperator {
  *
  * If Field exists but is not an array an error will occurr.
  * 
+ * Pull is special as defined in the docs and needs to allow operators on fields.
+ * 
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pull
  */
 trait PullOp extends BarewordQueryOperator {
   def $pull = apply[Any]("$pull")_
+
+  /** ValueTest enabled version */
+  def $pull(_field: String) = new {
+    val field = "$pull"
+  } with ValueTestFluidQueryOperators { 
+    dbObj = Some(MongoDBObject("$pull" -> "foo"))
+    override protected def op(oper: String, target: Any) = 
+      DSLDBObject(field -> MongoDBObject(_field -> MongoDBObject(oper -> target)))
+    
+  }
+
 }
 
 /*
@@ -260,7 +273,15 @@ trait PullOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pullAll
  */
 trait PullAllOp extends BarewordQueryOperator {
-  def $pullAll = apply[Array[Any]]("$pullAll")_
+  def $pullAll[A <: Any : Manifest](args: (String, A)*): DBObject = 
+    if (manifest[A] <:< manifest[Iterable[_]]) 
+      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]):_*)
+    else if (manifest[A] <:< manifest[Product]) 
+      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Product].productIterator.toIterable): _*)
+    else if (manifest[A].erasure.isArray) 
+      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Array[_]].toIterable): _*)
+    else 
+      throw new IllegalArgumentException("$pullAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
 }
 
 /**
