@@ -71,7 +71,7 @@ class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[Gri
   implicit val db = underlying.getDB().asScala
 
   def iterator = new Iterator[GridFSDBFile] {
-    val fileSet = files
+    val fileSet = files.underlying
     def count() = fileSet.count
     def itcount() = fileSet.itcount()
     def jIterator() = fileSet.iterator asScala
@@ -99,10 +99,6 @@ class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[Gri
    */
    protected[gridfs] def loan[T <: GridFSFile](file: T)(op: T => Unit) = op(file)
 
-  /**
-   * apply methods with a file input create...
-   */
-   //def apply(data: scala.io.Source): GridFSInputFile = createFile(data)
    /**
     * Create a new GridFS File from a scala.io.Source
     * 
@@ -113,7 +109,7 @@ class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[Gri
     * @see createFile 
     */
    def apply(data: scala.io.Source)(op: FileWriteOp) = withNewFile(data)(op)
-   //def apply(data: Array[Byte]) = createFile(data)
+
    /**
     * Create a new GridFS File from a Byte Array
     * 
@@ -124,7 +120,7 @@ class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[Gri
     * @see createFile 
     */
    def apply(data: Array[Byte])(op: FileWriteOp) = withNewFile(data)(op)
-   //def apply(f: File) = createFile(f)
+
    /**
     * Create a new GridFS File from a java.io.File
     * 
@@ -135,7 +131,7 @@ class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[Gri
     * @see createFile 
     */
    def apply(f: File)(op: FileWriteOp) = withNewFile(f)(op)
-   //def apply(in: InputStream) = createFile(in)
+
    /**
     * Create a new GridFS File from a java.io.InputStream
     * 
@@ -146,7 +142,7 @@ class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[Gri
     * @see createFile 
     */
    def apply(in: InputStream)(op: FileWriteOp) = withNewFile(in)(op)
-   //def apply(in: InputStream, filename: String) = createFile(in, filename)
+ 
    /**
     * Create a new GridFS File from a java.io.InputStream and a specific filename
     * 
@@ -230,8 +226,8 @@ class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[Gri
     * Returns a cursor for this filestore
     * of all of the files... 
     */
-   def files = sansJodaTime { underlying.getFileList }
-   def files(query: DBObject) = sansJodaTime { underlying.getFileList(query) } 
+   def files = sansJodaTime { new MongoCursor(underlying.getFileList) }
+   def files(query: DBObject) = sansJodaTime { new MongoCursor(underlying.getFileList(query)) } 
 
    def remove(query: DBObject) = underlying.remove(query)
    def remove(id: ObjectId) = underlying.remove(id)
