@@ -68,6 +68,18 @@ class GridFSSpec extends Specification with PendingUntilFixed {
       gridfs.findOne("powered_by_mongoFOOBAR235254252.png") must beNone
     }
 
+    "Return a wrapped MongoCursor if you call files,  as reported by Gregg Carrier" in {
+      val files = gridfs.files
+      files must notBeNull
+      files must haveClass[MongoCursor]
+    }
+
+    "Be properly iterable" in {
+      var x = false
+      for (f <- gridfs) x = true
+      x must beTrue
+    }
+
   }
 
 }
