@@ -701,7 +701,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * You can also specify the fields to return in the document, optionally.
    * @return the found document (before, or after the update)
    */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = (underlying.findAndModify(query, update))
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = optWrap(underlying.findAndModify(query, update))
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * @return the old document
