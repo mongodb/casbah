@@ -683,14 +683,7 @@ trait SliceOp extends QueryOperator {
 trait ElemMatchOp extends QueryOperator {
   private val oper = "$elemMatch"
 
-  /** Callbackey Nesting placeholding object for targetting correctly*/
-  case class ElemMatchNester(val field: String, _dbObj: Option[DBObject]) 
-      extends NestingQueryHelper 
-      with ValueTestFluidQueryOperators {
-    val nestedOper = "$elemMatch"
-  }
-
-  def $elemMatch = ElemMatchNester(field, dbObj)
+  def $elemMatch[A <% DBObject](target: A) = op(oper, target)
 }
 
 
