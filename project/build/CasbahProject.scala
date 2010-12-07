@@ -55,6 +55,8 @@ class CasbahProject(info: ProjectInfo)
     val mongodb = "org.mongodb" % "mongo-java-driver" % "2.3"
     val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
     val slf4j = "org.slf4j" % "slf4j-api" % "1.6.0"
+    // JCL bindings for testing only
+    val slf4jJCL = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
     val scalaTime = "org.scala-tools.time" % "time_2.8.0" % "0.2"
   }
 
