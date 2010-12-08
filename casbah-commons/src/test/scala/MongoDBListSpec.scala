@@ -79,6 +79,11 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
       dbLst must haveSuperClass[BasicDBList]
       dbLst must haveSize(13)
     }
+
+    "Convert tuple pairs correctly" in {
+      val dbList = MongoDBList("omg" -> "ponies")
+      dbList must haveSize(1)
+    }
   }
 
 }
