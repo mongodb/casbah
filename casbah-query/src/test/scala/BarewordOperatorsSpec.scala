@@ -107,13 +107,6 @@ class BarewordOperatorsSpec extends Specification with PendingUntilFixed with Lo
       or must haveSuperClass[DBObject]
       [>or must beEqualTo(MongoDBObject("$or" -> MongoDBList(MongoDBObject("foo" -> "bar", "x" -> "y"))))<]
     }*/
-    /*"Function inside a $not" in {
-      val ltGt = "foo" $not { x =>  $or (x $gte 15 $lt 35.2 $ne 16, x $lt 5) }
-      log.debug("LTGT: %s", ltGt)
-      ltGt must notBeNull
-      ltGt must haveSuperClass[DBObject]
-      [>ltGt must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$not" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16))))<]
-    } */
 
   }
 
@@ -275,6 +268,21 @@ class BarewordOperatorsSpec extends Specification with PendingUntilFixed with Lo
 
 
   } 
+
+  "Casbah's DSL $nor operator" should {
+    "Function as expected" in {
+      val nor = $nor { "foo" $gte 15 $lt 35.2 $ne 16 }
+      nor must notBeNull
+      nor must haveSuperClass[DBObject]
+      nor must beEqualTo(MongoDBObject("$nor" -> MongoDBList(MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16)))))
+    } 
+    /*"Work with multiples" in {
+      val nor = $nor ( "foo" $gte 15 $lt 35 ++ "x" -> "y" )
+      nor must notBeNull
+      nor must haveSuperClass[DBObject]
+      nor must beEqualTo(MongoDBObject("$nor" -> MongoDBList(MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35)), MongoDBObject("x" -> "y"))))
+    }*/
+  }
 }
 
 // vim: set ts=2 sw=2 sts=2 et:
