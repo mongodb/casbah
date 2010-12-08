@@ -64,7 +64,7 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
     }
   }
 
-  "MongoDBObject issues reported by users" should {
+  "MongoDBObject issues and edge cases" should {
     "Not break like tommy chheng reported" in {
       val q = MongoDBObject.empty
 
@@ -74,6 +74,7 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
       q must haveSuperClass[DBObject]
       fields must haveSuperClass[DBObject]
     }
+
   }
 
   "MongoDBObject Factory & Builder" should {
