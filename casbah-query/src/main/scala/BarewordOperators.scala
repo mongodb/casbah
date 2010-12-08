@@ -73,6 +73,7 @@ trait FluidQueryBarewordOps extends SetOp
                                with OrOp
                                with RenameOp
                                with ArrayOps
+                               with NorOp
 
 
 /**
@@ -326,5 +327,26 @@ trait RenameOp extends BarewordQueryOperator {
   def $rename = apply[Any]("$rename")_
 }
 
+/**
+ * Trait to provide the $nor (nor ) method as a bareword operator
+ *
+ * Nor is a combination of $not and $or with no left anchor
+ *
+ * Targets an RValue of (String, Array[Any])* to be converted to a  DBObject  
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nor
+ */
+trait NorOp extends BarewordQueryOperator {
+
+  /** ValueTest enabled version */
+  def $nor(inner: => DBObject) = 
+    MongoDBObject("$nor" -> (inner match {
+      case obj: BasicDBList => obj
+      case obj: DBObject => MongoDBList(obj)
+    }).asInstanceOf[BasicDBList]) 
+
+}
 
 // vim: set ts=2 sw=2 sts=2 et:
