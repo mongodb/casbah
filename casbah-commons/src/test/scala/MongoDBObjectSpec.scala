@@ -153,6 +153,34 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
 
         newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5))
       }
+      "Merging a single tuple via += " in {
+        val dbObj = MongoDBObject("x" -> "y", "a" -> "b") 
+        dbObj must notBeNull
+        dbObj must haveSuperClass[DBObject]
+        dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b"))
+
+        dbObj += ("foo" -> "bar")
+
+        dbObj must notBeNull
+        dbObj must haveSuperClass[DBObject]
+
+        dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar"))
+
+      }
+      "Merging a set of tuples via ++= " in {
+        val dbObj = MongoDBObject("x" -> "y", "a" -> "b") 
+        dbObj must notBeNull
+        dbObj must haveSuperClass[DBObject]
+        dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b"))
+
+        dbObj += ("foo" -> "bar", "n" -> 5.asInstanceOf[AnyRef], "fbc" -> 542542.2.asInstanceOf[AnyRef])
+
+        dbObj must notBeNull
+        dbObj must haveSuperClass[DBObject]
+
+        dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5, "fbc" -> 542542.2))
+
+      }
     }
   }
 
