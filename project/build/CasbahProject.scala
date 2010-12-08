@@ -1,4 +1,5 @@
 import sbt._
+import growl._ 
 
 class CasbahProject(info: ProjectInfo) 
     extends ParentProject(info) 
@@ -26,12 +27,35 @@ class CasbahProject(info: ProjectInfo)
 
   abstract class CasbahBaseProject(info: ProjectInfo) 
       extends DefaultProject(info) 
-      with AutoCompilerPlugins {
+      with AutoCompilerPlugins 
+      with GrowlingTests {
 
     /**
      * SXR Support 
      */
     val sxr = compilerPlugin("org.scala-tools.sxr" % "sxr_2.8.0" % "0.2.6")
+
+    override val growlResultFormatter = (res: GroupResult) =>
+      GrowlResultFormat(
+        Some(res.name),
+        (res.status match {
+         case Result.Error  => "[Casbah] Some Tests Had Errors: %s"
+         case Result.Passed => "[Casbah] All Tests Passed:  %s"
+         case Result.Failed => "[Casbah] Some Tests Failed: %s"
+        }) format res.name, 
+        "Tests %s, Failed %s, Errors %s, Skipped %s".format(
+          res.count, res.failures, res.errors, res.skipped
+        ),  
+        res.status match {
+          case Result.Error | Result.Failed => true
+          case _ => false
+        },
+        res.status match {
+          case Result.Error  => growlTestImages.error
+          case Result.Passed => growlTestImages.pass
+          case Result.Failed => growlTestImages.fail
+        }
+      )
 
     override def compileOptions =
       CompileOption("-P:sxr:base-directory:" + mainScalaSourcePath) ::
