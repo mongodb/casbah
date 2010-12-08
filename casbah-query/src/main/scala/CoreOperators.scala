@@ -24,6 +24,8 @@ package com.mongodb.casbah
 package query
 
 import com.mongodb.casbah.commons.Imports._
+import com.mongodb.casbah.commons.Logging
+
 
 import com.mongodb.{DBObject, BasicDBObjectBuilder}
 import scalaj.collection.Imports._
@@ -94,7 +96,7 @@ object DSLDBObject {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
-sealed trait QueryOperator {
+sealed trait QueryOperator extends Logging {
   val field: String
   protected var dbObj: Option[DBObject] = None
 
@@ -142,39 +144,6 @@ sealed trait QueryOperator {
     else op(oper, target(0))
      
 }
-
-trait NestingQueryHelper extends QueryOperator {
-  import com.mongodb.BasicDBObject
-  val nestedOper: String
-  val _dbObj: Option[DBObject]
-  dbObj = _dbObj
-
-  override protected def op(oper: String, target: Any) = {
-    val entry = DSLDBObject(nestedOper -> MongoDBObject(oper -> target))
-    dbObj = dbObj match {
-      case Some(nested) => nested.put(nestedOper, entry); Some(nested)
-      case None => Some(entry)
-    }
-    dbObj.map { o => 
-      val obj = new BasicDBObject with DSLDBObject { val field = nestedOper }
-      obj.put(field, o)
-      obj
-    }.head
-  }
-
-  def apply(target: Any) = { 
-    target match {
-      case sRE: scala.util.matching.Regex => op(field, sRE.pattern) 
-      case jRE: java.util.regex.Pattern => op(field, jRE)
-      case _ => {
-        // assume it's some other item we need to nest.
-        op(field, target)
-      }
-    }
-  }
-
-}
-
 
 /**
  * Trait to provide a fake $eq (Equals) method on appropriate callers.
@@ -634,14 +603,15 @@ trait WhereOp extends QueryOperator {
 trait NotOp extends QueryOperator {
   private val oper = "$not"
 
-  /** Callbackey Nesting placeholding object for targetting correctly*/
-  case class NotOpNester(val field: String, _dbObj: Option[DBObject]) 
-      extends NestingQueryHelper 
-      with ValueTestFluidQueryOperators {
-    val nestedOper = "$not"
+  def $not(inner: FluidQueryOperators => DBObject) = {
+    val dbObj = inner(new FluidQueryOperators {
+      val field = oper
+    })
+    MongoDBObject(field -> dbObj)
   }
 
-  def $not = NotOpNester(field, dbObj)
+  def $not(re: scala.util.matching.Regex) = op(field, re.pattern)
+  def $not(re: java.util.regex.Pattern) = op(field, re)
 }
 
 /**

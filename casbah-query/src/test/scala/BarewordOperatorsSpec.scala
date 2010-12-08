@@ -100,6 +100,21 @@ class BarewordOperatorsSpec extends Specification with PendingUntilFixed with Lo
       or must haveSuperClass[DBObject]
       /*or must beEqualTo(MongoDBObject("$or" -> MongoDBList(MongoDBObject("foo" -> "bar", "x" -> "y"))))*/
     }
+    /*"Work with nested operators" in {
+      val or = $or { "foo" $lt 5 $gt 1 ++ "x" $gte 10 $lte 152 }
+      or must notBeNull
+      or.toString must notBeNull
+      or must haveSuperClass[DBObject]
+      [>or must beEqualTo(MongoDBObject("$or" -> MongoDBList(MongoDBObject("foo" -> "bar", "x" -> "y"))))<]
+    }*/
+    /*"Function inside a $not" in {
+      val ltGt = "foo" $not { x =>  $or (x $gte 15 $lt 35.2 $ne 16, x $lt 5) }
+      log.debug("LTGT: %s", ltGt)
+      ltGt must notBeNull
+      ltGt must haveSuperClass[DBObject]
+      [>ltGt must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$not" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16))))<]
+    } */
+
   }
 
   "Casbah's DSL $rename Operator" should {
@@ -212,23 +227,23 @@ class BarewordOperatorsSpec extends Specification with PendingUntilFixed with Lo
       "Allow Value Test Operators" in {
         "A simple $gt test" in {
           // Syntax oddity due to compiler confusion
-          val pull = $pull ("foo") $gt 5 
+          val pull = $pull { "foo" $gt 5 }
           pull must notBeNull
           pull.toString must notBeNull
           pull must haveSuperClass[DBObject]
           pull must beEqualTo(MongoDBObject("$pull" -> MongoDBObject("foo" -> MongoDBObject("$gt" -> 5))))
         }
-        /*"A deeper chain test" in {
+        "A deeper chain test" in {
           // Syntax oddity due to compiler confusion
-          val pull = $pull ("foo") $gt 5 $lte 52
+          val pull = $pull { "foo" $gt 5 $lte 52 }
           pull must notBeNull
           pull.toString must notBeNull
           pull must haveSuperClass[DBObject]
          pull must beEqualTo(MongoDBObject("$pull" -> MongoDBObject("foo" -> MongoDBObject("$gt" -> 5, "$lte" -> 52))))
-        } */
+        } 
       }
       "Accept multiple values" in {
-        val pull = $pull ("foo" -> "bar", "x" -> 5.2)
+        val pull = $pull ("foo" -> "bar", "x" -> 5.2) 
         pull must notBeNull
         pull.toString must notBeNull
         pull must haveSuperClass[DBObject]

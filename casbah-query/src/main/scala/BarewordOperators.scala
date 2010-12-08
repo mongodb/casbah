@@ -24,6 +24,7 @@ package com.mongodb.casbah
 package query
 
 import com.mongodb.casbah.commons.Imports._
+import com.mongodb.casbah.commons.Logging
 
 import scalaj.collection.Imports._
 
@@ -40,7 +41,7 @@ import scalaj.collection.Imports._
  * @since 1.0
  * @see SetOp
  */
-trait BarewordQueryOperator {
+trait BarewordQueryOperator extends Logging {
 
   /*
    * TODO - Implicit filtering of 'valid' (aka convertable) types for [A]
@@ -250,14 +251,11 @@ trait PullOp extends BarewordQueryOperator {
   def $pull = apply[Any]("$pull")_
 
   /** ValueTest enabled version */
-  def $pull(_field: String) = new {
-    val field = "$pull"
-  } with ValueTestFluidQueryOperators { 
-    dbObj = Some(MongoDBObject("$pull" -> "foo"))
-    override protected def op(oper: String, target: Any) = 
-      DSLDBObject(field -> MongoDBObject(_field -> MongoDBObject(oper -> target)))
-    
-  }
+  def $pull(inner: => DBObject) = 
+    MongoDBObject("$pull" -> inner)
+
+  def $pull(inner: DBObject) = 
+    MongoDBObject("$pull" -> inner)
 
 }
 

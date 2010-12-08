@@ -37,7 +37,6 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
   
 
   def clearConversions = beforeContext { 
-    //println("\n*** Deregistering conversion helpers.\n\n")
     DeregisterConversionHelpers()
     DeregisterJodaTimeConversionHelpers()
   }
