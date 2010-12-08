@@ -276,12 +276,12 @@ class BarewordOperatorsSpec extends Specification with PendingUntilFixed with Lo
       nor must haveSuperClass[DBObject]
       nor must beEqualTo(MongoDBObject("$nor" -> MongoDBList(MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16)))))
     } 
-    /*"Work with multiples" in {
-      val nor = $nor ( "foo" $gte 15 $lt 35 ++ "x" -> "y" )
+    "Work with multiples" in {
+      val nor = $nor {  "foo" $gte 15 $lt 35  + ("x" -> "y")  }
       nor must notBeNull
       nor must haveSuperClass[DBObject]
-      nor must beEqualTo(MongoDBObject("$nor" -> MongoDBList(MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35)), MongoDBObject("x" -> "y"))))
-    }*/
+      nor must beEqualTo(MongoDBObject("$nor" -> MongoDBList(MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35), ("x" -> "y")))))
+    }
   }
 }
 
