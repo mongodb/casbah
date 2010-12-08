@@ -24,6 +24,7 @@ package com.mongodb.casbah
 package test 
 
 import com.mongodb.casbah.gridfs.Imports._
+import com.mongodb.casbah.commons.Logging
 
 import java.security.MessageDigest
 import java.io._
@@ -31,7 +32,7 @@ import java.io._
 import org.specs._
 import org.specs.specification.PendingUntilFixed
 
-class GridFSSpec extends Specification with PendingUntilFixed {
+class GridFSSpec extends Specification with PendingUntilFixed with Logging {
   val logo_md5 = "479977b85391a88bbc1da1e9f5175239"
   val digest = MessageDigest.getInstance("MD5")
 
@@ -60,7 +61,7 @@ class GridFSSpec extends Specification with PendingUntilFixed {
         file must notBeNull
         file must haveSuperClass[GridFSDBFile]
         file.md5 must beEqualTo(logo_md5)
-        println(file.md5)
+        log.debug("MD5: %s", file.md5)
       }
     }
 

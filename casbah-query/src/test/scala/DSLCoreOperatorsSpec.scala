@@ -1056,7 +1056,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
 
   "Casbah's $not operator" should {
     "Function in a normal passing" in {
-      val not = "foo" $not 5.1
+      val not = "foo" $not { _ $lt 5.1 }
       not must notBeNull
       not.toString must notBeNull
       not must haveSuperClass[DBObject]
@@ -1064,11 +1064,18 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
 
 
     "Function with anchoring and subobjects" in {
-      val not = "foo".$not $mod (5, 10)
+      val not = "foo" $not { _ $mod (5, 10) }
       not must notBeNull
       not.toString must notBeNull
       not must haveSuperClass[DBObject]
       not must beEqualTo(nonDSL("foo", "$not", MongoDBObject("$mod" -> MongoDBList(5, 10))))
+    }
+
+    "Function with a regular expression" in {
+      val not = "foo" $not new scala.util.matching.Regex("^foo.*bar")
+      not must notBeNull
+      not.toString must notBeNull
+      not must haveSuperClass[DBObject]
     }
   }
 
@@ -1336,15 +1343,15 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
 
   "Chained core operators" should {
     "Function correctly" in {
-      var ltGt = "foo" $gte 15 $lt 35.2 $ne 16
-      println(ltGt)
+      val ltGt = "foo" $gte 15 $lt 35.2 $ne 16
+      log.debug("LTGT: %s", ltGt)
       ltGt must notBeNull
       ltGt must haveSuperClass[DBObject]
       ltGt must beEqualTo(MongoDBObject("foo" ->  MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16)))
     } 
     "Function correctly with deeper nesting e.g. $not" in {
-      var ltGt = "foo".$not $gte 15 $lt 35.2 $ne 16
-      println(ltGt)
+      val ltGt = "foo" $not { _ $gte 15 $lt 35.2 $ne 16 }
+      log.debug("LTGT: %s", ltGt)
       ltGt must notBeNull
       ltGt must haveSuperClass[DBObject]
       ltGt must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$not" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16))))
