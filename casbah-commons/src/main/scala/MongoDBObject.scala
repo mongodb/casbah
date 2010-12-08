@@ -57,6 +57,11 @@ trait MongoDBObject extends Map[String, AnyRef] {
     case value => Some(value)
   }
 
+  def ++(pairs: (String, _)*): DBObject = {
+    val b = MongoDBObject.newBuilder
+    for ((k, v) <- pairs) b += k -> v
+    this ++ b.result
+  }
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
   def getAs[A <: Any : Manifest](key: String): Option[A] = {
