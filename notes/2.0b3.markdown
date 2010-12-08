@@ -46,7 +46,7 @@
 
 2.0b2 / 2010-11-09 
 ==================
-
+  
   * Added documentation build script
   * Moved loading of ConversionHelpers from Connection creation to instantiation of Commons' Implicits 
     - This means conversions are ALWAYS loaded now for everyone
@@ -113,8 +113,9 @@
   * added ensureID: a method that'll make sure an object mapped with @ID(auto=true) has an ObjectId
   * added support for top-level type hints
   * make them pay attention when enums aren't properly declared
-  * added helpful fall-back conversions which are supposed to catch any mapped objects that somehow "fall through the cracks"
-  * I call this "just make it happen" conversion
+  * added helpful fall-back conversions which are supposed to catch aped version of scala-time to the 0.2 release
+  * publish POM-s
+  * stop  "just make it happen" conversion
   * report malformed props that are claimed as enums
   * much saner publishing over SFTP
   * added support for Scala enums
@@ -162,3 +163,4 @@
   * prettier names
   * added support for annotated val-s
   * Beginning a massive refactor for submodules, which will become 1.1
+
