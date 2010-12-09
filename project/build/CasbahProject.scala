@@ -94,6 +94,6 @@ class CasbahProject(info: ProjectInfo)
   val scalaToolsRepo = "Scala Tools Release Repository" at "http://scala-tools.org/repo-releases"
   val scalaToolsSnapRepo = "Scala Tools Snapshot Repository" at "http://scala-tools.org/repo-snapshots"
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
-  val bumRepo = "Bum Networks Release Repository" at "http://repo.bumnetworks.com/releases/"
-  val bumSnapsRepo = "Bum Networks Snapshots Repository" at "http://repo.bumnetworks.com/snapshots/"
+/*  val bumRepo = "Bum Networks Release Repository" at "http://repo.bumnetworks.com/releases/"
+  val bumSnapsRepo = "Bum Networks Snapshots Repository" at "http://repo.bumnetworks.com/snapshots/"*/
 }
