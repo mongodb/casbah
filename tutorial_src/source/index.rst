@@ -10,9 +10,13 @@ Welcome to the Casbah Documentation.  Casbah is a Scala toolkit for MongoDB---We
 
 Casbah's approach is intended to add fluid, Scala-friendly syntax on top of MongoDB and handle conversions of common types.  If you try to save a Scala List or Seq to MongoDB, we automatically convert it to a type the Java driver can serialize.  If you read a Java type,  we convert it to a comparable Scala type before it hits your code.  All of this is intended to let you focus on writing the best possible Scala code using Scala idioms.  A great deal of effort is put into providing you the functional and implicit conversion tools you've come to expect from Scala, with the power and flexibility of MongoDB.
 
-The `ScalaDocs for Casbah <http://api.mongodb.org/scala/casbah/>`_ along with SXR cross referenced source are available at the `MongoDB API site <http://api.mongodb.org>`_.
+The `ScalaDocs for Casbah <http://api.mongodb.org/scala/casbah/scaladoc/>`_ along with SXR cross referenced source are available at the `MongoDB API site <http://api.mongodb.org>`_.
 
-
+You may also download this tutorial in other formats.
+ 
+  * `ePub <http://api.mongodb.org/scala/casbah/CasbahTutorial.epub>`_
+  * `PDF <http://api.mongodb.org/scala/casbah/CasbahTutorial.pdf>`_
+  
 .. toctree::
     :maxdepth: 3
     
