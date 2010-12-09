@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>conversions/MonkeyPatches.scala</title>
+        <script type="text/javascript" src="../jquery-all.js"></script>
+        <script type="text/javascript" src="../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. &lt;http://novus.com&gt;
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
+ */</span>
+
+<span class="keyword">import</span> com.mongodb.casbah.commons.Logging 
+
+<span class="keyword">import</span> org.bson.<span class="delimiter">{</span>BSON, Transformer<span class="delimiter">}</span>
+
+
+<span class="keyword">package</span> org.bson <span class="delimiter">{</span>
+  <span class="keyword">object</span> <a title="object org.bson.BSONTransformMonkeyPatch" id="9500">BSONTransformMonkeyPatch</a> <span title="ScalaObject" class="keyword">extends</span> <a href="../Logger.scala.html#9389" title="com.mongodb.casbah.commons.Logging">Logging</a> <span class="delimiter">{</span>
+    <span class="comment">// Just dumps info out to the log info of what's registered.</span>
+    <span class="keyword">def</span> <a title="()Unit" id="32018">dump</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+      <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22469" title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">info</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Encoding Hooks: %s&quot;)" class="string">&quot;Encoding Hooks: %s&quot;</span>, org.bson.<span title="object org.bson.BSON">BSON</span>.<span title="org.bson.util.ClassMap[java.util.List[org.bson.Transformer]]">_encodingHooks</span><span class="delimiter">)</span>
+      <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22469" title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">info</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Decoding Hooks: %s&quot;)" class="string">&quot;Decoding Hooks: %s&quot;</span>, org.bson.<span title="object org.bson.BSON">BSON</span>.<span title="org.bson.util.ClassMap[java.util.List[org.bson.Transformer]]">_decodingHooks</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">object</span> <a title="object org.bson.BSONEncoders" id="9502">BSONEncoders</a> <span title="ScalaObject" class="keyword">extends</span> <a href="../Logger.scala.html#9389" title="com.mongodb.casbah.commons.Logging">Logging</a> <span class="delimiter">{</span>
+    <span class="comment">// Finds all the transformers for a given class</span>
+    <span class="keyword">def</span> <a title="(encodeType: Class[_])Option[java.util.List[org.bson.Transformer]]" id="32096">apply</a><span class="delimiter">(</span><a title="Class[_]" id="32101">encodeType</a>: <span title="Class[_]">Class</span><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">)</span> = org.bson.<span title="object org.bson.BSON">BSON</span>.<span title="org.bson.util.ClassMap[java.util.List[org.bson.Transformer]]">_encodingHooks</span>.<span title="(x$1: Any)java.util.List[org.bson.Transformer]">get</span><span class="delimiter">(</span><a href="#32101" title="Class[_]">encodeType</a><span class="delimiter">)</span> <span title="Option[java.util.List[org.bson.Transformer]]" class="keyword">match</span> <span class="delimiter">{</span>
+      <span title="None.type" class="keyword">case</span> <span title="Null(null)" class="keyword">null</span> =&gt; <span title="object None">None</span>
+      <span title="Some[java.util.List[org.bson.Transformer]]" class="keyword">case</span> <a title="java.util.List[org.bson.Transformer]" id="32109">x</a> =&gt; <span title="(x: java.util.List[org.bson.Transformer])Some[java.util.List[org.bson.Transformer]]">Some</span><span class="delimiter">(</span><a href="#32109" title="java.util.List[org.bson.Transformer]">x</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+    <span class="keyword">def</span> <a title="()org.bson.util.ClassMap[java.util.List[org.bson.Transformer]]" id="32097">apply</a><span class="delimiter">(</span><span class="delimiter">)</span> = org.bson.<span title="object org.bson.BSON">BSON</span>.<span title="org.bson.util.ClassMap[java.util.List[org.bson.Transformer]]">_encodingHooks</span>
+    <span class="comment">//def +=(elems: (Class[_], Transformer)) = elems.foreach { ct =&gt; </span>
+    <span class="keyword">def</span> <a title="(encodeType: Class[_])Any" id="32098">remove</a><span class="delimiter">(</span><a title="Class[_]" id="32128">encodeType</a>: <span title="Class[_]">Class</span><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">)</span> =  <a href="#32096" title="(encodeType: Class[_])Option[java.util.List[org.bson.Transformer]]">apply</a><span class="delimiter">(</span><a href="#32128" title="Class[_]">encodeType</a><span class="delimiter">)</span> <span title="Any" class="keyword">match</span> <span class="delimiter">{</span>
+      <span title="java.util.List[org.bson.Transformer]" class="keyword">case</span> Some<span class="delimiter">(</span><a title="java.util.List[org.bson.Transformer]" id="32141">list</a><span class="delimiter">)</span> =&gt; <span class="delimiter">{</span>
+        <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22469" title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">info</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Clearing encoding transform list ['%s'] for class '%s'&quot;)" class="string">&quot;Clearing encoding transform list ['%s'] for class '%s'&quot;</span>, <a href="#32141" title="java.util.List[org.bson.Transformer]">list</a>, <a href="#32128" title="Class[_]">encodeType</a><span class="delimiter">)</span>
+        org.bson.<span title="object org.bson.BSON">BSON</span>.<span title="org.bson.util.ClassMap[java.util.List[org.bson.Transformer]]">_encodingHooks</span>.<span title="(x$1: Any)java.util.List[org.bson.Transformer]">remove</span><span class="delimiter">(</span><a href="#32128" title="Class[_]">encodeType</a><span class="delimiter">)</span> <span class="comment">//list.clear()</span>
+      <span class="delimiter">}</span>
+      <span title="Unit" class="keyword">case</span> <span title="object None">None</span> =&gt; <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22475" title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">warning</a><span class="delimiter">(</span><span title="java.lang.String(&quot;No encoding transformers found registered for class '%s'&quot;)" class="string">&quot;No encoding transformers found registered for class '%s'&quot;</span>, <a href="#32128" title="Class[_]">encodeType</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">object</span> <a title="object org.bson.BSONDecoders" id="9504">BSONDecoders</a> <span title="ScalaObject" class="keyword">extends</span> <a href="../Logger.scala.html#9389" title="com.mongodb.casbah.commons.Logging">Logging</a> <span class="delimiter">{</span>
+    <span class="comment">// Finds all the transformers for a given class</span>
+    <span class="keyword">def</span> <a title="(decodeType: Class[_])Option[java.util.List[org.bson.Transformer]]" id="32166">apply</a><span class="delimiter">(</span><a title="Class[_]" id="32171">decodeType</a>: <span title="Class[_]">Class</span><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">)</span> = org.bson.<span title="object org.bson.BSON">BSON</span>.<span title="org.bson.util.ClassMap[java.util.List[org.bson.Transformer]]">_decodingHooks</span>.<span title="(x$1: Any)java.util.List[org.bson.Transformer]">get</span><span class="delimiter">(</span><a href="#32171" title="Class[_]">decodeType</a><span class="delimiter">)</span> <span title="Option[java.util.List[org.bson.Transformer]]" class="keyword">match</span> <span class="delimiter">{</span>
+      <span title="None.type" class="keyword">case</span> <span title="Null(null)" class="keyword">null</span> =&gt; <span title="object None">None</span>
+      <span title="Some[java.util.List[org.bson.Transformer]]" class="keyword">case</span> <a title="java.util.List[org.bson.Transformer]" id="32179">x</a> =&gt; <span title="(x: java.util.List[org.bson.Transformer])Some[java.util.List[org.bson.Transformer]]">Some</span><span class="delimiter">(</span><a href="#32179" title="java.util.List[org.bson.Transformer]">x</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+    <span class="keyword">def</span> <a title="()org.bson.util.ClassMap[java.util.List[org.bson.Transformer]]" id="32167">apply</a><span class="delimiter">(</span><span class="delimiter">)</span>  = org.bson.<span title="object org.bson.BSON">BSON</span>.<span title="org.bson.util.ClassMap[java.util.List[org.bson.Transformer]]">_decodingHooks</span>
+    <span class="comment">//def +=(elems: (Class[_], Transformer)) = elems.foreach { ct =&gt; </span>
+    <span class="keyword">def</span> <a title="(decodeType: Class[_])Any" id="32168">remove</a><span class="delimiter">(</span><a title="Class[_]" id="32198">decodeType</a>: <span title="Class[_]">Class</span><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#32166" title="(decodeType: Class[_])Option[java.util.List[org.bson.Transformer]]">apply</a><span class="delimiter">(</span><a href="#32198" title="Class[_]">decodeType</a><span class="delimiter">)</span> <span title="Any" class="keyword">match</span> <span class="delimiter">{</span>
+      <span title="java.util.List[org.bson.Transformer]" class="keyword">case</span> Some<span class="delimiter">(</span><a title="java.util.List[org.bson.Transformer]" id="32211">list</a><span class="delimiter">)</span> =&gt; <span class="delimiter">{</span>
+        <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22469" title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">info</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Clearing decoding transform list ['%s'] for class '%s'&quot;)" class="string">&quot;Clearing decoding transform list ['%s'] for class '%s'&quot;</span>, <a href="#32211" title="java.util.List[org.bson.Transformer]">list</a>, <a href="#32198" title="Class[_]">decodeType</a><span class="delimiter">)</span>
+        org.bson.<span title="object org.bson.BSON">BSON</span>.<span title="org.bson.util.ClassMap[java.util.List[org.bson.Transformer]]">_decodingHooks</span>.<span title="(x$1: Any)java.util.List[org.bson.Transformer]">remove</span><span class="delimiter">(</span><a href="#32198" title="Class[_]">decodeType</a><span class="delimiter">)</span> <span class="comment">//list.clear()</span>
+      <span class="delimiter">}</span>
+      <span title="Unit" class="keyword">case</span> <span title="object None">None</span> =&gt; <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22475" title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">warning</a><span class="delimiter">(</span><span title="java.lang.String(&quot;No decoding transformers found registered for class '%s'&quot;)" class="string">&quot;No decoding transformers found registered for class '%s'&quot;</span>, <a href="#32198" title="Class[_]">decodeType</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">// vim: set ts=2 sw=2 sts=2 et:</span>
+
+        </pre>
+    </body>
+</html>

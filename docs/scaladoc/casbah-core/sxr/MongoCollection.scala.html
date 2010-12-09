@@ -1,0 +1,980 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>MongoCollection.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. &lt;http://novus.com&gt;
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah
+
+<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#9371" title="object com.mongodb.casbah.Imports">Imports</a>._
+<span class="keyword">import</span> com.mongodb.casbah.commons.Logging
+
+<span class="keyword">import</span> com.mongodb.casbah.map_reduce.<span class="delimiter">{</span>MapReduceResult, MapReduceCommand<span class="delimiter">}</span>
+
+
+<span class="keyword">import</span> scalaj.collection.<span title="object scalaj.collection.Imports">Imports</span>._
+<span class="keyword">import</span> collection.mutable.ArrayBuffer
+
+
+<span class="comment">/**
+ * Base trait for all MongoCollection wrapper objects.
+ * Provides any non-parameterized methods and the basic structure.
+ * Requires an underlying object of a DBCollection.
+ *
+ * @author Brendan W. McAdams &lt;brendan@10gen.com&gt;
+ */</span>
+<span class="keyword">trait</span> <a title="trait MongoCollectionWrapper extends java.lang.Object with com.mongodb.casbah.commons.Logging with ScalaObject" id="9388">MongoCollectionWrapper</a> <span title="ScalaObject" class="keyword">extends</span> <span title="com.mongodb.casbah.commons.Logging">Logging</span> <span class="delimiter">{</span>
+  <span class="comment">/**
+   * The underlying Java Mongo Driver Collection object we proxy.
+   */</span>
+  <span class="keyword">val</span> <a title="=&gt; com.mongodb.DBCollection" id="13838">underlying</a>: com.mongodb.<span title="com.mongodb.DBCollection">DBCollection</span>
+  <span class="comment">/** Returns the database this collection is a member of.
+   * @return this collection's database
+   */</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="com.mongodb.casbah.MongoDB" id="13839">db</a> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()com.mongodb.DB">getDB</span><a href="Implicits.scala.html#10065" title="implicit com.mongodb.casbah.Implicits.mongoDBAsScala : (db: com.mongodb.DB)java.lang.Object{def asScala: com.mongodb.casbah.MongoDB}" class="delimiter">(</a><span class="delimiter">)</span>.<a href="Implicits.scala.html#13755" title="=&gt; com.mongodb.casbah.MongoDB">asScala</a>
+  
+  <span class="comment">/** Adds the &quot;private&quot; fields _id to an object.
+   * @param o &lt;code&gt;DBObject&lt;/code&gt; to which to add fields
+   * @return the modified parameter object
+   */</span>
+  <span class="keyword">def</span> <a title="[A](o: A)(implicit evidence$1: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$2: Manifest[A])java.lang.Object" id="21475">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13843">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="21473">o</a>: <a href="#13843" title="A">A</a><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)java.lang.Object">apply</span><span class="delimiter">(</span><a href="#21475" title="(v1: A)com.mongodb.casbah.Imports.DBObject">o</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Adds the &quot;private&quot; fields _id to an object.
+   * @param jo object to which to add fields
+   * @param ensureID whether to add an &lt;code&gt;_id&lt;/code&gt; field or not
+   * @return the modified object &lt;code&gt;o&lt;/code&gt;
+   */</span>
+  <span class="keyword">def</span> <a title="[A](jo: A,ensureID: Boolean)(implicit evidence$3: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$4: Manifest[A])java.lang.Object" id="22413">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13846">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="22410">jo</a>: <a href="#13846" title="A">A</a>, <a title="Boolean" id="22411">ensureID</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: Boolean)java.lang.Object">apply</span><span class="delimiter">(</span><a href="#22413" title="(v1: A)com.mongodb.casbah.Imports.DBObject">jo</a>, <a href="#22411" title="Boolean">ensureID</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Forces creation of an index on a set of fields, if one does not already exist.
+   * @param keys an object with a key set of the fields desired for the index
+   */</span>
+  <span class="keyword">def</span> <a title="[A](keys: A)(implicit evidence$5: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$6: Manifest[A])Unit" id="22438">createIndex</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13849">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="22436">keys</a>: <a href="#13849" title="A">A</a><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)Unit">createIndex</span><span class="delimiter">(</span><a href="#22438" title="(v1: A)com.mongodb.casbah.Imports.DBObject">keys</a><span class="delimiter">)</span>
+  
+  <span class="keyword">def</span> <a title="[A, B](keys: A,options: B)(implicit evidence$7: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$8: Manifest[A],implicit evidence$9: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$10: Manifest[B])Unit" id="22460">createIndex</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13853">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13854">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="22455">keys</a>: <a href="#13853" title="A">A</a>, <a title="B" id="22456">options</a>: <a href="#13854" title="B">B</a><span class="delimiter">)</span> = 
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)Unit">createIndex</span><span class="delimiter">(</span><a href="#22460" title="(v1: A)com.mongodb.casbah.Imports.DBObject">keys</a>, <a href="#22460" title="(v1: B)com.mongodb.casbah.Imports.DBObject">options</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * find distinct values for a key
+   */</span>
+  <span class="keyword">def</span> <a title="(key: String)Seq[Any]" id="13855">distinct</a><span class="delimiter">(</span><a title="String" id="22493">key</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.lang.String)java.util.List[_]">distinct</span><span title="(underlying: java.util.List[?0])scalaj.collection.j2s.RichList[?0]" class="delimiter">(</span><a href="#22493" title="String">key</a><span class="delimiter">)</span>.<span title="(implicit c: scalaj.collection.j2s.Coercible[?0,?0])Seq[?0]">asScala</span>
+
+  <span class="comment">/**
+   * find distinct values for a key
+   * @param query query to apply on collection
+   */</span>
+  <span class="keyword">def</span> <a title="[A](key: String,query: A)(implicit evidence$11: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$12: Manifest[A])Seq[Any]" id="22633">distinct</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13858">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="String" id="22630">key</a>: <span title="String">String</span>, <a title="A" id="22631">query</a>: <a href="#13858" title="A">A</a><span class="delimiter">)</span> = 
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.lang.String,x$2: com.mongodb.DBObject)java.util.List[_]">distinct</span><span title="(underlying: java.util.List[?0])scalaj.collection.j2s.RichList[?0]" class="delimiter">(</span><a href="#22630" title="String">key</a>, <a href="#22633" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a><span class="delimiter">)</span>.<span title="(implicit c: scalaj.collection.j2s.Coercible[?0,?0])Seq[?0]">asScala</span>
+
+  <span class="comment">/** Drops (deletes) this collection
+   */</span>
+  <span class="keyword">def</span> <a title="()Unit" id="13859">drop</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Unit">drop</span>
+  <span class="comment">/** Drops (deletes) this collection
+   */</span>
+  <span class="keyword">def</span> <a title="()Unit" id="13860">dropCollection</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Unit">drop</span>
+
+  <span class="keyword">def</span> <a title="[A](keys: A)(implicit evidence$13: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$14: Manifest[A])Unit" id="22722">dropIndex</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13863">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="22720">keys</a>: <a href="#13863" title="A">A</a><span class="delimiter">)</span> = 
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)Unit">dropIndex</span><span class="delimiter">(</span><a href="#22722" title="(v1: A)com.mongodb.casbah.Imports.DBObject">keys</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(name: String)Unit" id="13864">dropIndex</a><span class="delimiter">(</span><a title="String" id="22752">name</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.lang.String)Unit">dropIndex</span><span class="delimiter">(</span><a href="#22752" title="String">name</a><span class="delimiter">)</span>
+  <span class="comment">/** Drops all indices from this collection
+   */</span>
+  <span class="keyword">def</span> <a title="()Unit" id="13865">dropIndexes</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Unit">dropIndexes</span>
+  <span class="keyword">def</span> <a title="(name: String)Unit" id="13866">dropIndexes</a><span class="delimiter">(</span><a title="String" id="22765">name</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Unit">dropIndexes</span>
+
+  <span class="comment">/** Creates an index on a set of fields, if one does not already exist.
+   * @param keys an object with a key set of the fields desired for the index
+   */</span>
+  <span class="keyword">def</span> <a title="[A](keys: A)(implicit evidence$15: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$16: Manifest[A])Unit" id="22773">ensureIndex</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13869">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="22771">keys</a>: <a href="#13869" title="A">A</a><span class="delimiter">)</span> = 
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)Unit">ensureIndex</span><span class="delimiter">(</span><a href="#22773" title="(v1: A)com.mongodb.casbah.Imports.DBObject">keys</a><span class="delimiter">)</span>
+  <span class="comment">/** Ensures an index on this collection (that is, the index will be created if it does not exist).
+   * ensureIndex is optimized and is inexpensive if the index already exists.
+   * @param keys fields to use for index
+   * @param name an identifier for the index
+   * @dochub indexes
+   */</span>
+  <span class="keyword">def</span> <a title="[A](keys: A,name: String)(implicit evidence$17: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$18: Manifest[A])Unit" id="22806">ensureIndex</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13872">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="22803">keys</a>: <a href="#13872" title="A">A</a>, <a title="String" id="22804">name</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: java.lang.String)Unit">ensureIndex</span><span class="delimiter">(</span><a href="#22806" title="(v1: A)com.mongodb.casbah.Imports.DBObject">keys</a>, <a href="#22804" title="String">name</a><span class="delimiter">)</span>
+  <span class="comment">/** Ensures an optionally unique index on this collection.
+   * @param keys fields to use for index
+   * @param name an identifier for the index
+   * @param unique if the index should be unique
+   */</span>
+  <span class="keyword">def</span> <a title="[A](keys: A,name: String,unique: Boolean)(implicit evidence$19: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$20: Manifest[A])Unit" id="25456">ensureIndex</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13875">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="25452">keys</a>: <a href="#13875" title="A">A</a>, <a title="String" id="25453">name</a>: <span title="String">String</span>, <a title="Boolean" id="25454">unique</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: java.lang.String,x$3: Boolean)Unit">ensureIndex</span><span class="delimiter">(</span><a href="#25456" title="(v1: A)com.mongodb.casbah.Imports.DBObject">keys</a>, <a href="#25453" title="String">name</a>, <a href="#25454" title="Boolean">unique</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(name: String)Unit" id="13876">ensureIndex</a><span class="delimiter">(</span><a title="String" id="25603">name</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.lang.String)Unit">ensureIndex</span><span class="delimiter">(</span><a href="#25603" title="String">name</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Find a collection that is prefixed with this collection's name.
+   * A typical use of this might be 
+   * &lt;blockquote&gt;&lt;pre&gt;
+   *    DBCollection users = mongo.getCollection( &quot;wiki&quot; ).getCollection( &quot;users&quot; );
+   * &lt;/pre&gt;&lt;/blockquote&gt;
+   * Which is equilalent to
+   * &lt;pre&gt;&lt;blockquote&gt;
+   *   DBCollection users = mongo.getCollection( &quot;wiki.users&quot; );
+   * &lt;/pre&gt;&lt;/blockquote&gt;
+   * @param n the name of the collection to find
+   * @return the matching collection
+   */</span>
+  <span class="keyword">def</span> <a title="(n: String)com.mongodb.DBCollection" id="13877">getCollection</a><span class="delimiter">(</span><a title="String" id="25611">n</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCollection">getCollection</span><span class="delimiter">(</span><a href="#25611" title="String">n</a><span class="delimiter">)</span>
+
+
+  <span class="comment">/**
+   *  Returns the number of documents in the collection
+   *  @return number of documents that match query
+   */</span>
+  <span class="keyword">def</span> <a title="()Long" id="13878">getCount</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Long">getCount</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="comment">/**
+   *  Returns the number of documents in the collection
+   *  that match the specified query
+   *
+   *  @param query query to select documents to count
+   *  @return number of documents that match query
+   */</span>
+  <span class="keyword">def</span> <a title="[A](query: A)(implicit evidence$21: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$22: Manifest[A])Long" id="25622">getCount</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13881">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="25620">query</a>: <a href="#13881" title="A">A</a><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)Long">getCount</span><span class="delimiter">(</span><a href="#25622" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a><span class="delimiter">)</span>
+  <span class="comment">/**
+   *  Returns the number of documents in the collection
+   *  that match the specified query
+   *
+   *  @param query query to select documents to count
+   *  @param fields fields to return
+   *  @return number of documents that match query and fields
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B](query: A,fields: B)(implicit evidence$23: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$24: Manifest[A],implicit evidence$25: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$26: Manifest[B])Long" id="25644">getCount</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13885">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13886">B</a>&lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="25639">query</a>: <a href="#13885" title="A">A</a>, <a title="B" id="25640">fields</a>: <a href="#13886" title="B">B</a><span class="delimiter">)</span> = 
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)Long">getCount</span><span class="delimiter">(</span><a href="#25644" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#25644" title="(v1: B)com.mongodb.casbah.Imports.DBObject">fields</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   *  Returns the number of documents in the collection
+   *  that match the specified query
+   *
+   *  @param query query to select documents to count
+   *  @param fields fields to return
+   *  @param limit Max # of fields
+   *  @param skip # of fields to skip
+   *  @return number of documents that match query and fields
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B](query: A,fields: B,limit: Long,skip: Long)(implicit evidence$27: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$28: Manifest[A],implicit evidence$29: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$30: Manifest[B])Long" id="25684">getCount</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13890">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13891">B</a>&lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="25677">query</a>: <a href="#13890" title="A">A</a>, <a title="B" id="25678">fields</a>: <a href="#13891" title="B">B</a>, <a title="Long" id="25679">limit</a>: <span title="Long">Long</span>, <a title="Long" id="25680">skip</a>: <span title="Long">Long</span><span class="delimiter">)</span> = 
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: Long,x$4: Long)Long">getCount</span><span class="delimiter">(</span><a href="#25684" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#25684" title="(v1: B)com.mongodb.casbah.Imports.DBObject">fields</a>, <a href="#25679" title="Long">limit</a>, <a href="#25680" title="Long">skip</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Returns the database this collection is a member of.
+   * @return this collection's database
+   */</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.casbah.MongoDB" id="13892">getDB</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()com.mongodb.DB">getDB</span><a href="Implicits.scala.html#10065" title="implicit com.mongodb.casbah.Implicits.mongoDBAsScala : (db: com.mongodb.DB)java.lang.Object{def asScala: com.mongodb.casbah.MongoDB}" class="delimiter">(</a><span class="delimiter">)</span>.<a href="Implicits.scala.html#13755" title="=&gt; com.mongodb.casbah.MongoDB">asScala</a>
+  
+  <span class="comment">/** Returns the full name of this collection, with the database name as a prefix.
+   * @return  the name of this collection
+   */</span>
+  <span class="keyword">def</span> <a title="()java.lang.String" id="13893">getFullName</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()java.lang.String">getFullName</span>
+  <span class="comment">/** Returns the full name of this collection, with the database name as a prefix.
+   * @return  the name of this collection
+   */</span>
+  <span class="keyword">def</span> <a title="=&gt; java.lang.String" id="13894">fullName</a> = <a href="#13893" title="()java.lang.String">getFullName</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="comment">/**
+   *   Return a list of the indexes for this collection.  Each object
+   *   in the list is the &quot;info document&quot; from MongoDB
+   *
+   *   @return list of index documents
+   */</span>
+  <span class="keyword">def</span> <a title="()Seq[com.mongodb.DBObject]" id="13895">getIndexInfo</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(underlying: java.util.List[com.mongodb.DBObject])scalaj.collection.j2s.RichList[com.mongodb.DBObject]">getIndexInfo</span>.<span title="(implicit c: scalaj.collection.j2s.Coercible[com.mongodb.DBObject,com.mongodb.DBObject])Seq[com.mongodb.DBObject]">asScala</span>
+  <span class="comment">/**
+   *   Return a list of the indexes for this collection.  Each object
+   *   in the list is the &quot;info document&quot; from MongoDB
+   *
+   *   @return list of index documents
+   */</span>
+  <span class="keyword">def</span> <a title="=&gt; Seq[com.mongodb.DBObject]" id="13896">indexInfo</a> = <a href="#13895" title="()Seq[com.mongodb.DBObject]">getIndexInfo</a><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="()java.lang.String" id="13897">getName</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()java.lang.String">getName</span>
+  <span class="keyword">def</span> <a title="=&gt; java.lang.String" id="13898">name</a> = <a href="#13897" title="()java.lang.String">getName</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="comment">/** Gets the default class for objects in the collection
+   * @return the class
+   */</span>
+  <span class="keyword">def</span> <a title="()java.lang.Class[_]" id="13899">getObjectClass</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()java.lang.Class[_]">getObjectClass</span>
+  <span class="comment">/** Gets the default class for objects in the collection
+   * @return the class
+   */</span>
+  <span class="keyword">def</span> <a title="=&gt; java.lang.Class[_]" id="13900">objectClass</a> = <a href="#13899" title="()java.lang.Class[_]">getObjectClass</a><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.CommandResult" id="13901">stats</a> = <a href="#13902" title="()com.mongodb.CommandResult">getStats</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.CommandResult" id="13902">getStats</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()com.mongodb.CommandResult">getStats</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="[A, B, C](key: A,cond: B,initial: C,reduce: String)(implicit evidence$31: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$32: Manifest[A],implicit evidence$33: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$34: Manifest[B],implicit evidence$35: (C) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$36: Manifest[C])scala.collection.mutable.Iterable[com.mongodb.casbah.Imports.DBObject]" id="26871">group</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13907">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13908">B</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13909">C</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="26862">key</a>: <a href="#13907" title="A">A</a>, <a title="B" id="26863">cond</a>: <a href="#13908" title="B">B</a>, <a title="C" id="26864">initial</a>: <a href="#13909" title="C">C</a>, <a title="String" id="26865">reduce</a>: <span title="String">String</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.DBObject" id="26874">result</a> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: com.mongodb.DBObject,x$4: java.lang.String)com.mongodb.DBObject">group</span><span class="delimiter">(</span><a href="#26871" title="(v1: A)com.mongodb.casbah.Imports.DBObject">key</a>, <a href="#26871" title="(v1: B)com.mongodb.casbah.Imports.DBObject">cond</a>, <a href="#26871" title="(v1: C)com.mongodb.casbah.Imports.DBObject">initial</a>, <a href="#26865" title="String">reduce</a><span class="delimiter">)</span>   
+    <a href="Implicits.scala.html#9371" title="implicit com.mongodb.casbah.commons.Implicits.wrapDBObj : (in: com.mongodb.DBObject)com.mongodb.casbah.commons.MongoDBObject">result</a>.<span title="(f: ((String, AnyRef)) =&gt; com.mongodb.casbah.Imports.DBObject)(implicit bf: scala.collection.generic.CanBuildFrom[scala.collection.mutable.Map[String,AnyRef],com.mongodb.casbah.Imports.DBObject,scala.collection.mutable.Iterable[com.mongodb.casbah.Imports.DBObject]])scala.collection.mutable.Iterable[com.mongodb.casbah.Imports.DBObject]">map</span><span title="scala.collection.generic.CanBuildFrom[scala.collection.mutable.Iterable.Coll,com.mongodb.casbah.Imports.DBObject,scala.collection.mutable.Iterable[com.mongodb.casbah.Imports.DBObject]]" class="delimiter">(</span><a href="#26954" title="(String, AnyRef)">_</a>.<span title="=&gt; AnyRef">_2</span>.<span title="[T0]T0">asInstanceOf</span><span title="com.mongodb.casbah.Imports.DBObject" class="delimiter">[</span><span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">]</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/**
+   * Perform an absurdly simple grouping with no initial object or reduce function.
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B](key: A,cond: B)(implicit evidence$37: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$38: Manifest[A],implicit evidence$39: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$40: Manifest[B])Iterable[com.mongodb.casbah.Imports.DBObject]" id="27113">group</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13913">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13914">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="27108">key</a>: <a href="#13913" title="A">A</a>, <a title="B" id="27109">cond</a>: <a href="#13914" title="B">B</a><span class="delimiter">)</span>: <span title="Iterable[com.mongodb.casbah.Imports.DBObject]">Iterable</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> = <a href="#26871" title="(key: A,cond: B,initial: com.mongodb.casbah.commons.Imports.DBObject,reduce: String)(implicit evidence$31: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$32: Manifest[A],implicit evidence$33: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$34: Manifest[B],implicit evidence$35: (com.mongodb.casbah.commons.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$36: Manifest[com.mongodb.casbah.commons.Imports.DBObject])scala.collection.mutable.Iterable[com.mongodb.casbah.Imports.DBObject]">group</a><a href="#27113" title="(A) =&gt; com.mongodb.casbah.Imports.DBObject" class="delimiter">(</a><a href="#27108" title="A">key</a>, <a href="#27109" title="B">cond</a>, <a href="Implicits.scala.html#9371" title="=&gt; com.mongodb.casbah.commons.MongoDBObject.type">MongoDBObject</a>.<span title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">empty</span>, <span title="java.lang.String(&quot;function(obj, prev) {}&quot;)" class="string">&quot;function(obj, prev) {}&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[A, B](key: A,cond: B,function: String)(implicit evidence$41: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$42: Manifest[A],implicit evidence$43: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$44: Manifest[B])Iterable[com.mongodb.casbah.Imports.DBObject]" id="28114">group</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13918">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13919">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="28108">key</a>: <a href="#13918" title="A">A</a>, <a title="B" id="28109">cond</a>: <a href="#13919" title="B">B</a>, <a title="String" id="28110">function</a>: <span title="String">String</span><span class="delimiter">)</span>: <span title="Iterable[com.mongodb.casbah.Imports.DBObject]">Iterable</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> = <a href="#26871" title="(key: A,cond: B,initial: com.mongodb.casbah.commons.Imports.DBObject,reduce: String)(implicit evidence$31: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$32: Manifest[A],implicit evidence$33: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$34: Manifest[B],implicit evidence$35: (com.mongodb.casbah.commons.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$36: Manifest[com.mongodb.casbah.commons.Imports.DBObject])scala.collection.mutable.Iterable[com.mongodb.casbah.Imports.DBObject]">group</a><a href="#28114" title="(A) =&gt; com.mongodb.casbah.Imports.DBObject" class="delimiter">(</a><a href="#28108" title="A">key</a>, <a href="#28109" title="B">cond</a>, <a href="Implicits.scala.html#9371" title="=&gt; com.mongodb.casbah.commons.MongoDBObject.type">MongoDBObject</a>.<span title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">empty</span>, <a href="#28110" title="String">function</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Enables you to call group with the finalize parameter (a function that runs on each
+   * row of the output for calculations before sending a return) which the Mongo Java driver does not yet
+   * support, by sending a direct DBObject command.  Messy, but it works.
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B, C](key: A,cond: B,initial: C,reduce: String,finalize: String)(implicit evidence$45: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$46: Manifest[A],implicit evidence$47: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$48: Manifest[B],implicit evidence$49: (C) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$50: Manifest[C])scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]" id="27134">group</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13924">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13925">B</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13926">C</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="27124">key</a>: <a href="#13924" title="A">A</a>, <a title="B" id="27125">cond</a>: <a href="#13925" title="B">B</a>, <a title="C" id="27126">initial</a>: <a href="#13926" title="C">C</a>, <a title="String" id="27127">reduce</a>: <span title="String">String</span>, <a title="String" id="27128">finalize</a>: <span title="String">String</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.casbah.commons.Imports.DBObject" id="27137">cmdData</a> = <a href="Implicits.scala.html#9371" title="(elems: (java.lang.String, Any)*)com.mongodb.casbah.commons.Imports.DBObject">MongoDBObject</a><span class="delimiter">(</span>
+      <span title="(y: java.lang.String)(java.lang.String, java.lang.String)" class="string">&quot;ns&quot;</span> -&gt; <a href="#13897" title="()java.lang.String">getName</a>,
+      <span title="(y: A)(java.lang.String, A)" class="string">&quot;key&quot;</span> -&gt; <a href="#27124" title="A">key</a>,
+      <span title="(y: B)(java.lang.String, B)" class="string">&quot;cond&quot;</span> -&gt; <a href="#27125" title="B">cond</a>,
+      <span title="(y: String)(java.lang.String, String)" class="string">&quot;$reduce&quot;</span> -&gt; <a href="#27127" title="String">reduce</a>,
+      <span title="(y: C)(java.lang.String, C)" class="string">&quot;initial&quot;</span> -&gt; <a href="#27126" title="C">initial</a>,
+      <span title="(y: String)(java.lang.String, String)" class="string">&quot;finalize&quot;</span> -&gt; <a href="#27128" title="String">finalize</a><span class="delimiter">)</span>
+    <a href="#9388" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">trace</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Executing group command: %s&quot;)" class="string">&quot;Executing group command: %s&quot;</span>, <a href="#27137" title="com.mongodb.casbah.commons.Imports.DBObject">cmdData</a><span class="delimiter">)</span>
+    <span class="keyword">val</span> <a title="com.mongodb.CommandResult" id="27138">result</a> = <a href="#13892" title="()com.mongodb.casbah.MongoDB">getDB</a>.<a href="MongoDB.scala.html#13611" title="(cmd: com.mongodb.casbah.Imports.DBObject)com.mongodb.CommandResult">command</a><span class="delimiter">(</span><a href="Implicits.scala.html#9371" title="(elems: (java.lang.String, com.mongodb.casbah.commons.Imports.DBObject)*)com.mongodb.casbah.commons.Imports.DBObject">MongoDBObject</a><span class="delimiter">(</span><span title="(y: com.mongodb.casbah.commons.Imports.DBObject)(java.lang.String, com.mongodb.casbah.commons.Imports.DBObject)" class="string">&quot;group&quot;</span> -&gt; <a href="#27137" title="com.mongodb.casbah.commons.Imports.DBObject">cmdData</a><span class="delimiter">)</span><span class="delimiter">)</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#27138" title="com.mongodb.CommandResult">result</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;ok&quot;)" class="string">&quot;ok&quot;</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="(x$1: Int)Boolean" class="delimiter">[</span><span title="Double">Double</span><span class="delimiter">]</span> != <span title="Int(1)" class="int">1</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#9388" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(msg: =&gt; String)Unit">warning</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Group Statement Failed.&quot;)" class="string">&quot;Group Statement Failed.&quot;</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+    <a href="#9388" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">trace</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Group command result count : %s keys: %s &quot;)" class="string">&quot;Group command result count : %s keys: %s &quot;</span>, <a href="#27138" title="com.mongodb.CommandResult">result</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;count&quot;)" class="string">&quot;count&quot;</span><span class="delimiter">)</span>, <a href="#27138" title="com.mongodb.CommandResult">result</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;keys&quot;)" class="string">&quot;keys&quot;</span><span class="delimiter">)</span><span class="delimiter">)</span>
+    <a href="#27138" title="com.mongodb.CommandResult">result</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;retval&quot;)" class="string">&quot;retval&quot;</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="com.mongodb.casbah.Imports.DBObject" class="delimiter">[</span><span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">]</span>.<span title="(underlying: java.util.Map[?0,?1])scalaj.collection.j2s.RichMap[?0,?1]">toMap</span>.<span title="(implicit c1: scalaj.collection.j2s.Coercible[?0,?0],implicit c2: scalaj.collection.j2s.Coercible[?1,?1])scala.collection.Map[?0,?1]">asScala</span>.<span title="(f: ((?0, ?1)) =&gt; com.mongodb.casbah.Imports.DBObject)(implicit bf: scala.collection.generic.CanBuildFrom[scala.collection.Map[?0,?1],com.mongodb.casbah.Imports.DBObject,Iterable[com.mongodb.casbah.Imports.DBObject]])Iterable[com.mongodb.casbah.Imports.DBObject]">map</span><span title="scala.collection.generic.CanBuildFrom[scala.collection.Iterable.Coll,com.mongodb.casbah.Imports.DBObject,Iterable[com.mongodb.casbah.Imports.DBObject]]" class="delimiter">(</span><a href="#27919" title="(?0, ?1)">_</a>.<span title="=&gt; ?1">_2</span>.<span title="[T0]T0">asInstanceOf</span><span title="com.mongodb.casbah.Imports.DBObject" class="delimiter">[</span><span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">]</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]" class="delimiter">[</span><span title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">ArrayBuffer</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span><span class="delimiter">]</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/** Emulates a SQL MAX() call ever so gently */</span>
+  <span class="keyword">def</span> <a title="[A](field: String,condition: A)(implicit evidence$51: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$52: Manifest[A])Double" id="28370">maxValue</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13929">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="String" id="28367">field</a>: <span title="String">String</span>, <a title="A" id="28368">condition</a>: <a href="#13929" title="A">A</a><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.casbah.commons.Imports.DBObject" id="28373">initial</a> = <a href="Implicits.scala.html#9371" title="(elems: (java.lang.String, java.lang.String)*)com.mongodb.casbah.commons.Imports.DBObject">MongoDBObject</a><span class="delimiter">(</span><span title="(y: java.lang.String)(java.lang.String, java.lang.String)" class="string">&quot;max&quot;</span> -&gt; <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span>
+    <span class="keyword">val</span> <a title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]" id="28374">groupResult</a> = <a href="#27134" title="(key: com.mongodb.casbah.commons.Imports.DBObject,cond: A,initial: com.mongodb.casbah.commons.Imports.DBObject,reduce: String,finalize: String)(implicit evidence$45: (com.mongodb.casbah.commons.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$46: Manifest[com.mongodb.casbah.commons.Imports.DBObject],implicit evidence$47: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$48: Manifest[A],implicit evidence$49: (com.mongodb.casbah.commons.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$50: Manifest[com.mongodb.casbah.commons.Imports.DBObject])scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">group</a><a href="#28370" title="&lt;:&lt;[com.mongodb.casbah.commons.Imports.DBObject,com.mongodb.casbah.commons.Imports.DBObject]" class="delimiter">(</a><a href="Implicits.scala.html#9371" title="=&gt; com.mongodb.casbah.commons.MongoDBObject.type">MongoDBObject</a>.<span title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">empty</span>,
+          <a href="#28368" title="A">condition</a>,
+          <a href="#28373" title="com.mongodb.casbah.commons.Imports.DBObject">initial</a>,
+          <span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps" class="string">&quot;&quot;&quot;
+          function(obj, aggr) {
+            if (aggr.max == '') {
+              aggr.max = obj.%s;
+            } else if (obj.%s &gt; aggr.max) {
+              aggr.max = obj.%s;
+            }
+          }&quot;&quot;&quot;</span>.<span title="(args: Any*)String">format</span><span class="delimiter">(</span><a href="#28367" title="String">field</a>, <a href="#28367" title="String">field</a>, <a href="#28367" title="String">field</a><span class="delimiter">)</span>, <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span>
+    <a href="#9388" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">trace</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Max Grouping Result: %s&quot;)" class="string">&quot;Max Grouping Result: %s&quot;</span>, <a href="#28374" title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">groupResult</a><span class="delimiter">)</span>
+    <a href="#28374" title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">groupResult</a>.<span title="=&gt; com.mongodb.casbah.Imports.DBObject">head</span>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;max&quot;)" class="string">&quot;max&quot;</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="Double" class="delimiter">[</span><span title="Double">Double</span><span class="delimiter">]</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="[A](field: String,condition: A)(implicit evidence$53: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$54: Manifest[A])java.util.Date" id="28577">maxDate</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13932">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="String" id="28574">field</a>: <span title="String">String</span>, <a title="A" id="28575">condition</a>: <a href="#13932" title="A">A</a><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.DBObject" id="28580">initial</a> = <span title="(elems: (java.lang.String, java.lang.String)*)scala.collection.immutable.Map[java.lang.String,java.lang.String]">Map</span><a href="Implicits.scala.html#9371" title="implicit com.mongodb.casbah.commons.Implicits.mapAsDBObject : (map: scala.collection.Map[String,Any])java.lang.Object{def asDBObject: com.mongodb.DBObject}" class="delimiter">(</a><span title="(y: java.lang.String)(java.lang.String, java.lang.String)" class="string">&quot;max&quot;</span> -&gt; <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span>.<span title="=&gt; com.mongodb.DBObject">asDBObject</span>
+    <span class="keyword">val</span> <a title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]" id="28581">groupResult</a> = <a href="#27134" title="(key: com.mongodb.casbah.commons.Imports.DBObject,cond: A,initial: com.mongodb.DBObject,reduce: String,finalize: String)(implicit evidence$45: (com.mongodb.casbah.commons.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$46: Manifest[com.mongodb.casbah.commons.Imports.DBObject],implicit evidence$47: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$48: Manifest[A],implicit evidence$49: (com.mongodb.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$50: Manifest[com.mongodb.DBObject])scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">group</a><a href="#28577" title="&lt;:&lt;[com.mongodb.casbah.commons.Imports.DBObject,com.mongodb.casbah.commons.Imports.DBObject]" class="delimiter">(</a><a href="Implicits.scala.html#9371" title="=&gt; com.mongodb.casbah.commons.MongoDBObject.type">MongoDBObject</a>.<span title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">empty</span>,
+      <a href="#28575" title="A">condition</a>,
+      <a href="#28580" title="com.mongodb.DBObject">initial</a>,
+      <span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps" class="string">&quot;&quot;&quot;
+      function(obj, aggr) {
+        if (aggr.max == '') {
+          aggr.max = obj.%s;
+        } else if (obj.%s &gt; aggr.max) {
+          aggr.max = obj.%s;
+        }
+      }&quot;&quot;&quot;</span>.<span title="(args: Any*)String">format</span><span class="delimiter">(</span><a href="#28574" title="String">field</a>, <a href="#28574" title="String">field</a>, <a href="#28574" title="String">field</a><span class="delimiter">)</span>, <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span>
+    <a href="#9388" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">trace</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Max Date Grouping Result: %s&quot;)" class="string">&quot;Max Date Grouping Result: %s&quot;</span>, <a href="#28581" title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">groupResult</a><span class="delimiter">)</span>
+    <a href="#28581" title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">groupResult</a>.<span title="=&gt; com.mongodb.casbah.Imports.DBObject">head</span>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;max&quot;)" class="string">&quot;max&quot;</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="java.util.Date" class="delimiter">[</span>java.util.<span title="java.util.Date">Date</span><span class="delimiter">]</span>
+  <span class="delimiter">}</span>
+  <span class="keyword">def</span> <a title="[A](field: String,condition: A)(implicit evidence$55: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$56: Manifest[A])java.util.Date" id="29104">minDate</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13935">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="String" id="29101">field</a>: <span title="String">String</span>, <a title="A" id="29102">condition</a>: <a href="#13935" title="A">A</a><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.DBObject" id="29107">initial</a> = <span title="(elems: (java.lang.String, java.lang.String)*)scala.collection.immutable.Map[java.lang.String,java.lang.String]">Map</span><a href="Implicits.scala.html#9371" title="implicit com.mongodb.casbah.commons.Implicits.mapAsDBObject : (map: scala.collection.Map[String,Any])java.lang.Object{def asDBObject: com.mongodb.DBObject}" class="delimiter">(</a><span title="(y: java.lang.String)(java.lang.String, java.lang.String)" class="string">&quot;max&quot;</span> -&gt; <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span>.<span title="=&gt; com.mongodb.DBObject">asDBObject</span>
+    <span class="keyword">val</span> <a title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]" id="29108">groupResult</a> = <a href="#27134" title="(key: com.mongodb.casbah.commons.Imports.DBObject,cond: A,initial: com.mongodb.DBObject,reduce: String,finalize: String)(implicit evidence$45: (com.mongodb.casbah.commons.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$46: Manifest[com.mongodb.casbah.commons.Imports.DBObject],implicit evidence$47: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$48: Manifest[A],implicit evidence$49: (com.mongodb.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$50: Manifest[com.mongodb.DBObject])scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">group</a><a href="#29104" title="&lt;:&lt;[com.mongodb.casbah.commons.Imports.DBObject,com.mongodb.casbah.commons.Imports.DBObject]" class="delimiter">(</a><a href="Implicits.scala.html#9371" title="=&gt; com.mongodb.casbah.commons.MongoDBObject.type">MongoDBObject</a>.<span title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">empty</span>,
+      <a href="#29102" title="A">condition</a>,
+      <a href="#29107" title="com.mongodb.DBObject">initial</a>,
+      <span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps" class="string">&quot;&quot;&quot;
+      function(obj, aggr) {
+        if (aggr.max == '') {
+          aggr.max = obj.%s;
+        } else if (obj.%s &gt; aggr.max) {
+          aggr.max = obj.%s;
+        }
+      }&quot;&quot;&quot;</span>.<span title="(args: Any*)String">format</span><span class="delimiter">(</span><a href="#29101" title="String">field</a>, <a href="#29101" title="String">field</a>, <a href="#29101" title="String">field</a><span class="delimiter">)</span>, <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span>
+    <a href="#9388" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">trace</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Max Date Grouping Result: %s&quot;)" class="string">&quot;Max Date Grouping Result: %s&quot;</span>, <a href="#29108" title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">groupResult</a><span class="delimiter">)</span>
+    <a href="#29108" title="scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">groupResult</a>.<span title="=&gt; com.mongodb.casbah.Imports.DBObject">head</span>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;max&quot;)" class="string">&quot;max&quot;</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="java.util.Date" class="delimiter">[</span>java.util.<span title="java.util.Date">Date</span><span class="delimiter">]</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/** Emulates a SQL MIN() call ever so gently */</span>
+  <span class="keyword">def</span> <a title="[A](field: String,condition: A)(implicit evidence$57: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$58: Manifest[A])Double" id="29304">minValue</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13938">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="String" id="29301">field</a>: <span title="String">String</span>, <a title="A" id="29302">condition</a>: <a href="#13938" title="A">A</a><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.DBObject" id="29307">initial</a> = <span title="(elems: (java.lang.String, java.lang.String)*)scala.collection.immutable.Map[java.lang.String,java.lang.String]">Map</span><a href="Implicits.scala.html#9371" title="implicit com.mongodb.casbah.commons.Implicits.mapAsDBObject : (map: scala.collection.Map[String,Any])java.lang.Object{def asDBObject: com.mongodb.DBObject}" class="delimiter">(</a><span title="(y: java.lang.String)(java.lang.String, java.lang.String)" class="string">&quot;min&quot;</span> -&gt; <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span>.<span title="=&gt; com.mongodb.DBObject">asDBObject</span>
+    <a href="#27134" title="(key: com.mongodb.casbah.commons.Imports.DBObject,cond: A,initial: com.mongodb.DBObject,reduce: String,finalize: String)(implicit evidence$45: (com.mongodb.casbah.commons.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$46: Manifest[com.mongodb.casbah.commons.Imports.DBObject],implicit evidence$47: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$48: Manifest[A],implicit evidence$49: (com.mongodb.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$50: Manifest[com.mongodb.DBObject])scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">group</a><a href="#29304" title="&lt;:&lt;[com.mongodb.casbah.commons.Imports.DBObject,com.mongodb.casbah.commons.Imports.DBObject]" class="delimiter">(</a><a href="Implicits.scala.html#9371" title="=&gt; com.mongodb.casbah.commons.MongoDBObject.type">MongoDBObject</a>.<span title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">empty</span>,
+          <a href="#29302" title="A">condition</a>,
+          <a href="#29307" title="com.mongodb.DBObject">initial</a>,
+          <span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps" class="string">&quot;&quot;&quot;
+          function(obj, aggr) {
+            if (aggr.min == '') {
+              aggr.min = obj.%s;
+            } else if (obj.%s &lt; aggr.min) {
+              aggr.min = obj.%s;
+            }
+           }&quot;&quot;&quot;</span>.<span title="(args: Any*)String">format</span><span class="delimiter">(</span><a href="#29301" title="String">field</a>, <a href="#29301" title="String">field</a>, <a href="#29301" title="String">field</a><span class="delimiter">)</span>, <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span>.
+        <span title="=&gt; com.mongodb.casbah.Imports.DBObject">head</span>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;min&quot;)" class="string">&quot;min&quot;</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="Double" class="delimiter">[</span><span title="Double">Double</span><span class="delimiter">]</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/** Emulates a SQL AVG() call ever so gently */</span>
+  <span class="keyword">def</span> <a title="[A](field: String,condition: A)(implicit evidence$59: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$60: Manifest[A])Double" id="29512">avgValue</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13941">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="String" id="29509">field</a>: <span title="String">String</span>, <a title="A" id="29510">condition</a>: <a href="#13941" title="A">A</a><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.DBObject" id="29515">initial</a> = <span title="(elems: (java.lang.String, Int)*)scala.collection.immutable.Map[java.lang.String,Int]">Map</span><a href="Implicits.scala.html#9371" title="implicit com.mongodb.casbah.commons.Implicits.mapAsDBObject : (map: scala.collection.Map[String,Any])java.lang.Object{def asDBObject: com.mongodb.DBObject}" class="delimiter">(</a><span title="(y: Int)(java.lang.String, Int)" class="string">&quot;count&quot;</span> -&gt; <span title="Int(0)" class="int">0</span>, <span title="(y: Int)(java.lang.String, Int)" class="string">&quot;total&quot;</span> -&gt; <span title="Int(0)" class="int">0</span>, <span title="(y: Int)(java.lang.String, Int)" class="string">&quot;avg&quot;</span> -&gt; <span title="Int(0)" class="int">0</span><span class="delimiter">)</span>.<span title="=&gt; com.mongodb.DBObject">asDBObject</span>
+    <a href="#27134" title="(key: com.mongodb.casbah.commons.Imports.DBObject,cond: A,initial: com.mongodb.DBObject,reduce: String,finalize: String)(implicit evidence$45: (com.mongodb.casbah.commons.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$46: Manifest[com.mongodb.casbah.commons.Imports.DBObject],implicit evidence$47: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$48: Manifest[A],implicit evidence$49: (com.mongodb.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$50: Manifest[com.mongodb.DBObject])scala.collection.mutable.ArrayBuffer[com.mongodb.casbah.Imports.DBObject]">group</a><a href="#29512" title="&lt;:&lt;[com.mongodb.casbah.commons.Imports.DBObject,com.mongodb.casbah.commons.Imports.DBObject]" class="delimiter">(</a><a href="Implicits.scala.html#9371" title="=&gt; com.mongodb.casbah.commons.MongoDBObject.type">MongoDBObject</a>.<span title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">empty</span>,
+      <a href="#29510" title="A">condition</a>,
+      <a href="#29515" title="com.mongodb.DBObject">initial</a>,
+      <span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps" class="string">&quot;&quot;&quot;
+      function(obj, aggr) {
+        aggr.total += obj.%s;
+        aggr.count += 1; 
+      }
+      &quot;&quot;&quot;</span>.<span title="(args: Any*)String">format</span><span class="delimiter">(</span><a href="#29509" title="String">field</a><span class="delimiter">)</span>,
+      <span title="java.lang.String(&quot;function(aggr) { aggr.avg = aggr.total / aggr.count }&quot;)" class="string">&quot;function(aggr) { aggr.avg = aggr.total / aggr.count }&quot;</span><span class="delimiter">)</span>.<span title="=&gt; com.mongodb.casbah.Imports.DBObject">head</span>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;avg&quot;)" class="string">&quot;avg&quot;</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="Double" class="delimiter">[</span><span title="Double">Double</span><span class="delimiter">]</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="13942">hashCode</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Int">hashCode</span>
+
+  <span class="comment">/**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  array of documents to save
+   * @dochub insert
+   */</span>
+  <span class="keyword">def</span> <a title="[A](docs: A*)(implicit evidence$61: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$62: Manifest[A])com.mongodb.WriteResult" id="29750">insert</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13945">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A*" id="29748">docs</a>: <span title="A*">A</span>*<span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject]" id="29753">b</a> = <span title="collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject]" class="keyword">new</span> scala.collection.mutable.ArrayBuilder.<span title="collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject]">ofRef</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span>
+    <a href="#29753" title="collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject]">b</a>.<span title="(size: Int)Unit">sizeHint</span><span class="delimiter">(</span><a href="#29748" title="A*">docs</a>.<span title="=&gt; Int">size</span><span class="delimiter">)</span>
+    <span class="keyword">for</span> <span class="delimiter">(</span><a title="A" id="30108">x</a> &lt;- <a href="#29748" title="(f: (A) =&gt; collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject])Unit">docs</a><span class="delimiter">)</span> <a href="#29753" title="(elem: com.mongodb.casbah.Imports.DBObject)b.type">b</a> += <a href="#29750" title="(v1: A)com.mongodb.casbah.Imports.DBObject">x</a>
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: &lt;repeated...&gt;[com.mongodb.DBObject])com.mongodb.WriteResult">insert</span><span class="delimiter">(</span><a href="#29753" title="collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject]">b</a>.<span title="()Array[com.mongodb.casbah.Imports.DBObject]">result</span>: _*<span class="delimiter">)</span>
+   <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  array of documents to save
+   * @dochub insert
+   */</span>
+  <span class="keyword">def</span> <a title="[A &lt;: Array[B], B](docs: A,writeConcern: com.mongodb.casbah.Imports.WriteConcern)(implicit evidence$63: Manifest[A],implicit evidence$64: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$65: Manifest[B])com.mongodb.WriteResult" id="30159">insert</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Array[B]" id="13949">A</a> &lt;: Array<span class="delimiter">[</span>B<span class="delimiter">]</span> : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13950">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="30155">docs</a>: <a href="#13949" title="A">A</a>, <a title="com.mongodb.casbah.Imports.WriteConcern" id="30156">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject]" id="30162">b</a> = <span title="collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject]" class="keyword">new</span> scala.collection.mutable.ArrayBuilder.<span title="collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject]">ofRef</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span>
+    <a href="#30162" title="collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject]">b</a>.<span title="(size: Int)Unit">sizeHint</span><span class="delimiter">(</span><a href="#30155" title="(xs: Array[B])scala.collection.mutable.ArrayOps[B]">docs</a>.<span title="=&gt; Int">size</span><span class="delimiter">)</span>
+    <span class="keyword">for</span> <span class="delimiter">(</span><a title="B" id="30942">x</a> &lt;- <a href="#30155" title="(f: (B) =&gt; collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject])Unit">docs</a><span class="delimiter">)</span> <a href="#30162" title="(elem: com.mongodb.casbah.Imports.DBObject)b.type">b</a> += <a href="#30159" title="(v1: B)com.mongodb.casbah.Imports.DBObject">x</a>
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: Array[com.mongodb.DBObject],x$2: com.mongodb.WriteConcern)com.mongodb.WriteResult">insert</span><span class="delimiter">(</span><a href="#30162" title="collection.mutable.ArrayBuilder.ofRef[com.mongodb.casbah.Imports.DBObject]">b</a>.<span title="()Array[com.mongodb.casbah.Imports.DBObject]">result</span>, <a href="#30156" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+
+  <span class="comment">/**
+   * Inserts a document into the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  array of documents to save
+   * @dochub insert
+   */</span>
+  <span class="keyword">def</span> <a title="[A](doc: A,writeConcern: com.mongodb.casbah.Imports.WriteConcern)(implicit evidence$66: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$67: Manifest[A])com.mongodb.WriteResult" id="30981">insert</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13953">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="30978">doc</a>: <a href="#13953" title="A">A</a>, <a title="com.mongodb.casbah.Imports.WriteConcern" id="30979">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> = 
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.WriteConcern)com.mongodb.WriteResult">insert</span><span class="delimiter">(</span><a href="#30981" title="(v1: A)com.mongodb.casbah.Imports.DBObject">doc</a>, <a href="#30979" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param list list of documents to save
+   * @dochub insert
+   */</span>
+  <span class="keyword">def</span> <a title="[A](docs: List[A])(implicit evidence$68: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$69: Manifest[A])com.mongodb.WriteResult" id="31057">insert</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13956">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="List[A]" id="31055">docs</a>: <span title="List[A]">List</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scala.collection.mutable.Builder[com.mongodb.casbah.Imports.DBObject,List[com.mongodb.casbah.Imports.DBObject]]" id="31060">b</a> = <span title="object List">List</span>.<span title="[A]scala.collection.mutable.Builder[A,List[A]]">newBuilder</span><span title="scala.collection.mutable.Builder[com.mongodb.casbah.Imports.DBObject,List[com.mongodb.casbah.Imports.DBObject]]" class="delimiter">[</span><span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">]</span>
+    <span class="keyword">for</span> <span class="delimiter">(</span><a title="A" id="31220">x</a> &lt;- <a href="#31055" title="(f: (A) =&gt; scala.collection.mutable.Builder[com.mongodb.casbah.Imports.DBObject,List[com.mongodb.casbah.Imports.DBObject]])Unit">docs</a><span class="delimiter">)</span> <a href="#31060" title="(elem: com.mongodb.casbah.Imports.DBObject)b.type">b</a> += <a href="#31057" title="(v1: A)com.mongodb.casbah.Imports.DBObject">x</a>
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.util.List[com.mongodb.DBObject])com.mongodb.WriteResult">insert</span><span class="delimiter">(</span><a href="#31060" title="scala.collection.mutable.Builder[com.mongodb.casbah.Imports.DBObject,List[com.mongodb.casbah.Imports.DBObject]]">b</a>.<span title="(underlying: Seq[com.mongodb.casbah.Imports.DBObject])scalaj.collection.s2j.RichSeq[com.mongodb.casbah.Imports.DBObject]">result</span>.<span title="(implicit c: scalaj.collection.s2j.Coercible[com.mongodb.casbah.Imports.DBObject,com.mongodb.casbah.Imports.DBObject])java.util.List[com.mongodb.casbah.Imports.DBObject]">asJava</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="13957">isCapped</a> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Boolean">isCapped</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * @deprecated Due to poor original design on my part, you should probably use the explicitly parameterized fversion of this on collection   * @param command An instance of MapReduceCommand representing the required MapReduce
+   * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
+   */</span>
+  <span class="keyword">def</span> <a title="(command: com.mongodb.casbah.map_reduce.MapReduceCommand)com.mongodb.casbah.map_reduce.MapReduceResult" id="13958">mapReduce</a><span class="delimiter">(</span><a title="com.mongodb.casbah.map_reduce.MapReduceCommand" id="31395">command</a>: <a href="map_reduce/MapReduceCommand.scala.html#9455" title="com.mongodb.casbah.map_reduce.MapReduceCommand">MapReduceCommand</a><span class="delimiter">)</span>: <a href="map_reduce/MapReduceResult.scala.html#9462" title="com.mongodb.casbah.map_reduce.MapReduceResult">MapReduceResult</a>  = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.CommandResult" id="31397">result</a> = <a href="#13892" title="()com.mongodb.casbah.MongoDB">getDB</a>.<a href="MongoDB.scala.html#13611" title="(cmd: com.mongodb.casbah.Imports.DBObject)com.mongodb.CommandResult">command</a><span class="delimiter">(</span><a href="#31395" title="com.mongodb.casbah.map_reduce.MapReduceCommand">command</a>.<a href="map_reduce/MapReduceCommand.scala.html#18991" title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">asDBObject</a><span class="delimiter">)</span>
+    <a href="#13839" title="com.mongodb.casbah.map_reduce.MapReduceResult" class="keyword">new</a> <a href="map_reduce/MapReduceResult.scala.html#9462" title="com.mongodb.casbah.map_reduce.MapReduceResult">MapReduceResult</a><span class="delimiter">(</span><a href="#31397" title="com.mongodb.CommandResult">result</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/**
+   *
+   * @param command An instance of MapReduceCommand representing the required MapReduce
+   * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
+   */</span>
+  <span class="keyword">def</span> <a title="(mapFunction: com.mongodb.casbah.Imports.JSFunction,reduceFunction: com.mongodb.casbah.Imports.JSFunction,outputCollection: Option[String],query: Option[com.mongodb.casbah.Imports.DBObject],sort: Option[com.mongodb.casbah.Imports.DBObject],finalizeFunction: Option[com.mongodb.casbah.Imports.JSFunction],jsScope: Option[String])com.mongodb.casbah.map_reduce.MapReduceResult" id="13959">mapReduce</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.JSFunction" id="31874">mapFunction</a>: <span title="com.mongodb.casbah.Imports.JSFunction">JSFunction</span>, 
+                <a title="com.mongodb.casbah.Imports.JSFunction" id="31875">reduceFunction</a>: <span title="com.mongodb.casbah.Imports.JSFunction">JSFunction</span>, 
+                <a title="=&gt; Option[String]" id="31876">outputCollection</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="object None">None</span>,
+                <a title="=&gt; Option[com.mongodb.casbah.Imports.DBObject]" id="31877">query</a>: <span title="Option[com.mongodb.casbah.Imports.DBObject]">Option</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> = <span title="object None">None</span>, 
+                <a title="=&gt; Option[com.mongodb.casbah.Imports.DBObject]" id="31878">sort</a>: <span title="Option[com.mongodb.casbah.Imports.DBObject]">Option</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> = <span title="object None">None</span>, 
+                <a title="=&gt; Option[com.mongodb.casbah.Imports.JSFunction]" id="31879">finalizeFunction</a>: <span title="Option[com.mongodb.casbah.Imports.JSFunction]">Option</span><span class="delimiter">[</span>JSFunction<span class="delimiter">]</span> = <span title="object None">None</span>, 
+                <a title="=&gt; Option[String]" id="31880">jsScope</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="object None">None</span><span class="delimiter">)</span>: <a href="map_reduce/MapReduceResult.scala.html#9462" title="com.mongodb.casbah.map_reduce.MapReduceResult">MapReduceResult</a> =  
+              <a href="#13839" title="com.mongodb.casbah.map_reduce.MapReduceResult" class="keyword">new</a> <a href="map_reduce/MapReduceResult.scala.html#9462" title="com.mongodb.casbah.map_reduce.MapReduceResult">MapReduceResult</a><span class="delimiter">(</span><a href="#13892" title="()com.mongodb.casbah.MongoDB">getDB</a>.<a href="MongoDB.scala.html#13611" title="(cmd: com.mongodb.casbah.Imports.DBObject)com.mongodb.CommandResult">command</a><span class="delimiter">(</span><a href="map_reduce/MapReduceCommand.scala.html#18899" title="(collection: String,mapFunction: com.mongodb.casbah.Imports.JSFunction,reduceFunction: com.mongodb.casbah.Imports.JSFunction,outputCollection: Option[String],query: Option[com.mongodb.casbah.Imports.DBObject],sort: Option[com.mongodb.casbah.Imports.DBObject],finalizeFunction: Option[com.mongodb.casbah.Imports.JSFunction],jsScope: Option[String])com.mongodb.casbah.map_reduce.MapReduceCommand">MapReduceCommand</a><span class="delimiter">(</span><a href="#13898" title="=&gt; java.lang.String">name</a>, <a href="#31874" title="com.mongodb.casbah.Imports.JSFunction">mapFunction</a>, <a href="#31875" title="com.mongodb.casbah.Imports.JSFunction">reduceFunction</a>, 
+                                                                 <a href="#31876" title="Option[String]">outputCollection</a>, <a href="#31877" title="Option[com.mongodb.casbah.Imports.DBObject]">query</a>, <a href="#31878" title="Option[com.mongodb.casbah.Imports.DBObject]">sort</a>, <a href="#31879" title="Option[com.mongodb.casbah.Imports.JSFunction]">finalizeFunction</a>,
+                                                                 <a href="#31880" title="Option[String]">jsScope</a><span class="delimiter">)</span>.<a href="map_reduce/MapReduceCommand.scala.html#18991" title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">asDBObject</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="comment">/** Removes objects from the database collection.
+   * @param o the object that documents to be removed must match
+   * @dochub remove
+   */</span>
+  <span class="keyword">def</span> <a title="[A](o: A)(implicit evidence$70: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$71: Manifest[A])com.mongodb.WriteResult" id="31953">remove</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13962">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="31951">o</a>: <a href="#13962" title="A">A</a><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.WriteResult">remove</span><span class="delimiter">(</span><a href="#31953" title="(v1: A)com.mongodb.casbah.Imports.DBObject">o</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Removes objects from the database collection.
+   * @param o the object that documents to be removed must match
+   * @param concern WriteConcern for this operation
+   * @dochub remove
+   */</span>
+  <span class="keyword">def</span> <a title="[A](o: A,writeConcern: com.mongodb.casbah.Imports.WriteConcern)(implicit evidence$72: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$73: Manifest[A])com.mongodb.WriteResult" id="31973">remove</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13965">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="31970">o</a>: <a href="#13965" title="A">A</a>, <a title="com.mongodb.casbah.Imports.WriteConcern" id="31971">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> = 
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.WriteConcern)com.mongodb.WriteResult">remove</span><span class="delimiter">(</span><a href="#31973" title="(v1: A)com.mongodb.casbah.Imports.DBObject">o</a>, <a href="#31971" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * does a rename of this collection to newName
+   * @param newName new collection name (not a full namespace)
+   * @return the new collection
+   */</span>
+  <span class="keyword">def</span> <a title="(newName: String)com.mongodb.DBCollection" id="13966">rename</a><span class="delimiter">(</span><a title="String" id="31996">newName</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCollection">rename</span><span class="delimiter">(</span><a href="#31996" title="String">newName</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Clears all indices that have not yet been applied to this collection. */</span>
+  <span class="keyword">def</span> <a title="()Unit" id="13967">resetIndexCache</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Unit">resetIndexCache</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/** Saves an object to this collection.
+   * @param jo the &lt;code&gt;DBObject&lt;/code&gt; to save
+   *        will add &lt;code&gt;_id&lt;/code&gt; field to jo if needed
+   */</span>
+  <span class="keyword">def</span> <a title="[A](jo: A)(implicit evidence$74: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$75: Manifest[A])com.mongodb.WriteResult" id="32005">save</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13970">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="32003">jo</a>: <a href="#13970" title="A">A</a><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.WriteResult">save</span><span class="delimiter">(</span><a href="#32005" title="(v1: A)com.mongodb.casbah.Imports.DBObject">jo</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Saves an object to this collection.
+   * @param jo the &lt;code&gt;DBObject&lt;/code&gt; to save
+   *        will add &lt;code&gt;_id&lt;/code&gt; field to jo if needed
+   */</span>
+  <span class="keyword">def</span> <a title="[A](jo: A,writeConcern: com.mongodb.casbah.Imports.WriteConcern)(implicit evidence$76: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$77: Manifest[A])com.mongodb.WriteResult" id="32025">save</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13973">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="32022">jo</a>: <a href="#13973" title="A">A</a>, <a title="com.mongodb.casbah.Imports.WriteConcern" id="32023">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.WriteConcern)com.mongodb.WriteResult">save</span><span class="delimiter">(</span><a href="#32025" title="(v1: A)com.mongodb.casbah.Imports.DBObject">jo</a>, <a href="#32023" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Set hint fields for this collection.
+   * @param lst a list of &lt;code&gt;DBObject&lt;/code&gt;s to be used as hints
+   */</span>
+  <span class="keyword">def</span> <a title="[A](docs: List[A])(implicit evidence$78: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$79: Manifest[A])Unit" id="32050">setHintFields</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13976">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="List[A]" id="32048">docs</a>: <span title="List[A]">List</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scala.collection.mutable.Builder[com.mongodb.casbah.Imports.DBObject,List[com.mongodb.casbah.Imports.DBObject]]" id="32053">b</a> = <span title="object List">List</span>.<span title="[A]scala.collection.mutable.Builder[A,List[A]]">newBuilder</span><span title="scala.collection.mutable.Builder[com.mongodb.casbah.Imports.DBObject,List[com.mongodb.casbah.Imports.DBObject]]" class="delimiter">[</span><span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">]</span>
+    <span class="keyword">for</span> <span class="delimiter">(</span><a title="A" id="32069">x</a> &lt;- <a href="#32048" title="(f: (A) =&gt; scala.collection.mutable.Builder[com.mongodb.casbah.Imports.DBObject,List[com.mongodb.casbah.Imports.DBObject]])Unit">docs</a><span class="delimiter">)</span> <a href="#32053" title="(elem: com.mongodb.casbah.Imports.DBObject)b.type">b</a> += <a href="#32050" title="(v1: A)com.mongodb.casbah.Imports.DBObject">x</a>
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.util.List[com.mongodb.DBObject])Unit">setHintFields</span><span class="delimiter">(</span><a href="#32053" title="scala.collection.mutable.Builder[com.mongodb.casbah.Imports.DBObject,List[com.mongodb.casbah.Imports.DBObject]]">b</a>.<span title="(underlying: Seq[com.mongodb.casbah.Imports.DBObject])scalaj.collection.s2j.RichSeq[com.mongodb.casbah.Imports.DBObject]">result</span>.<span title="(implicit c: scalaj.collection.s2j.Coercible[com.mongodb.casbah.Imports.DBObject,com.mongodb.DBObject])java.util.List[com.mongodb.DBObject]">asJava</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(path: String,c: Class[_])Unit" id="13977">setInternalClass</a><span class="delimiter">(</span><a title="String" id="32165">path</a>: <span title="String">String</span>, <a title="Class[_]" id="32166">c</a>: <span title="Class[_]">Class</span><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.lang.String,x$2: java.lang.Class[_])Unit">setInternalClass</span><span class="delimiter">(</span><a href="#32165" title="String">path</a>, <a href="#32166" title="Class[_]">c</a><span class="delimiter">)</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="13978">toString</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()java.lang.String">toString</span>
+
+ <span class="comment">/**
+   * @dochub update
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B](q: A,o: B)(implicit evidence$80: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$81: Manifest[A],implicit evidence$82: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$83: Manifest[B])com.mongodb.WriteResult" id="32187">update</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13982">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13983">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="32182">q</a>: <a href="#13982" title="A">A</a>, <a title="B" id="32183">o</a>: <a href="#13983" title="B">B</a><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.WriteResult">update</span><span class="delimiter">(</span><a href="#32187" title="(v1: A)com.mongodb.casbah.Imports.DBObject">q</a>, <a href="#32187" title="(v1: B)com.mongodb.casbah.Imports.DBObject">o</a><span class="delimiter">)</span>
+  <span class="comment">/**
+   * Performs an update operation.
+   * @param q search query for old object to update
+   * @param o object with which to update &lt;tt&gt;q&lt;/tt&gt;
+   * @param upsert if the database should create the element if it does not exist
+   * @param multi if the update should be applied to all objects matching (db version 1.1.3 and above)
+   *              See http://www.mongodb.org/display/DOCS/Atomic+Operations
+   * @dochub update
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B](q: A,o: B,upsert: Boolean,multi: Boolean)(implicit evidence$84: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$85: Manifest[A],implicit evidence$86: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$87: Manifest[B])com.mongodb.WriteResult" id="32222">update</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13987">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13988">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="32215">q</a>: <a href="#13987" title="A">A</a>, <a title="B" id="32216">o</a>: <a href="#13988" title="B">B</a>, <a title="Boolean" id="32217">upsert</a>: <span title="Boolean">Boolean</span>, <a title="Boolean" id="32218">multi</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: Boolean,x$4: Boolean)com.mongodb.WriteResult">update</span><span class="delimiter">(</span><a href="#32222" title="(v1: A)com.mongodb.casbah.Imports.DBObject">q</a>, <a href="#32222" title="(v1: B)com.mongodb.casbah.Imports.DBObject">o</a>, <a href="#32217" title="Boolean">upsert</a>, <a href="#32218" title="Boolean">multi</a><span class="delimiter">)</span>
+  <span class="comment">/**
+   * Performs an update operation.
+   * @param q search query for old object to update
+   * @param o object with which to update &lt;tt&gt;q&lt;/tt&gt;
+   * @param upsert if the database should create the element if it does not exist
+   * @param multi if the update should be applied to all objects matching (db version 1.1.3 and above)
+   *              See http://www.mongodb.org/display/DOCS/Atomic+Operations
+   * @param writeConcern WriteConcern for this operation
+   * @dochub update
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B](q: A,o: B,upsert: Boolean,multi: Boolean,writeConcern: com.mongodb.casbah.Imports.WriteConcern)(implicit evidence$88: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$89: Manifest[A],implicit evidence$90: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$91: Manifest[B])com.mongodb.WriteResult" id="32260">update</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13992">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13993">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="32252">q</a>: <a href="#13992" title="A">A</a>, <a title="B" id="32253">o</a>: <a href="#13993" title="B">B</a>, <a title="Boolean" id="32254">upsert</a>: <span title="Boolean">Boolean</span>, <a title="Boolean" id="32255">multi</a>: <span title="Boolean">Boolean</span>, <a title="com.mongodb.casbah.Imports.WriteConcern" id="32256">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> =
+    <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: Boolean,x$4: Boolean,x$5: com.mongodb.WriteConcern)com.mongodb.WriteResult">update</span><span class="delimiter">(</span><a href="#32260" title="(v1: A)com.mongodb.casbah.Imports.DBObject">q</a>, <a href="#32260" title="(v1: B)com.mongodb.casbah.Imports.DBObject">o</a>, <a href="#32254" title="Boolean">upsert</a>, <a href="#32255" title="Boolean">multi</a>, <a href="#32256" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>
+
+ <span class="comment">/**
+   * @dochub update
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B](q: A,o: B)(implicit evidence$92: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$93: Manifest[A],implicit evidence$94: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$95: Manifest[B])com.mongodb.WriteResult" id="32296">updateMulti</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13997">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="13998">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="32291">q</a>: <a href="#13997" title="A">A</a>, <a title="B" id="32292">o</a>: <a href="#13998" title="B">B</a><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.WriteResult">updateMulti</span><span class="delimiter">(</span><a href="#32296" title="(v1: A)com.mongodb.casbah.Imports.DBObject">q</a>, <a href="#32296" title="(v1: B)com.mongodb.casbah.Imports.DBObject">o</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Checks if this collection is equal to another object.
+   * @param o object with which to compare this collection
+   * @return if the two collections are the same object
+   */</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(obj: Any)Boolean" id="13999">equals</a><span class="delimiter">(</span><a title="Any" id="32322">obj</a>: <span title="Any">Any</span><span class="delimiter">)</span> = <a href="#32322" title="Any">obj</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span title="Boolean" class="keyword">case</span> <a title="com.mongodb.casbah.MongoCollectionWrapper" id="32325">other</a>: <a href="#9388" title="com.mongodb.casbah.MongoCollectionWrapper">MongoCollectionWrapper</a> =&gt; <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: Any)Boolean">equals</span><span class="delimiter">(</span><a href="#32325" title="com.mongodb.casbah.MongoCollectionWrapper">other</a>.<a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a><span class="delimiter">)</span>
+    <span title="Boolean(false)" class="keyword">case</span> _ =&gt; <span title="Boolean(false)" class="keyword">false</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Long" id="14000">count</a> = <a href="#13878" title="()Long">getCount</a>
+  <span class="keyword">def</span> <a title="[A](query: A)(implicit evidence$96: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$97: Manifest[A])Long" id="32372">count</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14003">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="32370">query</a>: <a href="#14003" title="A">A</a><span class="delimiter">)</span> = <a href="#25622" title="(query: A)(implicit evidence$21: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$22: Manifest[A])Long">getCount</a><a href="#32372" title="(A) =&gt; com.mongodb.casbah.Imports.DBObject" class="delimiter">(</a><a href="#32370" title="A">query</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[A, B](query: A,fields: B)(implicit evidence$98: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$99: Manifest[A],implicit evidence$100: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$101: Manifest[B])Long" id="32431">count</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14007">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14008">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="32426">query</a>: <a href="#14007" title="A">A</a>, <a title="B" id="32427">fields</a>: <a href="#14008" title="B">B</a><span class="delimiter">)</span> = <a href="#25644" title="(query: A,fields: B)(implicit evidence$23: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$24: Manifest[A],implicit evidence$25: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$26: Manifest[B])Long">getCount</a><a href="#32431" title="(A) =&gt; com.mongodb.casbah.Imports.DBObject" class="delimiter">(</a><a href="#32426" title="A">query</a>, <a href="#32427" title="B">fields</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.CommandResult" id="14009">lastError</a> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()com.mongodb.DB">getDB</span>.<span title="()com.mongodb.CommandResult">getLastError</span>
+
+  <span class="comment">/**
+   * MongoDB DB collection.save method
+   *
+   * @author Alexander Azarov &lt;azarov@osinka.ru&gt;
+   * 
+   * @param x object to save to the collection
+   */</span>
+  <span class="keyword">def</span> <a title="[A](x: A)(implicit evidence$102: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$103: Manifest[A])com.mongodb.WriteResult" id="32523">+=</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14012">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="32521">x</a>: <a href="#14012" title="A">A</a><span class="delimiter">)</span>  = <a href="#32005" title="(jo: A)(implicit evidence$74: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$75: Manifest[A])com.mongodb.WriteResult">save</a><a href="#32523" title="(A) =&gt; com.mongodb.casbah.Imports.DBObject" class="delimiter">(</a><a href="#32521" title="A">x</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * MongoDB DBCollection.remove method
+   *
+   * @author Alexander Azarov &lt;azarov@osinka.ru&gt;
+   * 
+   * @param x object to remove from the collection
+   */</span>
+  <span class="keyword">def</span> <a title="[A](x: A)(implicit evidence$104: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$105: Manifest[A])com.mongodb.WriteResult" id="32566">-=</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14015">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="32564">x</a>: <a href="#14015" title="A">A</a><span class="delimiter">)</span> = <a href="#31953" title="(o: A)(implicit evidence$70: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$71: Manifest[A])com.mongodb.WriteResult">remove</a><a href="#32566" title="(A) =&gt; com.mongodb.casbah.Imports.DBObject" class="delimiter">(</a><a href="#32564" title="A">x</a><span class="delimiter">)</span>
+
+
+
+  <span class="comment">/**
+   * 
+   * Set the write concern for this database.
+   * Will be used for writes to any collection in this database.
+   * See the documentation for {@link WriteConcern} for more info.
+   * 
+   * @param concern (WriteConcern) The write concern to use
+   * @see WriteConcern 
+   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+   */</span>
+  <span class="keyword">def</span> <a title="(concern: com.mongodb.casbah.Imports.WriteConcern)Unit" id="14016">setWriteConcern</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="32607">concern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.WriteConcern)Unit">setWriteConcern</span><span class="delimiter">(</span><a href="#32607" title="com.mongodb.casbah.Imports.WriteConcern">concern</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * 
+   * Set the write concern for this database.
+   * Will be used for writes to any collection in this database.
+   * See the documentation for {@link WriteConcern} for more info.
+   * 
+   * @param concern (WriteConcern) The write concern to use
+   * @see WriteConcern 
+   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+   */</span>
+  <span class="keyword">def</span> <a title="(concern: com.mongodb.casbah.Imports.WriteConcern)Unit" id="14017">writeConcern_=</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="32611">concern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> = <a href="#14016" title="(concern: com.mongodb.casbah.Imports.WriteConcern)Unit">setWriteConcern</a><span class="delimiter">(</span><a href="#32611" title="com.mongodb.casbah.Imports.WriteConcern">concern</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * 
+   * get the write concern for this database,
+   * which is used for writes to any collection in this database.
+   * See the documentation for {@link WriteConcern} for more info.
+   * 
+   * @see WriteConcern 
+   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+   */</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.WriteConcern" id="14018">getWriteConcern</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()com.mongodb.WriteConcern">getWriteConcern</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * 
+   * get the write concern for this database,
+   * which is used for writes to any collection in this database.
+   * See the documentation for {@link WriteConcern} for more info.
+   *
+   * @see WriteConcern 
+   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+   */</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.WriteConcern" id="14019">writeConcern</a> = <a href="#14018" title="()com.mongodb.WriteConcern">getWriteConcern</a>
+
+  <span class="comment">/** 
+   * Manipulate Network Options
+   * 
+   * @see com.mongodb.Mongo
+   * @see com.mongodb.Bytes
+   */</span>
+  <span class="keyword">def</span> <a title="(option: Int)Unit" id="14020">addOption</a><span class="delimiter">(</span><a title="Int" id="32622">option</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: Int)Unit">addOption</span><span class="delimiter">(</span><a href="#32622" title="Int">option</a><span class="delimiter">)</span>
+  <span class="comment">/** 
+   * Manipulate Network Options
+   * 
+   * @see com.mongodb.Mongo
+   * @see com.mongodb.Bytes
+   */</span>
+  <span class="keyword">def</span> <a title="()Unit" id="14021">resetOptions</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Unit">resetOptions</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// use parens because this side-effects</span>
+
+  <span class="comment">/** 
+   * Manipulate Network Options
+   * 
+   * @see com.mongodb.Mongo
+   * @see com.mognodb.Bytes
+   */</span>
+  <span class="keyword">def</span> <a title="()Int" id="14022">getOptions</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Int">getOptions</span>
+
+  <span class="comment">/** 
+   * Manipulate Network Options
+   * 
+   * @see com.mongodb.Mongo
+   * @see com.mognodb.Bytes
+   */</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="14023">options</a> = <a href="#14022" title="()Int">getOptions</a>
+  <span class="comment">/** 
+   * Sets queries to be OK to run on slave nodes.
+   */</span>
+  <span class="keyword">def</span> <a title="()Unit" id="14024">slaveOk</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()Unit">slaveOk</span><span class="delimiter">(</span><span class="delimiter">)</span>   <span class="comment">// use parens because this side-effects</span>
+
+      
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * A Non-Generic, DBObject returning implementation of the &lt;code&gt;ScalaMongoCollectionWrapper&lt;/code&gt;
+ * Which implements Iterable, to allow iterating directly over it to list all of the underlying objects.
+ *
+ * @author Brendan W. McAdams &lt;brendan@10gen.com&gt;
+ *
+ * @param underlying DBCollection object to proxy
+ */</span>
+<span class="keyword">class</span> <a title="class MongoCollection extends java.lang.Object with com.mongodb.casbah.MongoCollectionWrapper with Iterable[com.mongodb.casbah.Imports.DBObject] with ScalaObject" id="9389">MongoCollection</a><span title="ScalaObject" class="delimiter">(</span><span class="keyword">val</span> <a title="com.mongodb.DBCollection" id="14456">underlying</a>: com.mongodb.<span title="com.mongodb.DBCollection">DBCollection</span><span class="delimiter">)</span>
+    <span class="keyword">extends</span> <a href="#9388" title="com.mongodb.casbah.MongoCollectionWrapper">MongoCollectionWrapper</a> 
+    <span class="keyword">with</span> <span title="Iterable[com.mongodb.casbah.Imports.DBObject]">Iterable</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.MongoCursor" id="14029">elements</a>: <a href="MongoCursor.scala.html#9410" title="com.mongodb.casbah.MongoCursor">MongoCursor</a>  = <a href="#14031" title="()com.mongodb.casbah.MongoCursor">find</a>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.MongoCursor" id="14030">iterator</a>: <a href="MongoCursor.scala.html#9410" title="com.mongodb.casbah.MongoCursor">MongoCursor</a>  = <a href="#14031" title="()com.mongodb.casbah.MongoCursor">find</a>
+
+  <span class="comment">/** Queries for all objects in this collection. 
+   * @return a cursor which will iterate over every object
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.casbah.MongoCursor" id="14031">find</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<a href="Implicits.scala.html#10067" title="implicit com.mongodb.casbah.Implicits.mongoCursorAsScala : (cursor: com.mongodb.DBCursor)java.lang.Object{def asScala: com.mongodb.casbah.MongoCursor; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit evidence$1: Manifest[A]): com.mongodb.casbah.MongoTypedCursor[A]}">find</a>.<a href="Implicits.scala.html#18830" title="=&gt; com.mongodb.casbah.MongoCursor">asScala</a>
+  <span class="comment">/** Queries for an object in this collection.
+   * @param ref object for which to search
+   * @return an iterator over the results
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="(ref: com.mongodb.casbah.Imports.DBObject)com.mongodb.casbah.MongoCursor" id="14032">find</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="32794">ref</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBCursor">find</span><a href="Implicits.scala.html#10067" title="implicit com.mongodb.casbah.Implicits.mongoCursorAsScala : (cursor: com.mongodb.DBCursor)java.lang.Object{def asScala: com.mongodb.casbah.MongoCursor; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit evidence$1: Manifest[A]): com.mongodb.casbah.MongoTypedCursor[A]}" class="delimiter">(</a><a href="#32794" title="com.mongodb.casbah.Imports.DBObject">ref</a><span class="delimiter">)</span> <a href="Implicits.scala.html#18830" title="=&gt; com.mongodb.casbah.MongoCursor">asScala</a>
+  <span class="comment">/** Queries for an object in this collection.
+   *
+   * &lt;p&gt;
+   * An empty DBObject will match every document in the collection.
+   * Regardless of fields specified, the _id fields are always returned.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * An example that returns the &quot;x&quot; and &quot;_id&quot; fields for every document 
+   * in the collection that has an &quot;x&quot; field:
+   * &lt;/p&gt;
+   * &lt;blockquote&gt;&lt;pre&gt;
+   * BasicDBObject keys = new BasicDBObject();
+   * keys.put(&quot;x&quot;, 1);
+   *
+   * DBCursor cursor = collection.find(new BasicDBObject(), keys); 
+   * &lt;/pre&gt;&lt;/blockquote&gt;
+   *
+   * @param ref object for which to search
+   * @param keys fields to return
+   * @return a cursor to iterate over results
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="(ref: com.mongodb.casbah.Imports.DBObject,keys: com.mongodb.casbah.Imports.DBObject)com.mongodb.casbah.MongoCursor" id="14033">find</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="32860">ref</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="32861">keys</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.DBCursor">find</span><a href="Implicits.scala.html#10067" title="implicit com.mongodb.casbah.Implicits.mongoCursorAsScala : (cursor: com.mongodb.DBCursor)java.lang.Object{def asScala: com.mongodb.casbah.MongoCursor; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit evidence$1: Manifest[A]): com.mongodb.casbah.MongoTypedCursor[A]}" class="delimiter">(</a><a href="#32860" title="com.mongodb.casbah.Imports.DBObject">ref</a>, <a href="#32861" title="com.mongodb.casbah.Imports.DBObject">keys</a><span class="delimiter">)</span> <a href="Implicits.scala.html#18830" title="=&gt; com.mongodb.casbah.MongoCursor">asScala</a>
+  <span class="comment">/** Finds an object.
+   * @param ref query used to search
+   * @param fields the fields of matching objects to return
+   * @param numToSkip will not return the first &lt;tt&gt;numToSkip&lt;/tt&gt; matches
+   * @param batchSize if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize &lt; 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch
+   * @param options - see Bytes QUERYOPTION_*
+   * @return the objects, if found
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="(ref: com.mongodb.casbah.Imports.DBObject,fields: com.mongodb.casbah.Imports.DBObject,numToSkip: Int,batchSize: Int)com.mongodb.casbah.MongoCursor" id="14034">find</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="32932">ref</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="32933">fields</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="Int" id="32934">numToSkip</a>: <span title="Int">Int</span>, <a title="Int" id="32935">batchSize</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: Int,x$4: Int)com.mongodb.DBCursor">find</span><a href="Implicits.scala.html#10067" title="implicit com.mongodb.casbah.Implicits.mongoCursorAsScala : (cursor: com.mongodb.DBCursor)java.lang.Object{def asScala: com.mongodb.casbah.MongoCursor; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit evidence$1: Manifest[A]): com.mongodb.casbah.MongoTypedCursor[A]}" class="delimiter">(</a><a href="#32932" title="com.mongodb.casbah.Imports.DBObject">ref</a>, <a href="#32933" title="com.mongodb.casbah.Imports.DBObject">fields</a>, <a href="#32934" title="Int">numToSkip</a>, <a href="#32935" title="Int">batchSize</a><span class="delimiter">)</span> <a href="Implicits.scala.html#18830" title="=&gt; com.mongodb.casbah.MongoCursor">asScala</a>
+
+  <span class="comment">/** 
+   * Returns a single object from this collection.
+   * @return the object found, or &lt;code&gt;null&lt;/code&gt; if the collection is empty
+   */</span>
+  <span class="keyword">def</span> <a title="()Option[com.mongodb.casbah.Imports.DBObject]" id="14035">findOne</a><span class="delimiter">(</span><span class="delimiter">)</span>: <span title="Option[com.mongodb.casbah.Imports.DBObject]">Option</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/** 
+   * Returns a single object from this collection matching the query.
+   * @param o the query object
+   * @return the object found, or &lt;code&gt;null&lt;/code&gt; if no such object exists
+   */</span>
+  <span class="keyword">def</span> <a title="(o: com.mongodb.casbah.Imports.DBObject)Option[com.mongodb.casbah.Imports.DBObject]" id="14036">findOne</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="33058">o</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span>: <span title="Option[com.mongodb.casbah.Imports.DBObject]">Option</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#33058" title="com.mongodb.casbah.Imports.DBObject">o</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Returns a single object from this collection matching the query.
+   * @param o the query object
+   * @param fields fields to return
+   * @return the object found, or &lt;code&gt;null&lt;/code&gt; if no such object exists
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="(o: com.mongodb.casbah.Imports.DBObject,fields: com.mongodb.casbah.Imports.DBObject)Option[com.mongodb.casbah.Imports.DBObject]" id="14037">findOne</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="33075">o</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="33076">fields</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span>: <span title="Option[com.mongodb.casbah.Imports.DBObject]">Option</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#33075" title="com.mongodb.casbah.Imports.DBObject">o</a>, <a href="#33076" title="com.mongodb.casbah.Imports.DBObject">fields</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[A](o: A)(implicit evidence$106: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$107: Manifest[A])Option[com.mongodb.DBObject]" id="33100">findOneView</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14040">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="33098">o</a>: <a href="#14040" title="A">A</a><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: Any)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#33098" title="A">o</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[A, B](o: A,fields: B)(implicit evidence$108: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$109: Manifest[A],implicit evidence$110: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$111: Manifest[B])Option[com.mongodb.DBObject]" id="33126">findOneView</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14044">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14045">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="33121">o</a>: <a href="#14044" title="A">A</a>, <a title="B" id="33122">fields</a>: <a href="#14045" title="B">B</a><span class="delimiter">)</span> = 
+    <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#33126" title="(v1: A)com.mongodb.casbah.Imports.DBObject">o</a>, <a href="#33126" title="(v1: B)com.mongodb.casbah.Imports.DBObject">fields</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Finds the first document in the query (sorted) and updates it. 
+   * If remove is specified it will be removed. If new is specified then the updated 
+   * document will be returned, otherwise the old document is returned (or it would be lost forever).
+   * You can also specify the fields to return in the document, optionally.
+   * @return the found document (before, or after the update)
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B](query: A,update: B)(implicit evidence$112: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$113: Manifest[A],implicit evidence$114: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$115: Manifest[B])Option[com.mongodb.DBObject]" id="33196">findAndModify</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14049">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14050">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="33191">query</a>: <a href="#14049" title="A">A</a>, <a title="B" id="33192">update</a>: <a href="#14050" title="B">B</a><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.DBObject">findAndModify</span><span class="delimiter">(</span><a href="#33196" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#33196" title="(v1: B)com.mongodb.casbah.Imports.DBObject">update</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="comment">/**
+   * Finds the first document in the query (sorted) and updates it. 
+   * @return the old document
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B, C](query: A,sort: B,update: C)(implicit evidence$116: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$117: Manifest[A],implicit evidence$118: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$119: Manifest[B],implicit evidence$120: (C) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$121: Manifest[C])Option[com.mongodb.DBObject]" id="33242">findAndModify</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14055">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14056">B</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14057">C</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="33234">query</a>: <a href="#14055" title="A">A</a>, <a title="B" id="33235">sort</a>: <a href="#14056" title="B">B</a>, <a title="C" id="33236">update</a>: <a href="#14057" title="C">C</a><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: com.mongodb.DBObject)com.mongodb.DBObject">findAndModify</span><span class="delimiter">(</span><a href="#33242" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#33242" title="(v1: B)com.mongodb.casbah.Imports.DBObject">sort</a>, <a href="#33242" title="(v1: C)com.mongodb.casbah.Imports.DBObject">update</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="comment">/**
+   * Finds the first document in the query and updates it. 
+   * @return the old document
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B, C, D](query: A,fields: B,sort: C,remove: Boolean,update: D,returnNew: Boolean,upsert: Boolean)(implicit evidence$122: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$123: Manifest[A],implicit evidence$124: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$125: Manifest[B],implicit evidence$126: (C) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$127: Manifest[C],implicit evidence$128: (D) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$129: Manifest[D])Option[com.mongodb.DBObject]" id="33305">findAndModify</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14063">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14064">B</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14065">C</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14066">D</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span>
+    <a title="A" id="33291">query</a>: <a href="#14063" title="A">A</a>, <a title="B" id="33292">fields</a>: <a href="#14064" title="B">B</a>, <a title="C" id="33293">sort</a>: <a href="#14065" title="C">C</a>, <a title="Boolean" id="33294">remove</a>: <span title="Boolean">Boolean</span>, <a title="D" id="33295">update</a>: <a href="#14066" title="D">D</a>, <a title="Boolean" id="33296">returnNew</a>: <span title="Boolean">Boolean</span>, <a title="Boolean" id="33297">upsert</a>: <span title="Boolean">Boolean</span>
+  <span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: com.mongodb.DBObject,x$4: Boolean,x$5: com.mongodb.DBObject,x$6: Boolean,x$7: Boolean)com.mongodb.DBObject">findAndModify</span><span class="delimiter">(</span><a href="#33305" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#33305" title="(v1: B)com.mongodb.casbah.Imports.DBObject">fields</a>, <a href="#33305" title="(v1: C)com.mongodb.casbah.Imports.DBObject">sort</a>, <a href="#33294" title="Boolean">remove</a>, <a href="#33305" title="(v1: D)com.mongodb.casbah.Imports.DBObject">update</a>, <a href="#33296" title="Boolean">returnNew</a>, <a href="#33297" title="Boolean">upsert</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Finds the first document in the query and removes it. 
+   * @return the removed document
+   */</span>
+  <span class="keyword">def</span> <a title="[A](query: A)(implicit evidence$130: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$131: Manifest[A])Option[com.mongodb.DBObject]" id="33370">findAndRemove</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14069">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="33368">query</a>: <a href="#14069" title="A">A</a><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBObject">findAndRemove</span><span class="delimiter">(</span><a href="#33370" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Finds an object by its id. This compares the passed in value to the _id field of the document
+   * I've put some hackery in to try to detect possible conversions....
+   * Because of the way we're using context and view bounds in Scala
+   * the broad match of this method can be problematic.
+   *   
+   * 
+   * @param obj any valid object
+   * @return the object, if found, otherwise &lt;code&gt;null&lt;/code&gt;
+   */</span>
+  <span class="keyword">def</span> <a title="(obj: java.lang.Object)Option[com.mongodb.casbah.Imports.DBObject]" id="14070">findOne</a><span class="delimiter">(</span><a title="java.lang.Object" id="33395">obj</a>: <span title="java.lang.Object">Object</span><span class="delimiter">)</span>: <span title="Option[com.mongodb.casbah.Imports.DBObject]">Option</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> = <a href="#33395" title="java.lang.Object">obj</a> <span title="Option[com.mongodb.casbah.Imports.DBObject]" class="keyword">match</span> <span class="delimiter">{</span>
+    <span title="Option[com.mongodb.casbah.Imports.DBObject]" class="keyword">case</span> <a title="com.mongodb.casbah.Imports.MongoDBObject" id="33397">dbobj</a>: <span title="com.mongodb.casbah.Imports.MongoDBObject">MongoDBObject</span> =&gt; <span class="delimiter">{</span>
+      <a href="#9389" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(msg: =&gt; String)Unit">debug</span><span class="delimiter">(</span><span title="java.lang.String(&quot;View convertable[mongodbobject] - rerouting.&quot;)" class="string">&quot;View convertable[mongodbobject] - rerouting.&quot;</span><span class="delimiter">)</span>
+      <a href="#14036" title="(o: com.mongodb.casbah.Imports.DBObject)Option[com.mongodb.casbah.Imports.DBObject]">findOne</a><span class="delimiter">(</span><a href="#33397" title="com.mongodb.casbah.Imports.MongoDBObject">dbobj</a>.<span title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">asDBObject</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+    <span title="Option[com.mongodb.casbah.Imports.DBObject]" class="keyword">case</span> <a title="Map[String,Any]" id="33410">map</a>: <span title="Map[String,Any]">Map</span><span class="delimiter">[</span>String, Any<span class="delimiter">]</span> =&gt; <span class="delimiter">{</span>
+      <a href="#9389" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(msg: =&gt; String)Unit">debug</span><span class="delimiter">(</span><span title="java.lang.String(&quot;View convertable[map]- rerouting.&quot;)" class="string">&quot;View convertable[map]- rerouting.&quot;</span><span class="delimiter">)</span>
+      <a href="#14036" title="(o: com.mongodb.casbah.Imports.DBObject)Option[com.mongodb.casbah.Imports.DBObject]">findOne</a><span class="delimiter">(</span><a href="Implicits.scala.html#9371" title="implicit com.mongodb.casbah.commons.Implicits.mapAsDBObject : (map: scala.collection.Map[String,Any])java.lang.Object{def asDBObject: com.mongodb.DBObject}">map</a>.<span title="=&gt; com.mongodb.DBObject">asDBObject</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+    <span title="Option[com.mongodb.DBObject]" class="keyword">case</span> _ =&gt; <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: Any)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#33395" title="java.lang.Object">obj</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/**
+   * Finds an object by its id. This compares the passed in value to the _id field of the document
+   * Because of the way we're using context and view bounds in Scala
+   * the broad match of this method can be problematic.
+   * I've put some hackery in to try to detect possible conversions....
+   * 
+   * @param obj any valid object
+   * @param fields fields to return
+   * @return the object, if found, otherwise &lt;code&gt;null&lt;/code&gt;
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="(obj: AnyRef,fields: com.mongodb.casbah.Imports.DBObject)Option[com.mongodb.casbah.Imports.DBObject]" id="14071">findOne</a><span class="delimiter">(</span><a title="AnyRef" id="33404">obj</a>: <span title="AnyRef">AnyRef</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="33405">fields</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span>: <span title="Option[com.mongodb.casbah.Imports.DBObject]">Option</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> =  <a href="#33404" title="AnyRef">obj</a> <span title="Option[com.mongodb.casbah.Imports.DBObject]" class="keyword">match</span> <span class="delimiter">{</span>
+
+    <span title="Option[com.mongodb.DBObject]" class="keyword">case</span> <a title="com.mongodb.casbah.Imports.MongoDBObject" id="33443">dbobj</a>: <span title="com.mongodb.casbah.Imports.MongoDBObject">MongoDBObject</span> =&gt; <span class="delimiter">{</span>
+      <a href="#9389" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(msg: =&gt; String)Unit">debug</span><span class="delimiter">(</span><span title="java.lang.String(&quot;View convertable[mongodbobject] - rerouting.&quot;)" class="string">&quot;View convertable[mongodbobject] - rerouting.&quot;</span><span class="delimiter">)</span>
+      <a href="#33126" title="(o: com.mongodb.casbah.commons.Imports.DBObject,fields: com.mongodb.casbah.Imports.DBObject)(implicit evidence$108: (com.mongodb.casbah.commons.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$109: Manifest[com.mongodb.casbah.commons.Imports.DBObject],implicit evidence$110: (com.mongodb.casbah.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$111: Manifest[com.mongodb.casbah.Imports.DBObject])Option[com.mongodb.DBObject]">findOneView</a><span title="&lt;:&lt;[com.mongodb.casbah.commons.Imports.DBObject,com.mongodb.casbah.commons.Imports.DBObject]" class="delimiter">(</span><a href="#33443" title="com.mongodb.casbah.Imports.MongoDBObject">dbobj</a>.<span title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">asDBObject</span>, <a href="#33405" title="com.mongodb.casbah.Imports.DBObject">fields</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+    <span title="Option[com.mongodb.DBObject]" class="keyword">case</span> <a title="Map[String,Any]" id="33523">map</a>: <span title="Map[String,Any]">Map</span><span class="delimiter">[</span>String, Any<span class="delimiter">]</span> =&gt; <span class="delimiter">{</span>
+      <a href="#9389" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(msg: =&gt; String)Unit">debug</span><span class="delimiter">(</span><span title="java.lang.String(&quot;View convertable[map]- rerouting.&quot;)" class="string">&quot;View convertable[map]- rerouting.&quot;</span><span class="delimiter">)</span>
+      <a href="#33126" title="(o: com.mongodb.DBObject,fields: com.mongodb.casbah.Imports.DBObject)(implicit evidence$108: (com.mongodb.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$109: Manifest[com.mongodb.DBObject],implicit evidence$110: (com.mongodb.casbah.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$111: Manifest[com.mongodb.casbah.Imports.DBObject])Option[com.mongodb.DBObject]">findOneView</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="Implicits.scala.html#9371" title="implicit com.mongodb.casbah.commons.Implicits.mapAsDBObject : (map: scala.collection.Map[String,Any])java.lang.Object{def asDBObject: com.mongodb.DBObject}">map</a>.<span title="=&gt; com.mongodb.DBObject">asDBObject</span>, <a href="#33405" title="com.mongodb.casbah.Imports.DBObject">fields</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+     <span title="Option[com.mongodb.DBObject]" class="keyword">case</span> _ =&gt; <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14456" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: Any,x$2: com.mongodb.DBObject)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#33404" title="AnyRef">obj</a>, <a href="#33405" title="com.mongodb.casbah.Imports.DBObject">fields</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.Imports.DBObject" id="14072">head</a> = <a href="#14073" title="=&gt; Option[com.mongodb.casbah.Imports.DBObject]">headOption</a>.<span title="=&gt; com.mongodb.casbah.Imports.DBObject">get</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Option[com.mongodb.casbah.Imports.DBObject]" id="14073">headOption</a> = <a href="#14035" title="()Option[com.mongodb.casbah.Imports.DBObject]">findOne</a>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; List[com.mongodb.casbah.Imports.DBObject]" id="14074">tail</a> = <a href="#14031" title="()com.mongodb.casbah.MongoCursor">find</a>.<a href="MongoCursor.scala.html#15138" title="(n: Int)com.mongodb.casbah.MongoCursor">skip</a><span class="delimiter">(</span><span title="Int(1)" class="int">1</span><span class="delimiter">)</span>.<span title="=&gt; List[com.mongodb.casbah.Imports.DBObject]">toList</span>
+
+
+  <span class="comment">/**
+   * write concern aware write op block.
+   *
+   * Guarantees that the operations in the passed
+   * block are executed in the same connection
+   * via requestStart() and requestDone().
+   * 
+   * Calls &amp;amp; throws getLastError afterwards,
+   * so if you run multiple ops you'll only get the final 
+   * error.
+   * 
+   * Your op function gets a copy of this MongoDB.
+   * 
+   * This is for update ops only - you cannot return data from it.
+   * 
+   * 
+   * @throws MongoException
+   */</span>
+  <span class="keyword">def</span> <a title="(op: (com.mongodb.casbah.MongoCollection) =&gt; Unit)Unit" id="14075">request</a><span class="delimiter">(</span><a title="(com.mongodb.casbah.MongoCollection) =&gt; Unit" id="33714">op</a>: MongoCollection =&gt; Unit<span class="delimiter">)</span> = <a href="#13892" title="()com.mongodb.casbah.MongoDB">getDB</a>.<a href="MongoDB.scala.html#13647" title="(op: (com.mongodb.casbah.MongoDB) =&gt; Unit)Unit">request</a><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoDB" id="33721">db</a> =&gt; <a href="#33714" title="(v1: com.mongodb.casbah.MongoCollection)Unit">op</a><span class="delimiter">(</span><a href="MongoDB.scala.html#13605" title="(collection: String)com.mongodb.casbah.MongoCollection">db</a><span class="delimiter">(</span><a href="#13898" title="=&gt; java.lang.String">name</a><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * A Generic, parameterized DBObject-subclass returning implementation of the &lt;code&gt;ScalaMongoCollectionWrapper&lt;/code&gt;
+ * This is instantiated with a type (and an implicitly discovered or explicitly passed Manifest object) to determine it's underlying type.
+ *
+ * It will attempt to deserialize *ALL* returned results (except for things like group and mapReduce which don't return collection objects)
+ * to it's type, on the assumption that the collection matches the type's spec.
+ *
+ *
+ * implements Iterable, to allow iterating directly over it to list all of the underlying objects.
+ *
+ * @author Brendan W. McAdams &lt;brendan@10gen.com&gt;
+ *
+ * @param A  type representing a DBObject subclass which this class should return instead of generic DBObjects
+ * @param underlying DBCollection object to proxy
+ */</span>
+<span class="keyword">class</span> <a title="class MongoTypedCollection[T &lt;: com.mongodb.casbah.Imports.DBObject] extends java.lang.Object with Iterable[T] with com.mongodb.casbah.MongoCollectionWrapper with ScalaObject" id="9390">MongoTypedCollection</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: com.mongodb.casbah.Imports.DBObject" id="9391">T</a> &lt;: DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">val</span> <a title="com.mongodb.DBCollection" id="14737">underlying</a>: com.mongodb.<span title="com.mongodb.DBCollection">DBCollection</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterable[T]">Iterable</span><span class="delimiter">[</span>T<span class="delimiter">]</span> 
+                                                                                       <span class="keyword">with</span> <a href="#9388" title="com.mongodb.casbah.MongoCollectionWrapper">MongoCollectionWrapper</a> <span class="delimiter">{</span>
+                                                                                     
+  <span class="keyword">type</span> <a title="T" id="14687">UnderlyingObj</a> = <a href="#9391" title="T">T</a>
+  <span class="keyword">val</span> <a title="Manifest[T]" id="14688">m</a> = <span title="[T](implicit m: Manifest[T])Manifest[T]">manifest</span><a href="#14685" title="(implicit m: Manifest[T])Manifest[T]" class="delimiter">[</a><a href="#9391" title="T">T</a><span class="delimiter">]</span>
+  <a href="#9390" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(msg: =&gt; String)Unit">debug</span><span class="delimiter">(</span><span title="(x$1: Any)java.lang.String" class="string">&quot;Manifest erasure: &quot;</span> + <a href="#14688" title="=&gt; Manifest[T]">m</a>.<span title="=&gt; Class[_]">erasure</span><span class="delimiter">)</span>
+  <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.lang.Class[_])Unit">setObjectClass</span><span class="delimiter">(</span><a href="#14688" title="=&gt; Manifest[T]">m</a>.<span title="=&gt; Class[_]">erasure</span><span class="delimiter">)</span>
+
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.MongoTypedCursor[T]" id="14690">elements</a> = <a href="#14692" title="()com.mongodb.casbah.MongoTypedCursor[T]">find</a>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.MongoTypedCursor[T]" id="14691">iterator</a> = <a href="#14692" title="()com.mongodb.casbah.MongoTypedCursor[T]">find</a>
+  <span class="comment">/** Queries for all objects in this collection. 
+   * @return a cursor which will iterate over every object
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.casbah.MongoTypedCursor[T]" id="14692">find</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<a href="Implicits.scala.html#10067" title="implicit com.mongodb.casbah.Implicits.mongoCursorAsScala : (cursor: com.mongodb.DBCursor)java.lang.Object{def asScala: com.mongodb.casbah.MongoCursor; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit evidence$1: Manifest[A]): com.mongodb.casbah.MongoTypedCursor[A]}">find</a>.<a href="Implicits.scala.html#18831" title="(implicit evidence$1: Manifest[T])com.mongodb.casbah.MongoTypedCursor[T]">asScalaTyped</a>
+  <span class="comment">/** Queries for an object in this collection.
+   * @param ref object for which to search
+   * @return an iterator over the results
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="(ref: com.mongodb.casbah.Imports.DBObject)com.mongodb.casbah.MongoTypedCursor[T]" id="14693">find</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="33813">ref</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBCursor">find</span><a href="Implicits.scala.html#10067" title="implicit com.mongodb.casbah.Implicits.mongoCursorAsScala : (cursor: com.mongodb.DBCursor)java.lang.Object{def asScala: com.mongodb.casbah.MongoCursor; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit evidence$1: Manifest[A]): com.mongodb.casbah.MongoTypedCursor[A]}" class="delimiter">(</a><a href="#33813" title="com.mongodb.casbah.Imports.DBObject">ref</a><span class="delimiter">)</span> <a href="Implicits.scala.html#18831" title="(implicit evidence$1: Manifest[T])com.mongodb.casbah.MongoTypedCursor[T]">asScalaTyped</a>
+  <span class="comment">/** Queries for an object in this collection.
+   *
+   * &lt;p&gt;
+   * An empty DBObject will match every document in the collection.
+   * Regardless of fields specified, the _id fields are always returned.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * An example that returns the &quot;x&quot; and &quot;_id&quot; fields for every document 
+   * in the collection that has an &quot;x&quot; field:
+   * &lt;/p&gt;
+   * &lt;blockquote&gt;&lt;pre&gt;
+   * BasicDBObject keys = new BasicDBObject();
+   * keys.put(&quot;x&quot;, 1);
+   *
+   * DBCursor cursor = collection.find(new BasicDBObject(), keys); 
+   * &lt;/pre&gt;&lt;/blockquote&gt;
+   *
+   * @param ref object for which to search
+   * @param keys fields to return
+   * @return a cursor to iterate over results
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="(ref: com.mongodb.casbah.Imports.DBObject,keys: com.mongodb.casbah.Imports.DBObject)com.mongodb.casbah.MongoTypedCursor[T]" id="14694">find</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="33840">ref</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="33841">keys</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.DBCursor">find</span><a href="Implicits.scala.html#10067" title="implicit com.mongodb.casbah.Implicits.mongoCursorAsScala : (cursor: com.mongodb.DBCursor)java.lang.Object{def asScala: com.mongodb.casbah.MongoCursor; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit evidence$1: Manifest[A]): com.mongodb.casbah.MongoTypedCursor[A]}" class="delimiter">(</a><a href="#33840" title="com.mongodb.casbah.Imports.DBObject">ref</a>, <a href="#33841" title="com.mongodb.casbah.Imports.DBObject">keys</a><span class="delimiter">)</span> <a href="Implicits.scala.html#18831" title="(implicit evidence$1: Manifest[T])com.mongodb.casbah.MongoTypedCursor[T]">asScalaTyped</a>
+  <span class="comment">/** Finds an object.
+   * @param ref query used to search
+   * @param fields the fields of matching objects to return
+   * @param numToSkip will not return the first &lt;tt&gt;numToSkip&lt;/tt&gt; matches
+   * @param batchSize if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize &lt; 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch
+   * @param options - see Bytes QUERYOPTION_*
+   * @return the objects, if found
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="(ref: com.mongodb.casbah.Imports.DBObject,fields: com.mongodb.casbah.Imports.DBObject,numToSkip: Int,batchSize: Int)com.mongodb.casbah.MongoTypedCursor[T]" id="14695">find</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="33873">ref</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="33874">fields</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="Int" id="33875">numToSkip</a>: <span title="Int">Int</span>, <a title="Int" id="33876">batchSize</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: Int,x$4: Int)com.mongodb.DBCursor">find</span><a href="Implicits.scala.html#10067" title="implicit com.mongodb.casbah.Implicits.mongoCursorAsScala : (cursor: com.mongodb.DBCursor)java.lang.Object{def asScala: com.mongodb.casbah.MongoCursor; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit evidence$1: Manifest[A]): com.mongodb.casbah.MongoTypedCursor[A]}" class="delimiter">(</a><a href="#33873" title="com.mongodb.casbah.Imports.DBObject">ref</a>, <a href="#33874" title="com.mongodb.casbah.Imports.DBObject">fields</a>, <a href="#33875" title="Int">numToSkip</a>, <a href="#33876" title="Int">batchSize</a><span class="delimiter">)</span> <a href="Implicits.scala.html#18831" title="(implicit evidence$1: Manifest[T])com.mongodb.casbah.MongoTypedCursor[T]">asScalaTyped</a>
+ <span class="comment">/** 
+   * Returns a single object from this collection.
+   * @return the object found, or &lt;code&gt;null&lt;/code&gt; if the collection is empty
+   */</span>
+  <span class="keyword">def</span> <a title="()Option[T]" id="14696">findOne</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: T)(implicit evidence$1: (T) =&gt; com.mongodb.DBObject)Option[T]">optWrap</a><span title="&lt;:&lt;[T,T]" class="delimiter">(</span><a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span><span class="delimiter">)</span>
+  <span class="comment">/** 
+   * Returns a single object from this collection matching the query.
+   * @param o the query object
+   * @return the object found, or &lt;code&gt;null&lt;/code&gt; if no such object exists
+   */</span>
+  <span class="keyword">def</span> <a title="(o: com.mongodb.casbah.Imports.DBObject)Option[T]" id="14697">findOne</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="33937">o</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: T)(implicit evidence$1: (T) =&gt; com.mongodb.DBObject)Option[T]">optWrap</a><span title="&lt;:&lt;[T,T]" class="delimiter">(</span><a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#33937" title="com.mongodb.casbah.Imports.DBObject">o</a><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span><span class="delimiter">)</span>
+  <span class="comment">/**
+   * Returns a single object from this collection matching the query.
+   * @param o the query object
+   * @param fields fields to return
+   * @return the object found, or &lt;code&gt;null&lt;/code&gt; if no such object exists
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="(o: com.mongodb.casbah.Imports.DBObject,fields: com.mongodb.casbah.Imports.DBObject)Option[T]" id="14698">findOne</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="33960">o</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="33961">fields</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: T)(implicit evidence$1: (T) =&gt; com.mongodb.DBObject)Option[T]">optWrap</a><span title="&lt;:&lt;[T,T]" class="delimiter">(</span><a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#33960" title="com.mongodb.casbah.Imports.DBObject">o</a>, <a href="#33961" title="com.mongodb.casbah.Imports.DBObject">fields</a><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span><span class="delimiter">)</span>
+  <span class="comment">/**
+   * Finds an object by its id.  
+   * This compares the passed in value to the _id field of the document
+   * 
+   * @param obj any valid object
+   * @return the object, if found, otherwise &lt;code&gt;null&lt;/code&gt;
+   */</span>
+  <span class="keyword">def</span> <a title="(obj: java.lang.Object)Option[T]" id="14699">findOne</a><span class="delimiter">(</span><a title="java.lang.Object" id="33989">obj</a>: <span title="java.lang.Object">Object</span><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: T)(implicit evidence$1: (T) =&gt; com.mongodb.DBObject)Option[T]">optWrap</a><span title="&lt;:&lt;[T,T]" class="delimiter">(</span><a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: Any)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#33989" title="java.lang.Object">obj</a><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span><span class="delimiter">)</span>
+ <span class="comment">/**
+   * Finds an object by its id.  
+   * This compares the passed in value to the _id field of the document
+   * 
+   * @param obj any valid object
+   * @param fields fields to return
+   * @return the object, if found, otherwise &lt;code&gt;null&lt;/code&gt;
+   * @dochub find
+   */</span>
+  <span class="keyword">def</span> <a title="(obj: java.lang.Object,fields: com.mongodb.casbah.Imports.DBObject)Option[T]" id="14700">findOne</a><span class="delimiter">(</span><a title="java.lang.Object" id="34012">obj</a>: <span title="java.lang.Object">Object</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="34013">fields</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: T)(implicit evidence$1: (T) =&gt; com.mongodb.DBObject)Option[T]">optWrap</a><span title="&lt;:&lt;[T,T]" class="delimiter">(</span><a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: Any,x$2: com.mongodb.DBObject)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#34012" title="java.lang.Object">obj</a>, <a href="#34013" title="com.mongodb.casbah.Imports.DBObject">fields</a><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Finds the first document in the query (sorted) and updates it. 
+   * If remove is specified it will be removed. If new is specified then the updated 
+   * document will be returned, otherwise the old document is returned (or it would be lost forever).
+   * You can also specify the fields to return in the document, optionally.
+   * @return the found document (before, or after the update)
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B](query: A,update: B)(implicit evidence$133: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$134: Manifest[A],implicit evidence$135: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$136: Manifest[B])T" id="34046">findAndModify</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14704">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14705">B</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="34041">query</a>: <a href="#14704" title="A">A</a>, <a title="B" id="34042">update</a>: <a href="#14705" title="B">B</a><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.DBObject">findAndModify</span><span class="delimiter">(</span><a href="#34046" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#34046" title="(v1: B)com.mongodb.casbah.Imports.DBObject">update</a><span class="delimiter">)</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span>
+  <span class="comment">/**
+   * Finds the first document in the query (sorted) and updates it. 
+   * @return the old document
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B, C](query: A,sort: B,update: C)(implicit evidence$137: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$138: Manifest[A],implicit evidence$139: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$140: Manifest[B],implicit evidence$141: (C) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$142: Manifest[C])T" id="34092">findAndModify</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14710">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14711">B</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14712">C</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="34084">query</a>: <a href="#14710" title="A">A</a>, <a title="B" id="34085">sort</a>: <a href="#14711" title="B">B</a>, <a title="C" id="34086">update</a>: <a href="#14712" title="C">C</a><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: com.mongodb.DBObject)com.mongodb.DBObject">findAndModify</span><span class="delimiter">(</span><a href="#34092" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#34092" title="(v1: B)com.mongodb.casbah.Imports.DBObject">sort</a>, <a href="#34092" title="(v1: C)com.mongodb.casbah.Imports.DBObject">update</a><span class="delimiter">)</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span>
+  <span class="comment">/**
+   * Finds the first document in the query and updates it. 
+   * @return the old document
+   */</span>
+  <span class="keyword">def</span> <a title="[A, B, C, D](query: A,fields: B,sort: C,remove: Boolean,update: D,returnNew: Boolean,upsert: Boolean)(implicit evidence$143: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$144: Manifest[A],implicit evidence$145: (B) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$146: Manifest[B],implicit evidence$147: (C) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$148: Manifest[C],implicit evidence$149: (D) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$150: Manifest[D])T" id="34155">findAndModify</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14718">A</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14719">B</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14720">C</a> &lt;% DBObject : Manifest, <a title="&gt;: Nothing &lt;: Any" id="14721">D</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span>
+    <a title="A" id="34141">query</a>: <a href="#14718" title="A">A</a>, <a title="B" id="34142">fields</a>: <a href="#14719" title="B">B</a>, <a title="C" id="34143">sort</a>: <a href="#14720" title="C">C</a>, <a title="Boolean" id="34144">remove</a>: <span title="Boolean">Boolean</span>, <a title="D" id="34145">update</a>: <a href="#14721" title="D">D</a>, <a title="Boolean" id="34146">returnNew</a>: <span title="Boolean">Boolean</span>, <a title="Boolean" id="34147">upsert</a>: <span title="Boolean">Boolean</span>
+  <span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: com.mongodb.DBObject,x$4: Boolean,x$5: com.mongodb.DBObject,x$6: Boolean,x$7: Boolean)com.mongodb.DBObject">findAndModify</span><span class="delimiter">(</span><a href="#34155" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#34155" title="(v1: B)com.mongodb.casbah.Imports.DBObject">fields</a>, <a href="#34155" title="(v1: C)com.mongodb.casbah.Imports.DBObject">sort</a>, <a href="#34144" title="Boolean">remove</a>, <a href="#34155" title="(v1: D)com.mongodb.casbah.Imports.DBObject">update</a>, <a href="#34146" title="Boolean">returnNew</a>, <a href="#34147" title="Boolean">upsert</a><span class="delimiter">)</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * Finds the first document in the query and removes it. 
+   * @return the removed document
+   */</span>
+  <span class="keyword">def</span> <a title="[A](query: A)(implicit evidence$151: (A) =&gt; com.mongodb.casbah.Imports.DBObject,implicit evidence$152: Manifest[A])T" id="34220">findAndRemove</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14724">A</a> &lt;% DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="34218">query</a>: <a href="#14724" title="A">A</a><span class="delimiter">)</span> = <a href="Implicits.scala.html#9371" title="(obj: com.mongodb.DBObject)(implicit evidence$1: (com.mongodb.DBObject) =&gt; com.mongodb.DBObject)Option[com.mongodb.DBObject]">optWrap</a><span title="&lt;:&lt;[com.mongodb.DBObject,com.mongodb.DBObject]" class="delimiter">(</span><a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBObject">findAndRemove</span><span class="delimiter">(</span><a href="#34220" title="(v1: A)com.mongodb.casbah.Imports.DBObject">query</a><span class="delimiter">)</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span>
+
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; T" id="14725">head</a> = <a href="#14696" title="()Option[T]">findOne</a>.<span title="=&gt; T">get</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Some[T]" id="14726">headOption</a> = <span title="(x: T)Some[T]">Some</span><span class="delimiter">(</span><a href="#14696" title="()Option[T]">findOne</a>.<span title="=&gt; T">get</span>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span><span class="delimiter">)</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; List[T]" id="14727">tail</a> = <a href="#14692" title="()com.mongodb.casbah.MongoTypedCursor[T]">find</a>.<a href="MongoCursor.scala.html#15222" title="(n: Int)com.mongodb.casbah.MongoTypedCursor[T]">skip</a><span class="delimiter">(</span><span title="Int(1)" class="int">1</span><span class="delimiter">)</span>.<span title="(f: (T) =&gt; T)Iterator[T]">map</span><span class="delimiter">(</span><a href="#34298" title="T">_</a>.<span title="[T0]T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#9391" title="T">T</a><span class="delimiter">]</span><span class="delimiter">)</span>.<span title="=&gt; List[T]">toList</span>
+
+  <span class="keyword">def</span> <a title="(lst: List[com.mongodb.casbah.Imports.DBObject])Unit" id="14728">setHintFields</a><span class="delimiter">(</span><a title="List[com.mongodb.casbah.Imports.DBObject]" id="34301">lst</a>: <span title="List[com.mongodb.casbah.Imports.DBObject]">List</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.util.List[com.mongodb.DBObject])Unit">setHintFields</span><span class="delimiter">(</span><a href="#34301" title="(underlying: Seq[com.mongodb.casbah.Imports.DBObject])scalaj.collection.s2j.RichSeq[com.mongodb.casbah.Imports.DBObject]">lst</a>.<span title="(implicit c: scalaj.collection.s2j.Coercible[com.mongodb.casbah.Imports.DBObject,com.mongodb.DBObject])java.util.List[com.mongodb.DBObject]">asJava</span><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="[A &lt;: com.mongodb.casbah.Imports.DBObject](c: Class[A])(implicit evidence$153: Manifest[A])com.mongodb.casbah.MongoTypedCollection[A]" id="34384">setObjectClass</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: com.mongodb.casbah.Imports.DBObject" id="14731">A</a> &lt;: DBObject : Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="Class[A]" id="34383">c</a>: <span title="Class[A]">Class</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.lang.Class[_])Unit">setObjectClass</span><span class="delimiter">(</span><a href="#34383" title="Class[A]">c</a><span class="delimiter">)</span>
+    <a href="#34384" title="com.mongodb.casbah.MongoTypedCollection[A]" class="keyword">new</a> <a href="#9390" title="com.mongodb.casbah.MongoTypedCollection[A]">MongoTypedCollection</a><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">(</span><a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="14732">toString</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()java.lang.String">toString</span>
+
+  <span class="keyword">def</span> <a title="(q: com.mongodb.casbah.Imports.DBObject,o: com.mongodb.casbah.Imports.DBObject)com.mongodb.WriteResult" id="14733">update</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="34397">q</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="34398">o</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.WriteResult">update</span><span class="delimiter">(</span><a href="#34397" title="com.mongodb.casbah.Imports.DBObject">q</a>, <a href="#34398" title="com.mongodb.casbah.Imports.DBObject">o</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(q: com.mongodb.casbah.Imports.DBObject,o: com.mongodb.casbah.Imports.DBObject,upsert: Boolean,multi: Boolean)com.mongodb.WriteResult" id="14734">update</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="34406">q</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="34407">o</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="Boolean" id="34408">upsert</a>: <span title="Boolean">Boolean</span>, <a title="Boolean" id="34409">multi</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> = <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject,x$3: Boolean,x$4: Boolean)com.mongodb.WriteResult">update</span><span class="delimiter">(</span><a href="#34406" title="com.mongodb.casbah.Imports.DBObject">q</a>, <a href="#34407" title="com.mongodb.casbah.Imports.DBObject">o</a>, <a href="#34408" title="Boolean">upsert</a>, <a href="#34409" title="Boolean">multi</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(q: com.mongodb.casbah.Imports.DBObject,o: com.mongodb.casbah.Imports.DBObject)com.mongodb.WriteResult" id="14735">updateMulti</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="34417">q</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="34418">o</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject,x$2: com.mongodb.DBObject)com.mongodb.WriteResult">updateMulti</span><span class="delimiter">(</span><a href="#34417" title="com.mongodb.casbah.Imports.DBObject">q</a>, <a href="#34418" title="com.mongodb.casbah.Imports.DBObject">o</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Checks if this collection is equal to another object.
+   * @param o object with which to compare this collection
+   * @return if the two collections are the same object
+   */</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(obj: Any)Boolean" id="14736">equals</a><span class="delimiter">(</span><a title="Any" id="34422">obj</a>: <span title="Any">Any</span><span class="delimiter">)</span> = <a href="#34422" title="Any">obj</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span title="Boolean" class="keyword">case</span> <a title="com.mongodb.casbah.MongoCollectionWrapper" id="34425">other</a>: <a href="#9388" title="com.mongodb.casbah.MongoCollectionWrapper">MongoCollectionWrapper</a> =&gt; <a href="#14737" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: Any)Boolean">equals</span><span class="delimiter">(</span><a href="#34425" title="com.mongodb.casbah.MongoCollectionWrapper">other</a>.<a href="#13838" title="=&gt; com.mongodb.DBCollection">underlying</a><span class="delimiter">)</span>
+    <span title="Boolean(false)" class="keyword">case</span> _ =&gt; <span title="Boolean(false)" class="keyword">false</span>
+  <span class="delimiter">}</span>
+
+
+
+  
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

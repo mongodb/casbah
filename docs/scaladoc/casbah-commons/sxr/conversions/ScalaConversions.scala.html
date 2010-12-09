@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>conversions/ScalaConversions.scala</title>
+        <script type="text/javascript" src="../jquery-all.js"></script>
+        <script type="text/javascript" src="../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. &lt;http://novus.com&gt;
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah.commons
+<span class="keyword">package</span> conversions
+<span class="keyword">package</span> scala
+
+<span class="keyword">import</span> com.mongodb.casbah.commons.<a href="../Implicits.scala.html#9368" title="object com.mongodb.casbah.commons.Imports">Imports</a>._
+<span class="keyword">import</span> com.mongodb.casbah.commons.Logging 
+
+<span class="keyword">import</span> org.bson.<span class="delimiter">{</span>BSON, Transformer<span class="delimiter">}</span>
+
+<span class="keyword">import</span> org.scala_tools.time.<span title="object org.scala_tools.time.Imports">Imports</span>._
+
+<span class="comment">/** 
+ * &quot; Register&quot; Object, calls the registration methods.
+ * 
+ * By default does not include JodaDateTime as this may be undesired behavior.
+ * If you want JodaDateTime support, please use the RegisterJodaTimeConversionHelpers Object
+ * 
+ * @author Brendan W. McAdams &lt;brendan@10gen.com&gt;
+ * @since 1.0
+ * @see RegisterJodaTimeConversionHelpers
+ */</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.conversions.scala.RegisterConversionHelpers" id="9515">RegisterConversionHelpers</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#9520" title="com.mongodb.casbah.commons.conversions.scala.Serializers">Serializers</a>
+                                    <span class="keyword">with</span> <a href="#9519" title="com.mongodb.casbah.commons.conversions.scala.Deserializers">Deserializers</a>  <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="()Unit" id="21080">apply</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Registering Scala Conversions.&quot;)" class="string">&quot;Registering Scala Conversions.&quot;</span><span class="delimiter">)</span>
+    <span class="keyword">super</span>.<a href="#21090" title="()Unit">register</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/** 
+ * &quot;DeRegister&quot; Object, calls the unregistration methods.
+ * 
+ * @author Brendan W. McAdams &lt;brendan@10gen.com&gt;
+ * @since 1.0
+ */</span>
+@deprecated<span class="delimiter">(</span><span class="string">&quot;Be VERY careful using this - it will remove ALL of Casbah's loaded BSON Encoding &amp; Decoding hooks at runtime. If you need to clear Joda Time use DeregisterJodaTimeConversionHelpers.&quot;</span><span class="delimiter">)</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.conversions.scala.DeregisterConversionHelpers" id="9517">DeregisterConversionHelpers</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#9520" title="com.mongodb.casbah.commons.conversions.scala.Serializers">Serializers</a>
+                                     <span class="keyword">with</span> <a href="#9519" title="com.mongodb.casbah.commons.conversions.scala.Deserializers">Deserializers</a> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="()Unit" id="32241">apply</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Deregistering Scala Conversions.&quot;)" class="string">&quot;Deregistering Scala Conversions.&quot;</span><span class="delimiter">)</span>
+    <span class="comment">// TODO - Figure out how to clear specific hooks as this clobbers everything.</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22477" title="(msg: =&gt; String)Unit">warning</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Clobbering Casbah's Registered BSON Type Hooks (EXCEPT Joda Time).  Reregister any specific ones you may need.&quot;)" class="string">&quot;Clobbering Casbah's Registered BSON Type Hooks (EXCEPT Joda Time).  Reregister any specific ones you may need.&quot;</span><span class="delimiter">)</span>
+    <span class="keyword">super</span>.<a href="#21091" title="()Unit">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/** 
+ * Converters for reading Scala types from MongoDB
+ *
+ * These should be setup in a way which requires
+ * an explicit invocation / registration of individual
+ * deserializers, else unexpected behavior will occur.
+ *
+ * Because it's likely to be controversial, JodaDateTime is NOT mixed in by default.
+ *
+ * @author Brendan W. McAdams &lt;brendan@10gen.com&gt;
+ * @since 1.0
+ */</span>
+<span class="keyword">trait</span> <a title="trait Deserializers extends java.lang.Object with com.mongodb.casbah.commons.conversions.MongoConversionHelper with ScalaObject" id="9519">Deserializers</a> <span title="ScalaObject" class="keyword">extends</span> <a href="Helpers.scala.html#9432" title="com.mongodb.casbah.commons.conversions.MongoConversionHelper">MongoConversionHelper</a> <span class="delimiter">{</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="21090">register</a><span class="delimiter">(</span><span class="delimiter">)</span> =  <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Deserializers for Scala Conversions registering&quot;)" class="string">&quot;Deserializers for Scala Conversions registering&quot;</span><span class="delimiter">)</span>
+    <a href="#32497" title="()Unit" class="keyword">super</a>.<a title="()Unit" id="32497">register</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="21091">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#32498" title="()Unit" class="keyword">super</a>.<a title="()Unit" id="32498">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/** 
+ * Converters for saving Scala types to MongoDB
+ *
+ * For the most part these are 'safe' to enable automatically,
+ * as they won't break existing code.
+ * Be very careful with the deserializers however as they can come with
+ * unexpected behavior.
+ *
+ * Because it's likely to be controversial, JodaDateTime is NOT mixed in by default.
+ *
+ * @author Brendan W. McAdams &lt;brendan@10gen.com&gt;
+ * @since 1.0
+ */</span>
+<span class="keyword">trait</span> <a title="trait Serializers extends java.lang.Object with com.mongodb.casbah.commons.conversions.MongoConversionHelper with com.mongodb.casbah.commons.conversions.scala.ScalaRegexSerializer with com.mongodb.casbah.commons.conversions.scala.ScalaJCollectionSerializer with ScalaObject" id="9520">Serializers</a> <span title="ScalaObject" class="keyword">extends</span> <a href="Helpers.scala.html#9432" title="com.mongodb.casbah.commons.conversions.MongoConversionHelper">MongoConversionHelper</a> 
+                     <span class="keyword">with</span> <a href="#9528" title="com.mongodb.casbah.commons.conversions.scala.ScalaRegexSerializer">ScalaRegexSerializer</a> 
+                     <span class="keyword">with</span> <a href="#9529" title="com.mongodb.casbah.commons.conversions.scala.ScalaJCollectionSerializer">ScalaJCollectionSerializer</a> <span class="delimiter">{</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="21077">register</a><span class="delimiter">(</span><span class="delimiter">)</span> =  <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Serializers for Scala Conversions registering&quot;)" class="string">&quot;Serializers for Scala Conversions registering&quot;</span><span class="delimiter">)</span>
+    <a href="#32499" title="()Unit" class="keyword">super</a>.<a title="()Unit" id="32499">register</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="21078">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#32500" title="()Unit" class="keyword">super</a>.<a title="()Unit" id="32500">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.conversions.scala.RegisterJodaTimeConversionHelpers" id="9521">RegisterJodaTimeConversionHelpers</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#9525" title="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeHelpers">JodaDateTimeHelpers</a> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="()Unit" id="32281">apply</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Registering  Joda Time Scala Conversions.&quot;)" class="string">&quot;Registering  Joda Time Scala Conversions.&quot;</span><span class="delimiter">)</span>
+    <span class="keyword">super</span>.<a href="#32288" title="()Unit">register</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.conversions.scala.DeregisterJodaTimeConversionHelpers" id="9523">DeregisterJodaTimeConversionHelpers</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#9525" title="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeHelpers">JodaDateTimeHelpers</a> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="()Unit" id="32438">apply</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Unregistering Joda Time Scala Conversions.&quot;)" class="string">&quot;Unregistering Joda Time Scala Conversions.&quot;</span><span class="delimiter">)</span>
+    <span class="keyword">super</span>.<a href="#32289" title="()Unit">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait JodaDateTimeHelpers extends java.lang.Object with com.mongodb.casbah.commons.conversions.scala.JodaDateTimeSerializer with com.mongodb.casbah.commons.conversions.scala.JodaDateTimeDeserializer" id="9525">JodaDateTimeHelpers</a> <span class="keyword">extends</span> <a href="#9526" title="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeSerializer">JodaDateTimeSerializer</a> <span class="keyword">with</span> <a href="#9527" title="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeDeserializer">JodaDateTimeDeserializer</a> 
+
+<span class="keyword">trait</span> <a title="trait JodaDateTimeSerializer extends java.lang.Object with com.mongodb.casbah.commons.conversions.MongoConversionHelper with ScalaObject" id="9526">JodaDateTimeSerializer</a> <span title="ScalaObject" class="keyword">extends</span> <a href="Helpers.scala.html#9432" title="com.mongodb.casbah.commons.conversions.MongoConversionHelper">MongoConversionHelper</a> <span class="delimiter">{</span>
+
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="java.lang.Class[org.scala_tools.time.Imports.DateTime]" id="32274">encodeType</a> = classOf<span title="java.lang.Class[org.scala_tools.time.Imports.DateTime](classOf[org.joda.time.DateTime])" class="delimiter">[</span>DateTime<span class="delimiter">]</span>
+  <span class="comment">/** Encoding hook for MongoDB To be able to persist JodaDateTime DateTime to MongoDB */</span>
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="&lt;refinement&gt; extends java.lang.Object with org.bson.Transformer" id="32276">transformer</a> = <a href="#32411" title="java.lang.Object with org.bson.Transformer" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with org.bson.Transformer" id="32411">Transformer</a> <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22462" title="(msg: =&gt; String)Unit">trace</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Encoding a JodaDateTime DateTime.&quot;)" class="string">&quot;Encoding a JodaDateTime DateTime.&quot;</span><span class="delimiter">)</span>
+
+    <span class="keyword">def</span> <a title="(o: AnyRef)AnyRef" id="32413">transform</a><span class="delimiter">(</span><a title="AnyRef" id="32414">o</a>: <span title="AnyRef">AnyRef</span><span class="delimiter">)</span>: <span title="AnyRef">AnyRef</span> = <a href="#32414" title="AnyRef">o</a> <span title="AnyRef" class="keyword">match</span> <span class="delimiter">{</span>
+      <span title="java.util.Date" class="keyword">case</span> <a title="org.scala_tools.time.Imports.DateTime" id="32422">d</a>: <span title="org.scala_tools.time.Imports.DateTime">DateTime</span> =&gt; <a href="#32422" title="org.scala_tools.time.Imports.DateTime">d</a>.<span title="()java.util.Date">toDate</span> <span class="comment">// Return a JDK Date object which BSON can encode</span>
+      <span title="AnyRef" class="keyword">case</span> _ =&gt; <a href="#32414" title="AnyRef">o</a>
+    <span class="delimiter">}</span>
+       
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="32278">register</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Hooking up Joda DateTime serializer.&quot;)" class="string">&quot;Hooking up Joda DateTime serializer.&quot;</span><span class="delimiter">)</span>
+    <span class="comment">/** Encoding hook for MongoDB To be able to persist JodaDateTime DateTime to MongoDB */</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span><a href="#32274" title="=&gt; java.lang.Class[org.scala_tools.time.Imports.DateTime]">encodeType</a>, <a href="#32276" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <a href="#32501" title="()Unit" class="keyword">super</a>.<a title="()Unit" id="32501">register</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="32279">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;De-registering Joda DateTime serializer.&quot;)" class="string">&quot;De-registering Joda DateTime serializer.&quot;</span><span class="delimiter">)</span>
+    org.bson.<a href="MonkeyPatches.scala.html#9502" title="object org.bson.BSONEncoders">BSONEncoders</a>.<a href="MonkeyPatches.scala.html#32098" title="(encodeType: Class[_])Any">remove</a><span class="delimiter">(</span><a href="#32274" title="=&gt; java.lang.Class[org.scala_tools.time.Imports.DateTime]">encodeType</a><span class="delimiter">)</span>
+    <a href="#32502" title="()Unit" class="keyword">super</a>.<a title="()Unit" id="32502">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait JodaDateTimeDeserializer extends java.lang.Object with com.mongodb.casbah.commons.conversions.MongoConversionHelper with ScalaObject" id="9527">JodaDateTimeDeserializer</a> <span title="ScalaObject" class="keyword">extends</span> <a href="Helpers.scala.html#9432" title="com.mongodb.casbah.commons.conversions.MongoConversionHelper">MongoConversionHelper</a> <span class="delimiter">{</span>
+
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="java.lang.Class[java.util.Date]" id="32284">encodeType</a> = classOf<span title="java.lang.Class[java.util.Date](classOf[java.util.Date])" class="delimiter">[</span>java.util.Date<span class="delimiter">]</span>
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="&lt;refinement&gt; extends java.lang.Object with org.bson.Transformer" id="32286">transformer</a> = <a href="#32375" title="java.lang.Object with org.bson.Transformer" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with org.bson.Transformer" id="32375">Transformer</a> <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22462" title="(msg: =&gt; String)Unit">trace</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Decoding JDK Dates .&quot;)" class="string">&quot;Decoding JDK Dates .&quot;</span><span class="delimiter">)</span>
+
+    <span class="keyword">def</span> <a title="(o: AnyRef)AnyRef" id="32377">transform</a><span class="delimiter">(</span><a title="AnyRef" id="32378">o</a>: <span title="AnyRef">AnyRef</span><span class="delimiter">)</span>: <span title="AnyRef">AnyRef</span> = <a href="#32378" title="AnyRef">o</a> <span title="AnyRef" class="keyword">match</span> <span class="delimiter">{</span>
+      <span title="org.joda.time.DateTime" class="keyword">case</span> <a title="java.util.Date" id="32386">jdkDate</a>: java.util.<span title="java.util.Date">Date</span> =&gt; <span title="(x$1: Any)org.joda.time.DateTime" class="keyword">new</span> <span title="org.joda.time.DateTime">DateTime</span><span class="delimiter">(</span><a href="#32386" title="java.util.Date">jdkDate</a><span class="delimiter">)</span>
+      <span title="org.scala_tools.time.Imports.DateTime" class="keyword">case</span> <a title="org.scala_tools.time.Imports.DateTime" id="32392">d</a>: <span title="org.scala_tools.time.Imports.DateTime">DateTime</span> =&gt; <a href="#32392" title="org.scala_tools.time.Imports.DateTime">d</a>
+      <span title="AnyRef" class="keyword">case</span> _ =&gt; <a href="#32378" title="AnyRef">o</a>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="32288">register</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Hooking up Joda DateTime deserializer&quot;)" class="string">&quot;Hooking up Joda DateTime deserializer&quot;</span><span class="delimiter">)</span>
+    <span class="comment">/** Encoding hook for MongoDB To be able to read JodaDateTime DateTime from MongoDB's BSON Date */</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addDecodingHook</span><span class="delimiter">(</span><a href="#32284" title="=&gt; java.lang.Class[java.util.Date]">encodeType</a>, <a href="#32286" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <a href="#32503" title="()Unit" class="keyword">super</a>.<a title="()Unit" id="32503">register</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="32289">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;De-registering Joda DateTime dserializer.&quot;)" class="string">&quot;De-registering Joda DateTime dserializer.&quot;</span><span class="delimiter">)</span>
+    org.bson.<a href="MonkeyPatches.scala.html#9504" title="object org.bson.BSONDecoders">BSONDecoders</a>.<a href="MonkeyPatches.scala.html#32168" title="(decodeType: Class[_])Any">remove</a><span class="delimiter">(</span><a href="#32284" title="=&gt; java.lang.Class[java.util.Date]">encodeType</a><span class="delimiter">)</span>
+    <a href="#32504" title="()Unit" class="keyword">super</a>.<a title="()Unit" id="32504">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+  
+<span class="keyword">trait</span> <a title="trait ScalaRegexSerializer extends java.lang.Object with com.mongodb.casbah.commons.conversions.MongoConversionHelper with ScalaObject" id="9528">ScalaRegexSerializer</a> <span title="ScalaObject" class="keyword">extends</span> <a href="Helpers.scala.html#9432" title="com.mongodb.casbah.commons.conversions.MongoConversionHelper">MongoConversionHelper</a> <span class="delimiter">{</span>
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="&lt;refinement&gt; extends java.lang.Object with org.bson.Transformer" id="21082">transformer</a> = <a href="#27249" title="java.lang.Object with org.bson.Transformer" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with org.bson.Transformer" id="27249">Transformer</a> <span class="delimiter">{</span> 
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22462" title="(msg: =&gt; String)Unit">trace</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Encoding a Scala RegEx.&quot;)" class="string">&quot;Encoding a Scala RegEx.&quot;</span><span class="delimiter">)</span>
+
+    <span class="keyword">def</span> <a title="(o: AnyRef)AnyRef" id="27251">transform</a><span class="delimiter">(</span><a title="AnyRef" id="27252">o</a>: <span title="AnyRef">AnyRef</span><span class="delimiter">)</span>: <span title="AnyRef">AnyRef</span> = <a href="#27252" title="AnyRef">o</a> <span title="AnyRef" class="keyword">match</span> <span class="delimiter">{</span>
+      <span title="java.util.regex.Pattern" class="keyword">case</span> <a title="scala.util.matching.Regex" id="27274">sRE</a>: _root_.scala.util.matching.<span title="scala.util.matching.Regex">Regex</span> =&gt; <a href="#27274" title="scala.util.matching.Regex">sRE</a>.<span title="=&gt; java.util.regex.Pattern">pattern</span>
+      <span title="AnyRef" class="keyword">case</span> _ =&gt; <a href="#27252" title="AnyRef">o</a>
+    <span class="delimiter">}</span>
+       
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="21084">register</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Setting up ScalaRegexSerializers&quot;)" class="string">&quot;Setting up ScalaRegexSerializers&quot;</span><span class="delimiter">)</span>
+
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Hooking up scala.util.matching.Regex serializer&quot;)" class="string">&quot;Hooking up scala.util.matching.Regex serializer&quot;</span><span class="delimiter">)</span>
+    <span class="comment">/** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[scala.util.matching.Regex](classOf[scala.util.matching.Regex])" class="delimiter">[</span>_root_.scala.util.matching.Regex<span class="delimiter">]</span>, <a href="#21082" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+
+    <a href="#32505" title="()Unit" class="keyword">super</a>.<a title="()Unit" id="32505">register</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+
+
+<span class="comment">/**
+ * Implementation which is aware of the possible conversions in scalaj-collection and attempts to Leverage it...
+ * Not all of these may be serializable by Mongo However... this is a first pass attempt at moving them to Java types
+ */</span>
+<span class="keyword">trait</span> <a title="trait ScalaJCollectionSerializer extends java.lang.Object with com.mongodb.casbah.commons.conversions.MongoConversionHelper with ScalaObject" id="9529">ScalaJCollectionSerializer</a> <span title="ScalaObject" class="keyword">extends</span> <a href="Helpers.scala.html#9432" title="com.mongodb.casbah.commons.conversions.MongoConversionHelper">MongoConversionHelper</a> <span class="delimiter">{</span>
+  
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="&lt;refinement&gt; extends java.lang.Object with org.bson.Transformer" id="21086">transformer</a> = <a href="#22699" title="java.lang.Object with org.bson.Transformer" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with org.bson.Transformer" id="22699">Transformer</a> <span class="delimiter">{</span>
+    <span class="keyword">import</span> scalaj.collection.<span title="object scalaj.collection.Imports">Imports</span>._
+
+    <span class="keyword">def</span> <a title="(o: AnyRef)AnyRef" id="22702">transform</a><span class="delimiter">(</span><a title="AnyRef" id="22703">o</a>: <span title="AnyRef">AnyRef</span><span class="delimiter">)</span>: <span title="AnyRef">AnyRef</span> = <a href="#22703" title="AnyRef">o</a> <span title="AnyRef" class="keyword">match</span> <span class="delimiter">{</span>
+      <span title="com.mongodb.casbah.commons.Imports.DBObject" class="keyword">case</span> <a title="com.mongodb.casbah.commons.Imports.MongoDBObject" id="22708">mdbo</a>: <a href="../MongoDBObject.scala.html#9416" title="com.mongodb.casbah.commons.Imports.MongoDBObject">MongoDBObject</a> =&gt; <a href="#22708" title="com.mongodb.casbah.commons.Imports.MongoDBObject">mdbo</a>.<a href="../MongoDBObject.scala.html#15032" title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">underlying</a>
+      <span title="java.util.List[Any]" class="keyword">case</span> <a title="scala.collection.mutable.Buffer[_]" id="22709">b</a>: _root_.scala.collection.mutable.<span title="scala.collection.mutable.Buffer[_]">Buffer</span><span class="delimiter">[</span>_<span class="delimiter">]</span> =&gt; <a href="#22709" title="(underlying: scala.collection.mutable.Buffer[_])scalaj.collection.s2j.RichBuffer[_]">b</a>.<span title="(implicit c: scalaj.collection.s2j.Coercible[_,Any])java.util.List[Any]">asJava</span>
+      <span title="java.util.List[Any]" class="keyword">case</span> <a title="scala.collection.mutable.Seq[_]" id="25479">s</a>: _root_.scala.collection.mutable.<span title="scala.collection.mutable.Seq[_]">Seq</span><span class="delimiter">[</span>_<span class="delimiter">]</span> =&gt; <a href="#25479" title="(underlying: scala.collection.mutable.Seq[_])scalaj.collection.s2j.RichMutableSeq[_]">s</a>.<span title="(implicit c: scalaj.collection.s2j.Coercible[_,Any])java.util.List[Any]">asJava</span>
+      <span title="java.util.List[Any]" class="keyword">case</span> <a title="Seq[_]" id="25608">s</a>: _root_.scala.collection.<span title="Seq[_]">Seq</span><span class="delimiter">[</span>_<span class="delimiter">]</span> =&gt; <a href="#25608" title="(underlying: Seq[_])scalaj.collection.s2j.RichSeq[_]">s</a>.<span title="(implicit c: scalaj.collection.s2j.Coercible[_,Any])java.util.List[Any]">asJava</span>
+      <span title="java.util.Set[Any]" class="keyword">case</span> <a title="scala.collection.mutable.Set[_]" id="25693">s</a>: _root_.scala.collection.mutable.<span title="scala.collection.mutable.Set[_]">Set</span><span class="delimiter">[</span>_<span class="delimiter">]</span> =&gt; <a href="#25693" title="(underlying: scala.collection.mutable.Set[_])scalaj.collection.s2j.RichMutableSet[_]">s</a>.<span title="(implicit c: scalaj.collection.s2j.Coercible[_,Any])java.util.Set[Any]">asJava</span>
+      <span title="java.util.Set[Any]" class="keyword">case</span> <a title="scala.collection.Set[_]" id="25831">s</a>: _root_.scala.collection.<span title="scala.collection.Set[_]">Set</span><span class="delimiter">[</span>_<span class="delimiter">]</span> =&gt; <a href="#25831" title="(underlying: scala.collection.Set[_])scalaj.collection.s2j.RichSet[_]">s</a>.<span title="(implicit c: scalaj.collection.s2j.Coercible[_,Any])java.util.Set[Any]">asJava</span>
+      <span title="java.lang.Iterable[Any]" class="keyword">case</span> <a title="Iterable[_]" id="25916">i</a>: _root_.scala.collection.<span title="Iterable[_]">Iterable</span><span class="delimiter">[</span>_<span class="delimiter">]</span> =&gt; <a href="#25916" title="(underlying: Iterable[_])scalaj.collection.s2j.RichIterable[_]">i</a>.<span title="(implicit c: scalaj.collection.s2j.Coercible[_,Any])java.lang.Iterable[Any]">asJava</span>
+      <span title="java.util.Iterator[Any]" class="keyword">case</span> <a title="Iterator[_]" id="25956">i</a>: _root_.scala.collection.<span title="Iterator[_]">Iterator</span><span class="delimiter">[</span>_<span class="delimiter">]</span> =&gt; <a href="#25956" title="(underlying: Iterator[_])scalaj.collection.s2j.RichIterator[_]">i</a>.<span title="(implicit c: scalaj.collection.s2j.Coercible[_,Any])java.util.Iterator[Any]">asJava</span>
+      <span title="java.util.List[Any]" class="keyword">case</span> <a title="Product" id="25988">p</a>: <span title="Product">Product</span> =&gt; <a href="#25988" title="Product">p</a>.<span title="=&gt; Iterator[Any]">productIterator</span>.<span title="(underlying: Seq[Any])scalaj.collection.s2j.RichSeq[Any]">toList</span>.<span title="(implicit c: scalaj.collection.s2j.Coercible[Any,Any])java.util.List[Any]">asJava</span>
+      <span title="AnyRef" class="keyword">case</span> _ =&gt; <a href="#22703" title="AnyRef">o</a> <span class="comment">// don't warn because we get EVERYTHING</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="21088">register</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="../Logger.scala.html#21070" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="../Logger.scala.html#22466" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Setting up ScalaJCollectionSerializer&quot;)" class="string">&quot;Setting up ScalaJCollectionSerializer&quot;</span><span class="delimiter">)</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[scala.collection.mutable.Buffer[_]](classOf[scala.collection.mutable.Buffer])" class="delimiter">[</span>_root_.scala.collection.mutable.Buffer<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[scala.collection.mutable.ArrayBuffer[_]](classOf[scala.collection.mutable.ArrayBuffer])" class="delimiter">[</span>_root_.scala.collection.mutable.ArrayBuffer<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[scala.collection.mutable.ObservableBuffer[_]](classOf[scala.collection.mutable.ObservableBuffer])" class="delimiter">[</span>_root_.scala.collection.mutable.ObservableBuffer<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[scala.collection.mutable.SynchronizedBuffer[_]](classOf[scala.collection.mutable.SynchronizedBuffer])" class="delimiter">[</span>_root_.scala.collection.mutable.SynchronizedBuffer<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[scala.collection.mutable.ListBuffer[_]](classOf[scala.collection.mutable.ListBuffer])" class="delimiter">[</span>_root_.scala.collection.mutable.ListBuffer<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[Iterator[_]](classOf[scala.collection.Iterator])" class="delimiter">[</span>_root_.scala.collection.Iterator<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[Iterable[_]](classOf[scala.collection.Iterable])" class="delimiter">[</span>_root_.scala.collection.Iterable<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span> 
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[scala.collection.mutable.Seq[_]](classOf[scala.collection.mutable.Seq])" class="delimiter">[</span>_root_.scala.collection.mutable.Seq<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[Seq[_]](classOf[scala.collection.Seq])" class="delimiter">[</span>_root_.scala.collection.Seq<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span> 
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[scala.collection.mutable.Set[_]](classOf[scala.collection.mutable.Set])" class="delimiter">[</span>_root_.scala.collection.mutable.Set<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span> 
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[scala.collection.Set[_]](classOf[scala.collection.Set])" class="delimiter">[</span>_root_.scala.collection.Set<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <span title="object org.bson.BSON">BSON</span>.<span title="(x$1: java.lang.Class[_],x$2: org.bson.Transformer)Unit">addEncodingHook</span><span class="delimiter">(</span>classOf<span title="java.lang.Class[Product](classOf[scala.Product])" class="delimiter">[</span>Product<span class="delimiter">]</span>, <a href="#21086" title="=&gt; &lt;refinement&gt; extends java.lang.Object with org.bson.Transformer">transformer</a><span class="delimiter">)</span>
+    <a href="#32506" title="()Unit" class="keyword">super</a>.<a title="()Unit" id="32506">register</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">// vim: set ts=2 sw=2 sts=2 et:</span>
+
+        </pre>
+    </body>
+</html>
