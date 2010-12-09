@@ -12,10 +12,10 @@ Casbah's approach is intended to add fluid, Scala-friendly syntax on top of Mong
 
 The `ScalaDocs for Casbah <http://api.mongodb.org/scala/casbah/scaladoc/>`_ along with SXR cross referenced source are available at the `MongoDB API site <http://api.mongodb.org>`_.
 
-You may also download this tutorial in other formats.
+You may also download this documentation in other formats.
  
-  * `ePub <http://api.mongodb.org/scala/casbah/CasbahTutorial.epub>`_
-  * `PDF <http://api.mongodb.org/scala/casbah/CasbahTutorial.pdf>`_
+  * `ePub <http://api.mongodb.org/scala/casbah/2.0b3p1/CasbahDocumentation.epub>`_
+  * `PDF <http://api.mongodb.org/scala/casbah/2.0b3p1/CasbahDocumentation.pdf>`_
   
 .. toctree::
     :maxdepth: 3
