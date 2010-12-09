@@ -1,4 +1,9 @@
 
+2.0b3p1 / 2010-12-09 
+==================
+
+  * Removed $eq operator as it was a test spike and seems to be causing possible external issues
+
 2.0b3 / 2010-12-08 
 ==================
 
