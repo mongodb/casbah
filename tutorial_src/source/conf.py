@@ -25,7 +25,8 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.todo', 'sphinx.ext.ifconfig', 'sphinx.ext.viewcode']
+extensions = ['sphinx.ext.todo', 'sphinx.ext.ifconfig', 'sphinx.ext.viewcode',
+              'sphinx.ext.extlinks']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -255,3 +256,15 @@ epub_copyright = u'2010, 2011 10gen, Inc.'
 
 # Allow duplicate toc entries.
 #epub_tocdup = True
+
+
+extlinks = {'dochub': ('http://dochub.mongodb.org/core/%s', ''),
+            'commons-api': ('http://api.mongodb.org/scala/casbah/' + release + '/scaladoc/casbah-commons/api/%s', 'Casbah Commons API '),
+            'commons-sxr': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-commons/sxr/%s', 'Casbah Commons Source '),
+            'core-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-core/api/%s', 'Casbah Core API '),
+            'core-sxr': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-core/sxr/%s', 'Casbah Core Source '),
+            'gridfs-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-gridfs/api/%s', 'Casbah GridFS API '),
+            'gridfs-sxr': ('http://sxr.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-gridfs/sxr/%s', 'Casbah GridFS Source '),
+            'query-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-query/api/%s', 'Casbah Query DSL API '),
+            'query-sxr': ('http://sxr.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-query/sxr/%s', 'Casbah Query DSL Source '),
+            }
