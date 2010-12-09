@@ -10,7 +10,7 @@
 #
 # All configuration values have a default; values that are commented out
 # serve to show the default.
-
+ 
 import sys, os
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Casbah (MongoDB Scala Toolkit) Documentation'
+project = u'Casbah (MongoDB + Scala Toolkit Documentation'
 copyright = u'2010, 2011 10gen, Inc.'
 
 # The version info for the project you're documenting, acts as replacement for

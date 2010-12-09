@@ -1,0 +1,141 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to the Casbah documentation &mdash; Casbah (MongoDB Scala Toolkit) Documentation v2.0b3p1 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2.0b3p1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Casbah (MongoDB Scala Toolkit) Documentation v2.0b3p1 documentation" href="#" />
+    <link rel="next" title="Getting Started" href="setting_up.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="setting_up.html" title="Getting Started"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">Casbah (MongoDB Scala Toolkit) Documentation v2.0b3p1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-the-casbah-documentation">
+<h1>Welcome to the Casbah documentation<a class="headerlink" href="#welcome-to-the-casbah-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the Casbah Documentation.  Casbah is a Scala toolkit for MongoDB&#8212;We use the term &#8220;toolkit&#8221; rather than &#8220;driver&#8221;, as Casbah integrates a layer on top of the official <a class="reference external" href="http://github.com/mongodb/mongo-java-driver">mongo-java-driver</a> for better integration with Scala.  This is as opposed to a native implementation of the MongoDB wire protocol, which the Java driver does exceptionally well. Rather than a complete rewrite, Casbah uses implicits, and <cite>Pimp My Library</cite> code to enhance the existing Java code.</p>
+<p>Casbah&#8217;s approach is intended to add fluid, Scala-friendly syntax on top of MongoDB and handle conversions of common types.  If you try to save a Scala List or Seq to MongoDB, we automatically convert it to a type the Java driver can serialize.  If you read a Java type,  we convert it to a comparable Scala type before it hits your code.  All of this is intended to let you focus on writing the best possible Scala code using Scala idioms.  A great deal of effort is put into providing you the functional and implicit conversion tools you&#8217;ve come to expect from Scala, with the power and flexibility of MongoDB.</p>
+<p>The <a class="reference external" href="http://api.mongodb.org/scala/casbah/scaladoc/">ScalaDocs for Casbah</a> along with SXR cross referenced source are available at the <a class="reference external" href="http://api.mongodb.org">MongoDB API site</a>.</p>
+<p>You may also download this tutorial in other formats.</p>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://api.mongodb.org/scala/casbah/CasbahTutorial.epub">ePub</a></li>
+<li><a class="reference external" href="http://api.mongodb.org/scala/casbah/CasbahTutorial.pdf">PDF</a></li>
+</ul>
+</blockquote>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="setting_up.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="setting_up.html#why-casbah">Why Casbah?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setting_up.html#installing-setting-up-casbah">Installing &amp; Setting up Casbah</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-without-a-dependency-build-manager-source-binary">Setting up without a Dependency/Build Manager (Source + Binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#using-dependency-build-managers">Using Dependency/Build Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-maven">Setting Up Maven</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-ivy-w-ant">Setting Up Ivy (w/ Ant)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-sbt">Setting up SBT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial: Using Casbah</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#import-the-driver">Import the Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#briefly-automatic-type-conversions">Briefly: Automatic Type Conversions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#wrappers">Wrappers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#connecting-to-mongodb">Connecting to MongoDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#working-with-collections">Working with Collections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#mongodbobject-a-scala-ble-dbobject-implementation">MongoDBObject - A Scala-ble DBObject Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#querying-with-casbah">Querying with Casbah</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#gridfs-with-casbah">GridFS with Casbah</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#map-reduce-with-casbah">Map/Reduce with Casbah</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/logo-mongodb.png" alt="Logo"/>
+            </a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="setting_up.html"
+                        title="next chapter">Getting Started</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="setting_up.html" title="Getting Started"
+             >next</a> |</li>
+        <li><a href="#">Casbah (MongoDB Scala Toolkit) Documentation v2.0b3p1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, 2011 10gen, Inc..
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>
