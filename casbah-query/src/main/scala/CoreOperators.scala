@@ -159,6 +159,9 @@ trait NotEqualsOp extends QueryOperator {
 
   def $ne(target: String) = op(oper, target)
   def $ne(target: DBObject) = op(oper, target)
+  def $ne(target: DBRef) = op(oper, target)
+  def $ne(target: ObjectId) = op(oper, target)
+  def $ne(target: Boolean) = op(oper, target)
   def $ne(target: Array[_]) = op(oper, target.toList.asJava)
   def $ne(target: Tuple1[_]) = op(oper, target.productIterator.toList)
   def $ne(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
