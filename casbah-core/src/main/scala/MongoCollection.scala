@@ -673,14 +673,14 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * Returns a single object from this collection.
    * @return the object found, or <code>null</code> if the collection is empty
    */
-  def findOne(): Option[DBObject] = optWrap(underlying.findOne())
+  def findOne(): Option[DBObject] = Option(underlying.findOne())
 
   /** 
    * Returns a single object from this collection matching the query.
    * @param o the query object
    * @return the object found, or <code>null</code> if no such object exists
    */
-  def findOne(o: DBObject): Option[DBObject] = optWrap(underlying.findOne(o))
+  def findOne(o: DBObject): Option[DBObject] = Option(underlying.findOne(o))
 
   /**
    * Returns a single object from this collection matching the query.
@@ -689,10 +689,10 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * @return the object found, or <code>null</code> if no such object exists
    * @dochub find
    */
-  def findOne(o: DBObject, fields: DBObject): Option[DBObject] = optWrap(underlying.findOne(o, fields))
-  def findOneView[A <% DBObject : Manifest](o: A) = optWrap(underlying.findOne(o))
+  def findOne(o: DBObject, fields: DBObject): Option[DBObject] = Option(underlying.findOne(o, fields))
+  def findOneView[A <% DBObject : Manifest](o: A) = Option(underlying.findOne(o))
   def findOneView[A <% DBObject : Manifest, B <% DBObject : Manifest](o: A, fields: B) = 
-    optWrap(underlying.findOne(o, fields))
+    Option(underlying.findOne(o, fields))
 
   /**
    * Finds the first document in the query (sorted) and updates it. 
@@ -701,25 +701,25 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * You can also specify the fields to return in the document, optionally.
    * @return the found document (before, or after the update)
    */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = optWrap(underlying.findAndModify(query, update))
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = Option(underlying.findAndModify(query, update))
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * @return the old document
    */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](query: A, sort: B, update: C) = optWrap(underlying.findAndModify(query, sort, update))
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](query: A, sort: B, update: C) = Option(underlying.findAndModify(query, sort, update))
   /**
    * Finds the first document in the query and updates it. 
    * @return the old document
    */
   def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest, D <% DBObject : Manifest](
     query: A, fields: B, sort: C, remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean
-  ) = optWrap(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
+  ) = Option(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
 
   /**
    * Finds the first document in the query and removes it. 
    * @return the removed document
    */
-  def findAndRemove[A <% DBObject : Manifest](query: A) = optWrap(underlying.findAndRemove(query))
+  def findAndRemove[A <% DBObject : Manifest](query: A) = Option(underlying.findAndRemove(query))
 
   /**
    * Finds an object by its id. This compares the passed in value to the _id field of the document
@@ -740,7 +740,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
       log.debug("View convertable[map]- rerouting.")
       findOne(map.asDBObject)
     }
-    case _ => optWrap(underlying.findOne(obj))
+    case _ => Option(underlying.findOne(obj))
   }
   /**
    * Finds an object by its id. This compares the passed in value to the _id field of the document
@@ -764,7 +764,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
       findOneView(map.asDBObject, fields)
     }
 
-     case _ => optWrap(underlying.findOne(obj, fields))
+     case _ => Option(underlying.findOne(obj, fields))
   }
 
 
@@ -870,13 +870,13 @@ class MongoTypedCollection[T <: DBObject : Manifest](val underlying: com.mongodb
    * Returns a single object from this collection.
    * @return the object found, or <code>null</code> if the collection is empty
    */
-  def findOne() = optWrap(underlying.findOne().asInstanceOf[T])
+  def findOne() = Option(underlying.findOne().asInstanceOf[T])
   /** 
    * Returns a single object from this collection matching the query.
    * @param o the query object
    * @return the object found, or <code>null</code> if no such object exists
    */
-  def findOne(o: DBObject) = optWrap(underlying.findOne(o).asInstanceOf[T])
+  def findOne(o: DBObject) = Option(underlying.findOne(o).asInstanceOf[T])
   /**
    * Returns a single object from this collection matching the query.
    * @param o the query object
@@ -884,7 +884,7 @@ class MongoTypedCollection[T <: DBObject : Manifest](val underlying: com.mongodb
    * @return the object found, or <code>null</code> if no such object exists
    * @dochub find
    */
-  def findOne(o: DBObject, fields: DBObject) = optWrap(underlying.findOne(o, fields).asInstanceOf[T])
+  def findOne(o: DBObject, fields: DBObject) = Option(underlying.findOne(o, fields).asInstanceOf[T])
   /**
    * Finds an object by its id.  
    * This compares the passed in value to the _id field of the document
@@ -892,7 +892,7 @@ class MongoTypedCollection[T <: DBObject : Manifest](val underlying: com.mongodb
    * @param obj any valid object
    * @return the object, if found, otherwise <code>null</code>
    */
-  def findOne(obj: Object) = optWrap(underlying.findOne(obj).asInstanceOf[T])
+  def findOne(obj: Object) = Option(underlying.findOne(obj).asInstanceOf[T])
  /**
    * Finds an object by its id.  
    * This compares the passed in value to the _id field of the document
@@ -902,7 +902,7 @@ class MongoTypedCollection[T <: DBObject : Manifest](val underlying: com.mongodb
    * @return the object, if found, otherwise <code>null</code>
    * @dochub find
    */
-  def findOne(obj: Object, fields: DBObject) = optWrap(underlying.findOne(obj, fields).asInstanceOf[T])
+  def findOne(obj: Object, fields: DBObject) = Option(underlying.findOne(obj, fields).asInstanceOf[T])
 
   /**
    * Finds the first document in the query (sorted) and updates it. 
@@ -911,25 +911,25 @@ class MongoTypedCollection[T <: DBObject : Manifest](val underlying: com.mongodb
    * You can also specify the fields to return in the document, optionally.
    * @return the found document (before, or after the update)
    */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = optWrap(underlying.findAndModify(query, update)).asInstanceOf[T]
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = Option(underlying.findAndModify(query, update)).asInstanceOf[T]
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * @return the old document
    */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](query: A, sort: B, update: C) = optWrap(underlying.findAndModify(query, sort, update)).asInstanceOf[T]
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](query: A, sort: B, update: C) = Option(underlying.findAndModify(query, sort, update)).asInstanceOf[T]
   /**
    * Finds the first document in the query and updates it. 
    * @return the old document
    */
   def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest, D <% DBObject : Manifest](
     query: A, fields: B, sort: C, remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean
-  ) = optWrap(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert)).asInstanceOf[T]
+  ) = Option(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert)).asInstanceOf[T]
 
   /**
    * Finds the first document in the query and removes it. 
    * @return the removed document
    */
-  def findAndRemove[A <% DBObject : Manifest](query: A) = optWrap(underlying.findAndRemove(query)).asInstanceOf[T]
+  def findAndRemove[A <% DBObject : Manifest](query: A) = Option(underlying.findAndRemove(query)).asInstanceOf[T]
 
 
   override def head = findOne.get
