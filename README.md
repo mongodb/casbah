@@ -8,8 +8,9 @@ Brendan W. McAdams <brendan@10gen.com>
 Contributors
 -----------
 Max Afonov <max@bumnetworks.com>
+Marcello Bastéa-Forte <marcello@cellosoft.com>
 
-Novus Partners, Inc. <http://novus.com> kindly sponsored the development of this project prior to Version 2.0, for which we offer our thanks.
+Novus Partners, Inc. <http://novus.com> sponsored the development of this project prior to Version 2.0
 
 
 Notice for users of old, Pre-2.0 versions of Casbah
