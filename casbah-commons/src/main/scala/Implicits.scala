@@ -64,16 +64,6 @@ trait Implicits {
   implicit def unwrapDBList(in: MongoDBList): BasicDBList =
     in.underlying
 
-  /**
-   * Helper method for anyone who returns an Option
-   * to quickly wrap their dbObject, determining null
-   * to swap as None
-   *
-   */
-  def optWrap[A <% DBObject](obj: A): Option[A] = {
-    if (obj == null) None else Some(obj)
-  }
-
   // Register the core Serialization helpers.
   conversions.scala.RegisterConversionHelpers()
 }
