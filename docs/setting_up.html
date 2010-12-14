@@ -49,12 +49,6 @@
             
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="why-casbah">
-<h2>Why Casbah?<a class="headerlink" href="#why-casbah" title="Permalink to this headline">¶</a></h2>
-<p>Casbah grew (originally named <em>mongo-scala-wrappers</em>) from the frustration of dealing with a very structured, objects &amp; imperative only approach which was forced by the Mongo Java drivers.  These drivers are a fine, well built tool - but best suited to the pure Java programmer.  In addition, the primary developer (<a class="reference external" href="mailto:brendan&#37;&#52;&#48;10gen&#46;com">Brendan McAdams</a>) came from a background of working with MongoDB primarily with Python.  He missed the fluid syntax and similarity to the JS Shell which Python provided (and let&#8217;s face it, <a class="reference external" href="http://api.mongodb.org/python/">pymongo</a> is awesome), and the flexibility of syntax.  As he was learning Scala he saw the ability to provide much of this functionality.</p>
-<p>During the course of building out application infrastructure with MongoDB + Scala, with the ideas of (Python|Mongo)esque syntax with a functional bent, Casbah slowly emerged.  Casbah provides improved interfaces to GridFS, Map/Reduce and the core Mongo APIs.  It also provides a fluid query syntax which emulates an internal DSL and allows you to write code which looks like what you might write in the JS Shell.  There is also support for easily adding new serialization/deserialization mechanisms for common data types (including Joda Time, if you so choose; with some caveats - See the GridFS Section).</p>
-<p>With version 2.0, Casbah has become an official MongoDB project and will continue to improve the interaction of Scala + MongoDB. Casbah aims to remain fully compatible with the existing Java driver&#8212;it does not talk to MongoDB directly, preferring to wrap the Java code.  This means you shouldn&#8217;t see any wildly unexpected behavior from the underlying Mongo interfaces when a data bug is fixed.</p>
-</div>
 <div class="section" id="installing-setting-up-casbah">
 <h2>Installing &amp; Setting up Casbah<a class="headerlink" href="#installing-setting-up-casbah" title="Permalink to this headline">¶</a></h2>
 <p>You should have <a class="reference external" href="http://mongodb.org">MongoDB</a> setup  and running on your machine (these docs assume you are running on <em>localhost</em> on the default port of <em>27017</em>) before proceeding. If you need help setting up MongoDB please see <a class="reference external" href="http://www.mongodb.org/display/DOCS/Quickstart">the MongoDB quickstart install documentation</a>.</p>
@@ -69,7 +63,7 @@
 </div>
 <dl class="docutils">
 <dt><em>PLEASE NOTE</em>: As of the 2.0 release, Casbah has been broken into</dt>
-<dd>several modules which can be used to strip down which features you need.  For example, you can use the Query DSL independent of the GridFS implementation if you wish; please see <em class="xref std std-ref">casbah-modules</em>.  The following dependency manager information uses the master artifact which downloads and uses <em>all</em> of Casbah&#8217;s modules by default.</dd>
+<dd>several modules which can be used to strip down which features you need.  For example, you can use the Query DSL independent of the GridFS implementation if you wish; please see <a class="reference internal" href="#casbah-modules"><em>Removed Features</em></a>.  The following dependency manager information uses the master artifact which downloads and uses <em>all</em> of Casbah&#8217;s modules by default.</dd>
 </dl>
 </div>
 <div class="section" id="using-dependency-build-managers">
@@ -129,6 +123,183 @@
 <p>Don&#8217;t forget to reload the project and run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">update</span></tt> afterwards to download the dependencies (SBT doesn&#8217;t check every build like Maven).</p>
 </div>
 </div>
+<div class="section" id="migrating-to-casbah-2-0-from-casbah-1-x">
+<h2>Migrating to Casbah 2.0 from Casbah 1.x<a class="headerlink" href="#migrating-to-casbah-2-0-from-casbah-1-x" title="Permalink to this headline">¶</a></h2>
+<p>If you used Casbah before, and are looking to migrate from Casbah 1.x to Casbah 2.x
+there are some things which have changed and you should be aware of to effectively update your code.</p>
+<div class="section" id="base-package-name">
+<h3>Base Package Name<a class="headerlink" href="#base-package-name" title="Permalink to this headline">¶</a></h3>
+<p>For starters, the base package has changed.  The now abandoned 1.1.x branch which
+became 2.0 was already doing a package change, and with 2.0 Casbah has become a
+supported MongoDB project. As a result, Casbah&#8217;s package has changed for the 2.0
+release and you will need to update your code accordingly:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="39%" />
+<col width="27%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Casbah 1.0.x</th>
+<th class="head">Casbah 1.1.x (never released)</th>
+<th class="head">Casbah 2.0</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>com.novus.casbah.mongodb</td>
+<td>com.novus.casbah</td>
+<td>com.mongodb.casbah</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="removed-features">
+<span id="casbah-modules"></span><h3>Removed Features<a class="headerlink" href="#removed-features" title="Permalink to this headline">¶</a></h3>
+<p>A number of features existed in Casbah as artifacts of early prototyping.  They were buggy, poorly tested and because of their nature often introduced weird problems for users.</p>
+<p>As a result, they have been removed now that replacement versions of their functionality exist.</p>
+<div class="section" id="removal-of-implicit-tuple-dbobject-conversions">
+<h4>Removal of Implicit Tuple -&gt; DBObject Conversions<a class="headerlink" href="#removal-of-implicit-tuple-dbobject-conversions" title="Permalink to this headline">¶</a></h4>
+<p>Previously, it was possible with Casbah to cast Tuples to <a class="reference external" href="http://dochub.mongodb.org/core/DBObject">DBObject</a>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">DBObject</span> <span class="o">=</span> <span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="o">,</span> <span class="s">&quot;y&quot;</span> <span class="o">-&gt;</span> <span class="mf">238.1</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>This feature was provided by implicit conversions which attempt to target <cite>Product</cite> which is the base class of all Tuples.  Unfortunately, this functionality was often unreliable and targeted the wrong things for conversion (Such as instances of <cite>Option[_]</cite>).  After a lot of evaluation and attempts to create a better approach a decision was made to remove this feature.  Casbah 2.0 includes wrappers for <a class="reference external" href="http://dochub.mongodb.org/core/DBObject">DBObject</a> which follow Scala 2.8&#8217;s Collection interfaces including Scala compatible builders and constructors.  As such, the same previous syntax is possible by passing the Tuple pairs to <cite>MongoDBObject.apply</cite>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">DBObject</span> <span class="o">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="o">,</span> <span class="s">&quot;y&quot;</span> <span class="o">-&gt;</span> <span class="mf">238.1</span><span class="o">)</span>
+<span class="cm">/* x: com.mongodb.casbah.Imports.DBObject = { &quot;foo&quot; : &quot;bar&quot; , &quot;x&quot; : 5 , &quot;y&quot; : 238.1} */</span>
+<span class="k">val</span> <span class="n">y</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="o">,</span> <span class="s">&quot;y&quot;</span> <span class="o">-&gt;</span> <span class="mf">238.1</span><span class="o">)</span>
+<span class="cm">/* y: com.mongodb.casbah.commons.Imports.DBObject = { &quot;foo&quot; : &quot;bar&quot; , &quot;x&quot; : 5 , &quot;y&quot; : 238.1} */</span>
+</pre></div>
+</div>
+<p>We also provide a builder pattern which follows Scala 2.8&#8217;s Map Builder:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">.</span><span class="n">newBuilder</span>
+<span class="cm">/* b: com.mongodb.casbah.commons.MongoDBObjectBuilder = com.mongodb.casbah.commons.MongoDBObjectBuilder@113f25e3 */</span>
+<span class="n">b</span> <span class="o">+=</span> <span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="mi">5</span>
+<span class="n">b</span> <span class="o">+=</span> <span class="s">&quot;y&quot;</span> <span class="o">-&gt;</span> <span class="mf">238.1</span>
+<span class="n">b</span> <span class="o">+=</span> <span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span>
+<span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">DBObject</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">result</span>
+<span class="cm">/* x: com.mongodb.casbah.commons.Imports.DBObject = { &quot;x&quot; : 5 , &quot;y&quot; : 238.1 , &quot;foo&quot; : &quot;bar&quot;} */</span>
+</pre></div>
+</div>
+<p>Finally, any Scala map can still be cast to a DBObject without issue:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">DBObject</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="o">,</span> <span class="s">&quot;y&quot;</span> <span class="o">-&gt;</span> <span class="mf">238.1</span><span class="o">)</span>
+<span class="cm">/* x: com.mongodb.casbah.Imports.DBObject = { &quot;foo&quot; : &quot;bar&quot; , &quot;x&quot; : 5 , &quot;y&quot; : 238.1} */</span>
+</pre></div>
+</div>
+<p>It is <em>still</em> possible to use Tuples in the <em class="xref std std-ref">Query DSL</em> however, as there is less need for broad implicit conversions to accomplish that functionality.</p>
+</div>
+<div class="section" id="batchsafely-removed">
+<h4><cite>batchSafely</cite> Removed<a class="headerlink" href="#batchsafely-removed" title="Permalink to this headline">¶</a></h4>
+<p>Casbah 1.1.x introduced a <cite>batchSafely</cite> command which used the Java Driver&#8217;s <cite>requestStart()</cite>, <cite>requestDone()</cite> and <cite>getPrevErrors()</cite> functions.  MongoDB is deprecating the use of <cite>getPrevErrors()</cite> and as such, Casbah has removed the functionality in anticipation of that feature going away in a near future release.</p>
+</div>
+</div>
+<div class="section" id="new-features">
+<h3>New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="query-dsl-operators">
+<h4>Query DSL Operators<a class="headerlink" href="#query-dsl-operators" title="Permalink to this headline">¶</a></h4>
+<p>Casbah previously lagged behind the official MongoDB server in supported <em class="xref std std-ref">Query DSL</em> <cite>$ Operators</cite>.  As of 2.0, all <cite>$ Operators</cite> currently documented as supported in MongoDB are provided.  A list of some of the new operators added in 2.0 include:</p>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://dochub.mongodb.org/core/$slice">$slice</a></li>
+<li><a class="reference external" href="http://dochub.mongodb.org/core/$or">$or</a></li>
+<li><a class="reference external" href="http://dochub.mongodb.org/core/$not">$not</a></li>
+<li><a class="reference external" href="http://dochub.mongodb.org/core/$each">$each</a> (<em>special operator only supported nested inside :dochub:`$addToSet`</em>)</li>
+<li><a class="reference external" href="http://dochub.mongodb.org/core/$type">$type</a> (<em>Uses type arguments and class manifests to allow a nice fluid Scala syntax</em>)</li>
+<li><a class="reference external" href="http://dochub.mongodb.org/core/$elemMatch">$elemMatch</a></li>
+<li>Array Operators</li>
+<li>All GeoSpatial Operators including <a class="reference external" href="http://dochub.mongodb.org/core/$near">$near</a> and <a class="reference external" href="http://dochub.mongodb.org/core/$within">$within</a></li>
+</ul>
+</blockquote>
+<p>Further, the DSL system has been completely overhauled.  As part of adding test coverage a number of edge cases were discovered with the DSL that caused inconsistent behavior.  The majority of the Query DSL should continue to work the same, but we have started moving to the use of Type Classes and Context Boundaries to limit what a valid input to any given operator is (2.1 will include expanded use of these merged with custom serializers).</p>
+<div class="section" id="new-syntax-for-not">
+<h5>New syntax for $not<a class="headerlink" href="#new-syntax-for-not" title="Permalink to this headline">¶</a></h5>
+<p>In order to fix a number of bugs and readability issues with the <a class="reference external" href="http://dochub.mongodb.org/core/$not">$not</a> operator, it has been modified.</p>
+<p>Previously, the correct syntax for using <a class="reference external" href="http://dochub.mongodb.org/core/$not">$not</a> was:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="s">&quot;foo&quot;</span><span class="o">.</span><span class="nc">$not</span> <span class="nc">$gte</span> <span class="mi">15</span> <span class="nc">$lt</span> <span class="mf">35.2</span> <span class="nc">$ne</span> <span class="mi">16</span>
+</pre></div>
+</div>
+<p>With Casbah 2.0, this syntax has been modified to be more clear to both the developer <em>and</em> the compiler:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="s">&quot;foo&quot;</span> <span class="nc">$not</span> <span class="o">{</span> <span class="k">_</span> <span class="nc">$gte</span> <span class="mi">15</span> <span class="nc">$lt</span> <span class="mf">35.2</span> <span class="nc">$ne</span> <span class="mi">16</span> <span class="o">}</span>
+</pre></div>
+</div>
+<p>The same syntax is supported for the special version of <a class="reference external" href="http://dochub.mongodb.org/core/$pull">$pull</a> which allows for nested operator tests.</p>
+</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>Casbah Modules<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>While Casbah has a large stable of features, some users (such as those using a framework like Lift which already provides MongoDB wrappers) wanted access to certain parts of Casbah without importing the whole system.  As a result, Casbah has been broken out into several modules which make it easier to pick and choose the features you want.</p>
+<p>If you use the individual modules you&#8217;ll need to use the import statement from each of these.  If you use the import statement from the <cite>casbah-core</cite> module, everything except GridFS will be imported (not everyone uses GridFS so we don&#8217;t load it into memory &amp; scope unless it is needed).  The module names can be used to select which dependencies you want from maven/ivy/sbt, as we publish individual artifacts.  If you import just <cite>casbah</cite>, this is a master pom which includes the whole system and can be used just like 1.1.x was (that is to say, you can pretend the module system doesn&#8217;t exist more or less).</p>
+<p>This is the breakdown of dependencies and packages for the new system:</p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="19%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Module</th>
+<th class="head">Package</th>
+<th class="head">Dependencies</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><p class="first"><em class="xref std std-ref">casbah-commons</em> (&#8220;Commons&#8221;)</p>
+<p class="last"><strong>NOTES</strong>
+Provides Scala-friendly
+:dochub:DBObject &amp; :dochub:DBList
+implementations as well as Implicit
+conversions for Scala types</p>
+</td>
+<td>com.mongodb.casbah.commons</td>
+<td><a class="reference external" href="https://github.com/mongodb/mongo-java-driver/">mongo-java-driver</a>,
+<a class="reference external" href="https://github.com/scalaj/scalaj-collection/">scalaj-collection</a>,
+<a class="reference external" href="https://github.com/scalaj/scalaj-time/">scalaj-time</a>
+<a class="reference external" href="http://joda-time.sourceforge.net/">JodaTime</a>,
+<a class="reference external" href="http://www.slf4j.org/">slf4j-api</a></td>
+</tr>
+<tr><td><p class="first"><em class="xref std std-ref">casbah-query</em> (&#8220;Query DSL&#8221;)</p>
+<p class="last"><strong>NOTES</strong>
+Provides a Scala syntax enhancement
+mode for creating MongoDB query
+objects using an Internal DSL
+supporting Mongo <cite>$ Operators</cite></p>
+</td>
+<td>com.mongodb.casbah.query</td>
+<td><em class="xref std std-ref">casbah-commons</em> along with its dependencies transitively</td>
+</tr>
+<tr><td><p class="first"><em class="xref std std-ref">casbah-core</em> (&#8220;Core&#8221;)</p>
+<p class="last"><strong>NOTES</strong>
+Provides Scala-friendly
+wrappers to the Java Driver for
+connections, collections and
+MapReduce jobs</p>
+</td>
+<td>com.mongodb.casbah</td>
+<td><em class="xref std std-ref">casbah-commons</em> and <em class="xref std std-ref">casbah-query</em> along with their dependencies
+transitively</td>
+</tr>
+<tr><td><p class="first"><em class="xref std std-ref">casbah-gridfs</em> (&#8220;GridFS&#8221;)</p>
+<p class="last"><strong>NOTES</strong>
+Provides Scala enhanced wrappers
+to MongoDB&#8217;s GridFS filesystem</p>
+</td>
+<td>com.mongodb.casbah.gridfs</td>
+<td><em class="xref std std-ref">casbah-core</em> and <em class="xref std std-ref">casbah-commons</em> along with their dependencies
+transitively</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>We cover the import of each module in their appropriate tutorials, but each module has its own <cite>Imports</cite> object which loads all of its necessary code.  By way of example both of these statements would import the Query DSL:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// Imports core, which grabs everything including Query DSL</span>
+<span class="k">import</span> <span class="nn">com.mongodb.casbah.Imports._</span>
+<span class="c1">// Imports just the Query DSL along with Commons and its dependencies</span>
+<span class="k">import</span> <span class="nn">com.mongodb.casbah.query.Imports._</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 
@@ -143,13 +314,29 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Getting Started</a><ul>
-<li><a class="reference internal" href="#why-casbah">Why Casbah?</a></li>
 <li><a class="reference internal" href="#installing-setting-up-casbah">Installing &amp; Setting up Casbah</a><ul>
 <li><a class="reference internal" href="#setting-up-without-a-dependency-build-manager-source-binary">Setting up without a Dependency/Build Manager (Source + Binary)</a></li>
 <li><a class="reference internal" href="#using-dependency-build-managers">Using Dependency/Build Managers</a></li>
 <li><a class="reference internal" href="#setting-up-maven">Setting Up Maven</a></li>
 <li><a class="reference internal" href="#setting-up-ivy-w-ant">Setting Up Ivy (w/ Ant)</a></li>
 <li><a class="reference internal" href="#setting-up-sbt">Setting up SBT</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#migrating-to-casbah-2-0-from-casbah-1-x">Migrating to Casbah 2.0 from Casbah 1.x</a><ul>
+<li><a class="reference internal" href="#base-package-name">Base Package Name</a></li>
+<li><a class="reference internal" href="#removed-features">Removed Features</a><ul>
+<li><a class="reference internal" href="#removal-of-implicit-tuple-dbobject-conversions">Removal of Implicit Tuple -&gt; DBObject Conversions</a></li>
+<li><a class="reference internal" href="#batchsafely-removed"><cite>batchSafely</cite> Removed</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#new-features">New Features</a><ul>
+<li><a class="reference internal" href="#query-dsl-operators">Query DSL Operators</a><ul>
+<li><a class="reference internal" href="#new-syntax-for-not">New syntax for $not</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">Casbah Modules</a></li>
 </ul>
 </li>
 </ul>

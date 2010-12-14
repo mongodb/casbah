@@ -189,7 +189,7 @@ This is the breakdown of dependencies and packages for the new system:
   | Module                              | Package                    | Dependencies                                                                       | 
   +=====================================+============================+====================================================================================+
   | :ref:`casbah-commons` ("Commons")   | com.mongodb.casbah.commons |                                                                                    |
-  +-------------------------------------+                            |   `mongo-java-driver <https://github.com/mongodb/mongo-java-driver/>`_,            |
+  |                                     |                            |   `mongo-java-driver <https://github.com/mongodb/mongo-java-driver/>`_,            |
   | **NOTES**                           |                            |   `scalaj-collection <https://github.com/scalaj/scalaj-collection/>`_,             |
   | Provides Scala-friendly             |                            |   `scalaj-time <https://github.com/scalaj/scalaj-time/>`_                          |
   | :dochub:DBObject & :dochub:DBList   |                            |   `JodaTime <http://joda-time.sourceforge.net/>`_,                                 |
@@ -197,7 +197,7 @@ This is the breakdown of dependencies and packages for the new system:
   | conversions for Scala types         |                            |                                                                                    |
   +-------------------------------------+----------------------------+------------------------------------------------------------------------------------+
   | :ref:`casbah-query` ("Query DSL")   | com.mongodb.casbah.query   | :ref:`casbah-commons` along with its dependencies transitively                     |
-  +-------------------------------------+                            |                                                                                    |
+  |                                     |                            |                                                                                    |
   | **NOTES**                           |                            |                                                                                    |
   | Provides a Scala syntax enhancement |                            |                                                                                    |
   | mode for creating MongoDB query     |                            |                                                                                    |
@@ -205,7 +205,7 @@ This is the breakdown of dependencies and packages for the new system:
   | supporting Mongo `$ Operators`      |                            |                                                                                    |
   +-------------------------------------+----------------------------+------------------------------------------------------------------------------------+
   | :ref:`casbah-core` ("Core")         | com.mongodb.casbah         | :ref:`casbah-commons` and :ref:`casbah-query` along with their dependencies        |
-  +-------------------------------------+                            | transitively                                                                       |    
+  |                                     |                            | transitively                                                                       |    
   | **NOTES**                           |                            |                                                                                    |
   | Provides Scala-friendly             |                            |                                                                                    |
   | wrappers to the Java Driver for     |                            |                                                                                    |
@@ -213,7 +213,7 @@ This is the breakdown of dependencies and packages for the new system:
   | MapReduce jobs                      |                            |                                                                                    |
   +-------------------------------------+----------------------------+------------------------------------------------------------------------------------+
   | :ref:`casbah-gridfs` ("GridFS")     | com.mongodb.casbah.gridfs  | :ref:`casbah-core` and :ref:`casbah-commons` along with their dependencies         |
-  +-------------------------------------+                            | transitively                                                                       |
+  |                                     |                            | transitively                                                                       |
   | **NOTES**                           |                            |                                                                                    |
   | Provides Scala enhanced wrappers    |                            |                                                                                    |
   | to MongoDB's GridFS filesystem      |                            |                                                                                    |
