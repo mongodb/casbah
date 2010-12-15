@@ -39,7 +39,7 @@ import scala.reflect._
  * Implicits and explicit methods allow you to convert to java though.
  * 
  * We will likely reimplement DBObject itself longterm as a pure base. on the wire format
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 1.0
  * 
  * @tparam String 
