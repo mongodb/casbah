@@ -29,7 +29,7 @@ import scalaj.collection.Imports._
 /** 
  * Helper class for creating MongoOptions instances
  * 
- * @author Brendan W. McAdams <bmcadams@novus.com>
+ * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
  * @see com.mongodb.MongoOptions
  */
