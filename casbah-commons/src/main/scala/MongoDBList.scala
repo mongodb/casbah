@@ -78,11 +78,9 @@ object MongoDBList {
 
   def apply[A <: Any](elems: A*): BasicDBList = {
     val b = newBuilder[A]
-    for (xs <- elems) {
-      xs match {
-        case t: Traversable[_] => for (x <- t) b += x
-        case _ => b += xs 
-      }
+    for (xs <- elems) xs match {
+      case p: Tuple2[String, _] => b += MongoDBObject(p) 
+      case _ => b += xs 
     }
     b.result
   }
