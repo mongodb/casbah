@@ -182,6 +182,21 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
 
       }
     }
+
+    "Support the as[<type>] method" in {
+      val dbObj = MongoDBObject("x" -> 5.2, 
+                                "y" -> 9, 
+                                "foo" -> ("a", "b", "c"), 
+                                "bar" -> MongoDBObject("baz" -> "foo"))
+      dbObj must notBeNull
+      dbObj must haveSuperClass[DBObject]
+
+      dbObj.as[Double]("x") must notBeNull
+      dbObj.as[Int]("y") must notBeNull
+      dbObj.as[Seq[_]]("foo") must notBeNull
+      dbObj.as[DBObject]("bar") must notBeNull
+      dbObj.as[String]("nullValue") must throwA[NoSuchElementException]
+    }
   }
 
 }

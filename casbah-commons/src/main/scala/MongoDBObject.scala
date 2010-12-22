@@ -52,6 +52,32 @@ trait MongoDBObject extends Map[String, AnyRef] {
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
 
+  /** 
+   * as
+   *
+   * Works like apply(), unsafe, bare return of a value.
+   * Returns default if nothing matching is found, else
+   * tries to cast a value to the specified type.
+   * 
+   * Unless you overrode it, default throws
+   * a NoSuchElementException
+   * 
+   * @param  key (String) 
+   * @tparam A 
+   * @return (A)
+   * @throws NoSuchElementException
+   */
+  def as[A <: Any : Manifest](key: String) = {
+    require(manifest[A] != manifest[scala.Nothing], 
+            "Type inference failed; as[A]() requires an explicit type argument" + 
+            "(e.g. dbObject.as[<ReturnType>](\"someKey\") ) to function correctly.")
+
+    underlying.get(key) match {
+      case null => default(key)
+      case value => value.asInstanceOf[A]
+    }
+  }
+
   override def get(key: String): Option[AnyRef] = underlying.get(key) match {
     case null => None
     case value => Some(value)
@@ -65,9 +91,12 @@ trait MongoDBObject extends Map[String, AnyRef] {
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
   def getAs[A <: Any : Manifest](key: String): Option[A] = {
-    require(manifest[A] != manifest[scala.Nothing], "Type inference failed; getAs[A]() requires an explicit type argument (e.g. dbObject[<ReturnType](\"someKey\") ) to function correctly.")
+    require(manifest[A] != manifest[scala.Nothing], 
+            "Type inference failed; getAs[A]() requires an explicit type argument " +
+            "(e.g. dbObject.getAs[<ReturnType>](\"somegetAKey\") ) to function correctly.")
+
     underlying.get(key) match {
-      case null => None
+      case null => None 
       case value => Some(value.asInstanceOf[A])
     }
   }
