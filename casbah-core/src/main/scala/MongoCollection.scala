@@ -423,13 +423,6 @@ trait MongoCollectionWrapper extends Logging {
   def remove[A <% DBObject : Manifest](o: A, writeConcern: WriteConcern) = 
     underlying.remove(o, writeConcern)
 
-  /**
-   * does a rename of this collection to newName
-   * @param newName new collection name (not a full namespace)
-   * @return the new collection
-   */
-  def rename(newName: String) = underlying.rename(newName)
-
   /** Clears all indices that have not yet been applied to this collection. */
   def resetIndexCache() = underlying.resetIndexCache()
 
@@ -606,6 +599,19 @@ trait MongoCollectionWrapper extends Logging {
    */
   def slaveOk() = underlying.slaveOk()   // use parens because this side-effects
 
+  /**
+   * does a rename of this collection to newName
+   * As per the Java API this returns a *NEW* Collection,
+   * and the old collection is probably no good anymore.
+   *
+   * This collection *WILL NOT* mutate --- the instance will 
+   * still point at a now nonexistant collection with the old name
+   * ... You must capture the return value for the new instance.
+   *
+   * @param newName new collection name (not a full namespace)
+   * @return the new collection
+   */
+  def rename(newName: String): MongoCollectionWrapper
       
 }
 
@@ -794,6 +800,21 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    */
   def request(op: MongoCollection => Unit) = getDB.request(db => op(db(name)))
 
+
+  /**
+   * does a rename of this collection to newName
+   * As per the Java API this returns a *NEW* Collection,
+   * and the old collection is probably no good anymore.
+   *
+   * This collection *WILL NOT* mutate --- the instance will 
+   * still point at a now nonexistant collection with the old name
+   * ... You must capture the return value for the new instance.
+   *
+   * @param newName new collection name (not a full namespace)
+   * @return the new collection
+   */
+  def rename(newName: String): MongoCollection = new MongoCollection(underlying.rename(newName))
+
 }
 
 /**
@@ -958,6 +979,19 @@ class MongoTypedCollection[T <: DBObject : Manifest](val underlying: com.mongodb
     case _ => false
   }
 
+  /**
+   * does a rename of this collection to newName
+   * As per the Java API this returns a *NEW* Collection,
+   * and the old collection is probably no good anymore.
+   *
+   * This collection *WILL NOT* mutate --- the instance will 
+   * still point at a now nonexistant collection with the old name
+   * ... You must capture the return value for the new instance.
+   *
+   * @param newName new collection name (not a full namespace)
+   * @return the new collection
+   */
+  def rename(newName: String): MongoTypedCollection[T] = new MongoTypedCollection(underlying.rename(newName))
 
 
   
