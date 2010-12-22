@@ -90,6 +90,7 @@ trait TypeImports {
   type BasicDBList = com.mongodb.BasicDBList
   type ObjectId = org.bson.types.ObjectId
   type DBRef = com.mongodb.DBRef
+  type MongoException = com.mongodb.MongoException
 }
 
 abstract class ValidBSONType[T]

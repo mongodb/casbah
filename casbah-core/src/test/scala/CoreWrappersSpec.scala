@@ -125,6 +125,26 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
       
     }
 
+    "Renaming a collection successfully tracks the rename in MongoCollection" in {
+      val db = MongoConnection()("test")
+      val coll = db("collectoin")
+      coll.drop()
+      coll.insert(MongoDBObject("foo" -> "bar"))
+      coll must notBeNull
+      coll must haveSuperClass[com.mongodb.casbah.MongoCollection]
+      coll.name must beEqualTo("collectoin")
+
+      val newColl = coll.rename("collection") 
+      newColl must notBeNull
+      newColl must haveSuperClass[com.mongodb.casbah.MongoCollection]
+      newColl.name must beEqualTo("collection")
+  
+      // no mutability in the old collection
+      coll.name must beEqualTo("collectoin")
+      // collection should be gone so rename fails
+      newColl.rename("collection") must throwA[MongoException]
+
+    }
   }
 
 }
