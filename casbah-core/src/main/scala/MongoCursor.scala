@@ -23,7 +23,7 @@
 package com.mongodb.casbah
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logger
+import com.mongodb.casbah.commons.Logging
 
 import scalaj.collection.Imports._
 
@@ -40,8 +40,8 @@ import scalaj.collection.Imports._
  * 
  * @tparam A (DBObject or subclass thereof)
  */
-class MongoCursor[A <: DBObject : Manifest](val underlying: com.mongodb.DBCursor)
-  extends Iterator[A] with Logger {
+class MongoCursor[T <: DBObject : Manifest](val underlying: com.mongodb.DBCursor)
+  extends Iterator[T] with Logging {
 
   /** 
    * Initialize a new cursor with your own custom settings
@@ -66,7 +66,7 @@ class MongoCursor[A <: DBObject : Manifest](val underlying: com.mongodb.DBCursor
    *
    * @return The next element in the cursor
    */
-  def next() = underlying.next.asInstanceOf[A]
+  def next() = underlying.next.asInstanceOf[T]
 
   /** 
    * hasNext
@@ -96,11 +96,11 @@ class MongoCursor[A <: DBObject : Manifest](val underlying: com.mongodb.DBCursor
    * 
    * Sort this cursor's elements
    *
-   * @param  orderBy (T) The fields on which to sort
-   * @tparam T  A view of DBObject to sort by
+   * @param  orderBy (A) The fields on which to sort
+   * @tparam A  A view of DBObject to sort by
    * @return A cursor pointing to the first element of the sorted results
    */
-  def sort[T <% DBObject](orderBy: T) = this(underlying.sort(orderBy))
+  def sort[A <% DBObject](orderBy: A) = this(underlying.sort(orderBy))
 
   
   /** 
@@ -190,11 +190,11 @@ class MongoCursor[A <: DBObject : Manifest](val underlying: com.mongodb.DBCursor
    * Provide the Database a hint of which indexed fields of a collection to use
    * to improve performance.
    *
-   * @param  indexKeys (T) A DBObject of the index names as keys
-   * @tparam T A view of DBObject to use for the indexKeys
+   * @param  indexKeys (A) A DBObject of the index names as keys
+   * @tparam A A view of DBObject to use for the indexKeys
    * @return the same DBCursor, useful for chaining operations
    */
-  def hint[T <% DBObject](indexKeys: T) = underlying.hint(indexKeys); this
+  def hint[A <% DBObject](indexKeys: A) = underlying.hint(indexKeys); this
 
   /** 
    * hint
@@ -361,11 +361,11 @@ class MongoCursor[A <: DBObject : Manifest](val underlying: com.mongodb.DBCursor
    * Sets a special operator of $maxScan
    * Which defines the max number of items to scan.
    * 
-   * @param  max (T) 
-   * @tparam T : Numeric 
+   * @param  max (A) 
+   * @tparam A : Numeric 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $maxScan[T : Numeric](max: T) = addSpecial("$maxScan", max)
+  def $maxScan[A : Numeric](max: T) = addSpecial("$maxScan", max)
 
 
   /** 
@@ -379,7 +379,7 @@ class MongoCursor[A <: DBObject : Manifest](val underlying: com.mongodb.DBCursor
    * @param  q (DBObject) 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $query[T <% DBObject](q: T) = addSpecial("$query", q)
+  def $query[A <% DBObject](q: A) = addSpecial("$query", q)
 
   /** 
    * $orderby
@@ -392,7 +392,7 @@ class MongoCursor[A <: DBObject : Manifest](val underlying: com.mongodb.DBCursor
    * @param  obj (DBObject) 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $orderby[T <% DBObject](obj: T) = addSpecial("$orderby", obj)
+  def $orderby[A <% DBObject](obj: A) = addSpecial("$orderby", obj)
 
   /** 
    * $explain
@@ -430,7 +430,7 @@ class MongoCursor[A <: DBObject : Manifest](val underlying: com.mongodb.DBCursor
    *
    * @return the same DBCursor, useful for chaining operations
    */
-  def $min[T <% DBObject](obj: T) = addSpecial("$min", obj)
+  def $min[A <% DBObject](obj: A) = addSpecial("$min", obj)
 
   /** 
    * $max
@@ -442,7 +442,7 @@ class MongoCursor[A <: DBObject : Manifest](val underlying: com.mongodb.DBCursor
    *
    * @return the same DBCursor, useful for chaining operations
    */
-  def $max[T <% DBObject](obj: T) = addSpecial("$max", obj)
+  def $max[A <% DBObject](obj: A) = addSpecial("$max", obj)
 
   /** 
    * $showDiskLoc
@@ -466,7 +466,7 @@ class MongoCursor[A <: DBObject : Manifest](val underlying: com.mongodb.DBCursor
    * @param obj (DBObject)
    * @return the same DBCursor, useful for chaining operations
    */
-  def $hint[T <% DBObject](obj: T) = addSpecial("$hint", obj)
+  def $hint[A <% DBObject](obj: A) = addSpecial("$hint", obj)
 
 
 }
