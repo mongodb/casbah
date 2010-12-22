@@ -590,7 +590,7 @@ trait MongoCollectionWrapper extends Logging {
    * Manipulate Network Options
    * 
    * @see com.mongodb.Mongo
-   * @see com.mongodb.Bytes
+   * @see com.mognodb.Bytes
    */
   def getOptions() = underlying.getOptions
 
@@ -598,10 +598,9 @@ trait MongoCollectionWrapper extends Logging {
    * Manipulate Network Options
    * 
    * @see com.mongodb.Mongo
-   * @see com.mongodb.Bytes
+   * @see com.mognodb.Bytes
    */
   def options = getOptions
-
   /** 
    * Sets queries to be OK to run on slave nodes.
    */
