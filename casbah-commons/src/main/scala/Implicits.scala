@@ -77,7 +77,9 @@ trait Imports extends BaseImports with TypeImports with Implicits
 
 trait BaseImports {
   val MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
+  val DBObject = MongoDBObject
   val MongoDBList = com.mongodb.casbah.commons.MongoDBList
+  val DBList = MongoDBList
 }
 
 trait TypeImports {
