@@ -1278,6 +1278,12 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         near must haveSuperClass[DBObject]
         /*near must beEqualTo(nonDSL("foo", "$near", MongoDBList(74.2332, -75.23542)))*/
       }
+      "With a $maxDistance specification" in {
+        val near = "foo" $near (74.2332, -75.23452) $maxDistance 5
+        near must notBeNull
+        near must haveSuperClass[DBObject]
+        /*near.asInstanceOf[DBObject] must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$near" -> (74.2332, -75.23452), "$maxDistance" -> 5)).asInstanceOf[DBObject])*/
+      }
     }
 
     "Support $nearSphere" in {
