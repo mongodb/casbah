@@ -78,17 +78,20 @@ trait Implicits extends FluidQueryBarewordOps {
 
 }
 
-object Implicits extends Implicits with commons.Implicits 
-object Imports extends Imports with commons.Imports
-object BaseImports extends BaseImports with commons.BaseImports
-object TypeImports extends TypeImports with commons.TypeImports
+object Implicits extends query.Implicits with commons.Implicits 
+object Imports extends query.Imports with commons.Imports
+object BaseImports extends query.BaseImports with commons.BaseImports
+object TypeImports extends query.TypeImports with commons.TypeImports
 
-trait Imports extends BaseImports with TypeImports with Implicits with ValidDateOrNumericTypeHolder
+trait Imports extends query.BaseImports with query.TypeImports with query.Implicits with ValidDateOrNumericTypeHolder
 
 trait BaseImports
 
 trait TypeImports { 
   type GeoCoords = com.mongodb.casbah.query.GeoCoords[_,_]
+  type ValidNumericType[T] = query.ValidNumericType[T]
+  type ValidDateType[T] = query.ValidDateType[T]
+  type ValidDateOrNumericType[T] = query.ValidDateOrNumericType[T]
 }
 
 trait ValidNumericType[T]

@@ -731,7 +731,18 @@ case class GeoCoords[A : ValidNumericType : Manifest, B : ValidNumericType : Man
 trait GeoNearOp extends QueryOperator {
   private val oper = "$near"
 
-  def $near(coords: GeoCoords[_, _]) = op(oper, coords.toList)
+  def $near(coords: GeoCoords[_, _]) = new NearOpWrapper(coords)
+  
+  sealed class NearOpWrapper(coords: GeoCoords[_, _]) extends BasicDBObject {  
+    put(field, new BasicDBObject("$near", coords.toList))
+
+    def $maxDistance[T : Numeric](radius: T): DBObject = {
+      get(field).asInstanceOf[DBObject].put("$maxDistance", radius)
+      this
+    }
+
+  }
+
 }
 
 /**
