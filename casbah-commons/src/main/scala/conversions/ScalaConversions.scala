@@ -153,7 +153,7 @@ trait JodaDateTimeSerializer extends MongoConversionHelper {
 
   override def unregister() = {
     log.debug("De-registering Joda DateTime serializer.")
-    org.bson.BSONEncoders.remove(encodeType)
+    BSON.removeEncodingHooks(encodeType)
     super.unregister()
   }
 }
@@ -179,8 +179,8 @@ trait JodaDateTimeDeserializer extends MongoConversionHelper {
   }
 
   override def unregister() = {
-    log.debug("De-registering Joda DateTime dserializer.")
-    org.bson.BSONDecoders.remove(encodeType)
+    log.debug("De-registering Joda DateTime deserializer.")
+    BSON.removeDecodingHooks(encodeType)
     super.unregister()
   }
 }
