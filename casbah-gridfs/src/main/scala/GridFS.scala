@@ -179,18 +179,18 @@ class GridFS protected[gridfs](val underlying: MongoGridFS) extends Iterable[Gri
    * This is hacky as it can potentially clobber anybody's "custom" java.util.Date deserializer with ours.  
    * TODO - Make this more elegant
    */
-   def sansJodaTime[T](op: => T) = org.bson.BSONDecoders(classOf[java.util.Date]) match {   
-      case Some(transformer) => {
+   def sansJodaTime[T](op: => T) = org.bson.BSON.getDecodingHooks(classOf[java.util.Date]) match {   
+      case null => {
+        log.trace("Didn't find a registration for JodaTime.")
+        op
+      }
+      case transformer => {
         log.trace("DateTime Decoder was loaded; unloading before continuing.")
         new JodaDateTimeDeserializer { unregister() }
         val ret = op
         log.trace("Retrieval finished.  Re-registering decoder.")
         new JodaDateTimeDeserializer { register() }
         ret
-      }
-      case None => {
-        log.trace("Didn't find a registration for JodaTime: %s", org.bson.BSONDecoders())
-        op
       }
     }
 

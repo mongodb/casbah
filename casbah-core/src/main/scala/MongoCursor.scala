@@ -22,6 +22,8 @@
 
 package com.mongodb.casbah
 
+import com.mongodb.DBCursor 
+
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
@@ -32,26 +34,17 @@ import scalaj.collection.Imports._
  * including ones which return custom DBObject subclasses.
  * 
  * This is a rewrite of the Casbah 1.0 approach which was rather
- * naive and uneccessarily complex.
+ * naive and unnecessarily complex.... formerly was MongoCursorWrapper
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 2.0, 12/15/10
+ * @version 2.0, 12/23/10
  * @since 2.0
  * 
- * @tparam A (DBObject or subclass thereof)
+ * @tparam T (DBObject or subclass thereof)
  */
-class MongoCursor(val underlying: com.mongodb.DBCursor) extends Iterator[DBObject] with Logging {
+trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
 
-  /** 
-   * Initialize a new cursor with your own custom settings
-   * 
-   * @param  collection (MongoCollection)  collection to use
-   * @param  query (Q) Query to perform
-   * @param  keys (K) Keys to return from the query
-   * @return (instance) A new MongoCursor
-   */
-  def this(collection: MongoCollection[DBObject], query: DBObject, keys: DBObject) = 
-    this(new com.mongodb.DBCursor(collection.underlying, query, keys))
+  val underlying: DBCursor
 
 
   /** 
@@ -59,13 +52,13 @@ class MongoCursor(val underlying: com.mongodb.DBCursor) extends Iterator[DBObjec
    *
    * Iterator increment.
    * 
-   * TODO: The cast to A should be examined for sanity/safety.
+   * TODO: The cast to T should be examined for sanity/safety.
    * 
    * {@inheritDoc}
    *
    * @return The next element in the cursor
    */
-  def next() = underlying.next.asInstanceOf[DBObject]
+  def next() = underlying.next.asInstanceOf[T]
 
   /** 
    * hasNext
@@ -88,7 +81,7 @@ class MongoCursor(val underlying: com.mongodb.DBCursor) extends Iterator[DBObjec
    * 
    * @return The new cursor
    */
-  def copy() = new MongoCursor(underlying.copy()) // parens for side-effects
+  def copy() = _newInstance(underlying.copy()) // parens for side-effects
 
   /** 
    * sort
@@ -99,7 +92,11 @@ class MongoCursor(val underlying: com.mongodb.DBCursor) extends Iterator[DBObjec
    * @tparam A  A view of DBObject to sort by
    * @return A cursor pointing to the first element of the sorted results
    */
-  def sort[A <% DBObject](orderBy: A) = new MongoCursor(underlying.sort(orderBy))
+  def sort[A <% DBObject](orderBy: A) = {
+    // The Java code returns a copy of itself (via _this_) so no clone/_newInstance
+    underlying.sort(orderBy)
+    this
+  }
 
   
   /** 
@@ -139,7 +136,7 @@ class MongoCursor(val underlying: com.mongodb.DBCursor) extends Iterator[DBObjec
    * @return Int indicating the number of elements returned by the query after skip/limit
    * @throws MongoException
    */
-  def size = underlying.size
+  override def size = underlying.size
 
   /** 
    * Manipulate Query Options
@@ -226,7 +223,11 @@ class MongoCursor(val underlying: com.mongodb.DBCursor) extends Iterator[DBObjec
    *  
    * @return the same DBCursor, useful for chaining operations
    */
-  def snapshot() = new MongoCursor(underlying.snapshot) // parens for side-effecting
+  def snapshot() = {
+    // The Java code returns a copy of itself (via _this_) so no clone/_newInstance
+    underlying.snapshot() // parens for side-effecting
+    this
+  }
 
   /** 
    * explain
@@ -353,8 +354,11 @@ class MongoCursor(val underlying: com.mongodb.DBCursor) extends Iterator[DBObjec
    * @example addSpecial( "$returnKey" , 1 ) 
    * @example addSpecial( "$maxScan" , 100 )
    */
-  def addSpecial(name: String, o: Any) = 
-    new MongoCursor(underlying.addSpecial(name, o.asInstanceOf[AnyRef]))
+  def addSpecial(name: String, o: Any) = {
+    // The Java code returns a copy of itself (via _this_) so no clone/_newInstance
+    underlying.addSpecial(name, o.asInstanceOf[AnyRef])
+    this
+  }
   
 
   /** 
@@ -483,8 +487,95 @@ class MongoCursor(val underlying: com.mongodb.DBCursor) extends Iterator[DBObjec
   def $hint[A <% DBObject](obj: A) = addSpecial("$hint", obj)
 
 
+  /** 
+   * _newInstance
+   * 
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of THIS concrete implementation from a 
+   * Java cursor.  Good with cursor calls that return a new cursor.
+   *
+   * @param  cursor (DBCursor) 
+   * @return (this.type)
+   */
+  def _newInstance(cursor: DBCursor): MongoCursorBase[T] 
 }
 
+/** 
+ * Concrete cursor implementation expecting standard DBObject operation
+ * This is the version of MongoCursorBase you should expect to use in most cases.
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @version 2.0, 12/23/10
+ * @since 1.0
+ * 
+ * @param  val underlying (com.mongodb.DBCollection) 
+ * @tparam DBObject 
+ */
+class MongoCursor(val underlying: DBCursor) extends MongoCursorBase[DBObject]  {
+
+  /** 
+   * _newInstance
+   * 
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of THIS concrete implementation from a 
+   * Java cursor.  Good with cursor calls that return a new cursor.
+   *
+   * @param  cursor (DBCursor) 
+   * @return (this.type)
+   */
+  def _newInstance(cursor: DBCursor) = new MongoCursor(cursor)
+  
+}
+
+object MongoCursor extends Logging { 
+  /** 
+   * Initialize a new cursor with your own custom settings
+   * 
+   * @param  collection (MongoCollection)  collection to use
+   * @param  query (Q) Query to perform
+   * @param  keys (K) Keys to return from the query
+   * @return (instance) A new MongoCursor
+   */ 
+  def apply[T <: DBObject : Manifest](collection: MongoCollectionBase[T], query: DBObject, 
+                                      keys: DBObject) = {
+    val cursor = new DBCursor(collection.underlying, query, keys)
+
+    if (manifest[T] == manifest[DBObject]) 
+      new MongoCursor(cursor)
+    else
+      new MongoTypedCursor[T](cursor)
+
+  }
+}
+/** 
+ * Concrete cursor implementation for typed Cursor operations via Collection.setObjectClass
+ * This is a special case cursor for typed operations.
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @version 2.0, 12/23/10
+ * @since 1.0
+ * 
+ * @param  val underlying (com.mongodb.DBCollection) 
+ * @tparam T A Subclass of DBObject 
+ */
+class MongoTypedCursor[T <: DBObject : Manifest](val underlying: DBCursor) extends MongoCursorBase[T] {
+
+  /** 
+   * _newInstance
+   * 
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of THIS concrete implementation from a 
+   * Java cursor.  Good with cursor calls that return a new cursor.
+   *
+   * @param  cursor (DBCursor) 
+   * @return (this.type)
+   */
+  def _newInstance(cursor: DBCursor) = new MongoTypedCursor[T](cursor)
+
+}
 
 /** 
  * 
