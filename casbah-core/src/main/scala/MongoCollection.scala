@@ -22,6 +22,8 @@
 
 package com.mongodb.casbah
 
+import com.mongodb.{DBCollection, DBCursor}
+
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
@@ -34,21 +36,29 @@ import scalaj.collection.Imports._
 import collection.mutable.ArrayBuffer
 
 
-/**
- * Base trait for all MongoCollection wrapper objects.
+/** 
+ * Scala wrapper for Mongo DBCollections,
+ * including ones which return custom DBObject subclasses 
+ * via setObjectClass and the like.
+
  * Provides any non-parameterized methods and the basic structure.
  * Requires an underlying object of a DBCollection.
- *
+ * 
+ * This is a rewrite of the Casbah 1.0 approach which was rather
+ * naive and unecessarily complex.... formerly was MongoCollectionWrapper
+ * 
  * @author Brendan W. McAdams <brendan@10gen.com>
+ * @version 2.0, 12/23/10
+ * @since 1.0
+ * 
+ * @tparam T (DBObject or subclass thereof)
  */
-class MongoCollection(val underlying: com.mongodb.DBCollection)
-  extends Iterable[DBObject] with Logging { self => 
+trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self => 
   /**
    * The underlying Java Mongo Driver Collection object we proxy.
    */
-  val underlying: com.mongodb.DBCollection
+  val underlying: DBCollection
 
-  def elements = find
   def iterator = find
 
   /** Returns the database this collection is a member of.
@@ -60,21 +70,21 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * @param o <code>DBObject</code> to which to add fields
    * @return the modified parameter object
    */
-  def apply[A <% DBObject : Manifest](o: A) = underlying.apply(o)
+  def apply[A <% DBObject](o: A) = underlying.apply(o)
 
   /** Adds the "private" fields _id to an object.
    * @param jo object to which to add fields
    * @param ensureID whether to add an <code>_id</code> field or not
    * @return the modified object <code>o</code>
    */
-  def apply[A <% DBObject : Manifest](jo: A, ensureID: Boolean) = underlying.apply(jo, ensureID)
+  def apply[A <% DBObject](jo: A, ensureID: Boolean) = underlying.apply(jo, ensureID)
 
   /** Forces creation of an index on a set of fields, if one does not already exist.
    * @param keys an object with a key set of the fields desired for the index
    */
-  def createIndex[A <% DBObject : Manifest](keys: A) = underlying.createIndex(keys)
+  def createIndex[A <% DBObject](keys: A) = underlying.createIndex(keys)
   
-  def createIndex[A <% DBObject : Manifest, B <% DBObject : Manifest](keys: A, options: B) = 
+  def createIndex[A <% DBObject, B <% DBObject](keys: A, options: B) = 
     underlying.createIndex(keys, options)
 
   /**
@@ -86,18 +96,18 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * find distinct values for a key
    * @param query query to apply on collection
    */
-  def distinct[A <% DBObject : Manifest](key: String, query: A) = 
+  def distinct[A <% DBObject](key: String, query: A) = 
     underlying.distinct(key, query).asScala
 
   /** Drops (deletes) this collection
    */
   def drop() = underlying.drop
+
   /** Drops (deletes) this collection
    */
   def dropCollection() = underlying.drop
 
-  def dropIndex[A <% DBObject : Manifest](keys: A) = 
-    underlying.dropIndex(keys)
+  def dropIndex[A <% DBObject](keys: A) = underlying.dropIndex(keys)
 
   def dropIndex(name: String) = underlying.dropIndex(name)
   /** Drops all indices from this collection
@@ -108,36 +118,42 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
   /** Creates an index on a set of fields, if one does not already exist.
    * @param keys an object with a key set of the fields desired for the index
    */
-  def ensureIndex[A <% DBObject : Manifest](keys: A) = 
-    underlying.ensureIndex(keys)
+  def ensureIndex[A <% DBObject](keys: A) = underlying.ensureIndex(keys)
+  
   /** Ensures an index on this collection (that is, the index will be created if it does not exist).
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * @param keys fields to use for index
    * @param name an identifier for the index
    * @dochub indexes
    */
-  def ensureIndex[A <% DBObject : Manifest](keys: A, name: String) = underlying.ensureIndex(keys, name)
+  def ensureIndex[A <% DBObject](keys: A, name: String) = underlying.ensureIndex(keys, name)
+
   /** Ensures an optionally unique index on this collection.
    * @param keys fields to use for index
    * @param name an identifier for the index
    * @param unique if the index should be unique
    */
-  def ensureIndex[A <% DBObject : Manifest](keys: A, name: String, unique: Boolean) = underlying.ensureIndex(keys, name, unique)
+  def ensureIndex[A <% DBObject](keys: A, name: String, unique: Boolean) = underlying.ensureIndex(keys, name, unique)
+
+  /** Ensures an index on this collection (that is, the index will be created if it does not exist).
+   * ensureIndex is optimized and is inexpensive if the index already exists.
+   * @param name an identifier for the index
+   * @dochub indexes
+   */
   def ensureIndex(name: String) = underlying.ensureIndex(name)
 
  /** Queries for all objects in this collection. 
    * @return a cursor which will iterate over every object
    * @dochub find
    */
-  def find() = new MongoCursor(underlying.find)
+  def find() = _newCursor(underlying.find)
 
   /** Queries for an object in this collection.
    * @param ref object for which to search
    * @return an iterator over the results
    * @dochub find
    */
-  def find[A <% DBObject](ref: A) = 
-    new MongoCursor(underlying.find(ref))
+  def find[A <% DBObject](ref: A) = _newCursor(underlying.find(ref))
 
   /** Queries for an object in this collection.
    *
@@ -161,8 +177,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * @return a cursor to iterate over results
    * @dochub find
    */
-  def find[A <% DBObject, B <% DBObject](ref: A, keys: B) = 
-    new MongoCursor(underlying.find(ref, keys))
+  def find[A <% DBObject, B <% DBObject](ref: A, keys: B) = _newCursor(underlying.find(ref, keys))
 
   /** Finds an object.
    * @param ref query used to search
@@ -173,72 +188,74 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * @return the objects, if found
    * @dochub find
    */
-  def find[A <% DBObject, B <% DBObject](ref: A, fields: B, numToSkip: Int,
-                                         batchSize: Int) = 
-    new MongoCursor(underlying.find(ref, fields, numToSkip, batchSize))
+  def find[A <% DBObject, B <% DBObject](ref: A, fields: B, numToSkip: Int, batchSize: Int) = 
+    _newCursor(underlying.find(ref, fields, numToSkip, batchSize))
 
   /** 
    * Returns a single object from this collection.
-   * @return the object found, or <code>null</code> if the collection is empty
+   * @return (Option[T]) Some() of the object found, or <code>None</code> if this collection is empty
    */
-  def findOne() = catching(classOf[ClassCastException]) opt underlying.findOne().asInstanceOf[DBObject]
+  def findOne() = catching(classOf[ClassCastException]) opt underlying.findOne().asInstanceOf[T]
 
   /** 
    * Returns a single object from this collection matching the query.
    * @param o the query object
-   * @return the object found, or <code>null</code> if no such object exists
+   * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
   def findOne[A <% DBObject](o: A) = 
-    catching(classOf[ClassCastException]) opt underlying.findOne(o).asInstanceOf[DBObject]
+    catching(classOf[ClassCastException]) opt underlying.findOne(o).asInstanceOf[T]
 
   /**
    * Returns a single object from this collection matching the query.
    * @param o the query object
    * @param fields fields to return
-   * @return the object found, or <code>null</code> if no such object exists
+   * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    * @dochub find
    */
   def findOne[A <% DBObject, B <% DBObject](o: A, fields: B) = 
-    catching(classOf[ClassCastException]) opt underlying.findOne(o, fields).asInstanceOf[DBObject]
+    catching(classOf[ClassCastException]) opt underlying.findOne(o, fields).asInstanceOf[T]
 
-  def findOneView[A <% DBObject : Manifest](o: A) = 
-    catching(classOf[ClassCastException]) opt underlying.findOne(o).asInstanceOf[DBObject]
+  def findOneView[A <% DBObject](o: A) = 
+    catching(classOf[ClassCastException]) opt underlying.findOne(o).asInstanceOf[T]
 
-  def findOneView[A <% DBObject : Manifest, B <% DBObject : Manifest](o: A, fields: B) = 
-    catching(classOf[ClassCastException]) opt underlying.findOne(o, fields).asInstanceOf[DBObject]
+  def findOneView[A <% DBObject, B <% DBObject](o: A, fields: B) = 
+    catching(classOf[ClassCastException]) opt underlying.findOne(o, fields).asInstanceOf[T]
 
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * If remove is specified it will be removed. If new is specified then the updated 
    * document will be returned, otherwise the old document is returned (or it would be lost forever).
    * You can also specify the fields to return in the document, optionally.
-   * @return the found document (before, or after the update)
+   * @return (Option[T]) of the the found document (before, or after the update)
    */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = 
-    catching(classOf[ClassCastException]) opt underlying.findAndModify(query, update).asInstanceOf[DBObject]
+  def findAndModify[A <% DBObject, B <% DBObject](query: A, update: B) = 
+    catching(classOf[ClassCastException]) opt underlying.findAndModify(query, update).asInstanceOf[T]
 
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * @return the old document
    */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](query: A, sort: B, update: C) = 
-    catching(classOf[ClassCastException]) opt underlying.findAndModify(query, sort, update).asInstanceOf[DBObject]
+  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject](query: A, sort: B, update: C) = 
+    catching(classOf[ClassCastException]) opt underlying.findAndModify(query, sort, update).asInstanceOf[T]
 
   /**
    * Finds the first document in the query and updates it. 
    * @return the old document
    */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest, D <% DBObject : Manifest](
-    query: A, fields: B, sort: C, remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean
-  ) = 
-    catching(classOf[ClassCastException]) opt underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert).asInstanceOf[DBObject]
+  def findAndModify[A <% DBObject, B <% DBObject, 
+                    C <% DBObject, D <% DBObject](query: A, fields: B, sort: C, 
+                                                  remove: Boolean, update: D, 
+                                                  returnNew: Boolean, upsert: Boolean) = 
+    catching(classOf[ClassCastException]) opt underlying.findAndModify(
+                                                query, fields, sort, remove, update, returnNew, upsert
+                                              ).asInstanceOf[T]
 
   /**
    * Finds the first document in the query and removes it. 
    * @return the removed document
    */
-  def findAndRemove[A <% DBObject : Manifest](query: A) = 
-    catching(classOf[ClassCastException]) opt underlying.findAndRemove(query).asInstanceOf[DBObject]
+  def findAndRemove[A <% DBObject](query: A) = 
+    catching(classOf[ClassCastException]) opt underlying.findAndRemove(query).asInstanceOf[T]
 
   /**
    * Finds an object by its id. This compares the passed in value to the _id field of the document
@@ -248,9 +265,9 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    *   
    * 
    * @param obj any valid object
-   * @return the object, if found, otherwise <code>null</code>
+   * @return (Option[T]) Some() of the object, if found, otherwise None
    */
-  def findOne(obj: Object): Option[DBObject] = 
+  def findOne(obj: Object): Option[T] = 
     catching(classOf[ClassCastException]) opt (obj match {
       case dbobj: MongoDBObject => {
         log.debug("View convertable[mongodbobject] - rerouting.")
@@ -261,7 +278,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
         findOne(map.asDBObject)
       }
       case _ => Option(underlying.findOne(obj))
-    }).asInstanceOf[DBObject]
+    }).asInstanceOf[T]
 
   /**
    * Finds an object by its id. This compares the passed in value to the _id field of the document
@@ -271,7 +288,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * 
    * @param obj any valid object
    * @param fields fields to return
-   * @return the object, if found, otherwise <code>null</code>
+   * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    * @dochub find
    */
   def findOne(obj: AnyRef, fields: DBObject) =
@@ -285,7 +302,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
         findOneView(map.asDBObject, fields)
       }
       case _ => Option(underlying.findOne(obj, fields))
-    }).asInstanceOf[DBObject]
+    }).asInstanceOf[T]
 
 
 
@@ -314,10 +331,6 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    */
   def request(op: MongoCollection => Unit) = getDB.request(db => op(db(name)))
 
-  def setObjectClass[A <% DBObject : Manifest](c: Class[A]) = {
-    underlying.setObjectClass(c)
-    new MongoCollection[A] { val underlying = self.underlying }
-  }
 
   
   /** Find a collection that is prefixed with this collection's name.
@@ -331,15 +344,18 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * </pre></blockquote>
    * @param n the name of the collection to find
    * @return the matching collection
+   *
+   * TODO - Make this support type construction
    */
-  def getCollection(n: String) = underlying.getCollection(n)
+  def getCollection(n: String) = underlying.getCollection(n).asScala
 
 
   /**
    *  Returns the number of documents in the collection
-   *  @return number of documents that match query
+   *  @return number of documents in the query
    */
   def getCount() = underlying.getCount()
+
   /**
    *  Returns the number of documents in the collection
    *  that match the specified query
@@ -347,7 +363,8 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    *  @param query query to select documents to count
    *  @return number of documents that match query
    */
-  def getCount[A <% DBObject : Manifest](query: A) = underlying.getCount(query)
+  def getCount[A <% DBObject](query: A) = underlying.getCount(query)
+
   /**
    *  Returns the number of documents in the collection
    *  that match the specified query
@@ -356,7 +373,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    *  @param fields fields to return
    *  @return number of documents that match query and fields
    */
-  def getCount[A <% DBObject : Manifest, B<% DBObject : Manifest](query: A, fields: B) = 
+  def getCount[A <% DBObject, B<% DBObject](query: A, fields: B) = 
     underlying.getCount(query, fields)
 
   /**
@@ -369,7 +386,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    *  @param skip # of fields to skip
    *  @return number of documents that match query and fields
    */
-  def getCount[A <% DBObject : Manifest, B<% DBObject : Manifest](query: A, fields: B, limit: Long, skip: Long) = 
+  def getCount[A <% DBObject, B<% DBObject](query: A, fields: B, limit: Long, skip: Long) = 
     underlying.getCount(query, fields, limit, skip)
 
   /** Returns the database this collection is a member of.
@@ -381,10 +398,12 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * @return  the name of this collection
    */
   def getFullName() = underlying.getFullName
+
   /** Returns the full name of this collection, with the database name as a prefix.
    * @return  the name of this collection
    */
   def fullName = getFullName()
+
   /**
    *   Return a list of the indexes for this collection.  Each object
    *   in the list is the "info document" from MongoDB
@@ -392,6 +411,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    *   @return list of index documents
    */
   def getIndexInfo() = underlying.getIndexInfo.asScala
+
   /**
    *   Return a list of the indexes for this collection.  Each object
    *   in the list is the "info document" from MongoDB
@@ -401,35 +421,79 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
   def indexInfo = getIndexInfo()
 
   def getName() = underlying.getName
+
   def name = getName()
+
   /** Gets the default class for objects in the collection
    * @return the class
    */
   def getObjectClass() = underlying.getObjectClass
+
   /** Gets the default class for objects in the collection
    * @return the class
    */
   def objectClass = getObjectClass()
 
+  /** 
+   * setObjectClass
+   * 
+   * Set a subtype of DBObject which will be used
+   * to deserialize documents returned from MongoDB.
+   *
+   * This method will return a new <code>MongoTypedCollection[A]</code>
+   * which you should capture if you want explicit casting.
+   * Else, this collection will instantiate instances of A but cast them to
+   * the current <code>T</code> (DBObject if you have a generic collection)
+   * 
+   * @param  c (Class[A]) 
+   * @tparam A A Subtype of DBObject
+   *
+   * TODO - Ensure proper subtype return
+   */
+  def setObjectClass[A <: DBObject : Manifest](c: Class[A]) = {
+    underlying.setObjectClass(c)
+    new MongoTypedCollection[A](underlying=self.underlying)
+  }
+
+  /** 
+   * setObjectClass
+   * 
+   * Set a subtype of DBObject which will be used
+   * to deserialize documents returned from MongoDB.
+   *
+   * This method will return a new <code>MongoTypedCollection[A]</code>
+   * which you should capture if you want explicit casting.
+   * Else, this collection will instantiate instances of A but cast them to
+   * the current <code>T</code> (DBObject if you have a generic collection)
+   * 
+   * @param  c (Class[A]) 
+   * @tparam A A Subtype of DBObject
+   *
+   */
+  def objectClass_=[A <: DBObject : Manifest](c: Class[A]) = setObjectClass(c)
+
   def stats = getStats()
+
   def getStats() = underlying.getStats()
 
-  def group[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](key: A, cond: B, initial: C, reduce: String) = {
-    val result = underlying.group(key, cond, initial, reduce)   
-    result.map(_._2.asInstanceOf[DBObject])
-  }
+  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String) = 
+    underlying.group(key, cond, initial, reduce).map(_._2.asInstanceOf[T])
+
   /**
    * Perform an absurdly simple grouping with no initial object or reduce function.
    */
-  def group[A <% DBObject : Manifest, B <% DBObject : Manifest](key: A, cond: B): Iterable[DBObject] = group(key, cond, MongoDBObject.empty, "function(obj, prev) {}")
-  def group[A <% DBObject : Manifest, B <% DBObject : Manifest](key: A, cond: B, function: String): Iterable[DBObject] = group(key, cond, MongoDBObject.empty, function)
+  def group[A <% DBObject, B <% DBObject](key: A, cond: B): Iterable[T] = 
+    group(key, cond, MongoDBObject.empty, "function(obj, prev) {}")
+
+  def group[A <% DBObject, B <% DBObject](key: A, cond: B, function: String): Iterable[T] = 
+    group(key, cond, MongoDBObject.empty, function)
 
   /**
    * Enables you to call group with the finalize parameter (a function that runs on each
    * row of the output for calculations before sending a return) which the Mongo Java driver does not yet
    * support, by sending a direct DBObject command.  Messy, but it works.
    */
-  def group[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](key: A, cond: B, initial: C, reduce: String, finalize: String) = {
+  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String, finalize: String) = {
     val cmdData = MongoDBObject(
       "ns" -> getName,
       "key" -> key,
@@ -443,92 +507,10 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
       log.warning("Group Statement Failed.")
     }
     log.trace("Group command result count : %s keys: %s ", result.get("count"), result.get("keys"))
-    result.get("retval").asInstanceOf[DBObject].toMap.asScala.map(_._2.asInstanceOf[DBObject]).asInstanceOf[ArrayBuffer[DBObject]]
+    // TODO - Check me and my casting
+    result.get("retval").asInstanceOf[DBObject].toMap.asScala.map(_._2.asInstanceOf[T]).asInstanceOf[ArrayBuffer[T]]
   }
 
-  /** Emulates a SQL MAX() call ever so gently */
-  def maxValue[A <% DBObject : Manifest](field: String, condition: A) = {
-    val initial = MongoDBObject("max" -> "")
-    val groupResult = group(MongoDBObject.empty,
-          condition,
-          initial,
-          """
-          function(obj, aggr) {
-            if (aggr.max == '') {
-              aggr.max = obj.%s;
-            } else if (obj.%s > aggr.max) {
-              aggr.max = obj.%s;
-            }
-          }""".format(field, field, field), "")
-    log.trace("Max Grouping Result: %s", groupResult)
-    groupResult.head.get("max").asInstanceOf[Double]
-  }
-
-  def maxDate[A <% DBObject : Manifest](field: String, condition: A) = {
-    val initial = Map("max" -> "").asDBObject
-    val groupResult = group(MongoDBObject.empty,
-      condition,
-      initial,
-      """
-      function(obj, aggr) {
-        if (aggr.max == '') {
-          aggr.max = obj.%s;
-        } else if (obj.%s > aggr.max) {
-          aggr.max = obj.%s;;
-        }
-      }""".format(field, field, field), "")
-    log.trace("Max Date Grouping Result: %s", groupResult)
-    groupResult.head.get("max").asInstanceOf[java.util.Date]
-  }
-  def minDate[A <% DBObject : Manifest](field: String, condition: A) = {
-    val initial = Map("max" -> "").asDBObject
-    val groupResult = group(MongoDBObject.empty,
-      condition,
-      initial,
-      """
-      function(obj, aggr) {
-        if (aggr.max == '') {
-          aggr.max = obj.%s;
-        } else if (obj.%s > aggr.max) {
-          aggr.max = obj.%s;
-        }
-      }""".format(field, field, field), "")
-    log.trace("Max Date Grouping Result: %s", groupResult)
-    groupResult.head.get("max").asInstanceOf[java.util.Date]
-  }
-  /** Emulates a SQL MIN() call ever so gently */
-  def minValue[A <% DBObject : Manifest](field: String, condition: A) = {
-    val initial = Map("min" -> "").asDBObject
-    group(MongoDBObject.empty,
-          condition,
-          initial,
-          """
-          function(obj, aggr) {
-            if (aggr.min == '') {
-              aggr.min = obj.%s;
-            } else if (obj.%s < aggr.min) {
-              aggr.min = obj.%s;
-            }
-           }""".format(field, field, field), "").
-        head.get("min").asInstanceOf[Double]
-  }
-
-  /** Emulates a SQL AVG() call ever so gently */
-  def avgValue[A <% DBObject : Manifest](field: String, condition: A) = {
-    val initial = Map("count" -> 0, "total" -> 0, "avg" -> 0).asDBObject
-    group(MongoDBObject.empty,
-      condition,
-      initial,
-      """
-      function(obj, aggr) {
-        aggr.total += obj.%s;
-        aggr.count += 1; 
-      }
-      """.format(field),
-      "function(aggr) { aggr.avg = aggr.total / aggr.count }").head.get("avg").asInstanceOf[Double]
-  }
-
-  override def hashCode() = underlying.hashCode
 
   /**
    * Saves document(s) to the database.
@@ -537,8 +519,9 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    *
    * @param arr  array of documents to save
    * @dochub insert
+   * TODO - Wrapper for WriteResult?
    */
-  def insert[A <% DBObject : Manifest](docs: A*) = {
+  def insert[A <% DBObject](docs: A*) = {
     val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
     b.sizeHint(docs.size)
     for (x <- docs) b += x
@@ -552,8 +535,9 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    *
    * @param arr  array of documents to save
    * @dochub insert
+   * TODO - Wrapper for WriteResult?
    */
-  def insert[A <: Array[B] : Manifest, B <% DBObject : Manifest](docs: A, writeConcern: WriteConcern) = {
+  def insert[A <% DBObject](docs: Traversable[A], writeConcern: WriteConcern) = {
     val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
     b.sizeHint(docs.size)
     for (x <- docs) b += x
@@ -568,8 +552,9 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    *
    * @param arr  array of documents to save
    * @dochub insert
+   * TODO - Wrapper for WriteResult?
    */
-  def insert[A <% DBObject : Manifest](doc: A, writeConcern: WriteConcern) = 
+  def insert[A <% DBObject](doc: A, writeConcern: WriteConcern) = 
     underlying.insert(doc, writeConcern)
 
   /**
@@ -579,8 +564,9 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    *
    * @param list list of documents to save
    * @dochub insert
+   * TODO - Wrapper for WriteResult?
    */
-  def insert[A <% DBObject : Manifest](docs: List[A]) = {
+  def insert[A <% DBObject](docs: List[A]) = {
     val b = List.newBuilder[DBObject]
     for (x <- docs) b += x
     underlying.insert(b.result.asJava)
@@ -590,17 +576,23 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
   def isCapped = underlying.isCapped()
 
   /**
-   * @deprecated Due to poor original design on my part, you should probably use the explicitly parameterized fversion of this on collection   * @param command An instance of MapReduceCommand representing the required MapReduce
+   * @deprecated Will go away in 2.1: Due to poor original design on my part, you should probably use the explicitly parameterized fversion of this on collection   
+   * @param command An instance of MapReduceCommand representing the required MapReduce
    * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
    */
   def mapReduce(command: MapReduceCommand): MapReduceResult  = {
     val result = getDB.command(command.asDBObject)
     new MapReduceResult(result)
   }
-  /**
-   *
-   * @param command An instance of MapReduceCommand representing the required MapReduce
-   * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
+
+  /** 
+   * mapReduce
+   * Execute a mapReduce against this collection.
+   * NOTE: JSFunction is just a type alias for String
+   * 
+   * @param  mapFunction (JSFunction) The JavaScript to execute for the map function
+   * @param  reduceFunction (JSFunction) The JavaScript to execute for the reduce function
+   * 
    */
   def mapReduce(mapFunction: JSFunction, 
                 reduceFunction: JSFunction, 
@@ -615,15 +607,17 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
   /** Removes objects from the database collection.
    * @param o the object that documents to be removed must match
    * @dochub remove
+   * TODO - Wrapper for WriteResult?
    */
-  def remove[A <% DBObject : Manifest](o: A) = underlying.remove(o)
+  def remove[A <% DBObject](o: A) = underlying.remove(o)
 
   /** Removes objects from the database collection.
    * @param o the object that documents to be removed must match
    * @param concern WriteConcern for this operation
    * @dochub remove
+   * TODO - Wrapper for WriteResult?
    */
-  def remove[A <% DBObject : Manifest](o: A, writeConcern: WriteConcern) = 
+  def remove[A <% DBObject](o: A, writeConcern: WriteConcern) = 
     underlying.remove(o, writeConcern)
 
   /** Clears all indices that have not yet been applied to this collection. */
@@ -632,92 +626,111 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
   /** Saves an object to this collection.
    * @param jo the <code>DBObject</code> to save
    *        will add <code>_id</code> field to jo if needed
+   * TODO - Wrapper for WriteResult?
    */
-  def save[A <% DBObject : Manifest](jo: A) = underlying.save(jo)
+  def save[A <% DBObject](jo: A) = underlying.save(jo)
 
   /** Saves an object to this collection.
    * @param jo the <code>DBObject</code> to save
    *        will add <code>_id</code> field to jo if needed
+   * TODO - Wrapper for WriteResult?
    */
-  def save[A <% DBObject : Manifest](jo: A, writeConcern: WriteConcern) = underlying.save(jo, writeConcern)
+  def save[A <% DBObject](jo: A, writeConcern: WriteConcern) = underlying.save(jo, writeConcern)
 
   /** Set hint fields for this collection.
    * @param lst a list of <code>DBObject</code>s to be used as hints
    */
-  def setHintFields[A <% DBObject : Manifest](docs: List[A]) = {
+  def setHintFields[A <% DBObject](docs: List[A]) = {
     val b = List.newBuilder[DBObject]
     for (x <- docs) b += x
     underlying.setHintFields(b.result.asJava)
   }
 
+  /** Set hint fields for this collection.
+   * @param lst a list of <code>DBObject</code>s to be used as hints
+   */
+  def hintFields_=[A <% DBObject](docs: List[A]) = setHintFields(docs)
+
+
   def setInternalClass(path: String, c: Class[_]) = underlying.setInternalClass(path, c)
+
+  def internalClass_=(path: String, c: Class[_]) = setInternalClass(path, c)
 
   override def toString() = underlying.toString
 
  /**
+   * Performs an update operation.
    * @dochub update
+   * @param q search query for old object to update
+   * @param o object with which to update <tt>q</tt>
+   * TODO - Wrapper for WriteResult?
    */
-  def update[A <% DBObject : Manifest, B <% DBObject : Manifest](q: A, o: B) = underlying.update(q, o)
+  def update[A <% DBObject, B <% DBObject](q: A, o: B) = underlying.update(q, o)
+
   /**
    * Performs an update operation.
    * @param q search query for old object to update
    * @param o object with which to update <tt>q</tt>
    * @param upsert if the database should create the element if it does not exist
    * @param multi if the update should be applied to all objects matching (db version 1.1.3 and above)
-   *              See http://www.mongodb.org/display/DOCS/Atomic+Operations
+   * @see http://www.mongodb.org/display/DOCS/Atomic+Operations
    * @dochub update
+   * TODO - Wrapper for WriteResult?
    */
-  def update[A <% DBObject : Manifest, B <% DBObject : Manifest](q: A, o: B, upsert: Boolean, multi: Boolean) = underlying.update(q, o, upsert, multi)
+  def update[A <% DBObject, B <% DBObject](q: A, o: B, upsert: Boolean, multi: Boolean) = underlying.update(q, o, upsert, multi)
+
   /**
    * Performs an update operation.
    * @param q search query for old object to update
    * @param o object with which to update <tt>q</tt>
    * @param upsert if the database should create the element if it does not exist
    * @param multi if the update should be applied to all objects matching (db version 1.1.3 and above)
-   *              See http://www.mongodb.org/display/DOCS/Atomic+Operations
+   * @see http://www.mongodb.org/display/DOCS/Atomic+Operations
    * @param writeConcern WriteConcern for this operation
    * @dochub update
+   * TODO - Wrapper for WriteResult?
    */
-  def update[A <% DBObject : Manifest, B <% DBObject : Manifest](q: A, o: B, upsert: Boolean, multi: Boolean, writeConcern: WriteConcern) =
+  def update[A <% DBObject, B <% DBObject](q: A, o: B, upsert: Boolean, multi: Boolean, writeConcern: WriteConcern) =
     underlying.update(q, o, upsert, multi, writeConcern)
 
  /**
+   * Perform a multi update
    * @dochub update
+   * @param q search query for old object to update
+   * @param o object with which to update <tt>q</tt>
    */
-  def updateMulti[A <% DBObject : Manifest, B <% DBObject : Manifest](q: A, o: B) = underlying.updateMulti(q, o)
+  def updateMulti[A <% DBObject, B <% DBObject](q: A, o: B) = underlying.updateMulti(q, o)
+
+  override def hashCode() = underlying.hashCode
 
   /** Checks if this collection is equal to another object.
    * @param o object with which to compare this collection
    * @return if the two collections are the same object
    */
   override def equals(obj: Any) = obj match {
-    case other: MongoCollection[_] => underlying.equals(other.underlying)
+    case other: MongoCollectionBase[_] => underlying.equals(other.underlying)
     case _ => false
   }
 
   def count = getCount
-  def count[A <% DBObject : Manifest](query: A) = getCount(query)
-  def count[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, fields: B) = getCount(query, fields)
+  def count[A <% DBObject](query: A) = getCount(query)
+  def count[A <% DBObject, B <% DBObject](query: A, fields: B) = getCount(query, fields)
 
   def lastError = underlying.getDB.getLastError
 
   /**
-   * MongoDB DB collection.save method
+   * Save an object to the Collection
    *
-   * @author Alexander Azarov <azarov@osinka.ru>
-   * 
    * @param x object to save to the collection
    */
-  def +=[A <% DBObject : Manifest](x: A)  = save(x)
+  def +=[A <% DBObject](x: A)  = save(x)
 
   /**
-   * MongoDB DBCollection.remove method
+   * Remove a matching object from the collection
    *
-   * @author Alexander Azarov <azarov@osinka.ru>
-   * 
    * @param x object to remove from the collection
    */
-  def -=[A <% DBObject : Manifest](x: A) = remove(x)
+  def -=[A <% DBObject](x: A) = remove(x)
 
 
 
@@ -774,6 +787,7 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
    * @see com.mongodb.Bytes
    */
   def addOption(option: Int) = underlying.addOption(option)
+
   /** 
    * Manipulate Network Options
    * 
@@ -818,6 +832,132 @@ class MongoCollection(val underlying: com.mongodb.DBCollection)
   def rename(newName: String): MongoCollection = 
     new MongoCollection(self.underlying.rename(newName))
 
-      
+  /** 
+   * _newCursor
+   * 
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of the correct cursor implementation from a 
+   * Java cursor.  Good with cursor calls that return a new cursor.
+   * Should figure out the right type to return based on typing setup.
+   *
+   * @param  cursor (DBCursor) 
+   * @return (MongoCursorBase)
+   */
+  def _newCursor(cursor: DBCursor): MongoCursorBase[T]
+
+  /** 
+   * _newInstance
+   * 
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of THIS concrete implementation from a 
+   * Java collection.  Good with calls that return a new collection.
+   *
+   * @param  cursor (DBCollection) 
+   * @return (this.type)
+   */
+  def _newInstance(collection: DBCollection): MongoCollectionBase[T]      
+}
+
+/** 
+ * Concrete collection implementation expecting standard DBObject operation
+ * This is the version of MongoCollectionBase you should expect to use in most cases.
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @version 2.0, 12/23/10
+ * @since 1.0
+ * 
+ * @tparam DBObject 
+ */
+class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase[DBObject] {
+
+  /** 
+   * _newCursor
+   * 
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of the correct cursor implementation from a 
+   * Java cursor.  Good with cursor calls that return a new cursor.
+   * Should figure out the right type to return based on typing setup.
+   *
+   * @param  cursor (DBCursor) 
+   * @return (MongoCursorBase)
+   */
+  def _newCursor(cursor: DBCursor) = new MongoCursor(cursor)
+
+  /** 
+   * _newInstance
+   * 
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of THIS concrete implementation from a 
+   * Java collection.  Good with calls that return a new collection.
+   *
+   * @param  cursor (DBCollection) 
+   * @return (this.type)
+   */
+  def _newInstance(collection: DBCollection) = new MongoCollection(collection)
+
+
+}
+
+/** 
+ * Concrete collection implementation for typed Cursor operations via Collection.setObjectClass et al
+ * This is a special case collection for typed operations
+ * 
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @version 2.0, 12/23/10
+ * @since 1.0
+ * 
+ * @param  val underlying (DBCollection) 
+ * @tparam T  A Subclass of DBObject
+ */
+class MongoTypedCollection[T <: DBObject : Manifest](val underlying: DBCollection) extends MongoCollectionBase[T] {
+
+  /** 
+   * _newCursor
+   * 
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of the correct cursor implementation from a 
+   * Java cursor.  Good with cursor calls that return a new cursor.
+   * Should figure out the right type to return based on typing setup.
+   *
+   * @param  cursor (DBCursor) 
+   * @return (MongoCursorBase)
+   */
+  def _newCursor(cursor: DBCursor) = new MongoTypedCursor[T](cursor)
+
+  /** 
+   * _newInstance
+   * 
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of THIS concrete implementation from a 
+   * Java collection.  Good with calls that return a new collection.
+   *
+   * @param  cursor (DBCollection) 
+   * @return (this.type)
+   */
+  def _newInstance(collection: DBCollection) = new MongoTypedCollection[T](collection)
+}
+
+
+/** Helper object for some static methods
+ */
+object MongoCollection extends Logging {
+
+  /** 
+   * generateIndexName
+   * 
+   * Generate an index name from the set of fields it is over
+   *
+   * @param  keys (A) The names of the fields used in this index
+   * @return a String containing the new name, represented from the index' fields
+   * @tparam A A View of DBObject
+   */
+  def generateIndexName[A <% DBObject](keys: A) = DBCollection.genIndexName(keys)
+
 }
 

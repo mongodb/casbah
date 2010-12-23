@@ -127,6 +127,7 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
 
     "Renaming a collection successfully tracks the rename in MongoCollection" in {
       val db = MongoConnection()("test")
+      db("collection").drop()
       val coll = db("collectoin")
       coll.drop()
       coll.insert(MongoDBObject("foo" -> "bar"))
