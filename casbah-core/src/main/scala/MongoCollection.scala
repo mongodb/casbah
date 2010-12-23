@@ -195,7 +195,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * Returns a single object from this collection.
    * @return (Option[T]) Some() of the object found, or <code>None</code> if this collection is empty
    */
-  def findOne() = catching(classOf[ClassCastException]) opt underlying.findOne().asInstanceOf[T]
+  def findOne() = _typedValue(underlying.findOne())
 
   /** 
    * Returns a single object from this collection matching the query.
@@ -203,7 +203,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
   def findOne[A <% DBObject](o: A) = 
-    catching(classOf[ClassCastException]) opt underlying.findOne(o).asInstanceOf[T]
+    _typedValue(underlying.findOne(o))
 
   /**
    * Returns a single object from this collection matching the query.
@@ -212,14 +212,8 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    * @dochub find
    */
-  def findOne[A <% DBObject, B <% DBObject](o: A, fields: B) = 
-    catching(classOf[ClassCastException]) opt underlying.findOne(o, fields).asInstanceOf[T]
-
-  def findOneView[A <% DBObject](o: A) = 
-    catching(classOf[ClassCastException]) opt underlying.findOne(o).asInstanceOf[T]
-
-  def findOneView[A <% DBObject, B <% DBObject](o: A, fields: B) = 
-    catching(classOf[ClassCastException]) opt underlying.findOne(o, fields).asInstanceOf[T]
+  def findOne[A <% DBObject, B <% DBObject](o: A, fields: B) =
+    _typedValue(underlying.findOne(o, fields))
 
   /**
    * Finds the first document in the query (sorted) and updates it. 
@@ -229,14 +223,14 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @return (Option[T]) of the the found document (before, or after the update)
    */
   def findAndModify[A <% DBObject, B <% DBObject](query: A, update: B) = 
-    catching(classOf[ClassCastException]) opt underlying.findAndModify(query, update).asInstanceOf[T]
+    _typedValue(underlying.findAndModify(query, update))
 
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * @return the old document
    */
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject](query: A, sort: B, update: C) = 
-    catching(classOf[ClassCastException]) opt underlying.findAndModify(query, sort, update).asInstanceOf[T]
+    _typedValue(underlying.findAndModify(query, sort, update))
 
   /**
    * Finds the first document in the query and updates it. 
@@ -246,65 +240,16 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
                     C <% DBObject, D <% DBObject](query: A, fields: B, sort: C, 
                                                   remove: Boolean, update: D, 
                                                   returnNew: Boolean, upsert: Boolean) = 
-    catching(classOf[ClassCastException]) opt underlying.findAndModify(
-                                                query, fields, sort, remove, update, returnNew, upsert
-                                              ).asInstanceOf[T]
+    _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
 
   /**
    * Finds the first document in the query and removes it. 
    * @return the removed document
    */
   def findAndRemove[A <% DBObject](query: A) = 
-    catching(classOf[ClassCastException]) opt underlying.findAndRemove(query).asInstanceOf[T]
+    _typedValue(underlying.findAndRemove(query))
 
-  /**
-   * Finds an object by its id. This compares the passed in value to the _id field of the document
-   * I've put some hackery in to try to detect possible conversions....
-   * Because of the way we're using context and view bounds in Scala
-   * the broad match of this method can be problematic.
-   *   
-   * 
-   * @param obj any valid object
-   * @return (Option[T]) Some() of the object, if found, otherwise None
-   */
-  def findOne(obj: Object): Option[T] = 
-    catching(classOf[ClassCastException]) opt (obj match {
-      case dbobj: MongoDBObject => {
-        log.debug("View convertable[mongodbobject] - rerouting.")
-        findOne(dbobj.asDBObject)
-      }
-      case map: Map[String, Any] => {
-        log.debug("View convertable[map]- rerouting.")
-        findOne(map.asDBObject)
-      }
-      case _ => Option(underlying.findOne(obj))
-    }).asInstanceOf[T]
-
-  /**
-   * Finds an object by its id. This compares the passed in value to the _id field of the document
-   * Because of the way we're using context and view bounds in Scala
-   * the broad match of this method can be problematic.
-   * I've put some hackery in to try to detect possible conversions....
-   * 
-   * @param obj any valid object
-   * @param fields fields to return
-   * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
-   * @dochub find
-   */
-  def findOne(obj: AnyRef, fields: DBObject) =
-    catching(classOf[ClassCastException]) opt (obj match {
-      case dbobj: MongoDBObject => {
-        log.debug("View convertable[mongodbobject] - rerouting.")
-        findOneView(dbobj.asDBObject, fields)
-      }
-      case map: Map[String, Any] => {
-        log.debug("View convertable[map]- rerouting.")
-        findOneView(map.asDBObject, fields)
-      }
-      case _ => Option(underlying.findOne(obj, fields))
-    }).asInstanceOf[T]
-
-
+ 
 
   override def head = headOption.get
   override def headOption = findOne
@@ -858,6 +803,8 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @return (this.type)
    */
   def _newInstance(collection: DBCollection): MongoCollectionBase[T]      
+
+  protected def _typedValue(dbObj: DBObject): Option[T] = Option(dbObj.asInstanceOf[T])
 }
 
 /** 
@@ -899,6 +846,8 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase[
    */
   def _newInstance(collection: DBCollection) = new MongoCollection(collection)
 
+
+  override protected def _typedValue(dbObj: DBObject): Option[DBObject] = Option(dbObj)
 
 }
 

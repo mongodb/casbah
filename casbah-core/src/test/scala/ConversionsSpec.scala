@@ -65,6 +65,7 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"), 
                                    MongoDBObject("date" -> 1))
 
+      jdkEntry.get
       jdkEntry must beSomething
 
       jdkEntry.get must notBeNull
