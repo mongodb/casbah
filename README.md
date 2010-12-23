@@ -7,11 +7,16 @@ Brendan W. McAdams <brendan@10gen.com>
 
 Contributors
 -----------
-Max Afonov <max@bumnetworks.com>
-Marcello Bastéa-Forte <marcello@cellosoft.com>
+* Max Afonov <max@bumnetworks.com>
+* Marcello Bastéa-Forte <marcello@cellosoft.com>
+* Novus Partners, Inc. <http://novus.com>, who sponsored the development of this project prior to Version 2.0
 
-Novus Partners, Inc. <http://novus.com> sponsored the development of this project prior to Version 2.0
+Reporting Bugs
+--------------
 
+Please report all issues on the [MongoDB Jira Scala project][jira]
+
+We also maintain a  [Casbah Mailing List][mongodb-casbah-users] on Google Groups, where you can address questions and problems.
 
 Notice for users of old, Pre-2.0 versions of Casbah
 ---------------------------------------------------
@@ -43,3 +48,4 @@ GitHub kindly hosts our [Documentation][Documentation] including the [API Docs][
    [documentation]: http://novus.github.com/docs/casbah/ "Docs on GitHub"
    [tutorial]: http://novus.github.com/docs/casbah/sphinx/html/intro/getting_started.html "Casbah Tutorial"
    [mongodb-casbah-users]: http://groups.google.com/group/mongodb-casbah-users "Casbah Mailing List"
+   [jira]: http://jira.mongodb.org/browse/SCALA
