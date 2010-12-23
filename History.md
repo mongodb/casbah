@@ -1,4 +1,26 @@
 
+2.0rc0/ 2010-12-23 
+==================
+
+  * Added publishing of source and docs artifacts to SBT Project
+  * Update to Java Driver 2.4 (Not showing up in main maven so adding as hard lib for now)
+  * SCALA-2: Added WriteConcern to Insert 
+  * SCALA-4: Added set/reset/getOptions to MongoCursor
+  * SCALA-6: Refactored Type classes  for Collection and Cursor to minimize duplication and insanity
+  * Refactored MongoCursor to be cleaner, no more Typed/Untyped subimplementations
+  * SCALA-7: Lists, etc passed to MongoDBList are no longer flattened, and now included as is.  A bare pair e.g. "foo" -> "bar" will be saved as a MongoDBObject (mostly useful for DSL work).  If you want a long DBObject, construct it explicitly. This IS a breaking change from previous versions where a List passed to MongoDBList() was flattened---that was incorrect behavior.
+  * SCALA-3: Removed MonkeyPatches and replaced with builtin Java 2.4 methods for encode/decode removal
+  * SCALA-9: Added 'as' method to MongoDBObject which does non-Optioned castable like 'getAs'
+  * SCALA-5: Clarify docs that rename does NOT mutate, make sure it returns a PIMPED Collection instance rather than bare Java type.
+  * SCALA-1: Added support for a $maxDistance(Numeric) argument on $near queries in DSL 
+  * Added some type import fixes for Query DSL, related to ValidType tree
+  * Removed type clash by rolling back DBObject/DBList aliasing in Imports
+  * Added $ne support for Boolean, ObjectId, DBref
+  * optWrap -> Option
+  * bumNetworks repos shouldn't be needed for build anymore
+  * Updating docs to include migration guide
+  * Added new sphinx tutorial and api docs build
+
 2.0b3p1 / 2010-12-09 
 ==================
 
