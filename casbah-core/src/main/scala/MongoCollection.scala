@@ -27,6 +27,8 @@ import com.mongodb.casbah.commons.Logging
 
 import com.mongodb.casbah.map_reduce.{MapReduceResult, MapReduceCommand}
 
+import scala.util.control.Exception._
+
 
 import scalaj.collection.Imports._
 import collection.mutable.ArrayBuffer
@@ -39,11 +41,16 @@ import collection.mutable.ArrayBuffer
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
-trait MongoCollectionWrapper extends Logging {
+class MongoCollection(val underlying: com.mongodb.DBCollection)
+  extends Iterable[DBObject] with Logging { self => 
   /**
    * The underlying Java Mongo Driver Collection object we proxy.
    */
   val underlying: com.mongodb.DBCollection
+
+  def elements = find
+  def iterator = find
+
   /** Returns the database this collection is a member of.
    * @return this collection's database
    */
@@ -91,6 +98,7 @@ trait MongoCollectionWrapper extends Logging {
 
   def dropIndex[A <% DBObject : Manifest](keys: A) = 
     underlying.dropIndex(keys)
+
   def dropIndex(name: String) = underlying.dropIndex(name)
   /** Drops all indices from this collection
    */
@@ -117,6 +125,201 @@ trait MongoCollectionWrapper extends Logging {
   def ensureIndex[A <% DBObject : Manifest](keys: A, name: String, unique: Boolean) = underlying.ensureIndex(keys, name, unique)
   def ensureIndex(name: String) = underlying.ensureIndex(name)
 
+ /** Queries for all objects in this collection. 
+   * @return a cursor which will iterate over every object
+   * @dochub find
+   */
+  def find() = new MongoCursor(underlying.find)
+
+  /** Queries for an object in this collection.
+   * @param ref object for which to search
+   * @return an iterator over the results
+   * @dochub find
+   */
+  def find[A <% DBObject](ref: A) = 
+    new MongoCursor(underlying.find(ref))
+
+  /** Queries for an object in this collection.
+   *
+   * <p>
+   * An empty DBObject will match every document in the collection.
+   * Regardless of fields specified, the _id fields are always returned.
+   * </p>
+   * <p>
+   * An example that returns the "x" and "_id" fields for every document 
+   * in the collection that has an "x" field:
+   * </p>
+   * <blockquote><pre>
+   * BasicDBObject keys = new BasicDBObject();
+   * keys.put("x", 1);
+   *
+   * DBCursor cursor = collection.find(new BasicDBObject(), keys); 
+   * </pre></blockquote>
+   *
+   * @param ref object for which to search
+   * @param keys fields to return
+   * @return a cursor to iterate over results
+   * @dochub find
+   */
+  def find[A <% DBObject, B <% DBObject](ref: A, keys: B) = 
+    new MongoCursor(underlying.find(ref, keys))
+
+  /** Finds an object.
+   * @param ref query used to search
+   * @param fields the fields of matching objects to return
+   * @param numToSkip will not return the first <tt>numToSkip</tt> matches
+   * @param batchSize if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch
+   * @param options - see Bytes QUERYOPTION_*
+   * @return the objects, if found
+   * @dochub find
+   */
+  def find[A <% DBObject, B <% DBObject](ref: A, fields: B, numToSkip: Int,
+                                         batchSize: Int) = 
+    new MongoCursor(underlying.find(ref, fields, numToSkip, batchSize))
+
+  /** 
+   * Returns a single object from this collection.
+   * @return the object found, or <code>null</code> if the collection is empty
+   */
+  def findOne() = catching(classOf[ClassCastException]) opt underlying.findOne().asInstanceOf[DBObject]
+
+  /** 
+   * Returns a single object from this collection matching the query.
+   * @param o the query object
+   * @return the object found, or <code>null</code> if no such object exists
+   */
+  def findOne[A <% DBObject](o: A) = 
+    catching(classOf[ClassCastException]) opt underlying.findOne(o).asInstanceOf[DBObject]
+
+  /**
+   * Returns a single object from this collection matching the query.
+   * @param o the query object
+   * @param fields fields to return
+   * @return the object found, or <code>null</code> if no such object exists
+   * @dochub find
+   */
+  def findOne[A <% DBObject, B <% DBObject](o: A, fields: B) = 
+    catching(classOf[ClassCastException]) opt underlying.findOne(o, fields).asInstanceOf[DBObject]
+
+  def findOneView[A <% DBObject : Manifest](o: A) = 
+    catching(classOf[ClassCastException]) opt underlying.findOne(o).asInstanceOf[DBObject]
+
+  def findOneView[A <% DBObject : Manifest, B <% DBObject : Manifest](o: A, fields: B) = 
+    catching(classOf[ClassCastException]) opt underlying.findOne(o, fields).asInstanceOf[DBObject]
+
+  /**
+   * Finds the first document in the query (sorted) and updates it. 
+   * If remove is specified it will be removed. If new is specified then the updated 
+   * document will be returned, otherwise the old document is returned (or it would be lost forever).
+   * You can also specify the fields to return in the document, optionally.
+   * @return the found document (before, or after the update)
+   */
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = 
+    catching(classOf[ClassCastException]) opt underlying.findAndModify(query, update).asInstanceOf[DBObject]
+
+  /**
+   * Finds the first document in the query (sorted) and updates it. 
+   * @return the old document
+   */
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](query: A, sort: B, update: C) = 
+    catching(classOf[ClassCastException]) opt underlying.findAndModify(query, sort, update).asInstanceOf[DBObject]
+
+  /**
+   * Finds the first document in the query and updates it. 
+   * @return the old document
+   */
+  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest, D <% DBObject : Manifest](
+    query: A, fields: B, sort: C, remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean
+  ) = 
+    catching(classOf[ClassCastException]) opt underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert).asInstanceOf[DBObject]
+
+  /**
+   * Finds the first document in the query and removes it. 
+   * @return the removed document
+   */
+  def findAndRemove[A <% DBObject : Manifest](query: A) = 
+    catching(classOf[ClassCastException]) opt underlying.findAndRemove(query).asInstanceOf[DBObject]
+
+  /**
+   * Finds an object by its id. This compares the passed in value to the _id field of the document
+   * I've put some hackery in to try to detect possible conversions....
+   * Because of the way we're using context and view bounds in Scala
+   * the broad match of this method can be problematic.
+   *   
+   * 
+   * @param obj any valid object
+   * @return the object, if found, otherwise <code>null</code>
+   */
+  def findOne(obj: Object): Option[DBObject] = 
+    catching(classOf[ClassCastException]) opt (obj match {
+      case dbobj: MongoDBObject => {
+        log.debug("View convertable[mongodbobject] - rerouting.")
+        findOne(dbobj.asDBObject)
+      }
+      case map: Map[String, Any] => {
+        log.debug("View convertable[map]- rerouting.")
+        findOne(map.asDBObject)
+      }
+      case _ => Option(underlying.findOne(obj))
+    }).asInstanceOf[DBObject]
+
+  /**
+   * Finds an object by its id. This compares the passed in value to the _id field of the document
+   * Because of the way we're using context and view bounds in Scala
+   * the broad match of this method can be problematic.
+   * I've put some hackery in to try to detect possible conversions....
+   * 
+   * @param obj any valid object
+   * @param fields fields to return
+   * @return the object, if found, otherwise <code>null</code>
+   * @dochub find
+   */
+  def findOne(obj: AnyRef, fields: DBObject) =
+    catching(classOf[ClassCastException]) opt (obj match {
+      case dbobj: MongoDBObject => {
+        log.debug("View convertable[mongodbobject] - rerouting.")
+        findOneView(dbobj.asDBObject, fields)
+      }
+      case map: Map[String, Any] => {
+        log.debug("View convertable[map]- rerouting.")
+        findOneView(map.asDBObject, fields)
+      }
+      case _ => Option(underlying.findOne(obj, fields))
+    }).asInstanceOf[DBObject]
+
+
+
+  override def head = headOption.get
+  override def headOption = findOne
+  override def tail = find.skip(1).toList
+
+
+  /**
+   * write concern aware write op block.
+   *
+   * Guarantees that the operations in the passed
+   * block are executed in the same connection
+   * via requestStart() and requestDone().
+   * 
+   * Calls &amp; throws getLastError afterwards,
+   * so if you run multiple ops you'll only get the final 
+   * error.
+   * 
+   * Your op function gets a copy of this MongoDB.
+   * 
+   * This is for update ops only - you cannot return data from it.
+   * 
+   * 
+   * @throws MongoException
+   */
+  def request(op: MongoCollection => Unit) = getDB.request(db => op(db(name)))
+
+  def setObjectClass[A <% DBObject : Manifest](c: Class[A]) = {
+    underlying.setObjectClass(c)
+    new MongoCollection[A] { val underlying = self.underlying }
+  }
+
+  
   /** Find a collection that is prefixed with this collection's name.
    * A typical use of this might be 
    * <blockquote><pre>
@@ -271,7 +474,7 @@ trait MongoCollectionWrapper extends Logging {
         if (aggr.max == '') {
           aggr.max = obj.%s;
         } else if (obj.%s > aggr.max) {
-          aggr.max = obj.%s;
+          aggr.max = obj.%s;;
         }
       }""".format(field, field, field), "")
     log.trace("Max Date Grouping Result: %s", groupResult)
@@ -488,7 +691,7 @@ trait MongoCollectionWrapper extends Logging {
    * @return if the two collections are the same object
    */
   override def equals(obj: Any) = obj match {
-    case other: MongoCollectionWrapper => underlying.equals(other.underlying)
+    case other: MongoCollection[_] => underlying.equals(other.underlying)
     case _ => false
   }
 
@@ -612,388 +815,9 @@ trait MongoCollectionWrapper extends Logging {
    * @param newName new collection name (not a full namespace)
    * @return the new collection
    */
-  def rename(newName: String): MongoCollectionWrapper
+  def rename(newName: String): MongoCollection = 
+    new MongoCollection(self.underlying.rename(newName))
+
       
 }
 
-/**
- * A Non-Generic, DBObject returning implementation of the <code>ScalaMongoCollectionWrapper</code>
- * Which implements Iterable, to allow iterating directly over it to list all of the underlying objects.
- *
- * @author Brendan W. McAdams <brendan@10gen.com>
- *
- * @param underlying DBCollection object to proxy
- */
-class MongoCollection(val underlying: com.mongodb.DBCollection)
-    extends MongoCollectionWrapper 
-    with Iterable[DBObject] {
-
-  override def elements: MongoCursor  = find
-  override def iterator: MongoCursor  = find
-
-  /** Queries for all objects in this collection. 
-   * @return a cursor which will iterate over every object
-   * @dochub find
-   */
-  def find() = underlying.find.asScala
-  /** Queries for an object in this collection.
-   * @param ref object for which to search
-   * @return an iterator over the results
-   * @dochub find
-   */
-  def find(ref: DBObject) = underlying.find(ref) asScala
-  /** Queries for an object in this collection.
-   *
-   * <p>
-   * An empty DBObject will match every document in the collection.
-   * Regardless of fields specified, the _id fields are always returned.
-   * </p>
-   * <p>
-   * An example that returns the "x" and "_id" fields for every document 
-   * in the collection that has an "x" field:
-   * </p>
-   * <blockquote><pre>
-   * BasicDBObject keys = new BasicDBObject();
-   * keys.put("x", 1);
-   *
-   * DBCursor cursor = collection.find(new BasicDBObject(), keys); 
-   * </pre></blockquote>
-   *
-   * @param ref object for which to search
-   * @param keys fields to return
-   * @return a cursor to iterate over results
-   * @dochub find
-   */
-  def find(ref: DBObject, keys: DBObject) = underlying.find(ref, keys) asScala
-  /** Finds an object.
-   * @param ref query used to search
-   * @param fields the fields of matching objects to return
-   * @param numToSkip will not return the first <tt>numToSkip</tt> matches
-   * @param batchSize if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch
-   * @param options - see Bytes QUERYOPTION_*
-   * @return the objects, if found
-   * @dochub find
-   */
-  def find(ref: DBObject, fields: DBObject, numToSkip: Int, batchSize: Int) = underlying.find(ref, fields, numToSkip, batchSize) asScala
-
-  /** 
-   * Returns a single object from this collection.
-   * @return the object found, or <code>null</code> if the collection is empty
-   */
-  def findOne(): Option[DBObject] = Option(underlying.findOne())
-
-  /** 
-   * Returns a single object from this collection matching the query.
-   * @param o the query object
-   * @return the object found, or <code>null</code> if no such object exists
-   */
-  def findOne(o: DBObject): Option[DBObject] = Option(underlying.findOne(o))
-
-  /**
-   * Returns a single object from this collection matching the query.
-   * @param o the query object
-   * @param fields fields to return
-   * @return the object found, or <code>null</code> if no such object exists
-   * @dochub find
-   */
-  def findOne(o: DBObject, fields: DBObject): Option[DBObject] = Option(underlying.findOne(o, fields))
-  def findOneView[A <% DBObject : Manifest](o: A) = Option(underlying.findOne(o))
-  def findOneView[A <% DBObject : Manifest, B <% DBObject : Manifest](o: A, fields: B) = 
-    Option(underlying.findOne(o, fields))
-
-  /**
-   * Finds the first document in the query (sorted) and updates it. 
-   * If remove is specified it will be removed. If new is specified then the updated 
-   * document will be returned, otherwise the old document is returned (or it would be lost forever).
-   * You can also specify the fields to return in the document, optionally.
-   * @return the found document (before, or after the update)
-   */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = Option(underlying.findAndModify(query, update))
-  /**
-   * Finds the first document in the query (sorted) and updates it. 
-   * @return the old document
-   */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](query: A, sort: B, update: C) = Option(underlying.findAndModify(query, sort, update))
-  /**
-   * Finds the first document in the query and updates it. 
-   * @return the old document
-   */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest, D <% DBObject : Manifest](
-    query: A, fields: B, sort: C, remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean
-  ) = Option(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
-
-  /**
-   * Finds the first document in the query and removes it. 
-   * @return the removed document
-   */
-  def findAndRemove[A <% DBObject : Manifest](query: A) = Option(underlying.findAndRemove(query))
-
-  /**
-   * Finds an object by its id. This compares the passed in value to the _id field of the document
-   * I've put some hackery in to try to detect possible conversions....
-   * Because of the way we're using context and view bounds in Scala
-   * the broad match of this method can be problematic.
-   *   
-   * 
-   * @param obj any valid object
-   * @return the object, if found, otherwise <code>null</code>
-   */
-  def findOne(obj: Object): Option[DBObject] = obj match {
-    case dbobj: MongoDBObject => {
-      log.debug("View convertable[mongodbobject] - rerouting.")
-      findOne(dbobj.asDBObject)
-    }
-    case map: Map[String, Any] => {
-      log.debug("View convertable[map]- rerouting.")
-      findOne(map.asDBObject)
-    }
-    case _ => Option(underlying.findOne(obj))
-  }
-  /**
-   * Finds an object by its id. This compares the passed in value to the _id field of the document
-   * Because of the way we're using context and view bounds in Scala
-   * the broad match of this method can be problematic.
-   * I've put some hackery in to try to detect possible conversions....
-   * 
-   * @param obj any valid object
-   * @param fields fields to return
-   * @return the object, if found, otherwise <code>null</code>
-   * @dochub find
-   */
-  def findOne(obj: AnyRef, fields: DBObject): Option[DBObject] =  obj match {
-
-    case dbobj: MongoDBObject => {
-      log.debug("View convertable[mongodbobject] - rerouting.")
-      findOneView(dbobj.asDBObject, fields)
-    }
-    case map: Map[String, Any] => {
-      log.debug("View convertable[map]- rerouting.")
-      findOneView(map.asDBObject, fields)
-    }
-
-     case _ => Option(underlying.findOne(obj, fields))
-  }
-
-
-
-  override def head = headOption.get
-  override def headOption = findOne
-  override def tail = find.skip(1).toList
-
-
-  /**
-   * write concern aware write op block.
-   *
-   * Guarantees that the operations in the passed
-   * block are executed in the same connection
-   * via requestStart() and requestDone().
-   * 
-   * Calls &amp; throws getLastError afterwards,
-   * so if you run multiple ops you'll only get the final 
-   * error.
-   * 
-   * Your op function gets a copy of this MongoDB.
-   * 
-   * This is for update ops only - you cannot return data from it.
-   * 
-   * 
-   * @throws MongoException
-   */
-  def request(op: MongoCollection => Unit) = getDB.request(db => op(db(name)))
-
-
-  /**
-   * does a rename of this collection to newName
-   * As per the Java API this returns a *NEW* Collection,
-   * and the old collection is probably no good anymore.
-   *
-   * This collection *WILL NOT* mutate --- the instance will 
-   * still point at a now nonexistant collection with the old name
-   * ... You must capture the return value for the new instance.
-   *
-   * @param newName new collection name (not a full namespace)
-   * @return the new collection
-   */
-  def rename(newName: String): MongoCollection = new MongoCollection(underlying.rename(newName))
-
-}
-
-/**
- * A Generic, parameterized DBObject-subclass returning implementation of the <code>ScalaMongoCollectionWrapper</code>
- * This is instantiated with a type (and an implicitly discovered or explicitly passed Manifest object) to determine it's underlying type.
- *
- * It will attempt to deserialize *ALL* returned results (except for things like group and mapReduce which don't return collection objects)
- * to it's type, on the assumption that the collection matches the type's spec.
- *
- *
- * implements Iterable, to allow iterating directly over it to list all of the underlying objects.
- *
- * @author Brendan W. McAdams <brendan@10gen.com>
- *
- * @param A  type representing a DBObject subclass which this class should return instead of generic DBObjects
- * @param underlying DBCollection object to proxy
- */
-class MongoTypedCollection[T <: DBObject : Manifest](val underlying: com.mongodb.DBCollection) extends Iterable[T] 
-                                                                                       with MongoCollectionWrapper {
-                                                                                     
-  type UnderlyingObj = T
-  val m = manifest[T]
-  log.debug("Manifest erasure: " + m.erasure)
-  underlying.setObjectClass(m.erasure)
-
-
-  override def elements = find
-  override def iterator = find
-  /** Queries for all objects in this collection. 
-   * @return a cursor which will iterate over every object
-   * @dochub find
-   */
-  def find() = underlying.find.asScalaTyped
-  /** Queries for an object in this collection.
-   * @param ref object for which to search
-   * @return an iterator over the results
-   * @dochub find
-   */
-  def find(ref: DBObject) = underlying.find(ref) asScalaTyped
-  /** Queries for an object in this collection.
-   *
-   * <p>
-   * An empty DBObject will match every document in the collection.
-   * Regardless of fields specified, the _id fields are always returned.
-   * </p>
-   * <p>
-   * An example that returns the "x" and "_id" fields for every document 
-   * in the collection that has an "x" field:
-   * </p>
-   * <blockquote><pre>
-   * BasicDBObject keys = new BasicDBObject();
-   * keys.put("x", 1);
-   *
-   * DBCursor cursor = collection.find(new BasicDBObject(), keys); 
-   * </pre></blockquote>
-   *
-   * @param ref object for which to search
-   * @param keys fields to return
-   * @return a cursor to iterate over results
-   * @dochub find
-   */
-  def find(ref: DBObject, keys: DBObject) = underlying.find(ref, keys) asScalaTyped
-  /** Finds an object.
-   * @param ref query used to search
-   * @param fields the fields of matching objects to return
-   * @param numToSkip will not return the first <tt>numToSkip</tt> matches
-   * @param batchSize if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch
-   * @param options - see Bytes QUERYOPTION_*
-   * @return the objects, if found
-   * @dochub find
-   */
-  def find(ref: DBObject, fields: DBObject, numToSkip: Int, batchSize: Int) = underlying.find(ref, fields, numToSkip, batchSize) asScalaTyped
- /** 
-   * Returns a single object from this collection.
-   * @return the object found, or <code>null</code> if the collection is empty
-   */
-  def findOne() = Option(underlying.findOne().asInstanceOf[T])
-  /** 
-   * Returns a single object from this collection matching the query.
-   * @param o the query object
-   * @return the object found, or <code>null</code> if no such object exists
-   */
-  def findOne(o: DBObject) = Option(underlying.findOne(o).asInstanceOf[T])
-  /**
-   * Returns a single object from this collection matching the query.
-   * @param o the query object
-   * @param fields fields to return
-   * @return the object found, or <code>null</code> if no such object exists
-   * @dochub find
-   */
-  def findOne(o: DBObject, fields: DBObject) = Option(underlying.findOne(o, fields).asInstanceOf[T])
-  /**
-   * Finds an object by its id.  
-   * This compares the passed in value to the _id field of the document
-   * 
-   * @param obj any valid object
-   * @return the object, if found, otherwise <code>null</code>
-   */
-  def findOne(obj: Object) = Option(underlying.findOne(obj).asInstanceOf[T])
- /**
-   * Finds an object by its id.  
-   * This compares the passed in value to the _id field of the document
-   * 
-   * @param obj any valid object
-   * @param fields fields to return
-   * @return the object, if found, otherwise <code>null</code>
-   * @dochub find
-   */
-  def findOne(obj: Object, fields: DBObject) = Option(underlying.findOne(obj, fields).asInstanceOf[T])
-
-  /**
-   * Finds the first document in the query (sorted) and updates it. 
-   * If remove is specified it will be removed. If new is specified then the updated 
-   * document will be returned, otherwise the old document is returned (or it would be lost forever).
-   * You can also specify the fields to return in the document, optionally.
-   * @return the found document (before, or after the update)
-   */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest](query: A, update: B) = Option(underlying.findAndModify(query, update)).asInstanceOf[T]
-  /**
-   * Finds the first document in the query (sorted) and updates it. 
-   * @return the old document
-   */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest](query: A, sort: B, update: C) = Option(underlying.findAndModify(query, sort, update)).asInstanceOf[T]
-  /**
-   * Finds the first document in the query and updates it. 
-   * @return the old document
-   */
-  def findAndModify[A <% DBObject : Manifest, B <% DBObject : Manifest, C <% DBObject : Manifest, D <% DBObject : Manifest](
-    query: A, fields: B, sort: C, remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean
-  ) = Option(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert)).asInstanceOf[T]
-
-  /**
-   * Finds the first document in the query and removes it. 
-   * @return the removed document
-   */
-  def findAndRemove[A <% DBObject : Manifest](query: A) = Option(underlying.findAndRemove(query)).asInstanceOf[T]
-
-
-  override def head = findOne.get
-  override def headOption = Some(findOne.get.asInstanceOf[T])
-  override def tail = find.skip(1).map(_.asInstanceOf[T]).toList
-
-  def setHintFields(lst: List[DBObject]) = underlying.setHintFields(lst.asJava)
-
-  def setObjectClass[A <: DBObject : Manifest](c: Class[A]) = {
-    underlying.setObjectClass(c)
-    new MongoTypedCollection[A](underlying)
-  }
-
-  override def toString() = underlying.toString
-
-  def update(q: DBObject, o: DBObject) = underlying.update(q, o)
-  def update(q: DBObject, o: DBObject, upsert: Boolean, multi: Boolean) = underlying.update(q, o, upsert, multi)
-  def updateMulti(q: DBObject, o: DBObject) = underlying.updateMulti(q, o)
-
-  /** Checks if this collection is equal to another object.
-   * @param o object with which to compare this collection
-   * @return if the two collections are the same object
-   */
-  override def equals(obj: Any) = obj match {
-    case other: MongoCollectionWrapper => underlying.equals(other.underlying)
-    case _ => false
-  }
-
-  /**
-   * does a rename of this collection to newName
-   * As per the Java API this returns a *NEW* Collection,
-   * and the old collection is probably no good anymore.
-   *
-   * This collection *WILL NOT* mutate --- the instance will 
-   * still point at a now nonexistant collection with the old name
-   * ... You must capture the return value for the new instance.
-   *
-   * @param newName new collection name (not a full namespace)
-   * @return the new collection
-   */
-  def rename(newName: String): MongoTypedCollection[T] = new MongoTypedCollection(underlying.rename(newName))
-
-
-  
-}
