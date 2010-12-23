@@ -30,7 +30,11 @@ class CasbahProject(info: ProjectInfo)
       with AutoCompilerPlugins 
       with GrowlingTests {
 
-    /**
+    override def packageDocsJar = defaultJarPath("-javadoc.jar")
+    override def packageSrcJar= defaultJarPath("-sources.jar")
+    override def packageToPublishActions = super.packageToPublishActions ++ Seq(packageDocs, packageSrc)
+
+   /**
      * SXR Support 
      */
     val sxr = compilerPlugin("org.scala-tools.sxr" % "sxr_2.8.0" % "0.2.6")
