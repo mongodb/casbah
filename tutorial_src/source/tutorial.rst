@@ -46,38 +46,7 @@ It is also possible to create your own custom type serializers and deserializers
 Wrappers
 --------------------
 
-Casbah provides a series of wrapper classes (and in some cases, companion objects) which proxy the "core" Java driver classes to provide scala functionality.  
-
-+-----------------------------------+-------------------------------------------------+------------------------------+
-| Java Driver class                 | Scala Wrapper(s)                                |   notes                      |
-+===================================+=================================================+==============================+
-| com.mongodb.Mongo                 | com.mongodb.casbah.MongoConnection              | connection handle            |
-+-----------------------------------+-------------------------------------------------+------------------------------+
-| com.mongodb.DBCollection          | com.mongodb.casbah.MongoCollection              | collection handle            |
-|                                   | com.mongodb.casbah.MongoTypedCollection[A]      | <explicitly typed>           |
-+-----------------------------------+-------------------------------------------------+------------------------------+
-| com.mongodb.DBCursor              | com.mongodb.casbah.MongoCursor                  | result cursor handle         |
-|                                   | com.mongodb.casbah.MongoTypedCursor[A]          | <explicitly typed>           |
-+-----------------------------------+-------------------------------------------------+------------------------------+
-| com.mongodb.DBObject              | com.mongodb.casbah.commons.MongoDBObject        | PML-type helper/wrapping obj |
-|                                   |              "" "" <companion object>           | <provides additive map cnstr>|
-+-----------------------------------+-------------------------------------------------+------------------------------+
-| com.mongodb.BasicDBList           | com.mongodb.casbah.commons.MongoDBList          |  Concrete list implementation|
-|                                   |              "" "" <companion object>           |   with PML-helpers.          |
-+-----------------------------------+-------------------------------------------------+------------------------------+
-| com.mongodb.BasicDBObjectBuilder  | com.mongodb.casbah.commons.MongoDBObjectBuilder | Scala 2.8 style builder      |
-|                                   |                                                 |  access via MongoDBObject.   |
-|                                   |                                                 |       newBuilder             |
-+-----------------------------------+-------------------------------------------------+------------------------------+
-| com.mongodb.gridfs.GridFS         | com.mongodb.casbah.gridfs.GridFS                | Provides/favors loan pattern |
-|                                   |                                                 | style file creation.         |
-+-----------------------------------+-------------------------------------------------+------------------------------+
-| com.mongodb.gridfs.GridFSFile     | com.mongodb.casbah.gridfs.GridFSFile            | Scala-maplike wrappers       |
-| com.mongodb.gridfs.GridFSDBFile   | com.mongodb.casbah.gridfs.GridFSDBFile          |   to core GridFS Objs.       |
-| com.mongodb.gridfs.GridFSInputFile| com.mongodb.casbah.gridfs.GridFSInputFile       |                              |
-+-----------------------------------+-------------------------------------------------+------------------------------+
-
-In general, we've provided a "Scala-esque" wrapper to the MongoDB Java objects whereever possible.  These make sure to make iterable things ``Iterable``, Cursors implement ``Iterator``, DBObjects act like Scala Maps, etc.
+Casbah provides a series of wrapper classes (and in some cases, companion objects) which proxy the "core" Java driver classes to provide scala functionality.  In general, we've provided a "Scala-esque" wrapper to the MongoDB Java objects whereever possible.  These make sure to make iterable things ``Iterable``, Cursors implement ``Iterator``, DBObjects act like Scala Maps, etc.
 
 ----------------------
 Connecting to MongoDB

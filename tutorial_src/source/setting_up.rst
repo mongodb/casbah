@@ -20,7 +20,7 @@ You can always get the latest source for Casbah from `the github repository <htt
     $ git clone git://github.com/mongodb/casbah
 
 *PLEASE NOTE*: As of the 2.0 release, Casbah has been broken into
- several modules which can be used to strip down which features you need.  For example, you can use the Query DSL independent of the GridFS implementation if you wish; please see :ref:`casbah-modules`.  The following dependency manager information uses the master artifact which downloads and uses *all* of Casbah's modules by default.
+ several modules which can be used to strip down which features you need.  For example, you can use the Query DSL independent of the GridFS implementation if you wish. The following dependency manager information uses the master artifact which downloads and uses *all* of Casbah's modules by default.
  
 Using Dependency/Build Managers
 -------------------------------
@@ -179,9 +179,7 @@ The same syntax is supported for the special version of :dochub:`$pull` which al
 General Code Cleanup
 --------------------
 
-There has been a lot of general code cleanup in this release and while many features appear the same externally they may have been refactored.  Some of these include:
-
-  * Typed Collections and Cursors
+There has been a lot of general code cleanup in this release and while many features appear the same externally they may have been refactored. 
 
 Casbah Modules
 ---------------
@@ -192,39 +190,39 @@ If you use the individual modules you'll need to use the import statement from e
 
 This is the breakdown of dependencies and packages for the new system:
 
-  +-------------------------------------+----------------------------+------------------------------------------------------------------------------------+
-  | Module                              | Package                    | Dependencies                                                                       | 
-  +=====================================+============================+====================================================================================+
-  | :ref:`casbah-commons` ("Commons")   | com.mongodb.casbah.commons |                                                                                    |
-  |                                     |                            |   `mongo-java-driver <https://github.com/mongodb/mongo-java-driver/>`_,            |
-  | **NOTES**                           |                            |   `scalaj-collection <https://github.com/scalaj/scalaj-collection/>`_,             |
-  | Provides Scala-friendly             |                            |   `scalaj-time <https://github.com/scalaj/scalaj-time/>`_                          |
-  | :dochub:DBObject & :dochub:DBList   |                            |   `JodaTime <http://joda-time.sourceforge.net/>`_,                                 |
-  | implementations as well as Implicit |                            |   `slf4j-api <http://www.slf4j.org/>`_                                             |
-  | conversions for Scala types         |                            |                                                                                    |
-  +-------------------------------------+----------------------------+------------------------------------------------------------------------------------+
-  | :ref:`casbah-query` ("Query DSL")   | com.mongodb.casbah.query   | :ref:`casbah-commons` along with its dependencies transitively                     |
-  |                                     |                            |                                                                                    |
-  | **NOTES**                           |                            |                                                                                    |
-  | Provides a Scala syntax enhancement |                            |                                                                                    |
-  | mode for creating MongoDB query     |                            |                                                                                    |
-  | objects using an Internal DSL       |                            |                                                                                    |
-  | supporting Mongo `$ Operators`      |                            |                                                                                    |
-  +-------------------------------------+----------------------------+------------------------------------------------------------------------------------+
-  | :ref:`casbah-core` ("Core")         | com.mongodb.casbah         | :ref:`casbah-commons` and :ref:`casbah-query` along with their dependencies        |
-  |                                     |                            | transitively                                                                       |    
-  | **NOTES**                           |                            |                                                                                    |
-  | Provides Scala-friendly             |                            |                                                                                    |
-  | wrappers to the Java Driver for     |                            |                                                                                    |
-  | connections, collections and        |                            |                                                                                    |
-  | MapReduce jobs                      |                            |                                                                                    |
-  +-------------------------------------+----------------------------+------------------------------------------------------------------------------------+
-  | :ref:`casbah-gridfs` ("GridFS")     | com.mongodb.casbah.gridfs  | :ref:`casbah-core` and :ref:`casbah-commons` along with their dependencies         |
-  |                                     |                            | transitively                                                                       |
-  | **NOTES**                           |                            |                                                                                    |
-  | Provides Scala enhanced wrappers    |                            |                                                                                    |
-  | to MongoDB's GridFS filesystem      |                            |                                                                                    |
-  +-------------------------------------+----------------------------+------------------------------------------------------------------------------------+
+  +-------------------------------------+----------------------------+-------------------------------------------------+
+  | Module                              | Package                    | Dependencies                                    | 
+  +=====================================+============================+=================================================+
+  | :ref:`casbah-commons` ("Commons")   | com.mongodb.casbah.commons |                                                 |
+  |                                     |                            |   mongo-java-driver,                            |
+  | **NOTES**                           |                            |   scalaj-collection,                            |
+  | Provides Scala-friendly             |                            |   scalaj-time,                                  |
+  | :dochub:DBObject & :dochub:DBList   |                            |   JodaTime,                                     |
+  | implementations as well as Implicit |                            |   slf4j-api                                     |
+  | conversions for Scala types         |                            |                                                 |
+  +-------------------------------------+----------------------------+-------------------------------------------------+
+  | :ref:`casbah-query` ("Query DSL")   | com.mongodb.casbah.query   | :ref:`casbah-commons`                           |
+  |                                     |                            | along with its dependencies transitively        |
+  | **NOTES**                           |                            |                                                 |
+  | Provides a Scala syntax enhancement |                            |                                                 |
+  | mode for creating MongoDB query     |                            |                                                 |
+  | objects using an Internal DSL       |                            |                                                 |
+  | supporting Mongo `$ Operators`      |                            |                                                 |
+  +-------------------------------------+----------------------------+-------------------------------------------------+
+  | :ref:`casbah-core` ("Core")         | com.mongodb.casbah         | :ref:`casbah-commons` and :ref:`casbah-query`   |
+  |                                     |                            | along with their dependencies transitively      |    
+  | **NOTES**                           |                            |                                                 |
+  | Provides Scala-friendly             |                            |                                                 |
+  | wrappers to the Java Driver for     |                            |                                                 |
+  | connections, collections and        |                            |                                                 |
+  | MapReduce jobs                      |                            |                                                 |
+  +-------------------------------------+----------------------------+-------------------------------------------------+
+  | :ref:`casbah-gridfs` ("GridFS")     | com.mongodb.casbah.gridfs  | :ref:`casbah-core` and :ref:`casbah-commons`    |
+  |                                     |                            | along with their dependencies transitively      |
+  | **NOTES**                           |                            |                                                 |
+  | Provides Scala enhanced wrappers    |                            |                                                 |
+  | to MongoDB's GridFS filesystem      |                            |                                                 |
+  +-------------------------------------+----------------------------+-------------------------------------------------+
   
 We cover the import of each module in their appropriate tutorials, but each module has its own `Imports` object which loads all of its necessary code.  By way of example both of these statements would import the Query DSL::
 
