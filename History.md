@@ -1,4 +1,11 @@
 
+2.0rc1 / 2010-12-27 
+==================
+
+  * Pull Java Driver 2.4 from Maven (and include it in the POM)
+  * SCALA-11: Added new findOneByID methods to match the Java driver's Object taking ambiguous findOne methods.
+  * SCALA-11: findOne in Java has methods which take an Object to allow ID matching.  Because of the view boundary, Scala was selecting the Object version instead of DBObject, causing breakage. findOne methods now explicitly cast the query arg to DBObject to hook the right java method.
+
 2.0rc0/ 2010-12-23 
 ==================
 
