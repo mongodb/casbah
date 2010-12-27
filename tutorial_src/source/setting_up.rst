@@ -42,7 +42,7 @@ Scala 2.8.0 users::
         <dependency>
             <groupId>com.mongodb.casbah<groupId>
             <artifactId>casbah_2.8.0<artifactId>                           
-            <version>2.0rc0<version>
+            <version>2.0rc1<version>
         <dependency>
 
 Scala 2.8.1 users::
@@ -50,7 +50,7 @@ Scala 2.8.1 users::
         <dependency>
             <groupId>com.mongodb.casbah<groupId>
             <artifactId>casbah_2.8.1<artifactId>                           
-            <version>2.0rc0<version>
+            <version>2.0rc1<version>
         <dependency>
         
 
@@ -60,25 +60,25 @@ You can add Casbah to Ivy with the following dependency block.
 
 Scala 2.8.0 users::
 
-        <dependency org="com.mongodb.casbah" name="casbah_2.8.0" rev="2.0rc0"/>
+        <dependency org="com.mongodb.casbah" name="casbah_2.8.0" rev="2.0rc1"/>
 
 Scala 2.8.1 users::
 
-        <dependency org="com.mongodb.casbah" name="casbah_2.8.1" rev="2.0rc0"/>
+        <dependency org="com.mongodb.casbah" name="casbah_2.8.1" rev="2.0rc1"/>
         
 
 Setting up SBT 
 ---------------
 Finally, you can add Casbah to SBT by adding the following to your project file::
 
-    val casbah = "com.mongodb.casbah" %% "casbah" % "2.0rc0"
+    val casbah = "com.mongodb.casbah" %% "casbah" % "2.0rc1"
 
 The double percentages (`%%`) is not a typo---it tells SBT that the library is crossbuilt and to find the appropriate version for your project's Scala version. If you prefer to be explicit you can use this instead::
     
     // Scala 2.8.0
-    val casbah = "com.mongodb.casbah" % "casbah_2.8.0" % "2.0rc0"
+    val casbah = "com.mongodb.casbah" % "casbah_2.8.0" % "2.0rc1"
     // Scala 2.8.1
-    val casbah = "com.mongodb.casbah" % "casbah_2.8.1" % "2.0rc0"
+    val casbah = "com.mongodb.casbah" % "casbah_2.8.1" % "2.0rc1"
 
 Don't forget to reload the project and run ``sbt update`` afterwards to download the dependencies (SBT doesn't check every build like Maven).
 
@@ -175,6 +175,13 @@ With Casbah 2.0, this syntax has been modified to be more clear to both the deve
     "foo" $not { _ $gte 15 $lt 35.2 $ne 16 }
     
 The same syntax is supported for the special version of :dochub:`$pull` which allows for nested operator tests.
+
+General Code Cleanup
+--------------------
+
+There has been a lot of general code cleanup in this release and while many features appear the same externally they may have been refactored.  Some of these include:
+
+  * Typed Collections and Cursors
 
 Casbah Modules
 ---------------
