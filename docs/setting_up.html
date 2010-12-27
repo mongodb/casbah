@@ -6,13 +6,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Getting Started &mdash; Casbah (MongoDB + Scala Toolkit Documentation v2.0rc0 documentation</title>
+    <title>1. Getting Started &mdash; Casbah (MongoDB + Scala Toolkit Documentation v2.0rc1 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '2.0rc0',
+        VERSION:     '2.0rc1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -21,8 +21,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Casbah (MongoDB + Scala Toolkit Documentation v2.0rc0 documentation" href="index.html" />
-    <link rel="next" title="Tutorial: Using Casbah" href="tutorial.html" />
+    <link rel="top" title="Casbah (MongoDB + Scala Toolkit Documentation v2.0rc1 documentation" href="index.html" />
+    <link rel="next" title="2. Tutorial: Using Casbah" href="tutorial.html" />
     <link rel="prev" title="Welcome to the Casbah documentation" href="index.html" /> 
   </head>
   <body>
@@ -33,12 +33,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="tutorial.html" title="Tutorial: Using Casbah"
+          <a href="tutorial.html" title="2. Tutorial: Using Casbah"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to the Casbah documentation"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Casbah (MongoDB + Scala Toolkit Documentation v2.0rc0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Casbah (MongoDB + Scala Toolkit Documentation v2.0rc1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -48,14 +48,14 @@
           <div class="body">
             
   <div class="section" id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<h1>1. Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="installing-setting-up-casbah">
-<h2>Installing &amp; Setting up Casbah<a class="headerlink" href="#installing-setting-up-casbah" title="Permalink to this headline">¶</a></h2>
+<h2>1.1. Installing &amp; Setting up Casbah<a class="headerlink" href="#installing-setting-up-casbah" title="Permalink to this headline">¶</a></h2>
 <p>You should have <a class="reference external" href="http://mongodb.org">MongoDB</a> setup  and running on your machine (these docs assume you are running on <em>localhost</em> on the default port of <em>27017</em>) before proceeding. If you need help setting up MongoDB please see <a class="reference external" href="http://www.mongodb.org/display/DOCS/Quickstart">the MongoDB quickstart install documentation</a>.</p>
 <p>To start with, you need to either download the latest Casbah driver and place it in your classpath, or set it up in the dependency manager/build tool of your choice (The authors highly recommend the Scala <a class="reference external" href="http://code.google.com/p/simple-build-tool/">simple-build-tool</a> - it makes Scala development easy).</p>
 <div class="section" id="setting-up-without-a-dependency-build-manager-source-binary">
-<h3>Setting up without a Dependency/Build Manager (Source + Binary)<a class="headerlink" href="#setting-up-without-a-dependency-build-manager-source-binary" title="Permalink to this headline">¶</a></h3>
-<p>The latest build as of December 23, 2010 is 2.0rc0, cross-built for both Scala 2.8.0 (final) and Scala 2.8.1 (final).</p>
+<h3>1.1.1. Setting up without a Dependency/Build Manager (Source + Binary)<a class="headerlink" href="#setting-up-without-a-dependency-build-manager-source-binary" title="Permalink to this headline">¶</a></h3>
+<p>The latest build as of December 27, 2010 is 2.0rc1, cross-built for both Scala 2.8.0 (final) and Scala 2.8.1 (final).</p>
 <p>The builds are published to the <a class="reference external" href="http://scala-tools.org">Scala-tools.org</a> Maven repositories and should be easily available to add to an existing Scala project.</p>
 <p>You can always get the latest source for Casbah from <a class="reference external" href="https://github.com/mongodb/casbah">the github repository</a>:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">$</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="o">://</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">mongodb</span><span class="o">/</span><span class="n">casbah</span>
@@ -63,11 +63,11 @@
 </div>
 <dl class="docutils">
 <dt><em>PLEASE NOTE</em>: As of the 2.0 release, Casbah has been broken into</dt>
-<dd>several modules which can be used to strip down which features you need.  For example, you can use the Query DSL independent of the GridFS implementation if you wish; please see <a class="reference internal" href="#casbah-modules"><em>Removed Features</em></a>.  The following dependency manager information uses the master artifact which downloads and uses <em>all</em> of Casbah&#8217;s modules by default.</dd>
+<dd>several modules which can be used to strip down which features you need.  For example, you can use the Query DSL independent of the GridFS implementation if you wish. The following dependency manager information uses the master artifact which downloads and uses <em>all</em> of Casbah&#8217;s modules by default.</dd>
 </dl>
 </div>
 <div class="section" id="using-dependency-build-managers">
-<h3>Using Dependency/Build Managers<a class="headerlink" href="#using-dependency-build-managers" title="Permalink to this headline">¶</a></h3>
+<h3>1.1.2. Using Dependency/Build Managers<a class="headerlink" href="#using-dependency-build-managers" title="Permalink to this headline">¶</a></h3>
 <p>First, you should add the package repository to your Dependency/Build Manager. Our releases &amp; snapshots are currently hosted at:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">http</span><span class="o">://</span><span class="n">scala</span><span class="o">-</span><span class="n">tools</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">repo</span><span class="o">-</span><span class="n">releases</span><span class="o">/</span> <span class="cm">/* For Releases */</span>
 <span class="n">http</span><span class="o">://</span><span class="n">scala</span><span class="o">-</span><span class="n">tools</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">repo</span><span class="o">-</span><span class="n">snapshots</span><span class="o">/</span> <span class="cm">/* For snapshots */</span>
@@ -76,13 +76,13 @@
 <p>Set both of these repositories up in the appropriate manner - they contain Casbah as well as any specific dependencies you may require. (SBT users note that Scala-Tools is builtin to SBT as most Scala projects publish there)</p>
 </div>
 <div class="section" id="setting-up-maven">
-<h3>Setting Up Maven<a class="headerlink" href="#setting-up-maven" title="Permalink to this headline">¶</a></h3>
+<h3>1.1.3. Setting Up Maven<a class="headerlink" href="#setting-up-maven" title="Permalink to this headline">¶</a></h3>
 <p>You can add Casbah to Maven with the following dependency block.</p>
 <p>Scala 2.8.0 users:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">com</span><span class="o">.</span><span class="n">mongodb</span><span class="o">.</span><span class="n">casbah</span><span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">casbah_2</span><span class="o">.</span><span class="mf">8.0</span><span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">2.0</span><span class="n">rc0</span><span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">2.0</span><span class="n">rc1</span><span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
 </pre></div>
 </div>
@@ -90,45 +90,45 @@
 <div class="highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">com</span><span class="o">.</span><span class="n">mongodb</span><span class="o">.</span><span class="n">casbah</span><span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">casbah_2</span><span class="o">.</span><span class="mf">8.1</span><span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">2.0</span><span class="n">rc0</span><span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">2.0</span><span class="n">rc1</span><span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="setting-up-ivy-w-ant">
-<h3>Setting Up Ivy (w/ Ant)<a class="headerlink" href="#setting-up-ivy-w-ant" title="Permalink to this headline">¶</a></h3>
+<h3>1.1.4. Setting Up Ivy (w/ Ant)<a class="headerlink" href="#setting-up-ivy-w-ant" title="Permalink to this headline">¶</a></h3>
 <p>You can add Casbah to Ivy with the following dependency block.</p>
 <p>Scala 2.8.0 users:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">dependency</span> <span class="n">org</span><span class="o">=</span><span class="s">&quot;com.mongodb.casbah&quot;</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;casbah_2.8.0&quot;</span> <span class="n">rev</span><span class="o">=</span><span class="s">&quot;2.0rc0&quot;</span><span class="o">/&gt;</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">dependency</span> <span class="n">org</span><span class="o">=</span><span class="s">&quot;com.mongodb.casbah&quot;</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;casbah_2.8.0&quot;</span> <span class="n">rev</span><span class="o">=</span><span class="s">&quot;2.0rc1&quot;</span><span class="o">/&gt;</span>
 </pre></div>
 </div>
 <p>Scala 2.8.1 users:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">dependency</span> <span class="n">org</span><span class="o">=</span><span class="s">&quot;com.mongodb.casbah&quot;</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;casbah_2.8.1&quot;</span> <span class="n">rev</span><span class="o">=</span><span class="s">&quot;2.0rc0&quot;</span><span class="o">/&gt;</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">dependency</span> <span class="n">org</span><span class="o">=</span><span class="s">&quot;com.mongodb.casbah&quot;</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;casbah_2.8.1&quot;</span> <span class="n">rev</span><span class="o">=</span><span class="s">&quot;2.0rc1&quot;</span><span class="o">/&gt;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="setting-up-sbt">
-<h3>Setting up SBT<a class="headerlink" href="#setting-up-sbt" title="Permalink to this headline">¶</a></h3>
+<h3>1.1.5. Setting up SBT<a class="headerlink" href="#setting-up-sbt" title="Permalink to this headline">¶</a></h3>
 <p>Finally, you can add Casbah to SBT by adding the following to your project file:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">casbah</span> <span class="k">=</span> <span class="s">&quot;com.mongodb.casbah&quot;</span> <span class="o">%%</span> <span class="s">&quot;casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;2.0rc0&quot;</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">casbah</span> <span class="k">=</span> <span class="s">&quot;com.mongodb.casbah&quot;</span> <span class="o">%%</span> <span class="s">&quot;casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;2.0rc1&quot;</span>
 </pre></div>
 </div>
 <p>The double percentages (<cite>%%</cite>) is not a typo&#8212;it tells SBT that the library is crossbuilt and to find the appropriate version for your project&#8217;s Scala version. If you prefer to be explicit you can use this instead:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="c1">// Scala 2.8.0</span>
-<span class="k">val</span> <span class="n">casbah</span> <span class="k">=</span> <span class="s">&quot;com.mongodb.casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;casbah_2.8.0&quot;</span> <span class="o">%</span> <span class="s">&quot;2.0rc0&quot;</span>
+<span class="k">val</span> <span class="n">casbah</span> <span class="k">=</span> <span class="s">&quot;com.mongodb.casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;casbah_2.8.0&quot;</span> <span class="o">%</span> <span class="s">&quot;2.0rc1&quot;</span>
 <span class="c1">// Scala 2.8.1</span>
-<span class="k">val</span> <span class="n">casbah</span> <span class="k">=</span> <span class="s">&quot;com.mongodb.casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;casbah_2.8.1&quot;</span> <span class="o">%</span> <span class="s">&quot;2.0rc0&quot;</span>
+<span class="k">val</span> <span class="n">casbah</span> <span class="k">=</span> <span class="s">&quot;com.mongodb.casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;casbah_2.8.1&quot;</span> <span class="o">%</span> <span class="s">&quot;2.0rc1&quot;</span>
 </pre></div>
 </div>
 <p>Don&#8217;t forget to reload the project and run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">update</span></tt> afterwards to download the dependencies (SBT doesn&#8217;t check every build like Maven).</p>
 </div>
 </div>
 <div class="section" id="migrating-to-casbah-2-0-from-casbah-1-x">
-<h2>Migrating to Casbah 2.0 from Casbah 1.x<a class="headerlink" href="#migrating-to-casbah-2-0-from-casbah-1-x" title="Permalink to this headline">¶</a></h2>
+<h2>1.2. Migrating to Casbah 2.0 from Casbah 1.x<a class="headerlink" href="#migrating-to-casbah-2-0-from-casbah-1-x" title="Permalink to this headline">¶</a></h2>
 <p>If you used Casbah before, and are looking to migrate from Casbah 1.x to Casbah 2.x
 there are some things which have changed and you should be aware of to effectively update your code.</p>
 <div class="section" id="base-package-name">
-<h3>Base Package Name<a class="headerlink" href="#base-package-name" title="Permalink to this headline">¶</a></h3>
+<h3>1.2.1. Base Package Name<a class="headerlink" href="#base-package-name" title="Permalink to this headline">¶</a></h3>
 <p>For starters, the base package has changed.  The now abandoned 1.1.x branch which
 became 2.0 was already doing a package change, and with 2.0 Casbah has become a
 supported MongoDB project. As a result, Casbah&#8217;s package has changed for the 2.0
@@ -154,11 +154,11 @@ release and you will need to update your code accordingly:</p>
 </table>
 </div>
 <div class="section" id="removed-features">
-<span id="casbah-modules"></span><h3>Removed Features<a class="headerlink" href="#removed-features" title="Permalink to this headline">¶</a></h3>
+<span id="casbah-modules"></span><h3>1.2.2. Removed Features<a class="headerlink" href="#removed-features" title="Permalink to this headline">¶</a></h3>
 <p>A number of features existed in Casbah as artifacts of early prototyping.  They were buggy, poorly tested and because of their nature often introduced weird problems for users.</p>
 <p>As a result, they have been removed now that replacement versions of their functionality exist.</p>
 <div class="section" id="removal-of-implicit-tuple-dbobject-conversions">
-<h4>Removal of Implicit Tuple -&gt; DBObject Conversions<a class="headerlink" href="#removal-of-implicit-tuple-dbobject-conversions" title="Permalink to this headline">¶</a></h4>
+<h4>1.2.2.1. Removal of Implicit Tuple -&gt; DBObject Conversions<a class="headerlink" href="#removal-of-implicit-tuple-dbobject-conversions" title="Permalink to this headline">¶</a></h4>
 <p>Previously, it was possible with Casbah to cast Tuples to <a class="reference external" href="http://dochub.mongodb.org/core/DBObject">DBObject</a>:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">DBObject</span> <span class="o">=</span> <span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="o">,</span> <span class="s">&quot;y&quot;</span> <span class="o">-&gt;</span> <span class="mf">238.1</span><span class="o">)</span>
 </pre></div>
@@ -188,14 +188,14 @@ release and you will need to update your code accordingly:</p>
 <p>It is <em>still</em> possible to use Tuples in the <em class="xref std std-ref">Query DSL</em> however, as there is less need for broad implicit conversions to accomplish that functionality.</p>
 </div>
 <div class="section" id="batchsafely-removed">
-<h4><cite>batchSafely</cite> Removed<a class="headerlink" href="#batchsafely-removed" title="Permalink to this headline">¶</a></h4>
+<h4>1.2.2.2. <cite>batchSafely</cite> Removed<a class="headerlink" href="#batchsafely-removed" title="Permalink to this headline">¶</a></h4>
 <p>Casbah 1.1.x introduced a <cite>batchSafely</cite> command which used the Java Driver&#8217;s <cite>requestStart()</cite>, <cite>requestDone()</cite> and <cite>getPrevErrors()</cite> functions.  MongoDB is deprecating the use of <cite>getPrevErrors()</cite> and as such, Casbah has removed the functionality in anticipation of that feature going away in a near future release.</p>
 </div>
 </div>
 <div class="section" id="new-features">
-<h3>New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
+<h3>1.2.3. New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="query-dsl-operators">
-<h4>Query DSL Operators<a class="headerlink" href="#query-dsl-operators" title="Permalink to this headline">¶</a></h4>
+<h4>1.2.3.1. Query DSL Operators<a class="headerlink" href="#query-dsl-operators" title="Permalink to this headline">¶</a></h4>
 <p>Casbah previously lagged behind the official MongoDB server in supported <em class="xref std std-ref">Query DSL</em> <cite>$ Operators</cite>.  As of 2.0, all <cite>$ Operators</cite> currently documented as supported in MongoDB are provided.  A list of some of the new operators added in 2.0 include:</p>
 <blockquote>
 <ul class="simple">
@@ -211,7 +211,7 @@ release and you will need to update your code accordingly:</p>
 </blockquote>
 <p>Further, the DSL system has been completely overhauled.  As part of adding test coverage a number of edge cases were discovered with the DSL that caused inconsistent behavior.  The majority of the Query DSL should continue to work the same, but we have started moving to the use of Type Classes and Context Boundaries to limit what a valid input to any given operator is (2.1 will include expanded use of these merged with custom serializers).</p>
 <div class="section" id="new-syntax-for-not">
-<h5>New syntax for $not<a class="headerlink" href="#new-syntax-for-not" title="Permalink to this headline">¶</a></h5>
+<h5>1.2.3.1.1. New syntax for $not<a class="headerlink" href="#new-syntax-for-not" title="Permalink to this headline">¶</a></h5>
 <p>In order to fix a number of bugs and readability issues with the <a class="reference external" href="http://dochub.mongodb.org/core/$not">$not</a> operator, it has been modified.</p>
 <p>Previously, the correct syntax for using <a class="reference external" href="http://dochub.mongodb.org/core/$not">$not</a> was:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="s">&quot;foo&quot;</span><span class="o">.</span><span class="nc">$not</span> <span class="nc">$gte</span> <span class="mi">15</span> <span class="nc">$lt</span> <span class="mf">35.2</span> <span class="nc">$ne</span> <span class="mi">16</span>
@@ -225,17 +225,21 @@ release and you will need to update your code accordingly:</p>
 </div>
 </div>
 </div>
+<div class="section" id="general-code-cleanup">
+<h3>1.2.4. General Code Cleanup<a class="headerlink" href="#general-code-cleanup" title="Permalink to this headline">¶</a></h3>
+<p>There has been a lot of general code cleanup in this release and while many features appear the same externally they may have been refactored.</p>
+</div>
 <div class="section" id="id1">
-<h3>Casbah Modules<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>1.2.5. Casbah Modules<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>While Casbah has a large stable of features, some users (such as those using a framework like Lift which already provides MongoDB wrappers) wanted access to certain parts of Casbah without importing the whole system.  As a result, Casbah has been broken out into several modules which make it easier to pick and choose the features you want.</p>
 <p>If you use the individual modules you&#8217;ll need to use the import statement from each of these.  If you use the import statement from the <cite>casbah-core</cite> module, everything except GridFS will be imported (not everyone uses GridFS so we don&#8217;t load it into memory &amp; scope unless it is needed).  The module names can be used to select which dependencies you want from maven/ivy/sbt, as we publish individual artifacts.  If you import just <cite>casbah</cite>, this is a master pom which includes the whole system and can be used just like 1.1.x was (that is to say, you can pretend the module system doesn&#8217;t exist more or less).</p>
 <p>This is the breakdown of dependencies and packages for the new system:</p>
 <blockquote>
 <table border="1" class="docutils">
 <colgroup>
+<col width="32%" />
 <col width="25%" />
-<col width="19%" />
-<col width="56%" />
+<col width="43%" />
 </colgroup>
 <thead valign="bottom">
 <tr><th class="head">Module</th>
@@ -252,11 +256,11 @@ implementations as well as Implicit
 conversions for Scala types</p>
 </td>
 <td>com.mongodb.casbah.commons</td>
-<td><a class="reference external" href="https://github.com/mongodb/mongo-java-driver/">mongo-java-driver</a>,
-<a class="reference external" href="https://github.com/scalaj/scalaj-collection/">scalaj-collection</a>,
-<a class="reference external" href="https://github.com/scalaj/scalaj-time/">scalaj-time</a>
-<a class="reference external" href="http://joda-time.sourceforge.net/">JodaTime</a>,
-<a class="reference external" href="http://www.slf4j.org/">slf4j-api</a></td>
+<td>mongo-java-driver,
+scalaj-collection,
+scalaj-time,
+JodaTime,
+slf4j-api</td>
 </tr>
 <tr><td><p class="first"><em class="xref std std-ref">casbah-query</em> (&#8220;Query DSL&#8221;)</p>
 <p class="last"><strong>NOTES</strong>
@@ -266,7 +270,8 @@ objects using an Internal DSL
 supporting Mongo <cite>$ Operators</cite></p>
 </td>
 <td>com.mongodb.casbah.query</td>
-<td><em class="xref std std-ref">casbah-commons</em> along with its dependencies transitively</td>
+<td><em class="xref std std-ref">casbah-commons</em>
+along with its dependencies transitively</td>
 </tr>
 <tr><td><p class="first"><em class="xref std std-ref">casbah-core</em> (&#8220;Core&#8221;)</p>
 <p class="last"><strong>NOTES</strong>
@@ -276,8 +281,8 @@ connections, collections and
 MapReduce jobs</p>
 </td>
 <td>com.mongodb.casbah</td>
-<td><em class="xref std std-ref">casbah-commons</em> and <em class="xref std std-ref">casbah-query</em> along with their dependencies
-transitively</td>
+<td><em class="xref std std-ref">casbah-commons</em> and <em class="xref std std-ref">casbah-query</em>
+along with their dependencies transitively</td>
 </tr>
 <tr><td><p class="first"><em class="xref std std-ref">casbah-gridfs</em> (&#8220;GridFS&#8221;)</p>
 <p class="last"><strong>NOTES</strong>
@@ -285,8 +290,8 @@ Provides Scala enhanced wrappers
 to MongoDB&#8217;s GridFS filesystem</p>
 </td>
 <td>com.mongodb.casbah.gridfs</td>
-<td><em class="xref std std-ref">casbah-core</em> and <em class="xref std std-ref">casbah-commons</em> along with their dependencies
-transitively</td>
+<td><em class="xref std std-ref">casbah-core</em> and <em class="xref std std-ref">casbah-commons</em>
+along with their dependencies transitively</td>
 </tr>
 </tbody>
 </table>
@@ -313,30 +318,31 @@ transitively</td>
             </a></p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Getting Started</a><ul>
-<li><a class="reference internal" href="#installing-setting-up-casbah">Installing &amp; Setting up Casbah</a><ul>
-<li><a class="reference internal" href="#setting-up-without-a-dependency-build-manager-source-binary">Setting up without a Dependency/Build Manager (Source + Binary)</a></li>
-<li><a class="reference internal" href="#using-dependency-build-managers">Using Dependency/Build Managers</a></li>
-<li><a class="reference internal" href="#setting-up-maven">Setting Up Maven</a></li>
-<li><a class="reference internal" href="#setting-up-ivy-w-ant">Setting Up Ivy (w/ Ant)</a></li>
-<li><a class="reference internal" href="#setting-up-sbt">Setting up SBT</a></li>
+<li><a class="reference internal" href="#">1. Getting Started</a><ul>
+<li><a class="reference internal" href="#installing-setting-up-casbah">1.1. Installing &amp; Setting up Casbah</a><ul>
+<li><a class="reference internal" href="#setting-up-without-a-dependency-build-manager-source-binary">1.1.1. Setting up without a Dependency/Build Manager (Source + Binary)</a></li>
+<li><a class="reference internal" href="#using-dependency-build-managers">1.1.2. Using Dependency/Build Managers</a></li>
+<li><a class="reference internal" href="#setting-up-maven">1.1.3. Setting Up Maven</a></li>
+<li><a class="reference internal" href="#setting-up-ivy-w-ant">1.1.4. Setting Up Ivy (w/ Ant)</a></li>
+<li><a class="reference internal" href="#setting-up-sbt">1.1.5. Setting up SBT</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#migrating-to-casbah-2-0-from-casbah-1-x">Migrating to Casbah 2.0 from Casbah 1.x</a><ul>
-<li><a class="reference internal" href="#base-package-name">Base Package Name</a></li>
-<li><a class="reference internal" href="#removed-features">Removed Features</a><ul>
-<li><a class="reference internal" href="#removal-of-implicit-tuple-dbobject-conversions">Removal of Implicit Tuple -&gt; DBObject Conversions</a></li>
-<li><a class="reference internal" href="#batchsafely-removed"><cite>batchSafely</cite> Removed</a></li>
+<li><a class="reference internal" href="#migrating-to-casbah-2-0-from-casbah-1-x">1.2. Migrating to Casbah 2.0 from Casbah 1.x</a><ul>
+<li><a class="reference internal" href="#base-package-name">1.2.1. Base Package Name</a></li>
+<li><a class="reference internal" href="#removed-features">1.2.2. Removed Features</a><ul>
+<li><a class="reference internal" href="#removal-of-implicit-tuple-dbobject-conversions">1.2.2.1. Removal of Implicit Tuple -&gt; DBObject Conversions</a></li>
+<li><a class="reference internal" href="#batchsafely-removed">1.2.2.2. <cite>batchSafely</cite> Removed</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#new-features">New Features</a><ul>
-<li><a class="reference internal" href="#query-dsl-operators">Query DSL Operators</a><ul>
-<li><a class="reference internal" href="#new-syntax-for-not">New syntax for $not</a></li>
+<li><a class="reference internal" href="#new-features">1.2.3. New Features</a><ul>
+<li><a class="reference internal" href="#query-dsl-operators">1.2.3.1. Query DSL Operators</a><ul>
+<li><a class="reference internal" href="#new-syntax-for-not">1.2.3.1.1. New syntax for $not</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id1">Casbah Modules</a></li>
+<li><a class="reference internal" href="#general-code-cleanup">1.2.4. General Code Cleanup</a></li>
+<li><a class="reference internal" href="#id1">1.2.5. Casbah Modules</a></li>
 </ul>
 </li>
 </ul>
@@ -348,7 +354,7 @@ transitively</td>
                         title="previous chapter">Welcome to the Casbah documentation</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="tutorial.html"
-                        title="next chapter">Tutorial: Using Casbah</a></p>
+                        title="next chapter">2. Tutorial: Using Casbah</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/setting_up.txt"
@@ -378,12 +384,12 @@ transitively</td>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="tutorial.html" title="Tutorial: Using Casbah"
+          <a href="tutorial.html" title="2. Tutorial: Using Casbah"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to the Casbah documentation"
              >previous</a> |</li>
-        <li><a href="index.html">Casbah (MongoDB + Scala Toolkit Documentation v2.0rc0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Casbah (MongoDB + Scala Toolkit Documentation v2.0rc1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

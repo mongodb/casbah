@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>Logger.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. &lt;http://novus.com&gt;
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah 
+<span class="keyword">package</span> commons 
+
+<span class="keyword">import</span> org.slf4j.<span class="delimiter">{</span>Logger =&gt; SLFLogger,LoggerFactory =&gt; SLFLoggerFactory<span class="delimiter">}</span>
+
+<span class="keyword">import</span> java.io.StringWriter;
+<span class="keyword">import</span> java.io.PrintWriter;
+<span class="keyword">import</span> java.net.InetAddress;
+<span class="keyword">import</span> java.net.UnknownHostException;
+
+<span class="comment">/**
+ * Base trait for all classes that wants to be able use the logging infrastructure.
+ *
+ * @author &lt;a href=&quot;http://jonasboner.com&quot;&gt;Jonas Bon&amp;#233;r&lt;/a&gt;
+ */</span>
+<span class="keyword">trait</span> <a title="trait Logging extends java.lang.Object with ScalaObject" id="9389">Logging</a> <span title="ScalaObject" class="delimiter">{</span>
+  @transient @volatile <span class="keyword">protected</span><span class="delimiter">[</span>casbah<span class="delimiter">]</span> <span class="keyword">var</span> <a title="com.mongodb.casbah.commons.Logger" id="21051">log</a> = <a href="#21075" title="(logger: String)com.mongodb.casbah.commons.Logger">Logger</a><span class="delimiter">(</span><a href="#9389" title="Logging.this.type" class="keyword">this</a>.<span title="()java.lang.Class[_]">getClass</span>.<span title="()java.lang.String">getName</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Scala SLF4J wrapper
+ *
+ * Example:
+ * &lt;pre&gt;
+ * class Foo extends Logging {
+ *   log.info(&quot;My foo is %s&quot;,&quot;alive&quot;)
+ *   log.error(new Exception(),&quot;My foo is %s&quot;,&quot;broken&quot;)
+ * }
+ * &lt;/pre&gt;
+ *
+ * The logger uses String.format:
+ * http://download-llnw.oracle.com/javase/6/docs/api/java/lang/String.html#format(java.lang.String,%20java.lang.Object...)
+ */</span>
+<span class="keyword">class</span> <a title="class Logger extends java.lang.Object with ScalaObject" id="9390">Logger</a><span title="ScalaObject" class="delimiter">(</span><span class="keyword">val</span> <a title="org.slf4j.Logger" id="27995">logger</a>: <span title="org.slf4j.Logger">SLFLogger</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; java.lang.String" id="22433">name</a>      = <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="()java.lang.String">getName</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="22434">trace_?</a>   = <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="()Boolean">isTraceEnabled</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="22435">debug_?</a>   = <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="()Boolean">isDebugEnabled</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="22436">info_?</a>    = <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="()Boolean">isInfoEnabled</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="22437">warning_?</a> = <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="()Boolean">isWarnEnabled</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="22438">error_?</a>   = <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="()Boolean">isErrorEnabled</span>
+
+  <span class="comment">//Trace</span>
+  <span class="keyword">def</span> <a title="(t: Throwable,fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22439">trace</a><span class="delimiter">(</span><a title="Throwable" id="27276">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="27277">fmt</a>: =&gt; String, <a title="Any" id="27278">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="27279">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#22440" title="(t: Throwable,msg: =&gt; String)Unit">trace</a><span class="delimiter">(</span><a href="#27276" title="Throwable">t</a>,<a href="#22463" title="(fmt: String,arg: Any,argN: Any*)String">message</a><span class="delimiter">(</span><a href="#27277" title="=&gt; String">fmt</a>,<a href="#27278" title="Any">arg</a>,<a href="#27279" title="Any*">argN</a>:_*<span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(t: Throwable,msg: =&gt; String)Unit" id="22440">trace</a><span class="delimiter">(</span><a title="Throwable" id="27273">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="27274">msg</a>: =&gt; String<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#22434" title="=&gt; Boolean">trace_?</a><span class="delimiter">)</span> <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="(x$1: java.lang.String,x$2: java.lang.Throwable)Unit">trace</span><span class="delimiter">(</span><a href="#27274" title="=&gt; String">msg</a>,<a href="#27273" title="Throwable">t</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22441">trace</a><span class="delimiter">(</span><a title="=&gt; String" id="27269">fmt</a>: =&gt; String, <a title="Any" id="27270">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="27271">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> <span class="delimiter">{</span>
+     <a href="#22442" title="(msg: =&gt; String)Unit">trace</a><span class="delimiter">(</span><a href="#22463" title="(fmt: String,arg: Any,argN: Any*)String">message</a><span class="delimiter">(</span><a href="#27269" title="=&gt; String">fmt</a>,<a href="#27270" title="Any">arg</a>,<a href="#27271" title="Any*">argN</a>:_*<span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(msg: =&gt; String)Unit" id="22442">trace</a><span class="delimiter">(</span><a title="=&gt; String" id="27267">msg</a>: =&gt; String<span class="delimiter">)</span> <span class="delimiter">{</span>
+     <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#22434" title="=&gt; Boolean">trace_?</a><span class="delimiter">)</span> <a href="#27995" title="(x$1: java.lang.String)Unit">logger</a> trace <a href="#27267" title="=&gt; String">msg</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">//Debug</span>
+  <span class="keyword">def</span> <a title="(t: Throwable,fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22443">debug</a><span class="delimiter">(</span><a title="Throwable" id="22485">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="22486">fmt</a>: =&gt; String, <a title="Any" id="22487">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="22488">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#22444" title="(t: Throwable,msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><a href="#22485" title="Throwable">t</a>,<a href="#22463" title="(fmt: String,arg: Any,argN: Any*)String">message</a><span class="delimiter">(</span><a href="#22486" title="=&gt; String">fmt</a>,<a href="#22487" title="Any">arg</a>,<a href="#22488" title="Any*">argN</a>:_*<span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(t: Throwable,msg: =&gt; String)Unit" id="22444">debug</a><span class="delimiter">(</span><a title="Throwable" id="22482">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="22483">msg</a>: =&gt; String<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#22435" title="=&gt; Boolean">debug_?</a><span class="delimiter">)</span> <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="(x$1: java.lang.String,x$2: java.lang.Throwable)Unit">debug</span><span class="delimiter">(</span><a href="#22483" title="=&gt; String">msg</a>,<a href="#22482" title="Throwable">t</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22445">debug</a><span class="delimiter">(</span><a title="=&gt; String" id="22468">fmt</a>: =&gt; String, <a title="Any" id="22469">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="22470">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> <span class="delimiter">{</span>
+     <a href="#22446" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><a href="#22463" title="(fmt: String,arg: Any,argN: Any*)String">message</a><span class="delimiter">(</span><a href="#22468" title="=&gt; String">fmt</a>,<a href="#22469" title="Any">arg</a>,<a href="#22470" title="Any*">argN</a>:_*<span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(msg: =&gt; String)Unit" id="22446">debug</a><span class="delimiter">(</span><a title="=&gt; String" id="22466">msg</a>: =&gt; String<span class="delimiter">)</span> <span class="delimiter">{</span>
+     <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#22435" title="=&gt; Boolean">debug_?</a><span class="delimiter">)</span> <a href="#27995" title="(x$1: java.lang.String)Unit">logger</a> debug <a href="#22466" title="=&gt; String">msg</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">//Info</span>
+  <span class="keyword">def</span> <a title="(t: Throwable,fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22447">info</a><span class="delimiter">(</span><a title="Throwable" id="28094">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="28095">fmt</a>: =&gt; String, <a title="Any" id="28096">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="28097">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#22448" title="(t: Throwable,msg: =&gt; String)Unit">info</a><span class="delimiter">(</span><a href="#28094" title="Throwable">t</a>,<a href="#22463" title="(fmt: String,arg: Any,argN: Any*)String">message</a><span class="delimiter">(</span><a href="#28095" title="=&gt; String">fmt</a>,<a href="#28096" title="Any">arg</a>,<a href="#28097" title="Any*">argN</a>:_*<span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(t: Throwable,msg: =&gt; String)Unit" id="22448">info</a><span class="delimiter">(</span><a title="Throwable" id="28108">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="28109">msg</a>: =&gt; String<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#22436" title="=&gt; Boolean">info_?</a><span class="delimiter">)</span> <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="(x$1: java.lang.String,x$2: java.lang.Throwable)Unit">info</span><span class="delimiter">(</span><a href="#28109" title="=&gt; String">msg</a>,<a href="#28108" title="Throwable">t</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22449">info</a><span class="delimiter">(</span><a title="=&gt; String" id="28104">fmt</a>: =&gt; String, <a title="Any" id="28105">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="28106">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> <span class="delimiter">{</span>
+     <a href="#22450" title="(msg: =&gt; String)Unit">info</a><span class="delimiter">(</span><a href="#22463" title="(fmt: String,arg: Any,argN: Any*)String">message</a><span class="delimiter">(</span><a href="#28104" title="=&gt; String">fmt</a>,<a href="#28105" title="Any">arg</a>,<a href="#28106" title="Any*">argN</a>:_*<span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(msg: =&gt; String)Unit" id="22450">info</a><span class="delimiter">(</span><a title="=&gt; String" id="28102">msg</a>: =&gt; String<span class="delimiter">)</span> <span class="delimiter">{</span>
+     <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#22436" title="=&gt; Boolean">info_?</a><span class="delimiter">)</span> <a href="#27995" title="(x$1: java.lang.String)Unit">logger</a> info <a href="#28102" title="=&gt; String">msg</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">//Warning</span>
+  <span class="keyword">def</span> <a title="(t: Throwable,fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22451">warning</a><span class="delimiter">(</span><a title="Throwable" id="28128">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="28129">fmt</a>: =&gt; String, <a title="Any" id="28130">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="28131">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#22453" title="(t: Throwable,msg: =&gt; String)Unit">warning</a><span class="delimiter">(</span><a href="#28128" title="Throwable">t</a>,<a href="#22463" title="(fmt: String,arg: Any,argN: Any*)String">message</a><span class="delimiter">(</span><a href="#28129" title="=&gt; String">fmt</a>,<a href="#28130" title="Any">arg</a>,<a href="#28131" title="Any*">argN</a>:_*<span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(t: Throwable,fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22452">warn</a><span class="delimiter">(</span><a title="Throwable" id="28149">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="28150">fmt</a>: =&gt; String, <a title="Any" id="28151">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="28152">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> = <a href="#22451" title="(t: Throwable,fmt: =&gt; String,arg: Any,argN: Any*)Unit">warning</a><span class="delimiter">(</span><a href="#28149" title="Throwable">t</a>, <a href="#28150" title="=&gt; String">fmt</a>, <a href="#28151" title="Any">arg</a>, <a href="#28152" title="Any*">argN</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(t: Throwable,msg: =&gt; String)Unit" id="22453">warning</a><span class="delimiter">(</span><a title="Throwable" id="28142">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="28143">msg</a>: =&gt; String<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#22437" title="=&gt; Boolean">warning_?</a><span class="delimiter">)</span> <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="(x$1: java.lang.String,x$2: java.lang.Throwable)Unit">warn</span><span class="delimiter">(</span><a href="#28143" title="=&gt; String">msg</a>,<a href="#28142" title="Throwable">t</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(t: Throwable,msg: =&gt; String)Unit" id="22454">warn</a><span class="delimiter">(</span><a title="Throwable" id="28256">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="28257">msg</a>: =&gt; String<span class="delimiter">)</span> = <a href="#22453" title="(t: Throwable,msg: =&gt; String)Unit">warning</a><span class="delimiter">(</span><a href="#28256" title="Throwable">t</a>, <a href="#28257" title="=&gt; String">msg</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22455">warning</a><span class="delimiter">(</span><a title="=&gt; String" id="28138">fmt</a>: =&gt; String, <a title="Any" id="28139">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="28140">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> <span class="delimiter">{</span>
+     <a href="#22457" title="(msg: =&gt; String)Unit">warning</a><span class="delimiter">(</span><a href="#22463" title="(fmt: String,arg: Any,argN: Any*)String">message</a><span class="delimiter">(</span><a href="#28138" title="=&gt; String">fmt</a>,<a href="#28139" title="Any">arg</a>,<a href="#28140" title="Any*">argN</a>:_*<span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22456">warn</a><span class="delimiter">(</span><a title="=&gt; String" id="28271">fmt</a>: =&gt; String, <a title="Any" id="28272">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="28273">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> = <a href="#22455" title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">warning</a><span class="delimiter">(</span><a href="#28271" title="=&gt; String">fmt</a>, <a href="#28272" title="Any">arg</a>, <a href="#28273" title="Any*">argN</a>:_*<span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(msg: =&gt; String)Unit" id="22457">warning</a><span class="delimiter">(</span><a title="=&gt; String" id="28136">msg</a>: =&gt; String<span class="delimiter">)</span> <span class="delimiter">{</span>
+     <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#22437" title="=&gt; Boolean">warning_?</a><span class="delimiter">)</span> <a href="#27995" title="(x$1: java.lang.String)Unit">logger</a> warn <a href="#28136" title="=&gt; String">msg</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(msg: =&gt; String)Unit" id="22458">warn</a><span class="delimiter">(</span><a title="=&gt; String" id="28413">msg</a>: =&gt; String<span class="delimiter">)</span> = <a href="#22457" title="(msg: =&gt; String)Unit">warning</a><span class="delimiter">(</span><a href="#28413" title="=&gt; String">msg</a><span class="delimiter">)</span>
+
+  <span class="comment">//Error</span>
+  <span class="keyword">def</span> <a title="(t: Throwable,fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22459">error</a><span class="delimiter">(</span><a title="Throwable" id="28420">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="28421">fmt</a>: =&gt; String, <a title="Any" id="28422">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="28423">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#22460" title="(t: Throwable,msg: =&gt; String)Unit">error</a><span class="delimiter">(</span><a href="#28420" title="Throwable">t</a>,<a href="#22463" title="(fmt: String,arg: Any,argN: Any*)String">message</a><span class="delimiter">(</span><a href="#28421" title="=&gt; String">fmt</a>,<a href="#28422" title="Any">arg</a>,<a href="#28423" title="Any*">argN</a>:_*<span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(t: Throwable,msg: =&gt; String)Unit" id="22460">error</a><span class="delimiter">(</span><a title="Throwable" id="28434">t</a>: <span title="Throwable">Throwable</span>, <a title="=&gt; String" id="28435">msg</a>: =&gt; String<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#22438" title="=&gt; Boolean">error_?</a><span class="delimiter">)</span> <a href="#27995" title="=&gt; org.slf4j.Logger">logger</a>.<span title="(x$1: java.lang.String,x$2: java.lang.Throwable)Unit">error</span><span class="delimiter">(</span><a href="#28435" title="=&gt; String">msg</a>,<a href="#28434" title="Throwable">t</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit" id="22461">error</a><span class="delimiter">(</span><a title="=&gt; String" id="28430">fmt</a>: =&gt; String, <a title="Any" id="28431">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="28432">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> <span class="delimiter">{</span>
+     <a href="#22462" title="(msg: =&gt; String)Unit">error</a><span class="delimiter">(</span><a href="#22463" title="(fmt: String,arg: Any,argN: Any*)String">message</a><span class="delimiter">(</span><a href="#28430" title="=&gt; String">fmt</a>,<a href="#28431" title="Any">arg</a>,<a href="#28432" title="Any*">argN</a>:_*<span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(msg: =&gt; String)Unit" id="22462">error</a><span class="delimiter">(</span><a title="=&gt; String" id="28428">msg</a>: =&gt; String<span class="delimiter">)</span> <span class="delimiter">{</span>
+     <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#22438" title="=&gt; Boolean">error_?</a><span class="delimiter">)</span> <a href="#27995" title="(x$1: java.lang.String)Unit">logger</a> error <a href="#28428" title="=&gt; String">msg</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="(fmt: String,arg: Any,argN: Any*)String" id="22463">message</a><span class="delimiter">(</span><a title="String" id="28055">fmt</a>: <span title="String">String</span>, <a title="Any" id="28056">arg</a>: <span title="Any">Any</span>, <a title="Any*" id="28057">argN</a>: <span title="Any*">Any</span>*<span class="delimiter">)</span> : <span title="String">String</span> = <span class="delimiter">{</span>
+    <span title="String" class="keyword">if</span> <span class="delimiter">(</span><span title="(x$1: Boolean)Boolean" class="delimiter">(</span><a href="#28057" title="(x$1: AnyRef)Boolean">argN</a> eq <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> || <a href="#28057" title="Any*">argN</a>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span> <a href="#28055" title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">fmt</a>.<span title="(args: Any*)String">format</span><span class="delimiter">(</span><a href="#28056" title="Any">arg</a><span class="delimiter">)</span>
+    <span class="keyword">else</span> <a href="#28055" title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">fmt</a>.<span title="(args: Any*)String">format</span><span class="delimiter">(</span><span class="delimiter">(</span><a href="#28056" title="Any">arg</a> <a href="#28482" title="Any">+:</a> <a href="#28057" title="(elem: Any)(implicit bf: scala.collection.generic.CanBuildFrom[Seq[Any],Any,Seq[Any]])Seq[Any]">argN</a><span class="delimiter">)</span>:_*<span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Logger factory
+ *
+ * ex.
+ *
+ * val logger = Logger(&quot;my.cool.logger&quot;)
+ * val logger = Logger(classOf[Banana])
+ * val rootLogger = Logger.root
+ *
+ */</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.Logger" id="9391">Logger</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="comment">/* Uncomment to be able to debug what logging configuration will be used
+  {
+  import org.slf4j.LoggerFactory
+  import ch.qos.logback.classic.LoggerContext
+  import ch.qos.logback.core.util.StatusPrinter
+
+  // print logback's internal status
+  StatusPrinter.print(LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext])
+  }*/</span>
+
+  <span class="keyword">def</span> <a title="(logger: String)com.mongodb.casbah.commons.Logger" id="21075">apply</a><span class="delimiter">(</span><a title="String" id="22401">logger</a>: <span title="String">String</span><span class="delimiter">)</span>  : <a href="#9390" title="com.mongodb.casbah.commons.Logger">Logger</a> = <span title="com.mongodb.casbah.commons.Logger" class="keyword">new</span> <a href="#9390" title="com.mongodb.casbah.commons.Logger">Logger</a><span class="delimiter">(</span><span title="(x$1: java.lang.String)org.slf4j.Logger">SLFLoggerFactory</span> getLogger <a href="#22401" title="String">logger</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(clazz: Class[_])com.mongodb.casbah.commons.Logger" id="21076">apply</a><span class="delimiter">(</span><a title="Class[_]" id="21080">clazz</a>: <span title="Class[_]">Class</span><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">)</span> : <a href="#9390" title="com.mongodb.casbah.commons.Logger">Logger</a> = <a href="#21075" title="(logger: String)com.mongodb.casbah.commons.Logger">apply</a><span class="delimiter">(</span><a href="#21080" title="Class[_]">clazz</a>.<span title="()java.lang.String">getName</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.commons.Logger" id="21077">root</a>                   : <a href="#9390" title="com.mongodb.casbah.commons.Logger">Logger</a> = <a href="#21075" title="(logger: String)com.mongodb.casbah.commons.Logger">apply</a><span class="delimiter">(</span>SLFLogger.<span title="java.lang.String(&quot;ROOT&quot;)">ROOT_LOGGER_NAME</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

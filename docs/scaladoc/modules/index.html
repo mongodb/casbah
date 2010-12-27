@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>MongoDB Casbah Scala Documentation</title>
+  </head>
+  <body>
+    Casbah consists of several modules. Which documentation do you want?
+    <ul>
+      <li><a href="casbah-commons/api/index.html">casbah-commons</a><br> Utilities to improve working with Scala and MongoDB together without dependencies on anything but the MongoDB Java Driver and ScalaJ-Collection. This includes Scala Collections 2.8 compatible wrappers for DBList and DBObject as well as type conversion facilities to simplify the use of Scala types with MongoDB (and register your own custom types)</li>
+      <br>
+      <li><a href="casbah-query/api/index.html">casbah-query</a> <br>The Query DSL; provides an internal Scala DSL for querying MongoDB using native, MongoDB syntax operators. This only depends upon Commons and can be used standalone without the rest of Casbah.</li>
+      <br>
+      <li><a href="casbah-core/api/index.html">casbah-core</a> <br>The wrappers for interacting directly with MongoDB providing more Scala-like interactions. It depends upon both Commons and Query as well as ScalaTime for use of JodaTime (which we prefer over JDK date but you are welcome to use JDK Dates).</li>
+      <br>
+      <li><a href="casbah-gridfs/api/index.html">casbah-gridfs</a><br> This provides enhancement wrappers to GridFS including loan pattern support. It is dependent on Core (and by transitive property, Commons & Query as well) but is not included in Core - you must explicitly load if it you want to use GridFS.</li>
+      <br>
+  </ul>
+
+  </body>
+</html>

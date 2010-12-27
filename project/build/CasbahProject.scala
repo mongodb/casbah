@@ -5,9 +5,9 @@ class CasbahProject(info: ProjectInfo)
     extends ParentProject(info) 
     with posterous.Publish {
 
+  /*import ScalaProject.CompoundDocOption */
 
-  // this was nice while it lasted
-  override def parallelExecution = false
+  override def parallelExecution = true 
 
   override def managedStyle = ManagedStyle.Maven
 
@@ -20,10 +20,18 @@ class CasbahProject(info: ProjectInfo)
 
   Credentials(Path.userHome / ".ivy2" / ".scalatools_credentials", log)
 
+
+
   lazy val commons = project("casbah-commons", "casbah-commons", new CasbahCommonsProject(_))
   lazy val core = project("casbah-core", "casbah-core", new CasbahCoreProject(_), commons, query)
   lazy val query = project("casbah-query", "casbah-query", new CasbahQueryProject(_), commons)
   lazy val gridfs = project("casbah-gridfs","casbah-gridfs", new CasbahGridFSProject(_), core)
+
+  val allSource: PathFinder = commons.mainSourcePath ** "*.scala" +++
+                              core.mainSourcePath ** "*.scala" +++
+                              query.mainSourcePath ** "*.scala" +++
+                              gridfs.mainSourcePath * "*.scala" 
+
 
   abstract class CasbahBaseProject(info: ProjectInfo) 
       extends DefaultProject(info) 
@@ -66,7 +74,7 @@ class CasbahProject(info: ProjectInfo)
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
 
     override def documentOptions = Seq(
-      CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah-%s/casbah-%s/sxr/€{FILE_PATH}".format(projectVersion.value, projectName.value)),
+      CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah-%s/%s/sxr/€{FILE_PATH}".format(projectVersion.value, projectName.value)),
       CompoundDocOption("-doc-version", "v%s".format(projectVersion.value)),
       CompoundDocOption("-doc-title", "Casbah %s".format(projectName.value))
     ) 
@@ -88,7 +96,9 @@ class CasbahProject(info: ProjectInfo)
     val scalaTime = "org.scala-tools.time" % "time_2.8.0" % "0.2"
   }
 
-  class CasbahCoreProject(info: ProjectInfo) extends CasbahBaseProject(info) 
+  class CasbahCoreProject(info: ProjectInfo) extends CasbahBaseProject(info) { 
+    lazy val allDocs = scaladocTask("Casbah Documentation", allSource, "scaladocBuild", docClasspath, documentOptions)
+  }
 
   class CasbahQueryProject(info: ProjectInfo) extends CasbahBaseProject(info)
 

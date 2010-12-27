@@ -6,13 +6,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to the Casbah documentation &mdash; Casbah (MongoDB + Scala Toolkit Documentation v2.0rc0 documentation</title>
+    <title>Welcome to the Casbah documentation &mdash; Casbah (MongoDB + Scala Toolkit Documentation v2.0rc1 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '2.0rc0',
+        VERSION:     '2.0rc1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -21,8 +21,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Casbah (MongoDB + Scala Toolkit Documentation v2.0rc0 documentation" href="#" />
-    <link rel="next" title="Getting Started" href="setting_up.html" /> 
+    <link rel="top" title="Casbah (MongoDB + Scala Toolkit Documentation v2.0rc1 documentation" href="#" />
+    <link rel="next" title="1. Getting Started" href="setting_up.html" /> 
   </head>
   <body>
     <div class="related">
@@ -32,9 +32,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="setting_up.html" title="Getting Started"
+          <a href="setting_up.html" title="1. Getting Started"
              accesskey="N">next</a> |</li>
-        <li><a href="#">Casbah (MongoDB + Scala Toolkit Documentation v2.0rc0 documentation</a> &raquo;</li> 
+        <li><a href="#">Casbah (MongoDB + Scala Toolkit Documentation v2.0rc1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -49,44 +49,46 @@
 <p>Casbah&#8217;s approach is intended to add fluid, Scala-friendly syntax on top of MongoDB and handle conversions of common types.  If you try to save a Scala List or Seq to MongoDB, we automatically convert it to a type the Java driver can serialize.  If you read a Java type,  we convert it to a comparable Scala type before it hits your code.  All of this is intended to let you focus on writing the best possible Scala code using Scala idioms.  A great deal of effort is put into providing you the functional and implicit conversion tools you&#8217;ve come to expect from Scala, with the power and flexibility of MongoDB.</p>
 <p>Casbah provides improved interfaces to GridFS, Map/Reduce and the core Mongo APIs.  It also provides a fluid query syntax which emulates an internal DSL and allows you to write code which looks like what you might write in the JS Shell.  There is also support for easily adding new serialization/deserialization mechanisms for common data types (including Joda Time, if you so choose; with some caveats - See the GridFS Section).</p>
 <p>With version 2.0, Casbah has become an official MongoDB project and will continue to improve the interaction of Scala + MongoDB. Casbah aims to remain fully compatible with the existing Java driver&#8212;it does not talk to MongoDB directly, preferring to wrap the Java code.  This means you shouldn&#8217;t see any wildly unexpected behavior from the underlying Mongo interfaces when a data bug is fixed.</p>
-<p>The <a class="reference external" href="http://api.mongodb.org/scala/casbah/2.0rc0/scaladoc/">ScalaDocs for Casbah</a> along with SXR cross referenced source are available at the <a class="reference external" href="http://api.mongodb.org">MongoDB API site</a>.</p>
+<p>The <a class="reference external" href="http://api.mongodb.org/scala/casbah/2.0rc1/scaladoc/">ScalaDocs for Casbah</a> along with SXR cross referenced source are available at the <a class="reference external" href="http://api.mongodb.org">MongoDB API site</a>.</p>
 <p>You may also download this documentation in other formats.</p>
 <blockquote>
 <ul class="simple">
-<li><a class="reference external" href="http://api.mongodb.org/scala/casbah/2.0rc0/CasbahDocumentation.epub">ePub</a></li>
-<li><a class="reference external" href="http://api.mongodb.org/scala/casbah/2.0rc0/CasbahDocumentation.pdf">PDF</a></li>
+<li><a class="reference external" href="http://api.mongodb.org/scala/casbah/2.0rc1/CasbahDocumentation.epub">ePub</a></li>
+<li><a class="reference external" href="http://api.mongodb.org/scala/casbah/2.0rc1/CasbahDocumentation.pdf">PDF</a></li>
 </ul>
 </blockquote>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="setting_up.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="setting_up.html#installing-setting-up-casbah">Installing &amp; Setting up Casbah</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-without-a-dependency-build-manager-source-binary">Setting up without a Dependency/Build Manager (Source + Binary)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#using-dependency-build-managers">Using Dependency/Build Managers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-maven">Setting Up Maven</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-ivy-w-ant">Setting Up Ivy (w/ Ant)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-sbt">Setting up SBT</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://api.mongodb.org/scala/casbah/2.0rc1/scaladoc/">API Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="setting_up.html#installing-setting-up-casbah">1.1. Installing &amp; Setting up Casbah</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-without-a-dependency-build-manager-source-binary">1.1.1. Setting up without a Dependency/Build Manager (Source + Binary)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#using-dependency-build-managers">1.1.2. Using Dependency/Build Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-maven">1.1.3. Setting Up Maven</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-ivy-w-ant">1.1.4. Setting Up Ivy (w/ Ant)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-sbt">1.1.5. Setting up SBT</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="setting_up.html#migrating-to-casbah-2-0-from-casbah-1-x">Migrating to Casbah 2.0 from Casbah 1.x</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#base-package-name">Base Package Name</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#removed-features">Removed Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#id1">Casbah Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setting_up.html#migrating-to-casbah-2-0-from-casbah-1-x">1.2. Migrating to Casbah 2.0 from Casbah 1.x</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#base-package-name">1.2.1. Base Package Name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#removed-features">1.2.2. Removed Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#new-features">1.2.3. New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#general-code-cleanup">1.2.4. General Code Cleanup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting_up.html#id1">1.2.5. Casbah Modules</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial: Using Casbah</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#import-the-driver">Import the Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#briefly-automatic-type-conversions">Briefly: Automatic Type Conversions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#wrappers">Wrappers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#connecting-to-mongodb">Connecting to MongoDB</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#working-with-collections">Working with Collections</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#mongodbobject-a-scala-ble-dbobject-implementation">MongoDBObject - A Scala-ble DBObject Implementation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#querying-with-casbah">Querying with Casbah</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#gridfs-with-casbah">GridFS with Casbah</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#map-reduce-with-casbah">Map/Reduce with Casbah</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">2. Tutorial: Using Casbah</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#import-the-driver">2.1. Import the Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#briefly-automatic-type-conversions">2.2. Briefly: Automatic Type Conversions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#wrappers">2.2.1. Wrappers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#connecting-to-mongodb">2.2.2. Connecting to MongoDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#working-with-collections">2.2.3. Working with Collections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#mongodbobject-a-scala-ble-dbobject-implementation">2.2.4. MongoDBObject - A Scala-ble DBObject Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#mongodblist-mongo-friendly-list-implementation">2.2.5. MongoDBList - Mongo-friendly List implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#querying-with-casbah">2.2.6. Querying with Casbah</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#gridfs-with-casbah">2.2.7. GridFS with Casbah</a></li>
 </ul>
 </li>
 </ul>
@@ -106,7 +108,7 @@
             </a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="setting_up.html"
-                        title="next chapter">Getting Started</a></p>
+                        title="next chapter">1. Getting Started</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -136,9 +138,9 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="setting_up.html" title="Getting Started"
+          <a href="setting_up.html" title="1. Getting Started"
              >next</a> |</li>
-        <li><a href="#">Casbah (MongoDB + Scala Toolkit Documentation v2.0rc0 documentation</a> &raquo;</li> 
+        <li><a href="#">Casbah (MongoDB + Scala Toolkit Documentation v2.0rc1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

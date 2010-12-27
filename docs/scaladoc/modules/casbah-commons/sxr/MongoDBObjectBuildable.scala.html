@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>MongoDBObjectBuildable.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah.commons
+
+<span class="keyword">import</span> com.mongodb._
+<span class="keyword">import</span> org.bson._
+
+
+<span class="comment">/** 
+ * DBObject implementing trait meant to proxy as a builder
+ * for deserialization of DBObjects.
+ * This should cut out some of the 'middle man' in reading MongoDB Objects
+ * as the object takes the callback setters directly.
+ *
+ * @author Brendan W. McAdams &lt;brendan@10gen.com&gt;
+ * @version 1.0, 11/29/10
+ * @since 1.0
+ */</span>
+<span class="keyword">trait</span> <a title="trait MongoDBObjectBuildable extends java.lang.Object with com.mongodb.DBObject with ScalaObject" id="9425">MongoDBObjectBuildable</a> <span title="ScalaObject" class="keyword">extends</span> <span title="com.mongodb.DBObject">DBObject</span> <span class="delimiter">{</span>
+
+  <span class="keyword">protected</span> <span class="keyword">var</span> <a title="Boolean" id="31946">_partial</a> = <span title="Boolean(false)" class="keyword">false</span>
+
+  <span class="comment">/** 
+   * Set a key/value pair in this object
+   * @param key The key name to set
+   * @param v The new value
+   * @return v
+   */</span> 
+  <span class="keyword">def</span> <a title="(key: String,v: AnyRef)AnyRef" id="31948">put</a><span class="delimiter">(</span><a title="String" id="31962">key</a>: <span title="String">String</span>, <a title="AnyRef" id="31963">v</a>: <span title="AnyRef">AnyRef</span><span class="delimiter">)</span>: <span title="AnyRef">AnyRef</span>
+
+  <span class="comment">/**
+   * Set the new object from the contents of the
+   * passed BSONObject `o`.
+   * @param o A BSONObject to copy from
+   */</span>
+  <span class="keyword">def</span> <a title="(o: org.bson.BSONObject)Unit" id="31949">putAll</a><span class="delimiter">(</span><a title="org.bson.BSONObject" id="31965">o</a>: <span title="org.bson.BSONObject">BSONObject</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Set the new object from the contents of the
+   * passed java.util.Map `m`.
+   * @param o A BSONObject to copy from
+   */</span>
+  <span class="keyword">def</span> <a title="(m: java.util.Map[_, _])Unit" id="31950">putAll</a><span class="delimiter">(</span><a title="java.util.Map[_, _]" id="31968">m</a>: java.util.<span title="java.util.Map[_, _]">Map</span><span class="delimiter">[</span>_, _<span class="delimiter">]</span><span class="delimiter">)</span>
+
+  <span class="comment">/** 
+   * Retrieve the value of a specific key
+   * @param key The name of the key to fetch
+   * @return the requested value (if the field exists)
+   */</span>
+  <span class="keyword">def</span> <a title="(key: String)AnyRef" id="31951">get</a><span class="delimiter">(</span><a title="String" id="31977">key</a>: <span title="String">String</span><span class="delimiter">)</span>: <span title="AnyRef">AnyRef</span> = 
+    <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.lang.IllegalArgumentException" class="keyword">new</span> <span title="java.lang.IllegalArgumentException">IllegalArgumentException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot return values.&quot;)" class="string">&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot return values.&quot;</span><span class="delimiter">)</span>;
+  
+  <span class="comment">/** Remove a field with a given name from this object.
+   * @param key The name of the field to remove
+   * @return The value of the field prior to its removal
+   */</span>
+  <span class="keyword">def</span> <a title="(key: String)AnyRef" id="31952">removeField</a><span class="delimiter">(</span><a title="String" id="32010">key</a>: <span title="String">String</span><span class="delimiter">)</span>: <span title="AnyRef">AnyRef</span> = 
+    <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.lang.IllegalArgumentException" class="keyword">new</span> <span title="java.lang.IllegalArgumentException">IllegalArgumentException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot remove fields.&quot;)" class="string">&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot remove fields.&quot;</span><span class="delimiter">)</span>;
+
+  <span class="comment">/** 
+   * Test whether this object contains a given key.
+   * @param s The name of the field to test.
+   * @return a boolean indicating if the field was found or not
+   * @deprecated
+   */</span>
+  <span class="keyword">def</span> <a title="(s: String)Boolean" id="31953">containsKey</a><span class="delimiter">(</span><a title="String" id="32017">s</a>: <span title="String">String</span><span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = 
+    <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.lang.IllegalArgumentException" class="keyword">new</span> <span title="java.lang.IllegalArgumentException">IllegalArgumentException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot return values.&quot;)" class="string">&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot return values.&quot;</span><span class="delimiter">)</span>;
+
+  <span class="comment">/** Test whether this object contains a given key.
+   * @param s The name of the field to test.
+   * @return a boolean indicating if the field was found or not
+   */</span>
+  <span class="keyword">def</span> <a title="(s: String)Boolean" id="31954">containsField</a><span class="delimiter">(</span><a title="String" id="32024">s</a>: <span title="String">String</span><span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = 
+    <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.lang.IllegalArgumentException" class="keyword">new</span> <span title="java.lang.IllegalArgumentException">IllegalArgumentException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot return values.&quot;)" class="string">&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot return values.&quot;</span><span class="delimiter">)</span>;
+  
+  <span class="comment">/**
+   * Returns a set of the keys represented in this BSONObject.
+   * Because we're proxying the Java driver, it must return a java.util.Set;
+   * consider using scala's JavaConversions library
+   * @return a Set of the key names in the object
+   */</span>
+  <span class="keyword">def</span> <a title="()java.util.Set[String]" id="31955">keySet</a><span class="delimiter">(</span><span class="delimiter">)</span>: java.util.<span title="java.util.Set[String]">Set</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = 
+    <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.lang.IllegalArgumentException" class="keyword">new</span> <span title="java.lang.IllegalArgumentException">IllegalArgumentException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot return values.&quot;)" class="string">&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot return values.&quot;</span><span class="delimiter">)</span>;
+
+  <span class="comment">/**
+   * Returns a map representing this BSONObject.
+   * Because we're proxying the Java driver, it must return a java.util.Map;
+   * consider using scala's JavaConversions library
+   * @return a Map representation of this Object
+   */</span>
+  <span class="keyword">def</span> <a title="()java.util.Map[_, _]" id="31956">toMap</a><span class="delimiter">(</span><span class="delimiter">)</span>: java.util.<span title="java.util.Map[_, _]">Map</span><span class="delimiter">[</span>_, _<span class="delimiter">]</span> = 
+    <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.lang.IllegalArgumentException" class="keyword">new</span> <span title="java.lang.IllegalArgumentException">IllegalArgumentException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot return values.&quot;)" class="string">&quot;MongoDBObjectBuildable is a write-once proxying builder and cannot return values.&quot;</span><span class="delimiter">)</span>;
+
+  <span class="comment">/**
+   * if this object was loaded with only some fields (using a field filter)
+   * this method will be called to notify 
+   */</span>
+  <span class="keyword">def</span> <a title="()Unit" id="31957">markAsPartialObject</a><span class="delimiter">(</span><span class="delimiter">)</span> = 
+    <a href="#31946" title="(x$1: Boolean)Unit">_partial</a> = <span title="Boolean(true)" class="keyword">true</span>
+
+  <span class="comment">/**
+   * whether markAsPartialObject was ever called
+   * only matters if you are going to upsert and don't want to risk losing fields
+   */</span>
+  <span class="keyword">def</span> <a title="()Boolean" id="31958">isPartialObject</a> = <a href="#31946" title="=&gt; Boolean">_partial</a>
+
+<span class="delimiter">}</span>
+
+<span class="comment">// vim: set ts=2 sw=2 sts=2 et:</span>
+
+        </pre>
+    </body>
+</html>

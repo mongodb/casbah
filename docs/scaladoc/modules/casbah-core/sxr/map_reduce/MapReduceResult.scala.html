@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>map_reduce/MapReduceResult.scala</title>
+        <script type="text/javascript" src="../jquery-all.js"></script>
+        <script type="text/javascript" src="../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. &lt;http://novus.com&gt;
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah
+<span class="keyword">package</span> map_reduce
+
+<span class="keyword">import</span> com.mongodb.casbah.<a href="../Implicits.scala.html#9371" title="object com.mongodb.casbah.Imports">Imports</a>._
+<span class="keyword">import</span> com.mongodb.casbah.commons.Logging
+
+<span class="keyword">import</span> scalaj.collection.<span title="object scalaj.collection.Imports">Imports</span>._
+
+
+<span class="comment">/**
+ * Wrapper for MongoDB MapReduceResults, implementing iterator to allow direct iterator over the result set.
+ *
+ * @author Brendan W. McAdams &lt;brendan@10gen.com&gt;
+ *
+ * @param resultObj a DBObject directly conforming to the mapReduce result spec as defined in the MongoDB Docs.
+ * 
+ */</span>
+<span class="keyword">class</span> <a title="class MapReduceResult extends java.lang.Object with Iterator[com.mongodb.casbah.Imports.DBObject] with com.mongodb.casbah.commons.Logging with ScalaObject" id="9472">MapReduceResult</a><span title="ScalaObject" class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="30568">resultObj</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="com.mongodb.casbah.Imports.MongoDB" id="30569">db</a>: <a href="../MongoDB.scala.html#9431" title="com.mongodb.casbah.Imports.MongoDB">MongoDB</a><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterator[com.mongodb.casbah.Imports.DBObject]">Iterator</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> <span class="keyword">with</span> <span title="com.mongodb.casbah.commons.Logging">Logging</span> <span class="delimiter">{</span>
+  <a href="#9472" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">debug</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Map Reduce Result: %s&quot;)" class="string">&quot;Map Reduce Result: %s&quot;</span>, <a href="#30568" title="com.mongodb.casbah.Imports.DBObject">resultObj</a><span class="delimiter">)</span>
+  <span class="comment">// Convert the object to a map to have a quicker, saner shred...</span>
+  <span class="keyword">val</span> <a title="java.lang.String" id="19331">FAIL</a> = <span title="java.lang.String(&quot;#FAIL&quot;)" class="string">&quot;#FAIL&quot;</span>
+  <span class="keyword">val</span> <a title="java.lang.String" id="19333">result</a> = <span title="java.lang.String" class="keyword">if</span> <span class="delimiter">(</span><a href="#30568" title="com.mongodb.casbah.Imports.DBObject">resultObj</a>.<span title="(x$1: java.lang.String)Boolean">containsField</span><span class="delimiter">(</span><span title="java.lang.String(&quot;result&quot;)" class="string">&quot;result&quot;</span><span class="delimiter">)</span><span class="delimiter">)</span>  <span class="delimiter">{</span>
+                 <a href="#30568" title="com.mongodb.casbah.Imports.DBObject">resultObj</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;result&quot;)" class="string">&quot;result&quot;</span><span class="delimiter">)</span>.<span title="()java.lang.String">toString</span>
+               <span class="delimiter">}</span> <span class="keyword">else</span>  <span class="delimiter">{</span>
+                 <a href="#9472" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(msg: =&gt; String)Unit">warning</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Map/Reduce Result field is empty. Setting an error state explicitly.&quot;)" class="string">&quot;Map/Reduce Result field is empty. Setting an error state explicitly.&quot;</span><span class="delimiter">)</span>
+                 <a href="#19331" title="=&gt; java.lang.String">FAIL</a>
+               <span class="delimiter">}</span><span class="comment">// Unless you've defined a table named #FAIL this should give you empty results back.</span>
+                
+<span class="comment">/*  val result = resultMap.get(&quot;result&quot;) match {
+    case Some(v) =&gt; v
+    case None =&gt; throw new IllegalArgumentException(&quot;Cannot find field 'result' in Map/Reduce Results.&quot;)
+  }*/</span>
+  <span class="keyword">val</span> <a title="com.mongodb.casbah.MongoCollection" id="19335">resultHandle</a> = <a href="../MongoDB.scala.html#13585" title="(collection: String)com.mongodb.casbah.MongoCollection">db</a><span class="delimiter">(</span><a href="#19333" title="=&gt; java.lang.String">result</a>.<span title="()java.lang.String">toString</span><span class="delimiter">)</span>
+  
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="com.mongodb.casbah.MongoCursorBase[com.mongodb.casbah.Imports.DBObject]" id="19337">resultCursor</a> = <a href="#19335" title="=&gt; com.mongodb.casbah.MongoCollection">resultHandle</a>.<a href="../MongoCollection.scala.html#14321" title="()com.mongodb.casbah.MongoCursorBase[com.mongodb.casbah.Imports.DBObject]">find</a>
+
+  <span class="keyword">def</span> <a title="()com.mongodb.casbah.Imports.DBObject" id="19339">next</a><span class="delimiter">(</span><span class="delimiter">)</span>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span> = <a href="#19337" title="=&gt; com.mongodb.casbah.MongoCursorBase[com.mongodb.casbah.Imports.DBObject]">resultCursor</a>.<a href="../MongoCursor.scala.html#19001" title="()com.mongodb.casbah.Imports.DBObject">next</a>
+
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="19340">hasNext</a>: <span title="Boolean">Boolean</span> = <a href="#19337" title="=&gt; com.mongodb.casbah.MongoCursorBase[com.mongodb.casbah.Imports.DBObject]">resultCursor</a>.<a href="../MongoCursor.scala.html#19002" title="=&gt; Boolean">hasNext</a>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Int" id="19341">size</a> = <a href="#19335" title="=&gt; com.mongodb.casbah.MongoCollection">resultHandle</a>.<a href="../MongoCollection.scala.html#14491" title="implicit scala.Predef.long2Long : (x: Long)java.lang.Long">count</a>.<span title="()Int">intValue</span>
+
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="com.mongodb.casbah.Imports.DBObject" id="19342">counts</a> = <a href="#30568" title="com.mongodb.casbah.Imports.DBObject">resultObj</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;counts&quot;)" class="string">&quot;counts&quot;</span><span class="delimiter">)</span>.<span title="[T0]T0">asInstanceOf</span><span title="com.mongodb.casbah.Imports.DBObject" class="delimiter">[</span><span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">]</span>
+  <span class="comment">// Number of objects scanned</span>
+  <span class="keyword">val</span> <a title="Int" id="19344">input_count</a>: <span title="Int">Int</span> = <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#19342" title="(x$1: AnyRef)Boolean">counts</a> != <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <a href="#19342" title="=&gt; com.mongodb.casbah.Imports.DBObject">counts</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;input&quot;)" class="string">&quot;input&quot;</span><span class="delimiter">)</span>.<span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">toString</span>.<span title="=&gt; Int">toInt</span> <span class="keyword">else</span> <span title="Int(0)" class="int">0</span> <span class="comment">//, throw new IllegalArgumentException(&quot;Cannot find field 'counts.input' in Map/Reduce Results.&quot;))</span>
+  <span class="comment">// Number of times 'emit' was called</span>
+  <span class="keyword">val</span> <a title="Int" id="19346">emit_count</a>: <span title="Int">Int</span> = <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#19342" title="(x$1: AnyRef)Boolean">counts</a> != <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <a href="#19342" title="=&gt; com.mongodb.casbah.Imports.DBObject">counts</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;emit&quot;)" class="string">&quot;emit&quot;</span><span class="delimiter">)</span>.<span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">toString</span>.<span title="=&gt; Int">toInt</span> <span class="keyword">else</span> <span title="Int(0)" class="int">0</span><span class="comment">//, throw new IllegalArgumentException(&quot;Cannot find field 'counts.emit' in Map/Reduce Results.&quot;))</span>
+  <span class="comment">// Number of items in output collection</span>
+  <span class="keyword">val</span> <a title="Int" id="19348">output_count</a>: <span title="Int">Int</span> = <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#19342" title="(x$1: AnyRef)Boolean">counts</a> != <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <a href="#19342" title="=&gt; com.mongodb.casbah.Imports.DBObject">counts</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;output&quot;)" class="string">&quot;output&quot;</span><span class="delimiter">)</span>.<span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">toString</span>.<span title="=&gt; Int">toInt</span> <span class="keyword">else</span> <span title="Int(0)" class="int">0</span><span class="comment">//throw new IllegalArgumentException(&quot;Cannot find field 'counts.output' in Map/Reduce Results.&quot;))</span>
+
+  <span class="keyword">val</span> <a title="Int" id="19350">timeMillis</a> = <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#19342" title="(x$1: AnyRef)Boolean">counts</a> != <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <a href="#30568" title="com.mongodb.casbah.Imports.DBObject">resultObj</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;timeMillis&quot;)" class="string">&quot;timeMillis&quot;</span><span class="delimiter">)</span>.<span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">toString</span>.<span title="=&gt; Int">toInt</span> <span class="keyword">else</span> <span title="Int(-1)">-</span><span class="int">1</span> <span class="comment">//throw new IllegalArgumentException(&quot;Cannot find field 'timeMillis' in Map/Reduce Results.&quot;))</span>
+
+  <span class="keyword">val</span> <a title="Boolean" id="19352">ok</a> = <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#30568" title="com.mongodb.casbah.Imports.DBObject">resultObj</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span title="(x$1: Any)Boolean" class="delimiter">(</span><span title="java.lang.String(&quot;ok&quot;)" class="string">&quot;ok&quot;</span><span class="delimiter">)</span> == <span title="Int(1)" class="int">1</span><span class="delimiter">)</span> <span title="Boolean(true)" class="keyword">true</span> <span class="keyword">else</span> <span title="Boolean(false)" class="keyword">false</span>
+
+  <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#19352" title="=&gt; Boolean">ok</a><span class="delimiter">)</span> <a href="#9472" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(msg: =&gt; String)Unit">warning</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Job result is NOT OK.&quot;)" class="string">&quot;Job result is NOT OK.&quot;</span><span class="delimiter">)</span>
+
+
+  <span class="keyword">val</span> <a title="java.lang.Object" id="19354">err</a> = <a href="#30568" title="com.mongodb.casbah.Imports.DBObject">resultObj</a>.<span title="(x$1: java.lang.String)java.lang.Object">get</span><span class="delimiter">(</span><span title="java.lang.String(&quot;errmsg&quot;)" class="string">&quot;errmsg&quot;</span><span class="delimiter">)</span>
+
+  <span class="keyword">val</span> <a title="Boolean" id="19356">success</a> = <a href="#19354" title="=&gt; java.lang.Object">err</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span title="Boolean" class="keyword">case</span> <span title="Null(null)" class="keyword">null</span> =&gt; <span class="delimiter">{</span>
+      <a href="#9472" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(msg: =&gt; String)Unit">debug</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Map/ Reduce Success.&quot;)" class="string">&quot;Map/ Reduce Success.&quot;</span><span class="delimiter">)</span>
+      <span title="Boolean(true)" class="keyword">true</span>
+    <span class="delimiter">}</span>
+    <span title="Boolean" class="keyword">case</span> <a title="java.lang.Object" id="33708">msg</a> =&gt; <span class="delimiter">{</span>
+      <a href="#9472" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<span title="(fmt: =&gt; String,arg: Any,argN: Any*)Unit">error</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Map/Reduce failed: %s&quot;)" class="string">&quot;Map/Reduce failed: %s&quot;</span>, <a href="#33708" title="java.lang.Object">msg</a><span class="delimiter">)</span>
+      <span title="Boolean(false)" class="keyword">false</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/** 
+   * Sort the map/Reduce. Note - this returns a new MongoDB Result cursor.
+   */</span>
+  <span class="keyword">def</span> <a title="(orderBy: com.mongodb.casbah.Imports.DBObject)com.mongodb.casbah.MongoCursorBase[com.mongodb.casbah.Imports.DBObject]" id="19358">sort</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="33839">orderBy</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#19335" title="=&gt; com.mongodb.casbah.MongoCollection">resultHandle</a>.<a href="../MongoCollection.scala.html#14321" title="()com.mongodb.casbah.MongoCursorBase[com.mongodb.casbah.Imports.DBObject]">find</a>.<a href="../MongoCursor.scala.html#19004" title="(orderBy: com.mongodb.casbah.Imports.DBObject)(implicit evidence$1: (com.mongodb.casbah.Imports.DBObject) =&gt; com.mongodb.casbah.Imports.DBObject)com.mongodb.casbah.MongoCursorBase[com.mongodb.casbah.Imports.DBObject]">sort</a><span title="&lt;:&lt;[com.mongodb.casbah.Imports.DBObject,com.mongodb.casbah.Imports.DBObject]" class="delimiter">(</span><a href="#33839" title="com.mongodb.casbah.Imports.DBObject">orderBy</a><span class="delimiter">)</span>
+  
+  <span class="comment">/**
+   * Returns the cursor to the underlying data. 
+   */</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.MongoCursorBase[com.mongodb.casbah.Imports.DBObject]" id="19359">cursor</a> = <a href="#19335" title="=&gt; com.mongodb.casbah.MongoCollection">resultHandle</a>.<a href="../MongoCollection.scala.html#14321" title="()com.mongodb.casbah.MongoCursorBase[com.mongodb.casbah.Imports.DBObject]">find</a>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="19360">toString</a> = <span class="delimiter">{</span>
+    <span title="java.lang.String" class="keyword">if</span> <span class="delimiter">(</span><a href="#19356" title="=&gt; Boolean">success</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps" class="string">&quot;{MapReduceResult Proxying Result [%s] Handle [%s]}&quot;</span>.<span title="(args: Any*)String">format</span><span class="delimiter">(</span><a href="#19333" title="=&gt; java.lang.String">result</a>, <a href="#19335" title="=&gt; com.mongodb.casbah.MongoCollection">resultHandle</a>.<a href="../MongoCollection.scala.html#14468" title="()java.lang.String">toString</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+    <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps" class="string">&quot;{MapReduceResult - Failure with Error [%s]&quot;</span>.<span title="(args: Any*)String">format</span><span class="delimiter">(</span><a href="#19354" title="=&gt; java.lang.Object">err</a>.<span title="()java.lang.String">toString</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>
