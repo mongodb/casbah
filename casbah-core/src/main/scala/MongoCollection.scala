@@ -215,6 +215,33 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
   def findOne[A <% DBObject, B <% DBObject](o: A, fields: B) =
     _typedValue(underlying.findOne(o.asInstanceOf[DBObject], fields))
 
+  /** 
+   * Find an object by its ID.
+   * Finds an object by its id. This compares the passed in 
+   * value to the _id field of the document.
+   * 
+   * Returns a single object from this collection matching the query.
+   * @param id the id to match
+   * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
+   */
+  def findOneByID(id: AnyRef) = _typedValue(underlying.findOne(id))
+
+  /**
+   * Find an object by its ID.
+   * Finds an object by its id. This compares the passed in 
+   * value to the _id field of the document.
+   * 
+   * Returns a single object from this collection matching the query.
+   *
+   * @param id the id to match
+   * @param fields fields to return
+   * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
+   * @dochub find
+   */
+  def findOneById[B <% DBObject](id: AnyRef, fields: B) =
+    _typedValue(underlying.findOne(id, fields))
+
+
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * If remove is specified it will be removed. If new is specified then the updated 
