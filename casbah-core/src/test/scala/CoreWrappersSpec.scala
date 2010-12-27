@@ -126,7 +126,7 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
     }
 
     "Renaming a collection successfully tracks the rename in MongoCollection" in {
-      val db = MongoConnection()("test")
+      val db = MongoConnection()("casbahTest")
       db("collection").drop()
       val coll = db("collectoin")
       coll.drop()
@@ -147,6 +147,30 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
 
     }
   }
+
+  "findOne operations" should {
+    shareVariables()
+    val db = MongoConnection()("casbahTest")
+
+    "Not fail as reported by Max Afonov in SCALA-11" in {
+      val coll = db("brand_new_coll_%d".format(System.currentTimeMillis))
+ 
+      coll.insert(MongoDBObject("foo" -> "bar"))
+      val basicFind = coll.find(MongoDBObject("foo" -> "bar")) 
+
+      basicFind must notBeNull
+      basicFind must haveSize(1)
+
+      val findOne = coll.findOne()
+
+      findOne must beSomething
+
+      val findOneMatch = coll.findOne(MongoDBObject("foo" -> "bar")) 
+
+      findOneMatch must beSomething
+
+    }
+  } 
 
 }
 
