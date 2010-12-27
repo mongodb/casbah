@@ -1,97 +1,97 @@
 [Implicits.scala]
- 10365 term com.mongodb.casbah.gridfs.Implicits.wrapDBFile(895c8e76b447f3da6d8d8416aa72a131b1a5f916)
- 9549 type com.mongodb.casbah.gridfs.BaseImports
- 10366 term com.mongodb.casbah.gridfs.Implicits.wrapInFile(bb6dae79d5993b056af47de1c30b10d2add90671)
- 10360 type com.mongodb.casbah.gridfs.TypeImports.GridFS
- 9548 type com.mongodb.casbah.gridfs.Imports
- 10357 term com.mongodb.casbah.gridfs.BaseImports.GridFS(4c4329c4409094d736706a1942b89a0a3bb948f4)
- 10362 type com.mongodb.casbah.gridfs.TypeImports.GridFSInputFile
- 9544 term com.mongodb.casbah.gridfs.BaseImports
- 10357 term com.mongodb.casbah.gridfs.BaseImports.GridFS
- 9550 type com.mongodb.casbah.gridfs.TypeImports
- 9546 term com.mongodb.casbah.gridfs.TypeImports
- 10363 type com.mongodb.casbah.gridfs.TypeImports.GridFSFile
- 9540 term com.mongodb.casbah.gridfs.Implicits
- 9542 term com.mongodb.casbah.gridfs.Imports
- 10361 type com.mongodb.casbah.gridfs.TypeImports.GridFSDBFile
- 9539 type com.mongodb.casbah.gridfs.Implicits
+ 10362 term com.mongodb.casbah.gridfs.Implicits.wrapDBFile(895c8e76b447f3da6d8d8416aa72a131b1a5f916)
+ 9540 type com.mongodb.casbah.gridfs.BaseImports
+ 10363 term com.mongodb.casbah.gridfs.Implicits.wrapInFile(bb6dae79d5993b056af47de1c30b10d2add90671)
+ 10357 type com.mongodb.casbah.gridfs.TypeImports.GridFS
+ 9539 type com.mongodb.casbah.gridfs.Imports
+ 10354 term com.mongodb.casbah.gridfs.BaseImports.GridFS(4c4329c4409094d736706a1942b89a0a3bb948f4)
+ 10359 type com.mongodb.casbah.gridfs.TypeImports.GridFSInputFile
+ 9535 term com.mongodb.casbah.gridfs.BaseImports
+ 10354 term com.mongodb.casbah.gridfs.BaseImports.GridFS
+ 9541 type com.mongodb.casbah.gridfs.TypeImports
+ 9537 term com.mongodb.casbah.gridfs.TypeImports
+ 10360 type com.mongodb.casbah.gridfs.TypeImports.GridFSFile
+ 9531 term com.mongodb.casbah.gridfs.Implicits
+ 9533 term com.mongodb.casbah.gridfs.Imports
+ 10358 type com.mongodb.casbah.gridfs.TypeImports.GridFSDBFile
+ 9530 type com.mongodb.casbah.gridfs.Implicits
 [GridFS.scala]
- 23553 term com.mongodb.casbah.gridfs.GridFS.$anon.curr(e899a4e51f0953c264993ea114f60714668301f8)
- 19301 term com.mongodb.casbah.gridfs.GridFSFile.validate(daa10c302f01ae891ab5ff7d9d7f177c59c78afc)
+ 23459 term com.mongodb.casbah.gridfs.GridFS.$anon.curr(e899a4e51f0953c264993ea114f60714668301f8)
+ 19272 term com.mongodb.casbah.gridfs.GridFSFile.validate(daa10c302f01ae891ab5ff7d9d7f177c59c78afc)
  11627 term com.mongodb.casbah.gridfs.GridFS.findOne(94d05735bd36f62abb9466a481b3dc72e6966eb1)
  11618 term com.mongodb.casbah.gridfs.GridFS.createFile(660706589943c76731064bb98a214431a6490fca)
- 19299 term com.mongodb.casbah.gridfs.GridFSFile.save(daa10c302f01ae891ab5ff7d9d7f177c59c78afc)
- 23551 term com.mongodb.casbah.gridfs.GridFS.$anon.numSeen(c663c7b3bae9762feb0455bde7533db4239310c8)
- 19303 term com.mongodb.casbah.gridfs.GridFSFile.id(ef90a08f45eb021686d07502a009e50c761cb9d0)
+ 19270 term com.mongodb.casbah.gridfs.GridFSFile.save(daa10c302f01ae891ab5ff7d9d7f177c59c78afc)
+ 23457 term com.mongodb.casbah.gridfs.GridFS.$anon.numSeen(c663c7b3bae9762feb0455bde7533db4239310c8)
+ 19274 term com.mongodb.casbah.gridfs.GridFSFile.id(ef90a08f45eb021686d07502a009e50c761cb9d0)
  11597 type com.mongodb.casbah.gridfs.GridFS.FileWriteOp
  11629 term com.mongodb.casbah.gridfs.GridFS.bucketName(e30a80d2b4700276248ce5925d94ebb97783d05d)
  11601 term com.mongodb.casbah.gridfs.GridFS.iterator(c09979c4ff5b020a6092a47674cf02365f85ca01)
  11602 term com.mongodb.casbah.gridfs.GridFS.loan(2c9e3e58d51f09719af286cf8ed4913984977448)
  11626 term com.mongodb.casbah.gridfs.GridFS.findOne(39c5b28310483605047a9f43ec42dfcf19a480e7)
- 9527 term com.mongodb.casbah.gridfs.GridFS
+ 9518 term com.mongodb.casbah.gridfs.GridFS
  11616 term com.mongodb.casbah.gridfs.GridFS.createFile(09ddd9e61acd25ad0d339628040f5dde859bc338)
- 23554 term com.mongodb.casbah.gridfs.GridFS.$anon.explain(257852812cc3f3bd0f84f6a733e6add6fb4d0b69)
+ 23460 term com.mongodb.casbah.gridfs.GridFS.$anon.explain(257852812cc3f3bd0f84f6a733e6add6fb4d0b69)
  11619 term com.mongodb.casbah.gridfs.GridFS.withNewFile(5664cf61bc20dc6d08b9ce61529a1f3a8400384d)
- 19306 term com.mongodb.casbah.gridfs.GridFSFile.length(b633ccc676fdd4f0113e528855a141b01e80c3bd)
- 19897 term com.mongodb.casbah.gridfs.GridFSDBFile.underlying
- 23544 term com.mongodb.casbah.gridfs.GridFS.$anon.fileSet
+ 19277 term com.mongodb.casbah.gridfs.GridFSFile.length(b633ccc676fdd4f0113e528855a141b01e80c3bd)
+ 19894 term com.mongodb.casbah.gridfs.GridFSDBFile.underlying
+ 23450 term com.mongodb.casbah.gridfs.GridFS.$anon.fileSet
  11617 term com.mongodb.casbah.gridfs.GridFS.withNewFile(90d215e5670c1cb1d91a4402e3d9223e5e74d724)
- 19318 term com.mongodb.casbah.gridfs.GridFSInputFile.contentType_$eq(15736460e9aa7a407bc4d3aaa75d77c4caebb51f)
+ 19289 term com.mongodb.casbah.gridfs.GridFSInputFile.contentType_$eq(15736460e9aa7a407bc4d3aaa75d77c4caebb51f)
  11608 term com.mongodb.casbah.gridfs.GridFS.apply(90d215e5670c1cb1d91a4402e3d9223e5e74d724)
- 19298 term com.mongodb.casbah.gridfs.GridFSFile.underlying(c071b54a8cab8c5fe7c912cdddde7cf01fcdaf9f)
- 19311 term com.mongodb.casbah.gridfs.GridFSFile.md5(3bf7c90be758f5b946ae171b872e4a2ff5affba6)
+ 19269 term com.mongodb.casbah.gridfs.GridFSFile.underlying(c071b54a8cab8c5fe7c912cdddde7cf01fcdaf9f)
+ 19282 term com.mongodb.casbah.gridfs.GridFSFile.md5(3bf7c90be758f5b946ae171b872e4a2ff5affba6)
  11632 term com.mongodb.casbah.gridfs.GridFS.remove(8a00116395df16b4fdc250a91ae68945239f71dd)
- 23548 term com.mongodb.casbah.gridfs.GridFS.$anon.jIterator(be0b97095e61bf81121ef279dbbc6d491c7b0cc1)
+ 23454 term com.mongodb.casbah.gridfs.GridFS.$anon.jIterator(be0b97095e61bf81121ef279dbbc6d491c7b0cc1)
  11607 term com.mongodb.casbah.gridfs.GridFS.apply(34e17987ab481bab32d52acbbc43f10807859ccd)
  11634 term com.mongodb.casbah.gridfs.GridFS.remove(73c919790273fbff0da9d912a6a53dbf4cc313d8)
- 19304 term com.mongodb.casbah.gridfs.GridFSFile.filename(e30a80d2b4700276248ce5925d94ebb97783d05d)
+ 19275 term com.mongodb.casbah.gridfs.GridFSFile.filename(e30a80d2b4700276248ce5925d94ebb97783d05d)
  11628 term com.mongodb.casbah.gridfs.GridFS.findOne(b1ae4398cc4164aa60d81fc892e0a074d2f54f68)
  11605 term com.mongodb.casbah.gridfs.GridFS.apply(d25b96a3ce11974826e3bb024d4a14e672d7a560)
- 23550 term com.mongodb.casbah.gridfs.GridFS.$anon.numGetMores(c663c7b3bae9762feb0455bde7533db4239310c8)
- 19317 term com.mongodb.casbah.gridfs.GridFSInputFile.filename_$eq(23210c715e149ec64ec2d49366887be30eb26d80)
+ 23456 term com.mongodb.casbah.gridfs.GridFS.$anon.numGetMores(c663c7b3bae9762feb0455bde7533db4239310c8)
+ 19288 term com.mongodb.casbah.gridfs.GridFSInputFile.filename_$eq(23210c715e149ec64ec2d49366887be30eb26d80)
  11596 type com.mongodb.casbah.gridfs.GridFS.FileOp
- 19302 term com.mongodb.casbah.gridfs.GridFSFile.numChunks(f94e34279774a33b0e784d726d315f41bbfccb90)
- 19300 term com.mongodb.casbah.gridfs.GridFSFile.iterator(84d1d819b5a9e1f4b01fc1d51b631c7d89090543)
- 23544 term com.mongodb.casbah.gridfs.GridFS.$anon.fileSet(087bbcbc6161910171a9ee3270c4fc2f3c7f1c4c)
+ 19273 term com.mongodb.casbah.gridfs.GridFSFile.numChunks(f94e34279774a33b0e784d726d315f41bbfccb90)
+ 19271 term com.mongodb.casbah.gridfs.GridFSFile.iterator(84d1d819b5a9e1f4b01fc1d51b631c7d89090543)
+ 23450 term com.mongodb.casbah.gridfs.GridFS.$anon.fileSet(087bbcbc6161910171a9ee3270c4fc2f3c7f1c4c)
  11631 term com.mongodb.casbah.gridfs.GridFS.files(8fd107db379b5629c79ca22c4059843791b21b17)
  11609 term com.mongodb.casbah.gridfs.GridFS.apply(5664cf61bc20dc6d08b9ce61529a1f3a8400384d)
- 19307 term com.mongodb.casbah.gridfs.GridFSFile.chunkSize(b633ccc676fdd4f0113e528855a141b01e80c3bd)
- 9531 type com.mongodb.casbah.gridfs.GridFSDBFile
+ 19278 term com.mongodb.casbah.gridfs.GridFSFile.chunkSize(b633ccc676fdd4f0113e528855a141b01e80c3bd)
+ 9522 type com.mongodb.casbah.gridfs.GridFSDBFile
  11611 term com.mongodb.casbah.gridfs.GridFS.withNewFile(d25b96a3ce11974826e3bb024d4a14e672d7a560)
- 19310 term com.mongodb.casbah.gridfs.GridFSFile.metaData(b84ee54e8431d92d2fc2557e92afb4e0ac7f0662)
- 23549 term com.mongodb.casbah.gridfs.GridFS.$anon.length(c663c7b3bae9762feb0455bde7533db4239310c8)
+ 19281 term com.mongodb.casbah.gridfs.GridFSFile.metaData(b84ee54e8431d92d2fc2557e92afb4e0ac7f0662)
+ 23455 term com.mongodb.casbah.gridfs.GridFS.$anon.length(c663c7b3bae9762feb0455bde7533db4239310c8)
  11598 type com.mongodb.casbah.gridfs.GridFS.FileReadOp
  11599 term com.mongodb.casbah.gridfs.GridFS.db
  11620 term com.mongodb.casbah.gridfs.GridFS.sansJodaTime(45e1184a4fdba7941a9adcce6bc55893115f97b3)
  11625 term com.mongodb.casbah.gridfs.GridFS.find(85abff8572d081215b1f7a636278dd375260f988)
- 19896 term com.mongodb.casbah.gridfs.GridFSDBFile.toString(612e55791800ba754104ae1f138b554bae5d18c7)
- 23546 term com.mongodb.casbah.gridfs.GridFS.$anon.count(c663c7b3bae9762feb0455bde7533db4239310c8)
+ 19893 term com.mongodb.casbah.gridfs.GridFSDBFile.toString(612e55791800ba754104ae1f138b554bae5d18c7)
+ 23452 term com.mongodb.casbah.gridfs.GridFS.$anon.count(c663c7b3bae9762feb0455bde7533db4239310c8)
  11633 term com.mongodb.casbah.gridfs.GridFS.remove(51a30aebdbe43c59c551b179815aef91f75798d4)
- 9532 type com.mongodb.casbah.gridfs.GridFSInputFile
- 19308 term com.mongodb.casbah.gridfs.GridFSFile.uploadDate(43b24fd81f90d567c54a9d2865866be25cf2d630)
- 19340 term com.mongodb.casbah.gridfs.GridFSInputFile.underlying
- 19309 term com.mongodb.casbah.gridfs.GridFSFile.aliases(ddbc675d30b6ee081c8a03b570e5ba615ff4100c)
+ 9523 type com.mongodb.casbah.gridfs.GridFSInputFile
+ 19279 term com.mongodb.casbah.gridfs.GridFSFile.uploadDate(43b24fd81f90d567c54a9d2865866be25cf2d630)
+ 19311 term com.mongodb.casbah.gridfs.GridFSInputFile.underlying
+ 19280 term com.mongodb.casbah.gridfs.GridFSFile.aliases(ddbc675d30b6ee081c8a03b570e5ba615ff4100c)
  11208 term com.mongodb.casbah.gridfs.GridFS.apply(7f659c7b294a917cd069e2af0c7f7188f6e9789b)
- 19305 term com.mongodb.casbah.gridfs.GridFSFile.contentType(e30a80d2b4700276248ce5925d94ebb97783d05d)
+ 19276 term com.mongodb.casbah.gridfs.GridFSFile.contentType(e30a80d2b4700276248ce5925d94ebb97783d05d)
  11606 term com.mongodb.casbah.gridfs.GridFS.apply(de0c41c4687e1af99e2410d26ab2e15706c7a6ef)
  11635 term com.mongodb.casbah.gridfs.GridFS.underlying
  11615 term com.mongodb.casbah.gridfs.GridFS.withNewFile(34e17987ab481bab32d52acbbc43f10807859ccd)
  11614 term com.mongodb.casbah.gridfs.GridFS.createFile(72c460d12c26e402a25c8d5fc3ed0cd5e7a77bb1)
  11624 term com.mongodb.casbah.gridfs.GridFS.find(38a300df8806d1b4d8e7e499663e0f26a3176b52)
- 23555 term com.mongodb.casbah.gridfs.GridFS.$anon.next(e899a4e51f0953c264993ea114f60714668301f8)
+ 23461 term com.mongodb.casbah.gridfs.GridFS.$anon.next(e899a4e51f0953c264993ea114f60714668301f8)
  11612 term com.mongodb.casbah.gridfs.GridFS.createFile(f466b2cb39a7cfb7f08f40edb739615ebba21288)
  11623 term com.mongodb.casbah.gridfs.GridFS.find(f7092aa41cbd8289cb399d87d347d13b65d2ac22)
- 9529 type com.mongodb.casbah.gridfs.GridFS
+ 9520 type com.mongodb.casbah.gridfs.GridFS
  11610 term com.mongodb.casbah.gridfs.GridFS.createFile(92c7c0f06fd7065beb24b02a83f2369d5e440c3f)
- 19897 term com.mongodb.casbah.gridfs.GridFSDBFile.underlying(fe4587d0a471fcc18708f80c668cc03c2c97d3f2)
- 23552 term com.mongodb.casbah.gridfs.GridFS.$anon.remove(aa97cb1b3d57631c4e100d9db6c6b1f1fafcdd7b)
+ 19894 term com.mongodb.casbah.gridfs.GridFSDBFile.underlying(fe4587d0a471fcc18708f80c668cc03c2c97d3f2)
+ 23458 term com.mongodb.casbah.gridfs.GridFS.$anon.remove(aa97cb1b3d57631c4e100d9db6c6b1f1fafcdd7b)
  11613 term com.mongodb.casbah.gridfs.GridFS.withNewFile(de0c41c4687e1af99e2410d26ab2e15706c7a6ef)
- 23547 term com.mongodb.casbah.gridfs.GridFS.$anon.itcount(c663c7b3bae9762feb0455bde7533db4239310c8)
- 19340 term com.mongodb.casbah.gridfs.GridFSInputFile.underlying(f73810626e22d79dd65bbe0e5c8b0a6592197901)
- 9530 type com.mongodb.casbah.gridfs.GridFSFile
+ 23453 term com.mongodb.casbah.gridfs.GridFS.$anon.itcount(c663c7b3bae9762feb0455bde7533db4239310c8)
+ 19311 term com.mongodb.casbah.gridfs.GridFSInputFile.underlying(f73810626e22d79dd65bbe0e5c8b0a6592197901)
+ 9521 type com.mongodb.casbah.gridfs.GridFSFile
  11635 term com.mongodb.casbah.gridfs.GridFS.underlying(75b43bf15d1109040ef08556e4518f07af358053)
  11630 term com.mongodb.casbah.gridfs.GridFS.files(f231721255ad8d6c12d6d6a24759197903b37c00)
  11209 term com.mongodb.casbah.gridfs.GridFS.apply(08fd9828a394d0646b6bbbbafc3f8108dd1395af)
  11599 term com.mongodb.casbah.gridfs.GridFS.db(d11643bc8b2b58dc5ca56972ca87de65fda992c1)
- 23556 term com.mongodb.casbah.gridfs.GridFS.$anon.hasNext(2a880db3f601502d34dbcee48bf223ebec428d3c)
- 19312 term com.mongodb.casbah.gridfs.GridFSFile.toString(612e55791800ba754104ae1f138b554bae5d18c7)
+ 23462 term com.mongodb.casbah.gridfs.GridFS.$anon.hasNext(2a880db3f601502d34dbcee48bf223ebec428d3c)
+ 19283 term com.mongodb.casbah.gridfs.GridFSFile.toString(612e55791800ba754104ae1f138b554bae5d18c7)

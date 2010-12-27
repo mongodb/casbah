@@ -611,6 +611,29 @@ Implicits and explicit methods allow you to convert to java though.</p><p>We wil
           definition classes: MapLike → Function1
         </div></div>
           
+    </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.commons.MongoDBObject#as">
+      <a id="as[A](String)(Manifest[A]):Any"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol">
+        <span class="name">as</span>
+        <span class="tparams">[<span name="A">A</span>]</span>
+        <span class="params">(<span name="key">key: String</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.Manifest">Manifest</span>[A]</span>)</span>
+        <span class="result">: <span class="extype" name="scala.Any">Any</span></span>
+      </span>
+      </h4>
+      
+            <p class="shortcomment cmt">as</p>
+            <div class="fullcomment"><div class="comment cmt"><p>as</p><p>Works like apply(), unsafe, bare return of a value.
+Returns default if nothing matching is found, else
+tries to cast a value to the specified type.</p><p>Unless you overrode it, default throws
+a NoSuchElementException
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"></dd><dt class="param">key</dt><dd class="cmt"><p>(String)</p></dd><dt>returns</dt><dd class="cmt"><p>(A)</p></dd></dl>
+            
+            
+            
+          </div>
+          
     </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.commons.MongoDBObject#asDBObject">
       <a id="asDBObject:DBObject"></a>
       <h4 class="signature">

@@ -64,6 +64,18 @@
       </span>
       </a></h4>
       
+    </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.CursorExplanation">
+      <a id="CursorExplanation:CursorExplanation"></a>
+      <h4 class="signature"><a href="CursorExplanation.html">
+      <span class="kind">class</span>
+      <span class="symbol">
+        <span class="name">CursorExplanation</span>
+        
+        
+        <span class="result"> extends MongoDBObject</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt"></p>
     </li><li visbl="pub" data-isabs="true" name="com.mongodb.casbah.Implicits">
       <a id="Implicits:Implicits"></a>
       <h4 class="signature"><a href="Implicits.html">
@@ -97,22 +109,25 @@ which facilitate more Scala-like functionality in Mongo.</p>
         <span class="name">MongoCollection</span>
         
         
-        <span class="result"> extends MongoCollectionWrapper with Iterable[DBObject]</span>
+        <span class="result"> extends MongoCollectionBase[DBObject]</span>
       </span>
       </a></h4>
-      <p class="comment cmt">A Non-Generic, DBObject returning implementation of the <code>ScalaMongoCollectionWrapper</code>Which implements Iterable, to allow iterating directly over it to list all of the underlying objects.</p>
-    </li><li visbl="pub" data-isabs="true" name="com.mongodb.casbah.MongoCollectionWrapper">
-      <a id="MongoCollectionWrapper:MongoCollectionWrapper"></a>
-      <h4 class="signature"><a href="MongoCollectionWrapper.html">
+      <p class="comment cmt">Concrete collection implementation expecting standard DBObject operation
+This is the version of MongoCollectionBase you should expect to use in most cases.</p>
+    </li><li visbl="pub" data-isabs="true" name="com.mongodb.casbah.MongoCollectionBase">
+      <a id="MongoCollectionBase:MongoCollectionBase[T]"></a>
+      <h4 class="signature"><a href="MongoCollectionBase.html">
       <span class="kind">trait</span>
       <span class="symbol">
-        <span class="name">MongoCollectionWrapper</span>
+        <span class="name">MongoCollectionBase</span>
+        <span class="tparams">[<span name="T">T &lt;: DBObject</span>]</span>
         
-        
-        <span class="result"> extends Logging</span>
+        <span class="result"> extends Iterable[T] with Logging</span>
       </span>
       </a></h4>
-      <p class="comment cmt">Base trait for all MongoCollection wrapper objects.</p>
+      <p class="comment cmt">Scala wrapper for Mongo DBCollections,
+including ones which return custom DBObject subclasses
+via setObjectClass and the like.</p>
     </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.MongoConnection">
       <a id="MongoConnection:MongoConnection"></a>
       <h4 class="signature"><a href="MongoConnection.html">
@@ -133,22 +148,24 @@ which facilitate more Scala-like functionality in Mongo.</p>
         <span class="name">MongoCursor</span>
         
         
-        <span class="result"> extends MongoCursorWrapper[DBObject]</span>
+        <span class="result"> extends MongoCursorBase[DBObject]</span>
       </span>
       </a></h4>
-      <p class="comment cmt">Non-Generic DBObject returning wrapper for the Mongo Cursor objects.</p>
-    </li><li visbl="pub" data-isabs="true" name="com.mongodb.casbah.MongoCursorWrapper">
-      <a id="MongoCursorWrapper:MongoCursorWrapper[A]"></a>
-      <h4 class="signature"><a href="MongoCursorWrapper.html">
+      <p class="comment cmt">Concrete cursor implementation expecting standard DBObject operation
+This is the version of MongoCursorBase you should expect to use in most cases.</p>
+    </li><li visbl="pub" data-isabs="true" name="com.mongodb.casbah.MongoCursorBase">
+      <a id="MongoCursorBase:MongoCursorBase[T]"></a>
+      <h4 class="signature"><a href="MongoCursorBase.html">
       <span class="kind">trait</span>
       <span class="symbol">
-        <span class="name">MongoCursorWrapper</span>
-        <span class="tparams">[<span name="A">A &lt;: DBObject</span>]</span>
+        <span class="name">MongoCursorBase</span>
+        <span class="tparams">[<span name="T">T &lt;: DBObject</span>]</span>
         
-        <span class="result"> extends Iterator[A]</span>
+        <span class="result"> extends Iterator[T] with Logging</span>
       </span>
       </a></h4>
-      <p class="comment cmt">Base trait for all cursor wrappers.</p>
+      <p class="comment cmt">Scala wrapper for Mongo DBCursors,
+including ones which return custom DBObject subclasses.</p>
     </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.MongoDB">
       <a id="MongoDB:MongoDB"></a>
       <h4 class="signature"><a href="MongoDB.html">
@@ -169,22 +186,22 @@ which facilitate more Scala-like functionality in Mongo.</p>
         <span class="name">MongoTypedCollection</span>
         <span class="tparams">[<span name="T">T &lt;: DBObject</span>]</span>
         
-        <span class="result"> extends Iterable[T] with MongoCollectionWrapper</span>
+        <span class="result"> extends MongoCollectionBase[T]</span>
       </span>
       </a></h4>
-      <p class="comment cmt">A Generic, parameterized DBObject-subclass returning implementation of the <code>ScalaMongoCollectionWrapper</code>This is instantiated with a type (and an implicitly discovered or explicitly passed Manifest object) to determine it's underlying type.</p>
+      <p class="comment cmt">Concrete collection implementation for typed Cursor operations via Collection.</p>
     </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.MongoTypedCursor">
-      <a id="MongoTypedCursor:MongoTypedCursor[A]"></a>
+      <a id="MongoTypedCursor:MongoTypedCursor[T]"></a>
       <h4 class="signature"><a href="MongoTypedCursor.html">
       <span class="kind">class</span>
       <span class="symbol">
         <span class="name">MongoTypedCursor</span>
-        <span class="tparams">[<span name="A">A &lt;: DBObject</span>]</span>
+        <span class="tparams">[<span name="T">T &lt;: DBObject</span>]</span>
         
-        <span class="result"> extends MongoCursorWrapper[A]</span>
+        <span class="result"> extends MongoCursorBase[T]</span>
       </span>
       </a></h4>
-      <p class="comment cmt">Generic parameterized DBObject-subclass returning wrapper for the Mongo Cursor objects.</p>
+      <p class="comment cmt">Concrete cursor implementation for typed Cursor operations via Collection.</p>
     </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.MongoURI">
       <a id="MongoURI:MongoURI"></a>
       <h4 class="signature"><a href="MongoURI.html">
@@ -250,6 +267,19 @@ which facilitate more Scala-like functionality in Mongo.</p>
       </span>
       </a></h4>
       
+    </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.MongoCollection">
+      <a id="MongoCollection:MongoCollection"></a>
+      <h4 class="signature"><a href="MongoCollection$.html">
+      <span class="kind">object</span>
+      <span class="symbol">
+        <span class="name">MongoCollection</span>
+        
+        
+        <span class="result"> extends Logging</span>
+      </span>
+      </a></h4>
+      <p class="comment cmt">Helper object for some static methods
+</p>
     </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.MongoConnection">
       <a id="MongoConnection:MongoConnection"></a>
       <h4 class="signature"><a href="MongoConnection$.html">
@@ -262,6 +292,18 @@ which facilitate more Scala-like functionality in Mongo.</p>
       </span>
       </a></h4>
       <p class="comment cmt">Wrapper object for Mongo Connections, providing the static methods the Java driver gives.</p>
+    </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.MongoCursor">
+      <a id="MongoCursor:MongoCursor"></a>
+      <h4 class="signature"><a href="MongoCursor$.html">
+      <span class="kind">object</span>
+      <span class="symbol">
+        <span class="name">MongoCursor</span>
+        
+        
+        <span class="result"> extends Logging</span>
+      </span>
+      </a></h4>
+      
     </li><li visbl="pub" data-isabs="false" name="com.mongodb.casbah.MongoDB">
       <a id="MongoDB:MongoDB"></a>
       <h4 class="signature"><a href="MongoDB$.html">
