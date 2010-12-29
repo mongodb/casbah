@@ -42,7 +42,7 @@ Scala 2.8.0 users::
         <dependency>
             <groupId>com.mongodb.casbah<groupId>
             <artifactId>casbah_2.8.0<artifactId>                           
-            <version>2.0rc1<version>
+            <version>2.0rc2<version>
         <dependency>
 
 Scala 2.8.1 users::
@@ -50,7 +50,7 @@ Scala 2.8.1 users::
         <dependency>
             <groupId>com.mongodb.casbah<groupId>
             <artifactId>casbah_2.8.1<artifactId>                           
-            <version>2.0rc1<version>
+            <version>2.0rc2<version>
         <dependency>
         
 
@@ -60,25 +60,25 @@ You can add Casbah to Ivy with the following dependency block.
 
 Scala 2.8.0 users::
 
-        <dependency org="com.mongodb.casbah" name="casbah_2.8.0" rev="2.0rc1"/>
+        <dependency org="com.mongodb.casbah" name="casbah_2.8.0" rev="2.0rc2"/>
 
 Scala 2.8.1 users::
 
-        <dependency org="com.mongodb.casbah" name="casbah_2.8.1" rev="2.0rc1"/>
+        <dependency org="com.mongodb.casbah" name="casbah_2.8.1" rev="2.0rc2"/>
         
 
 Setting up SBT 
 ---------------
 Finally, you can add Casbah to SBT by adding the following to your project file::
 
-    val casbah = "com.mongodb.casbah" %% "casbah" % "2.0rc1"
+    val casbah = "com.mongodb.casbah" %% "casbah" % "2.0rc2"
 
 The double percentages (`%%`) is not a typo---it tells SBT that the library is crossbuilt and to find the appropriate version for your project's Scala version. If you prefer to be explicit you can use this instead::
     
     // Scala 2.8.0
-    val casbah = "com.mongodb.casbah" % "casbah_2.8.0" % "2.0rc1"
+    val casbah = "com.mongodb.casbah" % "casbah_2.8.0" % "2.0rc2"
     // Scala 2.8.1
-    val casbah = "com.mongodb.casbah" % "casbah_2.8.1" % "2.0rc1"
+    val casbah = "com.mongodb.casbah" % "casbah_2.8.1" % "2.0rc2"
 
 Don't forget to reload the project and run ``sbt update`` afterwards to download the dependencies (SBT doesn't check every build like Maven).
 
