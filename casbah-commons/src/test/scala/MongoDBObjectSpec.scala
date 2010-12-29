@@ -146,8 +146,7 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
         newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar"))
       }
       "A list of Tuple pairs with ++ " in {
-        // Note - you currently have to explicitly cast this or get back a map. ugh.
-        val newObj: DBObject = MongoDBObject("x" -> "y", "a" -> "b") ++ ("foo" -> "bar", "n" -> 5)
+        val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++ ("foo" -> "bar", "n" -> 5)
         newObj must notBeNull
         newObj must haveSuperClass[DBObject]
 
@@ -181,6 +180,15 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5, "fbc" -> 542542.2))
 
       }
+    }
+
+    "Support additivity with another MongoDBObject" in {
+      val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++ MongoDBObject("foo" -> "bar", "n" -> 5)
+
+      newObj must notBeNull
+      newObj must haveSuperClass[DBObject]
+
+      newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5))
     }
 
     "Support the as[<type>] method" in {

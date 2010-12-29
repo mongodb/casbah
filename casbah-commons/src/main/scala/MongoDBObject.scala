@@ -89,6 +89,10 @@ trait MongoDBObject extends Map[String, AnyRef] {
     this ++ b.result
   }
 
+  def ++(other: DBObject): DBObject = {
+    super.++(other)
+  }
+
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
   def getAs[A <: Any : Manifest](key: String): Option[A] = {
     require(manifest[A] != manifest[scala.Nothing], 
