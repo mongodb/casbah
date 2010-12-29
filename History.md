@@ -1,4 +1,11 @@
 
+2.0rc2 / 2010-12-29 
+==================
+
+  * Minor adjustment to @philwills' patch so that any VIEW of a DBObject can be taken into ++
+  * Added a ++ method which explicitly takes and returns a MongoDBObject to avoid odd MongoDBObject ++ MongoDBObject == Map behaviour (@philwills)
+  * Updated doc build including single Scaladoc buildout
+
 2.0rc1 / 2010-12-27 
 ==================
 
