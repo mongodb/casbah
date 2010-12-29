@@ -89,8 +89,8 @@ trait MongoDBObject extends Map[String, AnyRef] {
     this ++ b.result
   }
 
-  def ++(other: DBObject): DBObject = {
-    super.++(other)
+  def ++[A <% DBObject](other: A): DBObject = {
+    super.++(other: DBObject)
   }
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
