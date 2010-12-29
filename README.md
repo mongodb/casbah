@@ -9,6 +9,7 @@ Contributors
 -----------
 * Max Afonov <max@bumnetworks.com>
 * Marcello Bastéa-Forte <marcello@cellosoft.com>
+* Philip Wills <otherphil@gmail.com>
 * Novus Partners, Inc. <http://novus.com>, who sponsored the development of this project prior to Version 2.0
 
 Reporting Bugs
