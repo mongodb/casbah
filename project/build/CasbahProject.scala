@@ -3,6 +3,7 @@ import growl._
 
 class CasbahProject(info: ProjectInfo) 
     extends ParentProject(info) 
+    with IdeaProject
     with posterous.Publish {
 
   /*import ScalaProject.CompoundDocOption */
@@ -36,6 +37,7 @@ class CasbahProject(info: ProjectInfo)
   abstract class CasbahBaseProject(info: ProjectInfo) 
       extends DefaultProject(info) 
       with AutoCompilerPlugins 
+      with IdeaProject
       with GrowlingTests {
 
     override def packageDocsJar = defaultJarPath("-javadoc.jar")

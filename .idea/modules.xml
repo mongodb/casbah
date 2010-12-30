@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$//casbah.iml" filepath="$PROJECT_DIR$//casbah.iml" />
+      <module fileurl="file://$PROJECT_DIR$/casbah-commons/casbah-commons.iml" filepath="$PROJECT_DIR$/casbah-commons/casbah-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/casbah-core/casbah-core.iml" filepath="$PROJECT_DIR$/casbah-core/casbah-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/casbah-gridfs/casbah-gridfs.iml" filepath="$PROJECT_DIR$/casbah-gridfs/casbah-gridfs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/casbah-query/casbah-query.iml" filepath="$PROJECT_DIR$/casbah-query/casbah-query.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project/project.iml" filepath="$PROJECT_DIR$/project/project.iml" />
+    </modules>
+  </component>
+</project>
+

@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="675588e8-da46-4753-9392-e871ba8caf79" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/class.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/class_big.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/filter_box_left.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/filter_box_right.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/object.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/object_big.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/package.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/package_big.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/remove.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/trait.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/trait_big.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/buildScala.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/defScala.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/projectCodeStyle.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-commons/casbah-commons.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/casbah-core.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/BaseImports$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/BaseImports.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/CursorExplanation.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/Implicits$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/Implicits.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/Imports$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/Imports.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoCollection$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoCollection.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoCollectionBase.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoConnection$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoConnection.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoCursor$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoCursor.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoCursorBase.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoDB$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoDB.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoDBAddress$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoOptions$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoTypedCollection.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoTypedCursor.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoURI$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/MongoURI.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/TypeImports$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/TypeImports.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/WriteConcern$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/BaseImports$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/BaseImports.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/Implicits$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/Implicits.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/Imports$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/Imports.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/Logger$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/Logger.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/Logging.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/MongoDBList$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/MongoDBList.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/MongoDBListBuilder.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/MongoDBObject$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/MongoDBObject.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/MongoDBObjectBuildable.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/MongoDBObjectBuilder.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/TypeImports$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/TypeImports.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$BSONObject$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$BSONTimestamp$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$BasicBSONList$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$BasicDBList$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$BasicDBObject$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$Binary$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$Code$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$CodeWScope$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$DBObject$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$ObjectId$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$$Symbol$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/ValidBSONType.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/MongoConversionHelper.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/DeregisterConversionHelpers$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/DeregisterJodaTimeConversionHelpers$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/Deserializers.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/JodaDateTimeDeserializer.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/JodaDateTimeHelpers.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/JodaDateTimeSerializer.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/RegisterConversionHelpers$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/RegisterJodaTimeConversionHelpers$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/ScalaJCollectionSerializer.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/ScalaRegexSerializer.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/Serializers.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/conversions/scala/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/commons/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/map_reduce/MapReduceCommand$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/map_reduce/MapReduceCommand.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/map_reduce/MapReduceError.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/map_reduce/MapReduceResult.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/map_reduce/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/AddToSetOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/AllOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ArrayOps.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSON32BitInt$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSON64BitInt$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONArray$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONBinary$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONBoolean$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONDBList$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONDouble$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONJDKDate$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONJodaDateTime$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONList$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONNull$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONObject$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONObjectId$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONRegex$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONSQLTimestamp$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONString$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$BSONSymbol$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$DBList$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$$DBObject$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BSONType.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BarewordQueryOperator.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BaseImports$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/BaseImports.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/DSLDBObject$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/DSLDBObject.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ElemMatchOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ExistsOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/FluidQueryBarewordOps.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/FluidQueryOperators.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/GeoCoords.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/GeoNearOp$NearOpWrapper.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/GeoNearOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/GeoNearSphereOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/GeoWithinOps.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/GeospatialOps.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/GreaterThanEqualOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/GreaterThanOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/Implicits$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/Implicits.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/Imports$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/Imports.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/InOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/IncOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/LessThanEqualOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/LessThanOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ModuloOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/NorOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/NotEqualsOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/NotInOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/NotOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/OrOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/PopOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/PullAllOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/PullOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/PushAllOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/PushOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/QueryOperator.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/RenameOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/SetOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/SizeOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/SliceOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/TypeImports$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/TypeImports.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/TypeOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/UnsetOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericType.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder$BigDecimalDoNOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder$BigIntDoNOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder$ByteDoNOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder$DoubleDoNOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder$FloatDoNOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder$IntDoNOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder$JDKDateDoNOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder$JodaDateTimeDoNOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder$LongDoNOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder$ShortDoNOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateOrNumericTypeHolder.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateType.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateTypeHolder$JDKDateOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateTypeHolder$JDKDateOk.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateTypeHolder$JodaDateTimeOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateTypeHolder$JodaDateTimeOk.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidDateTypeHolder.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericType.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$BigDecimalOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$BigDecimalOk.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$BigIntOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$BigIntOk.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$ByteOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$ByteOk.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$DoubleOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$DoubleOk.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$FloatOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$FloatOk.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$IntOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$IntOk.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$LongOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$LongOk.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$ShortOk$.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder$ShortOk.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValidNumericTypeHolder.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/ValueTestFluidQueryOperators.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/WhereOp.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/casbah/query/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/mongodb/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/com/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/index.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/index.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/jquery-ui.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/jquery.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/jquery.layout.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/scheduler.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/template.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/template.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/lib/tools.tooltip.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-core/scaladocBuild/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-gridfs/casbah-gridfs.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah-query/casbah-query.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/casbah.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/project/project.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/build/CasbahProject.scala" afterPath="$PROJECT_DIR$/project/build/CasbahProject.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project/plugins/Plugin.scala" afterPath="$PROJECT_DIR$/project/plugins/Plugin.scala" />
+    </list>
+    <ignored path="casbah.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+    <option name="REVERSE_PATCH" value="false" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="DebuggerManager">
+    <breakpoint_any>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </breakpoint_any>
+    <breakpoint_rules />
+    <ui_properties />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="casbah" />
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="CHECKOUT_INCLUDE_TAGS" value="false" />
+    <option name="UPDATE_CHANGES_POLICY" value="STASH" />
+  </component>
+  <component name="ModuleEditorState">
+    <option name="LAST_EDITED_MODULE_NAME" />
+    <option name="LAST_EDITED_TAB_NAME" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah-commons" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah-commons" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah-commons" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah-query" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah-gridfs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="casbah-commons" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Favorites" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="options.lastSelected" value="preferences.sourceCode.Wrapping and Braces" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="SBT.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="SpecsRunConfiguration" factoryName="Specs">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="packagepath" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="sysFilter" value=".*" />
+      <setting name="exampleFilter" value=".*" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="SBT.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="SBT.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="SBT.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="SBT.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="SBT.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="version" value="false" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="SBT.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <list size="0" />
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="UPDATE_RUN_STATUS" value="false" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="DETECT_NESTED_COPIES" value="true" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <configuration useDefault="false">$USER_HOME$/.subversion_IDEA</configuration>
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <created>1293740571529</created>
+      <updated>1293740571529</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="22" width="1920" height="985" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Atlassian " active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+    </layout>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
+    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
+    <option name="ENABLE_BACKGROUND_PROCESSES" value="false" />
+    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
+    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
+    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
+    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
+    <option name="ACTIVE_VCS_NAME" />
+    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
+    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
+    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="atlassian-ide-plugin-workspace">
+    <option name="bambooConfiguration">
+      <BambooWorkspaceConfiguration>
+        <option name="view">
+          <BambooViewConfigurationBean />
+        </option>
+      </BambooWorkspaceConfiguration>
+    </option>
+    <option name="crucibleConfiguration">
+      <CrucibleWorkspaceConfiguration>
+        <option name="crucibleFilters">
+          <CrucibleFiltersBean>
+            <option name="manualFilter">
+              <CustomFilterBean />
+            </option>
+            <option name="recenltyOpenFilter">
+              <RecentlyOpenReviewsFilter />
+            </option>
+          </CrucibleFiltersBean>
+        </option>
+        <option name="view">
+          <CrucibleViewConfigurationBean />
+        </option>
+      </CrucibleWorkspaceConfiguration>
+    </option>
+    <option name="defaultCredentials">
+      <UserCfgBean />
+    </option>
+  </component>
+  <component name="atlassian-ide-plugin-workspace-issues">
+    <option name="view">
+      <JiraViewConfigurationBean>
+        <option name="viewFilterId" value="" />
+      </JiraViewConfigurationBean>
+    </option>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="Copyright.UI">
+        <settings>
+          <splitter-proportions />
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Scala (casbah-core)|Scala</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>casbah-core</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>buildScala</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions />
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
+
