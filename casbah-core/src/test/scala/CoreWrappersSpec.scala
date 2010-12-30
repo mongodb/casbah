@@ -172,6 +172,45 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
     }
   } 
 
+  "Cursor Operations" should {
+    import scala.util.Random
+
+    shareVariables()
+    val db = MongoConnection()("casbahTest")
+    val coll = db("test_coll_%d".format(System.currentTimeMillis))
+
+    for (i <- 1 to 100)
+      coll += MongoDBObject("foo" -> "bar", "x" -> Random.nextDouble())
+
+    val first5 = coll.find(MongoDBObject("foo" -> "bar")) limit 5
+
+    "Behave in chains" in {
+      "For loops for idiomatic cleanness" in {
+
+
+        // todo - add limit, skip etc on COLLECTION for cleaner chains like this?
+        val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5  limit 20) yield x
+
+        items must haveSize(20)
+        // TODO - Matchers that support freaking cursors, etc
+        /*items must haveSameElementsAs(first5).not*/
+      }
+
+      "Chain operations must return the proper *subtype*" in {
+        val cur = coll.find(MongoDBObject("foo" -> "bar")) skip 5
+        cur must haveClass[MongoCursor] 
+        cur must haveSuperClass[MongoCursorBase[DBObject]]
+
+        val cur2 = coll.find(MongoDBObject("foo" -> "bar")) limit 25 skip 12
+        cur2 must haveClass[MongoCursor] 
+        cur2 must haveSuperClass[MongoCursorBase[DBObject]]
+
+      }
+
+    }
+
+  }
+
 }
 
 

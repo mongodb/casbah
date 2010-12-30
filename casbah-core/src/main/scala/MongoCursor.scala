@@ -82,7 +82,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @tparam A  A view of DBObject to sort by
    * @return A cursor pointing to the first element of the sorted results
    */
-  def sort[A <% DBObject](orderBy: A) = {
+  def sort[A <% DBObject](orderBy: A): this.type = {
     // The Java code returns a copy of itself (via _this_) so no clone/_newInstance
     underlying.sort(orderBy)
     this
@@ -180,7 +180,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @tparam A A view of DBObject to use for the indexKeys
    * @return the same DBCursor, useful for chaining operations
    */
-  def hint[A <% DBObject](indexKeys: A) = {
+  def hint[A <% DBObject](indexKeys: A): this.type = {
     underlying.hint(indexKeys)
     this
   }
@@ -194,7 +194,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @param  indexName (String) The name of an index
    * @return the same DBCursor, useful for chaining operations
    */
-  def hint(indexName: String) = {
+  def hint(indexName: String): this.type = {
     underlying.hint(indexName)
     this
   }
@@ -213,7 +213,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    *  
    * @return the same DBCursor, useful for chaining operations
    */
-  def snapshot() = {
+  def snapshot(): this.type = {
     // The Java code returns a copy of itself (via _this_) so no clone/_newInstance
     underlying.snapshot() // parens for side-effecting
     this
@@ -256,7 +256,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    *
    * @see http://dochub.mongodb.org/core/limit
    */
-  def limit(n: Int) = { 
+  def limit(n: Int): this.type = { 
     underlying.limit(n)
     this
   }
@@ -272,7 +272,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    *
    * @see http://dochub.mongodb.org/core/skip
    */
-  def skip(n: Int) = { 
+  def skip(n: Int): this.type = { 
     underlying.skip(n)
     this
   }
@@ -344,7 +344,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @example addSpecial( "$returnKey" , 1 ) 
    * @example addSpecial( "$maxScan" , 100 )
    */
-  def addSpecial(name: String, o: Any) = {
+  def addSpecial(name: String, o: Any): this.type = {
     // The Java code returns a copy of itself (via _this_) so no clone/_newInstance
     underlying.addSpecial(name, o.asInstanceOf[AnyRef])
     this
@@ -361,7 +361,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @param  bool (Boolean = true) 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $returnKey(bool: Boolean = true) = addSpecial("$returnKey", bool)
+  def $returnKey(bool: Boolean = true): this.type = addSpecial("$returnKey", bool)
 
   /** 
    * $maxScan
@@ -373,7 +373,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @tparam A : Numeric 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $maxScan[A : Numeric](max: T) = addSpecial("$maxScan", max)
+  def $maxScan[A : Numeric](max: T): this.type = addSpecial("$maxScan", max)
 
 
   /** 
@@ -387,7 +387,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @param  q (DBObject) 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $query[A <% DBObject](q: A) = addSpecial("$query", q)
+  def $query[A <% DBObject](q: A): this.type = addSpecial("$query", q)
 
   /** 
    * $orderby
@@ -400,7 +400,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @param  obj (DBObject) 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $orderby[A <% DBObject](obj: A) = addSpecial("$orderby", obj)
+  def $orderby[A <% DBObject](obj: A): this.type = addSpecial("$orderby", obj)
 
   /** 
    * $explain
@@ -413,7 +413,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @param  bool (Boolean = true) 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $explain(bool: Boolean = true) = addSpecial("$explain", bool)
+  def $explain(bool: Boolean = true): this.type = addSpecial("$explain", bool)
 
   /**
    * $snapshot
@@ -426,7 +426,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @param  bool (Boolean = true) 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $snapshot(bool: Boolean = true) = addSpecial("$snapshot", bool)
+  def $snapshot(bool: Boolean = true): this.type = addSpecial("$snapshot", bool)
 
   /** 
    * $min
@@ -438,7 +438,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    *
    * @return the same DBCursor, useful for chaining operations
    */
-  def $min[A <% DBObject](obj: A) = addSpecial("$min", obj)
+  def $min[A <% DBObject](obj: A): this.type = addSpecial("$min", obj)
 
   /** 
    * $max
@@ -450,7 +450,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    *
    * @return the same DBCursor, useful for chaining operations
    */
-  def $max[A <% DBObject](obj: A) = addSpecial("$max", obj)
+  def $max[A <% DBObject](obj: A): this.type = addSpecial("$max", obj)
 
   /** 
    * $showDiskLoc
@@ -461,7 +461,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @param  bool (Boolean = true) 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $showDiskLoc(bool: Boolean = true) = addSpecial("$showDiskLoc", bool)
+  def $showDiskLoc(bool: Boolean = true): this.type = addSpecial("$showDiskLoc", bool)
 
   /**
    * $hint
@@ -474,7 +474,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @param obj (DBObject)
    * @return the same DBCursor, useful for chaining operations
    */
-  def $hint[A <% DBObject](obj: A) = addSpecial("$hint", obj)
+  def $hint[A <% DBObject](obj: A): this.type = addSpecial("$hint", obj)
 
 
   /** 
@@ -561,6 +561,7 @@ object MongoCursor extends Logging {
 
   }
 }
+
 /** 
  * Concrete cursor implementation for typed Cursor operations via Collection.setObjectClass
  * This is a special case cursor for typed operations.
