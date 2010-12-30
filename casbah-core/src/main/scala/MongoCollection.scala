@@ -321,6 +321,23 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    */
   def getCollection(n: String) = underlying.getCollection(n).asScala
 
+  /** Find a collection that is prefixed with this collection's name.
+   * A typical use of this might be 
+   * <blockquote><pre>
+   *    DBCollection users = mongo.getCollection( "wiki" ).getCollection( "users" );
+   * </pre></blockquote>
+   * Which is equilalent to
+   * <pre><blockquote>
+   *   DBCollection users = mongo.getCollection( "wiki.users" );
+   * </pre></blockquote>
+   * @param n the name of the collection to find
+   * @return the matching collection
+   *
+   * TODO - Make this support type construction
+   */
+   def collection(n: String) = underlying.getCollection(n).asScala
+
+
 
   /**
    *  Returns the number of documents in the collection
