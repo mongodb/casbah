@@ -203,7 +203,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
   def findOne[A <% DBObject](o: A) = 
-    _typedValue(underlying.findOne(o.asInstanceOf[DBObject]))
+    _typedValue(underlying.findOne(o: DBObject))
 
   /**
    * Returns a single object from this collection matching the query.
@@ -213,7 +213,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @dochub find
    */
   def findOne[A <% DBObject, B <% DBObject](o: A, fields: B) =
-    _typedValue(underlying.findOne(o.asInstanceOf[DBObject], fields))
+    _typedValue(underlying.findOne(o: DBObject, fields))
 
   /** 
    * Find an object by its ID.
