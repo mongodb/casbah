@@ -1072,7 +1072,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
     }
 
     "Function with a regular expression" in {
-      val not = "foo" $not new scala.util.matching.Regex("^foo.*bar")
+      val not = "foo" $not "^foo.*bar".r
       not must notBeNull
       not.toString must notBeNull
       not must haveSuperClass[DBObject]
