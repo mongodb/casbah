@@ -7,4 +7,4 @@ project/plugins/project
 java_pid*.hprof
 *.swp
 tags
-.idea/workspace.xml
+\.idea/workspace.xml
