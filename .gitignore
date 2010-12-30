@@ -7,3 +7,5 @@ project/plugins/project
 java_pid*.hprof
 *.swp
 tags
+tutorial_src/build
+casbah-core/scaladocBuild
