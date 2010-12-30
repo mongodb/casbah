@@ -72,16 +72,6 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
   def hasNext = underlying.hasNext
 
 
-  /** 
-   * copy
-   *
-   * Creates a new copy of an existing database cursor.
-   * The new cursor is an iterator even if the original 
-   * was an array.
-   * 
-   * @return The new cursor
-   */
-  def copy() = _newInstance(underlying.copy()) // parens for side-effects
 
   /** 
    * sort
@@ -499,6 +489,18 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @return (this.type)
    */
   def _newInstance(cursor: DBCursor): MongoCursorBase[T] 
+
+  /** 
+   * copy
+   *
+   * Creates a new copy of an existing database cursor.
+   * The new cursor is an iterator even if the original 
+   * was an array.
+   * 
+   * @return The new cursor
+   */
+  def copy(): MongoCursorBase[T] = _newInstance(underlying.copy()) // parens for side-effects
+
 }
 
 /** 
@@ -527,6 +529,16 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase[DBObject]  {
    */
   def _newInstance(cursor: DBCursor) = new MongoCursor(cursor)
   
+  /** 
+   * copy
+   *
+   * Creates a new copy of an existing database cursor.
+   * The new cursor is an iterator even if the original 
+   * was an array.
+   * 
+   * @return The new cursor
+   */
+  override def copy(): MongoCursor = _newInstance(underlying.copy()) // parens for side-effects
 }
 
 object MongoCursor extends Logging { 
@@ -574,6 +586,17 @@ class MongoTypedCursor[T <: DBObject : Manifest](val underlying: DBCursor) exten
    * @return (this.type)
    */
   def _newInstance(cursor: DBCursor) = new MongoTypedCursor[T](cursor)
+
+  /** 
+   * copy
+   *
+   * Creates a new copy of an existing database cursor.
+   * The new cursor is an iterator even if the original 
+   * was an array.
+   * 
+   * @return The new cursor
+   */
+  override def copy(): MongoTypedCursor[T] = _newInstance(underlying.copy()) // parens for side-effects
 
 }
 
