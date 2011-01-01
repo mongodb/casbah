@@ -40,6 +40,8 @@ class CasbahProject(info: ProjectInfo)
 
     override def packageDocsJar = defaultJarPath("-javadoc.jar")
     override def packageSrcJar= defaultJarPath("-sources.jar")
+    lazy val sourceArtifact = Artifact.sources(artifactID)
+    lazy val docsArtifact = Artifact.javadoc(artifactID)
     override def packageToPublishActions = super.packageToPublishActions ++ Seq(packageDocs, packageSrc)
 
    /**
