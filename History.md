@@ -1,4 +1,11 @@
 
+2.0rc3 / 2010-12-30 
+==================
+
+  * Migrated MongoCursorBase[T] chained methods to use this.type which returns their proper SUBTYPE instead of undifferentiated superclass MongoCursorBase[T]
+  * Moved copy() method to properly return the given subtype in MongoCursor/MongoTypedCursor
+  * Replaced explicit asInstanceOf[DBObject] casts of view findOne values to compiler-checked ': DBObject' type annotation
+
 2.0rc2 / 2010-12-29 
 ==================
 

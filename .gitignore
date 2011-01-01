@@ -8,3 +8,5 @@ java_pid*.hprof
 *.swp
 tags
 \.idea/workspace.xml
+tutorial_src/build
+casbah-core/scaladocBuild
