@@ -1,4 +1,10 @@
 
+2.0 / 2011-01-03 
+==================
+
+  * Fixed SBT build to properly publish -sources and -javadoc artifacts
+  * Ignore doc build artifacts
+
 2.0rc3 / 2010-12-30 
 ==================
 
