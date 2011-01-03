@@ -42,7 +42,7 @@ Scala 2.8.0 users::
         <dependency>
             <groupId>com.mongodb.casbah<groupId>
             <artifactId>casbah_2.8.0<artifactId>                           
-            <version>2.0rc3<version>
+            <version>2.0<version>
         <dependency>
 
 Scala 2.8.1 users::
@@ -50,7 +50,7 @@ Scala 2.8.1 users::
         <dependency>
             <groupId>com.mongodb.casbah<groupId>
             <artifactId>casbah_2.8.1<artifactId>                           
-            <version>2.0rc3<version>
+            <version>2.0<version>
         <dependency>
         
 
@@ -60,25 +60,25 @@ You can add Casbah to Ivy with the following dependency block.
 
 Scala 2.8.0 users::
 
-        <dependency org="com.mongodb.casbah" name="casbah_2.8.0" rev="2.0rc3"/>
+        <dependency org="com.mongodb.casbah" name="casbah_2.8.0" rev="2.0"/>
 
 Scala 2.8.1 users::
 
-        <dependency org="com.mongodb.casbah" name="casbah_2.8.1" rev="2.0rc3"/>
+        <dependency org="com.mongodb.casbah" name="casbah_2.8.1" rev="2.0"/>
         
 
 Setting up SBT 
 ---------------
 Finally, you can add Casbah to SBT by adding the following to your project file::
 
-    val casbah = "com.mongodb.casbah" %% "casbah" % "2.0rc3"
+    val casbah = "com.mongodb.casbah" %% "casbah" % "2.0"
 
 The double percentages (`%%`) is not a typo---it tells SBT that the library is crossbuilt and to find the appropriate version for your project's Scala version. If you prefer to be explicit you can use this instead::
     
     // Scala 2.8.0
-    val casbah = "com.mongodb.casbah" % "casbah_2.8.0" % "2.0rc3"
+    val casbah = "com.mongodb.casbah" % "casbah_2.8.0" % "2.0"
     // Scala 2.8.1
-    val casbah = "com.mongodb.casbah" % "casbah_2.8.1" % "2.0rc3"
+    val casbah = "com.mongodb.casbah" % "casbah_2.8.1" % "2.0"
 
 Don't forget to reload the project and run ``sbt update`` afterwards to download the dependencies (SBT doesn't check every build like Maven).
 
@@ -232,3 +232,56 @@ We cover the import of each module in their appropriate tutorials, but each modu
     import com.mongodb.casbah.query.Imports._
     
     
+The full set of changes between 1.0.x and 2.0:
+
+
+Casbah 2\.0 / 2011-01-03 
+=========================
+
+Notable Changes since Casbah 1.0.8.1:
+
+* Ownership Change: Casbah is now an officially supported MongoDB Driver 
+    * All bugs should be reported at http://jira.mongodb.org/browse/SCALA
+    * Package Change: Casbah is now `com.mongodb.casbah` (See migration guide)
+    * Documentation (ScalaDocs, Migration Guide & Tutorial) is available at http://api.mongodb.org/scala/casbah
+* Casbah is now broken into several submodules - see http://api.mongodb.org/scala/casbah/migrating.html
+* Casbah releases are now published to http://scala-tools.org
+* SBT Build now publishes -sources and -javadoc artifacts
+* Added heavy test coverage
+* ++ additivity operator on MongoDBObject for lists of tuple pairs
+* Updates to Java Driver wrappings
+    * Casbah now wraps Java Driver 2.4 and fully supports all options & interfaces including Replica Set and Write Concern support
+    * added a WriteConcern helper object for Scala users w/ named & default args
+    * added findAndModify / findAndRemove
+* Stripped out support for implicit Product/Tuple conversions as they're buggy as hell and constantly interfere with other code.
+* Migrated Conversions code from core to commons, repackaging as com.mongodb.casbah.commons.conversions
+    * Moved loading of ConversionHelpers from Connection creation to instantiation of Commons' Implicits (This means conversions are ALWAYS loaded now for everyone)
+* Switched off of configgy to slf4j as akka did
+    * Added SLF4J-JCL Bindings as a +test* dependency (so we can print logging while testing without forcing you to use an slf4j implementation yourself)
+    * Moved Logger from core to commons
+* Massive improvements to Query DSL:
+    * Added new implementations of $in, $nin, $all and $mod with tests. $mod now accepts non-Int numerics and aof two differing types.
+    * Full test coverage on DSL (and heavy coverage on other modules)
+    * Migrated $each to a now functioning internal hook on $addToSet only exposed in certain circumstances
+    * Various cleanups to Type constraints in Query DSL
+    * Full support for all documented MongoDB query operators
+    * Added new $not syntax, along with identical support for nested queries in $pull
+    * Valid Date and Numeric Type boundaries introduced and used instead of Numeric (since Char doesn't actually workwith Mongo and you can't double up type bounds)
+    * Added full support for geospatial query.
+    * Resolved an issue where the $or wasn't being broken into individual documents as expected. 
+    * DSL Operators now return DBObjects rather than Product/Tuple (massive fixes to compatibility and performance result)
+    * Added @see linkage to each core operator's doc page
+* GridFS Changes:
+    * GridFS' `files' now returned a MongoCursor not a raw Java DBCursor
+    * GridFS findOne now returns an Option[_] and detects nulls like Collection
+* Added "safely" resource loaning methods on Collection & DB     
+    * Given an operation, uses write concern / durability on a single connection and throws an exception if anything goes wrong.
+* Culled casbah-mapper.  Mapper now lives as an independent project at http://github.com/maxaf/casbah-mapper
+* Bumped version of scala-time to the 0.2 release
+* Added DBList support via MongoDBList, following 2.8 collections
+
+* Adjusted boundaries on getAs and expand; the view-permitting Any was causing ambiguity issues at runtime with non AnyRefs (e.g. AnyVal). 
+* Fixed an assumption in expand which could cause runtime failure 
+  * Updated MongoDBObject factory & builder to explicitly return a type; some pieces were assuming at runtime that it was a MongoDBObjectBuilder$anon1 which was FUBAR
+
+
