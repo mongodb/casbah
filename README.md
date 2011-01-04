@@ -44,9 +44,9 @@ Please address any questions or problems to the [Casbah Mailing List][mongodb-ca
 GitHub kindly hosts our [Documentation][Documentation] including the [API Docs][API Docs] & [Tutorial][Tutorial].
 
    [mongodb]: http://mongodb.org "MongoDB"
-   [github]: http://github.com/novus/casbah "Casbah on GitHub"
-   [api docs]: http://novus.github.com/docs/casbah/api/ "API Docs on GitHub"
-   [documentation]: http://novus.github.com/docs/casbah/ "Docs on GitHub"
-   [tutorial]: http://novus.github.com/docs/casbah/sphinx/html/intro/getting_started.html "Casbah Tutorial"
+   [github]: http://github.com/mongodb/casbah "Casbah on GitHub"
+   [api docs]: http://api.mongodb.org/scala/casbah/scaladoc/ "API Docs on GitHub"
+   [documentation]: http://api.mongodb.org/scala/casbah/ "Docs on GitHub"
+   [tutorial]: http://api.mongodb.org/scala/casbah/tutorial.html "Casbah Tutorial"
    [mongodb-casbah-users]: http://groups.google.com/group/mongodb-casbah-users "Casbah Mailing List"
    [jira]: http://jira.mongodb.org/browse/SCALA
