@@ -205,6 +205,28 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
       dbObj.as[DBObject]("bar") must notBeNull
       dbObj.as[String]("nullValue") must throwA[NoSuchElementException]
     }
+
+    "Support 'as' methods for casting by type" in {
+        "getAs functions as expected" in {
+          val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
+                                    "embedded" -> MongoDBObject("foo" -> "bar"))
+          dbObj.getAs[Double]("y") must beSome[Double]
+          dbObj.getAs[DBObject]("embedded") must beSome[DBObject]
+          dbObj.getAs[Float]("omgponies") must beNone
+          dbObj.getAs[Double]("x").get must throwA[ClassCastException]
+
+        }
+
+        "as functions as expected" in {
+          val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
+                                    "embedded" -> MongoDBObject("foo" -> "bar"))
+          dbObj.as[Double]("y") must haveClass[java.lang.Double]
+          dbObj.as[DBObject]("embedded") must haveSuperClass[DBObject]
+          dbObj.as[Float]("omgponies") must throwA[NoSuchElementException] 
+          dbObj.as[Double]("x") /*must throwA[ClassCastException]*/
+
+        }
+    }
   }
 
 }
