@@ -9,3 +9,4 @@ java_pid*.hprof
 tags
 \.idea/workspace.xml
 tutorial_src/build
+.idea

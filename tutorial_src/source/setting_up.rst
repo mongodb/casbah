@@ -4,7 +4,7 @@ Getting Started
 Installing & Setting up Casbah
 ==============================
 
-You should have `MongoDB <http://mongodb.org>`_ setup  and running on your machine (these docs assume you are running on *localhost* on the default port of *27017*) before proceeding. If you need help setting up MongoDB please see `the MongoDB quickstart install documentation <http://www.mongodb.org/display/DOCS/Quickstart>`_.
+You should have `MongoDB <http://mongodb.org>`_ setup  and running on your machine (these docs assume you are running on *localhost* on the default port of *2.0.117*) before proceeding. If you need help setting up MongoDB please see `the MongoDB quickstart install documentation <http://www.mongodb.org/display/DOCS/Quickstart>`_.
 
 To start with, you need to either download the latest Casbah driver and place it in your classpath, or set it up in the dependency manager/build tool of your choice (The authors highly recommend the Scala `simple-build-tool <http://code.google.com/p/simple-build-tool/>`_ - it makes Scala development easy).
 
@@ -19,7 +19,7 @@ You can always get the latest source for Casbah from `the github repository <htt
 
     $ git clone git://github.com/mongodb/casbah
 
-*PLEASE NOTE*: As of the 2.0 release, Casbah has been broken into
+*PLEASE NOTE*: As of the 2.0.1 release, Casbah has been broken into
  several modules which can be used to strip down which features you need.  For example, you can use the Query DSL independent of the GridFS implementation if you wish. The following dependency manager information uses the master artifact which downloads and uses *all* of Casbah's modules by default.
  
 Using Dependency/Build Managers
@@ -42,7 +42,7 @@ Scala 2.8.0 users::
         <dependency>
             <groupId>com.mongodb.casbah<groupId>
             <artifactId>casbah_2.8.0<artifactId>                           
-            <version>2.0<version>
+            <version>2.0.1<version>
         <dependency>
 
 Scala 2.8.1 users::
@@ -50,7 +50,7 @@ Scala 2.8.1 users::
         <dependency>
             <groupId>com.mongodb.casbah<groupId>
             <artifactId>casbah_2.8.1<artifactId>                           
-            <version>2.0<version>
+            <version>2.0.1<version>
         <dependency>
         
 
@@ -60,29 +60,29 @@ You can add Casbah to Ivy with the following dependency block.
 
 Scala 2.8.0 users::
 
-        <dependency org="com.mongodb.casbah" name="casbah_2.8.0" rev="2.0"/>
+        <dependency org="com.mongodb.casbah" name="casbah_2.8.0" rev="2.0.1"/>
 
 Scala 2.8.1 users::
 
-        <dependency org="com.mongodb.casbah" name="casbah_2.8.1" rev="2.0"/>
+        <dependency org="com.mongodb.casbah" name="casbah_2.8.1" rev="2.0.1"/>
         
 
 Setting up SBT 
 ---------------
 Finally, you can add Casbah to SBT by adding the following to your project file::
 
-    val casbah = "com.mongodb.casbah" %% "casbah" % "2.0"
+    val casbah = "com.mongodb.casbah" %% "casbah" % "2.0.1"
 
 The double percentages (`%%`) is not a typo---it tells SBT that the library is crossbuilt and to find the appropriate version for your project's Scala version. If you prefer to be explicit you can use this instead::
     
     // Scala 2.8.0
-    val casbah = "com.mongodb.casbah" % "casbah_2.8.0" % "2.0"
+    val casbah = "com.mongodb.casbah" % "casbah_2.8.0" % "2.0.1"
     // Scala 2.8.1
-    val casbah = "com.mongodb.casbah" % "casbah_2.8.1" % "2.0"
+    val casbah = "com.mongodb.casbah" % "casbah_2.8.1" % "2.0.1"
 
 Don't forget to reload the project and run ``sbt update`` afterwards to download the dependencies (SBT doesn't check every build like Maven).
 
-Migrating to Casbah 2.0 from Casbah 1.x
+Migrating to Casbah 2.0.1 from Casbah 1.x
 ========================================
 
 If you used Casbah before, and are looking to migrate from Casbah 1.x to Casbah 2.x
@@ -91,12 +91,12 @@ there are some things which have changed and you should be aware of to effective
 Base Package Name 
 ------------------
 For starters, the base package has changed.  The now abandoned 1.1.x branch which 
-became 2.0 was already doing a package change, and with 2.0 Casbah has become a
-supported MongoDB project. As a result, Casbah's package has changed for the 2.0 
+became 2.0.1 was already doing a package change, and with 2.0.1 Casbah has become a
+supported MongoDB project. As a result, Casbah's package has changed for the 2.0.1 
 release and you will need to update your code accordingly:
 
 ===========================  ===============================  =====================
-Casbah 1.0.x                  Casbah 1.1.x (never released)    Casbah 2.0
+Casbah 1.0.x                  Casbah 1.1.x (never released)    Casbah 2.0.1
 ===========================  ===============================  =====================
  com.novus.casbah.mongodb      com.novus.casbah                 com.mongodb.casbah
 ===========================  ===============================  =====================
@@ -116,7 +116,7 @@ Previously, it was possible with Casbah to cast Tuples to :dochub:`DBObject`::
     
     val x: DBObject = ("foo" -> "bar", "x" -> 5, "y" -> 238.1)
 
-This feature was provided by implicit conversions which attempt to target `Product` which is the base class of all Tuples.  Unfortunately, this functionality was often unreliable and targeted the wrong things for conversion (Such as instances of `Option[_]`).  After a lot of evaluation and attempts to create a better approach a decision was made to remove this feature.  Casbah 2.0 includes wrappers for :dochub:`DBObject` which follow Scala 2.8's Collection interfaces including Scala compatible builders and constructors.  As such, the same previous syntax is possible by passing the Tuple pairs to `MongoDBObject.apply`::
+This feature was provided by implicit conversions which attempt to target `Product` which is the base class of all Tuples.  Unfortunately, this functionality was often unreliable and targeted the wrong things for conversion (Such as instances of `Option[_]`).  After a lot of evaluation and attempts to create a better approach a decision was made to remove this feature.  Casbah 2.0.1 includes wrappers for :dochub:`DBObject` which follow Scala 2.8's Collection interfaces including Scala compatible builders and constructors.  As such, the same previous syntax is possible by passing the Tuple pairs to `MongoDBObject.apply`::
 
     val x: DBObject = MongoDBObject("foo" -> "bar", "x" -> 5, "y" -> 238.1)
     /* x: com.mongodb.casbah.Imports.DBObject = { "foo" : "bar" , "x" : 5 , "y" : 238.1} */
@@ -149,7 +149,7 @@ New Features
 
 Query DSL Operators
 ^^^^^^^^^^^^^^^^^^^^
-Casbah previously lagged behind the official MongoDB server in supported :ref:`Query DSL <casbah-query>` `$ Operators`.  As of 2.0, all `$ Operators` currently documented as supported in MongoDB are provided.  A list of some of the new operators added in 2.0 include:
+Casbah previously lagged behind the official MongoDB server in supported :ref:`Query DSL <casbah-query>` `$ Operators`.  As of 2.0.1, all `$ Operators` currently documented as supported in MongoDB are provided.  A list of some of the new operators added in 2.0.1 include:
 
     * :dochub:`$slice`
     * :dochub:`$or`
@@ -170,7 +170,7 @@ Previously, the correct syntax for using :dochub:`$not` was::
 
     "foo".$not $gte 15 $lt 35.2 $ne 16
     
-With Casbah 2.0, this syntax has been modified to be more clear to both the developer *and* the compiler::
+With Casbah 2.0.1, this syntax has been modified to be more clear to both the developer *and* the compiler::
 
     "foo" $not { _ $gte 15 $lt 35.2 $ne 16 }
     
@@ -232,7 +232,14 @@ We cover the import of each module in their appropriate tutorials, but each modu
     import com.mongodb.casbah.query.Imports._
     
     
-The full set of changes between 1.0.x and 2.0:
+The full set of changes between 1.0.x and 2.x:
+
+Casbah 2\.0\.1 / 2011-01-04 
+==================
+
+  * SCALA-16: Added a few additional  validation tests against getAs and as on MongoDBObject
+  * SCALA-17 - Fixed syntax of $within and its nested operators, unit test passes
+
 
 
 Casbah 2\.0 / 2011-01-03 

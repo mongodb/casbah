@@ -779,20 +779,29 @@ trait GeoNearSphereOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
  */
 trait GeoWithinOps extends QueryOperator {
+  self =>
   private val oper = "$within" 
 
   def $within = new QueryOperator {
-    val nestedOper = "$within"
     val field = "$within" 
 
     def $box(lowerLeft: GeoCoords[_,_], upperRight: GeoCoords[_,_]) =
-      op(oper, MongoDBList(lowerLeft.toList, upperRight.toList))
+      MongoDBObject(
+        self.field -> 
+        op("$box", MongoDBList(lowerLeft.toList, upperRight.toList))
+      )
 
     def $center[T : Numeric](center: GeoCoords[_,_], radius: T) = 
-      op(oper, MongoDBList(center.toList, radius))
+      MongoDBObject(
+        self.field ->
+        op("$center", MongoDBList(center.toList, radius))
+      )
 
     def $centerSphere[T : Numeric](center: GeoCoords[_,_], radius: T) = 
-      op(oper, MongoDBList(center.toList, radius))
+      MongoDBObject(
+        self.field ->
+        op("$centerSphere", MongoDBList(center.toList, radius))
+      )
   }
   
 }

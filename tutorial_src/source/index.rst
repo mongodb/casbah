@@ -1,5 +1,5 @@
 .. Casbah (MongoDB Scala Toolkit) Tutorial documentation master file, created by
-   sphinx-quickstart on Thu Dec  9 12:09:28 2010.
+   sphinx-quickstart on Thu Dec  9 12.0.19:28 2010.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -12,23 +12,23 @@ Casbah's approach is intended to add fluid, Scala-friendly syntax on top of Mong
 
 Casbah provides improved interfaces to GridFS, Map/Reduce and the core Mongo APIs.  It also provides a fluid query syntax which emulates an internal DSL and allows you to write code which looks like what you might write in the JS Shell.  There is also support for easily adding new serialization/deserialization mechanisms for common data types (including Joda Time, if you so choose; with some caveats - See the GridFS Section).
 
-With version 2.0, Casbah has become an official MongoDB project and will continue to improve the interaction of Scala + MongoDB. Casbah aims to remain fully compatible with the existing Java driver---it does not talk to MongoDB directly, preferring to wrap the Java code.  This means you shouldn't see any wildly unexpected behavior from the underlying Mongo interfaces when a data bug is fixed.
+With version 2.0.1, Casbah has become an official MongoDB project and will continue to improve the interaction of Scala + MongoDB. Casbah aims to remain fully compatible with the existing Java driver---it does not talk to MongoDB directly, preferring to wrap the Java code.  This means you shouldn't see any wildly unexpected behavior from the underlying Mongo interfaces when a data bug is fixed.
 
 
-The `ScalaDocs for Casbah <http://api.mongodb.org/scala/casbah/2.0/scaladoc/>`_ along with SXR cross referenced source are available at the `MongoDB API site <http://api.mongodb.org>`_.
+The `ScalaDocs for Casbah <http://api.mongodb.org/scala/casbah/2.0.1/scaladoc/>`_ along with SXR cross referenced source are available at the `MongoDB API site <http://api.mongodb.org>`_.
 
 .. TODO - links to prior releases? 
 
 You may also download this documentation in other formats.
  
-  * `ePub <http://api.mongodb.org/scala/casbah/2.0/CasbahDocumentation.epub>`_
-  * `PDF <http://api.mongodb.org/scala/casbah/2.0/CasbahDocumentation.pdf>`_
+  * `ePub <http://api.mongodb.org/scala/casbah/2.0.1/CasbahDocumentation.epub>`_
+  * `PDF <http://api.mongodb.org/scala/casbah/2.0.1/CasbahDocumentation.pdf>`_
   
 .. toctree::
     :maxdepth: 3
     :numbered:
     
-    API Docs <http://api.mongodb.org/scala/casbah/2.0/scaladoc/>
+    API Docs <http://api.mongodb.org/scala/casbah/2.0.1/scaladoc/>
     setting_up
     tutorial
   
@@ -37,7 +37,7 @@ You may also download this documentation in other formats.
 .. Indices and tables
 .. ==================
 .. 
-.. * `API Docs <http://api.mongodb.org/scala/casbah/2.0/scaladoc/>`_
+.. * `API Docs <http://api.mongodb.org/scala/casbah/2.0.1/scaladoc/>`_
 .. * :ref:`genindex`
 .. * :ref:`modindex`
 .. * :ref:`search`
