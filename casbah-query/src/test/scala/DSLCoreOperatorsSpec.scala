@@ -1193,9 +1193,8 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
 
   "Casbah's $elemMatch operator" should {
     "Function as expected" in {
-      val elemMatch = "foo" $elemMatch MongoDBObject(
-        "a" -> 1,      
-        "b" $gt 1
+      val elemMatch = "foo" $elemMatch (
+        MongoDBObject("a" -> 1) ++ "b" $gt 1
       )
       elemMatch must notBeNull
       elemMatch.toString must notBeNull
@@ -1379,7 +1378,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
-              "$near" -> (74.2332, -75.23452)
+              "$near" -> MongoDBList(74.2332, -75.23452)
             )
           )
         )
@@ -1391,7 +1390,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
-              "$near" -> (74.2332, -75.23452)
+              "$near" -> MongoDBList(74.2332, -75.23452)
             )
           )
         )
@@ -1403,7 +1402,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
-              "$near" -> (74.2332, -75.23452),
+              "$near" -> MongoDBList(74.2332, -75.23452),
               "$maxDistance" -> 5
             )
           )
@@ -1419,7 +1418,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
-              "$nearSphere" -> (74.2332, -75.23452)
+              "$nearSphere" -> MongoDBList(74.2332, -75.23452)
             )
           )
         )
@@ -1431,7 +1430,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
-              "$nearSphere" -> (74.2332, -75.23452)
+              "$nearSphere" -> MongoDBList(74.2332, -75.23452)
             )
           )
         )
