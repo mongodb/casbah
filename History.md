@@ -1,4 +1,10 @@
 
+2.0.1 / 2011-01-04 
+==================
+
+  * SCALA-16: Added a few additional  validation tests against getAs and as on MongoDBObject
+  * SCALA-17 - Fixed syntax of $within and its nested operators, unit test passes
+
 2.0 / 2011-01-03 
 ==================
 
