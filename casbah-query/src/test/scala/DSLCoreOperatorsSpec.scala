@@ -244,7 +244,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         val neSet = "foo" $lt Set("x", "y", 5)
         neSet must notBeNull
         neSet must haveSuperClass[DBObject]
-        neSet must beEqualTo(
+        neSet must haveSameElementsAs(
           MongoDBObject(
             "foo" -> MongoDBObject(
               "$lt" -> ("x", "y", 5)
@@ -258,7 +258,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         val neHashSet = "foo" $lt HashSet("x", "y", 5)
         neHashSet must notBeNull
         neHashSet must haveSuperClass[DBObject]
-        neHashSet must beEqualTo(
+        neHashSet must haveSameElementsAs(
           MongoDBObject(
             "foo" -> MongoDBObject(
               "$lt" -> ("x", "y", 5)
@@ -271,7 +271,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         val neArray = "foo" $lt Array("x", "y", 5)
         neArray must notBeNull
         neArray must haveSuperClass[DBObject]
-        neArray must beEqualTo(
+        neArray must haveSameElementsAs(
           MongoDBObject(
             "foo" -> MongoDBObject(
               "$lt" -> ("x", "y", 5)
@@ -1446,7 +1446,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
             MongoDBObject(
               "foo" -> MongoDBObject(
                 "$within" -> MongoDBObject(
-                  "$box" -> (
+                  "$box" -> MongoDBList(
                     MongoDBList(74.2332, -75.23452),
                     MongoDBList(123, 456)
                   )
@@ -1463,7 +1463,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
             MongoDBObject(
               "foo" -> MongoDBObject(
                 "$within" -> MongoDBObject(
-                  "$box" -> (
+                  "$box" -> MongoDBList(
                     MongoDBList(74.2332, -75.23452),
                     MongoDBList(123, 456)
                   )
@@ -1482,7 +1482,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
             MongoDBObject(
               "foo" -> MongoDBObject(
                 "$within" -> MongoDBObject(
-                  "$center" -> (
+                  "$center" -> MongoDBList(
                     MongoDBList(50, 50),
                     10
                   )
@@ -1499,7 +1499,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
             MongoDBObject(
               "foo" -> MongoDBObject(
                 "$within" -> MongoDBObject(
-                  "$center" -> (
+                  "$center" -> MongoDBList(
                     MongoDBList(50, 50),
                     10
                   )
@@ -1518,7 +1518,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
             MongoDBObject(
               "foo" -> MongoDBObject(
                 "$within" -> MongoDBObject(
-                  "$centerSphere" -> (
+                  "$centerSphere" -> MongoDBList(
                     MongoDBList(50, 50),
                     10
                   )
@@ -1535,7 +1535,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
             MongoDBObject(
               "foo" -> MongoDBObject(
                 "$within" -> MongoDBObject(
-                  "$centerSphere" -> (
+                  "$centerSphere" -> MongoDBList(
                     MongoDBList(50, 50),
                     10
                   )
