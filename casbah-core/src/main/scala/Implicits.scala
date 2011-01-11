@@ -136,6 +136,7 @@ trait TypeImports {
   type MongoURI = com.mongodb.casbah.MongoURI
   type MongoOptions = com.mongodb.MongoOptions
   type WriteConcern = com.mongodb.WriteConcern
+  type WriteResult = com.mongodb.WriteResult
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   type MapReduceResult = com.mongodb.casbah.map_reduce.MapReduceResult
   type DBAddress = com.mongodb.DBAddress

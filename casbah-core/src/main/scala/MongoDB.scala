@@ -164,10 +164,16 @@ class MongoDB(val underlying: com.mongodb.DB) {
    *  @return DBObject with error and status information
    */
   def getLastError() = underlying.getLastError
+  def lastError() = getLastError()
   def getLastError(writeConcern: WriteConcern) = 
     underlying.getLastError(writeConcern)
+  def lastError(writeConcern: WriteConcern) = 
+    getLastError(writeConcern)
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean) =
     underlying.getLastError(w, wTimeout, fsync)
+  def lastError(w: Int, wTimeout: Int, fsync: Boolean) =
+    getLastError(w, wTimeout, fsync)
+
   def name = getName
   def getName() = underlying.getName
 
@@ -309,34 +315,69 @@ class MongoDB(val underlying: com.mongodb.DB) {
   /**
    * write concern aware write op block.
    *
-   * Guarantees that the operations in the passed
-   * block are executed in the same connection
-   * via requestStart() and requestDone().
-   * 
-   * Calls &amp; throws getLastError afterwards,
-   * so if you run multiple ops you'll only get the final 
+   * Checks getLastError after the last write.
+   * If  you run multiple ops you'll only get the final 
    * error.
    * 
-   * Your op function gets a copy of this MongoDB.
+   * Your op function gets a copy of this MongoDB instance.
    * 
-   * This is for update ops only - you cannot return data from it.
+   * This is for write ops only - you cannot return data from it.
+   *
+   * Your function must return WriteResult, which is the 
+   * return type of any mongo write operation like insert/save/update/remove
    * 
+   * If you have set a connection or DB level WriteConcern,
+   * it will be inherited.
+   *
+   * @throws MongoException
+   */
+  def request(op: MongoDB => WriteResult) = 
+    op(this).getLastError(writeConcern).throwOnError
+ 
+  /**
+   * write concern aware write op block.
+   *
+   * Checks getLastError after the last write.
+   * If  you run multiple ops you'll only get the final 
+   * error.
+   * 
+   * Your op function gets a copy of this MongoDB instance.
+   * 
+   * This is for write ops only - you cannot return data from it.
+   * 
+   * Your function must return WriteResult, which is the 
+   * return type of any mongo write operation like insert/save/update/remove
    * 
    * @throws MongoException
    */
-  def request(op: MongoDB => Unit) { 
-    // Lock the connection handle (e.g. no pooled calls)
-    requestStart
-    
-    // Exec the op
-    op(this)
+  def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)
+             (op: MongoDB => WriteResult) =
+    op(this).getLastError(WriteConcern(w, wTimeout, fsync)).throwOnError
 
-    // If anything failed, throw the exception 
-    getLastError.throwOnError
+  /**
+   * write concern aware write op block.
+   *
+   * Checks getLastError after the last write.
+   * If  you run multiple ops you'll only get the final 
+   * error.
+   * 
+   * Your op function gets a copy of this MongoDB instance.
+   * 
+   * This is for write ops only - you cannot return data from it.
+   * 
+   * Your function must return WriteResult, which is the 
+   * return type of any mongo write operation like insert/save/update/remove
+   * 
+   * @throws MongoException
+   */
+  def request(writeConcern: WriteConcern)(op: MongoDB => WriteResult) = 
+    op(this).getLastError(writeConcern).throwOnError
 
-    // Unlock the connection
-    requestDone
-  }
+
+
+
+  def checkedWrite(op: MongoDB => WriteResult) =
+    op(this).getLastError.throwOnError
 
   /** 
    * Manipulate Network Options

@@ -286,22 +286,65 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
   /**
    * write concern aware write op block.
    *
-   * Guarantees that the operations in the passed
-   * block are executed in the same connection
-   * via requestStart() and requestDone().
-   * 
-   * Calls &amp; throws getLastError afterwards,
-   * so if you run multiple ops you'll only get the final 
+   * Checks getLastError after the last write.
+   * If  you run multiple ops you'll only get the final 
    * error.
    * 
-   * Your op function gets a copy of this MongoDB.
+   * Your op function gets a copy of this MongoDB instance.
    * 
-   * This is for update ops only - you cannot return data from it.
+   * This is for write ops only - you cannot return data from it.
    * 
+   * Your function must return WriteResult, which is the 
+   * return type of any mongo write operation like insert/save/update/remove
+   * 
+   * If you have set a connection or DB level WriteConcern,
+   * it will be inherited.
+   *
+   * @throws MongoException
+   */
+  def request(op: this.type => WriteResult) = {
+    op(this).getLastError.throwOnError
+  }
+
+  /**
+   * write concern aware write op block.
+   *
+   * Checks getLastError after the last write.
+   * If  you run multiple ops you'll only get the final 
+   * error.
+   * 
+   * Your op function gets a copy of this MongoDB instance.
+   * 
+   * This is for write ops only - you cannot return data from it.
+   * 
+   * Your function must return WriteResult, which is the 
+   * return type of any mongo write operation like insert/save/update/remove
    * 
    * @throws MongoException
    */
-  def request(op: MongoCollection => Unit) = getDB.request(db => op(db(name)))
+  def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false) 
+             (op: this.type => WriteResult) = 
+    op(this).getLastError(WriteConcern(w, wTimeout, fsync)).throwOnError
+
+  /**
+   * write concern aware write op block.
+   *
+   * Checks getLastError after the last write.
+   * If  you run multiple ops you'll only get the final 
+   * error.
+   * 
+   * Your op function gets a copy of this MongoDB instance.
+   * 
+   * This is for write ops only - you cannot return data from it.
+   * 
+   * Your function must return WriteResult, which is the 
+   * return type of any mongo write operation like insert/save/update/remove
+   * 
+   * @throws MongoException
+   */
+  def request(writeConcern: WriteConcern)(op: this.type => WriteResult) =
+    op(this).getLastError(writeConcern).throwOnError
+
 
 
   
@@ -705,7 +748,31 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
   def count[A <% DBObject](query: A) = getCount(query)
   def count[A <% DBObject, B <% DBObject](query: A, fields: B) = getCount(query, fields)
 
-  def lastError = underlying.getDB.getLastError
+  /**
+   *  Gets the the error (if there is one) from the previous operation.  The result of
+   *  this command will look like
+   *
+   * <pre>
+   * { "err" :  errorMessage  , "ok" : 1.0 }
+   * </pre>
+   *
+   * The value for errorMessage will be null if no error occurred, or a description otherwise.
+   *
+   * Care must be taken to ensure that calls to getLastError go to the same connection as that
+   * of the previous operation. See com.mongodb.Mongo.requestStart for more information.
+   *
+   *  @return DBObject with error and status information
+   */
+  def getLastError() = getDB.getLastError
+  def lastError() = getLastError()
+  def getLastError(writeConcern: WriteConcern) = 
+    getDB.getLastError(writeConcern)
+  def lastError(writeConcern: WriteConcern) = 
+    getLastError(writeConcern)
+  def getLastError(w: Int, wTimeout: Int, fsync: Boolean) =
+    getDB.getLastError(w, wTimeout, fsync)
+  def lastError(w: Int, wTimeout: Int, fsync: Boolean) =
+    getLastError(w, wTimeout, fsync)
 
   /**
    * Save an object to the Collection
