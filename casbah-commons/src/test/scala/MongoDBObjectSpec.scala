@@ -194,14 +194,14 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
     "Support the as[<type>] method" in {
       val dbObj = MongoDBObject("x" -> 5.2, 
                                 "y" -> 9, 
-                                "foo" -> ("a", "b", "c"), 
+                                "foo" -> MongoDBList("a", "b", "c"),
                                 "bar" -> MongoDBObject("baz" -> "foo"))
       dbObj must notBeNull
       dbObj must haveSuperClass[DBObject]
 
       dbObj.as[Double]("x") must notBeNull
       dbObj.as[Int]("y") must notBeNull
-      dbObj.as[Seq[_]]("foo") must notBeNull
+      dbObj.as[BasicDBList]("foo") must notBeNull
       dbObj.as[DBObject]("bar") must notBeNull
       dbObj.as[String]("nullValue") must throwA[NoSuchElementException]
     }
@@ -223,8 +223,12 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
           dbObj.as[Double]("y") must haveClass[java.lang.Double]
           dbObj.as[DBObject]("embedded") must haveSuperClass[DBObject]
           dbObj.as[Float]("omgponies") must throwA[NoSuchElementException] 
-          dbObj.as[Double]("x") /*must throwA[ClassCastException]*/
+          dbObj.as[Double]("x") must throwA[ClassCastException]
 
+          "the result should be assignable to the type specified" in {
+            val y: Double = dbObj.as[Double]("y")
+            y must notBeNull
+          }
         }
     }
   }

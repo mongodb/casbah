@@ -67,13 +67,13 @@ trait MongoDBObject extends Map[String, AnyRef] {
    * @return (A)
    * @throws NoSuchElementException
    */
-  def as[A <: Any : Manifest](key: String) = {
+  def as[A <: Any : Manifest](key: String): A = {
     require(manifest[A] != manifest[scala.Nothing], 
             "Type inference failed; as[A]() requires an explicit type argument" + 
             "(e.g. dbObject.as[<ReturnType>](\"someKey\") ) to function correctly.")
 
     underlying.get(key) match {
-      case null => default(key)
+      case null => default(key).asInstanceOf[A]
       case value => value.asInstanceOf[A]
     }
   }
