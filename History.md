@@ -1,4 +1,9 @@
 
+2.0.2 / 2011-01-25 
+==================
+
+  * Fixed the MongoDBOBject 'as' operator to return the proper type, instead of Any. (philwills)
+
 2.0.1 / 2011-01-04 
 ==================
 
