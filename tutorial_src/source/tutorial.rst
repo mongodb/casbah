@@ -17,7 +17,7 @@ Now that you've added Casbah to your project, it should be available for import.
 
     import com.mongodb.casbah.Imports._
 
-That's it.  Most of what you need to work with Casbah is now at hand.  .. If you want to know what's going on inside the ``Imports._`` take a look at `Implicits.scala <http://api.mongodb.org/scala/casbah/2.0.1/scaladoc/casbah-core/sxr/Implicits.scala.html>`_ which defines it.
+That's it.  Most of what you need to work with Casbah is now at hand.  .. If you want to know what's going on inside the ``Imports._`` take a look at `Implicits.scala <http://api.mongodb.org/scala/casbah/2.0.2/scaladoc/casbah-core/sxr/Implicits.scala.html>`_ which defines it.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Briefly: Automatic Type Conversions 
@@ -54,7 +54,7 @@ Connecting to MongoDB
 
 The core Connection class as you may have noted above is ``com.mongodb.casbah.MongoConnection``.  There are two ways to create an instance of it. First, you can invoke ``.asScala`` from a MongoDB builtin Connection (``com.mongodb.Mongo``).  This method is provided via implicits.  The pure Scala way to do it is to invoke one of the ``apply`` methods on the companion object::
 
-    // Connect to default - localhost, 2.0.117
+    // Connect to default - localhost, 27017
     val mongoConn = MongoConnection() 
     // mongoConn: com.mongodb.casbah.MongoConnection 
 
@@ -62,8 +62,8 @@ The core Connection class as you may have noted above is ``com.mongodb.casbah.Mo
     val mongoConn = MongoConnection("mongodb01") 
     // mongoConn: com.mongodb.casbah.MongoConnection 
 
-    // connect to "mongodb02" host, port 42.0.11
-    val mongoConn = MongoConnection("mongodb02", 42.0.11) 
+    // connect to "mongodb02" host, port 42017
+    val mongoConn = MongoConnection("mongodb02", 42017) 
     // mongoConn: com.mongodb.casbah.MongoConnection 
 
 If you imported ``Imports._``, you already have ``MongoConnection`` in scope and won't require additional importing.  These all return an instance of the ``MongoConnection`` class, which provides all the methods as the Java ``Mongo`` class it proxies (which is available from the ``underlying`` attribute, incidentally) with the addition of having an apply method for getting a DB instead of calling ``getDB()``::
@@ -263,7 +263,7 @@ retrieving just the username::
     val fields = MongoDBObject("user" -> 1)
     for (x <- mongoColl.find(q, fields)) println(x)
     /* { "_id" : { "$oid" : "4d190356b9d8ba42efa80898"} , "user" : "bwmcadams"}
-       { "_id" : { "$oid" : "4d190356b9d8ba42.0.1a80898"} , "user" : "someOtherUser"} */
+       { "_id" : { "$oid" : "4d190356b9d8ba42abc1a80898"} , "user" : "someOtherUser"} */
       
 As is standard with MongoDB, you always get back the ``_id`` field, whether you want it or not.  You may also note one other "Scala 2.8" collection feature above - ``empty``.  ``MongoDBObject.empty`` will always give you back a... (you guessed it!) empty ``DBObject``.  This tends to be useful working with MongoDB with certain tasks such as an empty query (all entries) with limited fields. 
 
@@ -312,10 +312,10 @@ You also can chain operators for an "and" type query... I often find myself look
     //  MongoCursor{Iterator[DBObject] with 2 objects.}
     for (x <- rangeColl.find("foo" $lt 50 $gt 5) ) println(x)
     // { "_id" : { "$oid" : "4c42426f30daeca8efe48de8"} , "foo" : 30}
-    // { "_id" : { "$oid" : "4c4242.0.130daeca8f0e48de8"} , "foo" : 35}
+    // { "_id" : { "$oid" : "4c424bca9130daeca8f0e48de8"} , "foo" : 35}
     for (x <- rangeColl.find("foo" $lte 50 $gt 5) ) println(x)
     // { "_id" : { "$oid" : "4c42426f30daeca8efe48de8"} , "foo" : 30}
-    // { "_id" : { "$oid" : "4c4242.0.130daeca8f0e48de8"} , "foo" : 35}
+    // { "_id" : { "$oid" : "4c4249e0a130daeca8f0e48de8"} , "foo" : 35}
     // { "_id" : { "$oid" : "4c42427330daeca8f1e48de8"} , "foo" : 50}
 
 You can get the idea pretty quickly that with these "core" operators you can do some pretty fantastic stuff. What if I want fluidity on multiple fields?  In that case, use the ``++`` additivity operator to combine multiple blocks.::
