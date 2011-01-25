@@ -1,5 +1,6 @@
 import sbt._
 import growl._ 
+import com.github.olim7t.sbtscalariform._
 
 class CasbahProject(info: ProjectInfo) 
     extends ParentProject(info) 
@@ -38,13 +39,15 @@ class CasbahProject(info: ProjectInfo)
       extends DefaultProject(info) 
       with AutoCompilerPlugins 
       with IdeaProject
-      with GrowlingTests {
+      with GrowlingTests 
+      with ScalariformPlugin {
 
     override def packageDocsJar = defaultJarPath("-javadoc.jar")
     override def packageSrcJar= defaultJarPath("-sources.jar")
     lazy val sourceArtifact = Artifact.sources(artifactID)
     lazy val docsArtifact = Artifact.javadoc(artifactID)
     override def packageToPublishActions = super.packageToPublishActions ++ Seq(packageDocs, packageSrc)
+    override def scalariformOptions = Seq(VerboseScalariform)
 
    /**
      * SXR Support 
@@ -98,6 +101,7 @@ class CasbahProject(info: ProjectInfo)
     // JCL bindings for testing only
     val slf4jJCL = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
     val scalaTime = "org.scala-tools.time" % "time_2.8.0" % "0.2"
+
   }
 
   class CasbahCoreProject(info: ProjectInfo) extends CasbahBaseProject(info) { 

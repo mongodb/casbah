@@ -49,11 +49,11 @@ object MongoOptions {
    * @see MongoDBAddress
    */
   def apply(autoConnectRetry: Boolean = new MongoOptions().autoConnectRetry,
-            connectionsPerHost: Int = new MongoOptions().connectionsPerHost,
-            threadsAllowedToBlockForConnectionMultiplier: Int = new MongoOptions().threadsAllowedToBlockForConnectionMultiplier,
-            maxWaitTime: Int = new MongoOptions().maxWaitTime,
-            connectTimeout: Int = new MongoOptions().connectTimeout,
-            socketTimeout: Int = new MongoOptions().socketTimeout) = { 
+    connectionsPerHost: Int = new MongoOptions().connectionsPerHost,
+    threadsAllowedToBlockForConnectionMultiplier: Int = new MongoOptions().threadsAllowedToBlockForConnectionMultiplier,
+    maxWaitTime: Int = new MongoOptions().maxWaitTime,
+    connectTimeout: Int = new MongoOptions().connectTimeout,
+    socketTimeout: Int = new MongoOptions().socketTimeout) = {
     val options = new MongoOptions;
 
     options.autoConnectRetry = autoConnectRetry

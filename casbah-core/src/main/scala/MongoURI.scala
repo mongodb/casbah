@@ -26,7 +26,6 @@ import com.mongodb.casbah.Imports._
 
 import scalaj.collection.Imports._
 
-
 /** 
  * 
  * 
@@ -34,7 +33,7 @@ import scalaj.collection.Imports._
  * @since 2.0
  */
 object MongoURI {
-  
+
   /** 
    * Create a new MongoURI with a URI String e.g.:
    *
@@ -56,7 +55,7 @@ object MongoURI {
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
  */
-class MongoURI (val underlying: com.mongodb.MongoURI) {
+class MongoURI(val underlying: com.mongodb.MongoURI) {
   def username = underlying.getUsername
   def password = underlying.getPassword
   def hosts = underlying.getHosts.asScala
@@ -65,13 +64,13 @@ class MongoURI (val underlying: com.mongodb.MongoURI) {
   def options = underlying.getOptions
   def connect = underlying.connect.asScala
   def connectDB = underlying.connectDB.asScala
-  def connectDB(m: MongoConnection) = 
+  def connectDB(m: MongoConnection) =
     underlying.connectDB(m.underlying).asScala
-  def connectCollection(db: MongoDB) = 
+  def connectCollection(db: MongoDB) =
     underlying.connectCollection(db.underlying).asScala
-  def connectCollection(m: MongoConnection) = 
+  def connectCollection(m: MongoConnection) =
     underlying.connectCollection(m.underlying).asScala
-  
+
   override def toString = underlying.toString
 }
 

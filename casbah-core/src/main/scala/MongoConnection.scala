@@ -26,7 +26,7 @@ import com.mongodb.casbah.Imports._
 
 import scalaj.collection.Imports._
 
-import com.mongodb.{Mongo, ServerAddress}
+import com.mongodb.{ Mongo, ServerAddress }
 
 /**
  * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
@@ -67,7 +67,7 @@ object MongoConnection {
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress], options: MongoOptions) = 
+  def apply(replicaSetSeeds: List[ServerAddress], options: MongoOptions) =
     new MongoConnection(new Mongo(replicaSetSeeds.asJava, options))
 
   /** 
@@ -104,10 +104,9 @@ object MongoConnection {
    * @see MongoDBAddress
    * @see MongoOptions
    */
-  def apply(addr: ServerAddress, options: MongoOptions) = 
+  def apply(addr: ServerAddress, options: MongoOptions) =
     new MongoConnection(new Mongo(addr, options))
 
- 
   /** 
    * Creates a Mongo connection in paired mode.
    * This will also work for a replica set and will find
@@ -119,7 +118,7 @@ object MongoConnection {
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(left: ServerAddress, right: ServerAddress) = 
+  def apply(left: ServerAddress, right: ServerAddress) =
     new MongoConnection(new Mongo(left, right))
 
   /** 
@@ -135,10 +134,9 @@ object MongoConnection {
    * @see MongoDBAddress
    * @see MongoOptions
    */
-  def apply(left: ServerAddress, right: ServerAddress, 
-            options: com.mongodb.MongoOptions) = 
+  def apply(left: ServerAddress, right: ServerAddress,
+    options: com.mongodb.MongoOptions) =
     new MongoConnection(new Mongo(left, right, options))
-
 
   /** 
    * Connects to a (single) mongodb node (default port)
@@ -157,7 +155,6 @@ object MongoConnection {
    * @throws MongoException
    */
   def apply(host: String, port: Int) = new MongoConnection(new Mongo(host, port))
-
 
   def connect(addr: DBAddress) = new MongoDB(Mongo.connect(addr))
 
@@ -206,7 +203,7 @@ class MongoConnection(val underlying: Mongo) {
 
   def connectPoint = getConnectPoint()
   def getConnectPoint() = underlying.getConnectPoint
-  
+
   /** 
    * Gets the address of this database.
    * 
@@ -218,8 +215,7 @@ class MongoConnection(val underlying: Mongo) {
    * 
    * @return (ServerAddress) The address of the DB
    */
-  def getAddress()= underlying.getAddress()
-
+  def getAddress() = underlying.getAddress()
 
   def allAddress = getAllAddress()
   def getAllAddress() = underlying.getAllAddress()
@@ -233,7 +229,7 @@ class MongoConnection(val underlying: Mongo) {
   /** 
    * Sets queries to be OK to run on slave nodes.
    */
-  def slaveOk() = underlying.slaveOk()   // use parens because this side-effects
+  def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /** 
    * Manipulate Network Options
@@ -255,61 +251,60 @@ class MongoConnection(val underlying: Mongo) {
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
-   def getOptions() = underlying.getOptions
+  def getOptions() = underlying.getOptions
   /** 
    * Manipulate Network Options
    * 
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
-   def options = getOptions
+  def options = getOptions
 
+  /**
+   * 
+   * Set the write concern for this database.
+   * Will be used for writes to any collection in this database.
+   * See the documentation for {@link WriteConcern} for more info.
+   * 
+   * @param concern (WriteConcern) The write concern to use
+   * @see WriteConcern 
+   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+   */
+  def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
 
-   /**
-    * 
-    * Set the write concern for this database.
-    * Will be used for writes to any collection in this database.
-    * See the documentation for {@link WriteConcern} for more info.
-    * 
-    * @param concern (WriteConcern) The write concern to use
-    * @see WriteConcern 
-    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
-    */
-    def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
+  /**
+   * 
+   * Set the write concern for this database.
+   * Will be used for writes to any collection in this database.
+   * See the documentation for {@link WriteConcern} for more info.
+   * 
+   * @param concern (WriteConcern) The write concern to use
+   * @see WriteConcern 
+   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+   */
+  def writeConcern_=(concern: WriteConcern) = setWriteConcern(concern)
 
-   /**
-    * 
-    * Set the write concern for this database.
-    * Will be used for writes to any collection in this database.
-    * See the documentation for {@link WriteConcern} for more info.
-    * 
-    * @param concern (WriteConcern) The write concern to use
-    * @see WriteConcern 
-    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
-    */
-    def writeConcern_=(concern: WriteConcern) = setWriteConcern(concern)
+  /**
+   * 
+   * get the write concern for this database,
+   * which is used for writes to any collection in this database.
+   * See the documentation for {@link WriteConcern} for more info.
+   * 
+   * @see WriteConcern 
+   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+   */
+  def getWriteConcern() = underlying.getWriteConcern()
 
-   /**
-    * 
-    * get the write concern for this database,
-    * which is used for writes to any collection in this database.
-    * See the documentation for {@link WriteConcern} for more info.
-    * 
-    * @see WriteConcern 
-    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
-    */
-    def getWriteConcern() = underlying.getWriteConcern()
-
-   /**
-    * 
-    * get the write concern for this database,
-    * which is used for writes to any collection in this database.
-    * See the documentation for {@link WriteConcern} for more info.
-    *
-    * @see WriteConcern 
-    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
-    */
-    def writeConcern = getWriteConcern
+  /**
+   * 
+   * get the write concern for this database,
+   * which is used for writes to any collection in this database.
+   * See the documentation for {@link WriteConcern} for more info.
+   *
+   * @see WriteConcern 
+   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+   */
+  def writeConcern = getWriteConcern
 
 }
 
@@ -318,8 +313,8 @@ class MongoConnection(val underlying: Mongo) {
  * @author  Brendan W. McAdams <brendan@10gen.com>
  * @since   1.0.1
  */
-object MongoDBAddress { 
-  
+object MongoDBAddress {
+
   /**
    * Connects to a given database using the host/port info from an existing
    * DBAddress instance.
@@ -330,7 +325,7 @@ object MongoDBAddress {
    * @throws java.net.UnknownHostException
    */
   def apply(other: DBAddress, dbName: String) = new DBAddress(other, dbName)
-  
+
   /**
    * Creates a new DBAddress... acceptable formats:
    *
@@ -367,7 +362,7 @@ object MongoDBAddress {
    * @return com.mongodb.DBAddress       
    * @throws java.net.UnknownHostException
    */
-  def apply(host: String, port: Int, dbName: String) = 
+  def apply(host: String, port: Int, dbName: String) =
     new DBAddress(host, port, dbName)
 
   /**
@@ -380,7 +375,7 @@ object MongoDBAddress {
    * @throws java.net.UnknownHostException
    * @see java.net.InetAddress
    */
-  def apply(addr: java.net.InetAddress, port: Int, dbName: String) = 
+  def apply(addr: java.net.InetAddress, port: Int, dbName: String) =
     new DBAddress(addr, port, dbName)
 }
 

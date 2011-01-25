@@ -27,7 +27,6 @@ import com.mongodb.casbah.commons.Logging
 
 import scalaj.collection.Imports._
 
-
 /**
  * Wrapper for the Mongo <code>DB</code> object providing scala-friendly functionality.
  *
@@ -36,7 +35,7 @@ import scalaj.collection.Imports._
  * @see com.mongodb.DB
  */
 object MongoDB {
-  def apply(connection: com.mongodb.Mongo, dbName: String) = 
+  def apply(connection: com.mongodb.Mongo, dbName: String) =
     connection.asScala.apply(dbName)
 
   def apply(connection: MongoConnection, dbName: String) =
@@ -165,9 +164,9 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def getLastError() = underlying.getLastError
   def lastError() = getLastError()
-  def getLastError(writeConcern: WriteConcern) = 
+  def getLastError(writeConcern: WriteConcern) =
     underlying.getLastError(writeConcern)
-  def lastError(writeConcern: WriteConcern) = 
+  def lastError(writeConcern: WriteConcern) =
     getLastError(writeConcern)
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean) =
     underlying.getLastError(w, wTimeout, fsync)
@@ -241,7 +240,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
   /** 
    * Sets queries to be OK to run on slave nodes.
    */
-  def slaveOk() = underlying.slaveOk()   // use parens because this side-effects
+  def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**
    * 
@@ -289,13 +288,12 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def writeConcern = getWriteConcern
 
-
   /**
    * Checks to see if a collection by name %lt;name&gt; exists.
    * @param collectionName The collection to test for existence
    * @return false if no collection by that name exists, true if a match to an existing collection was found
    */
-  def collectionExists(collectionName: String) = 
+  def collectionExists(collectionName: String) =
     underlying.collectionExists(collectionName)
 
   /**
@@ -307,7 +305,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @param command An instance of MapReduceCommand representing the required MapReduce
    * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
    */
-  def mapReduce(cmd: MapReduceCommand): MapReduceResult  = {
+  def mapReduce(cmd: MapReduceCommand): MapReduceResult = {
     val result = command(cmd.asDBObject)
     new MapReduceResult(result)(this)
   }
@@ -331,9 +329,9 @@ class MongoDB(val underlying: com.mongodb.DB) {
    *
    * @throws MongoException
    */
-  def request(op: MongoDB => WriteResult) = 
+  def request(op: MongoDB => WriteResult) =
     op(this).getLastError(writeConcern).throwOnError
- 
+
   /**
    * write concern aware write op block.
    *
@@ -350,8 +348,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * 
    * @throws MongoException
    */
-  def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)
-             (op: MongoDB => WriteResult) =
+  def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)(op: MongoDB => WriteResult) =
     op(this).getLastError(WriteConcern(w, wTimeout, fsync)).throwOnError
 
   /**
@@ -370,11 +367,8 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * 
    * @throws MongoException
    */
-  def request(writeConcern: WriteConcern)(op: MongoDB => WriteResult) = 
+  def request(writeConcern: WriteConcern)(op: MongoDB => WriteResult) =
     op(this).getLastError(writeConcern).throwOnError
-
-
-
 
   def checkedWrite(op: MongoDB => WriteResult) =
     op(this).getLastError.throwOnError
@@ -409,7 +403,6 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @see com.mognodb.Bytes
    */
   def options = getOptions
-
 
   override def toString() = underlying.toString
 

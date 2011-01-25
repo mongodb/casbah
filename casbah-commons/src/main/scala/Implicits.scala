@@ -26,7 +26,7 @@ package commons
 import scalaj.collection.Imports._
 
 trait Implicits {
-  import com.mongodb.{DBObject, BasicDBObject, BasicDBList}
+  import com.mongodb.{ DBObject, BasicDBObject, BasicDBList }
 
   /*
    * Placeholder Type Alias 
@@ -34,7 +34,7 @@ trait Implicits {
    * TODO - Make me a Type Class to define boundaries
    */
   type JSFunction = String
-  
+
   /**
    * Implicit extension methods for Scala <code>Map[String, Any]</code>
    * to convert to Mongo DBObject instances.
@@ -51,14 +51,13 @@ trait Implicits {
 
   implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject = new BasicDBObject(map.asJava)
 
-  
-  implicit def wrapDBObj(in: DBObject): MongoDBObject = 
+  implicit def wrapDBObj(in: DBObject): MongoDBObject =
     new MongoDBObject { val underlying = in }
 
-  implicit def unwrapDBObj(in: MongoDBObject): DBObject = 
+  implicit def unwrapDBObj(in: MongoDBObject): DBObject =
     in.underlying
 
-  implicit def wrapDBList(in: BasicDBList): MongoDBList = 
+  implicit def wrapDBList(in: BasicDBList): MongoDBList =
     new MongoDBList { val underlying = in }
 
   implicit def unwrapDBList(in: MongoDBList): BasicDBList =

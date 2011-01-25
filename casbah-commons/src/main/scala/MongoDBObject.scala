@@ -20,7 +20,6 @@
  * 
  */
 
-
 package com.mongodb.casbah
 package commons
 
@@ -51,7 +50,6 @@ trait MongoDBObject extends Map[String, AnyRef] {
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
-
   /** 
    * as
    *
@@ -67,10 +65,10 @@ trait MongoDBObject extends Map[String, AnyRef] {
    * @return (A)
    * @throws NoSuchElementException
    */
-  def as[A <: Any : Manifest](key: String): A = {
-    require(manifest[A] != manifest[scala.Nothing], 
-            "Type inference failed; as[A]() requires an explicit type argument" + 
-            "(e.g. dbObject.as[<ReturnType>](\"someKey\") ) to function correctly.")
+  def as[A <: Any: Manifest](key: String): A = {
+    require(manifest[A] != manifest[scala.Nothing],
+      "Type inference failed; as[A]() requires an explicit type argument" +
+      "(e.g. dbObject.as[<ReturnType>](\"someKey\") ) to function correctly.")
 
     underlying.get(key) match {
       case null => default(key).asInstanceOf[A]
@@ -94,17 +92,16 @@ trait MongoDBObject extends Map[String, AnyRef] {
   }
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A <: Any : Manifest](key: String): Option[A] = {
-    require(manifest[A] != manifest[scala.Nothing], 
-            "Type inference failed; getAs[A]() requires an explicit type argument " +
-            "(e.g. dbObject.getAs[<ReturnType>](\"somegetAKey\") ) to function correctly.")
+  def getAs[A <: Any: Manifest](key: String): Option[A] = {
+    require(manifest[A] != manifest[scala.Nothing],
+      "Type inference failed; getAs[A]() requires an explicit type argument " +
+      "(e.g. dbObject.getAs[<ReturnType>](\"somegetAKey\") ) to function correctly.")
 
     underlying.get(key) match {
-      case null => None 
+      case null => None
       case value => Some(value.asInstanceOf[A])
     }
   }
-
 
   /**
    * Utility method to emulate javascript dot notation
@@ -112,13 +109,13 @@ trait MongoDBObject extends Map[String, AnyRef] {
    * Your type parameter must be that of the item at the bottom of the tree you specify...
    * If cast fails - it's your own fault.
    */
-  def expand[A <: Any : Manifest](key: String): Option[A] = {
+  def expand[A <: Any: Manifest](key: String): Option[A] = {
     require(manifest[A] != manifest[scala.Nothing], "Type inference failed; expand[A]() requires an explicit type argument (e.g. dbObject[<ReturnType](\"someKey\") ) to function correctly.")
-    @tailrec def _dot(dbObj: MongoDBObject, key: String): Option[_] = 
+    @tailrec
+    def _dot(dbObj: MongoDBObject, key: String): Option[_] =
       if (key.indexOf('.') < 0) {
-        dbObj.getAs[AnyRef](key) 
-      }
-      else {
+        dbObj.getAs[AnyRef](key)
+      } else {
         val (pfx, sfx) = key.splitAt(key.indexOf('.'))
         dbObj.getAs[DBObject](pfx) match {
           case Some(base) => _dot(base, sfx.stripPrefix("."))
@@ -126,10 +123,10 @@ trait MongoDBObject extends Map[String, AnyRef] {
         }
       }
 
-      _dot(this, key) match {
-        case None => None
-        case Some(value) => Some(value.asInstanceOf[A])
-      }
+    _dot(this, key) match {
+      case None => None
+      case Some(value) => Some(value.asInstanceOf[A])
+    }
   }
 
   def +=(kv: (String, AnyRef)) = {
@@ -137,11 +134,11 @@ trait MongoDBObject extends Map[String, AnyRef] {
     this
   }
 
-  def -=(key: String) = { 
+  def -=(key: String) = {
     underlying.removeField(key)
     this
   }
-    
+
   /* Methods needed in order to be a proper DBObject */
   def containsField(s: String) = underlying.containsField(s)
   @deprecated("containsKey is deprecated in the MongoDB Driver. You should use containsField instead.")
@@ -150,11 +147,12 @@ trait MongoDBObject extends Map[String, AnyRef] {
   def markAsPartialObject = underlying.markAsPartialObject
   def partialObject = isPartialObject
   override def put(k: String, v: AnyRef) = v match {
-    case x: MongoDBObject => put(k, x.asDBObject) 
-    case _ => underlying.put(k, v) match {
-      case null => None
-      case value => Some(value)
-    }
+    case x: MongoDBObject => put(k, x.asDBObject)
+    case _ =>
+      underlying.put(k, v) match {
+        case null => None
+        case value => Some(value)
+      }
   }
   def putAll(o: DBObject) = underlying.putAll(o)
   def putAll(m: Map[_, _]) = underlying.putAll(m)
@@ -170,9 +168,8 @@ trait MongoDBObject extends Map[String, AnyRef] {
   }
 }
 
-
 object MongoDBObject {
-  
+
   def empty: DBObject = new MongoDBObject { val underlying = new BasicDBObject }
 
   def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result
@@ -182,13 +179,13 @@ object MongoDBObject {
 }
 
 sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), DBObject] {
-  import com.mongodb.BasicDBObjectBuilder 
+  import com.mongodb.BasicDBObjectBuilder
 
   protected val empty = BasicDBObjectBuilder.start
   protected var elems = empty
-  override def +=(x: (String, Any)) = { 
+  override def +=(x: (String, Any)) = {
     elems.add(x._1, x._2)
-    this 
+    this
   }
 
   def clear() { elems = empty }

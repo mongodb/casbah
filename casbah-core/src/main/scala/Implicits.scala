@@ -22,7 +22,6 @@
 
 package com.mongodb.casbah
 
-
 import scalaj.collection.Imports._
 import org.scala_tools.time.Imports._
 
@@ -55,10 +54,10 @@ trait Implicits {
    * @param conn A <code>Mongo</code> object to wrap
    */
   implicit def mongoConnAsScala(conn: com.mongodb.Mongo) = new {
-   /**
-    * Return a type-neutral Scala Wrapper object for the Connection
-    * @return MongoConnection An instance of a scala wrapper containing the connection object
-    */
+    /**
+     * Return a type-neutral Scala Wrapper object for the Connection
+     * @return MongoConnection An instance of a scala wrapper containing the connection object
+     */
     def asScala = new MongoConnection(conn)
   }
 
@@ -104,21 +103,21 @@ trait Implicits {
      * @return MongoCursor An instance of the scala wrapper containing the cursor object.
      */
     def asScala = new MongoCursor(cursor)
-   /**
-    * Return a GENERIC Scala wrapper object for the DBCursor specific to a given Parameter type.
-    * @return MongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
-    */
-    def asScalaTyped[A <: com.mongodb.DBObject : Manifest] = new MongoTypedCursor[A](cursor)
+    /**
+     * Return a GENERIC Scala wrapper object for the DBCursor specific to a given Parameter type.
+     * @return MongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
+     */
+    def asScalaTyped[A <: com.mongodb.DBObject: Manifest] = new MongoTypedCursor[A](cursor)
   }
 
-} 
+}
 
 object Implicits extends Implicits with commons.Implicits with query.Implicits
-object Imports extends Imports  with commons.Imports with query.Imports
+object Imports extends Imports with commons.Imports with query.Imports
 object BaseImports extends BaseImports with commons.BaseImports with query.BaseImports
 object TypeImports extends TypeImports with commons.TypeImports with query.TypeImports
 
-trait Imports extends BaseImports with TypeImports with Implicits 
+trait Imports extends BaseImports with TypeImports with Implicits
 
 trait BaseImports {
   val MongoConnection = com.mongodb.casbah.MongoConnection

@@ -22,7 +22,7 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.DBCursor 
+import com.mongodb.DBCursor
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
@@ -45,7 +45,6 @@ import scalaj.collection.Imports._
 trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
 
   val underlying: DBCursor
-
 
   /** 
    * next
@@ -71,8 +70,6 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    */
   def hasNext = underlying.hasNext
 
-
-
   /** 
    * sort
    * 
@@ -88,7 +85,6 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
     this
   }
 
-  
   /** 
    * count
    * 
@@ -169,7 +165,6 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    */
   def options_=(opts: Int) = underlying.setOptions(opts)
 
-
   /** 
    * hint
    * 
@@ -241,7 +236,6 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    */
   def explain = new CursorExplanation(underlying.explain)
 
-
   /** 
    * limit
    *
@@ -256,11 +250,10 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    *
    * @see http://dochub.mongodb.org/core/limit
    */
-  def limit(n: Int): this.type = { 
+  def limit(n: Int): this.type = {
     underlying.limit(n)
     this
   }
-
 
   /**   
    * skip
@@ -272,11 +265,10 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    *
    * @see http://dochub.mongodb.org/core/skip
    */
-  def skip(n: Int): this.type = { 
+  def skip(n: Int): this.type = {
     underlying.skip(n)
     this
   }
-
 
   /** 
    * cursorId
@@ -286,14 +278,12 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    */
   def cursorId = underlying.getCursorId()
 
-
   /** 
    * close
    * 
    * Kill the current cursor on the server
    */
   def close() = underlying.close() // parens for side-effect
-
 
   /** 
    * slaveOk
@@ -349,7 +339,6 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
     underlying.addSpecial(name, o.asInstanceOf[AnyRef])
     this
   }
-  
 
   /** 
    * $returnKey
@@ -373,8 +362,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @tparam A : Numeric 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $maxScan[A : Numeric](max: T): this.type = addSpecial("$maxScan", max)
-
+  def $maxScan[A: Numeric](max: T): this.type = addSpecial("$maxScan", max)
 
   /** 
    * $query
@@ -476,7 +464,6 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    */
   def $hint[A <% DBObject](obj: A): this.type = addSpecial("$hint", obj)
 
-
   /** 
    * _newInstance
    * 
@@ -488,7 +475,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @param  cursor (DBCursor) 
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor): MongoCursorBase[T] 
+  def _newInstance(cursor: DBCursor): MongoCursorBase[T]
 
   /** 
    * copy
@@ -514,7 +501,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
  * @param  val underlying (com.mongodb.DBCollection) 
  * @tparam DBObject 
  */
-class MongoCursor(val underlying: DBCursor) extends MongoCursorBase[DBObject]  {
+class MongoCursor(val underlying: DBCursor) extends MongoCursorBase[DBObject] {
 
   /** 
    * _newInstance
@@ -528,7 +515,7 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase[DBObject]  {
    * @return (this.type)
    */
   def _newInstance(cursor: DBCursor) = new MongoCursor(cursor)
-  
+
   /** 
    * copy
    *
@@ -541,7 +528,7 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase[DBObject]  {
   override def copy(): MongoCursor = _newInstance(underlying.copy()) // parens for side-effects
 }
 
-object MongoCursor extends Logging { 
+object MongoCursor extends Logging {
   /** 
    * Initialize a new cursor with your own custom settings
    * 
@@ -549,12 +536,12 @@ object MongoCursor extends Logging {
    * @param  query (Q) Query to perform
    * @param  keys (K) Keys to return from the query
    * @return (instance) A new MongoCursor
-   */ 
-  def apply[T <: DBObject : Manifest](collection: MongoCollectionBase[T], query: DBObject, 
-                                      keys: DBObject) = {
+   */
+  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase[T], query: DBObject,
+    keys: DBObject) = {
     val cursor = new DBCursor(collection.underlying, query, keys)
 
-    if (manifest[T] == manifest[DBObject]) 
+    if (manifest[T] == manifest[DBObject])
       new MongoCursor(cursor)
     else
       new MongoTypedCursor[T](cursor)
@@ -573,7 +560,7 @@ object MongoCursor extends Logging {
  * @param  val underlying (com.mongodb.DBCollection) 
  * @tparam T A Subclass of DBObject 
  */
-class MongoTypedCursor[T <: DBObject : Manifest](val underlying: DBCursor) extends MongoCursorBase[T] {
+class MongoTypedCursor[T <: DBObject: Manifest](val underlying: DBCursor) extends MongoCursorBase[T] {
 
   /** 
    * _newInstance
@@ -612,7 +599,7 @@ class MongoTypedCursor[T <: DBObject : Manifest](val underlying: DBCursor) exten
  * @see http://dochub.mongodb.org/core/explain
  */
 sealed class CursorExplanation(val underlying: DBObject) extends MongoDBObject {
-  
+
   /** 
    * cursor
    * 

@@ -24,8 +24,7 @@ package com.mongodb.casbah
 package commons
 package conversions
 
-import com.mongodb.casbah.commons.Logging 
-
+import com.mongodb.casbah.commons.Logging
 
 trait MongoConversionHelper extends Logging {
 

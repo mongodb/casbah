@@ -28,7 +28,6 @@ import com.mongodb.casbah.commons.Logging
 
 import scalaj.collection.Imports._
 
-
 /**
  * Wrapper for MongoDB MapReduceResults, implementing iterator to allow direct iterator over the result set.
  *
@@ -41,19 +40,19 @@ class MapReduceResult(resultObj: DBObject)(implicit db: MongoDB) extends Iterato
   log.debug("Map Reduce Result: %s", resultObj)
   // Convert the object to a map to have a quicker, saner shred...
   val FAIL = "#FAIL"
-  val result = if (resultObj.containsField("result"))  {
-                 resultObj.get("result").toString
-               } else  {
-                 log.warning("Map/Reduce Result field is empty. Setting an error state explicitly.")
-                 FAIL
-               }// Unless you've defined a table named #FAIL this should give you empty results back.
-                
-/*  val result = resultMap.get("result") match {
+  val result = if (resultObj.containsField("result")) {
+    resultObj.get("result").toString
+  } else {
+    log.warning("Map/Reduce Result field is empty. Setting an error state explicitly.")
+    FAIL
+  } // Unless you've defined a table named #FAIL this should give you empty results back.
+
+  /*  val result = resultMap.get("result") match {
     case Some(v) => v
     case None => throw new IllegalArgumentException("Cannot find field 'result' in Map/Reduce Results.")
   }*/
   val resultHandle = db(result.toString)
-  
+
   private val resultCursor = resultHandle.find
 
   def next(): DBObject = resultCursor.next
@@ -66,16 +65,15 @@ class MapReduceResult(resultObj: DBObject)(implicit db: MongoDB) extends Iterato
   // Number of objects scanned
   val input_count: Int = if (counts != null) counts.get("input").toString.toInt else 0 //, throw new IllegalArgumentException("Cannot find field 'counts.input' in Map/Reduce Results."))
   // Number of times 'emit' was called
-  val emit_count: Int = if (counts != null) counts.get("emit").toString.toInt else 0//, throw new IllegalArgumentException("Cannot find field 'counts.emit' in Map/Reduce Results."))
+  val emit_count: Int = if (counts != null) counts.get("emit").toString.toInt else 0 //, throw new IllegalArgumentException("Cannot find field 'counts.emit' in Map/Reduce Results."))
   // Number of items in output collection
-  val output_count: Int = if (counts != null) counts.get("output").toString.toInt else 0//throw new IllegalArgumentException("Cannot find field 'counts.output' in Map/Reduce Results."))
+  val output_count: Int = if (counts != null) counts.get("output").toString.toInt else 0 //throw new IllegalArgumentException("Cannot find field 'counts.output' in Map/Reduce Results."))
 
   val timeMillis = if (counts != null) resultObj.get("timeMillis").toString.toInt else -1 //throw new IllegalArgumentException("Cannot find field 'timeMillis' in Map/Reduce Results."))
 
   val ok = if (resultObj.get("ok") == 1) true else false
 
   if (!ok) log.warning("Job result is NOT OK.")
-
 
   val err = resultObj.get("errmsg")
 
@@ -93,7 +91,7 @@ class MapReduceResult(resultObj: DBObject)(implicit db: MongoDB) extends Iterato
    * Sort the map/Reduce. Note - this returns a new MongoDB Result cursor.
    */
   def sort(orderBy: DBObject) = resultHandle.find.sort(orderBy)
-  
+
   /**
    * Returns the cursor to the underlying data. 
    */
@@ -102,8 +100,7 @@ class MapReduceResult(resultObj: DBObject)(implicit db: MongoDB) extends Iterato
   override def toString = {
     if (success) {
       "{MapReduceResult Proxying Result [%s] Handle [%s]}".format(result, resultHandle.toString)
-    }
-    else {
+    } else {
       "{MapReduceResult - Failure with Error [%s]".format(err.toString)
     }
   }

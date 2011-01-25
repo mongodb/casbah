@@ -65,9 +65,9 @@ object WriteConcern {
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
    * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
    */
-  def apply(w: Int = 0, 
-            wTimeout: Int = 0,
-            fsync: Boolean = false) = new com.mongodb.WriteConcern(w, wTimeout, fsync)
+  def apply(w: Int = 0,
+    wTimeout: Int = 0,
+    fsync: Boolean = false) = new com.mongodb.WriteConcern(w, wTimeout, fsync)
 
   /**
    * Get the WriteConcern constants by name: NONE, NORMAL, SAFE, FSYNC_SAFE,
@@ -77,6 +77,5 @@ object WriteConcern {
    */
   def valueOf(name: String) = com.mongodb.WriteConcern.valueOf(name)
 }
-
 
 // vim: set ts=2 sw=2 sts=2 et:

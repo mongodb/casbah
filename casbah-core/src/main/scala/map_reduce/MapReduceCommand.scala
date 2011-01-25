@@ -28,7 +28,6 @@ import com.mongodb.casbah.commons.Logging
 
 import scalaj.collection.Imports._
 
-
 class MapReduceError(msg: String) extends Error("MongoDB Map/Reduce Error: " + msg)
 
 /**
@@ -40,13 +39,13 @@ class MapReduceError(msg: String) extends Error("MongoDB Map/Reduce Error: " + m
  */
 object MapReduceCommand {
   def apply(collection: String,
-            mapFunction: JSFunction,
-            reduceFunction: JSFunction,
-            outputCollection: Option[String] = None,
-            query: Option[DBObject] = None,
-            sort: Option[DBObject] = None,
-            finalizeFunction: Option[JSFunction] = None,
-            jsScope: Option[String] = None) = {
+    mapFunction: JSFunction,
+    reduceFunction: JSFunction,
+    outputCollection: Option[String] = None,
+    query: Option[DBObject] = None,
+    sort: Option[DBObject] = None,
+    finalizeFunction: Option[JSFunction] = None,
+    jsScope: Option[String] = None) = {
     val mrc = new MapReduceCommand()
     mrc.collection = collection
     mrc.mapFunction = mapFunction
@@ -60,15 +59,15 @@ object MapReduceCommand {
   }
 
   def apply(collection: String,
-            mapFunction: JSFunction,
-            reduceFunction: JSFunction,
-            outputCollection: String) = {
-      val mrc = new MapReduceCommand()
-      mrc.collection = collection
-      mrc.mapFunction = mapFunction
-      mrc.reduceFunction = reduceFunction
-      mrc.outputCollection = Some(outputCollection)
-      mrc
+    mapFunction: JSFunction,
+    reduceFunction: JSFunction,
+    outputCollection: String) = {
+    val mrc = new MapReduceCommand()
+    mrc.collection = collection
+    mrc.mapFunction = mapFunction
+    mrc.reduceFunction = reduceFunction
+    mrc.outputCollection = Some(outputCollection)
+    mrc
   }
 }
 /**
@@ -96,7 +95,7 @@ class MapReduceCommand {
   var finalizeFunction: Option[JSFunction] = None
   var jsScope: Option[String] = None
 
-  def asDBObject = toDBObj 
+  def asDBObject = toDBObj
 
   def toDBObj = {
     val dataObj = MongoDBObject.newBuilder
@@ -145,7 +144,6 @@ class MapReduceCommand {
       case Some(s) => dataObj += "scope" -> s
       case None => {}
     }
-
 
     dataObj.result
 

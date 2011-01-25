@@ -28,7 +28,6 @@ import com.mongodb.casbah.gridfs.Imports._
 
 import scalaj.collection.Imports._
 
-
 trait Implicits {
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
   implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
@@ -36,10 +35,10 @@ trait Implicits {
 
 object Implicits extends Implicits
 object Imports extends Imports
-object BaseImports extends BaseImports 
+object BaseImports extends BaseImports
 object TypeImports extends TypeImports
 
-trait Imports extends BaseImports with TypeImports with Implicits 
+trait Imports extends BaseImports with TypeImports with Implicits
 
 trait BaseImports {
   val GridFS = com.mongodb.casbah.gridfs.GridFS

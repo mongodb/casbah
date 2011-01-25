@@ -46,14 +46,13 @@ trait BarewordQueryOperator extends Logging {
   /*
    * TODO - Implicit filtering of 'valid' (aka convertable) types for [A]
    */
-  def apply[A](oper: String)(fields: (String, A)*) = { 
+  def apply[A](oper: String)(fields: (String, A)*) = {
     val bldr = MongoDBObject.newBuilder
     for ((k, v) <- fields) bldr += k -> v
     MongoDBObject(oper -> bldr.result.asDBObject)
   }
 
 }
-
 
 /** 
  * Aggregation object for Bareword Operators.
@@ -67,14 +66,13 @@ trait BarewordQueryOperator extends Logging {
  * @since 1.0
  * @see com.mongodb.casbah.Implicits
  */
-trait FluidQueryBarewordOps extends SetOp 
-                               with UnsetOp
-                               with IncOp
-                               with OrOp
-                               with RenameOp
-                               with ArrayOps
-                               with NorOp
-
+trait FluidQueryBarewordOps extends SetOp
+  with UnsetOp
+  with IncOp
+  with OrOp
+  with RenameOp
+  with ArrayOps
+  with NorOp
 
 /**
  * Trait to provide the $set (Set) Set method as a bareword operator.
@@ -104,7 +102,6 @@ trait UnsetOp extends BarewordQueryOperator {
   def $unset(args: String*) = apply("$unset")(args.map(_ -> 1): _*)
 }
 
-
 /** 
  * Trait to provide the $inc (inc) method as a bareword operator..
  *
@@ -122,15 +119,15 @@ trait UnsetOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24inc
  */
 trait IncOp extends BarewordQueryOperator {
-  def $inc[T : ValidNumericType](args: (String, T)*) = apply[T]("$inc")(args: _*)
+  def $inc[T: ValidNumericType](args: (String, T)*) = apply[T]("$inc")(args: _*)
 }
 
 trait ArrayOps extends PushOp
-                  with PushAllOp
-                  with AddToSetOp
-                  with PopOp
-                  with PullOp
-                  with PullAllOp
+  with PushAllOp
+  with AddToSetOp
+  with PopOp
+  with PullOp
+  with PullAllOp
 
 /*
  * Trait to provide the $push (push) method as a bareword operator.
@@ -159,14 +156,14 @@ trait PushOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pushAll
  */
 trait PushAllOp extends BarewordQueryOperator {
-   def $pushAll[A <: Any : Manifest](args: (String, A)*): DBObject = 
-    if (manifest[A] <:< manifest[Iterable[_]]) 
-      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]):_*)
-    else if (manifest[A] <:< manifest[Product]) 
+  def $pushAll[A <: Any: Manifest](args: (String, A)*): DBObject =
+    if (manifest[A] <:< manifest[Iterable[_]])
+      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]): _*)
+    else if (manifest[A] <:< manifest[Product])
       apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Product].productIterator.toIterable): _*)
-    else if (manifest[A].erasure.isArray) 
+    else if (manifest[A].erasure.isArray)
       apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Array[_]].toIterable): _*)
-    else 
+    else
       throw new IllegalArgumentException("$pushAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
 }
 
@@ -185,7 +182,7 @@ trait PushAllOp extends BarewordQueryOperator {
  */
 trait AddToSetOp extends BarewordQueryOperator {
 
-  def $addToSet[T <% DBObject](arg: T) = 
+  def $addToSet[T <% DBObject](arg: T) =
     MongoDBObject("$addToSet" -> arg)
 
   /* $each-able */
@@ -203,15 +200,15 @@ trait AddToSetOp extends BarewordQueryOperator {
      * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
      */
     new {
-      protected def op(target: Any) = 
-        MongoDBObject("$addToSet" -> MongoDBObject(field -> MongoDBObject("$each" -> target))) 
+      protected def op(target: Any) =
+        MongoDBObject("$addToSet" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
 
       def $each(target: Array[Any]) = op(target.toList.asJava)
-      def $each(target: Any*) = 
+      def $each(target: Any*) =
         if (target.size > 1)
-          op(target.toList.asJava) 
+          op(target.toList.asJava)
         else if (!target(0).isInstanceOf[Iterable[_]] &&
-                 !target(0).isInstanceOf[Array[_]])
+          !target(0).isInstanceOf[Array[_]])
           op(List(target(0)))
         else op(target(0))
     }
@@ -219,7 +216,6 @@ trait AddToSetOp extends BarewordQueryOperator {
 
   def $addToSet = apply[Any]("$addToSet")_
 }
-
 
 /*
  * Trait to provide the $pop (pop) method as a bareword operator..
@@ -233,7 +229,7 @@ trait AddToSetOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pop
  */
 trait PopOp extends BarewordQueryOperator {
-  def $pop[T : ValidNumericType](args: (String, T)*) = apply[T]("$pop")(args: _*)
+  def $pop[T: ValidNumericType](args: (String, T)*) = apply[T]("$pop")(args: _*)
 }
 
 /*
@@ -252,10 +248,10 @@ trait PullOp extends BarewordQueryOperator {
   def $pull = apply[Any]("$pull")_
 
   /** ValueTest enabled version */
-  def $pull(inner: => DBObject) = 
+  def $pull(inner: => DBObject) =
     MongoDBObject("$pull" -> inner)
 
-  def $pull(inner: DBObject) = 
+  def $pull(inner: DBObject) =
     MongoDBObject("$pull" -> inner)
 
 }
@@ -272,14 +268,14 @@ trait PullOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pullAll
  */
 trait PullAllOp extends BarewordQueryOperator {
-  def $pullAll[A <: Any : Manifest](args: (String, A)*): DBObject = 
-    if (manifest[A] <:< manifest[Iterable[_]]) 
-      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]):_*)
-    else if (manifest[A] <:< manifest[Product]) 
+  def $pullAll[A <: Any: Manifest](args: (String, A)*): DBObject =
+    if (manifest[A] <:< manifest[Iterable[_]])
+      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]): _*)
+    else if (manifest[A] <:< manifest[Product])
       apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Product].productIterator.toIterable): _*)
-    else if (manifest[A].erasure.isArray) 
+    else if (manifest[A].erasure.isArray)
       apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Array[_]].toIterable): _*)
-    else 
+    else
       throw new IllegalArgumentException("$pullAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
 }
 
@@ -303,7 +299,7 @@ trait PullAllOp extends BarewordQueryOperator {
 
 trait OrOp extends BarewordQueryOperator {
 
-  def $or(fields: (String, Any)*) = { 
+  def $or(fields: (String, Any)*) = {
     val bldr = MongoDBList.newBuilder
     for ((k, v) <- fields) bldr += MongoDBObject(k -> v)
     MongoDBObject("$or" -> bldr.result.asDBObject)
@@ -341,11 +337,11 @@ trait RenameOp extends BarewordQueryOperator {
 trait NorOp extends BarewordQueryOperator {
 
   /** ValueTest enabled version */
-  def $nor(inner: => DBObject) = 
+  def $nor(inner: => DBObject) =
     MongoDBObject("$nor" -> (inner match {
       case obj: BasicDBList => obj
       case obj: DBObject => MongoDBList(obj)
-    }).asInstanceOf[BasicDBList]) 
+    }).asInstanceOf[BasicDBList])
 
 }
 

@@ -32,19 +32,17 @@ import scala.reflect._
 
 import scalaj.collection.Imports._
 
-
 import com.mongodb.BasicDBList
-
 
 trait MongoDBList extends Buffer[AnyRef] {
   val underlying: BasicDBList
-  
+
   def apply(i: Int) = underlying.get(i)
-  
-  def update(i: Int, elem: AnyRef) = 
+
+  def update(i: Int, elem: AnyRef) =
     underlying.set(i, elem)
 
-  def +=:(elem: AnyRef): this.type = { 
+  def +=:(elem: AnyRef): this.type = {
     underlying.subList(0, 0).add(elem)
     this
   }
@@ -56,7 +54,7 @@ trait MongoDBList extends Buffer[AnyRef] {
 
   def insertAll(i: Int, elems: Traversable[AnyRef]) = {
     val ins = underlying.subList(0, i)
-    elems.foreach(x => ins.add(x)) 
+    elems.foreach(x => ins.add(x))
   }
 
   def remove(i: Int) = underlying.remove(i)
@@ -72,15 +70,15 @@ trait MongoDBList extends Buffer[AnyRef] {
 }
 
 object MongoDBList {
-  
-  def empty: BasicDBList = 
+
+  def empty: BasicDBList =
     new MongoDBList { val underlying = new BasicDBList }
 
   def apply[A <: Any](elems: A*): BasicDBList = {
     val b = newBuilder[A]
     for (xs <- elems) xs match {
-      case p: Tuple2[String, _] => b += MongoDBObject(p) 
-      case _ => b += xs 
+      case p: Tuple2[String, _] => b += MongoDBObject(p)
+      case _ => b += xs
     }
     b.result
   }
@@ -94,25 +92,24 @@ object MongoDBList {
     b.result
   }
 
-
-  def newBuilder[A <: Any]: MongoDBListBuilder = 
+  def newBuilder[A <: Any]: MongoDBListBuilder =
     new MongoDBListBuilder
 
 }
 
-sealed class MongoDBListBuilder 
-       extends scala.collection.mutable.Builder[Any, BasicDBList] {
+sealed class MongoDBListBuilder
+  extends scala.collection.mutable.Builder[Any, BasicDBList] {
 
   protected val empty = new BasicDBList
 
   protected var elems = empty
 
-  override def +=(x: Any) = { 
+  override def +=(x: Any) = {
     val v = x match {
       case _ => x.asInstanceOf[AnyRef]
     }
     elems.add(v)
-    this 
+    this
   }
 
   def clear() { elems = empty }

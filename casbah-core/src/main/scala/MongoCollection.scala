@@ -22,25 +22,22 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.{DBCollection, DBCursor}
+import com.mongodb.{ DBCollection, DBCursor }
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
-import com.mongodb.casbah.map_reduce.{MapReduceResult, MapReduceCommand}
+import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
 
 import scala.util.control.Exception._
 
-
 import scalaj.collection.Imports._
 import collection.mutable.ArrayBuffer
-
 
 /** 
  * Scala wrapper for Mongo DBCollections,
  * including ones which return custom DBObject subclasses 
  * via setObjectClass and the like.
-
  * Provides any non-parameterized methods and the basic structure.
  * Requires an underlying object of a DBCollection.
  * 
@@ -53,7 +50,7 @@ import collection.mutable.ArrayBuffer
  * 
  * @tparam T (DBObject or subclass thereof)
  */
-trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self => 
+trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self =>
   /**
    * The underlying Java Mongo Driver Collection object we proxy.
    */
@@ -65,7 +62,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @return this collection's database
    */
   implicit val db = underlying.getDB().asScala
-  
+
   /** Adds the "private" fields _id to an object.
    * @param o <code>DBObject</code> to which to add fields
    * @return the modified parameter object
@@ -83,8 +80,8 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @param keys an object with a key set of the fields desired for the index
    */
   def createIndex[A <% DBObject](keys: A) = underlying.createIndex(keys)
-  
-  def createIndex[A <% DBObject, B <% DBObject](keys: A, options: B) = 
+
+  def createIndex[A <% DBObject, B <% DBObject](keys: A, options: B) =
     underlying.createIndex(keys, options)
 
   /**
@@ -96,7 +93,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * find distinct values for a key
    * @param query query to apply on collection
    */
-  def distinct[A <% DBObject](key: String, query: A) = 
+  def distinct[A <% DBObject](key: String, query: A) =
     underlying.distinct(key, query).asScala
 
   /** Drops (deletes) this collection
@@ -119,7 +116,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @param keys an object with a key set of the fields desired for the index
    */
   def ensureIndex[A <% DBObject](keys: A) = underlying.ensureIndex(keys)
-  
+
   /** Ensures an index on this collection (that is, the index will be created if it does not exist).
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * @param keys fields to use for index
@@ -142,7 +139,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    */
   def ensureIndex(name: String) = underlying.ensureIndex(name)
 
- /** Queries for all objects in this collection. 
+  /** Queries for all objects in this collection. 
    * @return a cursor which will iterate over every object
    * @dochub find
    */
@@ -188,7 +185,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @return the objects, if found
    * @dochub find
    */
-  def find[A <% DBObject, B <% DBObject](ref: A, fields: B, numToSkip: Int, batchSize: Int) = 
+  def find[A <% DBObject, B <% DBObject](ref: A, fields: B, numToSkip: Int, batchSize: Int) =
     _newCursor(underlying.find(ref, fields, numToSkip, batchSize))
 
   /** 
@@ -202,7 +199,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @param o the query object
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
-  def findOne[A <% DBObject](o: A) = 
+  def findOne[A <% DBObject](o: A) =
     _typedValue(underlying.findOne(o: DBObject))
 
   /**
@@ -241,7 +238,6 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
   def findOneById[B <% DBObject](id: AnyRef, fields: B) =
     _typedValue(underlying.findOne(id, fields))
 
-
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * If remove is specified it will be removed. If new is specified then the updated 
@@ -249,39 +245,35 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * You can also specify the fields to return in the document, optionally.
    * @return (Option[T]) of the the found document (before, or after the update)
    */
-  def findAndModify[A <% DBObject, B <% DBObject](query: A, update: B) = 
+  def findAndModify[A <% DBObject, B <% DBObject](query: A, update: B) =
     _typedValue(underlying.findAndModify(query, update))
 
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * @return the old document
    */
-  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject](query: A, sort: B, update: C) = 
+  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject](query: A, sort: B, update: C) =
     _typedValue(underlying.findAndModify(query, sort, update))
 
   /**
    * Finds the first document in the query and updates it. 
    * @return the old document
    */
-  def findAndModify[A <% DBObject, B <% DBObject, 
-                    C <% DBObject, D <% DBObject](query: A, fields: B, sort: C, 
-                                                  remove: Boolean, update: D, 
-                                                  returnNew: Boolean, upsert: Boolean) = 
+  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+    remove: Boolean, update: D,
+    returnNew: Boolean, upsert: Boolean) =
     _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
 
   /**
    * Finds the first document in the query and removes it. 
    * @return the removed document
    */
-  def findAndRemove[A <% DBObject](query: A) = 
+  def findAndRemove[A <% DBObject](query: A) =
     _typedValue(underlying.findAndRemove(query))
-
- 
 
   override def head = headOption.get
   override def headOption = findOne
   override def tail = find.skip(1).toList
-
 
   /**
    * write concern aware write op block.
@@ -322,8 +314,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * 
    * @throws MongoException
    */
-  def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false) 
-             (op: this.type => WriteResult) = 
+  def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)(op: this.type => WriteResult) =
     op(this).getLastError(WriteConcern(w, wTimeout, fsync)).throwOnError
 
   /**
@@ -345,9 +336,6 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
   def request(writeConcern: WriteConcern)(op: this.type => WriteResult) =
     op(this).getLastError(writeConcern).throwOnError
 
-
-
-  
   /** Find a collection that is prefixed with this collection's name.
    * A typical use of this might be 
    * <blockquote><pre>
@@ -378,9 +366,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    *
    * TODO - Make this support type construction
    */
-   def collection(n: String) = underlying.getCollection(n).asScala
-
-
+  def collection(n: String) = underlying.getCollection(n).asScala
 
   /**
    *  Returns the number of documents in the collection
@@ -405,7 +391,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    *  @param fields fields to return
    *  @return number of documents that match query and fields
    */
-  def getCount[A <% DBObject, B<% DBObject](query: A, fields: B) = 
+  def getCount[A <% DBObject, B <% DBObject](query: A, fields: B) =
     underlying.getCount(query, fields)
 
   /**
@@ -418,14 +404,14 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    *  @param skip # of fields to skip
    *  @return number of documents that match query and fields
    */
-  def getCount[A <% DBObject, B<% DBObject](query: A, fields: B, limit: Long, skip: Long) = 
+  def getCount[A <% DBObject, B <% DBObject](query: A, fields: B, limit: Long, skip: Long) =
     underlying.getCount(query, fields, limit, skip)
 
   /** Returns the database this collection is a member of.
    * @return this collection's database
    */
   def getDB() = underlying.getDB().asScala
-  
+
   /** Returns the full name of this collection, with the database name as a prefix.
    * @return  the name of this collection
    */
@@ -482,9 +468,9 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    *
    * TODO - Ensure proper subtype return
    */
-  def setObjectClass[A <: DBObject : Manifest](c: Class[A]) = {
+  def setObjectClass[A <: DBObject: Manifest](c: Class[A]) = {
     underlying.setObjectClass(c)
-    new MongoTypedCollection[A](underlying=self.underlying)
+    new MongoTypedCollection[A](underlying = self.underlying)
   }
 
   /** 
@@ -502,22 +488,22 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @tparam A A Subtype of DBObject
    *
    */
-  def objectClass_=[A <: DBObject : Manifest](c: Class[A]) = setObjectClass(c)
+  def objectClass_=[A <: DBObject: Manifest](c: Class[A]) = setObjectClass(c)
 
   def stats = getStats()
 
   def getStats() = underlying.getStats()
 
-  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String) = 
+  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String) =
     underlying.group(key, cond, initial, reduce).map(_._2.asInstanceOf[T])
 
   /**
    * Perform an absurdly simple grouping with no initial object or reduce function.
    */
-  def group[A <% DBObject, B <% DBObject](key: A, cond: B): Iterable[T] = 
+  def group[A <% DBObject, B <% DBObject](key: A, cond: B): Iterable[T] =
     group(key, cond, MongoDBObject.empty, "function(obj, prev) {}")
 
-  def group[A <% DBObject, B <% DBObject](key: A, cond: B, function: String): Iterable[T] = 
+  def group[A <% DBObject, B <% DBObject](key: A, cond: B, function: String): Iterable[T] =
     group(key, cond, MongoDBObject.empty, function)
 
   /**
@@ -543,7 +529,6 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
     result.get("retval").asInstanceOf[DBObject].toMap.asScala.map(_._2.asInstanceOf[T]).asInstanceOf[ArrayBuffer[T]]
   }
 
-
   /**
    * Saves document(s) to the database.
    * if doc doesn't have an _id, one will be added
@@ -558,7 +543,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
     b.sizeHint(docs.size)
     for (x <- docs) b += x
     underlying.insert(b.result: _*)
-   }
+  }
 
   /**
    * Saves document(s) to the database.
@@ -576,7 +561,6 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
     underlying.insert(b.result, writeConcern)
   }
 
-
   /**
    * Inserts a document into the database.
    * if doc doesn't have an _id, one will be added
@@ -586,7 +570,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @dochub insert
    * TODO - Wrapper for WriteResult?
    */
-  def insert[A <% DBObject](doc: A, writeConcern: WriteConcern) = 
+  def insert[A <% DBObject](doc: A, writeConcern: WriteConcern) =
     underlying.insert(doc, writeConcern)
 
   /**
@@ -604,7 +588,6 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
     underlying.insert(b.result.asJava)
   }
 
-
   def isCapped = underlying.isCapped()
 
   /**
@@ -612,7 +595,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @param command An instance of MapReduceCommand representing the required MapReduce
    * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
    */
-  def mapReduce(command: MapReduceCommand): MapReduceResult  = {
+  def mapReduce(command: MapReduceCommand): MapReduceResult = {
     val result = getDB.command(command.asDBObject)
     new MapReduceResult(result)
   }
@@ -626,16 +609,16 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @param  reduceFunction (JSFunction) The JavaScript to execute for the reduce function
    * 
    */
-  def mapReduce(mapFunction: JSFunction, 
-                reduceFunction: JSFunction, 
-                outputCollection: Option[String] = None,
-                query: Option[DBObject] = None, 
-                sort: Option[DBObject] = None, 
-                finalizeFunction: Option[JSFunction] = None, 
-                jsScope: Option[String] = None): MapReduceResult =  
-              new MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction, 
-                                                                 outputCollection, query, sort, finalizeFunction,
-                                                                 jsScope).asDBObject))
+  def mapReduce(mapFunction: JSFunction,
+    reduceFunction: JSFunction,
+    outputCollection: Option[String] = None,
+    query: Option[DBObject] = None,
+    sort: Option[DBObject] = None,
+    finalizeFunction: Option[JSFunction] = None,
+    jsScope: Option[String] = None): MapReduceResult =
+    new MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction,
+      outputCollection, query, sort, finalizeFunction,
+      jsScope).asDBObject))
   /** Removes objects from the database collection.
    * @param o the object that documents to be removed must match
    * @dochub remove
@@ -649,7 +632,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @dochub remove
    * TODO - Wrapper for WriteResult?
    */
-  def remove[A <% DBObject](o: A, writeConcern: WriteConcern) = 
+  def remove[A <% DBObject](o: A, writeConcern: WriteConcern) =
     underlying.remove(o, writeConcern)
 
   /** Clears all indices that have not yet been applied to this collection. */
@@ -683,14 +666,13 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    */
   def hintFields_=[A <% DBObject](docs: List[A]) = setHintFields(docs)
 
-
   def setInternalClass(path: String, c: Class[_]) = underlying.setInternalClass(path, c)
 
   def internalClass_=(path: String, c: Class[_]) = setInternalClass(path, c)
 
   override def toString() = underlying.toString
 
- /**
+  /**
    * Performs an update operation.
    * @dochub update
    * @param q search query for old object to update
@@ -725,7 +707,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
   def update[A <% DBObject, B <% DBObject](q: A, o: B, upsert: Boolean, multi: Boolean, writeConcern: WriteConcern) =
     underlying.update(q, o, upsert, multi, writeConcern)
 
- /**
+  /**
    * Perform a multi update
    * @dochub update
    * @param q search query for old object to update
@@ -765,9 +747,9 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    */
   def getLastError() = getDB.getLastError
   def lastError() = getLastError()
-  def getLastError(writeConcern: WriteConcern) = 
+  def getLastError(writeConcern: WriteConcern) =
     getDB.getLastError(writeConcern)
-  def lastError(writeConcern: WriteConcern) = 
+  def lastError(writeConcern: WriteConcern) =
     getLastError(writeConcern)
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean) =
     getDB.getLastError(w, wTimeout, fsync)
@@ -779,7 +761,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    *
    * @param x object to save to the collection
    */
-  def +=[A <% DBObject](x: A)  = save(x)
+  def +=[A <% DBObject](x: A) = save(x)
 
   /**
    * Remove a matching object from the collection
@@ -787,8 +769,6 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @param x object to remove from the collection
    */
   def -=[A <% DBObject](x: A) = remove(x)
-
-
 
   /**
    * 
@@ -871,7 +851,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
   /** 
    * Sets queries to be OK to run on slave nodes.
    */
-  def slaveOk() = underlying.slaveOk()   // use parens because this side-effects
+  def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**
    * does a rename of this collection to newName
@@ -885,7 +865,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @param newName new collection name (not a full namespace)
    * @return the new collection
    */
-  def rename(newName: String): MongoCollection = 
+  def rename(newName: String): MongoCollection =
     new MongoCollection(self.underlying.rename(newName))
 
   /** 
@@ -913,7 +893,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @param  cursor (DBCollection) 
    * @return (this.type)
    */
-  def _newInstance(collection: DBCollection): MongoCollectionBase[T]      
+  def _newInstance(collection: DBCollection): MongoCollectionBase[T]
 
   protected def _typedValue(dbObj: DBObject): Option[T] = Option(dbObj.asInstanceOf[T])
 }
@@ -957,7 +937,6 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase[
    */
   def _newInstance(collection: DBCollection) = new MongoCollection(collection)
 
-
   override protected def _typedValue(dbObj: DBObject): Option[DBObject] = Option(dbObj)
 
 }
@@ -973,7 +952,7 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase[
  * @param  val underlying (DBCollection) 
  * @tparam T  A Subclass of DBObject
  */
-class MongoTypedCollection[T <: DBObject : Manifest](val underlying: DBCollection) extends MongoCollectionBase[T] {
+class MongoTypedCollection[T <: DBObject: Manifest](val underlying: DBCollection) extends MongoCollectionBase[T] {
 
   /** 
    * _newCursor
@@ -1002,7 +981,6 @@ class MongoTypedCollection[T <: DBObject : Manifest](val underlying: DBCollectio
    */
   def _newInstance(collection: DBCollection) = new MongoTypedCollection[T](collection)
 }
-
 
 /** Helper object for some static methods
  */

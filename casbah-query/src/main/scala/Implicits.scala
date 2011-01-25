@@ -21,8 +21,7 @@
  */
 
 package com.mongodb.casbah
-package query 
-
+package query
 
 import com.mongodb.casbah.commons.Imports._
 
@@ -48,7 +47,6 @@ trait Implicits extends FluidQueryBarewordOps {
     val field = left
   } with FluidQueryOperators
 
-
   /**
    * Implicit extension methods for Tuple2[String, DBObject] values
    * to add Mongo's query operators, minimizing the need to write long series'
@@ -63,22 +61,19 @@ trait Implicits extends FluidQueryBarewordOps {
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
-  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with DSLDBObject) = { 
+  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with DSLDBObject) = {
     new {
       val field = nested.field
-    } with ValueTestFluidQueryOperators { 
-      dbObj = nested.getAs[DBObject](nested.field)  // TODO - shore the safety of this up
+    } with ValueTestFluidQueryOperators {
+      dbObj = nested.getAs[DBObject](nested.field) // TODO - shore the safety of this up
     }
   }
 
-  implicit def tupleToGeoCoords[A : ValidNumericType : Manifest, B : ValidNumericType : Manifest](coords: (A, B)) = GeoCoords(coords._1, coords._2)
-  
-
-
+  implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = GeoCoords(coords._1, coords._2)
 
 }
 
-object Implicits extends query.Implicits with commons.Implicits 
+object Implicits extends query.Implicits with commons.Implicits
 object Imports extends query.Imports with commons.Imports
 object BaseImports extends query.BaseImports with commons.BaseImports
 object TypeImports extends query.TypeImports with commons.TypeImports
@@ -87,8 +82,8 @@ trait Imports extends query.BaseImports with query.TypeImports with query.Implic
 
 trait BaseImports
 
-trait TypeImports { 
-  type GeoCoords = com.mongodb.casbah.query.GeoCoords[_,_]
+trait TypeImports {
+  type GeoCoords = com.mongodb.casbah.query.GeoCoords[_, _]
   type ValidNumericType[T] = query.ValidNumericType[T]
   type ValidDateType[T] = query.ValidDateType[T]
   type ValidDateOrNumericType[T] = query.ValidDateOrNumericType[T]
@@ -96,7 +91,7 @@ trait TypeImports {
 
 trait ValidNumericType[T]
 
-trait ValidDateType[T] 
+trait ValidDateType[T]
 
 trait ValidDateOrNumericType[T]
 
@@ -121,7 +116,7 @@ trait ValidNumericTypeHolder {
   implicit object LongOk extends LongOk
   trait FloatOk extends ValidNumericType[Float] with FloatIsFractional with Ordering.FloatOrdering
   implicit object FloatOk extends FloatOk
-  trait BigDecimalOk extends ValidNumericType[BigDecimal] with BigDecimalIsFractional with Ordering.BigDecimalOrdering 
+  trait BigDecimalOk extends ValidNumericType[BigDecimal] with BigDecimalIsFractional with Ordering.BigDecimalOrdering
   implicit object BigDecimalOk extends BigDecimalOk
   trait DoubleOk extends ValidNumericType[Double] with DoubleIsFractional with Ordering.DoubleOrdering
   implicit object DoubleOk extends DoubleOk
