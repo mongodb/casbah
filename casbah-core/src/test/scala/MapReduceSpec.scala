@@ -105,7 +105,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       
       val result = mongoDB.command(cmd)
 
-      log.warning("M/R Result: %s", result)
+      log.info("M/R Result: %s", result)
 
       result must notBeNull
 
@@ -118,6 +118,33 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       val mongo = mongoDB(result.as[String]("result"))
       Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
     }    
+
+    "Produce results in a named collection for inline data" in {
+      val cmd = MongoDBObject(
+        "mapreduce" -> "yield_historical.in",
+        "map" -> mapJS,
+        "reduce" -> reduceJS,
+        "finalize" -> finalizeJS,
+        "verbose" -> true,
+        "out" -> MongoDBObject("inline" -> true)
+      )
+      
+      val result = mongoDB.command(cmd)
+
+      log.info("M/R Result: %s", result)
+
+      result must notBeNull
+
+      result.getAs[Double]("ok") must beSome(1.0)
+      result.getAs[String]("result") must beSome("")
+      result.getAs[BasicDBList]("results") must beSome
+
+      val mongo = result.as[BasicDBList]("results")
+      Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
+      mongo(0) must haveClass[com.mongodb.CommandResult]
+      mongo(0) must haveSuperClass[DBObject]
+      mongo(0) must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
+    } 
     
     
     
@@ -141,7 +168,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       
       val result90s = mongoDB.command(cmd90s)
 
-      log.warning("M/R result90s: %s", result90s)
+      log.info("M/R result90s: %s", result90s)
 
       result90s must notBeNull
 
@@ -163,7 +190,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       
       val result00s = mongoDB.command(cmd00s)
 
-      log.warning("M/R result00s: %s", result00s)
+      log.info("M/R result00s: %s", result00s)
 
       result00s must notBeNull
 
@@ -185,7 +212,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
 
           var result = mongoDB.command(cmd90s)
           result must notBeNull
-          log.warning("First pass result: %s", result)
+          log.info("First pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.merged")
@@ -193,7 +220,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
           
           result = mongoDB.command(cmd00s)
           result must notBeNull
-          log.warning("second pass result: %s", result)
+          log.info("second pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.merged")
@@ -209,7 +236,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
 
           var result = mongoDB.command(cmd90s)
           result must notBeNull
-          log.warning("First pass result: %s", result)
+          log.info("First pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
@@ -217,7 +244,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
           
           result = mongoDB.command(cmd00s)
           result must notBeNull
-          log.warning("second pass result: %s", result)
+          log.info("second pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
@@ -249,7 +276,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       
       val result90s = mongoDB.command(cmd90s)
 
-      log.warning("M/R result90s: %s", result90s)
+      log.info("M/R result90s: %s", result90s)
 
       result90s must notBeNull
 
@@ -270,7 +297,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       
       val result00s = mongoDB.command(cmd00s)
 
-      log.warning("M/R result00s: %s", result00s)
+      log.info("M/R result00s: %s", result00s)
 
       result00s must notBeNull
 
@@ -281,43 +308,76 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       Some(mongoDB(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
 
       "Reduce the 90s and 00s into a single output collection" in {
-        cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all") 
-        cmd00s -= "query"
-        cmd00s += "mapreduce" -> "yield_historical.out.aughts"
-        //cmd00s += "finalize" -> finalizeJS
+        "Querying against the raw data " in {
+          cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all") 
+          //cmd00s += "finalize" -> finalizeJS
 
-        log.warning("cmd 00s: %s", cmd00s)
+          log.info("cmd 00s: %s", cmd00s)
 
-        cmd90s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
-        cmd90s -= "query"
-        cmd90s += "mapreduce" -> "yield_historical.out.aughts"
-        //cmd90s += "finalize" -> finalizeJS
+          cmd90s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
+          //cmd90s += "finalize" -> finalizeJS
 
-        log.warning("cmd 90s: %s", cmd90s)
+          log.info("cmd 90s: %s", cmd90s)
 
-        var result = mongoDB.command(cmd90s)
-        result must notBeNull
-        log.warning("First pass result: %s", result)
+          var result = mongoDB.command(cmd90s)
+          result must notBeNull
+          log.info("First pass result: %s", result)
 
-        result.getAs[Double]("ok") must beSome(1.0)
-        result.getAs[String]("result") must beSome("yield_historical.out.all")
+          result.getAs[Double]("ok") must beSome(1.0)
+          result.getAs[String]("result") must beSome("yield_historical.out.all")
 
+          
+          result = mongoDB.command(cmd00s)
+          result must notBeNull
+          log.info("Second pass result: %s", result)
+
+          result.getAs[Double]("ok") must beSome(1.0)
+          result.getAs[String]("result") must beSome("yield_historical.out.all")
+
+          result.expand[Int]("counts.output") must beSome(21)
+
+          val mongo = mongoDB(result.as[String]("result"))
+          Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
+        } 
         
-        result = mongoDB.command(cmd00s)
-        result must notBeNull
-        log.warning("Second pass result: %s", result)
+        "Querying against the intermediary collections" in {
+          cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all") 
+          cmd00s -= "query"
+          cmd00s += "mapreduce" -> "yield_historical.out.aughts"
+          //cmd00s += "finalize" -> finalizeJS
 
-        result.getAs[Double]("ok") must beSome(1.0)
-        result.getAs[String]("result") must beSome("yield_historical.out.all")
+          log.info("cmd 00s: %s", cmd00s)
 
-        result.expand[Int]("counts.output") must beSome(21)
+          cmd90s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
+          cmd90s -= "query"
+          cmd90s += "mapreduce" -> "yield_historical.out.nineties"
+          //cmd90s += "finalize" -> finalizeJS
 
-        val mongo = mongoDB(result.as[String]("result"))
-        Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
+          log.info("cmd 90s: %s", cmd90s)
+
+          var result = mongoDB.command(cmd90s)
+          result must notBeNull
+          log.info("First pass result: %s", result)
+
+          result.getAs[Double]("ok") must beSome(1.0)
+          result.getAs[String]("result") must beSome("yield_historical.out.all")
+
+          
+          result = mongoDB.command(cmd00s)
+          result must notBeNull
+          log.info("Second pass result: %s", result)
+
+          result.getAs[Double]("ok") must beSome(1.0)
+          result.getAs[String]("result") must beSome("yield_historical.out.all")
+
+          result.expand[Int]("counts.output") must beSome(21)
+
+          val mongo = mongoDB(result.as[String]("result"))
+          Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
+          
+        } pendingUntilFixed
       }
     }
-
-
 
   }
 
