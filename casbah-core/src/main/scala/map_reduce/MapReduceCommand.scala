@@ -28,7 +28,7 @@ import com.mongodb.casbah.commons.Logging
 
 import scalaj.collection.Imports._
 
-class MapReduceError(msg: String) extends Error("MongoDB Map/Reduce Error: " + msg)
+class MapReduceError(msg: String) extends Exception("MongoDB Map/Reduce Error: " + msg)
 
 /**
  * Wrapper Object to provide apply methods for the MapReduceCommand class.
