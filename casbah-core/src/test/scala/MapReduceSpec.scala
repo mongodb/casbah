@@ -32,6 +32,7 @@ import org.scala_tools.time.Imports._
 import org.specs._
 import org.specs.specification.PendingUntilFixed
 
+@SuppressWarnings(Array("deprecation"))
 class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
 
   "Casbah's Map/Reduce Engine" should {
@@ -46,7 +47,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       val seed = DateTime.now.getMillis
       implicit val mongo = mongoDB("mapReduce.nonexistant.foo.bar.baz.%s".format(seed))
       mongo.dropCollection()
-      
+
       val keySet = distinctKeySet("Foo", "bar", "Baz")
 
       for (x <- keySet) {
@@ -54,11 +55,10 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       }
 
       keySet must notBeNull
-      keySet must beEmpty 
+      keySet must beEmpty
 
     }
   }
-
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
     implicit val mongoDB = MongoConnection()("casbahTest_MR")
@@ -66,8 +66,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
     verifyAndInitTreasuryData
 
     shareVariables
-  
-    
+
     val mapJS = """
       function m() {
           emit( typeof(this._id) == "number" ? this._id : this._id.getYear(), { count: 1, sum: this.bc10Year })
@@ -100,9 +99,8 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
         "reduce" -> reduceJS,
         "finalize" -> finalizeJS,
         "verbose" -> true,
-        "out" -> "yield_historical.out.all"
-      )
-      
+        "out" -> "yield_historical.out.all")
+
       val result = mongoDB.command(cmd)
 
       log.info("M/R Result: %s", result)
@@ -117,7 +115,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
 
       val mongo = mongoDB(result.as[String]("result"))
       Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
-    }    
+    }
 
     "Produce results in a named collection for inline data" in {
       val cmd = MongoDBObject(
@@ -126,9 +124,8 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
         "reduce" -> reduceJS,
         "finalize" -> finalizeJS,
         "verbose" -> true,
-        "out" -> MongoDBObject("inline" -> true)
-      )
-      
+        "out" -> MongoDBObject("inline" -> true))
+
       val result = mongoDB.command(cmd)
 
       log.info("M/R Result: %s", result)
@@ -136,7 +133,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       result must notBeNull
 
       result.getAs[Double]("ok") must beSome(1.0)
-      result.getAs[String]("result") must beSome("")
+      result.getAs[String]("result") must beNone
       result.getAs[BasicDBList]("results") must beSome
 
       val mongo = result.as[BasicDBList]("results")
@@ -144,10 +141,8 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       mongo(0) must haveClass[com.mongodb.CommandResult]
       mongo(0) must haveSuperClass[DBObject]
       mongo(0) must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
-    } 
-    
-    
-    
+    }
+
     "Produce results for merged output" in {
       verifyAndInitTreasuryData
 
@@ -163,9 +158,8 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
         "finalize" -> finalizeJS,
         "verbose" -> true,
         "query" -> "_id" $lt new Date(100, 1, 1),
-        "out" -> "yield_historical.out.nineties"
-      )
-      
+        "out" -> "yield_historical.out.nineties")
+
       val result90s = mongoDB.command(cmd90s)
 
       log.info("M/R result90s: %s", result90s)
@@ -174,7 +168,6 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
 
       result90s.getAs[Double]("ok") must beSome(1.0)
       result90s.getAs[String]("result") must beSome("yield_historical.out.nineties")
-
 
       Some(mongoDB(result90s.as[String]("result")).size) must beEqualTo(result90s.expand[Int]("counts.output"))
 
@@ -185,9 +178,8 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
         "finalize" -> finalizeJS,
         "verbose" -> true,
         "query" -> "_id" $gt new Date(99, 12, 31),
-        "out" -> "yield_historical.out.aughts"
-      )
-      
+        "out" -> "yield_historical.out.aughts")
+
       val result00s = mongoDB.command(cmd00s)
 
       log.info("M/R result00s: %s", result00s)
@@ -197,14 +189,13 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       result00s.getAs[Double]("ok") must beSome(1.0)
       result00s.getAs[String]("result") must beSome("yield_historical.out.aughts")
 
-
       Some(mongoDB(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
 
       "Merge the 90s and 00s into a single output collection" in {
         "reading the earlier output collections" in {
           cmd00s -= "query"
           cmd00s += "mapreduce" -> "yield_historical.out.aughts"
-          cmd00s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged") 
+          cmd00s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged")
 
           cmd90s -= "query"
           cmd90s += "mapreduce" -> "yield_historical.out.nineties"
@@ -217,7 +208,6 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.merged")
 
-          
           result = mongoDB.command(cmd00s)
           result must notBeNull
           log.info("second pass result: %s", result)
@@ -231,7 +221,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
           Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
         }
         "Using a fresh query run" in {
-          cmd00s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged_fresh") 
+          cmd00s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged_fresh")
           cmd90s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged_fresh")
 
           var result = mongoDB.command(cmd90s)
@@ -241,7 +231,6 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
 
-          
           result = mongoDB.command(cmd00s)
           result must notBeNull
           log.info("second pass result: %s", result)
@@ -271,9 +260,8 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
         "reduce" -> reduceJS,
         "verbose" -> true,
         "query" -> "_id" $lt new Date(100, 1, 1),
-        "out" -> "yield_historical.out.nineties"
-      )
-      
+        "out" -> "yield_historical.out.nineties")
+
       val result90s = mongoDB.command(cmd90s)
 
       log.info("M/R result90s: %s", result90s)
@@ -283,7 +271,6 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       result90s.getAs[Double]("ok") must beSome(1.0)
       result90s.getAs[String]("result") must beSome("yield_historical.out.nineties")
 
-
       Some(mongoDB(result90s.as[String]("result")).size) must beEqualTo(result90s.expand[Int]("counts.output"))
 
       val cmd00s = MongoDBObject(
@@ -292,9 +279,8 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
         "reduce" -> reduceJS,
         "verbose" -> true,
         "query" -> "_id" $gt new Date(99, 12, 31),
-        "out" -> "yield_historical.out.aughts"
-      )
-      
+        "out" -> "yield_historical.out.aughts")
+
       val result00s = mongoDB.command(cmd00s)
 
       log.info("M/R result00s: %s", result00s)
@@ -304,12 +290,11 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       result00s.getAs[Double]("ok") must beSome(1.0)
       result00s.getAs[String]("result") must beSome("yield_historical.out.aughts")
 
-
       Some(mongoDB(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
 
       "Reduce the 90s and 00s into a single output collection" in {
         "Querying against the raw data " in {
-          cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all") 
+          cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
           //cmd00s += "finalize" -> finalizeJS
 
           log.info("cmd 00s: %s", cmd00s)
@@ -326,7 +311,6 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.all")
 
-          
           result = mongoDB.command(cmd00s)
           result must notBeNull
           log.info("Second pass result: %s", result)
@@ -338,10 +322,10 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
 
           val mongo = mongoDB(result.as[String]("result"))
           Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
-        } pendingUntilFixed
-        
+        }
+
         "Querying against the intermediary collections" in {
-          cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all") 
+          cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
           cmd00s -= "query"
           cmd00s += "mapreduce" -> "yield_historical.out.aughts"
           //cmd00s += "finalize" -> finalizeJS
@@ -362,7 +346,6 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.all")
 
-          
           result = mongoDB.command(cmd00s)
           result must notBeNull
           log.info("Second pass result: %s", result)
@@ -374,8 +357,8 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
 
           val mongo = mongoDB(result.as[String]("result"))
           Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
-          
-        } pendingUntilFixed
+
+        }
       }
     }
 
@@ -398,9 +381,9 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
 
     val reduce = "function(k, v) { return 1; }"
 
-    val mr = MapReduceCommand(mongo.getName, map, reduce, None, None, None, None, None)
+    //val mr = MapReduceCommand(mongo.getName, map, reduce, MapReduceInlineOutput)
 
-    val result = mongo.mapReduce(mr)
+    val result = mongo.mapReduce(map, reduce, MapReduceInlineOutput)
 
     result
   }

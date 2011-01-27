@@ -590,16 +590,6 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
 
   def isCapped = underlying.isCapped()
 
-  /**
-   * @deprecated Will go away in 2.1: Due to poor original design on my part, you should probably use the explicitly parameterized fversion of this on collection   
-   * @param command An instance of MapReduceCommand representing the required MapReduce
-   * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
-   */
-  def mapReduce(command: MapReduceCommand): MapReduceResult = {
-    val result = getDB.command(command.asDBObject)
-    new MapReduceResult(result)
-  }
-
   /** 
    * mapReduce
    * Execute a mapReduce against this collection.
@@ -611,14 +601,17 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    */
   def mapReduce(mapFunction: JSFunction,
     reduceFunction: JSFunction,
-    outputCollection: Option[String] = None,
+    output: MapReduceOutputTarget,
     query: Option[DBObject] = None,
     sort: Option[DBObject] = None,
+    limit: Option[Int] = None,
     finalizeFunction: Option[JSFunction] = None,
-    jsScope: Option[String] = None): MapReduceResult =
+    jsScope: Option[String] = None,
+    verbose: Boolean = true): MapReduceResult =
     new MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction,
-      outputCollection, query, sort, finalizeFunction,
-      jsScope).asDBObject))
+      output, query, sort, limit, finalizeFunction,
+      jsScope, verbose).asDBObject))
+
   /** Removes objects from the database collection.
    * @param o the object that documents to be removed must match
    * @dochub remove

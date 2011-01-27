@@ -21,10 +21,9 @@
  */
 
 package com.mongodb.casbah
-package test 
+package test
 
 import com.mongodb.casbah.commons.Imports._
-
 
 import org.specs._
 import org.specs.specification.PendingUntilFixed
@@ -36,7 +35,7 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
     val x: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> "C"))
     val y: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> 5)))
     val z: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> List(5, 4, 3, 2, 1))))
-    
+
     "Expanding a simple layering should work" in {
       val b = x.expand[String]("A.B")
       b must beSome("C")
@@ -87,7 +86,7 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
 
     "support a 2.8 factory interface which returns a DBObject" in {
       val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
-                                "embedded" -> MongoDBObject("foo" -> "bar"))
+        "embedded" -> MongoDBObject("foo" -> "bar"))
       // A Java version to compare with
       val jBldr = new com.mongodb.BasicDBObjectBuilder
       jBldr.add("x", 5)
@@ -153,7 +152,7 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
         newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5))
       }
       "Merging a single tuple via += " in {
-        val dbObj = MongoDBObject("x" -> "y", "a" -> "b") 
+        val dbObj = MongoDBObject("x" -> "y", "a" -> "b")
         dbObj must notBeNull
         dbObj must haveSuperClass[DBObject]
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b"))
@@ -167,7 +166,7 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
 
       }
       "Merging a set of tuples via ++= " in {
-        val dbObj = MongoDBObject("x" -> "y", "a" -> "b") 
+        val dbObj = MongoDBObject("x" -> "y", "a" -> "b")
         dbObj must notBeNull
         dbObj must haveSuperClass[DBObject]
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b"))
@@ -192,10 +191,10 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
     }
 
     "Support the as[<type>] method" in {
-      val dbObj = MongoDBObject("x" -> 5.2, 
-                                "y" -> 9, 
-                                "foo" -> MongoDBList("a", "b", "c"),
-                                "bar" -> MongoDBObject("baz" -> "foo"))
+      val dbObj = MongoDBObject("x" -> 5.2,
+        "y" -> 9,
+        "foo" -> MongoDBList("a", "b", "c"),
+        "bar" -> MongoDBObject("baz" -> "foo"))
       dbObj must notBeNull
       dbObj must haveSuperClass[DBObject]
 
@@ -207,33 +206,32 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
     }
 
     "Support 'as' methods for casting by type" in {
-        "getAs functions as expected" in {
-          val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
-                                    "embedded" -> MongoDBObject("foo" -> "bar"))
-          dbObj.getAs[Double]("y") must beSome[Double]
-          dbObj.getAs[DBObject]("embedded") must beSome[DBObject]
-          dbObj.getAs[Float]("omgponies") must beNone
-          dbObj.getAs[Double]("x").get must throwA[ClassCastException]
+      "getAs functions as expected" in {
+        val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
+          "embedded" -> MongoDBObject("foo" -> "bar"))
+        dbObj.getAs[Double]("y") must beSome[Double]
+        dbObj.getAs[DBObject]("embedded") must beSome[DBObject]
+        dbObj.getAs[Float]("omgponies") must beNone
+        dbObj.getAs[Double]("x").get must throwA[ClassCastException]
 
+      }
+
+      "as functions as expected" in {
+        val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
+          "embedded" -> MongoDBObject("foo" -> "bar"))
+        dbObj.as[Double]("y") must haveClass[java.lang.Double]
+        dbObj.as[DBObject]("embedded") must haveSuperClass[DBObject]
+        dbObj.as[Float]("omgponies") must throwA[NoSuchElementException]
+        dbObj.as[Double]("x") must throwA[ClassCastException]
+
+        "the result should be assignable to the type specified" in {
+          val y: Double = dbObj.as[Double]("y")
+          y must notBeNull
         }
-
-        "as functions as expected" in {
-          val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
-                                    "embedded" -> MongoDBObject("foo" -> "bar"))
-          dbObj.as[Double]("y") must haveClass[java.lang.Double]
-          dbObj.as[DBObject]("embedded") must haveSuperClass[DBObject]
-          dbObj.as[Float]("omgponies") must throwA[NoSuchElementException] 
-          dbObj.as[Double]("x") must throwA[ClassCastException]
-
-          "the result should be assignable to the type specified" in {
-            val y: Double = dbObj.as[Double]("y")
-            y must notBeNull
-          }
-        }
+      }
     }
   }
 
 }
-
 
 // vim: set ts=2 sw=2 sts=2 et:

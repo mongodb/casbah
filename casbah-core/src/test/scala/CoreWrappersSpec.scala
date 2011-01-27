@@ -36,7 +36,6 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
   "Casbah behavior between Scala and Java versions of Objects" should {
     shareVariables
 
-
     "provide working .asScala methods on the Java version of the objects" in {
 
       val javaConn = new com.mongodb.Mongo() // Java connection
@@ -45,7 +44,7 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
         javaConn must notBeNull
 
         val scalaConn = javaConn.asScala
-        
+
         scalaConn must notBeNull
         scalaConn must haveSuperClass[com.mongodb.casbah.MongoConnection]
 
@@ -58,7 +57,7 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
         javaDb must notBeNull
 
         val scalaDb = javaDb.asScala
-        
+
         scalaDb must notBeNull
         scalaDb must haveSuperClass[com.mongodb.casbah.MongoDB]
 
@@ -71,14 +70,13 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
         javaCollection must notBeNull
 
         val scalaCollection = javaCollection.asScala
-        
+
         scalaCollection must notBeNull
         scalaCollection must haveSuperClass[com.mongodb.casbah.MongoCollection]
 
         scalaCollection.underlying must beEqualTo(javaCollection)
       }
     }
-
 
     "be directly instantiable, with working apply methods" in {
       var conn: MongoConnection = null
@@ -122,7 +120,7 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
           coll.underlying must haveSuperClass[com.mongodb.DBCollection]
         }
       }
-      
+
     }
 
     "Renaming a collection successfully tracks the rename in MongoCollection" in {
@@ -135,11 +133,11 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
       coll must haveSuperClass[com.mongodb.casbah.MongoCollection]
       coll.name must beEqualTo("collectoin")
 
-      val newColl = coll.rename("collection") 
+      val newColl = coll.rename("collection")
       newColl must notBeNull
       newColl must haveSuperClass[com.mongodb.casbah.MongoCollection]
       newColl.name must beEqualTo("collection")
-  
+
       // no mutability in the old collection
       coll.name must beEqualTo("collectoin")
       // collection should be gone so rename fails
@@ -154,9 +152,9 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
 
     "Not fail as reported by Max Afonov in SCALA-11" in {
       val coll = db("brand_new_coll_%d".format(System.currentTimeMillis))
- 
+
       coll.insert(MongoDBObject("foo" -> "bar"))
-      val basicFind = coll.find(MongoDBObject("foo" -> "bar")) 
+      val basicFind = coll.find(MongoDBObject("foo" -> "bar"))
 
       basicFind must notBeNull
       basicFind must haveSize(1)
@@ -165,12 +163,12 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
 
       findOne must beSomething
 
-      val findOneMatch = coll.findOne(MongoDBObject("foo" -> "bar")) 
+      val findOneMatch = coll.findOne(MongoDBObject("foo" -> "bar"))
 
       findOneMatch must beSomething
 
     }
-  } 
+  }
 
   "Cursor Operations" should {
     import scala.util.Random
@@ -187,9 +185,8 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
     "Behave in chains" in {
       "For loops for idiomatic cleanness" in {
 
-
         // todo - add limit, skip etc on COLLECTION for cleaner chains like this?
-        val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5  limit 20) yield x
+        val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5 limit 20) yield x
 
         items must haveSize(20)
         // TODO - Matchers that support freaking cursors, etc
@@ -198,11 +195,11 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
 
       "Chain operations must return the proper *subtype*" in {
         val cur = coll.find(MongoDBObject("foo" -> "bar")) skip 5
-        cur must haveClass[MongoCursor] 
+        cur must haveClass[MongoCursor]
         cur must haveSuperClass[MongoCursorBase[DBObject]]
 
         val cur2 = coll.find(MongoDBObject("foo" -> "bar")) limit 25 skip 12
-        cur2 must haveClass[MongoCursor] 
+        cur2 must haveClass[MongoCursor]
         cur2 must haveSuperClass[MongoCursorBase[DBObject]]
 
       }
@@ -212,6 +209,5 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
   }
 
 }
-
 
 // vim: set ts=2 sw=2 sts=2 et:

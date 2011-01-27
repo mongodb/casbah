@@ -21,7 +21,7 @@
  */
 
 package com.mongodb.casbah
-package test 
+package test
 
 import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.casbah.commons.Logging
@@ -36,7 +36,6 @@ class GridFSSpec extends Specification with PendingUntilFixed with Logging {
   val logo_md5 = "479977b85391a88bbc1da1e9f5175239"
   val digest = MessageDigest.getInstance("MD5")
 
-
   "Casbah's GridFS Implementations" should {
     shareVariables()
     implicit val mongo = MongoConnection()("casbah_test")
@@ -45,14 +44,14 @@ class GridFSSpec extends Specification with PendingUntilFixed with Logging {
     val gridfs = GridFS(mongo)
 
     "Correctly save a file to GridFS" in {
-      gridfs must notBeNull 
+      gridfs must notBeNull
       logo must notBeNull
 
       gridfs(logo) { fh =>
         fh.filename = "powered_by_mongo.png"
         fh.contentType = "image/png"
       }
-    
+
     }
 
     "Find the file in GridFS later" in {
@@ -84,6 +83,5 @@ class GridFSSpec extends Specification with PendingUntilFixed with Logging {
   }
 
 }
-
 
 // vim: set ts=2 sw=2 sts=2 et:

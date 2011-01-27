@@ -28,7 +28,14 @@ import com.mongodb.casbah.commons.Logging
 
 import scalaj.collection.Imports._
 
-class MapReduceError(msg: String) extends Exception("MongoDB Map/Reduce Error: " + msg)
+class MapReduceError(msg: String) extends MongoException("MongoDB Map/Reduce Error: " + msg)
+
+trait MapReduceOutputTarget
+
+case class MapReduceStandardOutput(collection: String) extends MapReduceOutputTarget
+case class MapReduceMergeOutput(collection: String) extends MapReduceOutputTarget
+case class MapReduceReduceOutput(collection: String) extends MapReduceOutputTarget
+case object MapReduceInlineOutput extends MapReduceOutputTarget
 
 /**
  * Wrapper Object to provide apply methods for the MapReduceCommand class.
@@ -38,38 +45,30 @@ class MapReduceError(msg: String) extends Exception("MongoDB Map/Reduce Error: "
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
 object MapReduceCommand {
-  def apply(collection: String,
-    mapFunction: JSFunction,
+  def apply(input: String, mapFunction: JSFunction,
     reduceFunction: JSFunction,
-    outputCollection: Option[String] = None,
+    output: MapReduceOutputTarget,
     query: Option[DBObject] = None,
     sort: Option[DBObject] = None,
+    limit: Option[Int] = None,
     finalizeFunction: Option[JSFunction] = None,
-    jsScope: Option[String] = None) = {
+    jsScope: Option[String] = None,
+    verbose: Boolean = true) = {
     val mrc = new MapReduceCommand()
-    mrc.collection = collection
+    mrc.input = input
     mrc.mapFunction = mapFunction
     mrc.reduceFunction = reduceFunction
-    mrc.outputCollection = outputCollection
+    mrc.output = output
     mrc.query = query
     mrc.sort = sort
+    mrc.limit = limit
     mrc.finalizeFunction = finalizeFunction
     mrc.jsScope = jsScope
-    mrc
-  }
-
-  def apply(collection: String,
-    mapFunction: JSFunction,
-    reduceFunction: JSFunction,
-    outputCollection: String) = {
-    val mrc = new MapReduceCommand()
-    mrc.collection = collection
-    mrc.mapFunction = mapFunction
-    mrc.reduceFunction = reduceFunction
-    mrc.outputCollection = Some(outputCollection)
+    mrc.verbose = verbose
     mrc
   }
 }
+
 /**
  * Wrapper class for invoking MongoDB mapReduces.
  *
@@ -83,15 +82,15 @@ object MapReduceCommand {
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
-class MapReduceCommand {
-  var collection: String = ""
+protected[mongodb] class MapReduceCommand {
+  var input: String = ""
   var mapFunction: JSFunction = ""
   var reduceFunction: JSFunction = ""
-  var keepTemp = false // moot if outputCollection is specific
   var verbose = true // provides statistics on job execution
-  var outputCollection: Option[String] = None
+  var output: MapReduceOutputTarget = MapReduceInlineOutput
   var query: Option[DBObject] = None
   var sort: Option[DBObject] = None
+  var limit: Option[Int] = None
   var finalizeFunction: Option[JSFunction] = None
   var jsScope: Option[String] = None
 
@@ -99,10 +98,10 @@ class MapReduceCommand {
 
   def toDBObj = {
     val dataObj = MongoDBObject.newBuilder
-    collection match {
-      case "" => throw new MapReduceError("collection must be defined.")
-      case null => throw new MapReduceError("collection must be defined.")
-      case other => dataObj += "mapreduce" -> collection
+    input match {
+      case "" => throw new MapReduceError("input must be defined.")
+      case null => throw new MapReduceError("input must be defined.")
+      case other => dataObj += "mapreduce" -> input
     }
 
     mapFunction match {
@@ -117,13 +116,15 @@ class MapReduceCommand {
       case other => dataObj += "reduce" -> reduceFunction.toString
     }
 
-    dataObj += "keepTemp" -> keepTemp
     dataObj += "verbose" -> verbose
 
-    outputCollection match {
-      case Some(out) => dataObj += "out" -> out
-      case None => {}
-    }
+    dataObj += "out" -> (output match {
+      case MapReduceStandardOutput(coll: String) => coll
+      case MapReduceMergeOutput(coll: String) => MongoDBObject("merge" -> coll)
+      case MapReduceReduceOutput(coll: String) => MongoDBObject("reduce" -> coll)
+      case MapReduceInlineOutput => MongoDBObject("inline" -> true)
+      case other => throw new IllegalArgumentException("Invalid Output Type '%s'".format(other))
+    })
 
     query match {
       case Some(q) => dataObj += "query" -> q
@@ -132,6 +133,11 @@ class MapReduceCommand {
 
     sort match {
       case Some(s) => dataObj += "sort" -> s
+      case None => {}
+    }
+
+    limit match {
+      case Some(i) => dataObj += "limit" -> i
       case None => {}
     }
 

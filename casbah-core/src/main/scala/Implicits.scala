@@ -110,6 +110,8 @@ trait Implicits {
     def asScalaTyped[A <: com.mongodb.DBObject: Manifest] = new MongoTypedCursor[A](cursor)
   }
 
+  implicit def stringAsNamedCollectionMROutput(name: String) = map_reduce.MapReduceStandardOutput(name)
+
 }
 
 object Implicits extends Implicits with commons.Implicits with query.Implicits
@@ -125,6 +127,9 @@ trait BaseImports {
   val MongoOptions = com.mongodb.casbah.MongoOptions
   val WriteConcern = com.mongodb.casbah.WriteConcern
   val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
+  val MapReduceInlineOutput = com.mongodb.casbah.map_reduce.MapReduceInlineOutput
+  val MapReduceMergeOutput = com.mongodb.casbah.map_reduce.MapReduceMergeOutput
+  val MapReduceReduceOutput = com.mongodb.casbah.map_reduce.MapReduceReduceOutput
 }
 
 trait TypeImports {
@@ -138,6 +143,9 @@ trait TypeImports {
   type WriteResult = com.mongodb.WriteResult
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   type MapReduceResult = com.mongodb.casbah.map_reduce.MapReduceResult
+  type MapReduceOutputTarget = com.mongodb.casbah.map_reduce.MapReduceOutputTarget
+  type MapReduceMergeOutput = com.mongodb.casbah.map_reduce.MapReduceMergeOutput
+  type MapReduceReduceOutput = com.mongodb.casbah.map_reduce.MapReduceReduceOutput
   type DBAddress = com.mongodb.DBAddress
 }
 

@@ -20,12 +20,10 @@
  * 
  */
 
-
 package com.mongodb.casbah
-package test 
+package test
 
 import com.mongodb.casbah.commons.Imports._
-
 
 import org.specs._
 import org.specs.specification.PendingUntilFixed
@@ -49,9 +47,9 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
       jLst.add("x")
       jLst.add("y")
       jLst.add(5.asInstanceOf[AnyRef])
-      jLst.add(123.82.asInstanceOf[AnyRef]) 
+      jLst.add(123.82.asInstanceOf[AnyRef])
       jLst.add(84.asInstanceOf[AnyRef])
-      jLst.add("spam") 
+      jLst.add("spam")
       jLst.add("eggs")
       val jObj = jLst.result
 
@@ -64,7 +62,7 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
 
       builder += "foo"
       builder += "bar"
-      builder += "x" 
+      builder += "x"
       builder += "y"
       builder ++= List(5, 212.8, "spam", "eggs", "type erasure" -> "sucks", "omg" -> "ponies!")
 
@@ -81,13 +79,13 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
       dbLst must haveTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5, 212.8))
     }
     "Support A list/tuple of dbobject declarations and convert them to a dbobject cleanly" in {
-      val dbLst = MongoDBList(x, y, "omg" -> "ponies", 5, 
-                              MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
-                              212.8)
+      val dbLst = MongoDBList(x, y, "omg" -> "ponies", 5,
+        MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
+        212.8)
       dbLst must haveSuperClass[BasicDBList]
       dbLst must haveSize(6)
-      dbLst must haveTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5, 
-                                      MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"), 212.8))
+      dbLst must haveTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5,
+        MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"), 212.8))
     }
 
     "Convert tuple pairs correctly" in {
@@ -99,6 +97,5 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
   }
 
 }
-
 
 // vim: set ts=2 sw=2 sts=2 et:

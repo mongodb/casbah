@@ -131,7 +131,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         neBI.toString must notBeNull // Test that JSON Serialization works
         neBI must notBeNull
         neBI must haveSuperClass[DBObject]
-        neBI must beEqualTo(nonDSL("foo", "$ne",  BigInt("1000000000000000000425425245252")))
+        neBI must beEqualTo(nonDSL("foo", "$ne", BigInt("1000000000000000000425425245252")))
       }
       "with Byte" in {
         val neByte = "foo" $ne java.lang.Byte.parseByte("51")
@@ -301,7 +301,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         neBI.toString must notBeNull // Test that JSON Serialization works
         neBI must notBeNull
         neBI must haveSuperClass[DBObject]
-        neBI must beEqualTo(nonDSL("foo", "$lt",  BigInt("1000000000000000000425425245252")))
+        neBI must beEqualTo(nonDSL("foo", "$lt", BigInt("1000000000000000000425425245252")))
       }
       "with Byte" in {
         val neByte = "foo" $lt java.lang.Byte.parseByte("51")
@@ -471,7 +471,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         neBI.toString must notBeNull // Test that JSON Serialization works
         neBI must notBeNull
         neBI must haveSuperClass[DBObject]
-        neBI must beEqualTo(nonDSL("foo", "$lte",  BigInt("1000000000000000000425425245252")))
+        neBI must beEqualTo(nonDSL("foo", "$lte", BigInt("1000000000000000000425425245252")))
       }
       "with Byte" in {
         val neByte = "foo" $lte java.lang.Byte.parseByte("51")
@@ -641,7 +641,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         neBI.toString must notBeNull // Test that JSON Serialization works
         neBI must notBeNull
         neBI must haveSuperClass[DBObject]
-        neBI must beEqualTo(nonDSL("foo", "$gt",  BigInt("1000000000000000000425425245252")))
+        neBI must beEqualTo(nonDSL("foo", "$gt", BigInt("1000000000000000000425425245252")))
       }
       "with Byte" in {
         val neByte = "foo" $gt java.lang.Byte.parseByte("51")
@@ -697,7 +697,6 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
 
     }
   }
-
 
   "Casbah's DSL $gte operator" should {
     shareVariables
@@ -812,7 +811,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         neBI.toString must notBeNull // Test that JSON Serialization works
         neBI must notBeNull
         neBI must haveSuperClass[DBObject]
-        neBI must beEqualTo(nonDSL("foo", "$gte",  BigInt("1000000000000000000425425245252")))
+        neBI must beEqualTo(nonDSL("foo", "$gte", BigInt("1000000000000000000425425245252")))
       }
       "with Byte" in {
         val neByte = "foo" $gte java.lang.Byte.parseByte("51")
@@ -1109,9 +1108,9 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
       mod must haveSuperClass[DBObject]
       mod.toString must beEqualTo("""{ "x" : { "$mod" : [ 5 , 2.8300000000000125]}}""")
     }
-  
+
   }
-  
+
   "Casbah's $size operator" should {
     "Function as expected" in {
       val size = "x" $size 12
@@ -1156,7 +1155,6 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
       not must haveSuperClass[DBObject]
     }
 
-
     "Function with anchoring and subobjects" in {
       val not = "foo" $not { _ $mod (5, 10) }
       not must notBeNull
@@ -1190,12 +1188,9 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
     }
   }
 
-
   "Casbah's $elemMatch operator" should {
     "Function as expected" in {
-      val elemMatch = "foo" $elemMatch (
-        MongoDBObject("a" -> 1) ++ "b" $gt 1
-      )
+      val elemMatch = "foo" $elemMatch (MongoDBObject("a" -> 1) ++ "b" $gt 1)
       elemMatch must notBeNull
       elemMatch.toString must notBeNull
       elemMatch must haveSuperClass[DBObject]
@@ -1204,11 +1199,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
           "foo" -> MongoDBObject(
             "$elemMatch" -> MongoDBObject(
               "a" -> 1,
-              "b" -> MongoDBObject("$gt" -> 1)
-            )
-          )
-        )
-      )
+              "b" -> MongoDBObject("$gt" -> 1)))))
     }
   }
 
@@ -1356,7 +1347,6 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
 
   }
 
-
   "Casbah's GeoSpatial Operators" should {
     "Allow construction of GeoCoords" in {
       "With two different numeric types" in {
@@ -1366,7 +1356,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
       "Be convertible from a tuple" in {
         val geo = tupleToGeoCoords((5.23, -123))
         geo must notBeNull
-        geo must haveClass[GeoCoords[_,_]]
+        geo must haveClass[GeoCoords[_, _]]
       }
     }
 
@@ -1378,10 +1368,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
-              "$near" -> MongoDBList(74.2332, -75.23452)
-            )
-          )
-        )
+              "$near" -> MongoDBList(74.2332, -75.23452))))
       }
       "With a tuple converted coordinate set" in {
         val near = "foo" $near (74.2332, -75.23452)
@@ -1390,10 +1377,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
-              "$near" -> MongoDBList(74.2332, -75.23452)
-            )
-          )
-        )
+              "$near" -> MongoDBList(74.2332, -75.23452))))
       }
       "With a $maxDistance specification" in {
         val near = "foo" $near (74.2332, -75.23452) $maxDistance 5
@@ -1403,10 +1387,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
           MongoDBObject(
             "foo" -> MongoDBObject(
               "$near" -> MongoDBList(74.2332, -75.23452),
-              "$maxDistance" -> 5
-            )
-          )
-        )
+              "$maxDistance" -> 5)))
       }
     }
 
@@ -1418,10 +1399,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
-              "$nearSphere" -> MongoDBList(74.2332, -75.23452)
-            )
-          )
-        )
+              "$nearSphere" -> MongoDBList(74.2332, -75.23452))))
       }
       "With a tuple converted coordinate set" in {
         val near = "foo" $nearSphere (74.2332, -75.23452)
@@ -1430,10 +1408,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
-              "$nearSphere" -> MongoDBList(74.2332, -75.23452)
-            )
-          )
-        )
+              "$nearSphere" -> MongoDBList(74.2332, -75.23452))))
       }
     }
     "Support.$within ..." in {
@@ -1448,12 +1423,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
                 "$within" -> MongoDBObject(
                   "$box" -> MongoDBList(
                     MongoDBList(74.2332, -75.23452),
-                    MongoDBList(123, 456)
-                  )
-                )
-              )
-            )
-          )
+                    MongoDBList(123, 456))))))
         }
         "With a tuple converted coordinate set" in {
           val near = "foo".$within $box ((74.2332, -75.23452), (123, 456))
@@ -1465,12 +1435,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
                 "$within" -> MongoDBObject(
                   "$box" -> MongoDBList(
                     MongoDBList(74.2332, -75.23452),
-                    MongoDBList(123, 456)
-                  )
-                )
-              )
-            )
-          )
+                    MongoDBList(123, 456))))))
         }
       }
       "... $center" in {
@@ -1480,15 +1445,11 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
           near must haveSuperClass[DBObject]
           log.error("Near: %s", near.getClass)
           val x = MongoDBObject(
-              "foo" -> MongoDBObject(
-                "$within" -> MongoDBObject(
-                  "$center" -> MongoDBList(
-                    MongoDBList(50, 50),
-                    10
-                  )
-                )
-              )
-            )
+            "foo" -> MongoDBObject(
+              "$within" -> MongoDBObject(
+                "$center" -> MongoDBList(
+                  MongoDBList(50, 50),
+                  10))))
           log.error("Match X: %s", x.getClass)
           /*near must beEqualTo(x)*/
         }
@@ -1502,12 +1463,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
                 "$within" -> MongoDBObject(
                   "$center" -> MongoDBList(
                     MongoDBList(50, 50),
-                    10
-                  )
-                )
-              )
-            )
-          )
+                    10)))))
         }
       }
       "... $centerSphere" in {
@@ -1521,12 +1477,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
                 "$within" -> MongoDBObject(
                   "$centerSphere" -> MongoDBList(
                     MongoDBList(50, 50),
-                    10
-                  )
-                )
-              )
-            )
-          )
+                    10)))))
         }
         "With a tuple converted coordinate set" in {
           val near = "foo".$within $centerSphere ((50, 50), 10)
@@ -1538,17 +1489,11 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
                 "$within" -> MongoDBObject(
                   "$centerSphere" -> MongoDBList(
                     MongoDBList(50, 50),
-                    10
-                  )
-                )
-              )
-            )
-          )
+                    10)))))
         }
       }
     }
   }
-
 
   "Chained core operators" should {
     "Function correctly" in {
@@ -1556,15 +1501,15 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
       log.debug("LTGT: %s", ltGt)
       ltGt must notBeNull
       ltGt must haveSuperClass[DBObject]
-      ltGt must beEqualTo(MongoDBObject("foo" ->  MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16)))
-    } 
+      ltGt must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16)))
+    }
     "Function correctly with deeper nesting e.g. $not" in {
       val ltGt = "foo" $not { _ $gte 15 $lt 35.2 $ne 16 }
       log.debug("LTGT: %s", ltGt)
       ltGt must notBeNull
       ltGt must haveSuperClass[DBObject]
       ltGt must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$not" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16))))
-    } 
+    }
   }
 }
 // vim: set ts=2 sw=2 sts=2 et:
