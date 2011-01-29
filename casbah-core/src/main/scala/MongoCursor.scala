@@ -133,7 +133,17 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
-  def option_=(option: Int) = underlying.addOption(option)
+  def option_=(option: Int): Unit = underlying.addOption(option)
+
+  /** 
+   * Manipulate Query Options
+   *
+   * Gets current option settings - see Bytes.QUERYOPTION_* for list
+   * 
+   * @see com.mongodb.Mongo
+   * @see com.mongodb.Bytes
+   */
+  def option = underlying.getOptions
 
   /** 
    * Manipulate Query Options
@@ -163,7 +173,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
-  def options_=(opts: Int) = underlying.setOptions(opts)
+  def options_=(opts: Int): Unit = underlying.setOptions(opts)
 
   /** 
    * hint
