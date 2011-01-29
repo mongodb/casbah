@@ -27,14 +27,14 @@ import com.mongodb.casbah.commons.Imports._
 
 import scala.annotation.tailrec
 import scala.collection.generic._
-import scala.collection.mutable.Buffer
+import scala.collection.mutable.LinearSeq
 import scala.reflect._
 
 import scalaj.collection.Imports._
 
 import com.mongodb.BasicDBList
 
-trait MongoDBList extends Buffer[AnyRef] {
+trait MongoDBList extends LinearSeq[AnyRef] {
   val underlying: BasicDBList
 
   def apply(i: Int) = underlying.get(i)
