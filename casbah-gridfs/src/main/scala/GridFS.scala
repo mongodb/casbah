@@ -235,11 +235,13 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
 @BeanInfo
 trait GridFSFile extends MongoDBObject with Logging {
   val underlying: MongoGridFSFile
-  def save = underlying.save
 
   override def iterator = underlying.keySet.asScala.map { k =>
     k -> underlying.get(k)
   }.toMap.iterator.asInstanceOf[Iterator[(String, AnyRef)]]
+
+  def save = underlying.save
+
   /** 
    * validate the object.
    * Throws an exception if it fails
@@ -267,6 +269,17 @@ trait GridFSFile extends MongoDBObject with Logging {
 
 @BeanInfo
 class GridFSDBFile protected[gridfs] (override val underlying: MongoGridFSDBFile) extends GridFSFile {
+
+  def inputStream = underlying.getInputStream
+
+  def source = scala.io.Source.fromInputStream(inputStream)
+
+  def writeTo(file: java.io.File) = underlying.writeTo(file)
+
+  def writeTo(out: java.io.OutputStream) = underlying.writeTo(out)
+
+  def writeTo(filename: String) = underlying.writeTo(filename)
+
   override def toString = "{ GridFSDBFile(id=%s, filename=%s, contentType=%s) }".
     format(id, filename, contentType)
 }
