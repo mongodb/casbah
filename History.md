@@ -1,4 +1,9 @@
 
+2.0.3 / 2011-01-30 
+==================
+
+  * Added missing methods to GridFSDBFile necessary to access the underlying datastream 
+
 2.0.2 / 2011-01-25 
 ==================
 
