@@ -28,7 +28,7 @@ import com.mongodb.casbah.commons.Logging
 
 import scalaj.collection.Imports._
 
-class MapReduceError(msg: String) extends MongoException("MongoDB Map/Reduce Error: " + msg)
+class MapReduceException(msg: String) extends MongoException("MongoDB Map/Reduce Error: " + msg)
 
 trait MapReduceOutputTarget
 
@@ -53,7 +53,7 @@ object MapReduceCommand {
     limit: Option[Int] = None,
     finalizeFunction: Option[JSFunction] = None,
     jsScope: Option[String] = None,
-    verbose: Boolean = true) = {
+    verbose: Boolean = false) = {
     val mrc = new MapReduceCommand()
     mrc.input = input
     mrc.mapFunction = mapFunction
@@ -82,11 +82,11 @@ object MapReduceCommand {
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
-protected[mongodb] class MapReduceCommand {
+class MapReduceCommand protected[mongodb] () {
   var input: String = ""
   var mapFunction: JSFunction = ""
   var reduceFunction: JSFunction = ""
-  var verbose = true // provides statistics on job execution
+  var verbose = false // if true, provides statistics on job execution
   var output: MapReduceOutputTarget = MapReduceInlineOutput
   var query: Option[DBObject] = None
   var sort: Option[DBObject] = None
@@ -94,25 +94,23 @@ protected[mongodb] class MapReduceCommand {
   var finalizeFunction: Option[JSFunction] = None
   var jsScope: Option[String] = None
 
-  def asDBObject = toDBObj
-
-  def toDBObj = {
+  def toDBObject = {
     val dataObj = MongoDBObject.newBuilder
     input match {
-      case "" => throw new MapReduceError("input must be defined.")
-      case null => throw new MapReduceError("input must be defined.")
+      case "" => throw new MapReduceException("input must be defined.")
+      case null => throw new MapReduceException("input must be defined.")
       case other => dataObj += "mapreduce" -> input
     }
 
     mapFunction match {
-      case "" => throw new MapReduceError("mapFunction must be defined.")
-      case null => throw new MapReduceError("mapFunction must be defined.")
+      case "" => throw new MapReduceException("mapFunction must be defined.")
+      case null => throw new MapReduceException("mapFunction must be defined.")
       case other => dataObj += "map" -> mapFunction.toString
     }
 
     reduceFunction match {
-      case "" => throw new MapReduceError("reduceFunction must be defined.")
-      case null => throw new MapReduceError("reduceFunction must be defined.")
+      case "" => throw new MapReduceException("reduceFunction must be defined.")
+      case null => throw new MapReduceException("reduceFunction must be defined.")
       case other => dataObj += "reduce" -> reduceFunction.toString
     }
 

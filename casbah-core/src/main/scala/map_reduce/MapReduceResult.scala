@@ -28,80 +28,89 @@ import com.mongodb.casbah.commons.Logging
 
 import scalaj.collection.Imports._
 
+object MapReduceResult extends Logging {
+
+  protected[mongodb] def apply(resultObj: DBObject)(implicit db: MongoDB): MapReduceResult =
+    if (resultObj.get("ok") == 1) {
+      if (resultObj containsField "results")
+        new MapReduceInlineResult(resultObj)
+      else if (resultObj containsField "result")
+        new MapReduceCollectionBasedResult(resultObj)
+      else
+        throw new MapReduceException("Invalid Response; no 'results' or 'result' field found, but 'ok' is 1. Result Object Error: '%s'".format(resultObj.getAs[String]("err")))
+    } else new MapReduceError(resultObj)
+}
+
 /**
  * Wrapper for MongoDB MapReduceResults, implementing iterator to allow direct iterator over the result set.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  *
- * @param resultObj a DBObject directly conforming to the mapReduce result spec as defined in the MongoDB Docs.
+ * @param raw DBObject directly conforming to the mapReduce result spec as defined in the MongoDB Docs.
  * 
  */
-class MapReduceResult(resultObj: DBObject)(implicit db: MongoDB) extends Iterator[DBObject] with Logging {
-  log.debug("Map Reduce Result: %s", resultObj)
-  // Convert the object to a map to have a quicker, saner shred...
-  val FAIL = "#FAIL"
-  val result = if (resultObj.containsField("result")) {
-    resultObj.get("result").toString
-  } else {
-    log.warning("Map/Reduce Result field is empty. Setting an error state explicitly.")
-    FAIL
-  } // Unless you've defined a table named #FAIL this should give you empty results back.
+trait MapReduceResult extends Iterator[DBObject] with Logging {
 
-  /*  val result = resultMap.get("result") match {
-    case Some(v) => v
-    case None => throw new IllegalArgumentException("Cannot find field 'result' in Map/Reduce Results.")
-  }*/
-  val resultHandle = db(result.toString)
-
-  private val resultCursor = resultHandle.find
-
-  def next(): DBObject = resultCursor.next
-
-  def hasNext: Boolean = resultCursor.hasNext
-
-  override def size = resultHandle.count.intValue
-
-  private val counts = resultObj.get("counts").asInstanceOf[DBObject]
-  // Number of objects scanned
-  val input_count: Int = if (counts != null) counts.get("input").toString.toInt else 0 //, throw new IllegalArgumentException("Cannot find field 'counts.input' in Map/Reduce Results."))
-  // Number of times 'emit' was called
-  val emit_count: Int = if (counts != null) counts.get("emit").toString.toInt else 0 //, throw new IllegalArgumentException("Cannot find field 'counts.emit' in Map/Reduce Results."))
-  // Number of items in output collection
-  val output_count: Int = if (counts != null) counts.get("output").toString.toInt else 0 //throw new IllegalArgumentException("Cannot find field 'counts.output' in Map/Reduce Results."))
-
-  val timeMillis = if (counts != null) resultObj.get("timeMillis").toString.toInt else -1 //throw new IllegalArgumentException("Cannot find field 'timeMillis' in Map/Reduce Results."))
-
-  val ok = if (resultObj.get("ok") == 1) true else false
-
-  if (!ok) log.warning("Job result is NOT OK.")
-
-  val err = resultObj.get("errmsg")
-
-  val success = err match {
-    case null => {
-      log.debug("Map/ Reduce Success.")
-      true
-    }
-    case msg => {
-      log.error("Map/Reduce failed: %s", msg)
-      false
-    }
-  }
   /** 
-   * Sort the map/Reduce. Note - this returns a new MongoDB Result cursor.
+   * The raw output Object from the MongoDB MapReduce call
    */
-  def sort(orderBy: DBObject) = resultHandle.find.sort(orderBy)
+  val raw: DBObject
 
-  /**
-   * Returns the cursor to the underlying data. 
-   */
-  def cursor = resultHandle.find
+  val isError = false
+  lazy val ok = !isError // This may be deprecated in a future release
+  val errorMessage: Option[String] = None
+  lazy val err = errorMessage
 
-  override def toString = {
-    if (success) {
-      "{MapReduceResult Proxying Result [%s] Handle [%s]}".format(result, resultHandle.toString)
-    } else {
-      "{MapReduceResult - Failure with Error [%s]".format(err.toString)
-    }
-  }
+  val cursor: Iterator[DBObject]
+
+  def next(): DBObject = cursor.next
+
+  def hasNext: Boolean = cursor.hasNext
+
+  /** Number of objects scanned */
+  lazy val inputCount: Int = raw.expand[Int]("counts.input") getOrElse -1
+  /** Number of times 'emit' was called */
+  lazy val emitCount: Int = raw.expand[Int]("counts.emit") getOrElse -1
+  /* Number of items in output collection */
+  lazy val outputCount: Int = raw.expand[Int]("counts.output") getOrElse -1
+
+  /** Number of milliseconds taken to execute */
+  lazy val timeMillis: Int = raw.getAs[Int]("timeMillis") getOrElse -1
+
+  /** Amount of time spent in the Map execution */
+  lazy val mapTime: Option[Long] = raw.expand[Long]("timing.mapTime")
+  /** Amount of time spent Emitting */
+  lazy val emitLoopTime: Option[Int] = raw.expand[Int]("timing.emitLoop")
+  /** Total time spent */
+  lazy val totalTime: Option[Int] = raw.expand[Int]("timing.total")
+
 }
+
+class MapReduceCollectionBasedResult protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
+  lazy val cursor: Iterator[DBObject] = db(raw.as[String]("result")).find
+
+  override def toString = "{MapReduceResult Proxying Result stored in collection [%s] against raw response [%s]}".format(raw.as[String]("result"), raw.toString)
+}
+
+class MapReduceInlineResult protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceCollectionBasedResult(raw) {
+  private val results = raw.as[BasicDBList]("results")
+  override lazy val cursor = new Iterator[DBObject] {
+    private val iter = results.iterator
+    def next() = iter.next.asInstanceOf[DBObject]
+    def hasNext = iter.hasNext
+  }
+
+  override def size = results.size
+  override def toString = "{MapReduceResult Proxying Result returned Inline against raw response [%s]}".format(raw.toString)
+}
+
+class MapReduceError protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
+  val cursor = Iterator.empty
+
+  override val isError = true
+
+  override val errorMessage: Option[String] = raw.getAs[String]("err")
+
+  override def toString = "{MapReduceError '%s'}".format(errorMessage)
+}
+

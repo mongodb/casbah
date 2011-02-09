@@ -24,6 +24,7 @@ package com.mongodb.casbah
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
 
 import scalaj.collection.Imports._
 
@@ -305,10 +306,8 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @param command An instance of MapReduceCommand representing the required MapReduce
    * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
    */
-  def mapReduce(cmd: MapReduceCommand): MapReduceResult = {
-    val result = command(cmd.asDBObject)
-    new MapReduceResult(result)(this)
-  }
+  def mapReduce(cmd: MapReduceCommand): MapReduceResult =
+    MapReduceResult(command(cmd.toDBObject))(this)
 
   /**
    * write concern aware write op block.

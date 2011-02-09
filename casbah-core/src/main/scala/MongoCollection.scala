@@ -607,10 +607,12 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
     limit: Option[Int] = None,
     finalizeFunction: Option[JSFunction] = None,
     jsScope: Option[String] = None,
-    verbose: Boolean = true): MapReduceResult =
-    new MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction,
+    verbose: Boolean = false): MapReduceResult =
+    MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction,
       output, query, sort, limit, finalizeFunction,
-      jsScope, verbose).asDBObject))
+      jsScope, verbose).toDBObject))
+
+  def mapReduce(cmd: MapReduceCommand) = MapReduceResult(getDB.command(cmd.toDBObject))
 
   /** Removes objects from the database collection.
    * @param o the object that documents to be removed must match

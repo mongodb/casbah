@@ -49,6 +49,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       mongo.dropCollection()
 
       val keySet = distinctKeySet("Foo", "bar", "Baz")
+      log.warn("KeySet: %s", keySet)
 
       for (x <- keySet) {
         log.trace("noop.")
@@ -93,54 +94,45 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
     """
 
     "Produce results in a named collection for all data" in {
-      val cmd = MongoDBObject(
-        "mapreduce" -> "yield_historical.in",
-        "map" -> mapJS,
-        "reduce" -> reduceJS,
-        "finalize" -> finalizeJS,
-        "verbose" -> true,
-        "out" -> "yield_historical.out.all")
+      val coll = mongoDB("yield_historical.in")
+      val result = coll.mapReduce(
+        mapJS,
+        reduceJS,
+        "yield_historical.out.all",
+        finalizeFunction = Some(finalizeJS))
 
-      val result = mongoDB.command(cmd)
-
-      log.info("M/R Result: %s", result)
+      log.warn("M/R Result: %s", result)
 
       result must notBeNull
 
-      result.getAs[Double]("ok") must beSome(1.0)
-      result.getAs[String]("result") must beSome("yield_historical.out.all")
-      /*result.expand[Int]("counts.input") must beSome(5193)
-      result.expand[Int]("counts.emit") must beSome(5193)
-      result.expand[Int]("counts.output") must beSome(21)*/
-
-      val mongo = mongoDB(result.as[String]("result"))
-      Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
+      result.isError must beFalse
+      result.size must beEqualTo(result.raw.expand[Int]("counts.output").getOrElse(-1))
     }
 
     "Produce results in a named collection for inline data" in {
-      val cmd = MongoDBObject(
-        "mapreduce" -> "yield_historical.in",
-        "map" -> mapJS,
-        "reduce" -> reduceJS,
-        "finalize" -> finalizeJS,
-        "verbose" -> true,
-        "out" -> MongoDBObject("inline" -> true))
+      val coll = mongoDB("yield_historical.in")
+      val result = coll.mapReduce(
+        mapJS,
+        reduceJS,
+        MapReduceInlineOutput,
+        finalizeFunction = Some(finalizeJS),
+        verbose = true)
 
-      val result = mongoDB.command(cmd)
-
-      log.info("M/R Result: %s", result)
+      log.warn("M/R Result: %s", result)
 
       result must notBeNull
 
-      result.getAs[Double]("ok") must beSome(1.0)
-      result.getAs[String]("result") must beNone
-      result.getAs[BasicDBList]("results") must beSome
+      result.isError must beFalse
+      result.raw.getAs[String]("result") must beNone
+      result.size must beGreaterThan(0)
+      log.warn("Result.size: %s Counts.output: %s", result.size, result.raw.expand[Int]("counts.output"))
+      result.size must beEqualTo(result.raw.expand[Int]("counts.output").getOrElse(-1))
 
-      val mongo = result.as[BasicDBList]("results")
-      Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
-      mongo(0) must haveClass[com.mongodb.CommandResult]
-      mongo(0) must haveSuperClass[DBObject]
-      mongo(0) must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
+      val item = result.next
+      item must haveClass[com.mongodb.CommandResult]
+      item must haveSuperClass[DBObject]
+      item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
+      log.warn("First item: %s", item)
     }
 
     "Produce results for merged output" in {

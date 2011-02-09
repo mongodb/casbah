@@ -143,6 +143,10 @@ trait TypeImports {
   type WriteResult = com.mongodb.WriteResult
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   type MapReduceResult = com.mongodb.casbah.map_reduce.MapReduceResult
+  type MapReduceError = com.mongodb.casbah.map_reduce.MapReduceError
+  type MapReduceCollectionBasedResult = com.mongodb.casbah.map_reduce.MapReduceCollectionBasedResult
+  type MapReduceInlineResult = com.mongodb.casbah.map_reduce.MapReduceInlineResult
+  type MapReduceException = com.mongodb.casbah.map_reduce.MapReduceException
   type MapReduceOutputTarget = com.mongodb.casbah.map_reduce.MapReduceOutputTarget
   type MapReduceMergeOutput = com.mongodb.casbah.map_reduce.MapReduceMergeOutput
   type MapReduceReduceOutput = com.mongodb.casbah.map_reduce.MapReduceReduceOutput
