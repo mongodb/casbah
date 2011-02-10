@@ -59,21 +59,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @param collection a  string for the collection name
    * @return MongoCollection A wrapped instance of a Mongo DBCollection Class returning generic DBObjects
    */
-  def apply(collection: String) = underlying.getCollection(collection).asScala
-  /**
-   * Parameterized apply method to proxy  getCollection, to allow invocation of
-   * <code>dbInstance("collectionName")</code>
-   * instead of getCollection
-   *
-   * This returns a Type-specific Collection wrapper, and requires the ability to either implicitly determine a manifest,
-   * or that you explicitly pass it where necessary to use it.  It should find things on it's own in most cases
-   * but the compiler will tell you if not.
-   *
-   * @param collection a  string for the collection name
-   * @param clazz Class[A] where A is the Subclass of DBOBject you wish to work with for this collection
-   * @return MongoCollection A wrapped instance of a Mongo DBCollection Class returning DBObject subclasses of type A
-   */
-  def apply[A <: DBObject](collection: String, clazz: Class[A])(implicit m: scala.reflect.Manifest[A]) = underlying.getCollection(collection).asScalaTyped(m)
+  def apply(collection: String): MongoCollection = underlying.getCollection(collection).asScala
 
   def addUser(username: String, passwd: String) = underlying.addUser(username, passwd.toArray)
 

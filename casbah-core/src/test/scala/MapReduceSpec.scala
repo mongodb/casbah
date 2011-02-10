@@ -125,7 +125,6 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       result.isError must beFalse
       result.raw.getAs[String]("result") must beNone
       result.size must beGreaterThan(0)
-      log.warn("Result.size: %s Counts.output: %s", result.size, result.raw.expand[Int]("counts.output"))
       result.size must beEqualTo(result.raw.expand[Int]("counts.output").getOrElse(-1))
 
       val item = result.next

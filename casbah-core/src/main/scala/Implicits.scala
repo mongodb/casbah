@@ -84,12 +84,12 @@ trait Implicits {
      * Return a type-neutral Scala wrapper object for the DBCollection
      * @return MongoCollection An instance of the scala wrapper containing the collection object.
      */
-    def asScala = new MongoCollection(coll)
+    def asScala: MongoCollection = new MongoCollection(coll)
     /**
      * Return a GENERIC Scala wrapper object for the DBCollection specific to a given Parameter type.
      * @return MongoCollection[A<:DBObject] An instance of the scala wrapper containing the collection object.
      */
-    def asScalaTyped[A <: com.mongodb.DBObject](implicit m: scala.reflect.Manifest[A]) = new MongoTypedCollection[A](coll)
+    def asScalaTyped[A <: com.mongodb.DBObject](implicit m: scala.reflect.Manifest[A]) = new MongoGenericTypedCollection[A](coll)
   }
 
   /**
@@ -102,12 +102,12 @@ trait Implicits {
      * Return a type-neutral Scala wrapper object for the DBCursor
      * @return MongoCursor An instance of the scala wrapper containing the cursor object.
      */
-    def asScala = new MongoCursor(cursor)
+    def asScala: MongoCursor = new MongoCursor(cursor)
     /**
      * Return a GENERIC Scala wrapper object for the DBCursor specific to a given Parameter type.
      * @return MongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
      */
-    def asScalaTyped[A <: com.mongodb.DBObject: Manifest] = new MongoTypedCursor[A](cursor)
+    def asScalaTyped[A <: com.mongodb.DBObject: Manifest] = new MongoGenericTypedCursor[A](cursor)
   }
 
   implicit def stringAsNamedCollectionMROutput(name: String) = map_reduce.MapReduceStandardOutput(name)

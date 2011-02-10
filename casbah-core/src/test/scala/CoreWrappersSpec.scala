@@ -196,11 +196,9 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
       "Chain operations must return the proper *subtype*" in {
         val cur = coll.find(MongoDBObject("foo" -> "bar")) skip 5
         cur must haveClass[MongoCursor]
-        cur must haveSuperClass[MongoCursorBase[DBObject]]
 
         val cur2 = coll.find(MongoDBObject("foo" -> "bar")) limit 25 skip 12
         cur2 must haveClass[MongoCursor]
-        cur2 must haveSuperClass[MongoCursorBase[DBObject]]
 
       }
 

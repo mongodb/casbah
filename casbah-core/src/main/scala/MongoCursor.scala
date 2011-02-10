@@ -42,7 +42,9 @@ import scalaj.collection.Imports._
  * 
  * @tparam T (DBObject or subclass thereof)
  */
-trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
+trait MongoCursorBase extends Logging {
+
+  type T <: DBObject
 
   val underlying: DBCursor
 
@@ -104,25 +106,6 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @throws MongoException
    */
   def count = underlying.count
-
-  /** 
-   * size
-   * 
-   * The DBCursor's count of elements in the query, 
-   * AFTER the application of skip/limit, passed through
-   * from the Java object. 
-   *
-   * <b>NOTE:</b> size() takes into account any skip/limit settings on a cursor;
-   * it is the size of just the window.
-   * If you want to get a count of the entire query ignoring skip/limit
-   * you must use count()
-   * 
-   * @see count()
-   * 
-   * @return Int indicating the number of elements returned by the query after skip/limit
-   * @throws MongoException
-   */
-  override def size = underlying.size
 
   /** 
    * Manipulate Query Options
@@ -485,7 +468,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * @param  cursor (DBCursor) 
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor): MongoCursorBase[T]
+  def _newInstance(cursor: DBCursor): MongoCursorBase
 
   /** 
    * copy
@@ -496,7 +479,7 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
    * 
    * @return The new cursor
    */
-  def copy(): MongoCursorBase[T] = _newInstance(underlying.copy()) // parens for side-effects
+  def copy(): MongoCursorBase = _newInstance(underlying.copy()) // parens for side-effects
 
 }
 
@@ -511,8 +494,28 @@ trait MongoCursorBase[T <: DBObject] extends Iterator[T] with Logging {
  * @param  val underlying (com.mongodb.DBCollection) 
  * @tparam DBObject 
  */
-class MongoCursor(val underlying: DBCursor) extends MongoCursorBase[DBObject] {
+class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterator[DBObject] {
 
+  type T = DBObject
+
+  /** 
+   * size
+   * 
+   * The DBCursor's count of elements in the query, 
+   * AFTER the application of skip/limit, passed through
+   * from the Java object. 
+   *
+   * <b>NOTE:</b> size() takes into account any skip/limit settings on a cursor;
+   * it is the size of just the window.
+   * If you want to get a count of the entire query ignoring skip/limit
+   * you must use count()
+   * 
+   * @see count()
+   * 
+   * @return Int indicating the number of elements returned by the query after skip/limit
+   * @throws MongoException
+   */
+  override def size = underlying.size
   /** 
    * _newInstance
    * 
@@ -547,14 +550,14 @@ object MongoCursor extends Logging {
    * @param  keys (K) Keys to return from the query
    * @return (instance) A new MongoCursor
    */
-  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase[T], query: DBObject,
+  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject,
     keys: DBObject) = {
     val cursor = new DBCursor(collection.underlying, query, keys)
 
     if (manifest[T] == manifest[DBObject])
       new MongoCursor(cursor)
     else
-      new MongoTypedCursor[T](cursor)
+      new MongoGenericTypedCursor[T](cursor)
 
   }
 }
@@ -568,9 +571,10 @@ object MongoCursor extends Logging {
  * @since 1.0
  * 
  * @param  val underlying (com.mongodb.DBCollection) 
- * @tparam T A Subclass of DBObject 
+ * @tparam A A Subclass of DBObject 
  */
-class MongoTypedCursor[T <: DBObject: Manifest](val underlying: DBCursor) extends MongoCursorBase[T] {
+class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends MongoCursorBase {
+  type T = A
 
   /** 
    * _newInstance
@@ -583,7 +587,7 @@ class MongoTypedCursor[T <: DBObject: Manifest](val underlying: DBCursor) extend
    * @param  cursor (DBCursor) 
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor) = new MongoTypedCursor[T](cursor)
+  def _newInstance(cursor: DBCursor) = new MongoGenericTypedCursor[T](cursor)
 
   /** 
    * copy
@@ -594,10 +598,8 @@ class MongoTypedCursor[T <: DBObject: Manifest](val underlying: DBCursor) extend
    * 
    * @return The new cursor
    */
-  override def copy(): MongoTypedCursor[T] = _newInstance(underlying.copy()) // parens for side-effects
-
+  override def copy(): MongoGenericTypedCursor[T] = _newInstance(underlying.copy()) // parens for side-effects
 }
-
 /** 
  * 
  * 

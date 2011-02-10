@@ -50,7 +50,9 @@ import collection.mutable.ArrayBuffer
  * 
  * @tparam T (DBObject or subclass thereof)
  */
-trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self =>
+trait MongoCollectionBase extends Logging { self =>
+  type T <: DBObject
+  type CursorType
   /**
    * The underlying Java Mongo Driver Collection object we proxy.
    */
@@ -271,10 +273,6 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
   def findAndRemove[A <% DBObject](query: A) =
     _typedValue(underlying.findAndRemove(query))
 
-  override def head = headOption.get
-  override def headOption = findOne
-  override def tail = find.skip(1).toList
-
   /**
    * write concern aware write op block.
    *
@@ -470,7 +468,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    */
   def setObjectClass[A <: DBObject: Manifest](c: Class[A]) = {
     underlying.setObjectClass(c)
-    new MongoTypedCollection[A](underlying = self.underlying)
+    new MongoGenericTypedCollection[A](underlying = self.underlying)
   }
 
   /** 
@@ -717,7 +715,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @return if the two collections are the same object
    */
   override def equals(obj: Any) = obj match {
-    case other: MongoCollectionBase[_] => underlying.equals(other.underlying)
+    case other: MongoCollectionBase => underlying.equals(other.underlying)
     case _ => false
   }
 
@@ -875,7 +873,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @param  cursor (DBCursor) 
    * @return (MongoCursorBase)
    */
-  def _newCursor(cursor: DBCursor): MongoCursorBase[T]
+  def _newCursor(cursor: DBCursor): CursorType
 
   /** 
    * _newInstance
@@ -888,7 +886,7 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
    * @param  cursor (DBCollection) 
    * @return (this.type)
    */
-  def _newInstance(collection: DBCollection): MongoCollectionBase[T]
+  def _newInstance(collection: DBCollection): MongoCollectionBase
 
   protected def _typedValue(dbObj: DBObject): Option[T] = Option(dbObj.asInstanceOf[T])
 }
@@ -903,7 +901,10 @@ trait MongoCollectionBase[T <: DBObject] extends Iterable[T] with Logging { self
  * 
  * @tparam DBObject 
  */
-class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase[DBObject] {
+class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase with Iterable[DBObject] {
+
+  type T = DBObject
+  type CursorType = MongoCursor
 
   /** 
    * _newCursor
@@ -930,9 +931,13 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase[
    * @param  cursor (DBCollection) 
    * @return (this.type)
    */
-  def _newInstance(collection: DBCollection) = new MongoCollection(collection)
+  def _newInstance(collection: DBCollection): MongoCollection = new MongoCollection(collection)
 
   override protected def _typedValue(dbObj: DBObject): Option[DBObject] = Option(dbObj)
+
+  override def head = headOption.get
+  override def headOption = findOne
+  override def tail = find.skip(1).toStream
 
 }
 
@@ -947,7 +952,13 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase[
  * @param  val underlying (DBCollection) 
  * @tparam T  A Subclass of DBObject
  */
-class MongoTypedCollection[T <: DBObject: Manifest](val underlying: DBCollection) extends MongoCollectionBase[T] {
+trait MongoTypedCollection extends MongoCollectionBase {
+
+}
+
+class MongoGenericTypedCollection[A <: DBObject](val underlying: DBCollection) extends MongoTypedCollection {
+  type T = A
+  type CursorType = MongoGenericTypedCursor[A]
 
   /** 
    * _newCursor
@@ -959,9 +970,9 @@ class MongoTypedCollection[T <: DBObject: Manifest](val underlying: DBCollection
    * Should figure out the right type to return based on typing setup.
    *
    * @param  cursor (DBCursor) 
-   * @return (MongoCursorBase)
+   * @return (MongoCollectionBase)
    */
-  def _newCursor(cursor: DBCursor) = new MongoTypedCursor[T](cursor)
+  def _newCursor(cursor: DBCursor) = new MongoGenericTypedCursor[T](cursor)
 
   /** 
    * _newInstance
@@ -974,7 +985,7 @@ class MongoTypedCollection[T <: DBObject: Manifest](val underlying: DBCollection
    * @param  cursor (DBCollection) 
    * @return (this.type)
    */
-  def _newInstance(collection: DBCollection) = new MongoTypedCollection[T](collection)
+  def _newInstance(collection: DBCollection) = new MongoGenericTypedCollection[T](collection)
 }
 
 /** Helper object for some static methods
