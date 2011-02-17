@@ -37,8 +37,11 @@ object MongoURI {
   /** 
    * Create a new MongoURI with a URI String e.g.:
    *
-   * mongodb://localhost 
-   * mongodb://fred:foobar@localhost/
+   * <li> mongodb://localhost
+   * <li> mongodb://fred:foobar@localhost/
+   * <li> mongodb://server1,server2,server3
+   *
+   * See [[http://www.mongodb.org/display/DOCS/Connections]]
    * 
    * @param  uri (String) 
    */
@@ -48,9 +51,11 @@ object MongoURI {
 /** 
  * Create a new MongoURI with a URI String e.g.:
  *
- * mongodb://localhost 
- * mongodb://fred:foobar@localhost/
- * 
+ * <li> mongodb://localhost
+ * <li> mongodb://fred:foobar@localhost/
+ * <li> mongodb://server1,server2,server3
+ *
+ *  See [[http://www.mongodb.org/display/DOCS/Connections]]
  * 
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
