@@ -45,8 +45,8 @@ case object MapReduceInlineOutput extends MapReduceOutputTarget
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
 object MapReduceCommand {
-  def apply(input: String, mapFunction: JSFunction,
-    reduceFunction: JSFunction,
+  def apply(input: String, map: JSFunction,
+    reduce: JSFunction,
     output: MapReduceOutputTarget,
     query: Option[DBObject] = None,
     sort: Option[DBObject] = None,
@@ -56,8 +56,8 @@ object MapReduceCommand {
     verbose: Boolean = false) = {
     val mrc = new MapReduceCommand()
     mrc.input = input
-    mrc.mapFunction = mapFunction
-    mrc.reduceFunction = reduceFunction
+    mrc.map = map
+    mrc.reduce = reduce
     mrc.output = output
     mrc.query = query
     mrc.sort = sort
@@ -84,8 +84,8 @@ object MapReduceCommand {
  */
 class MapReduceCommand protected[mongodb] () {
   var input: String = ""
-  var mapFunction: JSFunction = ""
-  var reduceFunction: JSFunction = ""
+  var map: JSFunction = ""
+  var reduce: JSFunction = ""
   var verbose = false // if true, provides statistics on job execution
   var output: MapReduceOutputTarget = MapReduceInlineOutput
   var query: Option[DBObject] = None
@@ -102,16 +102,16 @@ class MapReduceCommand protected[mongodb] () {
       case other => dataObj += "mapreduce" -> input
     }
 
-    mapFunction match {
-      case "" => throw new MapReduceException("mapFunction must be defined.")
-      case null => throw new MapReduceException("mapFunction must be defined.")
-      case other => dataObj += "map" -> mapFunction.toString
+    map match {
+      case "" => throw new MapReduceException("map must be defined.")
+      case null => throw new MapReduceException("map must be defined.")
+      case other => dataObj += "map" -> map.toString
     }
 
-    reduceFunction match {
-      case "" => throw new MapReduceException("reduceFunction must be defined.")
-      case null => throw new MapReduceException("reduceFunction must be defined.")
-      case other => dataObj += "reduce" -> reduceFunction.toString
+    reduce match {
+      case "" => throw new MapReduceException("reduce must be defined.")
+      case null => throw new MapReduceException("reduce must be defined.")
+      case other => dataObj += "reduce" -> reduce.toString
     }
 
     dataObj += "verbose" -> verbose
