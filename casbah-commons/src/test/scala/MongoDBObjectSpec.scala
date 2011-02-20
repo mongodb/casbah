@@ -84,6 +84,20 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
       dbObj must haveSize(0)
     }
 
+    "allow list as well as varargs construction" in {
+      val dbObj = MongoDBObject(List("x" -> 1, "y" -> 2))
+
+      // A Java version to compare with
+      val jBldr = new com.mongodb.BasicDBObjectBuilder
+      jBldr.add("x", 1)
+      jBldr.add("y", 2)
+      val jObj = jBldr.get
+
+      dbObj must haveSuperClass[DBObject]
+      jObj must haveSuperClass[DBObject]
+      dbObj must beEqualTo(jObj)
+    }
+
     "support a 2.8 factory interface which returns a DBObject" in {
       val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
         "embedded" -> MongoDBObject("foo" -> "bar"))

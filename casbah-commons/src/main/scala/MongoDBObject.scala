@@ -173,6 +173,7 @@ object MongoDBObject {
   def empty: DBObject = new MongoDBObject { val underlying = new BasicDBObject }
 
   def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result
+  def apply[A <: String, B <: Any](elems: List[(A, B)]): DBObject = apply(elems: _*)
 
   def newBuilder[A <: String, B <: Any]: MongoDBObjectBuilder = new MongoDBObjectBuilder
 
