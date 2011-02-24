@@ -153,4 +153,5 @@ class MapReduceCommand protected[mongodb] () {
 
   }
 
+  override def toString = toDBObject.toString
 }

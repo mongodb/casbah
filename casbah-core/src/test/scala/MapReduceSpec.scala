@@ -153,7 +153,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
 
       val result90s = mongoDB.mapReduce(cmd90s)
 
-      log.warn("M/R result90s: %s", result90s)
+      log.info("M/R result90s: %s", result90s)
 
       result90s must notBeNull
 
@@ -187,13 +187,14 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
         "reading the earlier output collections" in {
           cmd00s.query = None
           cmd00s.input = "yield_historical.aughts"
-          cmd00s.output -> MapReduceMergeOutput("yield_historical.merged")
+          cmd00s.output = MapReduceMergeOutput("yield_historical.merged")
 
           cmd90s.query = None
           cmd90s.input = "yield_historical.nineties"
-          cmd90s.output -> MapReduceMergeOutput("yield_historical.merged")
+          cmd90s.output = MapReduceMergeOutput("yield_historical.merged")
 
           var result = mongoDB.mapReduce(cmd90s)
+          log.warn("Cmd: %s Results: %s", cmd90s, result)
           result must notBeNull
           result.isError must beFalse
 
@@ -239,111 +240,76 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
       mongoDB("yield_historical.aughts").size must beEqualTo(0)
       mongoDB("yield_historical.nineties").size must beEqualTo(0)
 
-      val cmd90s = MongoDBObject(
-        "mapreduce" -> "yield_historical.in",
-        "map" -> mapJS,
-        "reduce" -> reduceJS,
-        "verbose" -> true,
-        "query" -> "_id" $lt new Date(100, 1, 1),
-        "out" -> "yield_historical.nineties")
+      val cmd90s = MapReduceCommand(
+        "yield_historical.in",
+        mapJS,
+        reduceJS,
+        "yield_historical.nineties",
+        Some("_id" $lt new Date(100, 1, 1)),
+        finalizeFunction = Some(finalizeJS),
+        verbose = true)
 
-      val result90s = mongoDB.command(cmd90s)
+      val result90s = mongoDB.mapReduce(cmd90s)
+
+      log.info("M/R result90s: %s", result90s)
 
       log.info("M/R result90s: %s", result90s)
 
       result90s must notBeNull
 
-      result90s.getAs[Double]("ok") must beSome(1.0)
-      result90s.getAs[String]("result") must beSome("yield_historical.nineties")
+      result90s.isError must beFalse
+      result90s.raw.getAs[String]("result") must beSome("yield_historical.nineties")
+      result90s.size must beGreaterThan(0)
+      log.warn("Results: %s", result90s.size)
+      result90s.size must beEqualTo(result90s.raw.expand[Int]("counts.output").getOrElse(-1))
 
-      Some(mongoDB(result90s.as[String]("result")).size) must beEqualTo(result90s.expand[Int]("counts.output"))
+      val cmd00s = MapReduceCommand(
+        "yield_historical.in",
+        mapJS,
+        reduceJS,
+        "yield_historical.aughts",
+        Some("_id" $gt new Date(99, 12, 31)),
+        finalizeFunction = Some(finalizeJS),
+        verbose = true)
 
-      val cmd00s = MongoDBObject(
-        "mapreduce" -> "yield_historical.in",
-        "map" -> mapJS,
-        "reduce" -> reduceJS,
-        "verbose" -> true,
-        "query" -> "_id" $gt new Date(99, 12, 31),
-        "out" -> "yield_historical.aughts")
-
-      val result00s = mongoDB.command(cmd00s)
+      val result00s = mongoDB.mapReduce(cmd00s)
 
       log.info("M/R result00s: %s", result00s)
 
       result00s must notBeNull
 
-      result00s.getAs[Double]("ok") must beSome(1.0)
-      result00s.getAs[String]("result") must beSome("yield_historical.aughts")
-
-      Some(mongoDB(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
+      result00s.isError must beFalse
+      result00s.raw.getAs[String]("result") must beSome("yield_historical.aughts")
+      result00s.size must beGreaterThan(0)
+      result00s.size must beEqualTo(result00s.raw.expand[Int]("counts.output").getOrElse(-1))
 
       "Reduce the 90s and 00s into a single output collection" in {
         "Querying against the raw data " in {
-          cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.all")
-          //cmd00s += "finalize" -> finalizeJS
+          cmd00s.query = None
+          cmd00s.input = "yield_historical.aughts"
+          cmd00s.output = MapReduceReduceOutput("yield_historical.reduced")
 
-          log.info("cmd 00s: %s", cmd00s)
+          cmd90s.query = None
+          cmd90s.input = "yield_historical.nineties"
+          cmd90s.output = MapReduceReduceOutput("yield_historical.reduced")
 
-          cmd90s += "out" -> MongoDBObject("reduce" -> "yield_historical.all")
-          //cmd90s += "finalize" -> finalizeJS
-
-          log.info("cmd 90s: %s", cmd90s)
-
-          var result = mongoDB.command(cmd90s)
+          var result = mongoDB.mapReduce(cmd90s)
+          log.warn("Cmd: %s Results: %s", cmd90s, result)
           result must notBeNull
-          log.info("First pass result: %s", result)
+          result.isError must beFalse
 
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.all")
+          result.raw.getAs[String]("result") must beSome("yield_historical.reduced")
 
-          result = mongoDB.command(cmd00s)
+          result = mongoDB.mapReduce(cmd00s)
           result must notBeNull
-          log.info("Second pass result: %s", result)
+          result.isError must beFalse
 
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.all")
+          result.raw.getAs[String]("result") must beSome("yield_historical.reduced")
 
-          result.expand[Int]("counts.output") must beSome(21)
-
-          val mongo = mongoDB(result.as[String]("result"))
-          Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
+          result.outputCount must_== (21)
+          result.size must_== (result.outputCount)
         }
 
-        "Querying against the intermediary collections" in {
-          cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.all")
-          cmd00s -= "query"
-          cmd00s += "mapreduce" -> "yield_historical.out.aughts"
-          //cmd00s += "finalize" -> finalizeJS
-
-          log.info("cmd 00s: %s", cmd00s)
-
-          cmd90s += "out" -> MongoDBObject("reduce" -> "yield_historical.all")
-          cmd90s -= "query"
-          cmd90s += "mapreduce" -> "yield_historical.nineties"
-          //cmd90s += "finalize" -> finalizeJS
-
-          log.info("cmd 90s: %s", cmd90s)
-
-          var result = mongoDB.command(cmd90s)
-          result must notBeNull
-          log.info("First pass result: %s", result)
-
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.all")
-
-          result = mongoDB.command(cmd00s)
-          result must notBeNull
-          log.info("Second pass result: %s", result)
-
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.all")
-
-          result.expand[Int]("counts.output") must beSome(21)
-
-          val mongo = mongoDB(result.as[String]("result"))
-          Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
-
-        }
       }
     }
 
