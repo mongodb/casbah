@@ -87,8 +87,9 @@ trait MapReduceResult extends Iterator[DBObject] with Logging {
 }
 
 class MapReduceCollectionBasedResult protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
-  lazy val cursor: Iterator[DBObject] = db(raw.as[String]("result")).find
+  override lazy val cursor: Iterator[DBObject] = db(raw.as[String]("result")).find
 
+  override def size = cursor.size
   override def toString = "{MapReduceResult Proxying Result stored in collection [%s] against raw response [%s]}".format(raw.as[String]("result"), raw.toString)
 }
 

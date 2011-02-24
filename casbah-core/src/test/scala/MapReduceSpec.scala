@@ -101,7 +101,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
         "yield_historical.all",
         finalizeFunction = Some(finalizeJS))
 
-      log.warn("M/R Result: %s", result)
+      /*log.warn("M/R Result: %s", result)*/
 
       result must notBeNull
 
@@ -118,7 +118,7 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
         finalizeFunction = Some(finalizeJS),
         verbose = true)
 
-      log.warn("M/R Result: %s", result)
+      /*log.warn("M/R Result: %s", result)*/
 
       result must notBeNull
 
@@ -153,13 +153,14 @@ class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
 
       val result90s = mongoDB.mapReduce(cmd90s)
 
-      log.info("M/R result90s: %s", result90s)
+      log.warn("M/R result90s: %s", result90s)
 
       result90s must notBeNull
 
       result90s.isError must beFalse
       result90s.raw.getAs[String]("result") must beSome("yield_historical.nineties")
       result90s.size must beGreaterThan(0)
+      log.warn("Results: %s", result90s.size)
       result90s.size must beEqualTo(result90s.raw.expand[Int]("counts.output").getOrElse(-1))
 
       val cmd00s = MapReduceCommand(
