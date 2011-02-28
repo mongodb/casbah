@@ -193,13 +193,13 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
   }
 
   /** Find by query - returns a list */
-  def find(query: DBObject) = sansJodaTime { underlying.find(query).asScala }
+  def find[A <% DBObject](query: A) = sansJodaTime { underlying.find(query).asScala }
   /** Find by query - returns a single item */
   def find(id: ObjectId): GridFSDBFile = sansJodaTime { underlying.find(id) }
   /** Find by query - returns a list */
   def find(filename: String) = sansJodaTime { underlying.find(filename).asScala }
 
-  def findOne(query: DBObject): Option[GridFSDBFile] = sansJodaTime {
+  def findOne[A <% DBObject](query: A): Option[GridFSDBFile] = sansJodaTime {
     underlying.findOne(query) match {
       case null => None
       case x => Some(x)
@@ -225,9 +225,9 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    * of all of the files... 
    */
   def files = sansJodaTime { new MongoCursor(underlying.getFileList) }
-  def files(query: DBObject) = sansJodaTime { new MongoCursor(underlying.getFileList(query)) }
+  def files[A <% DBObject](query: A) = sansJodaTime { new MongoCursor(underlying.getFileList(query)) }
 
-  def remove(query: DBObject) = underlying.remove(query)
+  def remove[A <% DBObject](query: A) = underlying.remove(query)
   def remove(id: ObjectId) = underlying.remove(id)
   def remove(filename: String) = underlying.remove(filename)
 }
