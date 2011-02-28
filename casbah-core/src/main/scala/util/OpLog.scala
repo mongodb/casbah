@@ -31,7 +31,9 @@ import com.mongodb.casbah.commons.Logging
 
 import scala.util.control.Exception._
 
-class MongoOpLog(mongo: MongoConnection = MongoConnection()) extends Iterator[MongoOpLogEntry] with Logging {
+class MongoOpLog(mongo: MongoConnection = MongoConnection(),
+  startTimestamp: Option[BSONTimestamp] = None,
+  namespace: Option[String] = None) extends Iterator[MongoOpLogEntry] with Logging {
 
   implicit object BSONTimestampOk extends ValidDateOrNumericType[org.bson.types.BSONTimestamp]
 
@@ -42,9 +44,17 @@ class MongoOpLog(mongo: MongoConnection = MongoConnection()) extends Iterator[Mo
 
   log.debug("Beginning monitoring OpLog at '%s'", tsp)
 
-  val cursor = oplog.find("ts" $gt tsp)
-  cursor.option = Bytes.QUERYOPTION_TAILABLE
-  cursor.option = Bytes.QUERYOPTION_AWAITDATA
+  val q = namespace match {
+    case Some(ns) => ("ts" $gt tsp) ++ ("ns" -> ns)
+    case None => "ts" $gt tsp
+  }
+
+  log.debug("OpLog Filter: '%s'", q)
+
+  val cursor = oplog.find(q)
+
+  cursor.options = Bytes.QUERYOPTION_TAILABLE
+  cursor.options = Bytes.QUERYOPTION_AWAITDATA
 
   def hasNext = cursor.hasNext
 
@@ -52,12 +62,22 @@ class MongoOpLog(mongo: MongoConnection = MongoConnection()) extends Iterator[Mo
 
   def verifyOpLog: BSONTimestamp = {
     // Verify the oplog exists 
-    val last = oplog.find().sort(MongoDBObject("$natural" -> -1)).limit(1)
-    assume(
-      last.hasNext,
+    val last = oplog.find().sort(MongoDBObject("$natural" -> 1)).limit(1)
+    assume(last.hasNext,
       "No oplog found. mongod must be a --master or belong to a Replica Set.")
-
-    last.next().as[BSONTimestamp]("ts")
+    /**
+     * If a startTimestamp was specified attempt to sync from there.
+     * An exception is thrown if the timestamp isn't found because
+     * you won't be able to sync. 
+     */
+    startTimestamp match {
+      case Some(ts) => {
+        oplog.findOne(MongoDBObject("ts" -> ts)).orElse(
+          throw new Exception("No oplog entry for requested start timestamp."))
+        ts
+      }
+      case None => last.next().as[BSONTimestamp]("ts")
+    }
   }
 
 }
