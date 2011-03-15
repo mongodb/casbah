@@ -861,6 +861,22 @@ trait MongoCollectionBase extends Logging { self =>
   def rename(newName: String): MongoCollection =
     new MongoCollection(self.underlying.rename(newName))
 
+  /**
+   * does a rename of this collection to newName
+   * As per the Java API this returns a *NEW* Collection,
+   * and the old collection is probably no good anymore.
+   *
+   * This collection *WILL NOT* mutate --- the instance will 
+   * still point at a now nonexistant collection with the old name
+   * ... You must capture the return value for the new instance.
+   *
+   * @param newName new collection name (not a full namespace)
+   * @param dropTarget if a collection with the new name exists, whether or not to drop it
+   * @return the new collection
+   */
+  def rename(newName: String, dropTarget: Boolean): MongoCollection =
+    new MongoCollection(self.underlying.rename(newName, dropTarget))
+
   /** 
    * _newCursor
    * 

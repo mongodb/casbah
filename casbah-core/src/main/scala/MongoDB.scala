@@ -190,7 +190,6 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def resetError() = underlying.resetError
 
-
   def getSisterDB(name: String) = underlying.getSisterDB(name).asScala
 
   /**
