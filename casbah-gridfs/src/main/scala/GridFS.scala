@@ -260,6 +260,7 @@ trait GridFSFile extends MongoDBObject with Logging {
   def uploadDate = underlying.getUploadDate
   def aliases = underlying.getAliases.asScala
   def metaData: DBObject = underlying.getMetaData
+  def metaData_=[A <% DBObject](meta: A) = underlying.setMetaData(meta)
   def md5: String = underlying.getMD5
 
   override def toString = "{ GridFSFile(id=%s, filename=%s, contentType=%s) }".
