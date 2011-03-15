@@ -190,10 +190,6 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def resetError() = underlying.resetError
 
-  /** Clears any indices that have not yet been applied to 
-   * the collections in this database.
-   */
-  def resetIndexCache() = underlying.resetIndexCache
 
   def getSisterDB(name: String) = underlying.getSisterDB(name).asScala
 
