@@ -1,4 +1,29 @@
 
+2.1.0 / 2011-03-15 
+==================
+
+  * SCALA-22 Added a dropTarget boolean option to rename collection, which specifies behavior if named target collection already exists, proxies JAVA-238
+  * Removed resetIndexCache, which has also been removed from the Java Driver
+  * SCALA-21 Added "set metadata" method to match Java Driver (See Java-261)
+  * SCALA-20 Updated to Java Driver 2.5
+    + See Release Notes: http://groups.google.com/group/mongodb-user/browse_thread/thread/a693ad4fdf9c3731/931f46f7213b6775?show_docid=931f46f7213b6775
+  * SCALA-21 - Update GridFS to use DBObject views.  Holding back full bugfix until we have a 2.5 build to link against
+  * Example adjustments to filter by start time and namespace
+  * SCALA-10 - And this is why we unit test.  Size was returning empty for cursor based results as it wasn't pulling the right value.  Fixed, calling cursor.size.
+  * Added an alternative object construction method for MongoDBObject with a list of pairs, rather than varargs [philwills]
+  * Making scaladoc for MongoURI more explicit. Note that the wiki markup for lists isn't actually implemented in scaladoc yet. [philwills]
+  * Refactor Collection and Cursors using Abstract types, explicit 'DBObject' version is always returned from DB, Collection etc now. Those wanting to use typed versions must code the flip around by hand. !!! BREAKING CHANGE, SEE CODE / EXAMPLES 
+  * SCALA-10 Updated MapReduce interfaces to finish 1.8 compatibility     
+    + Renamed MapReduceError to MapReduceException; MapReduceError is a non exception which represents a failed job     
+    + Changed MapReduceResult to automatically proxy 'results' in inline       result sets
+  * Added missing methods to GridFSDBFile necessary to access the underlying datastream
+  * Fixed setter/getter of option on cursor
+  * For several reasons changed backing trait of DBList PML from Buffer to LinearSeq
+  * Moved to new MapReduce functionality based on MongoDB 1.7.4+ !!! You must now specify an output mode.
+    + See http://blog.evilmonkeylabs.com/2011/01/27/MongoDB-1_8-MapReduce/
+  * MapReduce failures shouldn't throw Error which can crash the runtime
+  * New MapReduceSpec updates to include tests against new MongoDB MapReduce logic
+
 2.0.2 / 2011-01-25 
 ==================
 
