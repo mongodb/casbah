@@ -15,20 +15,20 @@ Casbah provides improved interfaces to GridFS, Map/Reduce and the core Mongo API
 With version 2.0, Casbah has become an official MongoDB project and will continue to improve the interaction of Scala + MongoDB. Casbah aims to remain fully compatible with the existing Java driver---it does not talk to MongoDB directly, preferring to wrap the Java code.  This means you shouldn't see any wildly unexpected behavior from the underlying Mongo interfaces when a data bug is fixed.
 
 
-The `ScalaDocs for Casbah <http://api.mongodb.org/scala/casbah/2.0.2/scaladoc/>`_ along with SXR cross referenced source are available at the `MongoDB API site <http://api.mongodb.org>`_.
+The `ScalaDocs for Casbah <http://api.mongodb.org/scala/casbah/2.1.0/scaladoc/>`_ along with SXR cross referenced source are available at the `MongoDB API site <http://api.mongodb.org>`_.
 
 .. TODO - links to prior releases? 
 
 You may also download this documentation in other formats.
  
-  * `ePub <http://api.mongodb.org/scala/casbah/2.0.2/CasbahDocumentation.epub>`_
-  * `PDF <http://api.mongodb.org/scala/casbah/2.0.2/CasbahDocumentation.pdf>`_
+  * `ePub <http://api.mongodb.org/scala/casbah/2.1.0/CasbahDocumentation.epub>`_
+  * `PDF <http://api.mongodb.org/scala/casbah/2.1.0/CasbahDocumentation.pdf>`_
   
 .. toctree::
     :maxdepth: 3
     :numbered:
     
-    API Docs <http://api.mongodb.org/scala/casbah/2.0.2/scaladoc/>
+    API Docs <http://api.mongodb.org/scala/casbah/2.1.0/scaladoc/>
     setting_up
     tutorial
   
@@ -37,7 +37,7 @@ You may also download this documentation in other formats.
 .. Indices and tables
 .. ==================
 .. 
-.. * `API Docs <http://api.mongodb.org/scala/casbah/2.0.2/scaladoc/>`_
+.. * `API Docs <http://api.mongodb.org/scala/casbah/2.1.0/scaladoc/>`_
 .. * :ref:`genindex`
 .. * :ref:`modindex`
 .. * :ref:`search`
