@@ -73,6 +73,7 @@ trait FluidQueryBarewordOps extends SetOp
   with RenameOp
   with ArrayOps
   with NorOp
+  with BitOp
 
 /**
  * Trait to provide the $set (Set) Set method as a bareword operator.
@@ -345,4 +346,29 @@ trait NorOp extends BarewordQueryOperator {
 
 }
 
+/**
+ * Trait to provide the $bit (bit) update method as a bareword Operator
+ * 
+ * Bit does a bitwise operation either AND or OR against a given field or set of fields
+ * with no left anchor.
+ * 
+ * Targets an RValue of {field: {and|or: integer}}.
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @since 2.1.1
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24bit
+ */
+trait BitOp extends BarewordQueryOperator {
+
+  def $bit(field: String) = {
+    new {
+      protected def op(oper: String, target: Any) =
+        MongoDBObject("$bit" -> MongoDBObject(field -> MongoDBObject(oper -> target)))
+
+      def and[T: ValidNumericType](target: T) = op("and", target)
+      def or[T: ValidNumericType](target: T) = op("or", target)
+    }
+  }
+
+}
 // vim: set ts=2 sw=2 sts=2 et:

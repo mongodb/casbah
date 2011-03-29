@@ -192,6 +192,26 @@ class BarewordOperatorsSpec extends Specification with PendingUntilFixed with Lo
 
       }
     }
+    "$bit" in {
+      "Accept a single value" in {
+        "For 'and'" in {
+          val bit = $bit("foo") and 5
+          bit must notBeNull
+          bit.toString must notBeNull
+          bit must haveSuperClass[DBObject]
+          bit must beEqualTo(MongoDBObject("$bit" -> MongoDBObject("foo" ->
+            MongoDBObject("and" -> 5))))
+        }
+        "For 'or'" in {
+          val bit = $bit("foo") or 5
+          bit must notBeNull
+          bit.toString must notBeNull
+          bit must haveSuperClass[DBObject]
+          bit must beEqualTo(MongoDBObject("$bit" -> MongoDBObject("foo" ->
+            MongoDBObject("or" -> 5))))
+        }
+      }
+    }
     "$pop" in {
       "Accept a single value" in {
         val pop = $pop("foo" -> 1)
