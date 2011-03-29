@@ -1,4 +1,13 @@
 
+2.1.1 / 2011-03-29
+==================
+
+  * SCALA-25 Added support for $bit operator, with and and or options
+  * Updated to Java Driver 2.5.2 (Bugfixes)
+    + JAVA-301 - Replicaset w/ auth warnings too verbose when not authd against local/admin db
+    + JAVA-304 - Problem with closing cursors - killCursors
+  
+
 2.1.0 / 2011-03-15 
 ==================
 
