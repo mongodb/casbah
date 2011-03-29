@@ -95,7 +95,7 @@ class CasbahProject(info: ProjectInfo)
 
   class CasbahCommonsProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     // Runtime deps
-    val mongodb = "org.mongodb" % "mongo-java-driver" % "2.5"
+    val mongodb = "org.mongodb" % "mongo-java-driver" % "2.5.2"
     val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
     val slf4j = "org.slf4j" % "slf4j-api" % "1.6.0"
     // JCL bindings for testing only
