@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,11 +20,9 @@
  * 
  */
 
-package com.mongodb.casbah.commons
+package com.mongodb.casbah
+package bson
 package conversions
-package scala
-
-import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.commons.Logging
 
 import org.bson.{ BSON, Transformer }
@@ -97,13 +95,15 @@ trait Deserializers extends MongoConversionHelper {
  * unexpected behavior.
  *
  * Because it's likely to be controversial, JodaDateTime is NOT mixed in by default.
+ * 
+ * NOTE: In the casbah-bson-utils side no registrations actually occur; 
+ * they are done in casbah-commons instead.  This is so this package can be
+ * easily reused as a utility framework.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 1.0
  */
-trait Serializers extends MongoConversionHelper
-  with ScalaRegexSerializer
-  with ScalaJCollectionSerializer {
+trait Serializers extends MongoConversionHelper {
   override def register() = {
     log.debug("Serializers for Scala Conversions registering")
     super.register()
@@ -181,69 +181,6 @@ trait JodaDateTimeDeserializer extends MongoConversionHelper {
     log.debug("De-registering Joda DateTime deserializer.")
     BSON.removeDecodingHooks(encodeType)
     super.unregister()
-  }
-}
-
-trait ScalaRegexSerializer extends MongoConversionHelper {
-  private val transformer = new Transformer {
-    log.trace("Encoding a Scala RegEx.")
-
-    def transform(o: AnyRef): AnyRef = o match {
-      case sRE: _root_.scala.util.matching.Regex => sRE.pattern
-      case _ => o
-    }
-
-  }
-
-  override def register() = {
-    log.debug("Setting up ScalaRegexSerializers")
-
-    log.debug("Hooking up scala.util.matching.Regex serializer")
-    /** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/
-    BSON.addEncodingHook(classOf[_root_.scala.util.matching.Regex], transformer)
-
-    super.register()
-  }
-}
-
-/**
- * Implementation which is aware of the possible conversions in scalaj-collection and attempts to Leverage it...
- * Not all of these may be serializable by Mongo However... this is a first pass attempt at moving them to Java types
- */
-trait ScalaJCollectionSerializer extends MongoConversionHelper {
-
-  private val transformer = new Transformer {
-    import scalaj.collection.Imports._
-
-    def transform(o: AnyRef): AnyRef = o match {
-      case mdbo: MongoDBObject => mdbo.underlying
-      case b: _root_.scala.collection.mutable.Buffer[_] => b.asJava
-      case s: _root_.scala.collection.mutable.Seq[_] => s.asJava
-      case s: _root_.scala.collection.Seq[_] => s.asJava
-      case s: _root_.scala.collection.mutable.Set[_] => s.asJava
-      case s: _root_.scala.collection.Set[_] => s.asJava
-      case i: _root_.scala.collection.Iterable[_] => i.asJava
-      case i: _root_.scala.collection.Iterator[_] => i.asJava
-      case p: Product => p.productIterator.toList.asJava
-      case _ => o // don't warn because we get EVERYTHING
-    }
-  }
-
-  override def register() = {
-    log.debug("Setting up ScalaJCollectionSerializer")
-    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Buffer[_]], transformer)
-    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ArrayBuffer[_]], transformer)
-    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ObservableBuffer[_]], transformer)
-    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.SynchronizedBuffer[_]], transformer)
-    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ListBuffer[_]], transformer)
-    BSON.addEncodingHook(classOf[_root_.scala.collection.Iterator[_]], transformer)
-    BSON.addEncodingHook(classOf[_root_.scala.collection.Iterable[_]], transformer)
-    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Seq[_]], transformer)
-    BSON.addEncodingHook(classOf[_root_.scala.collection.Seq[_]], transformer)
-    BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Set[_]], transformer)
-    BSON.addEncodingHook(classOf[_root_.scala.collection.Set[_]], transformer)
-    BSON.addEncodingHook(classOf[Product], transformer)
-    super.register()
   }
 }
 

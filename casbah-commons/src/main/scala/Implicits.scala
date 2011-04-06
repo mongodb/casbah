@@ -64,7 +64,7 @@ trait Implicits {
     in.underlying
 
   // Register the core Serialization helpers.
-  conversions.scala.RegisterConversionHelpers()
+  com.mongodb.casbah.commons.conversions.scala.RegisterConversionHelpers()
 }
 
 object Implicits extends Implicits

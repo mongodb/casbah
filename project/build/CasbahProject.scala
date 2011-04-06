@@ -24,7 +24,8 @@ class CasbahProject(info: ProjectInfo)
 
 
 
-  lazy val commons = project("casbah-commons", "casbah-commons", new CasbahCommonsProject(_))
+  lazy val bsonUtils = project("casbah-bson-utils", "casbah-bson-utils", new CasbahBSONUtilsProject(_))
+  lazy val commons = project("casbah-commons", "casbah-commons", new CasbahCommonsProject(_), bsonUtils)
   lazy val core = project("casbah-core", "casbah-core", new CasbahCoreProject(_), commons, query)
   lazy val query = project("casbah-query", "casbah-query", new CasbahQueryProject(_), commons)
   lazy val gridfs = project("casbah-gridfs","casbah-gridfs", new CasbahGridFSProject(_), core)
@@ -91,6 +92,16 @@ class CasbahProject(info: ProjectInfo)
 
 
       
+  }
+
+  class CasbahBSONUtilsProject(info: ProjectInfo) extends CasbahBaseProject(info) {
+    // TODO - Fix maven artifact
+    //val bson = "org.mongodb" % "bson" % "2.5.2"
+    val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
+    val slf4j = "org.slf4j" % "slf4j-api" % "1.6.0"
+    // JCL bindings for testing only
+    val slf4jJCL = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
+    val scalaTime = "org.scala-tools.time" % "time_2.8.0" % "0.2"
   }
 
   class CasbahCommonsProject(info: ProjectInfo) extends CasbahBaseProject(info) {

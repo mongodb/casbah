@@ -20,6 +20,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="buildScala" level="project" />
+    <orderEntry type="module" module-name="casbah-bson-utils" />
     <orderEntry type="module" module-name="casbah-commons" />
     <orderEntry type="module-library" exported="" scope="TEST">
       <library>

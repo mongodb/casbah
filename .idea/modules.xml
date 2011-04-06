@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$//casbah.iml" filepath="$PROJECT_DIR$//casbah.iml" />
+      <module fileurl="file://$PROJECT_DIR$/casbah-bson-utils/casbah-bson-utils.iml" filepath="$PROJECT_DIR$/casbah-bson-utils/casbah-bson-utils.iml" />
       <module fileurl="file://$PROJECT_DIR$/casbah-commons/casbah-commons.iml" filepath="$PROJECT_DIR$/casbah-commons/casbah-commons.iml" />
       <module fileurl="file://$PROJECT_DIR$/casbah-core/casbah-core.iml" filepath="$PROJECT_DIR$/casbah-core/casbah-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/casbah-gridfs/casbah-gridfs.iml" filepath="$PROJECT_DIR$/casbah-gridfs/casbah-gridfs.iml" />
