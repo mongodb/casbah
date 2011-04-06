@@ -52,7 +52,7 @@ class CasbahProject(info: ProjectInfo)
    /**
      * SXR Support 
      */
-    val sxr = compilerPlugin("org.scala-tools.sxr" % "sxr_2.8.0" % "0.2.6")
+    //val sxr = compilerPlugin("org.scala-tools.sxr" % "sxr_2.8.0" % "0.2.6")
 
     override val growlResultFormatter = (res: GroupResult) =>
       GrowlResultFormat(
@@ -77,7 +77,7 @@ class CasbahProject(info: ProjectInfo)
       )
 
     override def compileOptions =
-      CompileOption("-P:sxr:base-directory:" + mainScalaSourcePath) ::
+      //CompileOption("-P:sxr:base-directory:" + mainScalaSourcePath) ::
       super.compileOptions ++ Seq(Unchecked, ExplainTypes, Deprecation)
 
     override def documentOptions = Seq(

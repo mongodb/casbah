@@ -17,7 +17,7 @@ Now that you've added Casbah to your project, it should be available for import.
 
     import com.mongodb.casbah.Imports._
 
-That's it.  Most of what you need to work with Casbah is now at hand.  .. If you want to know what's going on inside the ``Imports._`` take a look at `Implicits.scala <http://api.mongodb.org/scala/casbah/2.1.0/scaladoc/casbah-core/sxr/Implicits.scala.html>`_ which defines it.
+That's it.  Most of what you need to work with Casbah is now at hand.  .. If you want to know what's going on inside the ``Imports._`` take a look at `Implicits.scala <http://api.mongodb.org/scala/casbah/2.1.1/scaladoc/casbah-core/sxr/Implicits.scala.html>`_ which defines it.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Briefly: Automatic Type Conversions 
