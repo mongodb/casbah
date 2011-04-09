@@ -101,7 +101,8 @@ package object scala {
    */
   trait Serializers extends MongoConversionHelper
     with ScalaRegexSerializer
-    with ScalaJCollectionSerializer {
+    with ScalaJCollectionSerializer
+    with OptionSerializer {
     override def register() = {
       log.debug("Serializers for Scala Conversions registering")
       super.register()
@@ -128,6 +129,27 @@ package object scala {
       log.debug("Hooking up scala.util.matching.Regex serializer")
       /** Encoding hook for MongoDB to translate a Scala Regex to a JAva Regex (which Mongo will understand)*/
       BSON.addEncodingHook(classOf[_root_.scala.util.matching.Regex], transformer)
+
+      super.register()
+    }
+  }
+
+  trait OptionSerializer extends MongoConversionHelper {
+    private val transformer = new Transformer {
+      log.trace("Encoding a Scala Option[].")
+
+      def transform(o: AnyRef): AnyRef = o match {
+        case Some(x) => x.asInstanceOf[AnyRef]
+        case None => null
+        case _ => o
+      }
+
+    }
+
+    override def register() = {
+      log.debug("Setting up OptionSerializer")
+
+      BSON.addEncodingHook(classOf[_root_.scala.Option[_]], transformer)
 
       super.register()
     }
