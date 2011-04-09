@@ -103,8 +103,8 @@ trait Deserializers extends MongoConversionHelper {
  */
 trait Serializers extends MongoConversionHelper
   with ScalaRegexSerializer
-  with ScalaJCollectionSerializer 
-  with OptonSerializer {
+  with ScalaJCollectionSerializer
+  with OptionSerializer {
   override def register() = {
     log.debug("Serializers for Scala Conversions registering")
     super.register()
