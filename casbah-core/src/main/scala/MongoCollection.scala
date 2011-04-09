@@ -237,7 +237,7 @@ trait MongoCollectionBase extends Logging { self =>
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    * @dochub find
    */
-  def findOneById[B <% DBObject](id: AnyRef, fields: B) =
+  def findOneByID[B <% DBObject](id: AnyRef, fields: B) =
     _typedValue(underlying.findOne(id, fields))
 
   /**
