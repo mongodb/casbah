@@ -9,3 +9,4 @@ Casbah 2.1.2 / 2011-04-09
   * SCALA-27 Properly Serialize Option[T] so that None is null and Some expands out
   * SCALA-26: findOneByID(id) and findOneById(id, fields) had different casing; when findOneById(id, fields) was called as byID an implicit caused the single arg version to be called instead, yielding unexpected results.
 
+
