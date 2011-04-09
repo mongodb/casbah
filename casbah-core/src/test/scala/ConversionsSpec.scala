@@ -45,6 +45,21 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
 
     implicit val mongoDB = MongoConnection()("casbahTest")
     mongoDB.dropDatabase()
+
+    "Properly save Option[_] to MongoDB" in {
+      mongoDB must notBeNull
+      val mongo = mongoDB("optionSerialization")
+      mongo.dropCollection()
+
+      mongo += MongoDBObject("some" -> Some("foo"), "none" -> None)
+
+      val optDoc = mongo.findOne().getOrElse(
+        throw new IllegalArgumentException("No document"))
+
+      optDoc.getAs[String]("some") must beSome("foo")
+      optDoc.getAs[String]("none") must beNone
+    }
+
     val jodaDate: DateTime = DateTime.now
     val jdkDate: JDKDate = new JDKDate(jodaDate.getMillis)
 
