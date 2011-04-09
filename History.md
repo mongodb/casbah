@@ -1,4 +1,14 @@
 
+2.1.2 / 2011-04-09 
+==================
+
+  * SCALA-28 Updated Java Driver to Release 2.5.3
+    + JAVA-315 several exception cases do not put back the dbport in pool, resulting in forever hanging pool to that server
+    + JAVA-312 Added UUID support to JSON Serialization
+    + JAVA-318 Fixed JMX issues for similar ServerAddresses
+  * SCALA-27 Properly Serialize Option[T] so that None is null and Some expands out
+  * SCALA-26: findOneByID(id) and findOneById(id, fields) had different casing; when findOneById(id, fields) was called as byID an implicit caused the single arg version to be called instead, yielding unexpected results.
+
 2.1.1 / 2011-03-29
 ==================
 
