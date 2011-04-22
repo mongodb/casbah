@@ -2,7 +2,7 @@
 
 rm -rf docs/scaladoc
 
-sbt "+clean" "+doc" "+all-docs"
+./sbt "+update" "+clean" "+doc" "+all-docs"
 
 cp -R casbah-core/scaladocBuild docs/scaladoc
 
