@@ -2,7 +2,7 @@
 
 rm -rf docs/scaladoc
 
-./sbt "+update" "+clean" "+doc" "+all-docs"
+./.sbt "+update" "+clean" "+doc" "+all-docs"
 
 cp -R casbah-core/scaladocBuild docs/scaladoc
 
@@ -24,10 +24,10 @@ cp doc_index.html docs/scaladoc/modules/index.html
 
 cd tutorial_src
 
-make clean html epub latexpdf
+make clean html #epub latexpdf
 
-cp build/epub/CasbahMongoDBScalaToolkitDocumentation.epub ../docs/CasbahDocumentation.epub
-cp build/latex/CasbahDocumentation.pdf ../docs/CasbahDocumentation.pdf
+#cp build/epub/CasbahMongoDBScalaToolkitDocumentation.epub ../docs/CasbahDocumentation.epub
+#cp build/latex/CasbahDocumentation.pdf ../docs/CasbahDocumentation.pdf
 cp -R build/html/* ../docs
 
 cd ..
