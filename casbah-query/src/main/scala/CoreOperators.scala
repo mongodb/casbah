@@ -608,28 +608,28 @@ trait ElemMatchOp extends QueryOperator {
   def $elemMatch[A <% DBObject](target: A) = op(oper, target)
 }
 
-abstract class BSONType[A]
+sealed abstract class BSONType[A](val operator: Byte)
 
 object BSONType {
-  implicit object BSONDouble extends BSONType[Double]
-  implicit object BSONString extends BSONType[String]
-  implicit object BSONObject extends BSONType[BSONObject]
-  implicit object DBObject extends BSONType[DBObject]
-  implicit object DBList extends BSONType[BasicDBList]
-  implicit object BSONDBList extends BSONType[BasicBSONList]
-  implicit object BSONBinary extends BSONType[Array[Byte]]
-  implicit object BSONArray extends BSONType[Array[_]]
-  implicit object BSONList extends BSONType[List[_]]
-  implicit object BSONObjectId extends BSONType[ObjectId]
-  implicit object BSONBoolean extends BSONType[Boolean]
-  implicit object BSONJDKDate extends BSONType[java.util.Date]
-  implicit object BSONJodaDateTime extends BSONType[org.joda.time.DateTime]
-  implicit object BSONNull extends BSONType[Option[Nothing]]
-  implicit object BSONRegex extends BSONType[Regex]
-  implicit object BSONSymbol extends BSONType[Symbol]
-  implicit object BSON32BitInt extends BSONType[Int]
-  implicit object BSON64BitInt extends BSONType[Long]
-  implicit object BSONSQLTimestamp extends BSONType[java.sql.Timestamp]
+  implicit object BSONDouble extends BSONType[Double](BSON.NUMBER)
+  implicit object BSONString extends BSONType[String](BSON.STRING)
+  implicit object BSONObject extends BSONType[BSONObject](BSON.OBJECT)
+  implicit object DBObject extends BSONType[DBObject](BSON.OBJECT)
+  implicit object DBList extends BSONType[BasicDBList](BSON.ARRAY)
+  implicit object BSONDBList extends BSONType[BasicBSONList](BSON.ARRAY)
+  implicit object BSONBinary extends BSONType[Array[Byte]](BSON.BINARY)
+  //  implicit object BSONArray extends BSONType[Array[_]]
+  //  implicit object BSONList extends BSONType[List[_]]
+  implicit object BSONObjectId extends BSONType[ObjectId](BSON.OID)
+  implicit object BSONBoolean extends BSONType[Boolean](BSON.BOOLEAN)
+  implicit object BSONJDKDate extends BSONType[java.util.Date](BSON.DATE)
+  implicit object BSONJodaDateTime extends BSONType[org.joda.time.DateTime](BSON.DATE)
+  implicit object BSONNull extends BSONType[Option[Nothing]](BSON.NULL)
+  implicit object BSONRegex extends BSONType[Regex](BSON.REGEX)
+  implicit object BSONSymbol extends BSONType[Symbol](BSON.SYMBOL)
+  implicit object BSON32BitInt extends BSONType[Int](BSON.NUMBER_INT)
+  implicit object BSON64BitInt extends BSONType[Long](BSON.NUMBER_LONG)
+  implicit object BSONSQLTimestamp extends BSONType[java.sql.Timestamp](BSON.TIMESTAMP)
 }
 
 /**
@@ -658,41 +658,7 @@ trait TypeOp extends QueryOperator {
    *    "foo".$type[Double]
    *
    */
-  def $type[A: BSONType: Manifest] =
-    if (manifest[A] <:< manifest[Double])
-      op(oper, BSON.NUMBER)
-    else if (manifest[A] <:< manifest[String])
-      op(oper, BSON.STRING)
-    else if (manifest[A] <:< manifest[BasicDBList] ||
-      manifest[A] <:< manifest[BasicBSONList])
-      op(oper, BSON.ARRAY)
-    else if (manifest[A] <:< manifest[BSONObject] ||
-      manifest[A] <:< manifest[DBObject])
-      op(oper, BSON.OBJECT)
-    else if (manifest[A] <:< manifest[ObjectId])
-      op(oper, BSON.OID)
-    else if (manifest[A] <:< manifest[Boolean])
-      op(oper, BSON.BOOLEAN)
-    else if (manifest[A] <:< manifest[java.sql.Timestamp])
-      op(oper, BSON.TIMESTAMP)
-    else if (manifest[A] <:< manifest[java.util.Date] ||
-      manifest[A] <:< manifest[org.joda.time.DateTime])
-      op(oper, BSON.DATE)
-    else if (manifest[A] <:< manifest[Option[Nothing]])
-      op(oper, BSON.NULL)
-    else if (manifest[A] <:< manifest[Regex])
-      op(oper, BSON.REGEX)
-    else if (manifest[A] <:< manifest[Symbol])
-      op(oper, BSON.SYMBOL)
-    else if (manifest[A] <:< manifest[Int])
-      op(oper, BSON.NUMBER_INT)
-    else if (manifest[A] <:< manifest[Long])
-      op(oper, BSON.NUMBER_LONG)
-    else if (manifest[A].erasure.isArray &&
-      manifest[A] <:< manifest[Array[Byte]])
-      op(oper, BSON.BINARY)
-    else
-      throw new IllegalArgumentException("Invalid BSON Type '%s' for matching".format(manifest.erasure))
+  def $type[A](implicit bsonType: BSONType[A]) = op(oper, bsonType.operator)
 }
 
 trait GeospatialOps extends GeoNearOp
