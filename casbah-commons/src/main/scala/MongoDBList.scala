@@ -25,36 +25,32 @@ package commons
 
 import com.mongodb.casbah.commons.Imports._
 
-import scala.annotation.tailrec
-import scala.collection.generic._
 import scala.collection.mutable.LinearSeq
-import scala.reflect._
-
 import scalaj.collection.Imports._
 
 import com.mongodb.BasicDBList
 
-trait MongoDBList extends LinearSeq[AnyRef] {
+trait MongoDBList extends LinearSeq[Any] {
   val underlying: BasicDBList
 
   def apply(i: Int) = underlying.get(i)
 
-  def update(i: Int, elem: AnyRef) =
-    underlying.set(i, elem)
+  def update(i: Int, elem: Any) =
+    underlying.set(i, elem.asInstanceOf[AnyRef])
 
-  def +=:(elem: AnyRef): this.type = {
-    underlying.subList(0, 0).add(elem)
+  def +=:(elem: Any): this.type = {
+    underlying.subList(0, 0).add(elem.asInstanceOf[AnyRef])
     this
   }
 
-  def +=(elem: AnyRef): this.type = {
-    underlying.add(elem)
+  def +=(elem: Any): this.type = {
+    underlying.add(elem.asInstanceOf[AnyRef])
     this
   }
 
-  def insertAll(i: Int, elems: Traversable[AnyRef]) = {
+  def insertAll(i: Int, elems: Traversable[Any]) = {
     val ins = underlying.subList(0, i)
-    elems.foreach(x => ins.add(x))
+    elems.foreach(x => ins.add(x.asInstanceOf[AnyRef]))
   }
 
   def remove(i: Int) = underlying.remove(i)
@@ -71,10 +67,10 @@ trait MongoDBList extends LinearSeq[AnyRef] {
 
 object MongoDBList {
 
-  def empty: BasicDBList =
+  def empty: MongoDBList =
     new MongoDBList { val underlying = new BasicDBList }
 
-  def apply[A <: Any](elems: A*): BasicDBList = {
+  def apply[A <: Any](elems: A*): Seq[Any] = {
     val b = newBuilder[A]
     for (xs <- elems) xs match {
       case p: Tuple2[String, _] => b += MongoDBObject(p)
@@ -83,7 +79,7 @@ object MongoDBList {
     b.result
   }
 
-  def concat[A](xss: Traversable[A]*): BasicDBList = {
+  def concat[A](xss: Traversable[A]*): Seq[Any] = {
     val b = newBuilder[A]
     if (xss forall (_.isInstanceOf[IndexedSeq[_]]))
       b.sizeHint(xss map (_.size) sum)
@@ -97,12 +93,11 @@ object MongoDBList {
 
 }
 
-sealed class MongoDBListBuilder
-  extends scala.collection.mutable.Builder[Any, BasicDBList] {
+sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Seq[Any]] {
 
-  protected val empty = new BasicDBList
+  protected val empty: MongoDBList = new MongoDBList { val underlying = new BasicDBList }
 
-  protected var elems = empty
+  protected var elems: MongoDBList = empty
 
   override def +=(x: Any) = {
     val v = x match {
@@ -114,5 +109,5 @@ sealed class MongoDBListBuilder
 
   def clear() { elems = empty }
 
-  def result: BasicDBList = new MongoDBList { val underlying = elems }
+  def result: Seq[Any] = elems
 }
