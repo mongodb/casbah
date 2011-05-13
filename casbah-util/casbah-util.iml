@@ -13,7 +13,7 @@
         <exclude-output></exclude-output>
         <content url="file://$MODULE_DIR$">
           <sourceFolder isTestSource="false" url="file://$MODULE_DIR$/src/main/scala"></sourceFolder><sourceFolder isTestSource="true" url="file://$MODULE_DIR$/src/test/scala"></sourceFolder>
-          <sourceFolder isTestSource="true" url="file://$MODULE_DIR$/src/test/resources"></sourceFolder>
+          <sourceFolder isTestSource="false" url="file://$MODULE_DIR$/src/main/resources"></sourceFolder><sourceFolder isTestSource="true" url="file://$MODULE_DIR$/src/test/resources"></sourceFolder>
           
           
           <excludeFolder url="file://$MODULE_DIR$/target"></excludeFolder>
@@ -31,15 +31,54 @@
           
         </SOURCES>
       </library>
+    </orderEntry><orderEntry exported=" " type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/target/scala_2.8.1/resources"></root>
+        </CLASSES>
+        <JAVADOC>
+          
+          
+        </JAVADOC>
+        <SOURCES>
+          
+        </SOURCES>
+      </library>
     </orderEntry>
         <orderEntry type="inheritedJdk"></orderEntry>
         <orderEntry type="sourceFolder" forTests="false"></orderEntry>
         <orderEntry level="project" type="library" name="buildScala"></orderEntry>
-        <orderEntry type="module" module-name="casbah-util"></orderEntry><orderEntry type="module" module-name="casbah-commons"></orderEntry><orderEntry type="module" module-name="casbah-query"></orderEntry><orderEntry type="module" module-name="casbah-core"></orderEntry>
-        <orderEntry exported=" " type="module-library">
+        
+        <orderEntry type="module-library" exported=" " scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/test/slf4j-jcl-1.6.0.jar!/"></root>
+        </CLASSES>
+        <JAVADOC>
+          
+          
+        </JAVADOC>
+        <SOURCES>
+          
+        </SOURCES>
+      </library>
+    </orderEntry><orderEntry exported=" " type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/compile/asm-tree-3.3.1.jar!/"></root>
+        </CLASSES>
+        <JAVADOC>
+          
+          
+        </JAVADOC>
+        <SOURCES>
+          
+        </SOURCES>
+      </library>
+    </orderEntry><orderEntry type="module-library" exported=" " scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/test/slf4j-api-1.6.0.jar!/"></root>
         </CLASSES>
         <JAVADOC>
           
@@ -65,7 +104,7 @@
     </orderEntry><orderEntry exported=" " type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/compile/hamcrest-all-1.1.jar!/"></root>
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/compile/joda-time-1.6.jar!/"></root>
         </CLASSES>
         <JAVADOC>
           
@@ -78,7 +117,7 @@
     </orderEntry><orderEntry exported=" " type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/compile/mockito-all-1.8.5.jar!/"></root>
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/compile/hamcrest-all-1.1.jar!/"></root>
         </CLASSES>
         <JAVADOC>
           
@@ -104,7 +143,33 @@
     </orderEntry><orderEntry exported=" " type="module-library">
       <library>
         <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/compile/mockito-all-1.8.5.jar!/"></root>
+        </CLASSES>
+        <JAVADOC>
+          
+          
+        </JAVADOC>
+        <SOURCES>
+          
+        </SOURCES>
+      </library>
+    </orderEntry><orderEntry exported=" " type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/compile/scalaz-core_2.8.1-5.1-SNAPSHOT.jar!/"></root>
+        </CLASSES>
+        <JAVADOC>
+          
+          
+        </JAVADOC>
+        <SOURCES>
+          
+        </SOURCES>
+      </library>
+    </orderEntry><orderEntry exported=" " type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/compile/time_2.8.0-0.2.jar!/"></root>
         </CLASSES>
         <JAVADOC>
           
@@ -179,10 +244,49 @@
           
         </SOURCES>
       </library>
+    </orderEntry><orderEntry type="module-library" exported=" " scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/test/commons-logging-1.1.1.jar!/"></root>
+        </CLASSES>
+        <JAVADOC>
+          
+          
+        </JAVADOC>
+        <SOURCES>
+          
+        </SOURCES>
+      </library>
     </orderEntry><orderEntry exported=" " type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/compile/test-interface-0.5.jar!/"></root>
+        </CLASSES>
+        <JAVADOC>
+          
+          
+        </JAVADOC>
+        <SOURCES>
+          
+        </SOURCES>
+      </library>
+    </orderEntry><orderEntry exported=" " type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/bson-2.5.2.jar!/"></root>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$MODULE_DIR$/lib/bson-2.5.2-javadoc.jar!/"></root>
+          
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lib/bson-2.5.2-sources.jar!/"></root>
+        </SOURCES>
+      </library>
+    </orderEntry><orderEntry exported=" " type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/compile/scalaj-collection_2.8.0-1.0.jar!/"></root>
         </CLASSES>
         <JAVADOC>
           
