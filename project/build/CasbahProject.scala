@@ -87,11 +87,10 @@ class CasbahProject(info: ProjectInfo)
       CompoundDocOption("-doc-title", "Casbah %s".format(projectName.value))
     ) 
     // Testing Deps
-    val specs = "org.scala-tools.testing" % "specs_2.8.1" % "1.6.6" % "test->default"
-    val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
+   val specs2 = "org.specs2" %% "specs2" % "1.3"
 
-
-      
+   def specs2Framework = new TestFramework("org.specs2.runner.SpecsFramework")
+   override def testFrameworks = super.testFrameworks ++ Seq(specs2Framework)
   }
 
   class CasbahBSONUtilsProject(info: ProjectInfo) extends CasbahBaseProject(info) {
