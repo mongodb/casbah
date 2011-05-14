@@ -25,13 +25,11 @@ package commons
 
 import com.mongodb.casbah.commons.Imports._
 
-import scala.collection.mutable.LinearSeq
+import scala.collection.mutable.Seq
 import scalaj.collection.Imports._
-
 import com.mongodb.BasicDBList
 
-trait MongoDBList extends LinearSeq[Any] {
-  val underlying: BasicDBList
+class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any] {
 
   def apply(i: Int) = underlying.get(i)
 
@@ -55,6 +53,49 @@ trait MongoDBList extends LinearSeq[Any] {
 
   def remove(i: Int) = underlying.remove(i)
 
+  /**
+   * as
+   *
+   * Works like apply(), unsafe, bare return of a value.
+   * Returns default if nothing matching is found, else
+   * tries to cast a value to the specified type.
+   *
+   * Unless you overrode it, default throws
+   * a NoSuchElementException
+   *
+   * @param idx (Int)
+   * @tparam A
+   * @return (A)
+   * @throws NoSuchElementException
+   */
+  def as[A <: Any: Manifest](idx: Int): A = {
+    require(manifest[A] != manifest[scala.Nothing],
+      "Type inference failed; as[A]() requires an explicit type argument" +
+        "(e.g. dbList.as[<ReturnType>](index)) to function correctly.")
+
+    underlying.get(idx) match {
+      case null => throw new NoSuchElementException
+      case value => value.asInstanceOf[A]
+    }
+  }
+
+  /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
+  def getAs[A <: Any: Manifest](idx: Int): Option[A] = {
+    require(manifest[A] != manifest[scala.Nothing],
+      "Type inference failed; getAs[A]() requires an explicit type argument " +
+        "(e.g. dbList.getAs[<ReturnType>](index) ) to function correctly.")
+
+    underlying.get(idx) match {
+      case null => None
+      case value => Some(value.asInstanceOf[A])
+    }
+  }
+
+  def getAsOrElse[A <: Any: Manifest](idx: Int, default: => A): A = getAs[A](idx) match {
+    case Some(v) => v
+    case None => default
+  }
+
   def clear = underlying.clear
 
   def result = this
@@ -67,8 +108,7 @@ trait MongoDBList extends LinearSeq[Any] {
 
 object MongoDBList {
 
-  def empty: MongoDBList =
-    new MongoDBList { val underlying = new BasicDBList }
+  def empty: MongoDBList = new MongoDBList
 
   def apply[A <: Any](elems: A*): Seq[Any] = {
     val b = newBuilder[A]
@@ -88,14 +128,13 @@ object MongoDBList {
     b.result
   }
 
-  def newBuilder[A <: Any]: MongoDBListBuilder =
-    new MongoDBListBuilder
+  def newBuilder[A <: Any]: MongoDBListBuilder = new MongoDBListBuilder
 
 }
 
 sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Seq[Any]] {
 
-  protected val empty: MongoDBList = new MongoDBList { val underlying = new BasicDBList }
+  protected val empty: MongoDBList = new MongoDBList
 
   protected var elems: MongoDBList = empty
 

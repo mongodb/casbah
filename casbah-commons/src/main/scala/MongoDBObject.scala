@@ -149,7 +149,7 @@ trait MongoDBObject extends Map[String, AnyRef] {
   @deprecated("containsKey is deprecated in the MongoDB Driver. You should use containsField instead.")
   def containsKey(s: String) = underlying.containsField(s) // method kept for backwards compatibility
   def isPartialObject = underlying.isPartialObject
-  def markAsPartialObject = underlying.markAsPartialObject
+  def markAsPartialObject() = underlying.markAsPartialObject()
   def partialObject = isPartialObject
   override def put(k: String, v: AnyRef) = v match {
     case x: MongoDBObject => put(k, x.asDBObject)
@@ -177,6 +177,7 @@ object MongoDBObject {
 
   def empty: DBObject = new MongoDBObject { val underlying = new BasicDBObject }
 
+  //  def apply[A <: String, B <% Any](otherMap: scala.collection.Map[A, B]) = (newBuilder[A, B] ++= otherMap).result
   def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result
   def apply[A <: String, B <: Any](elems: List[(A, B)]): DBObject = apply(elems: _*)
 
@@ -195,7 +196,7 @@ sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(Stri
   }
 
   def clear() { elems = empty }
-  def result: DBObject = new MongoDBObject { val underlying = elems.get }
+  def result(): DBObject = new MongoDBObject { val underlying = elems.get }
 }
 
 // vim: set ts=2 sw=2 sts=2 et:

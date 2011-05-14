@@ -44,7 +44,7 @@ import scalaj.collection.Imports._
 trait BarewordQueryOperator extends Logging {
 
   /*
-   * TODO - Implicit filtering of 'valid' (aka convertable) types for [A]
+   * TODO - Implicit filtering of 'valid' (aka convertible) types for [A]
    */
   def apply[A](oper: String)(fields: (String, A)*) = {
     val bldr = MongoDBObject.newBuilder
@@ -303,7 +303,7 @@ trait OrOp extends BarewordQueryOperator {
   def $or(fields: (String, Any)*) = {
     val bldr = MongoDBList.newBuilder
     for ((k, v) <- fields) bldr += MongoDBObject(k -> v)
-    MongoDBObject("$or" -> bldr.result.asDBObject)
+    MongoDBObject("$or" -> bldr.result)
   }
 
 }
