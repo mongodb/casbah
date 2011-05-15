@@ -81,7 +81,7 @@ class BarewordOperatorsSpec extends CasbahSpecification {
   "Casbah's DSL $or Operator" should {
     "Accept multiple values" in {
       val or = $or("foo" -> "bar", "x" -> "y")
-      or must haveEntry("$or" -> Seq(MongoDBObject("foo" -> "bar", "x" -> "y")))
+      or must haveEntry("$or" -> Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
     }
     // TODO - Fix me!
 //    "Work with nested operators" in {
