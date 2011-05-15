@@ -49,7 +49,9 @@ trait Implicits {
     def asDBObject = map2MongoDBObject(map)
   }
 
-  implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject = new BasicDBObject(map.asJava)
+  implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject = MongoDBObject(map.toList)
+
+  //  implicit def iterable2DBObject(iter: Iterable[(String, Any)]): DBObject = MongoDBObject(iter.toList)
 
   implicit def wrapDBObj(in: DBObject): MongoDBObject =
     new MongoDBObject { val underlying = in }
@@ -57,11 +59,9 @@ trait Implicits {
   implicit def unwrapDBObj(in: MongoDBObject): DBObject =
     in.underlying
 
-  implicit def wrapDBList(in: BasicDBList): MongoDBList =
-    new MongoDBList { val underlying = in }
+  implicit def wrapDBList(in: BasicDBList): MongoDBList = new MongoDBList(in)
 
-  implicit def unwrapDBList(in: MongoDBList): BasicDBList =
-    in.underlying
+  implicit def unwrapDBList(in: MongoDBList): BasicDBList = in.underlying
 
   // Register the core Serialization helpers.
   com.mongodb.casbah.commons.conversions.scala.RegisterConversionHelpers()

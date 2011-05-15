@@ -25,13 +25,13 @@ import org.specs2.mutable._
 import org.specs2.data.Sized
 import org.specs2.matcher.{ Expectable, Matcher, MapMatchers }
 import com.mongodb.casbah.commons.MongoDBObject
+import org.specs2.specification.Scope
 
 object `package` {
 
 }
 
 trait CasbahSpecification extends Specification with DBObjectMatchers with Logging {
-
   implicit val sizedOptDBObj = new Sized[Option[DBObject]] {
     def size(t: Option[DBObject]) = t.getOrElse(MongoDBObject.empty).size
   }

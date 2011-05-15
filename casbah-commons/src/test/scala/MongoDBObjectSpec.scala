@@ -25,15 +25,9 @@ package test
 
 import com.mongodb.casbah.commons.Imports._
 
-import org.specs2.mutable._
-import org.specs2.execute.PendingUntilFixed
-import org.specs2.data.Sized
+import commons.test.CasbahSpecification
 
-
-class MongoDBObjectSpec extends Specification with PendingUntilFixed {
-  implicit val sizedDBObj = new Sized[DBObject] {
-    def size(t: DBObject) = t.size
-  }
+class MongoDBObjectSpec extends CasbahSpecification {
 
   "MongoDBObject expand operations" should {
 
@@ -86,7 +80,7 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
       val dbObj = MongoDBObject.empty
 
       dbObj must haveSuperclass[DBObject]
-      dbObj must have size(0)
+      dbObj must have size (0)
     }
 
     "allow list as well as varargs construction" in {
@@ -153,30 +147,26 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
     }
   }
 
-  "MongoDBObject" should {
-    "Support additivity of Tuple Pairs" can {
-      "A single Tuple pair with + " in {
-        // Note - you currently have to explicitly cast this or get back a map. ugh.
-        val newObj = MongoDBObject("x" -> "y", "a" -> "b") + ("foo" -> "bar")
-        newObj must not beNull
-//        newObj.asInstanceOf[DBObject] must havePairs("x" -> "y", "a" -> "b", "foo" -> "bar")
+  "MongoDBObject" >> {
+    "Support additivity of Tuple Entrys" >> {
+      "A single Tuple Entry with + " in {
+        // TODO - you currently have to explicitly cast this or get back a map. ugh.
+        val newObj: DBObject = MongoDBObject("x" -> "y", "a" -> "b") + ("foo" -> "bar")
+        newObj must haveEntries("x" -> "y", "a" -> "b", "foo" -> "bar")
       }
-      "A list of Tuple pairs with ++ " in {
+      "A list of Tuple Entrys with ++ " in {
         val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++ ("foo" -> "bar", "n" -> 5)
-        newObj must not beNull
         newObj must haveSuperclass[DBObject]
 
         newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5))
       }
       "Merging a single tuple via += " in {
         val dbObj = MongoDBObject("x" -> "y", "a" -> "b")
-        dbObj must not beNull
         dbObj must haveSuperclass[DBObject]
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b"))
 
         dbObj += ("foo" -> "bar")
 
-        dbObj must notBeNull
         dbObj must haveSuperclass[DBObject]
 
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar"))
@@ -184,13 +174,11 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
       }
       "Merging a set of tuples via ++= " in {
         val dbObj = MongoDBObject("x" -> "y", "a" -> "b")
-        dbObj must notBeNull
         dbObj must haveSuperclass[DBObject]
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b"))
 
         dbObj += ("foo" -> "bar", "n" -> 5.asInstanceOf[AnyRef], "fbc" -> 542542.2.asInstanceOf[AnyRef])
 
-        dbObj must notBeNull
         dbObj must haveSuperclass[DBObject]
 
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5, "fbc" -> 542542.2))
@@ -201,7 +189,6 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
     "Support additivity with another MongoDBObject" in {
       val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++ MongoDBObject("foo" -> "bar", "n" -> 5)
 
-      newObj must notBeNull
       newObj must haveSuperclass[DBObject]
 
       newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5))
@@ -212,13 +199,12 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
         "y" -> 9,
         "foo" -> MongoDBList("a", "b", "c"),
         "bar" -> MongoDBObject("baz" -> "foo"))
-      dbObj must notBeNull
       dbObj must haveSuperclass[DBObject]
 
-      dbObj.as[Double]("x") must notBeNull
-      dbObj.as[Int]("y") must notBeNull
-      dbObj.as[BasicDBList]("foo") must notBeNull
-      dbObj.as[DBObject]("bar") must notBeNull
+      dbObj.as[Double]("x") must beEqualTo(5.2)
+      dbObj.as[Int]("y") must beEqualTo(9)
+      dbObj.as[MongoDBList]("foo") must contain("a", "b", "c")
+      dbObj.as[DBObject]("bar") must haveEntry("baz" -> "foo")
       dbObj.as[String]("nullValue") must throwA[NoSuchElementException]
     }
 
@@ -226,8 +212,9 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
       "getAs functions as expected" in {
         val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
           "embedded" -> MongoDBObject("foo" -> "bar"))
-        dbObj.getAs[Double]("y") must beSome[Double]
-        dbObj.getAs[DBObject]("embedded") must beSome[DBObject]
+        dbObj.getAs[Int]("x") must beSome[Int] and beEqualTo(5)
+        dbObj.getAs[Double]("y") must beSome[Double] and beEqualTo(212.8)
+        dbObj.getAs[DBObject]("embedded") must beSome[DBObject] and haveSomeEntry("foo" -> "bar")
         dbObj.getAs[Float]("omgponies") must beNone
         dbObj.getAs[Double]("x").get must throwA[ClassCastException]
 
@@ -236,14 +223,15 @@ class MongoDBObjectSpec extends Specification with PendingUntilFixed {
       "as functions as expected" in {
         val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
           "embedded" -> MongoDBObject("foo" -> "bar"))
-        dbObj.as[Double]("y") must haveClass[java.lang.Double]
-        dbObj.as[DBObject]("embedded") must haveSuperclass[DBObject]
+        dbObj.as[Int]("x") must haveClass[Int] and beEqualTo(5)
+        dbObj.as[Double]("y") must haveClass[Double] and beEqualTo(212.8)
+        dbObj.as[DBObject]("embedded") must haveSuperclass[DBObject] and haveEntry("foo" -> "bar")
         dbObj.as[Float]("omgponies") must throwA[NoSuchElementException]
         dbObj.as[Double]("x") must throwA[ClassCastException]
 
         "the result should be assignable to the type specified" in {
           val y: Double = dbObj.as[Double]("y")
-          y must notBeNull
+          y must haveClass[Double] and beEqualTo(212.8)
         }
       }
     }

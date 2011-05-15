@@ -3,6 +3,13 @@
   <component name="CodeStyleSettingsManager">
     <option name="PER_PROJECT_SETTINGS">
       <value>
+        <ScalaCodeStyleSettings>
+          <option name="ADD_FULL_QUALIFIED_IMPORTS" value="true" />
+          <option name="SEARCH_ALL_SYMBOLS" value="true" />
+          <option name="ENABLE_JAVA_TO_SCALA_CONVERSION" value="false" />
+          <option name="TREAT_DOC_COMMENT_AS_BLOCK_COMMENT" value="true" />
+          <option name="SHOW_IMPLICIT_CONVERSIONS" value="false" />
+        </ScalaCodeStyleSettings>
         <ADDITIONAL_INDENT_OPTIONS fileType="groovy">
           <option name="INDENT_SIZE" value="2" />
           <option name="CONTINUATION_INDENT_SIZE" value="8" />

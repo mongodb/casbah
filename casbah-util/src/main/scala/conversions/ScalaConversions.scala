@@ -21,6 +21,7 @@
  */
 
 package com.mongodb.casbah
+package util
 package bson
 package conversions
 import com.mongodb.casbah.commons.Logging

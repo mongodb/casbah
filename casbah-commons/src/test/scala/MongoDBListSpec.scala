@@ -25,10 +25,9 @@ package test
 
 import com.mongodb.casbah.commons.Imports._
 
-import org.specs2.mutable._
-import org.specs2.execute.PendingUntilFixed
+import com.mongodb.casbah.commons.test.CasbahSpecification
 
-class MongoDBListSpec extends Specification with PendingUntilFixed {
+class MongoDBListSpec extends CasbahSpecification {
   "MongoDBList Factory & Builder" should {
     val x = Seq(5, 9, 212, "x", "y", 22.98)
     val y = Seq("spam", "eggs", "foo", "bar")
@@ -36,7 +35,6 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
     "Support 'empty', returning a BasicDBList" in {
       val dbObj = MongoDBList.empty
 
-      dbObj must haveSuperclass[BasicDBList]
       dbObj must haveSize(0)
     }
 
@@ -51,11 +49,9 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
       jLst.add(84.asInstanceOf[AnyRef])
       jLst.add("spam")
       jLst.add("eggs")
-      val jObj = jLst.result
+      jLst must not beEmpty
 
-      dbLst must haveSuperclass[Seq[_]]
-      jLst must haveSuperclass[java.util.List[_]]
-      dbLst must beEqualTo(jLst)
+      dbLst must haveTheSameElementsAs(jLst)
     }
     "Support a 2.8 builder interface which returns a BasicDBList" in {
       val builder = MongoDBList.newBuilder
@@ -68,32 +64,29 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
 
       val dbLst = builder.result
 
-      dbLst must haveSuperclass[Seq[_]]
       dbLst must haveSize(10)
+      // Note we flattened that list above when we added it
+      dbLst must haveTheSameElementsAs(List("foo", "bar", "x", "y", 5, 212.8, "spam", "eggs", "type erasure" -> "sucks", "omg" -> "ponies!"))
     }
 
     "Support a mix of other lists and flat items and create a single BasicDBList" in {
       val dbLst = MongoDBList(x, y, "omg" -> "ponies", 5, 212.8)
-      dbLst must haveSuperclass[Seq[_]]
       dbLst must haveSize(5)
       dbLst must haveTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5, 212.8))
     }
-    "Support A list/tuple of dbobject declarations and convert them to a dbobject cleanly" in {
+    "Support A list/tuple of dbobject declarations" in {
       val dbLst = MongoDBList(x, y, "omg" -> "ponies", 5,
         MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
         212.8)
-      dbLst must haveSuperclass[Seq[_]]
       dbLst must haveSize(6)
-      dbLst.toSeq must not beNull
-//      dbLst must haveTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5,
-//        MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"), 212.8))
+      dbLst must haveTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5,
+        MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"), 212.8))
     }
 
     "Convert tuple pairs correctly" in {
       val dbList = MongoDBList("omg" -> "ponies")
-      dbList must haveSuperclass[Seq[_]]
       dbList must haveSize(1)
-      /*dbList must beEqualTo(List(MongoDBObject("omg" -> "ponies")))*/
+      dbList must beEqualTo(List(MongoDBObject("omg" -> "ponies")))
     }
   }
 
