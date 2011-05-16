@@ -69,8 +69,8 @@ class MongoDBObjectSpec extends CasbahSpecification {
       val fields = MongoDBObject("name" -> 1)
 
       // Simple test of Is it a DBObject?
-      q must haveSuperclass[DBObject]
-      fields must haveSuperclass[DBObject]
+      q must beDBObject
+      fields must beDBObject
     }
 
   }
@@ -79,7 +79,7 @@ class MongoDBObjectSpec extends CasbahSpecification {
     "Support 'empty', returning a DBObject" in {
       val dbObj = MongoDBObject.empty
 
-      dbObj must haveSuperclass[DBObject]
+      dbObj must beDBObject
       dbObj must have size (0)
     }
 
@@ -92,8 +92,8 @@ class MongoDBObjectSpec extends CasbahSpecification {
       jBldr.add("y", 2)
       val jObj = jBldr.get
 
-      dbObj must haveSuperclass[DBObject]
-      jObj must haveSuperclass[DBObject]
+      dbObj must beDBObject
+      jObj must beDBObject
       dbObj must beEqualTo(jObj)
     }
 
@@ -108,8 +108,8 @@ class MongoDBObjectSpec extends CasbahSpecification {
       jBldr.add("embedded", new com.mongodb.BasicDBObject("foo", "bar"))
       val jObj = jBldr.get
 
-      dbObj must haveSuperclass[DBObject]
-      jObj must haveSuperclass[DBObject]
+      dbObj must beDBObject
+      jObj must beDBObject
       dbObj must beEqualTo(jObj)
     }
     "Support a 2.8 builder interface which returns a DBObject" in {
@@ -123,7 +123,7 @@ class MongoDBObjectSpec extends CasbahSpecification {
 
       val dbObj = builder.result
 
-      dbObj must haveSuperclass[DBObject]
+      dbObj must beDBObject
       dbObj must haveSize(6)
     }
   }
@@ -131,18 +131,18 @@ class MongoDBObjectSpec extends CasbahSpecification {
   "MongoDBObject type conversions" should {
     "Support converting Maps of [String, Any] to DBObjects" in {
       val control: DBObject = MongoDBObject("foo" -> "bar", "n" -> 2)
-      control must haveSuperclass[DBObject]
+      control must beDBObject
 
       val map = Map("foo" -> "bar", "n" -> 2)
 
       val cast: DBObject = map
 
-      cast must haveSuperclass[DBObject]
+      cast must beDBObject
       cast must beEqualTo(control)
 
       val explicit = map.asDBObject
 
-      explicit must haveSuperclass[DBObject]
+      explicit must beDBObject
       explicit must beEqualTo(control)
     }
   }
@@ -156,30 +156,30 @@ class MongoDBObjectSpec extends CasbahSpecification {
       }
       "A list of Tuple Entrys with ++ " in {
         val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++ ("foo" -> "bar", "n" -> 5)
-        newObj must haveSuperclass[DBObject]
+        newObj must beDBObject
 
         newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5))
       }
       "Merging a single tuple via += " in {
         val dbObj = MongoDBObject("x" -> "y", "a" -> "b")
-        dbObj must haveSuperclass[DBObject]
+        dbObj must beDBObject
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b"))
 
         dbObj += ("foo" -> "bar")
 
-        dbObj must haveSuperclass[DBObject]
+        dbObj must beDBObject
 
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar"))
 
       }
       "Merging a set of tuples via ++= " in {
         val dbObj = MongoDBObject("x" -> "y", "a" -> "b")
-        dbObj must haveSuperclass[DBObject]
+        dbObj must beDBObject
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b"))
 
         dbObj += ("foo" -> "bar", "n" -> 5.asInstanceOf[AnyRef], "fbc" -> 542542.2.asInstanceOf[AnyRef])
 
-        dbObj must haveSuperclass[DBObject]
+        dbObj must beDBObject
 
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5, "fbc" -> 542542.2))
 
@@ -189,7 +189,7 @@ class MongoDBObjectSpec extends CasbahSpecification {
     "Support additivity with another MongoDBObject" in {
       val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++ MongoDBObject("foo" -> "bar", "n" -> 5)
 
-      newObj must haveSuperclass[DBObject]
+      newObj must beDBObject
 
       newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5))
     }
@@ -199,11 +199,11 @@ class MongoDBObjectSpec extends CasbahSpecification {
         "y" -> 9,
         "foo" -> MongoDBList("a", "b", "c"),
         "bar" -> MongoDBObject("baz" -> "foo"))
-      dbObj must haveSuperclass[DBObject]
+      dbObj must beDBObject
 
       dbObj.as[Double]("x") must beEqualTo(5.2)
       dbObj.as[Int]("y") must beEqualTo(9)
-      dbObj.as[MongoDBList]("foo") must contain("a", "b", "c")
+      dbObj.as[MongoDBList]("foo") must haveTheSameElementsAs(List("a", "b", "c"))
       dbObj.as[DBObject]("bar") must haveEntry("baz" -> "foo")
       dbObj.as[String]("nullValue") must throwA[NoSuchElementException]
     }
@@ -212,8 +212,8 @@ class MongoDBObjectSpec extends CasbahSpecification {
       "getAs functions as expected" in {
         val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
           "embedded" -> MongoDBObject("foo" -> "bar"))
-        dbObj.getAs[Int]("x") must beSome[Int] and beEqualTo(5)
-        dbObj.getAs[Double]("y") must beSome[Double] and beEqualTo(212.8)
+        dbObj.getAs[Int]("x") must beSome[Int].which(_ == 5)
+        dbObj.getAs[Double]("y") must beSome[Double].which(_ == 212.8)
         dbObj.getAs[DBObject]("embedded") must beSome[DBObject] and haveSomeEntry("foo" -> "bar")
         dbObj.getAs[Float]("omgponies") must beNone
         dbObj.getAs[Double]("x").get must throwA[ClassCastException]
@@ -223,15 +223,15 @@ class MongoDBObjectSpec extends CasbahSpecification {
       "as functions as expected" in {
         val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
           "embedded" -> MongoDBObject("foo" -> "bar"))
-        dbObj.as[Int]("x") must haveClass[Int] and beEqualTo(5)
-        dbObj.as[Double]("y") must haveClass[Double] and beEqualTo(212.8)
-        dbObj.as[DBObject]("embedded") must haveSuperclass[DBObject] and haveEntry("foo" -> "bar")
+        dbObj.as[Int]("x") must beEqualTo(5)
+        dbObj.as[Double]("y") must beEqualTo(212.8)
+        dbObj.as[DBObject]("embedded") must haveEntry("foo" -> "bar")
         dbObj.as[Float]("omgponies") must throwA[NoSuchElementException]
         dbObj.as[Double]("x") must throwA[ClassCastException]
 
         "the result should be assignable to the type specified" in {
           val y: Double = dbObj.as[Double]("y")
-          y must haveClass[Double] and beEqualTo(212.8)
+          y must beEqualTo(212.8)
         }
       }
     }

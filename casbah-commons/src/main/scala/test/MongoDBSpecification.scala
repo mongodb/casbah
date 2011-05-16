@@ -15,8 +15,7 @@
  *
  */
 
-package com.mongodb.casbah
-package commons
+package com.mongodb.casbah.commons
 package test
 
 import com.mongodb.casbah.commons.Imports._
@@ -24,10 +23,10 @@ import com.mongodb.casbah.commons.Imports._
 import org.specs2.mutable._
 import org.specs2.data.Sized
 import org.specs2.matcher.{ Expectable, Matcher, MapMatchers }
-import org.specs2.specification.Scope
+import org.specs2.matcher.Matchers._
 import com.mongodb.casbah.commons.{Logging, MongoDBObject}
-import org.apache.commons.logging.Log
 import javax.management.remote.rmi._RMIConnection_Stub
+
 
 object `package` {
 
@@ -72,6 +71,8 @@ trait DBObjectBaseMatchers extends Logging {
   } else {
     map.value.expand[Seq[Any]](k)
   }
+
+  def beDBObject: Matcher[AnyRef] =  ((_: AnyRef).isInstanceOf[DBObject], " is a DBObject", " is not a DBObject")
 
   def haveSomeField(k: String) = new Matcher[Option[DBObject]] {
     def apply[S <: Option[DBObject]](map: Expectable[S]) = {
