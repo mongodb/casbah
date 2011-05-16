@@ -564,8 +564,8 @@ trait NotOp extends QueryOperator {
     MongoDBObject(field -> dbObj)
   }
 
-  def $not(re: scala.util.matching.Regex) = op(field, re.pattern)
-  def $not(re: java.util.regex.Pattern) = op(field, re)
+  def $not(re: scala.util.matching.Regex) = op(oper, re.pattern)
+  def $not(re: java.util.regex.Pattern) = op(oper, re)
 }
 
 /**
