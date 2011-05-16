@@ -204,10 +204,10 @@ trait AddToSetOp extends BarewordQueryOperator {
       protected def op(target: Any) =
         MongoDBObject("$addToSet" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
 
-      def $each(target: Array[Any]) = op(target.toList.asJava)
+      def $each(target: Array[Any]) = op(target.toList)
       def $each(target: Any*) =
         if (target.size > 1)
-          op(target.toList.asJava)
+          op(target.toList)
         else if (!target(0).isInstanceOf[Iterable[_]] &&
           !target(0).isInstanceOf[Array[_]])
           op(List(target(0)))
@@ -340,9 +340,10 @@ trait NorOp extends BarewordQueryOperator {
   /** ValueTest enabled version */
   def $nor(inner: => DBObject) =
     MongoDBObject("$nor" -> (inner match {
-      case obj: BasicDBList => obj
+      case obj: BasicDBList => obj.toSeq
+      case obj: MongoDBList => obj
       case obj: DBObject => MongoDBList(obj)
-    }).asInstanceOf[BasicDBList])
+    }).asInstanceOf[Seq[Any]])
 
 }
 
