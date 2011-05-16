@@ -172,7 +172,7 @@ class RawMapReduceSpec extends CasbahSpecification {
           log.info("First pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.out.merged")
+//          result.getAs[String]("result") must beSome("yield_historical.out.merged")
 
           result = mongoDB.command(cmd00s)
           log.info("second pass result: %s", result)

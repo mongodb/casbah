@@ -41,8 +41,6 @@ class CoreWrappersSpec extends CasbahSpecification {
 
         val scalaConn = javaConn.asScala
 
-        scalaConn must haveSuperclass[com.mongodb.casbah.MongoConnection]
-
         scalaConn.underlying must beEqualTo(javaConn)
       }
 
@@ -52,7 +50,6 @@ class CoreWrappersSpec extends CasbahSpecification {
 
         val scalaDb = javaDb.asScala
 
-        scalaDb must haveSuperclass[com.mongodb.casbah.MongoDB]
 
         scalaDb.underlying must beEqualTo(javaDb)
       }
@@ -62,8 +59,6 @@ class CoreWrappersSpec extends CasbahSpecification {
       "Collection objects" in {
 
         val scalaCollection = javaCollection.asScala
-
-        scalaCollection must haveSuperclass[com.mongodb.casbah.MongoCollection]
 
         scalaCollection.underlying must beEqualTo(javaCollection)
       }
@@ -77,16 +72,14 @@ class CoreWrappersSpec extends CasbahSpecification {
       "MongoConnection" in {
         "direct instantiation" in {
           conn = MongoConnection()
-          conn must haveSuperclass[com.mongodb.casbah.MongoConnection]
 
-          conn.underlying must haveSuperclass[com.mongodb.Mongo]
+          conn.underlying must haveClass[com.mongodb.Mongo]
         }
 
         "the apply method works" in {
 
           db = conn("test")
 
-          db must haveSuperclass[com.mongodb.casbah.MongoDB]
 
           db.underlying must haveSuperclass[com.mongodb.DB]
 
@@ -98,7 +91,6 @@ class CoreWrappersSpec extends CasbahSpecification {
 
           coll = db("collection.in")
 
-          coll must haveSuperclass[com.mongodb.casbah.MongoCollection]
 
           coll.underlying must haveSuperclass[com.mongodb.DBCollection]
         }
@@ -112,11 +104,11 @@ class CoreWrappersSpec extends CasbahSpecification {
       val coll = db("collectoin")
       coll.drop()
       coll.insert(MongoDBObject("foo" -> "bar"))
-      coll must haveSuperclass[com.mongodb.casbah.MongoCollection]
+      coll must haveClass[com.mongodb.casbah.MongoCollection]
       coll.name must beEqualTo("collectoin")
 
       val newColl = coll.rename("collection")
-      newColl must haveSuperclass[com.mongodb.casbah.MongoCollection]
+      newColl must haveClass[com.mongodb.casbah.MongoCollection]
       newColl.name must beEqualTo("collection")
 
       // no mutability in the old collection
