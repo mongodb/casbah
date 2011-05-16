@@ -40,15 +40,14 @@ class CasbahProject(info: ProjectInfo)
       extends DefaultProject(info) 
       with AutoCompilerPlugins 
       with IdeaProject
-      with GrowlingTests 
-      with ScalariformPlugin {
+      with GrowlingTests { 
 
     override def packageDocsJar = defaultJarPath("-javadoc.jar")
     override def packageSrcJar= defaultJarPath("-sources.jar")
     lazy val sourceArtifact = Artifact.sources(artifactID)
     lazy val docsArtifact = Artifact.javadoc(artifactID)
     override def packageToPublishActions = super.packageToPublishActions ++ Seq(packageDocs, packageSrc)
-    override def scalariformOptions = Seq(VerboseScalariform)
+    //override def scalariformOptions = Seq(VerboseScalariform)
 
    /**
      * SXR Support 
