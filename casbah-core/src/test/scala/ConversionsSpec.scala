@@ -27,11 +27,10 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.conversions.scala._
 
 import org.scala_tools.time.Imports._
+import com.mongodb.casbah.commons.test.CasbahSpecification
 
-import org.specs._
-import org.specs.specification.PendingUntilFixed
 
-class ConversionsSpec extends Specification with PendingUntilFixed {
+class ConversionsSpec extends CasbahSpecification {
 
   type JDKDate = java.util.Date
 

@@ -67,6 +67,12 @@ trait DBObjectBaseMatchers extends Logging {
     map.value.expand[AnyRef](k)
   }
 
+  protected def listField(map: Expectable[DBObject], k: String) = if (k.indexOf('.') < 0) {
+    map.value.getAs[Seq[Any]](k)
+  } else {
+    map.value.expand[Seq[Any]](k)
+  }
+
   def haveSomeField(k: String) = new Matcher[Option[DBObject]] {
     def apply[S <: Option[DBObject]](map: Expectable[S]) = {
       result(someField(map, k).isDefined, map.description + " has the key " + k, map.description + " doesn't have the key " + k, map)
@@ -90,14 +96,28 @@ trait DBObjectBaseMatchers extends Logging {
     }
   }
 
+  /** Special version of "HaveEntry" that expects a list and then uses
+   * "hasSameElements" on it.
+   */
+  def haveListEntry(k: String, l: => Traversable[Any]) = new Matcher[DBObject] {
+    def apply[S <: DBObject](map: Expectable[S]) = {
+      val objL = listField(map, k).getOrElse(Seq.empty[Any]).toSeq
+      val _l = l.toSeq
+      result(objL.sameElements(_l), // match only the value
+        map.description + " has the pair " + k,
+        map.description + " doesn't have the pair " + k,
+        map)
+    }
+  }
+
   /** matches if map contains a pair (key, value) == (k, v)
    * Will expand out dot notation for matching.
    **/
   def haveEntry[V](p: (String, V)) = new Matcher[DBObject] {
     def apply[S <: DBObject](map: Expectable[S]) = {
-      result(field(map, p._1).exists(_ == p._2), // match only the value
+      result(field(map, p._1).exists(_.equals(p._2)), // match only the value
         map.description + " has the pair " + p,
-        map.description + " doesn't have the pair " + p,
+        map.description + "[" + field(map, p._1) + "] doesn't have the pair " + p + "[" + p._2 + "]",
         map)
     }
   }

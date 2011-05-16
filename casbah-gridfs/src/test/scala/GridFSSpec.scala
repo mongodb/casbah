@@ -28,16 +28,13 @@ import com.mongodb.casbah.commons.Logging
 
 import java.security.MessageDigest
 import java.io._
+import com.mongodb.casbah.commons.test.CasbahSpecification
 
-import org.specs._
-import org.specs.specification.PendingUntilFixed
-
-class GridFSSpec extends Specification with PendingUntilFixed with Logging {
+class GridFSSpec extends CasbahSpecification {
   val logo_md5 = "479977b85391a88bbc1da1e9f5175239"
   val digest = MessageDigest.getInstance("MD5")
 
   "Casbah's GridFS Implementations" should {
-    shareVariables()
     implicit val mongo = MongoConnection()("casbah_test")
     mongo.dropDatabase()
     val logo = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")

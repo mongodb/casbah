@@ -28,19 +28,16 @@ import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.conversions.scala._
 
 import org.scala_tools.time.Imports._
+import com.mongodb.casbah.commons.test.CasbahSpecification
 
-import org.specs._
-import org.specs.specification.PendingUntilFixed
 
 @SuppressWarnings(Array("deprecation"))
-class RawMapReduceSpec extends Specification with PendingUntilFixed with Logging {
+class RawMapReduceSpec extends CasbahSpecification {
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
     implicit val mongoDB = MongoConnection()("casbahTest_MR")
 
     verifyAndInitTreasuryData
-
-    shareVariables
 
     val mapJS = """
       function m() {

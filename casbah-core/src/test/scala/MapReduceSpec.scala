@@ -28,15 +28,13 @@ import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.conversions.scala._
 
 import org.scala_tools.time.Imports._
+import com.mongodb.casbah.commons.test.CasbahSpecification
 
-import org.specs._
-import org.specs.specification.PendingUntilFixed
 
 @SuppressWarnings(Array("deprecation"))
-class MapReduceSpec extends Specification with PendingUntilFixed with Logging {
+class MapReduceSpec extends CasbahSpecification {
 
   "Casbah's Map/Reduce Engine" should {
-    shareVariables
 
     implicit val mongoDB = MongoConnection()("casbahTest")
     mongoDB.dropDatabase()

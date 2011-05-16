@@ -27,14 +27,12 @@ import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.conversions.scala._
 
 import org.scala_tools.time.Imports._
+import com.mongodb.casbah.commons.test.CasbahSpecification
 
-import org.specs._
-import org.specs.specification.PendingUntilFixed
 
-class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging {
+class CoreWrappersSpec extends CasbahSpecification {
 
   "Casbah behavior between Scala and Java versions of Objects" should {
-    shareVariables
 
     "provide working .asScala methods on the Java version of the objects" in {
 
