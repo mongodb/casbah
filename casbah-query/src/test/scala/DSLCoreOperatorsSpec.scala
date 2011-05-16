@@ -89,7 +89,7 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
 
       "Also, Arrays function" in {
         val neArray = "foo" $ne Array("x", "y", 5)
-        neArray must haveListEntry("foo.$ne", Array("x" , "y", 5))
+        neArray must haveListEntry("foo.$ne", Array("x", "y", 5))
       }
     }
 
@@ -180,7 +180,7 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
       "An immutable Set works" in {
         import scala.collection.immutable.Set
         val neSet = "foo" $lt Set("x", "y", 5)
-        neSet must haveListEntry("foo.$lt",  List("x", "y", 5))
+        neSet must haveListEntry("foo.$lt", List("x", "y", 5))
       }
 
       "An mutable HashSet works" in {
@@ -202,15 +202,15 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
       }
       "with BigDecimal" in {
         val neBD = "foo" $lt BigDecimal("5.8233232")
-        neBD must haveEntry("foo.$lt" ->  BigDecimal("5.8233232"))
+        neBD must haveEntry("foo.$lt" -> BigDecimal("5.8233232"))
       }
       "with BigInt" in {
         val neBI = "foo" $lt BigInt("1000000000000000000425425245252")
-        neBI must haveEntry("foo.$lt" ->  BigInt("1000000000000000000425425245252"))
+        neBI must haveEntry("foo.$lt" -> BigInt("1000000000000000000425425245252"))
       }
       "with Byte" in {
         val neByte = "foo" $lt java.lang.Byte.parseByte("51")
-        neByte must haveEntry("foo.$lt" ->  java.lang.Byte.parseByte("51"))
+        neByte must haveEntry("foo.$lt" -> java.lang.Byte.parseByte("51"))
       }
       "with Double" in {
         val neDouble = "foo" $lt 5.232352
@@ -218,15 +218,15 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
       }
       "with Float" in {
         val neFloat = "foo" $lt java.lang.Float.parseFloat("5.232352")
-        neFloat must haveEntry("foo.$lt" ->  java.lang.Float.parseFloat("5.232352"))
+        neFloat must haveEntry("foo.$lt" -> java.lang.Float.parseFloat("5.232352"))
       }
       "with Long" in {
         val neLong = "foo" $lt 10L
-        neLong must haveEntry("foo.$lt" ->10L)
+        neLong must haveEntry("foo.$lt" -> 10L)
       }
       "with Short" in {
         val neShort = "foo" $lt java.lang.Short.parseShort("10")
-        neShort must haveEntry("foo.$lt" ->  java.lang.Short.parseShort("10"))
+        neShort must haveEntry("foo.$lt" -> java.lang.Short.parseShort("10"))
       }
       "with JDKDate" in {
         val neJDKDate = "foo" $lt testDate
@@ -361,7 +361,7 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
       }
       "A MongoDBObject created value" in {
         val neObj = "foo" $gt MongoDBObject("bar" -> "baz")
-        neObj must haveEntry("foo.$gt" ->  MongoDBObject("bar" -> "baz"))
+        neObj must haveEntry("foo.$gt" -> MongoDBObject("bar" -> "baz"))
       }
       "A DBList should work also" in {
         val neLst = "foo" $gt MongoDBList("x", "y", "z")
@@ -404,44 +404,44 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
     "Accept a right hand value of ValidDateOrNumericType" in {
       "with Int" in {
         val neInt = "foo" $gt 10
-        neInt must haveEntry("foo.$gt" ->  10)
+        neInt must haveEntry("foo.$gt" -> 10)
       }
       "with BigDecimal" in {
         val neBD = "foo" $gt BigDecimal("5.8233232")
-        neBD must haveEntry("foo.$gt" ->  BigDecimal("5.8233232"))
+        neBD must haveEntry("foo.$gt" -> BigDecimal("5.8233232"))
       }
       "with BigInt" in {
         val neBI = "foo" $gt BigInt("1000000000000000000425425245252")
-        neBI must haveEntry("foo.$gt" ->  BigInt("1000000000000000000425425245252"))
+        neBI must haveEntry("foo.$gt" -> BigInt("1000000000000000000425425245252"))
       }
       "with Byte" in {
         val neByte = "foo" $gt java.lang.Byte.parseByte("51")
-        neByte must haveEntry("foo.$gt" ->  java.lang.Byte.parseByte("51"))
+        neByte must haveEntry("foo.$gt" -> java.lang.Byte.parseByte("51"))
       }
       "with Double" in {
         val neDouble = "foo" $gt 5.232352
-        neDouble must haveEntry("foo.$gt" ->  5.232352)
+        neDouble must haveEntry("foo.$gt" -> 5.232352)
       }
       "with Float" in {
         val neFloat = "foo" $gt java.lang.Float.parseFloat("5.232352")
-        neFloat must haveEntry("foo.$gt" ->  java.lang.Float.parseFloat("5.232352"))
+        neFloat must haveEntry("foo.$gt" -> java.lang.Float.parseFloat("5.232352"))
       }
       "with Long" in {
         val neLong = "foo" $gt 10L
-        neLong must haveEntry("foo.$gt" ->  10L)
+        neLong must haveEntry("foo.$gt" -> 10L)
       }
       "with Short" in {
         val neShort = "foo" $gt java.lang.Short.parseShort("10")
-        neShort must haveEntry("foo.$gt" ->  java.lang.Short.parseShort("10"))
+        neShort must haveEntry("foo.$gt" -> java.lang.Short.parseShort("10"))
       }
       "with JDKDate" in {
         val neJDKDate = "foo" $gt testDate
-        neJDKDate must haveEntry("foo.$gt" ->  testDate)
+        neJDKDate must haveEntry("foo.$gt" -> testDate)
       }
       "with JodaDT" in {
         RegisterJodaTimeConversionHelpers()
         val neJodaDT = "foo" $gt new org.joda.time.DateTime(testDate.getTime)
-        neJodaDT must haveEntry("foo.$gt" ->  new org.joda.time.DateTime(testDate.getTime))
+        neJodaDT must haveEntry("foo.$gt" -> new org.joda.time.DateTime(testDate.getTime))
       }
 
     }
@@ -454,17 +454,17 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
 
     "Accept a right hand value of String" in {
       val neStr = "foo" $gte "ISBN-123456789"
-      neStr must haveEntry("foo.$gte" ->  "ISBN-123456789")
+      neStr must haveEntry("foo.$gte" -> "ISBN-123456789")
     }
 
     "Accept a right hand value of DBObject" in {
       "A BasicDBObject created value" in {
         val neObj = "foo" $gte new BasicDBObject("bar", "baz")
-        neObj must haveEntry("foo.$gte" -> MongoDBObject("bar" ->  "baz"))
+        neObj must haveEntry("foo.$gte" -> MongoDBObject("bar" -> "baz"))
       }
       "A MongoDBObject created value" in {
         val neObj = "foo" $gte MongoDBObject("bar" -> "baz")
-        neObj must haveEntry("foo.$gte" ->  MongoDBObject("bar" -> "baz"))
+        neObj must haveEntry("foo.$gte" -> MongoDBObject("bar" -> "baz"))
       }
       "A DBList should work also" in {
         val neLst = "foo" $gte MongoDBList("x", "y", "z")
@@ -477,7 +477,7 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
       "An immutable List works" in {
         import scala.collection.immutable.List
         val neLst = "foo" $gte List("x", "y", 5)
-        neLst must haveEntry("foo.$gte", List("x", "y",  5))
+        neLst must haveEntry("foo.$gte", List("x", "y", 5))
       }
 
       "An immutable Seq works" in {
@@ -507,44 +507,44 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
     "Accept a right hand value of ValidDateOrNumericType" in {
       "with Int" in {
         val neInt = "foo" $gte 10
-        neInt must haveEntry("foo.$gte" ->  10)
+        neInt must haveEntry("foo.$gte" -> 10)
       }
       "with BigDecimal" in {
         val neBD = "foo" $gte BigDecimal("5.8233232")
-        neBD must haveEntry("foo.$gte" ->  BigDecimal("5.8233232"))
+        neBD must haveEntry("foo.$gte" -> BigDecimal("5.8233232"))
       }
       "with BigInt" in {
         val neBI = "foo" $gte BigInt("1000000000000000000425425245252")
-        neBI must haveEntry("foo.$gte" ->  BigInt("1000000000000000000425425245252"))
+        neBI must haveEntry("foo.$gte" -> BigInt("1000000000000000000425425245252"))
       }
       "with Byte" in {
         val neByte = "foo" $gte java.lang.Byte.parseByte("51")
-        neByte must haveEntry("foo.$gte" ->  java.lang.Byte.parseByte("51"))
+        neByte must haveEntry("foo.$gte" -> java.lang.Byte.parseByte("51"))
       }
       "with Double" in {
         val neDouble = "foo" $gte 5.232352
-        neDouble must haveEntry("foo.$gte" ->  5.232352)
+        neDouble must haveEntry("foo.$gte" -> 5.232352)
       }
       "with Float" in {
         val neFloat = "foo" $gte java.lang.Float.parseFloat("5.232352")
-        neFloat must haveEntry("foo.$gte" ->  java.lang.Float.parseFloat("5.232352"))
+        neFloat must haveEntry("foo.$gte" -> java.lang.Float.parseFloat("5.232352"))
       }
       "with Long" in {
         val neLong = "foo" $gte 10L
-        neLong must haveEntry("foo.$gte" ->  10L)
+        neLong must haveEntry("foo.$gte" -> 10L)
       }
       "with Short" in {
         val neShort = "foo" $gte java.lang.Short.parseShort("10")
-        neShort must haveEntry("foo.$gte" ->  java.lang.Short.parseShort("10"))
+        neShort must haveEntry("foo.$gte" -> java.lang.Short.parseShort("10"))
       }
       "with JDKDate" in {
         val neJDKDate = "foo" $gte testDate
-        neJDKDate must haveEntry("foo.$gte" ->  testDate)
+        neJDKDate must haveEntry("foo.$gte" -> testDate)
       }
       "with JodaDT" in {
         RegisterJodaTimeConversionHelpers()
         val neJodaDT = "foo" $gte new org.joda.time.DateTime(testDate.getTime)
-        neJodaDT must haveEntry("foo.$gte" ->  new org.joda.time.DateTime(testDate.getTime))
+        neJodaDT must haveEntry("foo.$gte" -> new org.joda.time.DateTime(testDate.getTime))
       }
 
     }
@@ -734,11 +734,11 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
 
     "Function with anchoring and subobjects" in {
       val not = "foo" $not { _ $mod (5, 10) }
-      not must haveEntry("foo.$not" ->  MongoDBObject("$mod" -> MongoDBList(5, 10)))
+      not must haveEntry("foo.$not" -> MongoDBObject("$mod" -> MongoDBList(5, 10)))
     }
 
     // TODO - Fix me.  Some kind of value match failure internally with the regex.
-/*    "Function with a regular expression" in {
+    /*    "Function with a regular expression" in {
       val not = "foo" $not "^foo.*bar".r
 //      not must haveEntry("foo.$not" -> "^foo.*bar".r) // TODO - RegEx matcher!!!!
       not must not beNull
@@ -748,11 +748,11 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
   "Casbah's $slice operator" should {
     "Function with a single value" in {
       val slice = "foo" $slice 5
-      slice must haveEntry("foo.$slice" ->  5)
+      slice must haveEntry("foo.$slice" -> 5)
     }
     "Function with a slice and limit " in {
       val slice = "foo" $slice (5, -1)
-      slice must haveEntry("foo.$slice" ->  MongoDBList(5, -1))
+      slice must haveEntry("foo.$slice" -> MongoDBList(5, -1))
     }
   }
 
@@ -772,86 +772,86 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
     "Accept raw Byte indicators (e.g. from org.bson.BSON)" in {
       // Don't need to test every value here since it's just a byte
       val typeOper = "foo" $type org.bson.BSON.NUMBER_LONG
-      typeOper must haveEntry("foo.$type" ->  org.bson.BSON.NUMBER_LONG)
+      typeOper must haveEntry("foo.$type" -> org.bson.BSON.NUMBER_LONG)
     }
 
     "Accept manifested Type arguments" in {
       "Doubles" in {
         val typeOper = "foo".$type[Double]
-        typeOper must haveEntry("foo.$type" ->  org.bson.BSON.NUMBER)
+        typeOper must haveEntry("foo.$type" -> org.bson.BSON.NUMBER)
       }
       "Strings" in {
         val typeOper = "foo".$type[String]
-        typeOper must haveEntry("foo.$type" ->  org.bson.BSON.STRING)
+        typeOper must haveEntry("foo.$type" -> org.bson.BSON.STRING)
       }
       "Object" in {
         "via BSONObject" in {
           val typeOper = "foo".$type[org.bson.BSONObject]
-          typeOper must haveEntry("foo.$type" ->  org.bson.BSON.OBJECT)
+          typeOper must haveEntry("foo.$type" -> org.bson.BSON.OBJECT)
         }
         "via DBObject" in {
           val typeOper = "foo".$type[DBObject]
-          typeOper must haveEntry("foo.$type" ->  org.bson.BSON.OBJECT)
+          typeOper must haveEntry("foo.$type" -> org.bson.BSON.OBJECT)
         }
       }
       "Array" in {
         "via BasicDBList" in {
           val typeOper = "foo".$type[BasicDBList]
-          typeOper must haveEntry("foo.$type" ->  org.bson.BSON.ARRAY)
+          typeOper must haveEntry("foo.$type" -> org.bson.BSON.ARRAY)
         }
         "via BasicBSONList" in {
           val typeOper = "foo".$type[org.bson.types.BasicBSONList]
-          typeOper must haveEntry("foo.$type" ->  org.bson.BSON.ARRAY)
+          typeOper must haveEntry("foo.$type" -> org.bson.BSON.ARRAY)
         }
       }
       "OID" in {
         val typeOper = "foo".$type[ObjectId]
-        typeOper must haveEntry("foo.$type" ->  org.bson.BSON.OID)
+        typeOper must haveEntry("foo.$type" -> org.bson.BSON.OID)
       }
       "Boolean" in {
         val typeOper = "foo".$type[Boolean]
-        typeOper must haveEntry("foo.$type" ->  org.bson.BSON.BOOLEAN)
+        typeOper must haveEntry("foo.$type" -> org.bson.BSON.BOOLEAN)
       }
       "Date" in {
         "via JDKDate" in {
           val typeOper = "foo".$type[java.util.Date]
-          typeOper must haveEntry("foo.$type" ->  org.bson.BSON.DATE)
+          typeOper must haveEntry("foo.$type" -> org.bson.BSON.DATE)
         }
         "via Joda DateTime" in {
           val typeOper = "foo".$type[org.joda.time.DateTime]
-          typeOper must haveEntry("foo.$type" ->  org.bson.BSON.DATE)
+          typeOper must haveEntry("foo.$type" -> org.bson.BSON.DATE)
         }
       }
       "None (null)" in {
         // For some reason you can't use NONE 
         val typeOper = "foo".$type[Option[Nothing]]
-        typeOper must haveEntry("foo.$type" ->  org.bson.BSON.NULL)
+        typeOper must haveEntry("foo.$type" -> org.bson.BSON.NULL)
       }
       "Regex" in {
         "Scala Regex" in {
           val typeOper = "foo".$type[scala.util.matching.Regex]
-          typeOper must haveEntry("foo.$type" ->  org.bson.BSON.REGEX)
+          typeOper must haveEntry("foo.$type" -> org.bson.BSON.REGEX)
         }
       }
       "Symbol" in {
         val typeOper = "foo".$type[Symbol]
-        typeOper must haveEntry("foo.$type" ->  org.bson.BSON.SYMBOL)
+        typeOper must haveEntry("foo.$type" -> org.bson.BSON.SYMBOL)
       }
       "Number (integer)" in {
         val typeOper = "foo".$type[Int]
-        typeOper must haveEntry("foo.$type" ->  org.bson.BSON.NUMBER_INT)
+        typeOper must haveEntry("foo.$type" -> org.bson.BSON.NUMBER_INT)
       }
       "Number (Long)" in {
         val typeOper = "foo".$type[Long]
-        typeOper must haveEntry("foo.$type" ->  org.bson.BSON.NUMBER_LONG)
+        typeOper must haveEntry("foo.$type" -> org.bson.BSON.NUMBER_LONG)
       }
       "Timestamp" in {
         val typeOper = "foo".$type[java.sql.Timestamp]
-        typeOper must haveEntry("foo.$type" ->  org.bson.BSON.TIMESTAMP)
+        typeOper must haveEntry("foo.$type" -> org.bson.BSON.TIMESTAMP)
       }
       "Binary" in {
         val typeOper = "foo".$type[Array[Byte]]
-        typeOper must haveEntry("foo.$type" ->  org.bson.BSON.BINARY)
+        typeOper must haveEntry("foo.$type" -> org.bson.BSON.BINARY)
       }
 
     }

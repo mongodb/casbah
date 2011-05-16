@@ -71,7 +71,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
   def as[A <: Any: Manifest](idx: Int): A = {
     require(manifest[A] != manifest[scala.Nothing],
       "Type inference failed; as[A]() requires an explicit type argument" +
-        "(e.g. dbList.as[<ReturnType>](index)) to function correctly.")
+      "(e.g. dbList.as[<ReturnType>](index)) to function correctly.")
 
     underlying.get(idx) match {
       case null => throw new NoSuchElementException
@@ -83,7 +83,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
   def getAs[A <: Any: Manifest](idx: Int): Option[A] = {
     require(manifest[A] != manifest[scala.Nothing],
       "Type inference failed; getAs[A]() requires an explicit type argument " +
-        "(e.g. dbList.getAs[<ReturnType>](index) ) to function correctly.")
+      "(e.g. dbList.getAs[<ReturnType>](index) ) to function correctly.")
 
     underlying.get(idx) match {
       case null => None

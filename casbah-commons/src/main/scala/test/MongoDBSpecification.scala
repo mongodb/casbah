@@ -24,9 +24,8 @@ import org.specs2.mutable._
 import org.specs2.data.Sized
 import org.specs2.matcher.{ Expectable, Matcher, MapMatchers }
 import org.specs2.matcher.Matchers._
-import com.mongodb.casbah.commons.{Logging, MongoDBObject}
+import com.mongodb.casbah.commons.{ Logging, MongoDBObject }
 import javax.management.remote.rmi._RMIConnection_Stub
-
 
 object `package` {
 
@@ -72,7 +71,7 @@ trait DBObjectBaseMatchers extends Logging {
     map.value.expand[Seq[Any]](k)
   }
 
-  def beDBObject: Matcher[AnyRef] =  ((_: AnyRef).isInstanceOf[DBObject], " is a DBObject", " is not a DBObject")
+  def beDBObject: Matcher[AnyRef] = ((_: AnyRef).isInstanceOf[DBObject], " is a DBObject", " is not a DBObject")
 
   def haveSomeField(k: String) = new Matcher[Option[DBObject]] {
     def apply[S <: Option[DBObject]](map: Expectable[S]) = {
@@ -93,7 +92,7 @@ trait DBObjectBaseMatchers extends Logging {
   def haveSomeEntry[V](p: (String, V)) = new Matcher[Option[DBObject]] {
     def apply[S <: Option[DBObject]](map: Expectable[S]) = {
       result(someField(map, p._1).exists(_ == p._2), // match only the value
-      map.description + " has the pair " + p, map.description + " doesn't have the pair " + p, map)
+        map.description + " has the pair " + p, map.description + " doesn't have the pair " + p, map)
     }
   }
 
@@ -127,8 +126,8 @@ trait DBObjectBaseMatchers extends Logging {
    * can expand dot notation to match specific sub-keys */
   def haveSomeEntries[V](pairs: (String, V)*) = new Matcher[Option[DBObject]] {
     def apply[S <: Option[DBObject]](map: Expectable[S]) = {
-      result(pairs.forall(pair => someField(map, pair._1).exists(_ == pair._2) /* match only the value */),
-             map.description + " has the pairs " + pairs.mkString(", "), map.description + " doesn't have the pairs " + pairs.mkString(", "), map)
+      result(pairs.forall(pair => someField(map, pair._1).exists(_ == pair._2) /* match only the value */ ),
+        map.description + " has the pairs " + pairs.mkString(", "), map.description + " doesn't have the pairs " + pairs.mkString(", "), map)
     }
   }
 
@@ -136,7 +135,7 @@ trait DBObjectBaseMatchers extends Logging {
    * can expand dot notation to match specific sub-keys */
   def haveEntries[V](pairs: (String, V)*) = new Matcher[DBObject] {
     def apply[S <: DBObject](map: Expectable[S]) = {
-      result(pairs.forall(pair => field(map, pair._1).exists(_ == pair._2) /* match only the value */),
+      result(pairs.forall(pair => field(map, pair._1).exists(_ == pair._2) /* match only the value */ ),
         map.description + " has the pairs " + pairs.mkString(", "),
         map.description + " doesn't have the pairs " + pairs.mkString(", "),
         map)

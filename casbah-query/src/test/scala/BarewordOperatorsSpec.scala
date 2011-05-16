@@ -24,11 +24,7 @@ package com.mongodb.casbah
 package query
 
 import com.mongodb.casbah.query.Imports._
-import com.mongodb.casbah.commons.conversions.scala._
-
-import org.scala_tools.time.Imports._
 import com.mongodb.casbah.commons.test.CasbahSpecification
-
 
 @SuppressWarnings(Array("deprecation"))
 class BarewordOperatorsSpec extends CasbahSpecification {
@@ -36,7 +32,7 @@ class BarewordOperatorsSpec extends CasbahSpecification {
     "Accept one or many pairs of values" in {
       "A single pair" in {
         val set = $set("foo" -> "bar")
-        set must haveEntry("$set.foo" -> "bar") 
+        set must haveEntry("$set.foo" -> "bar")
       }
       "Multiple pairs" in {
         val set = $set("foo" -> "bar", "x" -> 5.2, "y" -> 9, "a" -> ("b", "c", "d", "e"))
@@ -84,11 +80,11 @@ class BarewordOperatorsSpec extends CasbahSpecification {
       or must haveEntry("$or" -> Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
     }
     // TODO - Fix me!
-//    "Work with nested operators" in {
-//      val or = $or { "foo" $lt 5 $gt 1 ++ "x" $gte 10 $lte 152 }
-//      or must haveSuperclass[DBObject]
-//      or must beEqualTo(MongoDBObject("$or" -> MongoDBList(MongoDBObject("foo" -> "bar", "x" -> "y"))))
-//    }
+    //    "Work with nested operators" in {
+    //      val or = $or { "foo" $lt 5 $gt 1 ++ "x" $gte 10 $lte 152 }
+    //      or must haveSuperclass[DBObject]
+    //      or must beEqualTo(MongoDBObject("$or" -> MongoDBList(MongoDBObject("foo" -> "bar", "x" -> "y"))))
+    //    }
 
   }
 
@@ -214,14 +210,14 @@ class BarewordOperatorsSpec extends CasbahSpecification {
   "Casbah's DSL $nor operator" should {
     "Function as expected" in {
       val nor = $nor { "foo" $gte 15 $lt 35.2 $ne 16 }
-      nor.getAs[MongoDBList]("$nor") must have size(1)
+      nor.getAs[MongoDBList]("$nor") must have size (1)
       nor.as[MongoDBList]("$nor").getAs[DBObject](0) must haveSomeEntries("foo.$gte" -> 15, "foo.$lt" -> 35.2, "foo.$ne" -> 16)
     }
     "Work with multiples" in {
       val nor = $nor { "foo" $gte 15 $lt 35 $ne 16 + ("x" -> "y") }
-      nor.getAs[MongoDBList]("$nor") must have size(1)
+      nor.getAs[MongoDBList]("$nor") must have size (1)
       nor.as[MongoDBList]("$nor").getAs[DBObject](0) must haveSomeEntries("foo.$gte" -> 15, "foo.$lt" -> 35,
-                                                                          "foo.$ne" -> 16, "x" -> "y")
+        "foo.$ne" -> 16, "x" -> "y")
     }
   }
 }

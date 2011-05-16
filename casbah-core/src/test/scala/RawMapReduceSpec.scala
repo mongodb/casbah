@@ -30,7 +30,6 @@ import com.mongodb.casbah.commons.conversions.scala._
 import org.scala_tools.time.Imports._
 import com.mongodb.casbah.commons.test.CasbahSpecification
 
-
 @SuppressWarnings(Array("deprecation"))
 class RawMapReduceSpec extends CasbahSpecification {
 
@@ -77,7 +76,6 @@ class RawMapReduceSpec extends CasbahSpecification {
 
       log.info("M/R Result: %s", result)
 
-      result must notBeNull
 
       result.getAs[Double]("ok") must beSome(1.0)
       result.getAs[String]("result") must beSome("yield_historical.out.all")
@@ -102,7 +100,6 @@ class RawMapReduceSpec extends CasbahSpecification {
 
       log.info("M/R Result: %s", result)
 
-      result must notBeNull
 
       result.getAs[Double]("ok") must beSome(1.0)
       result.getAs[String]("result") must beNone
@@ -111,7 +108,7 @@ class RawMapReduceSpec extends CasbahSpecification {
       val mongo = result.as[BasicDBList]("results")
       Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
       mongo(0) must haveClass[com.mongodb.CommandResult]
-      mongo(0) must haveSuperClass[DBObject]
+      mongo(0) must beDBObject
       mongo(0) must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
     }
 
@@ -136,7 +133,6 @@ class RawMapReduceSpec extends CasbahSpecification {
 
       log.info("M/R result90s: %s", result90s)
 
-      result90s must notBeNull
 
       result90s.getAs[Double]("ok") must beSome(1.0)
       result90s.getAs[String]("result") must beSome("yield_historical.out.nineties")
@@ -156,7 +152,6 @@ class RawMapReduceSpec extends CasbahSpecification {
 
       log.info("M/R result00s: %s", result00s)
 
-      result00s must notBeNull
 
       result00s.getAs[Double]("ok") must beSome(1.0)
       result00s.getAs[String]("result") must beSome("yield_historical.out.aughts")
@@ -174,14 +169,12 @@ class RawMapReduceSpec extends CasbahSpecification {
           cmd90s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged")
 
           var result = mongoDB.command(cmd90s)
-          result must notBeNull
           log.info("First pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.merged")
 
           result = mongoDB.command(cmd00s)
-          result must notBeNull
           log.info("second pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
@@ -197,14 +190,12 @@ class RawMapReduceSpec extends CasbahSpecification {
           cmd90s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged_fresh")
 
           var result = mongoDB.command(cmd90s)
-          result must notBeNull
           log.info("First pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
 
           result = mongoDB.command(cmd00s)
-          result must notBeNull
           log.info("second pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
@@ -238,7 +229,6 @@ class RawMapReduceSpec extends CasbahSpecification {
 
       log.info("M/R result90s: %s", result90s)
 
-      result90s must notBeNull
 
       result90s.getAs[Double]("ok") must beSome(1.0)
       result90s.getAs[String]("result") must beSome("yield_historical.out.nineties")
@@ -257,7 +247,6 @@ class RawMapReduceSpec extends CasbahSpecification {
 
       log.info("M/R result00s: %s", result00s)
 
-      result00s must notBeNull
 
       result00s.getAs[Double]("ok") must beSome(1.0)
       result00s.getAs[String]("result") must beSome("yield_historical.out.aughts")
@@ -277,14 +266,12 @@ class RawMapReduceSpec extends CasbahSpecification {
           log.info("cmd 90s: %s", cmd90s)
 
           var result = mongoDB.command(cmd90s)
-          result must notBeNull
           log.info("First pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.all")
 
           result = mongoDB.command(cmd00s)
-          result must notBeNull
           log.info("Second pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
@@ -312,14 +299,12 @@ class RawMapReduceSpec extends CasbahSpecification {
           log.info("cmd 90s: %s", cmd90s)
 
           var result = mongoDB.command(cmd90s)
-          result must notBeNull
           log.info("First pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
           result.getAs[String]("result") must beSome("yield_historical.out.all")
 
           result = mongoDB.command(cmd00s)
-          result must notBeNull
           log.info("Second pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
@@ -343,7 +328,7 @@ class RawMapReduceSpec extends CasbahSpecification {
     mongoDB("yield_historical.out.aughts").drop
 
     // Verify the treasury data is loaded or skip the test for now
-    mongoDB("yield_historical.in").size must beGreaterThan(0).orSkipExample
+    mongoDB("yield_historical.in").size must beGreaterThan(0).orSkip("Skipping optional integration test, no valid data.")
   }
 
 }

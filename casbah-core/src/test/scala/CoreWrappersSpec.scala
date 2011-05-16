@@ -29,7 +29,6 @@ import com.mongodb.casbah.commons.conversions.scala._
 import org.scala_tools.time.Imports._
 import com.mongodb.casbah.commons.test.CasbahSpecification
 
-
 class CoreWrappersSpec extends CasbahSpecification {
 
   "Casbah behavior between Scala and Java versions of Objects" should {
@@ -39,12 +38,10 @@ class CoreWrappersSpec extends CasbahSpecification {
       val javaConn = new com.mongodb.Mongo() // Java connection
 
       "Connection objects" in {
-        javaConn must notBeNull
 
         val scalaConn = javaConn.asScala
 
-        scalaConn must notBeNull
-        scalaConn must haveSuperClass[com.mongodb.casbah.MongoConnection]
+        scalaConn must haveSuperclass[com.mongodb.casbah.MongoConnection]
 
         scalaConn.underlying must beEqualTo(javaConn)
       }
@@ -52,12 +49,10 @@ class CoreWrappersSpec extends CasbahSpecification {
       val javaDb = javaConn.getDB("test")
 
       "DB objects" in {
-        javaDb must notBeNull
 
         val scalaDb = javaDb.asScala
 
-        scalaDb must notBeNull
-        scalaDb must haveSuperClass[com.mongodb.casbah.MongoDB]
+        scalaDb must haveSuperclass[com.mongodb.casbah.MongoDB]
 
         scalaDb.underlying must beEqualTo(javaDb)
       }
@@ -65,12 +60,10 @@ class CoreWrappersSpec extends CasbahSpecification {
       val javaCollection = javaDb.getCollection("test")
 
       "Collection objects" in {
-        javaCollection must notBeNull
 
         val scalaCollection = javaCollection.asScala
 
-        scalaCollection must notBeNull
-        scalaCollection must haveSuperClass[com.mongodb.casbah.MongoCollection]
+        scalaCollection must haveSuperclass[com.mongodb.casbah.MongoCollection]
 
         scalaCollection.underlying must beEqualTo(javaCollection)
       }
@@ -84,38 +77,30 @@ class CoreWrappersSpec extends CasbahSpecification {
       "MongoConnection" in {
         "direct instantiation" in {
           conn = MongoConnection()
-          conn must notBeNull
-          conn must haveSuperClass[com.mongodb.casbah.MongoConnection]
+          conn must haveSuperclass[com.mongodb.casbah.MongoConnection]
 
-          conn.underlying must notBeNull
-          conn.underlying must haveSuperClass[com.mongodb.Mongo]
+          conn.underlying must haveSuperclass[com.mongodb.Mongo]
         }
 
         "the apply method works" in {
-          conn must notBeNull
 
           db = conn("test")
 
-          db must notBeNull
-          db must haveSuperClass[com.mongodb.casbah.MongoDB]
+          db must haveSuperclass[com.mongodb.casbah.MongoDB]
 
-          db.underlying must notBeNull
-          db.underlying must haveSuperClass[com.mongodb.DB]
+          db.underlying must haveSuperclass[com.mongodb.DB]
 
         }
       }
 
       "MongoDB" in {
         "has a working apply method" in {
-          db must notBeNull
 
           coll = db("collection.in")
 
-          coll must notBeNull
-          coll must haveSuperClass[com.mongodb.casbah.MongoCollection]
+          coll must haveSuperclass[com.mongodb.casbah.MongoCollection]
 
-          coll.underlying must notBeNull
-          coll.underlying must haveSuperClass[com.mongodb.DBCollection]
+          coll.underlying must haveSuperclass[com.mongodb.DBCollection]
         }
       }
 
@@ -127,13 +112,11 @@ class CoreWrappersSpec extends CasbahSpecification {
       val coll = db("collectoin")
       coll.drop()
       coll.insert(MongoDBObject("foo" -> "bar"))
-      coll must notBeNull
-      coll must haveSuperClass[com.mongodb.casbah.MongoCollection]
+      coll must haveSuperclass[com.mongodb.casbah.MongoCollection]
       coll.name must beEqualTo("collectoin")
 
       val newColl = coll.rename("collection")
-      newColl must notBeNull
-      newColl must haveSuperClass[com.mongodb.casbah.MongoCollection]
+      newColl must haveSuperclass[com.mongodb.casbah.MongoCollection]
       newColl.name must beEqualTo("collection")
 
       // no mutability in the old collection
@@ -145,7 +128,6 @@ class CoreWrappersSpec extends CasbahSpecification {
   }
 
   "findOne operations" should {
-    shareVariables()
     val db = MongoConnection()("casbahTest")
 
     "Not fail as reported by Max Afonov in SCALA-11" in {
@@ -154,16 +136,15 @@ class CoreWrappersSpec extends CasbahSpecification {
       coll.insert(MongoDBObject("foo" -> "bar"))
       val basicFind = coll.find(MongoDBObject("foo" -> "bar"))
 
-      basicFind must notBeNull
       basicFind must haveSize(1)
 
       val findOne = coll.findOne()
 
-      findOne must beSomething
+      findOne must beSome
 
       val findOneMatch = coll.findOne(MongoDBObject("foo" -> "bar"))
 
-      findOneMatch must beSomething
+      findOneMatch must beSome
 
     }
   }
@@ -171,7 +152,6 @@ class CoreWrappersSpec extends CasbahSpecification {
   "Cursor Operations" should {
     import scala.util.Random
 
-    shareVariables()
     val db = MongoConnection()("casbahTest")
     val coll = db("test_coll_%d".format(System.currentTimeMillis))
 

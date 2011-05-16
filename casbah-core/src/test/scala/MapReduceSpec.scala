@@ -30,7 +30,6 @@ import com.mongodb.casbah.commons.conversions.scala._
 import org.scala_tools.time.Imports._
 import com.mongodb.casbah.commons.test.CasbahSpecification
 
-
 @SuppressWarnings(Array("deprecation"))
 class MapReduceSpec extends CasbahSpecification {
 
@@ -40,8 +39,6 @@ class MapReduceSpec extends CasbahSpecification {
     mongoDB.dropDatabase()
 
     "Handle error conditions such as non-existent collections gracefully" in {
-      mongoDB must notBeNull
-
       val seed = DateTime.now.getMillis
       implicit val mongo = mongoDB("mapReduce.nonexistant.foo.bar.baz.%s".format(seed))
       mongo.dropCollection()
@@ -53,7 +50,6 @@ class MapReduceSpec extends CasbahSpecification {
         log.trace("noop.")
       }
 
-      keySet must notBeNull
       keySet must beEmpty
 
     }
@@ -63,8 +59,6 @@ class MapReduceSpec extends CasbahSpecification {
     implicit val mongoDB = MongoConnection()("casbahTest_MR")
 
     verifyAndInitTreasuryData
-
-    shareVariables
 
     val mapJS = """
       function m() {
@@ -101,7 +95,6 @@ class MapReduceSpec extends CasbahSpecification {
 
       /*log.warn("M/R Result: %s", result)*/
 
-      result must notBeNull
 
       result.isError must beFalse
       result.size must beEqualTo(result.raw.expand[Int]("counts.output").getOrElse(-1))
@@ -118,7 +111,6 @@ class MapReduceSpec extends CasbahSpecification {
 
       /*log.warn("M/R Result: %s", result)*/
 
-      result must notBeNull
 
       result.isError must beFalse
       result.raw.getAs[String]("result") must beNone
@@ -127,9 +119,8 @@ class MapReduceSpec extends CasbahSpecification {
 
       val item = result.next
       item must haveClass[com.mongodb.CommandResult]
-      item must haveSuperClass[DBObject]
+      item must beDBObject
       item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
-      log.warn("First item: %s", item)
     }
 
     "Produce results for merged output" in {
@@ -153,7 +144,6 @@ class MapReduceSpec extends CasbahSpecification {
 
       log.info("M/R result90s: %s", result90s)
 
-      result90s must notBeNull
 
       result90s.isError must beFalse
       result90s.raw.getAs[String]("result") must beSome("yield_historical.nineties")
@@ -174,7 +164,6 @@ class MapReduceSpec extends CasbahSpecification {
 
       log.info("M/R result00s: %s", result00s)
 
-      result00s must notBeNull
 
       result00s.isError must beFalse
       result00s.raw.getAs[String]("result") must beSome("yield_historical.aughts")
@@ -193,13 +182,11 @@ class MapReduceSpec extends CasbahSpecification {
 
           var result = mongoDB.mapReduce(cmd90s)
           log.warn("Cmd: %s Results: %s", cmd90s, result)
-          result must notBeNull
           result.isError must beFalse
 
           result.raw.getAs[String]("result") must beSome("yield_historical.merged")
 
           result = mongoDB.mapReduce(cmd00s)
-          result must notBeNull
           result.isError must beFalse
 
           result.raw.getAs[String]("result") must beSome("yield_historical.merged")
@@ -213,13 +200,11 @@ class MapReduceSpec extends CasbahSpecification {
           cmd90s.output = MapReduceMergeOutput("yield_historical.merged_fresh")
 
           var result = mongoDB.mapReduce(cmd90s)
-          result must notBeNull
           result.isError must beFalse
 
           result.raw.getAs[String]("result") must beSome("yield_historical.merged_fresh")
 
           result = mongoDB.mapReduce(cmd00s)
-          result must notBeNull
           result.isError must beFalse
 
           result.raw.getAs[String]("result") must beSome("yield_historical.merged_fresh")
@@ -253,7 +238,6 @@ class MapReduceSpec extends CasbahSpecification {
 
       log.info("M/R result90s: %s", result90s)
 
-      result90s must notBeNull
 
       result90s.isError must beFalse
       result90s.raw.getAs[String]("result") must beSome("yield_historical.nineties")
@@ -274,7 +258,6 @@ class MapReduceSpec extends CasbahSpecification {
 
       log.info("M/R result00s: %s", result00s)
 
-      result00s must notBeNull
 
       result00s.isError must beFalse
       result00s.raw.getAs[String]("result") must beSome("yield_historical.aughts")
@@ -293,13 +276,11 @@ class MapReduceSpec extends CasbahSpecification {
 
           var result = mongoDB.mapReduce(cmd90s)
           log.warn("Cmd: %s Results: %s", cmd90s, result)
-          result must notBeNull
           result.isError must beFalse
 
           result.raw.getAs[String]("result") must beSome("yield_historical.reduced")
 
           result = mongoDB.mapReduce(cmd00s)
-          result must notBeNull
           result.isError must beFalse
 
           result.raw.getAs[String]("result") must beSome("yield_historical.reduced")
@@ -321,7 +302,7 @@ class MapReduceSpec extends CasbahSpecification {
     mongoDB("yield_historical.aughts").drop
 
     // Verify the treasury data is loaded or skip the test for now
-    mongoDB("yield_historical.in").size must beGreaterThan(0).orSkipExample
+    mongoDB("yield_historical.in").size must beGreaterThan(0).orSkip("Invalid Treasury Data. Skipping optional integration test.")
   }
 
   def distinctKeySet(keys: String*)(implicit mongo: MongoCollection): MapReduceResult = {

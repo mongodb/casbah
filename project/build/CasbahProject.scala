@@ -95,7 +95,7 @@ class CasbahProject(info: ProjectInfo)
 
   class CasbahUtilProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     // TODO - Fix maven artifact
-    //val bson = "org.mongodb" % "bson" % "2.5.2"
+    //val bson = "org.mongodb" % "bson" % "2.5.3"
     val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
     val slf4j = "org.slf4j" % "slf4j-api" % "1.6.0"
     // JCL bindings for testing only
