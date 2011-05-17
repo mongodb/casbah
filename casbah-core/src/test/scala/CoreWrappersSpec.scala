@@ -153,15 +153,15 @@ class CoreWrappersSpec extends CasbahSpecification {
     val first5 = coll.find(MongoDBObject("foo" -> "bar")) limit 5
 
     "Behave in chains" in {
-      "For loops for idiomatic cleanness" in {
+      //"For loops for idiomatic cleanness" in {
 
-        // todo - add limit, skip etc on COLLECTION for cleaner chains like this?
-        val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5 limit 20) yield x
+        //// todo - add limit, skip etc on COLLECTION for cleaner chains like this?
+        //val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5 limit 20) yield x
 
-        items must haveSize(20)
-        // TODO - Matchers that support freaking cursors, etc
-        /*items must haveSameElementsAs(first5).not*/
-      }
+        //items must haveSize(20)
+        //// TODO - Matchers that support freaking cursors, etc
+        //[>items must haveSameElementsAs(first5).not<]
+      //}
 
       "Chain operations must return the proper *subtype*" in {
         val cur = coll.find(MongoDBObject("foo" -> "bar")) skip 5

@@ -40,25 +40,19 @@ class GridFSSpec extends CasbahSpecification {
     val logo = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
     val gridfs = GridFS(mongo)
 
-    "Correctly save a file to GridFS" in {
-      gridfs must notBeNull
-      logo must notBeNull
 
+    "Find the file in GridFS later" in {
       gridfs(logo) { fh =>
         fh.filename = "powered_by_mongo.png"
         fh.contentType = "image/png"
       }
-
-    }
-
-    "Find the file in GridFS later" in {
       gridfs.findOne("powered_by_mongo.png") must beSome[GridFSDBFile]
+      var md5 = ""
       gridfs.findOne("powered_by_mongo.png") foreach { file =>
-        file must notBeNull
-        file must haveSuperClass[GridFSDBFile]
-        file.md5 must beEqualTo(logo_md5)
+        md5 = file.md5
         log.debug("MD5: %s", file.md5)
       }
+      md5 must beEqualTo(logo_md5)
     }
 
     "Correctly catch the non-existence of a file and fail gracefully" in {
@@ -67,15 +61,14 @@ class GridFSSpec extends CasbahSpecification {
 
     "Return a wrapped MongoCursor if you call files,  as reported by Gregg Carrier" in {
       val files = gridfs.files
-      files must notBeNull
       files must haveClass[MongoCursor]
     }
 
-    "Be properly iterable" in {
+/*    "Be properly iterable" in {
       var x = false
       for (f <- gridfs) x = true
       x must beTrue
-    }
+    }*/
 
   }
 

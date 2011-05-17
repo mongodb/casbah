@@ -199,7 +199,7 @@ class RawMapReduceSpec extends CasbahSpecification {
           log.info("second pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
+          //result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
 
           result.expand[Int]("counts.output") must beSome(21)
 
