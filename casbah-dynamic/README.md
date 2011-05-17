@@ -21,36 +21,36 @@ You can add this to your SBT project the same way you add Casbah, just tack an e
 
 Here's an example!
 
-        import com.mongodb.casbah.Imports._
-        import com.mongodb.casbah.dynamic._
+      import com.mongodb.casbah.Imports._
+      import com.mongodb.casbah.dynamic._
 
-        val d = DynamicDBObject("_id" -> new ObjectId, "name" -> "Brendan McAdams",
-                                "address" -> MongoDBObject("street" -> "134 5th Ave Fl 3",
-                                                           "city" -> "New York",
-                                                           "state" -> "NY",
-                                                            "zip" -> 10011),
-                                 "email" -> "brendan@10gen.com")
+      val d = DynamicDBObject("_id" -> new ObjectId, "name" -> "Brendan McAdams",
+                              "address" -> MongoDBObject("street" -> "134 5th Ave Fl 3",
+                                                         "city" -> "New York",
+                                                         "state" -> "NY",
+                                                          "zip" -> 10011),
+                               "email" -> "brendan@10gen.com")
 
 
-        d.name.typed[String]
-        // res4: Option[String] = Some(Brendan McAdams)
+      d.name.typed[String]
+      // res4: Option[String] = Some(Brendan McAdams)
 
-        d.name.typed[Int]
-        // res5: Option[Int] = None
+      d.name.typed[Int]
+      // res5: Option[Int] = None
 
-        d.address.city.typed[String]
-        // res6: Option[String] = Some(New York)
+      d.address.city.typed[String]
+      // res6: Option[String] = Some(New York)
 
-        d.address.zip.typed[Int]
-        // res7: Option[Int] = Some(10011)
+      d.address.zip.typed[Int]
+      // res7: Option[Int] = Some(10011)
 
-        d.address.zip.typed[String]
-        // res8: Option[String] = None
+      d.address.zip.typed[String]
+      // res8: Option[String] = None
 
-        d.address.typed[DBObject]
-        // res9: Option[com.mongodb.casbah.Imports.DBObject] = Some({ "street" : "134 5th Ave Fl 3" , "city" : "New York" , "state" : "NY" , "zip" : 10011})
+      d.address.typed[DBObject]
+      // res9: Option[com.mongodb.casbah.Imports.DBObject] = Some({ "street" : "134 5th Ave Fl 3" , "city" : "New York" , "state" : "NY" , "zip" : 10011})
 
-        d.foo.bar.baz.bang.more.stuff.that.dont.exist.typed[String]
-        // res10: Option[String] = None
+      d.foo.bar.baz.bang.more.stuff.that.dont.exist.typed[String]
+      // res10: Option[String] = None
 
 -b
