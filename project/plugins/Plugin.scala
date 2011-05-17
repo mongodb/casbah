@@ -7,7 +7,7 @@ class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
   val lessRepo = "lessis repo" at "http://repo.lessis.me"
   val growl = "me.lessis" % "sbt-growl-plugin" % "0.0.5"
   val posterous = "net.databinder" % "posterous-sbt" % "0.1.6"
-  val sbtIdea = "com.github.mpeltonen" % "sbt-idea-plugin" % "0.2.0"
+  val sbtIdea = "com.github.mpeltonen" % "sbt-idea-plugin" % "0.4.0"
   val formatter = "com.github.olim7t" % "sbt-scalariform" % "1.0.2"
 
 }
