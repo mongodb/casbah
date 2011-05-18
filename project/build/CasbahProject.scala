@@ -86,7 +86,7 @@ class CasbahProject(info: ProjectInfo)
       CompoundDocOption("-doc-title", "Casbah %s".format(projectName.value))
     ) 
     // Testing Deps
-   val specs2 = "org.specs2" %% "specs2" % "1.3"
+   val specs2 = "org.specs2" %% "specs2" % "1.3" % "test->default"
 
    def specs2Framework = new TestFramework("org.specs2.runner.SpecsFramework")
    override def testFrameworks = super.testFrameworks ++ Seq(specs2Framework)
