@@ -78,7 +78,7 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
       dbLst must haveSize(5)
       dbLst must beEqualTo(List(x, y, MongoDBObject("omg" -> "ponies"), 5, 212.8))
 
-    } pendingUntilFixed("Weird behavior in SPECS matchers, seems like Casbah is fine.")
+    } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
     "Support A list/tuple of dbobject declarations and convert them to a dbobject cleanly" in {
       val dbLst = MongoDBList(x, y, "omg" -> "ponies", 5,
         MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
@@ -88,7 +88,7 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
       dbLst must beEqualTo(List(x, y, MongoDBObject("omg" -> "ponies"), 5,
         MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"), 212.8))
 
-    } pendingUntilFixed("Weird behavior in SPECS matchers, seems like Casbah is fine.")
+    } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
 
     "Convert tuple pairs correctly" in {
       val dbList = MongoDBList("omg" -> "ponies")

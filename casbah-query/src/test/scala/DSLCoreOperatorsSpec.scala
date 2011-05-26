@@ -936,7 +936,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         in.toString must notBeNull // Test That JSON Serialization works
         in must haveSuperClass[DBObject]
         in.toString must beEqualTo("""{ "foo" : { "$in" : [ 12 , "x" , 1 , 8]}}""")
-      } pendingUntilFixed("Weird behavior in SPECS matchers, seems like Casbah is fine.")
+      } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
     }
   }
 
@@ -1008,7 +1008,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         in.toString must notBeNull // Test That JSON Serialization works
         in must haveSuperClass[DBObject]
         in.toString must beEqualTo("""{ "foo" : { "$nin" : [ 12 , "x" , 1 , 8]}}""")
-      } pendingUntilFixed("Weird behavior in SPECS matchers, seems like Casbah is fine.")
+      } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
     }
   }
 
@@ -1080,7 +1080,7 @@ class DSLCoreOperatorsSpec extends Specification with PendingUntilFixed with Log
         in.toString must notBeNull // Test That JSON Serialization works
         in must haveSuperClass[DBObject]
         in.toString must beEqualTo("""{ "foo" : { "$all" : [ 12 , "x" , 1 , 8]}}""")
-      } pendingUntilFixed("Weird behavior in SPECS matchers, seems like Casbah is fine.")
+      } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
     }
   }
 
