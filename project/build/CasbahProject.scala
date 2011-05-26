@@ -32,7 +32,7 @@ class CasbahProject(info: ProjectInfo)
   val allSource: PathFinder = commons.mainSourcePath ** "*.scala" +++
                               core.mainSourcePath ** "*.scala" +++
                               query.mainSourcePath ** "*.scala" +++
-                              gridfs.mainSourcePath * "*.scala" 
+                              gridfs.mainSourcePath ** "*.scala" 
 
 
   abstract class CasbahBaseProject(info: ProjectInfo) 
