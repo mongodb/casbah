@@ -1,0 +1,61 @@
+<module type="JAVA_MODULE" version="4">
+      <component name="FacetManager">
+        <facet type="scala" name="Scala">
+          <configuration>
+            <option value="Project" name="compilerLibraryLevel"></option>
+            <option value="defScala" name="compilerLibraryName"></option>
+          </configuration>
+        </facet>
+      </component>
+      <component inherit-compiler-output="true" name="NewModuleRootManager">
+        <exclude-output></exclude-output>
+        <content url="file://$MODULE_DIR$">
+          <sourceFolder isTestSource="false" url="file://$MODULE_DIR$/build"></sourceFolder>
+          <sourceFolder isTestSource="false" url="file://$MODULE_DIR$/build/src"></sourceFolder>
+          <excludeFolder url="file://$MODULE_DIR$/boot"></excludeFolder>
+          <excludeFolder url="file://$MODULE_DIR$/build/target"></excludeFolder>
+          <excludeFolder url="file://$MODULE_DIR$/plugins/lib_managed"></excludeFolder>
+          <excludeFolder url="file://$MODULE_DIR$/plugins/src_managed"></excludeFolder>
+          <excludeFolder url="file://$MODULE_DIR$/plugins/target"></excludeFolder>
+        </content>
+        <orderEntry type="inheritedJdk"></orderEntry>
+        <orderEntry type="sourceFolder" forTests="false"></orderEntry>
+        <orderEntry level="project" type="library" name="defScala"></orderEntry>
+        <orderEntry type="module-library">
+            <library>
+              <CLASSES>
+                <root url="file://$MODULE_DIR$/boot/scala-2.7.7/org.scala-tools.sbt/sbt/0.7.7"></root>
+              </CLASSES>
+              <JAVADOC></JAVADOC>
+              <SOURCES></SOURCES>
+              <jarDirectory recursive="true" url="file://$MODULE_DIR$/boot/scala-2.7.7/org.scala-tools.sbt/sbt/0.7.7"></jarDirectory>
+            </library>
+          </orderEntry><orderEntry type="module-library">
+            <library>
+              <CLASSES>
+                <root url="file://$MODULE_DIR$/plugins/target/scala_2.7.7/plugin-classes"></root>
+              </CLASSES>
+              <JAVADOC></JAVADOC>
+              <SOURCES></SOURCES>
+            </library>
+          </orderEntry><orderEntry type="module-library">
+            <library>
+              <CLASSES>
+                <root url="file://$MODULE_DIR$/build/lib"></root>
+              </CLASSES>
+              <JAVADOC></JAVADOC>
+              <SOURCES></SOURCES>
+              <jarDirectory recursive="false" url="file://$MODULE_DIR$/build/lib"></jarDirectory>
+            </library>
+          </orderEntry><orderEntry type="module-library">
+            <library>
+              <CLASSES>
+                <root url="file://$MODULE_DIR$/plugins/lib_managed/scala_2.7.7"></root>
+              </CLASSES>
+              <JAVADOC></JAVADOC>
+              <SOURCES></SOURCES>
+              <jarDirectory recursive="false" url="file://$MODULE_DIR$/plugins/lib_managed/scala_2.7.7"></jarDirectory>
+            </library>
+          </orderEntry>
+      </component>
+    </module>
