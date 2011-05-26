@@ -9,8 +9,8 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/target/scala_2.8.1/classes" />
-    <output-test url="file://$MODULE_DIR$/target/scala_2.8.1/test-classes" />
+    <output url="file://$MODULE_DIR$/target/scala_2.9.0-1/classes" />
+    <output-test url="file://$MODULE_DIR$/target/scala_2.9.0-1/test-classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/scala" isTestSource="false" />
@@ -21,7 +21,7 @@
     <orderEntry type="module-library" exported="" scope="TEST">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/target/scala_2.8.1/test-resources" />
+          <root url="file://$MODULE_DIR$/target/scala_2.9.0-1/test-resources" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -36,7 +36,7 @@
     <orderEntry type="module-library" exported="" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/test/specs_2.8.1-1.6.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.9.0-1/test/specs_2.9.0-1.6.8.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -45,7 +45,7 @@
     <orderEntry type="module-library" exported="" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.8.1/test/scalatest-1.2-for-scala-2.8.0.final-SNAPSHOT.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib_managed/scala_2.9.0-1/test/scalatest-1.2-for-scala-2.8.0.final-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

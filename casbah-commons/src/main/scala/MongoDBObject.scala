@@ -103,11 +103,10 @@ trait MongoDBObject extends Map[String, AnyRef] {
     }
   }
 
-  def getAsOrElse[A <: Any : Manifest](key: String, default: => A): A = getAs[A](key) match {
+  def getAsOrElse[A <: Any: Manifest](key: String, default: => A): A = getAs[A](key) match {
     case Some(v) => v
     case None => default
   }
-
 
   /**
    * Utility method to emulate javascript dot notation
