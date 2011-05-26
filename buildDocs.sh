@@ -11,14 +11,14 @@ mkdir -p docs/scaladoc/modules/casbah-core
 mkdir -p docs/scaladoc/modules/casbah-gridfs
 mkdir -p docs/scaladoc/modules/casbah-query
 
-cp -R casbah-commons/target/scala_2.8.1/classes.sxr docs/scaladoc/modules/casbah-commons/sxr
-cp -R casbah-commons/target/scala_2.8.1/doc/main/api docs/scaladoc/modules/casbah-commons/api
-cp -R casbah-core/target/scala_2.8.1/classes.sxr docs/scaladoc/modules/casbah-core/sxr
-cp -R casbah-core/target/scala_2.8.1/doc/main/api docs/scaladoc/modules/casbah-core/api
-cp -R casbah-gridfs/target/scala_2.8.1/classes.sxr docs/scaladoc/modules/casbah-gridfs/sxr
-cp -R casbah-gridfs/target/scala_2.8.1/doc/main/api docs/scaladoc/modules/casbah-gridfs/api
-cp -R casbah-query/target/scala_2.8.1/classes.sxr docs/scaladoc/modules/casbah-query/sxr
-cp -R casbah-query/target/scala_2.8.1/doc/main/api docs/scaladoc/modules/casbah-query/api
+cp -R casbah-commons/target/scala_2.9.0-1/classes.sxr docs/scaladoc/modules/casbah-commons/sxr
+cp -R casbah-commons/target/scala_2.9.0-1/doc/main/api docs/scaladoc/modules/casbah-commons/api
+cp -R casbah-core/target/scala_2.9.0-1/classes.sxr docs/scaladoc/modules/casbah-core/sxr
+cp -R casbah-core/target/scala_2.9.0-1/doc/main/api docs/scaladoc/modules/casbah-core/api
+cp -R casbah-gridfs/target/scala_2.9.0-1/classes.sxr docs/scaladoc/modules/casbah-gridfs/sxr
+cp -R casbah-gridfs/target/scala_2.9.0-1/doc/main/api docs/scaladoc/modules/casbah-gridfs/api
+cp -R casbah-query/target/scala_2.9.0-1/classes.sxr docs/scaladoc/modules/casbah-query/sxr
+cp -R casbah-query/target/scala_2.9.0-1/doc/main/api docs/scaladoc/modules/casbah-query/api
 
 cp doc_index.html docs/scaladoc/modules/index.html
 

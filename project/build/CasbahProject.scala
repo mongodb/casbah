@@ -32,7 +32,8 @@ class CasbahProject(info: ProjectInfo)
   val allSource: PathFinder = commons.mainSourcePath ** "*.scala" +++
                               core.mainSourcePath ** "*.scala" +++
                               query.mainSourcePath ** "*.scala" +++
-                              gridfs.mainSourcePath * "*.scala" 
+                              gridfs.mainSourcePath ** "*.scala" +++
+                              "casbah-dynamic" / "src" / "main" / "scala" ** "*.scala"
 
 
   abstract class CasbahBaseProject(info: ProjectInfo) 
@@ -84,7 +85,8 @@ class CasbahProject(info: ProjectInfo)
       CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah-%s/%s/sxr/€{FILE_PATH}".format(projectVersion.value, projectName.value)),
       CompoundDocOption("-doc-version", "v%s".format(projectVersion.value)),
       CompoundDocOption("-doc-title", "Casbah %s".format(projectName.value))
-    ) 
+    )
+
     // Testing Deps
     val specs = "org.scala-tools.testing" % "specs_2.9.0" % "1.6.8" % "test->default"
     val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
