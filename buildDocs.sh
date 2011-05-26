@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm -rf docs/scaladoc
+rm -rf docs/scaladoc casbah-core/scaladocBuild/
 
 sbt "+clean" "+doc" "+all-docs"
 
