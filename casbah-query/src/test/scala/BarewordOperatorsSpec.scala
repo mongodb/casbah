@@ -153,7 +153,7 @@ class BarewordOperatorsSpec extends Specification with PendingUntilFixed with Lo
         push must haveSuperClass[DBObject]
         val tl = MongoDBObject("$pushAll" -> MongoDBObject("foo" -> MongoDBList("bar", "baz", "x", "y")))
         tl.getAs[DBObject]("$pushAll").get.getAs[BasicDBList]("foo").get must haveTheSameElementsAs(push.getAs[DBObject]("$pushAll").get.getAs[List[Any]]("foo").get)
-      } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
+      } //pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
       "Not allow a non-list value" in {
         ($pushAll("foo" -> "bar")) must throwA[IllegalArgumentException]
       }
@@ -165,7 +165,7 @@ class BarewordOperatorsSpec extends Specification with PendingUntilFixed with Lo
         val tl = MongoDBObject("$pushAll" -> MongoDBObject("foo" -> MongoDBList("bar", "baz", "x", "y"), "n" -> MongoDBList(5, 10, 12, 238)))
         tl.getAs[DBObject]("$pushAll").get.getAs[BasicDBList]("foo").get must haveTheSameElementsAs(push.getAs[DBObject]("$pushAll").get.getAs[List[Any]]("foo").get)
         tl.getAs[DBObject]("$pushAll").get.getAs[BasicDBList]("n").get must haveTheSameElementsAs(push.getAs[DBObject]("$pushAll").get.getAs[List[Any]]("n").get)
-      } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
+      } //pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
     }
     "$addToSet" in {
       "Accept a single value" in {
@@ -270,7 +270,7 @@ class BarewordOperatorsSpec extends Specification with PendingUntilFixed with Lo
         pull must haveSuperClass[DBObject]
         val tl = MongoDBObject("$pullAll" -> MongoDBObject("foo" -> MongoDBList("bar", "baz", "x", "y")))
         tl.getAs[DBObject]("$pullAll").get.getAs[BasicDBList]("foo").get must haveTheSameElementsAs(pull.getAs[DBObject]("$pullAll").get.getAs[List[Any]]("foo").get)
-      } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
+      } //pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
       "Not allow a non-list value" in {
         ($pullAll("foo" -> "bar")) must throwA[IllegalArgumentException]
       }
@@ -282,7 +282,7 @@ class BarewordOperatorsSpec extends Specification with PendingUntilFixed with Lo
         val tl = MongoDBObject("$pullAll" -> MongoDBObject("foo" -> MongoDBList("bar", "baz", "x", "y"), "n" -> MongoDBList(5, 10, 12, 238)))
         tl.getAs[DBObject]("$pullAll").get.getAs[BasicDBList]("foo").get must haveTheSameElementsAs(pull.getAs[DBObject]("$pullAll").get.getAs[List[Any]]("foo").get)
         tl.getAs[DBObject]("$pullAll").get.getAs[BasicDBList]("n").get must haveTheSameElementsAs(pull.getAs[DBObject]("$pullAll").get.getAs[List[Any]]("n").get)
-      } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
+      } //pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
     }
 
   }
