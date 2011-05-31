@@ -96,12 +96,11 @@ class CasbahProject(info: ProjectInfo)
   class CasbahCommonsProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     // Runtime deps
     val mongodb = "org.mongodb" % "mongo-java-driver" % "2.5.3"
-    val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
+    val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.1"
     val slf4j = "org.slf4j" % "slf4j-api" % "1.6.0"
     // JCL bindings for testing only
     val slf4jJCL = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
-    val scalaTime = "org.scala-tools.time" % "time_2.8.0" % "0.2"
-
+    val scalaTime = "org.scala-tools.time" %% "time" % "0.4"
   }
 
   class CasbahCoreProject(info: ProjectInfo) extends CasbahBaseProject(info) { 
