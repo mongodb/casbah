@@ -86,8 +86,7 @@ class CasbahProject(info: ProjectInfo)
       CompoundDocOption("-doc-title", "Casbah %s".format(projectName.value))
     ) 
     // Testing Deps
-    val specs = "org.scala-tools.testing" % "specs_2.8.1" % "1.6.8" % "test->default"
-    val scalatest = "org.scalatest" % "scalatest" % "1.2-for-scala-2.8.0.final-SNAPSHOT" % "test"
+    val specs = "org.scala-tools.testing" %% "specs" % "1.6.8" % "test->default"
 
 
       
