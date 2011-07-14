@@ -126,7 +126,7 @@ class RawMapReduceSpec extends CasbahSpecification {
         "reduce" -> reduceJS,
         "finalize" -> finalizeJS,
         "verbose" -> true,
-        "query" -> "_id" $lt new Date(100, 1, 1),
+        "query" -> ("_id" $lt new Date(100, 1, 1)),
         "out" -> "yield_historical.out.nineties")
 
       val result90s = mongoDB.command(cmd90s)
@@ -145,7 +145,7 @@ class RawMapReduceSpec extends CasbahSpecification {
         "reduce" -> reduceJS,
         "finalize" -> finalizeJS,
         "verbose" -> true,
-        "query" -> "_id" $gt new Date(99, 12, 31),
+        "query" -> ("_id" $gt new Date(99, 12, 31)),
         "out" -> "yield_historical.out.aughts")
 
       val result00s = mongoDB.command(cmd00s)
@@ -222,7 +222,7 @@ class RawMapReduceSpec extends CasbahSpecification {
         "map" -> mapJS,
         "reduce" -> reduceJS,
         "verbose" -> true,
-        "query" -> "_id" $lt new Date(100, 1, 1),
+        "query" -> ("_id" $lt new Date(100, 1, 1)),
         "out" -> "yield_historical.out.nineties")
 
       val result90s = mongoDB.command(cmd90s)
@@ -240,7 +240,7 @@ class RawMapReduceSpec extends CasbahSpecification {
         "map" -> mapJS,
         "reduce" -> reduceJS,
         "verbose" -> true,
-        "query" -> "_id" $gt new Date(99, 12, 31),
+        "query" -> ("_id" $gt new Date(99, 12, 31)),
         "out" -> "yield_historical.out.aughts")
 
       val result00s = mongoDB.command(cmd00s)

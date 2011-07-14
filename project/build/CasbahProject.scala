@@ -33,7 +33,8 @@ class CasbahProject(info: ProjectInfo)
   val allSource: PathFinder = commons.mainSourcePath ** "*.scala" +++
                               core.mainSourcePath ** "*.scala" +++
                               query.mainSourcePath ** "*.scala" +++
-                              gridfs.mainSourcePath * "*.scala" 
+                              gridfs.mainSourcePath ** "*.scala" +++
+                              "casbah-dynamic" / "src" / "main" / "scala" ** "*.scala"
 
 
   abstract class CasbahBaseProject(info: ProjectInfo) 
@@ -84,10 +85,10 @@ class CasbahProject(info: ProjectInfo)
       CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah-%s/%s/sxr/€{FILE_PATH}".format(projectVersion.value, projectName.value)),
       CompoundDocOption("-doc-version", "v%s".format(projectVersion.value)),
       CompoundDocOption("-doc-title", "Casbah %s".format(projectName.value))
-    ) 
+    )
+
     // Testing Deps
     val specs2 = "org.specs2" %% "specs2" % "1.5"
-//    val scalaz = "org.specs2" %% "specs2-scalaz-core" % "6.0.RC2"
 
     def specs2Framework = new TestFramework("org.specs2.runner.SpecsFramework")
     override def testFrameworks = super.testFrameworks ++ Seq(specs2Framework)
@@ -111,8 +112,7 @@ class CasbahProject(info: ProjectInfo)
     val slf4j = "org.slf4j" % "slf4j-api" % "1.6.0"
     // JCL bindings for testing only
     val slf4jJCL = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
-    val scalaTime = "org.scala-tools.time" % "time_2.8.0" % "0.2"
-
+    val scalaTime = "org.scala-tools.time" %% "time" % "0.4"
   }
 
   class CasbahCoreProject(info: ProjectInfo) extends CasbahBaseProject(info) { 

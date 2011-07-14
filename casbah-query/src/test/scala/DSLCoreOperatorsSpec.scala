@@ -758,7 +758,7 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
 
   "Casbah's $elemMatch operator" should {
     "Function as expected" in {
-      val elemMatch = "foo" $elemMatch (MongoDBObject("a" -> 1) ++ "b" $gt 1)
+      val elemMatch = "foo" $elemMatch (MongoDBObject("a" -> 1) ++ ("b" $gt 1))
       elemMatch must beEqualTo(
         MongoDBObject(
           "foo" -> MongoDBObject(

@@ -214,7 +214,7 @@ class BarewordOperatorsSpec extends CasbahSpecification {
       nor.as[MongoDBList]("$nor").getAs[DBObject](0) must haveSomeEntries("foo.$gte" -> 15, "foo.$lt" -> 35.2, "foo.$ne" -> 16)
     }
     "Work with multiples" in {
-      val nor = $nor { "foo" $gte 15 $lt 35 $ne 16 + ("x" -> "y") }
+      val nor = $nor { ("foo" $gte 15 $lt 35 $ne 16) + ("x" -> "y") }
       nor.getAs[MongoDBList]("$nor") must have size (1)
       nor.as[MongoDBList]("$nor").getAs[DBObject](0) must haveSomeEntries("foo.$gte" -> 15, "foo.$lt" -> 35,
         "foo.$ne" -> 16, "x" -> "y")
