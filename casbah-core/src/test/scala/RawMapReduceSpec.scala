@@ -34,7 +34,7 @@ import com.mongodb.casbah.commons.test.CasbahSpecification
 class RawMapReduceSpec extends CasbahSpecification {
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
-    implicit val mongoDB = MongoConnection()("casbahTest_MR")
+    implicit val mongoDB = MongoConnection()("casbahIntegration")
 
     verifyAndInitTreasuryData
 
@@ -328,7 +328,7 @@ class RawMapReduceSpec extends CasbahSpecification {
     mongoDB("yield_historical.out.aughts").drop
 
     // Verify the treasury data is loaded or skip the test for now
-    mongoDB("yield_historical.in").size must beGreaterThan(0).orSkip("Skipping optional integration test, no valid data.")
+    mongoDB("yield_historical.in").size must beGreaterThan(0)  
   }
 
 }

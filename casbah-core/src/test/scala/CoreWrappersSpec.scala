@@ -75,7 +75,6 @@ class CoreWrappersSpec extends CasbahSpecification {
 
           conn.underlying must haveClass[com.mongodb.Mongo]
         }
-
         "the apply method works" in {
 
           db = conn("test")
@@ -84,18 +83,16 @@ class CoreWrappersSpec extends CasbahSpecification {
           db.underlying must haveSuperclass[com.mongodb.DB]
 
         }
-      }
+        "MongoDB" in {
+          "has a working apply method" in {
 
-      "MongoDB" in {
-        "has a working apply method" in {
-
-          coll = db("collection.in")
+            coll = db("collection.in")
 
 
-          coll.underlying must haveSuperclass[com.mongodb.DBCollection]
+            coll.underlying must haveSuperclass[com.mongodb.DBCollection]
+          }
         }
       }
-
     }
 
     "Renaming a collection successfully tracks the rename in MongoCollection" in {

@@ -4,6 +4,7 @@ import Keys._
 object HammersmithBuild extends Build {
   import Dependencies._
   import Resolvers._
+  import Publish._
 
   lazy val buildSettings = Seq(
     organization := "com.mongodb.casbah",
@@ -11,17 +12,24 @@ object HammersmithBuild extends Build {
     crossScalaVersions := Seq("2.9.0-1", "2.8.1")
   )
 
+  /**
+   * Import some sample data for testing
+   */
+  "mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
+
+  "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" ! 
+
+
   override lazy val settings = super.settings ++ buildSettings
 
-  lazy val baseSettings = Defaults.defaultSettings ++ Seq(
+  lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
     posterous.Publish.posterousEmail := "ask n8han",
     posterous.Publish.posterousPassword := "where to properly set this"
   )
 
-  lazy val parentSettings = baseSettings ++ Publish.settings
-
+  lazy val parentSettings = baseSettings 
   lazy val defaultSettings = baseSettings ++ Seq(
-    libraryDependencies ++= Seq(specs2),
+    libraryDependencies ++= Seq(specs2, slf4j, slf4jJCL),
     resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
     autoCompilerPlugins := true,
     parallelExecution in Test := true,

@@ -35,8 +35,7 @@ class MapReduceSpec extends CasbahSpecification {
 
   "Casbah's Map/Reduce Engine" should {
 
-    implicit val mongoDB = MongoConnection()("casbahTest")
-    mongoDB.dropDatabase()
+    implicit val mongoDB = MongoConnection()("casbahIntegration")
 
     "Handle error conditions such as non-existent collections gracefully" in {
       val seed = DateTime.now.getMillis
@@ -56,7 +55,7 @@ class MapReduceSpec extends CasbahSpecification {
   }
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
-    implicit val mongoDB = MongoConnection()("casbahTest_MR")
+    implicit val mongoDB = MongoConnection()("casbahIntegration")
 
     verifyAndInitTreasuryData
 
@@ -301,8 +300,7 @@ class MapReduceSpec extends CasbahSpecification {
     mongoDB("yield_historical.nineties").drop
     mongoDB("yield_historical.aughts").drop
 
-    // Verify the treasury data is loaded or skip the test for now
-    mongoDB("yield_historical.in").size must beGreaterThan(0).orSkip("Invalid Treasury Data. Skipping optional integration test.")
+    mongoDB("yield_historical.in").size must beGreaterThan(0)
   }
 
   def distinctKeySet(keys: String*)(implicit mongo: MongoCollection): MapReduceResult = {
