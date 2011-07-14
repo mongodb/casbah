@@ -86,7 +86,7 @@ class CasbahProject(info: ProjectInfo)
       CompoundDocOption("-doc-title", "Casbah %s".format(projectName.value))
     ) 
     // Testing Deps
-    val specs2 = "org.specs2" %% "specs2" % "1.3"
+    val specs2 = "org.specs2" %% "specs2" % "1.5"
 //    val scalaz = "org.specs2" %% "specs2-scalaz-core" % "6.0.RC2"
 
     def specs2Framework = new TestFramework("org.specs2.runner.SpecsFramework")
@@ -97,7 +97,7 @@ class CasbahProject(info: ProjectInfo)
     // TODO - Fix maven artifact
     //val bson = "org.mongodb" % "bson" % "2.5.3"
     val mongodb = "org.mongodb" % "mongo-java-driver" % "2.6.3"
-    val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
+    val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.1"
     val slf4j = "org.slf4j" % "slf4j-api" % "1.6.0"
     // JCL bindings for testing only
     val slf4jJCL = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
@@ -107,7 +107,7 @@ class CasbahProject(info: ProjectInfo)
   class CasbahCommonsProject(info: ProjectInfo) extends CasbahBaseProject(info) {
     // Runtime deps
     val mongodb = "org.mongodb" % "mongo-java-driver" % "2.6.3"
-    val scalajCollection = "org.scalaj" % "scalaj-collection_2.8.0" % "1.0"
+    val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.1"
     val slf4j = "org.slf4j" % "slf4j-api" % "1.6.0"
     // JCL bindings for testing only
     val slf4jJCL = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
