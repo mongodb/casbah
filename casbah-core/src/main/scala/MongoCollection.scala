@@ -492,7 +492,7 @@ trait MongoCollectionBase extends Logging { self =>
 
   def getStats() = underlying.getStats()
 
-  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String) =
+  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String): Iterable[T] =
     underlying.group(key, cond, initial, reduce).map(_._2.asInstanceOf[T])
 
   /**
@@ -504,27 +504,8 @@ trait MongoCollectionBase extends Logging { self =>
   def group[A <% DBObject, B <% DBObject](key: A, cond: B, function: String): Iterable[T] =
     group(key, cond, MongoDBObject.empty, function)
 
-  /**
-   * Enables you to call group with the finalize parameter (a function that runs on each
-   * row of the output for calculations before sending a return) which the Mongo Java driver does not yet
-   * support, by sending a direct DBObject command.  Messy, but it works.
-   */
-  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String, finalize: String) = {
-    val cmdData = MongoDBObject(
-      "ns" -> getName,
-      "key" -> key,
-      "cond" -> cond,
-      "$reduce" -> reduce,
-      "initial" -> initial,
-      "finalize" -> finalize)
-    log.trace("Executing group command: %s", cmdData)
-    val result = getDB.command(MongoDBObject("group" -> cmdData))
-    if (result.get("ok").asInstanceOf[Double] != 1) {
-      log.warning("Group Statement Failed.")
-    }
-    log.trace("Group command result count : %s keys: %s ", result.get("count"), result.get("keys"))
-    // TODO - Check me and my casting
-    result.get("retval").asInstanceOf[DBObject].toMap.asScala.map(_._2.asInstanceOf[T]).asInstanceOf[ArrayBuffer[T]]
+  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String, finalize: String): Iterable[T] = {
+    underlying.group(key,cond, initial, reduce, finalize).map(_._2.asInstanceOf[T])
   }
 
   /**
