@@ -496,12 +496,9 @@ trait MongoCollectionBase extends Logging { self =>
     underlying.group(key, cond, initial, reduce).map(_._2.asInstanceOf[T])
 
   /**
-   * Perform an absurdly simple grouping with no initial object or reduce function.
+   * By default perform an absurdly simple grouping with no initial object or reduce function.
    */
-  def group[A <% DBObject, B <% DBObject](key: A, cond: B): Iterable[T] =
-    group(key, cond, MongoDBObject.empty, "function(obj, prev) {}")
-
-  def group[A <% DBObject, B <% DBObject](key: A, cond: B, function: String): Iterable[T] =
+  def group[A <% DBObject, B <% DBObject](key: A, cond: B, function: String = "function(obj, prev) {}"): Iterable[T] =
     group(key, cond, MongoDBObject.empty, function)
 
   def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String, finalize: String): Iterable[T] = {
