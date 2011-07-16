@@ -45,6 +45,7 @@ class GroupSpec extends CasbahSpecification {
       success
     }
 
+    // Test for SCALA-37
     "Work with a finalized Group statement" in {
       val cond = MongoDBObject()
       val key = MongoDBObject("publicationYear" -> 1)
