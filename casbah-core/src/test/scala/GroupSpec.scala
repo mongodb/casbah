@@ -46,7 +46,7 @@ class GroupSpec extends CasbahSpecification {
     }
 
     // Test for SCALA-37
-    "Work with a finalized Group statement" in {
+    "Work with a trivial finalized Group statement" in {
       val cond = MongoDBObject()
       val key = MongoDBObject("publicationYear" -> 1)
       val initial = MongoDBObject("count" -> 0)
@@ -54,6 +54,24 @@ class GroupSpec extends CasbahSpecification {
       val result = mongoDB("books").group(key, cond, initial, reduce, "")
       println(result)
       success
+    }
+
+    "Work with a less-trivial finalized Group statement" in {
+      val cond = MongoDBObject()
+      val key = MongoDBObject("publicationYear" -> 1)
+      val initial = MongoDBObject("count" -> 0)
+      val reduce = "function(obj, prev) { prev.count++; }"
+      val finalize = "function(out) { out.avg_count = 3; }"
+      val result = mongoDB("books").group(key, cond, initial, reduce, finalize)
+      result.forall(_.getOrElse("avg_count", 2) == 3)
+    }
+
+    "Use a default Group statement that changes nothing" in {
+      val cond = MongoDBObject()
+      val key = MongoDBObject("publicationYear" -> 1)
+      val r1 = mongoDB("books").group(key, cond)
+      val r2 = mongoDB("books").group(key, cond, "function(o,p) { }")
+      r1 must haveTheSameElementsAs(r2)
     }
 
   }
