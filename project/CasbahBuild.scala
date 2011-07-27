@@ -29,7 +29,7 @@ object HammersmithBuild extends Build {
 
   lazy val parentSettings = baseSettings 
   lazy val defaultSettings = baseSettings ++ Seq(
-    libraryDependencies ++= Seq(specs2, slf4j, slf4jJCL),
+    libraryDependencies ++= Seq(scalatest(scalaVersion), specs2, slf4j, slf4jJCL),
     resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
     autoCompilerPlugins := true,
     parallelExecution in Test := true,
@@ -55,7 +55,7 @@ object HammersmithBuild extends Build {
     id       = "casbah-commons",
     base     = file("casbah-commons"),
     settings = defaultSettings ++ Seq(
-      libraryDependencies ++= Seq(mongoJavaDriver, scalajCollection, slf4j, slf4jJCL, scalaTime, specs2Compile)
+      libraryDependencies ++= Seq(mongoJavaDriver, scalajCollection, slf4j, slf4jJCL, scalaTime, scalatestCompile(scalaVersion), specs2Compile)
     )
   ) dependsOn(util)
 
@@ -89,7 +89,26 @@ object Dependencies {
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
   val specs2 = "org.specs2" %% "specs2" % "1.5" % "test"
-  val specs2Compile = "org.specs2" %% "specs2" % "1.5"
+  val specs2Compile = "org.specs2" %% "specs2" % "1.5" 
+
+  def scalaVersionString(scalaVer: sbt.SettingKey[String]): String = {
+    var result = ""
+    scalaVer { sv => result = sv }
+    if (result == "") result = "2.8.1"
+    result
+  }
+
+  def scalatest(scalaVer: sbt.SettingKey[String]) =
+    scalaVersionString(scalaVer) match {
+      case "2.8.1" => "org.scalatest" % "scalatest_2.8.1" % "1.5.1" % "test"
+      case _ => "org.scalatest" % "scalatest_2.9.0" % "1.6.1" % "test"
+    }
+
+  def scalatestCompile(scalaVer: sbt.SettingKey[String]) =
+    scalaVersionString(scalaVer) match {
+      case "2.8.1" => "org.scalatest" % "scalatest_2.8.1" % "1.5.1"
+      case _ => "org.scalatest" % "scalatest_2.9.0" % "1.6.1"
+    }
 
   // JCL bindings for testing only
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
