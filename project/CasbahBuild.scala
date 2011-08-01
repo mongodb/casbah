@@ -1,7 +1,7 @@
 import sbt._
 import Keys._
 
-object HammersmithBuild extends Build {
+object CasbahBuild extends Build {
   import Dependencies._
   import Resolvers._
   import Publish._
