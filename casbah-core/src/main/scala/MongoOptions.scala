@@ -54,7 +54,7 @@ object MongoOptions {
     maxWaitTime: Int = new MongoOptions().maxWaitTime,
     connectTimeout: Int = new MongoOptions().connectTimeout,
     socketTimeout: Int = new MongoOptions().socketTimeout,
-    socketKeepAlive: Int = new MongoOptions().socketKeepAlive) = {
+    socketKeepAlive: Boolean = new MongoOptions().socketKeepAlive) = {
     val options = new MongoOptions;
 
     options.autoConnectRetry = autoConnectRetry
