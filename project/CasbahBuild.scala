@@ -84,7 +84,7 @@ object Dependencies {
 
   //val bson = "org.mongodb" % "bson" % "2.5.3"
 
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.6.3"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.6.5"
   val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.1"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 

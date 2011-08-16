@@ -13,3 +13,6 @@ tags
 tutorial_src/build
 atlassian-ide-plugin.xml
 .idea
+*.iml
+.project
+.classpath
