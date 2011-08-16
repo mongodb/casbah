@@ -21,7 +21,7 @@
  */
 
 package com.mongodb.casbah
-package commons
+package util
 
 import org.slf4j.{ Logger => SLFLogger, LoggerFactory => SLFLoggerFactory }
 
