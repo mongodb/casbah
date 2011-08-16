@@ -22,10 +22,7 @@ object CasbahBuild extends Build {
 
   override lazy val settings = super.settings ++ buildSettings
 
-  lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
-    posterous.Publish.posterousEmail := "ask n8han",
-    posterous.Publish.posterousPassword := "where to properly set this"
-  )
+  lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings 
 
   lazy val parentSettings = baseSettings 
   lazy val defaultSettings = baseSettings ++ Seq(
