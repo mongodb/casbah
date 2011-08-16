@@ -46,7 +46,7 @@ import scala.reflect._
  */
 @BeanInfo
 trait MongoDBObject extends Map[String, AnyRef] {
-  val underlying: DBObject
+  def underlying: DBObject
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
@@ -159,9 +159,7 @@ trait MongoDBObject extends Map[String, AnyRef] {
         case value => Some(value)
       }
   }
-  def putAll(o: DBObject) = underlying.putAll(o)
-  def putAll(m: Map[_, _]) = underlying.putAll(m)
-  def putAll(m: java.util.Map[_, _]) = underlying.putAll(m)
+  def putAll(o: DBObject) { underlying.putAll(o) }
   def removeField(key: String) = underlying.removeField(key)
   def toMap = underlying.toMap
   def asDBObject = underlying

@@ -68,22 +68,12 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
   type FileWriteOp = GridFSInputFile => Unit
   type FileReadOp = GridFSDBFile => Unit
 
-  implicit val db = underlying.getDB().asScala
+  implicit val db = underlying.getDB.asScala
 
   def iterator = new Iterator[GridFSDBFile] {
-    val fileSet = files.underlying
-    def count() = fileSet.count
-    def itcount() = fileSet.itcount()
-    def jIterator() = fileSet.iterator asScala
-    override def length() = fileSet.length
-    def numGetMores() = fileSet.numGetMores
-    def numSeen() = fileSet.numSeen
-    def remove() = fileSet.remove
-
-    def curr() = new GridFSDBFile(fileSet.curr.asInstanceOf[MongoGridFSDBFile])
-    def explain() = fileSet.explain
-
-    def next() = new GridFSDBFile(fileSet.next.asInstanceOf[MongoGridFSDBFile])
+    val fileSet = files
+    override def length = fileSet.length
+    def next() = new GridFSDBFile(fileSet.next().asInstanceOf[MongoGridFSDBFile])
     def hasNext: Boolean = fileSet.hasNext
   }
 
@@ -96,7 +86,7 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    * a code block.
    * 
    */
-  protected[gridfs] def loan[T <: GridFSFile](file: T)(op: T => Unit) = op(file)
+  protected[gridfs] def loan[T <: GridFSFile](file: T)(op: T => Option[AnyRef]) = op(file)
 
   /**
    * Create a new GridFS File from a scala.io.Source
@@ -105,7 +95,8 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    * as a parameter.
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
-   * @see createFile 
+   * @see createFile
+   * @returns The ID of the created File (Option[AnyRef])
    */
   def apply(data: scala.io.Source)(op: FileWriteOp) = withNewFile(data)(op)
 
@@ -116,7 +107,8 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    * as a parameter.
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
-   * @see createFile 
+   * @see createFile
+   * @returns The ID of the created File (Option[AnyRef])
    */
   def apply(data: Array[Byte])(op: FileWriteOp) = withNewFile(data)(op)
 
@@ -127,7 +119,8 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    * as a parameter.
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
-   * @see createFile 
+   * @see createFile
+   * @returns The ID of the created File (Option[AnyRef])
    */
   def apply(f: File)(op: FileWriteOp) = withNewFile(f)(op)
 
@@ -138,7 +131,8 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    * as a parameter.
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
-   * @see createFile 
+   * @see createFile
+   * @returns The ID of the created File (Option[AnyRef])
    */
   def apply(in: InputStream)(op: FileWriteOp) = withNewFile(in)(op)
 
@@ -149,7 +143,8 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    * as a parameter.
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
-   * @see createFile 
+   * @see createFile
+   * @returns The ID of the created File (Option[AnyRef])
    */
   def apply(in: InputStream, filename: String)(op: FileWriteOp) = withNewFile(in, filename)(op)
 
@@ -162,14 +157,55 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    */
   def createFile(data: scala.io.Source): GridFSInputFile = throw new UnsupportedOperationException("Currently no support for scala.io.Source")
   def withNewFile(data: scala.io.Source)(op: FileWriteOp) = throw new UnsupportedOperationException("Currently no support for scala.io.Source")
+
   def createFile(data: Array[Byte]): GridFSInputFile = underlying.createFile(data)
-  def withNewFile(data: Array[Byte])(op: FileWriteOp) { loan(createFile(data))({ fh => op(fh); fh.save }) }
+  /**
+   * Loan pattern style file creation.
+   * @returns The ID of the created File (Option[AnyRef])
+   */
+  def withNewFile(data: Array[Byte])(op: FileWriteOp) = loan(createFile(data)) { fh =>
+    op(fh)
+    fh.save()
+    fh.validate()
+    Option(fh.id)
+  }
+
   def createFile(f: File): GridFSInputFile = underlying.createFile(f)
-  def withNewFile(f: File)(op: FileWriteOp) { loan(createFile(f))({ fh => op(fh); fh.save }) }
+  /**
+   * Loan pattern style file creation.
+   * @returns The ID of the created File (Option[AnyRef])
+   */
+  def withNewFile(f: File)(op: FileWriteOp) = loan(createFile(f)) { fh =>
+    op(fh)
+    fh.save()
+    fh.validate()
+    Option(fh.id)
+  }
+
   def createFile(in: InputStream): GridFSInputFile = underlying.createFile(in)
-  def withNewFile(in: InputStream)(op: FileWriteOp) { loan(createFile(in))({ fh => op(fh); fh.save }) }
+
+  /**
+   * Loan pattern style file creation.
+   * @returns The ID of the created File (Option[AnyRef])
+   */
+  def withNewFile(in: InputStream)(op: FileWriteOp) = loan(createFile(in)) { fh =>
+    op(fh)
+    fh.save()
+    fh.validate()
+    Option(fh.id)
+  }
+
   def createFile(in: InputStream, filename: String): GridFSInputFile = underlying.createFile(in, filename)
-  def withNewFile(in: InputStream, filename: String)(op: FileWriteOp) { loan(createFile(in, filename))({ fh => op(fh); fh.save }) }
+  /**
+   * Loan pattern style file creation.
+   * @returns The ID of the created File (Option[AnyRef])
+   */
+  def withNewFile(in: InputStream, filename: String)(op: FileWriteOp) = loan(createFile(in, filename)) { fh =>
+    op(fh)
+    fh.save()
+    fh.validate()
+    Option(fh.id)
+  }
 
   /** Hacky fun - 
    * Unload the Joda Time code, IF ITS LOADED, and reload it after we're done.
@@ -227,43 +263,43 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
   def files = sansJodaTime { new MongoCursor(underlying.getFileList) }
   def files[A <% DBObject](query: A) = sansJodaTime { new MongoCursor(underlying.getFileList(query)) }
 
-  def remove[A <% DBObject](query: A) = underlying.remove(query)
-  def remove(id: ObjectId) = underlying.remove(id)
-  def remove(filename: String) = underlying.remove(filename)
+  def remove[A <% DBObject](query: A) { underlying.remove(query) }
+  def remove(id: ObjectId) { underlying.remove(id) }
+  def remove(filename: String) { underlying.remove(filename) }
 }
 
 @BeanInfo
 trait GridFSFile extends MongoDBObject with Logging {
-  val underlying: MongoGridFSFile
+  def underlying: MongoGridFSFile
 
   override def iterator = underlying.keySet.asScala.map { k =>
     k -> underlying.get(k)
   }.toMap.iterator.asInstanceOf[Iterator[(String, AnyRef)]]
 
-  def save() = underlying.save
+  def save() { underlying.save() }
 
   /** 
    * validate the object.
    * Throws an exception if it fails
    * @throws MongoException An error describing the validation failure
    */
-  def validate = underlying.validate
+  def validate() { underlying.validate() }
 
   def numChunks: Int = underlying.numChunks
 
   def id = underlying.getId
-  def filename = underlying.getFilename
+  def filename = Option(underlying.getFilename)
   // todo - does mongo support mime magic? Should we pull some in here?
-  def contentType = underlying.getContentType
+  def contentType = Option(underlying.getContentType)
   def length = underlying.getLength
   def chunkSize = underlying.getChunkSize
   def uploadDate = underlying.getUploadDate
   def aliases = underlying.getAliases.asScala
   def metaData: DBObject = underlying.getMetaData
-  def metaData_=[A <% DBObject](meta: A) = underlying.setMetaData(meta)
+  def metaData_=[A <% DBObject](meta: A) { underlying.setMetaData(meta) }
   def md5: String = underlying.getMD5
 
-  override def toString = "{ GridFSFile(id=%s, filename=%s, contentType=%s) }".
+  override def toString() = "{ GridFSFile(id=%s, filename=%s, contentType=%s) }".
     format(id, filename, contentType)
 
 }
@@ -281,14 +317,14 @@ class GridFSDBFile protected[gridfs] (override val underlying: MongoGridFSDBFile
 
   def writeTo(filename: String) = underlying.writeTo(filename)
 
-  override def toString = "{ GridFSDBFile(id=%s, filename=%s, contentType=%s) }".
+  override def toString() = "{ GridFSDBFile(id=%s, filename=%s, contentType=%s) }".
     format(id, filename, contentType)
 }
 
 @BeanInfo
 class GridFSInputFile protected[gridfs] (override val underlying: MongoGridFSInputFile) extends GridFSFile {
-  def filename_=(name: String) = underlying.setFilename(name)
-  def contentType_=(cT: String) = underlying.setContentType(cT)
+  def filename_=(name: String) { underlying.setFilename(name) }
+  def contentType_=(cT: String) { underlying.setContentType(cT) }
 }
 
 // vim: set ts=2 sw=2 sts=2 et:
