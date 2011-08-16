@@ -63,6 +63,22 @@ trait Implicits {
 
   implicit def unwrapDBList(in: MongoDBList): BasicDBList = in.underlying
 
+  /**
+   * Constructor shortcut for a DBObject.
+   */
+  def ^[Val <: Any](elems: (String, Val)*) = MongoDBObject(elems: _*)
+  /**
+   * Constructor shortcut for a DBObject.
+   */
+  def ^[Val <: Any](elems: List[(String, Val)]) = MongoDBObject(elems)
+
+  /**
+   * DBObject constructor for tuple pairs
+   */
+  implicit def pimpMyPair[Val](left: Pair[String, Val]) = new {
+    def ^[V2 <: Any](right: Pair[String, V2]) = MongoDBObject(left, right)
+  }
+
   // Register the core Serialization helpers.
   com.mongodb.casbah.commons.conversions.scala.RegisterConversionHelpers()
 }

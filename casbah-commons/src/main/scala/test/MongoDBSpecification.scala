@@ -24,7 +24,8 @@ import org.specs2.mutable._
 import org.specs2.data.Sized
 import org.specs2.matcher.{ Expectable, Matcher, MapMatchers }
 import org.specs2.matcher.Matchers._
-import com.mongodb.casbah.commons.{ Logging, MongoDBObject }
+import com.mongodb.casbah.util.Logging
+import com.mongodb.casbah.commons.MongoDBObject
 import javax.management.remote.rmi._RMIConnection_Stub
 
 object `package` {
