@@ -27,7 +27,6 @@ import org.bson.types.BSONTimestamp
 import com.mongodb.Bytes
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.util.Logging
 
 import scala.util.control.Exception._
 
