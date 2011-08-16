@@ -24,7 +24,7 @@ package com.mongodb.casbah
 package test
 
 import com.mongodb.casbah.gridfs.Imports._
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
 
 import java.security.MessageDigest
 import java.io._

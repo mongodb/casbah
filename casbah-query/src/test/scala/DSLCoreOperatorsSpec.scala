@@ -24,7 +24,7 @@ package com.mongodb.casbah
 package query
 
 import com.mongodb.casbah.query.Imports._
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
 import com.mongodb.casbah.commons.conversions.scala._
 
 import org.scala_tools.time.Imports._

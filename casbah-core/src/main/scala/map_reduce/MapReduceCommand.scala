@@ -24,7 +24,7 @@ package com.mongodb.casbah
 package map_reduce
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
 

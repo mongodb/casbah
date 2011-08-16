@@ -24,7 +24,7 @@ package com.mongodb.casbah
 package query
 
 import com.mongodb.casbah.commons.Imports._
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
 

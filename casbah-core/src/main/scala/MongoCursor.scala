@@ -25,7 +25,7 @@ package com.mongodb.casbah
 import com.mongodb.DBCursor
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
 

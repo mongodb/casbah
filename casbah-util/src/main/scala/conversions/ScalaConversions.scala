@@ -24,7 +24,7 @@ package com.mongodb.casbah
 package util
 package bson
 package conversions
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
 
 import org.bson.{ BSON, Transformer }
 

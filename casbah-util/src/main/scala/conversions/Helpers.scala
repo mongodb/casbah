@@ -25,7 +25,7 @@ package util
 package bson
 package conversions
 
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
 
 trait MongoConversionHelper extends Logging {
 

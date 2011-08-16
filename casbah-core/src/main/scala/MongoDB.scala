@@ -23,7 +23,7 @@
 package com.mongodb.casbah
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
 import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
 
 import scalaj.collection.Imports._
