@@ -240,7 +240,7 @@ trait GridFSFile extends MongoDBObject with Logging {
     k -> underlying.get(k)
   }.toMap.iterator.asInstanceOf[Iterator[(String, AnyRef)]]
 
-  def save = underlying.save
+  def save() = underlying.save
 
   /** 
    * validate the object.
