@@ -15,16 +15,19 @@ object CasbahBuild extends Build {
   /**
    * Import some sample data for testing
    */
-  "mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
+  "/usr/local/bin/mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
 
-  "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" ! 
+  "/usr/local/bin/mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" ! 
 
 
   override lazy val settings = super.settings ++ buildSettings
 
   lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings 
 
-  lazy val parentSettings = baseSettings 
+  lazy val parentSettings = baseSettings ++ Seq(
+    publishArtifact := false
+  )
+
   lazy val defaultSettings = baseSettings ++ Seq(
     libraryDependencies ++= Seq(scalatest(scalaVersion), specs2, slf4j, slf4jJCL),
     resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
@@ -38,7 +41,7 @@ object CasbahBuild extends Build {
     base      = file("."),
     settings  = parentSettings,
     aggregate = Seq(util, commons, core, query, gridfs)
-  )
+  ) dependsOn(util, commons, core, query, gridfs)
 
   lazy val util = Project(
     id       = "casbah-util",
