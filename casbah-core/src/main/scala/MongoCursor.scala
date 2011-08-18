@@ -22,12 +22,11 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.DBCursor
-
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
+import com.mongodb.{LazyDBObject, DBCursor}
 
 /** 
  * Scala wrapper for Mongo DBCursors,
@@ -549,17 +548,24 @@ object MongoCursor extends Logging {
   def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject) = {
     val cursor = new DBCursor(collection.underlying, query, keys)
 
-    if (manifest[T] == manifest[DBObject])
-      new MongoCursor(cursor)
+    if (manifest[T] == manifest[LazyDBObject])
+      new LazyMongoCursor(cursor)
     else
       new ConcreteMongoCursor(cursor)
 
   }
 }
 
-/** 
- * Concrete cursor implementation for typed Cursor operations via Collection.setObjectClass
- * This is a special case cursor for typed operations.
+/**
+ * Proxy of a DBCursor which returns Lazy BSON Objects.
+ *
+ * According to initial tests of the Lazy system:
+ * """
+ * Sub-objects can be obtained with no copy of data, just the offset
+ * changes.
+ * For a 700 bytes object, when accessing only a couple fields, the driver
+ * speed is about 2.5x.
+ * """
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 2.2, 8/18/11
@@ -567,10 +573,31 @@ object MongoCursor extends Logging {
  *
  * @param  val underlying (com.mongodb.DBCollection)
  */
-class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends MongoCursorBase {
-  type T = A
+class LazyMongoCursor(val underlying: DBCursor) extends MongoCursor {
+  type T = LazyDBObject
 
-  /** 
+  /**
+   * next
+   *
+   * Iterator increment.
+   *
+   * {@inheritDoc}
+   *
+   * @return The next element in the cursor
+   */
+  override def next() = underlying.next.asInstanceOf[LazyDBObject]
+
+  /**
+   * hasNext
+   *
+   * Is there another element in the cursor?
+   *
+   * {@inheritDoc}
+   *
+   * @return (Boolean Next)
+   */
+  override def hasNext = underlying.hasNext
+  /**
    * _newInstance
    *
    * Utility method which concrete subclasses
@@ -581,7 +608,7 @@ class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends M
    * @param  cursor (DBCursor)
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor) = new MongoGenericTypedCursor[T](cursor)
+  def _newInstance(cursor: DBCursor) = new LazyMongoCursor(cursor)
 
   /**
    * copy
@@ -592,7 +619,7 @@ class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends M
    *
    * @return The new cursor
    */
-  override def copy(): MongoGenericTypedCursor[T] = _newInstance(underlying.copy()) // parens for side-effects
+  override def copy(): LazyMongoCursor = _newInstance(underlying.copy()) // parens for side-effects
 }
 
 

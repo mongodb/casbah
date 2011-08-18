@@ -61,6 +61,8 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def apply(collection: String): MongoCollection = underlying.getCollection(collection).asScala
 
+  def lazyCollection(collection: String) = underlying.getCollection(collection).asLazyScala
+
   def addUser(username: String, passwd: String) = underlying.addUser(username, passwd.toArray)
 
   /**

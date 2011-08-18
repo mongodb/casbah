@@ -875,6 +875,7 @@ class ConcreteMongoCollection(val underlying: DBCollection) extends MongoCollect
    */
   def _newInstance(collection: DBCollection): MongoCollection = new ConcreteMongoCollection(collection)
 
+  def asLazy: LazyMongoCollection = new LazyMongoCollection(underlying)
 
   def head = headOption.get
   def headOption = findOne
@@ -902,8 +903,43 @@ class ConcreteMongoCollection(val underlying: DBCollection) extends MongoCollect
  *
  * @param  val underlying (DBCollection)
  */
-trait MongoTypedCollection extends MongoCollectionBase {
+class LazyMongoCollection(val underlying: DBCollection) extends MongoCollection {
+  type T = LazyDBObject
 
+  underlying.setDBDecoderFactory(LazyDBDecoder.FACTORY)
+  log.info("[%s] Changed DBDecoder to LazyDBDecoder.FACTORY", name)
+
+
+    /**
+     * _newCursor
+     *
+     * Utility method which concrete subclasses
+     * are expected to implement for creating a new
+     * instance of the correct cursor implementation from a
+     * Java cursor.  Good with cursor calls that return a new cursor.
+     * Should figure out the right type to return based on typing setup.
+     *
+     * @param  cursor (DBCursor)
+     * @return (MongoCursorBase)
+     */
+    def _newCursor(cursor: DBCursor) = new LazyMongoCursor(cursor)
+
+    /**
+     * _newInstance
+     *
+     * Utility method which concrete subclasses
+     * are expected to implement for creating a new
+     * instance of THIS concrete implementation from a
+     * Java collection.  Good with calls that return a new collection.
+     *
+     * @param  cursor (DBCollection)
+     * @return (this.type)
+     */
+    def _newInstance(collection: DBCollection): MongoCollection = new LazyMongoCollection(collection)
+
+    def head = headOption.get
+    def headOption = findOne
+    def tail = find.skip(1).toStream
 }
 
 

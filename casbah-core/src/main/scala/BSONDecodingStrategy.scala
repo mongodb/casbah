@@ -22,11 +22,14 @@
 
 package com.mongodb.casbah
 
-sealed trait BSONReadStrategy
-case object NormalBSONReadStrategy extends BSONReadStrategy
-case object LazyBSONReadStrategy extends BSONReadStrategy
+/**
+ * These values not presently used.
+ */
+sealed trait BSONDecodingStrategy
+case object NormalBSONDecodingStrategy extends BSONDecodingStrategy
+case object LazyBSONDecodingStrategy extends BSONDecodingStrategy
 
-object BSONReadStrategy {
-  val Normal = NormalBSONReadStrategy
-  val Lazy = LazyBSONReadStrategy
+object BSONDecodingStrategy {
+  val Normal = NormalBSONDecodingStrategy
+  val Lazy = LazyBSONDecodingStrategy
 }
