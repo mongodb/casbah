@@ -64,19 +64,24 @@ class LazyDecodingSpec extends CasbahSpecification {
       def runSum(c: MongoCollection) =
         c.find().map(doc => fetchBook(doc)).sum
 
-      val stdTotal = runSum(stdColl)
-      val lazyTotal = runSum(lazyColl)
+      var stdTotal = 0.0
+      for (i <- 0 until 500)
+        stdTotal += runSum(stdColl)
+
+      var lazyTotal = 0.0
+      for (i <- 0 until 500)
+        lazyTotal += runSum(lazyColl)
 
       lazyTotal must beGreaterThan(0.0)
       stdTotal must beGreaterThan(0.0)
 
       lazyTotal must beLessThan(stdTotal)
 
-      val stdTime = stdTotal / stdCount
-      val lazyTime = lazyTotal / lazyCount
+      val stdTime = (stdTotal / stdCount) / 500
+      val lazyTime = (lazyTotal / lazyCount) / 500
 
-      System.err.println("Average Seconds Per Doc STD: %2.6f".format(stdTime))
-      System.err.println("Average Seconds Per Doc Lazy: %2.6f".format(lazyTime))
+      System.err.println("[Total: %12.6f seconds] Average Seconds Per Doc STD: %2.6f".format(stdTotal, stdTime))
+      System.err.println("[Total: %12.6f seconds] Average Seconds Per Doc Lazy: %2.6f".format(lazyTotal, lazyTime))
 
       lazyTime must beLessThan(stdTime)
     }
