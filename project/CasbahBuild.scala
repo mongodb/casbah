@@ -29,7 +29,7 @@ object CasbahBuild extends Build {
   )
 
   lazy val defaultSettings = baseSettings ++ Seq(
-    libraryDependencies ++= Seq(scalatest(scalaVersion), specs2, slf4j, slf4jJCL),
+    libraryDependencies ++= Seq(scalatest(scalaVersion), specs2, specs2ScalazCore(scalaVersion), slf4j, slf4jJCL),
     resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
     autoCompilerPlugins := true,
     parallelExecution in Test := true,
@@ -55,7 +55,7 @@ object CasbahBuild extends Build {
     id       = "casbah-commons",
     base     = file("casbah-commons"),
     settings = defaultSettings ++ Seq(
-      libraryDependencies ++= Seq(mongoJavaDriver, scalajCollection, slf4j, slf4jJCL, scalaTime, scalatestCompile(scalaVersion), specs2Compile)
+      libraryDependencies ++= Seq(mongoJavaDriver, scalajCollection, slf4j, slf4jJCL, scalaTime)
     )
   ) dependsOn(util)
 
@@ -88,8 +88,14 @@ object Dependencies {
   val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.1"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
-  val specs2 = "org.specs2" %% "specs2" % "1.5" % "test"
-  val specs2Compile = "org.specs2" %% "specs2" % "1.5" 
+  val specs2 = "org.specs2" %% "specs2" % "1.5" % "provided" 
+  //val specs2 = specs2Compile % "test"
+
+  def specs2ScalazCore(scalaVer: sbt.SettingKey[String]) = 
+    scalaVersionString(scalaVer) match {
+      case "2.8.1" => "org.specs2" %% "specs2-scalaz-core" % "5.1-SNAPSHOT" % "test"
+      case _ => "org.specs2" %% "specs2-scalaz-core" % "6.0.RC2" % "test"
+    }
 
   def scalaVersionString(scalaVer: sbt.SettingKey[String]): String = {
     var result = ""
@@ -98,16 +104,16 @@ object Dependencies {
     result
   }
 
-  def scalatest(scalaVer: sbt.SettingKey[String]) =
+  /*def scalatest(scalaVer: sbt.SettingKey[String]) =
     scalaVersionString(scalaVer) match {
       case "2.8.1" => "org.scalatest" % "scalatest_2.8.1" % "1.5.1" % "test"
       case _ => "org.scalatest" % "scalatest_2.9.0" % "1.6.1" % "test"
-    }
+    }*/
 
-  def scalatestCompile(scalaVer: sbt.SettingKey[String]) =
+  def scalatest(scalaVer: sbt.SettingKey[String]) =
     scalaVersionString(scalaVer) match {
-      case "2.8.1" => "org.scalatest" % "scalatest_2.8.1" % "1.5.1"
-      case _ => "org.scalatest" % "scalatest_2.9.0" % "1.6.1"
+      case "2.8.1" => "org.scalatest" % "scalatest_2.8.1" % "1.5.1" % "provided"
+      case _ => "org.scalatest" % "scalatest_2.9.0" % "1.6.1" % "provided"
     }
 
   // JCL bindings for testing only
