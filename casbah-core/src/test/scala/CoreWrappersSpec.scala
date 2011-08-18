@@ -101,11 +101,11 @@ class CoreWrappersSpec extends CasbahSpecification {
       val coll = db("collectoin")
       coll.drop()
       coll.insert(MongoDBObject("foo" -> "bar"))
-      coll must haveClass[com.mongodb.casbah.MongoCollection]
+      coll must beAnInstanceOf[com.mongodb.casbah.MongoCollection]
       coll.name must beEqualTo("collectoin")
 
       val newColl = coll.rename("collection")
-      newColl must haveClass[com.mongodb.casbah.MongoCollection]
+      newColl must beAnInstanceOf[com.mongodb.casbah.MongoCollection]
       newColl.name must beEqualTo("collection")
 
       // no mutability in the old collection
@@ -162,10 +162,10 @@ class CoreWrappersSpec extends CasbahSpecification {
 
       "Chain operations must return the proper *subtype*" in {
         val cur = coll.find(MongoDBObject("foo" -> "bar")) skip 5
-        cur must haveClass[MongoCursor]
+        cur must beAnInstanceOf[MongoCursor]
 
         val cur2 = coll.find(MongoDBObject("foo" -> "bar")) limit 25 skip 12
-        cur2 must haveClass[MongoCursor]
+        cur2 must beAnInstanceOf[MongoCursor]
 
       }
 

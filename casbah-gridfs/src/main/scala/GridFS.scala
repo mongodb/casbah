@@ -260,8 +260,8 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    * Returns a cursor for this filestore
    * of all of the files... 
    */
-  def files = sansJodaTime { new MongoCursor(underlying.getFileList) }
-  def files[A <% DBObject](query: A) = sansJodaTime { new MongoCursor(underlying.getFileList(query)) }
+  def files = sansJodaTime { new ConcreteMongoCursor(underlying.getFileList) }
+  def files[A <% DBObject](query: A) = sansJodaTime { new ConcreteMongoCursor(underlying.getFileList(query)) }
 
   def remove[A <% DBObject](query: A) { underlying.remove(query) }
   def remove(id: ObjectId) { underlying.remove(id) }

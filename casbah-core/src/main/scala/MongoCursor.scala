@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,24 +42,20 @@ import scalaj.collection.Imports._
  * 
  * @tparam T (DBObject or subclass thereof)
  */
-trait MongoCursorBase extends Logging {
+trait MongoCursor extends Iterator[DBObject] with Logging {
 
-  type T <: DBObject
-
-  val underlying: DBCursor
+  def underlying: DBCursor
 
   /** 
    * next
    *
    * Iterator increment.
    * 
-   * TODO: The cast to T should be examined for sanity/safety.
-   * 
    * {@inheritDoc}
    *
    * @return The next element in the cursor
    */
-  def next() = underlying.next.asInstanceOf[T]
+  def next() = underlying.next
 
   /** 
    * hasNext
@@ -355,7 +351,7 @@ trait MongoCursorBase extends Logging {
    * @tparam A : Numeric 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $maxScan[A: Numeric](max: T): this.type = addSpecial("$maxScan", max)
+  def $maxScan[A: Numeric](max: DBObject): this.type = addSpecial("$maxScan", max)
 
   /** 
    * $query
@@ -468,7 +464,7 @@ trait MongoCursorBase extends Logging {
    * @param  cursor (DBCursor) 
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor): MongoCursorBase
+  def _newInstance(cursor: DBCursor): MongoCursor
 
   /** 
    * copy
@@ -479,7 +475,7 @@ trait MongoCursorBase extends Logging {
    * 
    * @return The new cursor
    */
-  def copy(): MongoCursorBase = _newInstance(underlying.copy()) // parens for side-effects
+  def copy(): MongoCursor = _newInstance(underlying.copy()) // parens for side-effects
 
 }
 
@@ -494,7 +490,7 @@ trait MongoCursorBase extends Logging {
  * @param  val underlying (com.mongodb.DBCollection) 
  * @tparam DBObject 
  */
-class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterator[DBObject] {
+class ConcreteMongoCursor(val underlying: DBCursor) extends MongoCursor {
 
   type T = DBObject
 
@@ -527,7 +523,7 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    * @param  cursor (DBCursor) 
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor) = new MongoCursor(cursor)
+  def _newInstance(cursor: DBCursor) = new ConcreteMongoCursor(cursor)
 
   /** 
    * copy
@@ -538,7 +534,7 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    * 
    * @return The new cursor
    */
-  override def copy(): MongoCursor = _newInstance(underlying.copy()) // parens for side-effects
+  override def copy() = _newInstance(underlying.copy()) // parens for side-effects
 }
 
 object MongoCursor extends Logging {
@@ -550,14 +546,13 @@ object MongoCursor extends Logging {
    * @param  keys (K) Keys to return from the query
    * @return (instance) A new MongoCursor
    */
-  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject,
-    keys: DBObject) = {
+  def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject) = {
     val cursor = new DBCursor(collection.underlying, query, keys)
 
     if (manifest[T] == manifest[DBObject])
       new MongoCursor(cursor)
     else
-      new MongoGenericTypedCursor[T](cursor)
+      new ConcreteMongoCursor(cursor)
 
   }
 }
@@ -567,39 +562,40 @@ object MongoCursor extends Logging {
  * This is a special case cursor for typed operations.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 2.0, 12/23/10
+ * @version 2.2, 8/18/11
  * @since 1.0
- * 
- * @param  val underlying (com.mongodb.DBCollection) 
- * @tparam A A Subclass of DBObject 
+ *
+ * @param  val underlying (com.mongodb.DBCollection)
  */
 class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends MongoCursorBase {
   type T = A
 
   /** 
    * _newInstance
-   * 
+   *
    * Utility method which concrete subclasses
    * are expected to implement for creating a new
-   * instance of THIS concrete implementation from a 
+   * instance of THIS concrete implementation from a
    * Java cursor.  Good with cursor calls that return a new cursor.
    *
-   * @param  cursor (DBCursor) 
+   * @param  cursor (DBCursor)
    * @return (this.type)
    */
   def _newInstance(cursor: DBCursor) = new MongoGenericTypedCursor[T](cursor)
 
-  /** 
+  /**
    * copy
    *
    * Creates a new copy of an existing database cursor.
-   * The new cursor is an iterator even if the original 
+   * The new cursor is an iterator even if the original
    * was an array.
-   * 
+   *
    * @return The new cursor
    */
   override def copy(): MongoGenericTypedCursor[T] = _newInstance(underlying.copy()) // parens for side-effects
 }
+
+
 /** 
  * 
  * 

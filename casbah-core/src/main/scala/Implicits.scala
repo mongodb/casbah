@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -84,12 +84,8 @@ trait Implicits {
      * Return a type-neutral Scala wrapper object for the DBCollection
      * @return MongoCollection An instance of the scala wrapper containing the collection object.
      */
-    def asScala: MongoCollection = new MongoCollection(coll)
-    /**
-     * Return a GENERIC Scala wrapper object for the DBCollection specific to a given Parameter type.
-     * @return MongoCollection[A<:DBObject] An instance of the scala wrapper containing the collection object.
-     */
-    def asScalaTyped[A <: com.mongodb.DBObject](implicit m: scala.reflect.Manifest[A]) = new MongoGenericTypedCollection[A](coll)
+    def asScala: MongoCollection = new ConcreteMongoCollection(coll)
+
   }
 
   /**
@@ -102,12 +98,8 @@ trait Implicits {
      * Return a type-neutral Scala wrapper object for the DBCursor
      * @return MongoCursor An instance of the scala wrapper containing the cursor object.
      */
-    def asScala: MongoCursor = new MongoCursor(cursor)
-    /**
-     * Return a GENERIC Scala wrapper object for the DBCursor specific to a given Parameter type.
-     * @return MongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
-     */
-    def asScalaTyped[A <: com.mongodb.DBObject: Manifest] = new MongoGenericTypedCursor[A](cursor)
+    def asScala: MongoCursor = new ConcreteMongoCursor(cursor)
+
   }
 
   implicit def stringAsNamedCollectionMROutput(name: String) = map_reduce.MapReduceStandardOutput(name)

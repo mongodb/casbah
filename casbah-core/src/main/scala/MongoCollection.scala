@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,41 +22,36 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.{ DBCollection, DBCursor }
-
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.util.Logging
 
 import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
 
-import scala.util.control.Exception._
-
 import scalaj.collection.Imports._
-import collection.mutable.ArrayBuffer
+import com.mongodb.{LazyDBDecoder, LazyDBObject, DBCursor, DBCollection}
 
-/** 
+/**
  * Scala wrapper for Mongo DBCollections,
- * including ones which return custom DBObject subclasses 
+ * including ones which return custom DBObject subclasses
  * via setObjectClass and the like.
  * Provides any non-parameterized methods and the basic structure.
  * Requires an underlying object of a DBCollection.
- * 
+ *
  * This is a rewrite of the Casbah 1.0 approach which was rather
  * naive and unecessarily complex.... formerly was MongoCollectionWrapper
- * 
+ *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 2.0, 12/23/10
  * @since 1.0
- * 
+ *
  * @tparam T (DBObject or subclass thereof)
  */
-trait MongoCollectionBase extends Logging { self =>
+trait MongoCollection extends Logging {
   type T <: DBObject
-  type CursorType
   /**
    * The underlying Java Mongo Driver Collection object we proxy.
    */
-  val underlying: DBCollection
+  def underlying: DBCollection
 
   def iterator = find
 
@@ -440,54 +435,6 @@ trait MongoCollectionBase extends Logging { self =>
 
   def name = getName()
 
-  /** Gets the default class for objects in the collection
-   * @return the class
-   */
-  def getObjectClass() = underlying.getObjectClass
-
-  /** Gets the default class for objects in the collection
-   * @return the class
-   */
-  def objectClass = getObjectClass()
-
-  /** 
-   * setObjectClass
-   * 
-   * Set a subtype of DBObject which will be used
-   * to deserialize documents returned from MongoDB.
-   *
-   * This method will return a new <code>MongoTypedCollection[A]</code>
-   * which you should capture if you want explicit casting.
-   * Else, this collection will instantiate instances of A but cast them to
-   * the current <code>T</code> (DBObject if you have a generic collection)
-   * 
-   * @param  c (Class[A]) 
-   * @tparam A A Subtype of DBObject
-   *
-   * TODO - Ensure proper subtype return
-   */
-  def setObjectClass[A <: DBObject: Manifest](c: Class[A]) = {
-    underlying.setObjectClass(c)
-    new MongoGenericTypedCollection[A](underlying = self.underlying)
-  }
-
-  /** 
-   * setObjectClass
-   * 
-   * Set a subtype of DBObject which will be used
-   * to deserialize documents returned from MongoDB.
-   *
-   * This method will return a new <code>MongoTypedCollection[A]</code>
-   * which you should capture if you want explicit casting.
-   * Else, this collection will instantiate instances of A but cast them to
-   * the current <code>T</code> (DBObject if you have a generic collection)
-   * 
-   * @param  c (Class[A]) 
-   * @tparam A A Subtype of DBObject
-   *
-   */
-  def objectClass_=[A <: DBObject: Manifest](c: Class[A]) = setObjectClass(c)
-
   def stats = getStats()
 
   def getStats() = underlying.getStats()
@@ -693,7 +640,7 @@ trait MongoCollectionBase extends Logging { self =>
    * @return if the two collections are the same object
    */
   override def equals(obj: Any) = obj match {
-    case other: MongoCollectionBase => underlying.equals(other.underlying)
+    case other: MongoCollection => underlying.equals(other.underlying)
     case _ => false
   }
 
@@ -837,7 +784,7 @@ trait MongoCollectionBase extends Logging { self =>
    * @return the new collection
    */
   def rename(newName: String): MongoCollection =
-    new MongoCollection(self.underlying.rename(newName))
+    _newInstance(underlying.rename(newName))
 
   /**
    * does a rename of this collection to newName
@@ -853,54 +800,55 @@ trait MongoCollectionBase extends Logging { self =>
    * @return the new collection
    */
   def rename(newName: String, dropTarget: Boolean): MongoCollection =
-    new MongoCollection(self.underlying.rename(newName, dropTarget))
+    _newInstance(underlying.rename(newName, dropTarget))
 
-  /** 
+  /**
    * _newCursor
-   * 
+   *
    * Utility method which concrete subclasses
    * are expected to implement for creating a new
-   * instance of the correct cursor implementation from a 
+   * instance of the correct cursor implementation from a
    * Java cursor.  Good with cursor calls that return a new cursor.
    * Should figure out the right type to return based on typing setup.
    *
-   * @param  cursor (DBCursor) 
+   * @param  cursor (DBCursor)
    * @return (MongoCursorBase)
    */
-  def _newCursor(cursor: DBCursor): CursorType
+  def _newCursor(cursor: DBCursor): MongoCursor
 
-  /** 
+  /**
    * _newInstance
-   * 
+   *
    * Utility method which concrete subclasses
    * are expected to implement for creating a new
-   * instance of THIS concrete implementation from a 
+   * instance of THIS concrete implementation from a
    * Java collection.  Good with calls that return a new collection.
    *
-   * @param  cursor (DBCollection) 
+   * @param  cursor (DBCollection)
    * @return (this.type)
    */
-  def _newInstance(collection: DBCollection): MongoCollectionBase
+  def _newInstance(collection: DBCollection): MongoCollection
 
   protected def _typedValue(dbObj: DBObject): Option[T] = Option(dbObj.asInstanceOf[T])
+
+
+  def size = count.toInt
 }
 
-/** 
+/**
  * Concrete collection implementation expecting standard DBObject operation
  * This is the version of MongoCollectionBase you should expect to use in most cases.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 2.0, 12/23/10
  * @since 1.0
- * 
- * @tparam DBObject 
+ *
+ * @tparam DBObject
  */
-class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase with Iterable[DBObject] {
-
+class ConcreteMongoCollection(val underlying: DBCollection) extends MongoCollection {
   type T = DBObject
-  type CursorType = MongoCursor
 
-  /** 
+  /**
    * _newCursor
    * 
    * Utility method which concrete subclasses
@@ -912,7 +860,7 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase 
    * @param  cursor (DBCursor) 
    * @return (MongoCursorBase)
    */
-  def _newCursor(cursor: DBCursor) = new MongoCursor(cursor)
+  def _newCursor(cursor: DBCursor) = new ConcreteMongoCursor(cursor)
 
   /** 
    * _newInstance
@@ -925,62 +873,39 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase 
    * @param  cursor (DBCollection) 
    * @return (this.type)
    */
-  def _newInstance(collection: DBCollection): MongoCollection = new MongoCollection(collection)
+  def _newInstance(collection: DBCollection): MongoCollection = new ConcreteMongoCollection(collection)
 
-  override protected def _typedValue(dbObj: DBObject): Option[DBObject] = Option(dbObj)
 
-  override def head = headOption.get
-  override def headOption = findOne
-  override def tail = find.skip(1).toStream
+  def head = headOption.get
+  def headOption = findOne
+  def tail = find.skip(1).toIterable
 
 }
 
-/** 
- * Concrete collection implementation for typed Cursor operations via Collection.setObjectClass et al
- * This is a special case collection for typed operations
- * 
+/**
+ * Proxy of a DBCollection which uses a LazyDBFactory.
+ *
+ * Doesn't *require* LazyDBObjects to save (They're readonly in
+ * the current implementation anyway)
+ *
+ * According to initial tests of the Lazy system:
+ * """
+ * Sub-objects can be obtained with no copy of data, just the offset
+ * changes.
+ * For a 700 bytes object, when accessing only a couple fields, the driver
+ * speed is about 2.5x.
+ * """
+ *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 2.0, 12/23/10
+ * @version 2.2, 8/18/11
  * @since 1.0
- * 
- * @param  val underlying (DBCollection) 
- * @tparam T  A Subclass of DBObject
+ *
+ * @param  val underlying (DBCollection)
  */
 trait MongoTypedCollection extends MongoCollectionBase {
 
 }
 
-class MongoGenericTypedCollection[A <: DBObject](val underlying: DBCollection) extends MongoTypedCollection {
-  type T = A
-  type CursorType = MongoGenericTypedCursor[A]
-
-  /** 
-   * _newCursor
-   * 
-   * Utility method which concrete subclasses
-   * are expected to implement for creating a new
-   * instance of the correct cursor implementation from a 
-   * Java cursor.  Good with cursor calls that return a new cursor.
-   * Should figure out the right type to return based on typing setup.
-   *
-   * @param  cursor (DBCursor) 
-   * @return (MongoCollectionBase)
-   */
-  def _newCursor(cursor: DBCursor) = new MongoGenericTypedCursor[T](cursor)
-
-  /** 
-   * _newInstance
-   * 
-   * Utility method which concrete subclasses
-   * are expected to implement for creating a new
-   * instance of THIS concrete implementation from a 
-   * Java collection.  Good with calls that return a new collection.
-   *
-   * @param  cursor (DBCollection) 
-   * @return (this.type)
-   */
-  def _newInstance(collection: DBCollection) = new MongoGenericTypedCollection[T](collection)
-}
 
 /** Helper object for some static methods
  */

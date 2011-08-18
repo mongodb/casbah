@@ -95,8 +95,9 @@ class GridFSSpec extends CasbahSpecification {
 
     "Return a wrapped MongoCursor if you call files,  as reported by Gregg Carrier" in {
       val files = gridfs.files
-      files must haveClass[MongoCursor]
+      files must beAnInstanceOf[MongoCursor]
     }
+
     "Be properly iterable" in {
       val id = gridfs(logo) { fh =>
         fh.filename = "powered_by_mongo_iter.png"
