@@ -28,6 +28,8 @@ import com.mongodb.casbah.commons.test.CasbahSpecification
 class LazyDecodingSpec extends CasbahSpecification {
   implicit val mongoDB = MongoConnection()("casbahIntegration")
 
+  val x = 5000
+
   "Lazy Collections" should {
     "Be fetchable, and return LazyCursors and LazyDBObjects" in {
       val coll = mongoDB.lazyCollection("books")
@@ -36,11 +38,12 @@ class LazyDecodingSpec extends CasbahSpecification {
       coll.find().next() must haveClass[LazyDBObject]
     }
 
-    "Perform better, overall, than Standard DBObjects in 500 iterations" in {
+    "Perform better, overall, than Standard DBObjects in %d iterations".format(x) in {
       def fetchBook(obj: DBObject) = {
         val start = System.nanoTime()
         val id = obj.getAs[ObjectId]("_id")
         val isbn = obj.getAs[String]("ISBN")
+        isbn.get.length() must_== 17
         val author = obj.getAs[String]("author")
         val discountPrice = obj.expand[Double]("price.discount")
         val msrpPrice = obj.expand[Double]("price.msrp")
@@ -65,11 +68,11 @@ class LazyDecodingSpec extends CasbahSpecification {
         c.find().map(doc => fetchBook(doc)).sum
 
       var stdTotal = 0.0
-      for (i <- 0 until 500)
+      for (i <- 0 until x)
         stdTotal += runSum(stdColl)
 
       var lazyTotal = 0.0
-      for (i <- 0 until 500)
+      for (i <- 0 until x)
         lazyTotal += runSum(lazyColl)
 
       lazyTotal must beGreaterThan(0.0)
@@ -77,8 +80,8 @@ class LazyDecodingSpec extends CasbahSpecification {
 
       lazyTotal must beLessThan(stdTotal)
 
-      val stdTime = (stdTotal / stdCount) / 500
-      val lazyTime = (lazyTotal / lazyCount) / 500
+      val stdTime = (stdTotal / stdCount) / x
+      val lazyTime = (lazyTotal / lazyCount) / x
 
       System.err.println("[Total: %12.6f seconds] Average Seconds Per Doc STD: %2.6f".format(stdTotal, stdTime))
       System.err.println("[Total: %12.6f seconds] Average Seconds Per Doc Lazy: %2.6f".format(lazyTotal, lazyTime))

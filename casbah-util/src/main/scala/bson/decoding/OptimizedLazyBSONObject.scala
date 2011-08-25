@@ -1,8 +1,32 @@
+/**
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
+ */
+
 package com.mongodb.casbah.util;
 package bson.decoding;
 
 import org.bson._
 import org.bson.types._
+
+import com.mongodb.DBObject 
 
 import java.util.{ Date, UUID }
 
@@ -168,7 +192,7 @@ class OptimizedLazyBSONObject(val input: BSONByteBuffer,
       case CODE_W_SCOPE => 
         new CodeWScope( input.utf8String( v + 4 ),
                         callback.createObject( input.array, 
-                                               v + 4 + 4 + bsonSize( v + 4) ): BSONObject
+                                               v + 4 + 4 + bsonSize( v + 4) ).asInstanceOf[BSONObject]
                       )
       case REF => 
         val o = v + bsonSize( v ) + 4
@@ -303,5 +327,15 @@ class OptimizedLazyBSONObject(val input: BSONByteBuffer,
 
 }
 
+class OptimizedLazyDBObject(input: BSONByteBuffer,
+                            callback: OptimizedLazyBSONCallback, 
+                            doc_start: Int = 0) 
+  extends OptimizedLazyBSONObject(input, callback, doc_start) with DBObject {
+
+  def markAsPartialObject = ()
+
+  def isPartialObject: Boolean = false
+
+}
 
 // vim: set ts=2 sw=2 sts=2 et:

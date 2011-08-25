@@ -22,32 +22,45 @@
 
 package com.mongodb.casbah
 
+import com.mongodb.casbah.util.bson.decoding._
+
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.util.Logging
 
 import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
 
 import scalaj.collection.Imports._
-import com.mongodb.{LazyDBDecoder, LazyDBObject, DBCursor, DBCollection}
+import com.mongodb.{ DBCursor , DBCollection , DBDecoderFactory}
 
 /**
- * Scala wrapper for Mongo DBCollections,
- * including ones which return custom DBObject subclasses
- * via setObjectClass and the like.
- * Provides any non-parameterized methods and the basic structure.
- * Requires an underlying object of a DBCollection.
- *
- * This is a rewrite of the Casbah 1.0 approach which was rather
- * naive and unecessarily complex.... formerly was MongoCollectionWrapper
- *
- * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 2.0, 12/23/10
- * @since 1.0
- *
- * @tparam T (DBObject or subclass thereof)
- */
-trait MongoCollection extends Logging {
+* Scala wrapper for Mongo DBCollections,
+* including ones which return custom DBObject subclasses
+* via setObjectClass and the like.
+* Provides any non-parameterized methods and the basic structure.
+* Requires an underlying object of a DBCollection.
+*
+* This is a rewrite of the Casbah 1.0 approach which was rather
+* naive and unecessarily complex.... formerly was MongoCollectionWrapper
+*
+* @author Brendan W. McAdams <brendan@10gen.com>
+* @version 2.0, 12/23/10
+* @since 1.0
+*
+* @tparam T (DBObject or subclass thereof)
+*/
+abstract class MongoCollection extends Logging {
   type T <: DBObject
+
+  /**
+   * If defined, load the customDecoderFactory.
+   */
+  customDecoderFactory.foreach { decoder =>
+    log.debug("Loading Custom DBDecoderFactory '%s' into collection (%s)", decoder, this)
+    underlying.setDBDecoderFactory(decoder)
+  }
+
+  def customDecoderFactory: Option[DBDecoderFactory] = None
+
   /**
    * The underlying Java Mongo Driver Collection object we proxy.
    */
@@ -884,9 +897,9 @@ class ConcreteMongoCollection(val underlying: DBCollection) extends MongoCollect
 }
 
 /**
- * Proxy of a DBCollection which uses a LazyDBFactory.
+ * Proxy of a DBCollection which uses an OptimizedLazyDBFactory.
  *
- * Doesn't *require* LazyDBObjects to save (They're readonly in
+ * Doesn't *require* OptimizedLazyDBObjects to save (They're readonly in
  * the current implementation anyway)
  *
  * According to initial tests of the Lazy system:
@@ -904,42 +917,41 @@ class ConcreteMongoCollection(val underlying: DBCollection) extends MongoCollect
  * @param  val underlying (DBCollection)
  */
 class LazyMongoCollection(val underlying: DBCollection) extends MongoCollection {
-  type T = LazyDBObject
+  type T = OptimizedLazyDBObject
 
-  underlying.setDBDecoderFactory(LazyDBDecoder.FACTORY)
-  log.info("[%s] Changed DBDecoder to LazyDBDecoder.FACTORY", name)
+  override def customDecoderFactory = Some(OptimizedLazyDBDecoder.Factory)
 
 
-    /**
-     * _newCursor
-     *
-     * Utility method which concrete subclasses
-     * are expected to implement for creating a new
-     * instance of the correct cursor implementation from a
-     * Java cursor.  Good with cursor calls that return a new cursor.
-     * Should figure out the right type to return based on typing setup.
-     *
-     * @param  cursor (DBCursor)
-     * @return (MongoCursorBase)
-     */
-    def _newCursor(cursor: DBCursor) = new LazyMongoCursor(cursor)
+  /**
+   * _newCursor
+   *
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of the correct cursor implementation from a
+   * Java cursor.  Good with cursor calls that return a new cursor.
+   * Should figure out the right type to return based on typing setup.
+   *
+   * @param  cursor (DBCursor)
+   * @return (MongoCursorBase)
+   */
+   def _newCursor(cursor: DBCursor) = new LazyMongoCursor(cursor)
 
-    /**
-     * _newInstance
-     *
-     * Utility method which concrete subclasses
-     * are expected to implement for creating a new
-     * instance of THIS concrete implementation from a
-     * Java collection.  Good with calls that return a new collection.
-     *
-     * @param  cursor (DBCollection)
-     * @return (this.type)
-     */
-    def _newInstance(collection: DBCollection): MongoCollection = new LazyMongoCollection(collection)
+  /**
+   * _newInstance
+   *
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of THIS concrete implementation from a
+   * Java collection.  Good with calls that return a new collection.
+   *
+   * @param  cursor (DBCollection)
+   * @return (this.type)
+   */
+   def _newInstance(collection: DBCollection): MongoCollection = new LazyMongoCollection(collection)
 
-    def head = headOption.get
-    def headOption = findOne
-    def tail = find.skip(1).toStream
+   def head = headOption.get
+   def headOption = findOne
+   def tail = find.skip(1).toStream
 }
 
 

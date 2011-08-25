@@ -1,6 +1,29 @@
+/**
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ * 
+ */
+
 package com.mongodb.casbah.util;
 package bson.decoding;
 
+import com.mongodb._
 import org.bson._
 import org.bson.types._
 
@@ -20,7 +43,7 @@ import scala.collection.mutable.{ HashMap, HashSet }
 class OptimizedLazyBSONCallback extends BSONCallback {
   protected var _root: Option[AnyRef] = None
 
-  def apply: AnyRef = root
+  def apply(): AnyRef = root
 
   def root: AnyRef = _root.getOrElse(null) // fun with Java. (sigh)
 
@@ -34,7 +57,7 @@ class OptimizedLazyBSONCallback extends BSONCallback {
   def root_=(root: AnyRef): Unit = 
     _root = Option(root)
 
-  def createObject(data: Array[Byte], offset: Int) = {
+  def createObject(data: Array[Byte], offset: Int): AnyRef = {
     // TODO - LazyBSONList support
     new OptimizedLazyBSONObject(
       BSONByteBuffer(data, offset, data.length - offset), 
@@ -42,7 +65,7 @@ class OptimizedLazyBSONCallback extends BSONCallback {
       offset)
   }
 
-  def createDBRef(ns: String, id: ObjectId) = 
+  def createDBRef(ns: String, id: ObjectId): AnyRef = 
     new BasicBSONObject("$ns", ns).append("$id", id)
 
 
@@ -123,6 +146,9 @@ class OptimizedLazyBSONCallback extends BSONCallback {
   def gotBinary(name: String, _type: Byte, data: Array[Byte]): Unit = 
     root = createObject( data, 0 )
 
+  def gotBinary(_type: Byte, data: Array[Byte]): Unit = 
+  gotBinary(null, _type, data)
+
   def gotUUID(name: String, part1: Long, part2: Long): Unit = 
     throw new UnsupportedOperationException
 
@@ -131,4 +157,29 @@ class OptimizedLazyBSONCallback extends BSONCallback {
 
   def gotCodeWScope(name: String, code: String, scope: AnyRef): Unit = 
     throw new UnsupportedOperationException
+}
+
+class OptimizedLazyDBCallback(val collection: DBCollection) 
+  extends OptimizedLazyBSONCallback with DBCallback {
+  // Screw it - if the system gives me a null collection I want to BLOW UP
+  val db = collection.getDB()
+
+  override def createObject(data: Array[Byte], offset: Int): AnyRef = {
+    val o = new OptimizedLazyDBObject( 
+                      BSONByteBuffer(data, offset, data.length - offset), 
+                      this, offset )
+    /**
+     * Need to detect DBRef w/o searching through all fields ...
+     * $ref must be the 1st key.
+     */
+    val it = o.keySet.iterator 
+    if (it.hasNext && it.next == "$ref" && o.containsField("$id"))
+      new DBRef(db, o)
+    else 
+      o
+  }
+
+  override def createDBRef(ns: String, oid: ObjectId): AnyRef = 
+    new DBRef(db, ns, oid)
+
 }
