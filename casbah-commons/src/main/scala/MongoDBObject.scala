@@ -149,9 +149,8 @@ trait MongoDBObject extends Map[String, AnyRef] {
   @deprecated("containsKey is deprecated in the MongoDB Driver. You should use containsField instead.")
   def containsKey(s: String) = underlying.containsField(s) // method kept for backwards compatibility
   def isPartialObject = underlying.isPartialObject
-  def markAsPartialObject() { underlying.markAsPartialObject() }
+  def markAsPartialObject() = underlying.markAsPartialObject()
   def partialObject = isPartialObject
-
   override def put(k: String, v: AnyRef) = v match {
     case x: MongoDBObject => put(k, x.asDBObject)
     case _ =>
@@ -160,7 +159,6 @@ trait MongoDBObject extends Map[String, AnyRef] {
         case value => Some(value)
       }
   }
-
   def putAll(o: DBObject) { underlying.putAll(o) }
   def removeField(key: String) = underlying.removeField(key)
   def toMap = underlying.toMap
@@ -171,13 +169,6 @@ trait MongoDBObject extends Map[String, AnyRef] {
     case Some(id: ObjectId) => Some(id)
     case _ => None
   }
-
-  /** Additive function for adding tuple pairs */
-  def ^[V2 <: Any](right: Pair[String, V2]): DBObject = {
-    put(right._1, right._2)
-    this
-  }
-
 }
 
 object MongoDBObject {

@@ -73,11 +73,11 @@ class MongoDBObjectSpec extends CasbahSpecification {
       fields must beDBObject
     }
 
-/*    "SCALA-42, storing Java Arrays in a DBObject shouldn't break .equals and .hashcode" in {
+    "SCALA-42, storing Java Arrays in a DBObject shouldn't break .equals and .hashcode" in {
       val one = MongoDBObject("anArray" -> Array(MongoDBObject("one" -> "oneVal"), MongoDBObject("two" -> "twoVal")))
       val two = MongoDBObject("anArray" -> Array(MongoDBObject("one" -> "oneVal"), MongoDBObject("two" -> "twoVal")))
       one must beEqualTo(two)
-    }*/
+    }
   }
 
   "MongoDBObject Factory & Builder" should {
@@ -238,14 +238,6 @@ class MongoDBObjectSpec extends CasbahSpecification {
           val y: Double = dbObj.as[Double]("y")
           y must beEqualTo(212.8)
         }
-      }
-    }
-    "Support ^ shortcut operators" >> {
-      "Allow single pair DBObject construction with ^" in {
-        ^("foo" -> "bar") must beDBObject
-      }
-      "Allow multi-pair DBObject construction with ^ additivity" in {
-        ("foo" -> "bar" ^ "bar" -> "baz" ^ "x" -> "y" ^ "n" -> 5)  must beDBObject and haveEntries("foo" -> "bar", "bar" -> "baz", "x" -> "y", "n" -> 5)
       }
     }
   }
