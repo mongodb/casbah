@@ -147,7 +147,7 @@ class BSONByteBuffer protected[io](val buf: ByteBuffer) {
 
         str_b.reset()
 
-        out.intern()
+        out
       }
     }
 
@@ -172,7 +172,7 @@ class BSONByteBuffer protected[io](val buf: ByteBuffer) {
           b(n) = this(i + n)
 
         try {
-          new String(b, 0, x - 1, "UTF-8").intern() 
+          new String(b, 0, x - 1, "UTF-8")
         } catch {
           case _: UnsupportedEncodingException => 
             throw new BSONException("Cannot decode string as UTF-8") 
