@@ -202,7 +202,7 @@ abstract class MongoCollection extends Logging {
    * Returns a single object from this collection.
    * @return (Option[T]) Some() of the object found, or <code>None</code> if this collection is empty
    */
-  def findOne() = _typedValue(underlying.findOne())
+  def findOne() = Option(underlying.findOne())
 
   /** 
    * Returns a single object from this collection matching the query.
@@ -210,7 +210,7 @@ abstract class MongoCollection extends Logging {
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
   def findOne[A <% DBObject](o: A) =
-    _typedValue(underlying.findOne(o: DBObject))
+    Option(underlying.findOne(o: DBObject))
 
   /**
    * Returns a single object from this collection matching the query.
@@ -220,7 +220,7 @@ abstract class MongoCollection extends Logging {
    * @dochub find
    */
   def findOne[A <% DBObject, B <% DBObject](o: A, fields: B) =
-    _typedValue(underlying.findOne(o: DBObject, fields))
+    Option(underlying.findOne(o: DBObject, fields))
 
   /** 
    * Find an object by its ID.
@@ -231,7 +231,7 @@ abstract class MongoCollection extends Logging {
    * @param id the id to match
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
-  def findOneByID(id: AnyRef) = _typedValue(underlying.findOne(id))
+  def findOneByID(id: AnyRef) = Option(underlying.findOne(id))
 
   /**
    * Find an object by its ID.
@@ -246,24 +246,24 @@ abstract class MongoCollection extends Logging {
    * @dochub find
    */
   def findOneByID[B <% DBObject](id: AnyRef, fields: B) =
-    _typedValue(underlying.findOne(id, fields))
+    Option(underlying.findOne(id, fields))
 
   /**
    * Finds the first document in the query (sorted) and updates it. 
-   * If remove is specified it will be removed. If new is specified then the updated 
+   * If remove is specified it will be removed. If new is specified then the updated
    * document will be returned, otherwise the old document is returned (or it would be lost forever).
    * You can also specify the fields to return in the document, optionally.
    * @return (Option[T]) of the the found document (before, or after the update)
    */
   def findAndModify[A <% DBObject, B <% DBObject](query: A, update: B) =
-    _typedValue(underlying.findAndModify(query, update))
+    Option(underlying.findAndModify(query, update))
 
   /**
    * Finds the first document in the query (sorted) and updates it. 
    * @return the old document
    */
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject](query: A, sort: B, update: C) =
-    _typedValue(underlying.findAndModify(query, sort, update))
+    Option(underlying.findAndModify(query, sort, update))
 
   /**
    * Finds the first document in the query and updates it. 
@@ -272,14 +272,14 @@ abstract class MongoCollection extends Logging {
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
     remove: Boolean, update: D,
     returnNew: Boolean, upsert: Boolean) =
-    _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
+    Option(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
 
   /**
    * Finds the first document in the query and removes it. 
    * @return the removed document
    */
   def findAndRemove[A <% DBObject](query: A) =
-    _typedValue(underlying.findAndRemove(query))
+    Option(underlying.findAndRemove(query))
 
   /**
    * write concern aware write op block.
@@ -841,9 +841,6 @@ abstract class MongoCollection extends Logging {
    * @return (this.type)
    */
   def _newInstance(collection: DBCollection): MongoCollection
-
-  protected def _typedValue(dbObj: DBObject): Option[T] = Option(dbObj.asInstanceOf[T])
-
 
   def size = count.toInt
 }
