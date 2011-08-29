@@ -65,8 +65,7 @@ object BSONType extends Enumeration {
    * 'u' to make \w, \W, etc. match unicode.
    */
   val RegEx = Value(0x0B)
-  @deprecated
-  val DBPointer = Value(0x0C)
+  @deprecated val DBPointer = Value(0x0C)
   val Code = Value(0x0D)
   val Symbol = Value(0x0E)
   /**

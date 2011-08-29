@@ -166,43 +166,38 @@ class OptimizedLazyBSONObject(val input: BSONByteBuffer,
       case EOO | UNDEFINED | NULL => 
         null
       case MAXKEY => 
-        new MaxKey()
+        callback.createMaxKey()
       case MINKEY => 
-        new MinKey()
+        callback.createMinKey()
       case BOOLEAN => 
-        input( v ) != 0
-      case NUMBER => 
-        java.lang.Double.longBitsToDouble( input.long( v ) ) 
-      case NUMBER_INT => 
-        input.int( v )
+        callback.createBoolean( input( v ) != 0 )
+      case NUMBER =>
+        callback.createDouble( java.lang.Double.longBitsToDouble( input.long( v ) ) )
+      case NUMBER_INT =>
+        callback.createInt( input.int( v ) )
       case NUMBER_LONG =>
-        input.long( v )
+        callback.createLong( input.long( v ) )
       case TIMESTAMP => 
-        new BSONTimestamp( input.int( v + 4 ), 
-                           input.int( v ) ) 
+        callback.createTimestamp( input.int( v + 4 ),  input.int( v ) )
       case DATE => 
-        new Date( input.long( v ) )
+        callback.createDate( input.long( v ) )
       case OID => 
-        new ObjectId( input.intBE( v ),
-                      input.intBE( v + 4 ), 
-                      input.intBE( v + 8 ) )
+        callback.createObjectId( input.intBE( v ), input.intBE( v + 4 ),  input.intBE( v + 8 ) )
       case STRING => 
-        input.utf8String( v )
+        callback.createString( input.utf8String( v ) )
       case SYMBOL => 
-        new Symbol( input.utf8String( v ) )
+        callback.createSymbol( input.utf8String( v ) )
       case CODE => 
-        new Code( input.utf8String( v ) )
+        callback.createCode( input.utf8String( v ) )
       case CODE_W_SCOPE => 
-        new CodeWScope( input.utf8String( v + 4 ),
-                        callback.createObject( input.array, 
-                                               v + 4 + 4 + bsonSize( v + 4) ).asInstanceOf[BSONObject]
-                      )
+        callback.createCodeWScope( input.utf8String( v + 4 ),
+                        callback.createObject( input.array,  v + 4 + 4 + bsonSize( v + 4) ).asInstanceOf[BSONObject] )
       case REF => 
         val o = v + bsonSize( v ) + 4
         val ns = input.cString( v + 4 )
-        val oid = new ObjectId( input.intBE( o ),
-                                input.intBE( o + 4 ), 
-                                input.intBE( o + 8 ) )
+        val oid = callback.createObjectId(  input.intBE( o ),
+                                            input.intBE( o + 4 ),
+                                            input.intBE( o + 8 ) ).asInstanceOf[ObjectId]
         callback.createDBRef( ns, oid ) 
       case OBJECT => 
         callback.createObject( input.array, v )
@@ -210,38 +205,38 @@ class OptimizedLazyBSONObject(val input: BSONByteBuffer,
         callback.createObject( input.array, v )
       case BINARY => 
         readBinary( v )
-      case REGEX => 
-        java.util.regex.Pattern.compile( input.cString( v ), // pattern
-            regexFlags ( input.cString( v + sizeCString( v ) ) ) /* flags*/ )  
+      case REGEX =>
+        callback.createRegex( input.cString( v ) /* pattern */,
+                              input.cString( v + sizeCString( v ) ) /* flags*/
+                            )
       case _ =>
         throw new BSONException("Invalid BSON Type '" + record._1 + "'.")
 
     } ).asInstanceOf[AnyRef] // f-ing boxing bullshit
   }
 
-  private def readBinary(offset: Int): AnyRef = {
+  protected def readBinary(offset: Int): AnyRef = {
     import BSON.{ B_GENERAL, B_BINARY, B_UUID }
 
     val l = bsonSize( offset ) 
 
-    (input( offset + 4 ): @switch) match { 
+    (input( offset + 4 ): @switch) match {
       case B_BINARY => 
         val _l = bsonSize( offset + 4 )
         require(_l + 4 ==  l, "Bad Data Size: Binary Subtype 2." + " { Got: " + 
                               _l + " Expected: " + l + "}")
-          ( for {
-              n <- 0 until l 
-            } yield input( (offset + 4 + 4) + n ) ).toArray
-
-      case B_UUID => 
+        callback.createBinary( B_BINARY, ( for {
+            n <- 0 until l
+          } yield input( (offset + 4 + 4) + n ) ).toArray )
+      case B_UUID =>
         require( l == 16,  "Bad Data Size: Binary Subtype 3 (UUID)." + " { Got: " + 
                            l + " Expected: 16 }")
-        new UUID( input.long( offset + 4 ), input.long( offset + 4 + 8 ) )
+        callback.createUUID( input.long( offset + 4 ), input.long( offset + 4 + 8 ) )
       /** B_GENERAL behavior is identical to 'default'. */
       case B_GENERAL | _ => 
-        ( for { 
+        callback.createBinary( ( for {
             n <- 0 until l
-          } yield input( (offset + 4) + n ) ).toArray
+          } yield input( (offset + 4) + n ) ).toArray )
     }
   }
   

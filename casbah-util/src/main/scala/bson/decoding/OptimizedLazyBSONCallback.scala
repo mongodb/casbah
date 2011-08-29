@@ -25,21 +25,20 @@ package bson.decoding;
 
 import com.mongodb._
 import org.bson._
-import org.bson.types._
-
 import com.mongodb.casbah.util.bson.decoding.io.BSONByteBuffer;
-
-import java.util.Date 
 
 import scala.annotation.{ tailrec, switch }
 
 import scala.util.control.Exception._
 import scala.collection.JavaConverters._
-import scala.collection.mutable.{ HashMap, HashSet } 
+import scala.collection.mutable.{ HashMap, HashSet }
+import java.util.regex.Pattern
+import java.util.{UUID , Date}
+import org.bson.types._
 
 /**
- * @author Brendan McAdams <brendan@10gen.com>
- */
+* @author Brendan McAdams <brendan@10gen.com>
+*/
 class OptimizedLazyBSONCallback extends BSONCallback {
   protected var _root: Option[AnyRef] = None
 
@@ -65,8 +64,6 @@ class OptimizedLazyBSONCallback extends BSONCallback {
       offset)
   }
 
-  def createDBRef(ns: String, id: ObjectId): AnyRef = 
-    new BasicBSONObject("$ns", ns).append("$id", id)
 
 
   def createBSONCallback: BSONCallback = 
@@ -100,48 +97,84 @@ class OptimizedLazyBSONCallback extends BSONCallback {
   def gotUndefined(name: String): Unit = 
     throw new UnsupportedOperationException
 
+  def createMinKey(): AnyRef = new MinKey
+
   def gotMinKey(name: String): Unit = 
     throw new UnsupportedOperationException
+
+  def createMaxKey(): AnyRef = new MaxKey
 
   def gotMaxKey(name: String) = 
     throw new UnsupportedOperationException
 
+  def createBoolean(v: Boolean): Any = v
+
   def gotBoolean(name: String, v: Boolean): Unit = 
     throw new UnsupportedOperationException
+
+  def createDouble(v: Double): Any = v
 
   def gotDouble(name: String, v: Double): Unit = 
     throw new UnsupportedOperationException
 
+  def createInt(v: Int): Any = v
+
   def gotInt(name: String, v: Int): Unit = 
     throw new UnsupportedOperationException
+
+  def createLong(v: Long): Any = v
 
   def gotLong(name: String, v: Long): Unit = 
     throw new UnsupportedOperationException
 
+  def createDate(millis: Long): AnyRef = new Date(millis)
+
   def gotDate(name: String, millis: Long): Unit = 
     throw new UnsupportedOperationException
+
+  def createString(v: String): AnyRef = v
 
   def gotString(name: String, v: String): Unit = 
     throw new UnsupportedOperationException
 
+  def createSymbol(v: String): AnyRef = new Symbol(v)
+
   def gotSymbol(name: String, v: String): Unit = 
     throw new UnsupportedOperationException
+
+  def createRegex(pattern: String, flags: String): AnyRef =
+    Pattern.compile(pattern, BSON.regexFlags(flags))
 
   def gotRegex(name: String, pattern: String, flags: String): Unit = 
     throw new UnsupportedOperationException
 
+  def createTimestamp(time: Int, inc: Int): AnyRef =
+    new BSONTimestamp(time, inc)
+
   def gotTimestamp(name: String, time: Int, inc: Int): Unit = 
     throw new UnsupportedOperationException
+
+  def createObjectId(time: Int, machineId: Int, increment: Int): AnyRef =
+    new ObjectId(time, machineId, increment)
 
   def gotObjectId(name: String, v: ObjectId): Unit = 
     throw new UnsupportedOperationException
 
-  def gotDBRef(name: String, ns: String, id: ObjectId): Unit = 
+  def createDBRef(ns: String, id: ObjectId): AnyRef =
+    new BasicBSONObject("$ns", ns).append("$id", id)
+
+  def gotDBRef(name: String, ns: String, id: ObjectId): Unit =
     throw new UnsupportedOperationException
+
+  def createBinaryArray(data: Array[Byte]): AnyRef = data
 
   @Deprecated
   def gotBinaryArray(name: String, data: Array[Byte]): Unit = 
     throw new UnsupportedOperationException
+
+  def createBinary(_type: Byte, data: Array[Byte]): AnyRef = data
+
+  def createBinary(data: Array[Byte]): AnyRef = data
 
   def gotBinary(name: String, _type: Byte, data: Array[Byte]): Unit = 
     root = createObject( data, 0 )
@@ -149,12 +182,17 @@ class OptimizedLazyBSONCallback extends BSONCallback {
   def gotBinary(_type: Byte, data: Array[Byte]): Unit = 
   gotBinary(null, _type, data)
 
+  def createUUID(part1: Long, part2: Long): AnyRef = new UUID(part1, part2)
+
   def gotUUID(name: String, part1: Long, part2: Long): Unit = 
     throw new UnsupportedOperationException
+
+  def createCode(code: String): AnyRef = new Code( code )
 
   def gotCode(name: String, code: String): Unit = 
     throw new UnsupportedOperationException
 
+  def createCodeWScope(code: String, scope: BSONObject): AnyRef = new CodeWScope(code, scope)
   def gotCodeWScope(name: String, code: String, scope: AnyRef): Unit = 
     throw new UnsupportedOperationException
 }
