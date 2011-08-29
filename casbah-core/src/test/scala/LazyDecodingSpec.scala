@@ -33,7 +33,7 @@ class LazyDecodingSpec extends CasbahSpecification {
   implicit val mongoInt = MongoConnection()("casbahIntegration")
   implicit val mongoTest = MongoConnection()("casbahTest_Lazy")
 
-  val x = 10
+  val x = 50
 
   "Lazy Collections" should {
     "Be fetchable, and return LazyCursors and LazyDBObjects" in {
