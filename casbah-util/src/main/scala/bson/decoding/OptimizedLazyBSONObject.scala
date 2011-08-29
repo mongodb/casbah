@@ -42,7 +42,7 @@ import scala.collection.mutable.{ HashMap, HashSet }
  */
 class OptimizedLazyBSONObject(val input: BSONByteBuffer,
                               val callback: OptimizedLazyBSONCallback, 
-                              val doc_start: Int = 0) extends BSONObject with Logging { self => 
+                              val doc_start: Int = 0) extends BSONObject with Logging { self =>
   type LookupRecord = Pair[Byte, Int]
 
   final val FirstElementOffset = 4
@@ -61,12 +61,13 @@ class OptimizedLazyBSONObject(val input: BSONByteBuffer,
       null
     
     @tailrec def findField(offset: Int): Option[LookupRecord] = {
-      if ( elementEmpty_?( offset ) ) 
+      if ( elementEmpty_?( offset ) )
         None
       else {
         val _type = elementType( offset )
-        val name = input.cString( offset + 1 )    
-        val v = offset + ( sizeCString( offset + 1 ) + 1 )
+        val name = input.cString( offset )
+        val fieldOff = sizeCString( offset )
+        val v = offset + ( fieldOff )
       
         val t_record = (_type, v)
 
@@ -74,17 +75,19 @@ class OptimizedLazyBSONObject(val input: BSONByteBuffer,
 
         if ( name == key ) 
           Some( t_record )
-        else 
-          findField( offset + ( sizeCString( offset ) + 
-                                elementBSONSize( offset, _type ) ) )
+        else
+          findField( offset + ( fieldOff +  elementBSONSize( offset, _type ) ) )
+
       }
     }
 
     fieldIndex.get( key ) match {
-      case Some( record ) => elementValue( record )
+      case Some( record ) =>
+        elementValue( record )
       case None => findField( doc_start + FirstElementOffset ) match {
-        case Some( record ) => elementValue( record ) 
-        case None => 
+        case Some( record ) =>
+          elementValue( record )
+        case None =>
           noHitIndex += key
           null // Goddamn Java based interfaces, I hate returning null
       }
@@ -122,9 +125,9 @@ class OptimizedLazyBSONObject(val input: BSONByteBuffer,
   protected def elementBSONSize(offset: Int, _type: Byte = -1): Int = {
     import BSON._
 
-    val t = if (_type == -1) elementType(offset + 1) else _type
+    val t = if (_type == -1) elementType(offset) else _type
     val n = sizeCString( offset + 1 )
-    val v = (offset + 1 + 1 ) + n // Value Offset 
+    val v = (offset + 1 ) + n // Value Offset
 
     (t: @switch) match {
       case EOO | UNDEFINED | NULL | MAXKEY | MINKEY => 0
@@ -245,7 +248,7 @@ class OptimizedLazyBSONObject(val input: BSONByteBuffer,
   /**
    * Returns a JSON Serialization of the object
    */
-  override def toString: String = com.mongodb.util.JSON.serialize(this)
+  //override def toString: String = com.mongodb.util.JSON.serialize(this)
   
   def put(key: String, v: AnyRef): AnyRef = 
     throw new UnsupportedOperationException("Read Only.")
@@ -270,7 +273,7 @@ class OptimizedLazyBSONObject(val input: BSONByteBuffer,
 
     def next(): String = {
       val fieldSize = sizeCString(offset)
-      val elementSize = elementBSONSize(offset + 1)
+      val elementSize = elementBSONSize(offset)
       val key = input.cString( offset + 1 )
       offset += ( fieldSize + elementSize ) + 1
       key

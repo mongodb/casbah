@@ -26,7 +26,8 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
-import com.mongodb.{LazyDBObject, DBCursor}
+import com.mongodb.{DBCursor}
+import com.mongodb.casbah.util.bson.decoding.OptimizedLazyDBObject
 
 /** 
  * Scala wrapper for Mongo DBCursors,
@@ -548,7 +549,7 @@ object MongoCursor extends Logging {
   def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject) = {
     val cursor = new DBCursor(collection.underlying, query, keys)
 
-    if (manifest[T] == manifest[LazyDBObject])
+    if (manifest[T] == manifest[OptimizedLazyDBObject])
       new LazyMongoCursor(cursor)
     else
       new ConcreteMongoCursor(cursor)
@@ -574,7 +575,7 @@ object MongoCursor extends Logging {
  * @param  val underlying (com.mongodb.DBCollection)
  */
 class LazyMongoCursor(val underlying: DBCursor) extends MongoCursor {
-  type T = LazyDBObject
+  type T = OptimizedLazyDBObject
 
   /**
    * next
@@ -585,7 +586,7 @@ class LazyMongoCursor(val underlying: DBCursor) extends MongoCursor {
    *
    * @return The next element in the cursor
    */
-  override def next() = underlying.next.asInstanceOf[LazyDBObject]
+  override def next() = underlying.next.asInstanceOf[OptimizedLazyDBObject]
 
   /**
    * hasNext

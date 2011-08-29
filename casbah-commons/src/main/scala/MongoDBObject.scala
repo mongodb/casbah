@@ -50,7 +50,7 @@ trait MongoDBObject extends Map[String, AnyRef] {
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
-  /** 
+  /**
    * as
    *
    * Works like apply(), unsafe, bare return of a value.

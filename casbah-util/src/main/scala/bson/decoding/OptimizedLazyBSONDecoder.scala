@@ -68,23 +68,15 @@ class OptimizedLazyBSONDecoder extends BSONDecoder with Logging {
   }
 
   def decode(in: InputStream, callback: BSONCallback): Int = {
-    log.warn("OptimizedLazyBSONDecoder given an InputStream which we prefer not to get [%s]", in.getClass)
-    /** 
-     * TODO this code blows and is stupidly inefficient.
-     */
-    var head = Array.ofDim[Byte](4)
+    val head = Array.ofDim[Byte](4)
 
-                                    // offset, toread, numread 
-    @tailrec def read(b: Array[Byte], o: Int, r: Int, n: Int = 0): Unit = 
-      if (n >= r) in.read(b, o, r - n) else read(b, o, r, r - n)
-
-    read(head, 0, 4)
+    in.read(head)
 
     val objSize = org.bson.io.Bits.readInt(head) - 4
 
     val data = Array.ofDim[Byte](objSize)
 
-    read(data, 4, objSize)
+    in.read(data)
 
     callback.gotBinary(null, 0: Byte, Array.concat(head, data))
 
