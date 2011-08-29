@@ -211,7 +211,7 @@ object BSONByteBuffer {
 
   final val OneByteStrings = {
     val arr_b = Array.ofDim[String](128) 
-    def fill(min: Byte, max: Byte) = min to max foreach { n =>
+    def fill(min: Byte, max: Byte) = (min: Int) to (max: Int) foreach { n =>
       val b: Byte = n.toByte
       arr_b(b.toInt) = new String(Array[Char](b toChar))
     }

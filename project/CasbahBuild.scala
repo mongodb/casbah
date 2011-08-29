@@ -9,6 +9,7 @@ object CasbahBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "com.mongodb.casbah",
     version      := "2.2.0-SNAPSHOT",
+    scalaVersion := "2.9.0-1",
     crossScalaVersions := Seq("2.9.0-1", "2.8.1")
   )
 
@@ -29,7 +30,7 @@ object CasbahBuild extends Build {
   )
 
   lazy val defaultSettings = baseSettings ++ Seq(
-    libraryDependencies ++= Seq(scalatest(scalaVersion), specs2, specs2ScalazCore(scalaVersion), slf4j, slf4jJCL),
+    libraryDependencies ++= Seq(scalatest(scalaVersion), specs2,  slf4j, slf4jJCL),
     resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
     autoCompilerPlugins := true,
     parallelExecution in Test := true,
