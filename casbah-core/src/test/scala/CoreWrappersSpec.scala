@@ -65,30 +65,19 @@ class CoreWrappersSpec extends CasbahSpecification {
     }
 
     "be directly instantiable, with working apply methods" in {
-      var conn: MongoConnection = null
-      var db: MongoDB = null
-      var coll: MongoCollection = null
+      lazy val conn: MongoConnection = MongoConnection()
+      lazy val db: MongoDB = conn("test")
+      lazy val coll: MongoCollection = db("collection.in")
 
       "MongoConnection" in {
         "direct instantiation" in {
-          conn = MongoConnection()
-
           conn.underlying must haveClass[com.mongodb.Mongo]
         }
         "the apply method works" in {
-
-          db = conn("test")
-
-
           db.underlying must haveSuperclass[com.mongodb.DB]
-
         }
         "MongoDB" in {
           "has a working apply method" in {
-
-            coll = db("collection.in")
-
-
             coll.underlying must haveSuperclass[com.mongodb.DBCollection]
           }
         }
