@@ -29,8 +29,9 @@ import com.mongodb.casbah.util.bson.decoding.io.BSONByteBuffer;
 
 import scala.annotation.{ tailrec, switch }
 
+import scalaj.collection.Imports._ 
+
 import scala.util.control.Exception._
-import scala.collection.JavaConverters._
 import scala.collection.mutable.{ HashMap, HashSet }
 import java.util.regex.Pattern
 import java.util.{UUID , Date}

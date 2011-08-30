@@ -10,7 +10,7 @@ object CasbahBuild extends Build {
     organization := "com.mongodb.casbah",
     version      := "2.2.0-SNAPSHOT",
     scalaVersion := "2.9.0-1",
-    crossScalaVersions := Seq("2.9.0-1", "2.8.1")
+    crossScalaVersions := Seq("2.9.0-1", "2.9.0", "2.8.1", "2.8.0")
   )
 
   /**
