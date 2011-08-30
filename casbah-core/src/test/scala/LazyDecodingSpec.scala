@@ -176,5 +176,16 @@ class LazyDecodingSpec extends CasbahSpecification {
         readDoc(mongoTest("readLazy"))
       }
     }
+
+    "Iterate their keysets correctly" in {
+      import scalaj.collection.Imports._
+      val coll = mongoInt.lazyCollection("books")
+      for (doc <- coll; k <- doc.keySet) {
+        k must not beNull
+        val v = doc.get(k)
+        v must not beNull
+      }
+      coll.size must beGreaterThan(0)
+    }
   }
 }

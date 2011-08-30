@@ -268,9 +268,9 @@ class OptimizedLazyBSONObject(val input: BSONByteBuffer,
 
     def next(): String = {
       val fieldSize = sizeCString(offset)
+      val key = input.cString( offset )
       val elementSize = elementBSONSize(offset)
-      val key = input.cString( offset + 1 )
-      offset += ( fieldSize + elementSize ) + 1
+      offset += ( fieldSize + elementSize )
       key
     }
 

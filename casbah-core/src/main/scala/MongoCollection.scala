@@ -48,7 +48,7 @@ import com.mongodb.{ DBCursor , DBCollection , DBDecoderFactory}
 *
 * @tparam T (DBObject or subclass thereof)
 */
-abstract class MongoCollection extends Logging {
+abstract class MongoCollection extends Logging with Iterable[DBObject] {
   type T <: DBObject
 
   /**
@@ -66,7 +66,6 @@ abstract class MongoCollection extends Logging {
    */
   def underlying: DBCollection
 
-  def iterator = find
 
   /** Returns the database this collection is a member of.
    * @return this collection's database
@@ -842,7 +841,12 @@ abstract class MongoCollection extends Logging {
    */
   def _newInstance(collection: DBCollection): MongoCollection
 
-  def size = count.toInt
+
+  override def head = headOption.get
+  override def headOption = findOne
+  override def tail = find.skip(1).toIterable
+  override def iterator = find
+  override def size = count.toInt
 }
 
 /**
@@ -886,11 +890,6 @@ class ConcreteMongoCollection(val underlying: DBCollection) extends MongoCollect
   def _newInstance(collection: DBCollection): MongoCollection = new ConcreteMongoCollection(collection)
 
   def asLazy: LazyMongoCollection = new LazyMongoCollection(underlying)
-
-  def head = headOption.get
-  def headOption = findOne
-  def tail = find.skip(1).toIterable
-
 }
 
 /**
@@ -946,9 +945,6 @@ class LazyMongoCollection(val underlying: DBCollection) extends MongoCollection 
    */
    def _newInstance(collection: DBCollection): MongoCollection = new LazyMongoCollection(collection)
 
-   def head = headOption.get
-   def headOption = findOne
-   def tail = find.skip(1).toStream
 }
 
 
