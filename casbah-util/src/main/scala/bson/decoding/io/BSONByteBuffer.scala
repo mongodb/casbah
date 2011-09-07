@@ -97,11 +97,11 @@ class BSONByteBuffer protected[io](val buf: ByteBuffer) {
     /**
      * Short circuit 1 byte strings 
      */
-    random(0) = this( index + 1 )
+    random(0) = this( index )
     if (random(0) == 0) 
       ""
     else {
-      random(1) = this( index + 2 )
+      random(1) = this( index + 1 )
       if ( random(1) == 0 ) {
         BSONByteBuffer.OneByteStrings( random(0) ) match {
           case null => try {
@@ -134,7 +134,7 @@ class BSONByteBuffer protected[io](val buf: ByteBuffer) {
             cStrByte(x + 1)
         }
 
-        cStrByte(index + 3)
+        cStrByte(index + 2)
 
         val out = if (ascii) 
           str_b.asAscii()

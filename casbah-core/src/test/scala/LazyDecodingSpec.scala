@@ -156,8 +156,8 @@ class LazyDecodingSpec extends CasbahSpecification {
             doc must haveEntry("int1" -> 1 )
             doc must haveEntry("int1500" -> 1500 )
             doc must haveEntry("int3753" -> 3753 )
-            doc.getAs[BSONTimestamp]("tsp") must beSome( testTsp )
-            doc.getAs[Date]("date") must beSome( testDate )
+            doc must haveEntry("tsp" -> testTsp ) 
+            doc must haveEntry("date" -> testDate )
             doc must haveEntry("long5" -> 5L )
             doc must haveEntry("long3254525" -> 3254525L )
             doc must haveEntry("float324_582" -> 324.5820007324219 ) // how mongo actually ends up storing the previous float
