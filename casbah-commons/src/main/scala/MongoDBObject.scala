@@ -28,8 +28,8 @@ import com.mongodb.casbah.commons.Imports._
 import scala.annotation.tailrec
 import scala.collection.JavaConversions._
 import scala.collection.generic._
-import scala.collection.mutable.Map
 import scala.reflect._
+import collection.mutable.{Builder, Map, MapLike}
 
 /** 
  *  MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
@@ -45,8 +45,10 @@ import scala.reflect._
  * @tparam Object 
  */
 @BeanInfo
-trait MongoDBObject extends Map[String, AnyRef] {
-  def underlying: DBObject
+class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends scala.collection.mutable.Map[String, AnyRef]
+                                                                     with MapLike[String, AnyRef, MongoDBObject] {
+
+  override def empty: MongoDBObject = MongoDBObject.empty
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
@@ -173,17 +175,22 @@ trait MongoDBObject extends Map[String, AnyRef] {
 
 object MongoDBObject {
 
-  def empty: DBObject = new MongoDBObject { val underlying = new BasicDBObject }
+  implicit val canBuildFrom: CanBuildFrom[Map[String, Any], (String, Any), DBObject] = new CanBuildFrom[Map[String, Any], (String, Any), DBObject] {
+    def apply(from: Map[String, Any]) = apply()
+    def apply() = newBuilder[String, Any]
+  }
+
+  def empty: DBObject = new MongoDBObject()
 
   //  def apply[A <: String, B <% Any](otherMap: scala.collection.Map[A, B]) = (newBuilder[A, B] ++= otherMap).result
   def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result
   def apply[A <: String, B <: Any](elems: List[(A, B)]): DBObject = apply(elems: _*)
 
-  def newBuilder[A <: String, B <: Any]: MongoDBObjectBuilder = new MongoDBObjectBuilder
+  def newBuilder[A <: String, B <: Any]: Builder[(String, Any), DBObject] = new MongoDBObjectBuilder
 
 }
 
-sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), DBObject] {
+sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
   import com.mongodb.BasicDBObjectBuilder
 
   protected val empty = BasicDBObjectBuilder.start
@@ -194,7 +201,7 @@ sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(Stri
   }
 
   def clear() { elems = empty }
-  def result(): DBObject = new MongoDBObject { val underlying = elems.get }
+  def result(): DBObject = new MongoDBObject(elems.get)
 }
 
 // vim: set ts=2 sw=2 sts=2 et:

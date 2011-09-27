@@ -269,8 +269,7 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
 }
 
 @BeanInfo
-trait GridFSFile extends MongoDBObject with Logging {
-  def underlying: MongoGridFSFile
+class GridFSFile(override val underlying: MongoGridFSFile) extends MongoDBObject with Logging {
 
   override def iterator = underlying.keySet.asScala.map { k =>
     k -> underlying.get(k)
@@ -305,7 +304,7 @@ trait GridFSFile extends MongoDBObject with Logging {
 }
 
 @BeanInfo
-class GridFSDBFile protected[gridfs] (override val underlying: MongoGridFSDBFile) extends GridFSFile {
+class GridFSDBFile protected[gridfs] (underlying: MongoGridFSDBFile) extends GridFSFile(underlying) {
 
   def inputStream = underlying.getInputStream
 
@@ -322,7 +321,7 @@ class GridFSDBFile protected[gridfs] (override val underlying: MongoGridFSDBFile
 }
 
 @BeanInfo
-class GridFSInputFile protected[gridfs] (override val underlying: MongoGridFSInputFile) extends GridFSFile {
+class GridFSInputFile protected[gridfs] (underlying: MongoGridFSInputFile) extends GridFSFile(underlying) {
   def filename_=(name: String) { underlying.setFilename(name) }
   def contentType_=(cT: String) { underlying.setContentType(cT) }
 }

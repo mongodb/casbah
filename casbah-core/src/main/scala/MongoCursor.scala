@@ -634,7 +634,7 @@ class LazyMongoCursor(val underlying: DBCursor) extends MongoCursor {
  * @param  val underlying (DBObject) 
  * @see http://dochub.mongodb.org/core/explain
  */
-sealed class CursorExplanation(val underlying: DBObject) extends MongoDBObject {
+sealed class CursorExplanation(override val underlying: DBObject) extends MongoDBObject {
 
   /** 
    * cursor

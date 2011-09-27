@@ -54,7 +54,7 @@ trait Implicits {
   //  implicit def iterable2DBObject(iter: Iterable[(String, Any)]): DBObject = MongoDBObject(iter.toList)
 
   implicit def wrapDBObj(in: DBObject): MongoDBObject =
-    new MongoDBObject { val underlying = in }
+    new MongoDBObject(in)
 
   implicit def unwrapDBObj(in: MongoDBObject): DBObject =
     in.underlying
