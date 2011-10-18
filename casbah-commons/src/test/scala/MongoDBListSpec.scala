@@ -28,10 +28,10 @@ import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.commons.test.CasbahSpecification
 
 class MongoDBListSpec extends CasbahSpecification {
-  "MongoDBList Factory & Builder" should {
-    val x = Seq(5, 9, 212, "x", "y", 22.98)
-    val y = Seq("spam", "eggs", "foo", "bar")
+  val x = Seq(5, 9, 212, "x", "y", 22.98)
+  val y = Seq("spam", "eggs", "foo", "bar")
 
+  "MongoDBList Factory & Builder" should {
     "Support 'empty', returning a BasicDBList" in {
       val dbObj = MongoDBList.empty
 
@@ -90,6 +90,23 @@ class MongoDBListSpec extends CasbahSpecification {
     }
   }
 
+  "MongoDBList" >> {
+    "Use underlying Object methods" in {
+      val seq = MongoDBList(x, y, "omg" -> "ponies", 5,
+        MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
+        212.8)
+
+      val raw = new BasicDBList()
+      raw += seq
+
+      val mongo: MongoDBList = raw
+      mongo must beMongoDBList
+
+      raw.toString must beEqualTo(mongo.toString())
+      raw.hashCode must beEqualTo(mongo.hashCode())
+      raw.equals(raw) must beEqualTo(mongo.equals(mongo))
+    }
+  }
 }
 
 // vim: set ts=2 sw=2 sts=2 et:

@@ -74,6 +74,10 @@ trait DBObjectBaseMatchers extends Logging {
 
   def beDBObject: Matcher[AnyRef] = ((_: AnyRef).isInstanceOf[DBObject], " is a DBObject", " is not a DBObject")
 
+  def beMongoDBObject: Matcher[AnyRef] = ((_: AnyRef).isInstanceOf[MongoDBObject], " is a MongoDBObject", " is not a MongoDBObject")
+
+  def beMongoDBList: Matcher[AnyRef] = ((_: AnyRef).isInstanceOf[MongoDBList], " is a MongoDBList", " is not a MongoDBList")
+
   def haveSomeField(k: String) = new Matcher[Option[DBObject]] {
     def apply[S <: Option[DBObject]](map: Expectable[S]) = {
       result(someField(map, k).isDefined, map.description + " has the key " + k, map.description + " doesn't have the key " + k, map)

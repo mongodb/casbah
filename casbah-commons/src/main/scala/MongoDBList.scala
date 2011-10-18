@@ -104,6 +104,14 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
 
   override def isEmpty = underlying.isEmpty
   override def iterator = underlying.iterator.asScala
+
+  override def toString() = underlying.toString
+  override def hashCode() = underlying.hashCode
+  override def equals(that: Any) = that match {
+    case o: MongoDBObject => underlying.equals(o.underlying)
+    case o: MongoDBList => underlying.equals(o.underlying)
+    case _ => underlying.equals(that)
+  }
 }
 
 object MongoDBList {
