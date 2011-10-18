@@ -171,7 +171,14 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends scala.
     case Some(id: ObjectId) => Some(id)
     case _ => None
   }
-}
+
+  override def toString() = underlying.toString
+  override def hashCode() = underlying.hashCode
+  override def equals(that: Any) = that match {
+    case o: MongoDBObject => underlying.equals(o.underlying)
+    case o: MongoDBList => underlying.equals(o.underlying)
+    case _ => underlying.equals(that)
+  }}
 
 object MongoDBObject {
 
