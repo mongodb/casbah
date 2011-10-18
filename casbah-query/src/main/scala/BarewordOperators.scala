@@ -281,6 +281,34 @@ trait PullAllOp extends BarewordQueryOperator {
 }
 
 /**
+ * Trait to provide the $and method as a bareword operator.
+ *
+ * $and ("Foo" -> "bar")
+ *
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject  
+ *
+ * TODO - Test that rvalue ends up being an array e.g.:
+ * 
+ *   scala> $or ("foo" -> "bar", "X" -> 5)           
+ *   res1: com.mongodb.casbah.commons.Imports.DBObject = { "$or" : [ { "foo" : "bar" , "X" : 5}]}
+ *  
+ * 
+ * @author Ben Gamari <bgamari.foss@gmail.com>
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24and
+ */
+
+trait AndOp extends BarewordQueryOperator {
+
+  def $and(fields: (String, Any)*) = {
+    val bldr = MongoDBList.newBuilder
+    for ((k, v) <- fields) bldr += MongoDBObject(k -> v)
+    MongoDBObject("$and" -> bldr.result)
+  }
+
+}
+
+/**
  * Trait to provide the $or method as a bareword operator.
  *
  * $or ("Foo" -> "bar")
