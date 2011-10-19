@@ -278,8 +278,9 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
    * slaveOk
    * 
    * Makes this query OK to run on a non-master node.
-   *
+   * @deprecated Replaced with ReadPreference.SECONDARY
    */
+  @deprecated("Replaced with ReadPreference.SECONDARY")
   def slaveOk() = underlying.slaveOk() // parens for side-effect
 
   def numGetMores = underlying.numGetMores

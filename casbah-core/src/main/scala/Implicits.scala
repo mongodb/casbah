@@ -139,6 +139,7 @@ trait TypeImports {
   type MongoURI = com.mongodb.casbah.MongoURI
   type MongoOptions = com.mongodb.MongoOptions
   type WriteConcern = com.mongodb.WriteConcern
+  type ReadPreference = com.mongodb.ReadPreference
   type BSONDecodingStrategy = com.mongodb.casbah.BSONDecodingStrategy
   type WriteResult = com.mongodb.WriteResult
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
