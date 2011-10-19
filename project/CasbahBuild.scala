@@ -31,7 +31,7 @@ object CasbahBuild extends Build {
 
   lazy val defaultSettings = baseSettings ++ Seq(
     libraryDependencies ++= Seq(scalatest(scalaVersion), specs2,  slf4j, slf4jJCL),
-    resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
+    resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo, sonatypeSnaps),
     autoCompilerPlugins := true,
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2
@@ -85,7 +85,7 @@ object Dependencies {
 
   //val bson = "org.mongodb" % "bson" % "2.5.3"
 
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.6.5"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.7.0-SNAPSHOT"
   val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.1"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
@@ -145,7 +145,7 @@ object Publish {
 object Resolvers {
   val scalaToolsSnapshots = "snapshots" at "http://scala-tools.org/repo-snapshots"
   val scalaToolsReleases  = "releases" at "http://scala-tools.org/repo-releases"
-
+  val sonatypeSnaps = "SonaType Snaps" at "http://oss.sonatype.org/content/repositories/snapshots/"
   val jbossRepo = "JBoss Public Repo" at "https://repository.jboss.org/nexus/content/groups/public-jboss/"
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
   val twttrRepo = "Twitter Public Repo" at "http://maven.twttr.com"

@@ -34,22 +34,40 @@ import scalaj.collection.Imports._
  * @see com.mongodb.WriteConcern
  */
 object WriteConcern {
-  /** 
-   * Exceptions are raised for network issues and server errors; Write operations wait for the server to flush data to disk
-   */
-  val FsyncSafe = com.mongodb.WriteConcern.FSYNC_SAFE
   /**
-   * Exceptions are raised for network issues and server errors; waits for at least 2 servers for the write operation. 
+   * No exceptions are raised, even for network issues
    */
-  val ReplicasSafe = com.mongodb.WriteConcern.REPLICAS_SAFE
-  /**
-   * Exceptions are raised for network issues and server errors; waits on a server for the write operation
-   */
-  val Safe = com.mongodb.WriteConcern.SAFE
+  val None = com.mongodb.WriteConcern.NONE
   /**
    * Exceptions are raised for network issues but not server errors.
    */
   val Normal = com.mongodb.WriteConcern.NORMAL
+  /**
+   * Exceptions are raised for network issues and server errors;
+   * waits on a server for the write operation
+   */
+  val Safe = com.mongodb.WriteConcern.SAFE
+  /**
+   * Exceptions are raised for network issues and server errors;
+   * waits on a majority of servers for the write operation
+   */
+  val Majority = com.mongodb.WriteConcern.MAJORITY
+  /**
+   * Exceptions are raised for network issues and server errors;
+   * Write operations wait for the server to flush data to disk
+   */
+  val FsyncSafe = com.mongodb.WriteConcern.FSYNC_SAFE
+  /**
+   * Exceptions are raised for network issues, and server errors;
+   * the write operation waits for the server to group commit to the journal file on disk
+   */
+  val JournalSafe = com.mongodb.WriteConcern.JOURNAL_SAFE
+  /**
+   * Exceptions are raised for network issues and server errors;
+   * waits for at least 2 servers for the write operation.
+   */
+  val ReplicasSafe = com.mongodb.WriteConcern.REPLICAS_SAFE
+
   /**
    * Create a new WriteConcern object.
    *
@@ -64,14 +82,36 @@ object WriteConcern {
    * @param w (Int) Specifies the number of servers to wait for on the write operation, and exception raising behavior. Defaults to {@code 0}
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
    * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
+   * @param j whether writes should wait for a journaling group commit
+   * @param contineInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
    */
-  def apply(w: Int = 0,
-    wTimeout: Int = 0,
-    fsync: Boolean = false) = new com.mongodb.WriteConcern(w, wTimeout, fsync)
+  def apply(w: Int,
+            wTimeout: Int = 0,
+            fsync: Boolean = false,
+            j: Boolean = false,
+            continueInsertOnError: Boolean = false) =
+    new com.mongodb.WriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
 
   /**
-   * Get the WriteConcern constants by name: NONE, NORMAL, SAFE, FSYNC_SAFE,
-   * REPLICA_SAFE. (matching is done case insensitively)
+   * Create a new WriteConcern object.
+   *
+   *	<p> w is a String representing a valid getLastErrorMode (or "majority")
+   * @param w (Int) Specifies the getLastErrorMode to apply to the write
+   * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
+   * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
+   * @param j whether writes should wait for a journaling group commit
+   * @param contineInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
+   */
+  def apply(w: String,
+            wTimeout: Int = 0,
+            fsync: Boolean = false,
+            j: Boolean = false,
+            continueInsertOnError: Boolean = false) =
+    new com.mongodb.WriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
+
+  /**
+   * Get the WriteConcern constants by name: NONE, NORMAL, SAFE, MAJORITY, FSYNC_SAFE,
+   * JOURNAL_SAFE, REPLICAS_SAFE. (matching is done case insensitively)
    *
    * NOTE: This only supports the java versions, no support for the local scala aliases.
    */
