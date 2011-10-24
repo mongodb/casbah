@@ -9,8 +9,8 @@ object CasbahBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "com.mongodb.casbah",
     version      := "2.2.0-SNAPSHOT",
-    scalaVersion := "2.9.0-1",
-    crossScalaVersions := Seq("2.9.0-1", "2.9.0", "2.8.1", "2.8.0")
+    scalaVersion := "2.9.1",
+    crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.8.1", "2.8.0")
   )
 
   /**
@@ -23,7 +23,9 @@ object CasbahBuild extends Build {
 
   override lazy val settings = super.settings ++ buildSettings
 
-  lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings 
+  lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
+      resolvers ++= Seq(sonatypeSnaps, scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo)
+    )
 
   lazy val parentSettings = baseSettings ++ Seq(
     publishArtifact := false
@@ -31,7 +33,6 @@ object CasbahBuild extends Build {
 
   lazy val defaultSettings = baseSettings ++ Seq(
     libraryDependencies ++= Seq(scalatest(scalaVersion), specs2,  slf4j, slf4jJCL),
-    resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo, sonatypeSnaps),
     autoCompilerPlugins := true,
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2
@@ -81,12 +82,9 @@ object CasbahBuild extends Build {
 }
 
 object Dependencies {
-  // TODO - Fix maven artifact
-
-  //val bson = "org.mongodb" % "bson" % "2.5.3"
 
   val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.7.0-SNAPSHOT"
-  val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.1"
+  val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.2"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
   val specs2 = "org.specs2" %% "specs2" % "1.5" % "provided" 
@@ -145,9 +143,7 @@ object Publish {
 object Resolvers {
   val scalaToolsSnapshots = "snapshots" at "http://scala-tools.org/repo-snapshots"
   val scalaToolsReleases  = "releases" at "http://scala-tools.org/repo-releases"
-  val sonatypeSnaps = "SonaType Snaps" at "http://oss.sonatype.org/content/repositories/snapshots/"
-  val jbossRepo = "JBoss Public Repo" at "https://repository.jboss.org/nexus/content/groups/public-jboss/"
+  val sonatypeSnaps = "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
-  val twttrRepo = "Twitter Public Repo" at "http://maven.twttr.com"
 }
 
