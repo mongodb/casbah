@@ -95,18 +95,18 @@ object WriteConcern {
   /**
    * Create a new WriteConcern object.
    *
-   *	<p> w is a String representing a valid getLastErrorMode (or "majority")
+   *	<p> w is a String representing a valid getLastErrorMode rule (or "majority")
    * @param w (Int) Specifies the getLastErrorMode to apply to the write
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
    * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
    * @param j whether writes should wait for a journaling group commit
    * @param contineInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
    */
-  def apply(w: String,
-            wTimeout: Int = 0,
-            fsync: Boolean = false,
-            j: Boolean = false,
-            continueInsertOnError: Boolean = false) =
+  def withRule(w: String, 
+               wTimeout: Int = 0,
+               fsync: Boolean = false,
+               j: Boolean = false,
+               continueInsertOnError: Boolean = false) =
     new com.mongodb.WriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
 
   /**

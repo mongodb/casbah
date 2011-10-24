@@ -152,6 +152,8 @@ trait TypeImports {
   type MapReduceMergeOutput = com.mongodb.casbah.map_reduce.MapReduceMergeOutput
   type MapReduceReduceOutput = com.mongodb.casbah.map_reduce.MapReduceReduceOutput
   type DBAddress = com.mongodb.DBAddress
+  type DBEncoder = com.mongodb.DBEncoder
+  type DBDecoder = com.mongodb.DBDecoder
 }
 
 // vim: set ts=2 sw=2 sts=2 et:

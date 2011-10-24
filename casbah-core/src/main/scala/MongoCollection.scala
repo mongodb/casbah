@@ -307,6 +307,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    *
    * @throws MongoException
    */
+  @deprecated("Pass WriteConcern to write ops instead for single op safety.")
   def request(op: this.type => WriteResult) = {
     op(this).getLastError.throwOnError
   }
@@ -327,6 +328,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * 
    * @throws MongoException
    */
+  @deprecated("Pass WriteConcern to write ops instead for single op safety.")
   def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)(op: this.type => WriteResult) =
     op(this).getLastError(WriteConcern(w, wTimeout, fsync)).throwOnError
 
@@ -346,8 +348,9 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * 
    * @throws MongoException
    */
-  def request(writeConcern: WriteConcern)(op: this.type => WriteResult) =
-    op(this).getLastError(writeConcern).throwOnError
+  @deprecated("Pass WriteConcern to write ops instead for single op safety.")
+  def request(concern: WriteConcern)(op: this.type => WriteResult) =
+    op(this).getLastError(concern).throwOnError
 
   /** Find a collection that is prefixed with this collection's name.
    * A typical use of this might be 
@@ -477,15 +480,33 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * if doc doesn't have an _id, one will be added
    * you can get the _id that was added from doc after the insert
    *
-   * @param arr  array of documents to save
+   * @param arr  array of documents (<% DBObject) to save
    * @dochub insert
    * TODO - Wrapper for WriteResult?
    */
-  def insert[A <% DBObject](docs: A*) = {
+  /*
+   *def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: WriteConcern): WriteResult = {
+   *  val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
+   *  b.sizeHint(docs.size)
+   *  for (x <- docs) b += dbObjView(x)
+   *  underlying.insert(concern, b.result: _*)
+   *}
+   */
+
+  /**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  array of documents (<% DBObject) to save
+   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   */
+  def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: WriteConcern = writeConcern, encoder: DBEncoder = underlying.getDBEncoderFactory.create ): WriteResult = {
     val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
     b.sizeHint(docs.size)
-    for (x <- docs) b += x
-    underlying.insert(b.result: _*)
+    for (x <- docs) b += dbObjView(x)
+    underlying.insert(b.result, concern, encoder)
   }
 
   /**
@@ -493,16 +514,129 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * if doc doesn't have an _id, one will be added
    * you can get the _id that was added from doc after the insert
    *
-   * @param arr  array of documents to save
+   * @param arr  array of documents (<% DBObject) to save
    * @dochub insert
    * TODO - Wrapper for WriteResult?
    */
-  def insert[A <% DBObject](docs: Traversable[A], writeConcern: WriteConcern) = {
-    val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
-    b.sizeHint(docs.size)
-    for (x <- docs) b += x
-    underlying.insert(b.result, writeConcern)
-  }
+  /*
+   *def insert[A](docs: A*)(implicit dbObjView: A => DBObject, encoder: DBEncoder): WriteResult = {
+   *  val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
+   *  b.sizeHint(docs.size)
+   *  for (x <- docs) b += dbObjView(x)
+   *  underlying.insert(b.result, writeConcern [>* default <], encoder)
+   *}
+   */
+
+  /**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  array of documents (<% DBObject) to save
+   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   */
+  /*
+   *def insert[A <% DBObject](docs: A*): WriteResult = {
+   *  val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
+   *  b.sizeHint(docs.size)
+   *  for (x <- docs) b += x
+   *  underlying.insert(b.result: _*)
+   *}
+   */
+
+  /**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param  docs (Traversable[A]) 
+   * @param  concern (WriteConcern) 
+   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   * @tparam A 
+   */
+  /*
+   *@deprecated("Deprecated in favor of the multiple argument list version")
+   *def insert[A <% DBObject](docs: Traversable[A], concern: WriteConcern): WriteResult = {
+   *  val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
+   *  b.sizeHint(docs.size)
+   *  for (x <- docs) b += x
+   *  underlying.insert(b.result, concern)
+   *}
+   */
+
+  /**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  array of documents (<% DBObject) to save
+   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   */
+  /*
+   *def insert[A](docs: Traversable[A])(implicit dbObjView: A => DBObject, concern: WriteConcern): WriteResult = {
+   *  val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
+   *  b.sizeHint(docs.size)
+   *  for (x <- docs) b += dbObjView(x)
+   *  underlying.insert(b.result, concern)
+   *}
+   */
+
+  /**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  array of documents (<% DBObject) to save
+   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   */
+  /*
+   *def insert[A](docs: Traversable[A])(implicit dbObjView: A => DBObject, concern: WriteConcern, encoder: DBEncoder): WriteResult = {
+   *  val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
+   *  b.sizeHint(docs.size)
+   *  for (x <- docs) b += dbObjView(x)
+   *  underlying.insert(b.result, concern, encoder)
+   *}
+   */
+
+  /**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  array of documents (<% DBObject) to save
+   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   */
+  /*
+   *def insert[A](docs: Traversable[A])(implicit dbObjView: A => DBObject, encoder: DBEncoder): WriteResult = {
+   *  val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
+   *  b.sizeHint(docs.size)
+   *  for (x <- docs) b += dbObjView(x)
+   *  underlying.insert(b.result, writeConcern [>* default <], encoder)
+   *}
+   */
+
+  /**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  array of documents (<% DBObject) to save
+   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   */
+  /*
+   *def insert[A <% DBObject](docs: Traversable[A]): WriteResult = {
+   *  val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
+   *  b.sizeHint(docs.size)
+   *  for (x <- docs) b += x
+   *  underlying.insert(b.result, writeConcern)
+   *}
+   */
 
   /**
    * Inserts a document into the database.
@@ -513,23 +647,67 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @dochub insert
    * TODO - Wrapper for WriteResult?
    */
-  def insert[A <% DBObject](doc: A, writeConcern: WriteConcern) =
-    underlying.insert(doc, writeConcern)
+  /*
+   *@deprecated("Deprecated in favor of the multiple argument list version")
+   *def insert[A <% DBObject](doc: A, concern: WriteConcern): WriteResult =
+   *  underlying.insert(doc, concern)
+   */
 
   /**
-   * Saves document(s) to the database.
+   * Inserts a document into the database.
    * if doc doesn't have an _id, one will be added
    * you can get the _id that was added from doc after the insert
    *
-   * @param list list of documents to save
+   * @param arr  document to save
    * @dochub insert
    * TODO - Wrapper for WriteResult?
    */
-  def insert[A <% DBObject](docs: List[A]) = {
-    val b = List.newBuilder[DBObject]
-    for (x <- docs) b += x
-    underlying.insert(b.result.asJava)
-  }
+/*
+ *  def insert[A](doc: A)(implicit dbObjView: A => DBObject, concern: WriteConcern): WriteResult =
+ *    underlying.insert(dbObjView(doc), concern)
+ *
+ */
+  /**
+   * Inserts a document into the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  document to save
+   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   */
+  /*
+   *def insert[A](doc: A)(implicit dbObjView: A => DBObject, encoder: DBEncoder): WriteResult =
+   *  underlying.insert(Array(dbObjView(doc)), writeConcern [>* default <], encoder)
+   */
+
+  /**
+   * Inserts a document into the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  document to save
+   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   */
+/*
+ *  def insert[A](doc: A)(implicit dbObjView: A => DBObject, concern: WriteConcern, encoder: DBEncoder): WriteResult =
+ *    underlying.insert(Array(dbObjView(doc)), concern, encoder)
+ *
+ */
+  /**
+   * Inserts a document into the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  document to save
+   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   */
+/*
+ *  def insert[A <% DBObject](doc: A): WriteResult = underlying.insert(doc, writeConcern)
+ *
+ */
 
   def isCapped = underlying.isCapped()
 
@@ -559,36 +737,23 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
 
   /** Removes objects from the database collection.
    * @param o the object that documents to be removed must match
-   * @dochub remove
-   * TODO - Wrapper for WriteResult?
-   */
-  def remove[A <% DBObject](o: A) = underlying.remove(o)
-
-  /** Removes objects from the database collection.
-   * @param o the object that documents to be removed must match
    * @param concern WriteConcern for this operation
    * @dochub remove
    * TODO - Wrapper for WriteResult?
    */
-  def remove[A <% DBObject](o: A, writeConcern: WriteConcern) =
-    underlying.remove(o, writeConcern)
+  def remove[A](o: A)(implicit dbObjView: A => DBObject, concern: WriteConcern = getWriteConcern, encoder: DBEncoder = underlying.getDBEncoderFactory.create) =
+    underlying.remove(dbObjView(o), concern, encoder)
 
   /** Clears all indices that have not yet been applied to this collection. */
   def resetIndexCache() = underlying.resetIndexCache()
 
   /** Saves an object to this collection.
-   * @param jo the <code>DBObject</code> to save
-   *        will add <code>_id</code> field to jo if needed
+   * @param o the <code>DBObject</code> to save
+   *        will add <code>_id</code> field to o if needed
    * TODO - Wrapper for WriteResult?
    */
-  def save[A <% DBObject](jo: A) = underlying.save(jo)
+  def save[A](o: A)(implicit dbObjView: A => DBObject, concern: WriteConcern = writeConcern) = underlying.save(dbObjView(o), writeConcern)
 
-  /** Saves an object to this collection.
-   * @param jo the <code>DBObject</code> to save
-   *        will add <code>_id</code> field to jo if needed
-   * TODO - Wrapper for WriteResult?
-   */
-  def save[A <% DBObject](jo: A, writeConcern: WriteConcern) = underlying.save(jo, writeConcern)
 
   /** Set hint fields for this collection.
    * @param lst a list of <code>DBObject</code>s to be used as hints
@@ -612,15 +777,6 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
 
   /**
    * Performs an update operation.
-   * @dochub update
-   * @param q search query for old object to update
-   * @param o object with which to update <tt>q</tt>
-   * TODO - Wrapper for WriteResult?
-   */
-  def update[A <% DBObject, B <% DBObject](q: A, o: B) = underlying.update(q, o)
-
-  /**
-   * Performs an update operation.
    * @param q search query for old object to update
    * @param o object with which to update <tt>q</tt>
    * @param upsert if the database should create the element if it does not exist
@@ -629,21 +785,9 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @dochub update
    * TODO - Wrapper for WriteResult?
    */
-  def update[A <% DBObject, B <% DBObject](q: A, o: B, upsert: Boolean, multi: Boolean) = underlying.update(q, o, upsert, multi)
+   def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false)(implicit queryView: A => DBObject, objView: B => DBObject, concern: WriteConcern = this.writeConcern, encoder: DBEncoder = underlying.getDBEncoderFactory.create ) = 
+    underlying.update(queryView(q), objView(o), upsert, multi, concern, encoder)
 
-  /**
-   * Performs an update operation.
-   * @param q search query for old object to update
-   * @param o object with which to update <tt>q</tt>
-   * @param upsert if the database should create the element if it does not exist
-   * @param multi if the update should be applied to all objects matching (db version 1.1.3 and above)
-   * @see http://www.mongodb.org/display/DOCS/Atomic+Operations
-   * @param writeConcern WriteConcern for this operation
-   * @dochub update
-   * TODO - Wrapper for WriteResult?
-   */
-  def update[A <% DBObject, B <% DBObject](q: A, o: B, upsert: Boolean, multi: Boolean, writeConcern: WriteConcern) =
-    underlying.update(q, o, upsert, multi, writeConcern)
 
   /**
    * Perform a multi update
@@ -651,6 +795,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @param q search query for old object to update
    * @param o object with which to update <tt>q</tt>
    */
+  @deprecated("In the face of default arguments this is a bit silly. Please use update(multi=True)")
   def updateMulti[A <% DBObject, B <% DBObject](q: A, o: B) = underlying.updateMulti(q, o)
 
   override def hashCode() = underlying.hashCode
@@ -685,10 +830,10 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    */
   def getLastError() = getDB.getLastError
   def lastError() = getLastError()
-  def getLastError(writeConcern: WriteConcern) =
-    getDB.getLastError(writeConcern)
-  def lastError(writeConcern: WriteConcern) =
-    getLastError(writeConcern)
+  def getLastError(concern: WriteConcern) =
+    getDB.getLastError(concern)
+  def lastError(concern: WriteConcern) =
+    getLastError(concern)
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean) =
     getDB.getLastError(w, wTimeout, fsync)
   def lastError(w: Int, wTimeout: Int, fsync: Boolean) =
