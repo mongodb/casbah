@@ -539,6 +539,7 @@ class ConcreteMongoCursor(val underlying: DBCursor) extends MongoCursor {
 }
 
 object MongoCursor extends Logging {
+
   /** 
    * Initialize a new cursor with your own custom settings
    * 
@@ -547,8 +548,19 @@ object MongoCursor extends Logging {
    * @param  keys (K) Keys to return from the query
    * @return (instance) A new MongoCursor
    */
-  def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject) = {
-    val cursor = new DBCursor(collection.underlying, query, keys)
+  def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject): MongoCursor = apply(collection, query, keys, collection.readPreference)
+
+  /** 
+   * Initialize a new cursor with your own custom settings
+   * 
+   * @param  collection (MongoCollection)  collection to use
+   * @param  query (Q) Query to perform
+   * @param  keys (K) Keys to return from the query
+   * @param  readPref (ReadPreference) the ReadPreference to use in this cursor
+   * @return (instance) A new MongoCursor
+   */
+  def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject, readPref: ReadPreference): MongoCursor = {
+    val cursor = new DBCursor(collection.underlying, query, keys, readPref)
 
     if (manifest[T] == manifest[OptimizedLazyDBObject])
       new LazyMongoCursor(cursor)

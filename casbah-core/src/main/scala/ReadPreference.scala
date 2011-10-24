@@ -67,5 +67,5 @@ object ReadPreference {
    * 'foo: "bar"'.
    */
   def apply(tags: Map[String, String]) =
-    com.mongodb.ReadPreference.withTags(tags)
+    com.mongodb.ReadPreference.withTags(tags.asJava)
 }
