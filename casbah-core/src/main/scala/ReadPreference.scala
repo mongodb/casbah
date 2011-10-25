@@ -39,20 +39,6 @@ object ReadPreference {
    */
   val Secondary = com.mongodb.ReadPreference.SECONDARY
 
-  /**
-   * Read by particular tags.
-   * Note that you should provide an *ordered* Map for tags,
-   * as the driver looks in order for matching servers.
-   * (DBObjects are automatically order preserving)
-   *
-   * I.E. {dc: "london", type: "backup", foo: "bar"}
-   *
-   * Tries first to find a secondary with 'dc: "London"',
-   * if it doesn't find one then 'type: "backup"', and finally
-   * 'foo: "bar"'.
-   */
-  def apply(tags: DBObject) =
-    com.mongodb.ReadPreference.withTags(tags)
 
   /**
    * Read by particular tags.
@@ -66,6 +52,25 @@ object ReadPreference {
    * if it doesn't find one then 'type: "backup"', and finally
    * 'foo: "bar"'.
    */
-  def apply(tags: Map[String, String]) =
-    com.mongodb.ReadPreference.withTags(tags.asJava)
+  /*
+   *def apply(tags: DBObject) =
+   *  com.mongodb.ReadPreference.withTags(tags)
+   */
+
+  /**
+   * Read by particular tags.
+   * Note that you should provide an *ordered* Map for tags,
+   * as the driver looks in order for matching servers.
+   * (DBObjects are automatically order preserving)
+   *
+   * I.E. {dc: "london", type: "backup", foo: "bar"}
+   *
+   * Tries first to find a secondary with 'dc: "London"',
+   * if it doesn't find one then 'type: "backup"', and finally
+   * 'foo: "bar"'.
+   */
+  /*
+   *def apply(tags: Map[String, String]) =
+   *  com.mongodb.ReadPreference.withTags(tags.asJava)
+   */
 }
