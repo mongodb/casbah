@@ -16,9 +16,9 @@ object CasbahBuild extends Build {
   /**
    * Import some sample data for testing
    */
-  "/usr/local/bin/mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
+  "mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
 
-  "/usr/local/bin/mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" ! 
+  "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" ! 
 
 
   override lazy val settings = super.settings ++ buildSettings
