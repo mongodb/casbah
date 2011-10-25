@@ -107,7 +107,6 @@ class RawMapReduceSpec extends CasbahSpecification {
 
       val mongo = result.as[BasicDBList]("results")
       Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
-      mongo(0) must haveClass[com.mongodb.CommandResult]
       mongo(0) must beDBObject
       mongo(0) must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
     }

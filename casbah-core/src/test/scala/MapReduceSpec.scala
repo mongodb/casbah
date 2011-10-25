@@ -117,7 +117,6 @@ class MapReduceSpec extends CasbahSpecification {
       result.size must beEqualTo(result.raw.expand[Int]("counts.output").getOrElse(-1))
 
       val item = result.next
-      item must haveClass[com.mongodb.CommandResult]
       item must beDBObject
       item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
     }
