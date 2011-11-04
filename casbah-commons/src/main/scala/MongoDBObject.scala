@@ -23,8 +23,6 @@
 package com.mongodb.casbah
 package commons
 
-import com.mongodb.casbah.commons.Imports._
-
 import scala.annotation.tailrec
 import scala.collection.JavaConversions._
 import scala.collection.generic._

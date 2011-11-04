@@ -23,7 +23,6 @@
 package com.mongodb.casbah
 package query
 
-import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.util.Logging
 
 import com.mongodb.{ DBObject, BasicDBObjectBuilder }

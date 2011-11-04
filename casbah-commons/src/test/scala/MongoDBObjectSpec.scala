@@ -20,12 +20,10 @@
  *
  */
 
-package com.mongodb.casbah
-package test
+package com.mongodb.casbah.test.commons
 
-import com.mongodb.casbah.commons.Imports._
-
-import commons.test.CasbahSpecification
+import com.mongodb.casbah.commons._
+import com.mongodb.casbah.commons.test.CasbahSpecification
 
 class MongoDBObjectSpec extends CasbahSpecification {
 

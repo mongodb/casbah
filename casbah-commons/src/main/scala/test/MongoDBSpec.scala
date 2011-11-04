@@ -17,8 +17,6 @@
 package com.mongodb.casbah.commons
 package scalatest
 
-import com.mongodb.casbah.commons.Imports._
-
 import org.scalatest.matchers.Matcher
 import org.scalatest.matchers.MatchResult
 

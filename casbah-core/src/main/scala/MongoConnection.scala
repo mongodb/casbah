@@ -22,7 +22,6 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.Imports._
 
 import scalaj.collection.Imports._
 

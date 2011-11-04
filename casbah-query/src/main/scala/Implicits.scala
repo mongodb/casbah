@@ -23,9 +23,10 @@
 package com.mongodb.casbah
 package query
 
-import com.mongodb.casbah.commons.Imports._
 
 import scalaj.collection.Imports._
+
+object `package` extends query.Imports with commons.Imports
 
 trait Implicits extends FluidQueryBarewordOps {
 
@@ -74,10 +75,12 @@ trait Implicits extends FluidQueryBarewordOps {
 }
 
 object Implicits extends query.Implicits with commons.Implicits
-object Imports extends query.Imports with commons.Imports
+
 object BaseImports extends query.BaseImports with commons.BaseImports
 object TypeImports extends query.TypeImports with commons.TypeImports
 
+@deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah.query._' instead.")
+object Imports extends query.Imports with commons.Imports
 trait Imports extends query.BaseImports with query.TypeImports with query.Implicits with ValidDateOrNumericTypeHolder
 
 trait BaseImports

@@ -23,10 +23,9 @@
 package com.mongodb.casbah
 package gridfs
 
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.gridfs.Imports._
-
 import scalaj.collection.Imports._
+
+object `package` extends Imports
 
 trait Implicits {
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
@@ -34,9 +33,11 @@ trait Implicits {
 }
 
 object Implicits extends Implicits
-object Imports extends Imports
 object BaseImports extends BaseImports
 object TypeImports extends TypeImports
+
+@deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah.gridfs._' instead.")
+object Imports extends Imports
 
 trait Imports extends BaseImports with TypeImports with Implicits
 

@@ -19,7 +19,6 @@ package commons
 package conversions
 
 import org.bson.{ BSON, Transformer }
-import com.mongodb.casbah.commons.Imports._
 
 package object scala {
   type MongoConversionHelper = _root_.com.mongodb.casbah.util.bson.conversions.MongoConversionHelper

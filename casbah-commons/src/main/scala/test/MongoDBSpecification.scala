@@ -18,8 +18,6 @@
 package com.mongodb.casbah.commons
 package test
 
-import com.mongodb.casbah.commons.Imports._
-
 import org.specs2.mutable._
 import org.specs2.data.Sized
 import org.specs2.matcher.{ Expectable, Matcher, MapMatchers }

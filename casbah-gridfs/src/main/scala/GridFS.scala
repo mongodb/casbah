@@ -23,8 +23,6 @@
 package com.mongodb.casbah
 package gridfs
 
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.casbah.util.Logging
 import com.mongodb.casbah.commons.conversions.scala._
 

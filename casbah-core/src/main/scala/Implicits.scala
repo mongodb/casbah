@@ -26,6 +26,8 @@ import scalaj.collection.Imports._
 import org.scala_tools.time.Imports._
 import com.mongodb.WriteResult
 
+object `package` extends Imports with commons.Imports with query.Imports
+
 /**
  * <code>Implicits</code> object to expose implicit conversions to implementing classes
  * which facilitate more Scala-like functionality in Mongo.
@@ -110,13 +112,17 @@ trait Implicits {
 }
 
 object Implicits extends Implicits with commons.Implicits with query.Implicits
-object Imports extends Imports with commons.Imports with query.Imports
 object BaseImports extends BaseImports with commons.BaseImports with query.BaseImports
 object TypeImports extends TypeImports with commons.TypeImports with query.TypeImports
+
+@deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah._' instead.")
+object Imports extends Imports with commons.Imports with query.Imports
 
 trait Imports extends BaseImports with TypeImports with Implicits
 
 trait BaseImports {
+  val MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
+  val MongoDBList = com.mongodb.casbah.commons.MongoDBList
   val MongoConnection = com.mongodb.casbah.MongoConnection
   val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
   val MongoOptions = com.mongodb.casbah.MongoOptions
@@ -129,6 +135,8 @@ trait BaseImports {
 }
 
 trait TypeImports {
+  type MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
+  type MongoDBList = com.mongodb.casbah.commons.MongoDBList
   type MongoConnection = com.mongodb.casbah.MongoConnection
   type MongoCollection = com.mongodb.casbah.MongoCollection
   type LazyMongoCollection = com.mongodb.casbah.LazyMongoCollection

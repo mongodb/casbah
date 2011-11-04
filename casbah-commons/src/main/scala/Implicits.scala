@@ -25,8 +25,9 @@ package commons
 
 import scalaj.collection.Imports._
 
+object `package` extends Imports
+
 trait Implicits {
-  import com.mongodb.{ DBObject, BasicDBObject, BasicDBList }
 
   /*
    * Placeholder Type Alias 
@@ -68,22 +69,20 @@ trait Implicits {
 }
 
 object Implicits extends Implicits
-object Imports extends Imports
 object BaseImports extends BaseImports
 object TypeImports extends TypeImports
+
+@deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah.commons._' instead.")
+object Imports extends Imports
 
 trait Imports extends BaseImports with TypeImports with Implicits
 
 trait BaseImports {
-  val MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
-  val DBObject = MongoDBObject
-  val MongoDBList = com.mongodb.casbah.commons.MongoDBList
   val DBList = MongoDBList
+  val DBObject = MongoDBObject
 }
 
 trait TypeImports {
-  type MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
-  type MongoDBList = com.mongodb.casbah.commons.MongoDBList
   type DBObject = com.mongodb.DBObject
   type BasicDBObject = com.mongodb.BasicDBObject
   type BasicDBList = com.mongodb.BasicDBList

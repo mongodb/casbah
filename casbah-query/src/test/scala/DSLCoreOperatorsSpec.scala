@@ -20,12 +20,11 @@
  * 
  */
 
-package com.mongodb.casbah
-package query
+package com.mongodb.casbah.test.query
 
-import com.mongodb.casbah.query.Imports._
 import com.mongodb.casbah.util.Logging
 import com.mongodb.casbah.commons.conversions.scala._
+import com.mongodb.casbah.query._
 
 import org.scala_tools.time.Imports._
 

@@ -23,11 +23,9 @@
 package com.mongodb.casbah
 package commons
 
-import com.mongodb.casbah.commons.Imports._
 
 import scala.collection.mutable._
 import scalaj.collection.Imports._
-import com.mongodb.BasicDBList
 
 class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any] {
 
@@ -116,7 +114,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
 
 object MongoDBList {
 
-  def empty: MongoDBList = new MongoDBList
+  def empty: MongoDBList = new MongoDBList()
 
   def apply[A <: Any](elems: A*): Seq[Any] = {
     val b = newBuilder[A]
@@ -142,7 +140,7 @@ object MongoDBList {
 
 sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Seq[Any]] {
 
-  protected val empty: MongoDBList = new MongoDBList
+  protected val empty: MongoDBList = new MongoDBList()
 
   protected var elems: MongoDBList = empty
 

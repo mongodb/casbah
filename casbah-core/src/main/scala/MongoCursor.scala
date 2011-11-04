@@ -22,11 +22,9 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
-import com.mongodb.{DBCursor}
 import com.mongodb.casbah.util.bson.decoding.OptimizedLazyDBObject
 
 /** 

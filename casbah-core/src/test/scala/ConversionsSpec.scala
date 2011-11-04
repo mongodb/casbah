@@ -23,7 +23,6 @@
 package com.mongodb.casbah.commons
 package conversions
 
-import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.conversions.scala._
 
 import org.scala_tools.time.Imports._

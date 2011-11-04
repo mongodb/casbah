@@ -17,7 +17,6 @@
 package com.mongodb.casbah.dynamic
 
 
-import com.mongodb.casbah.Imports._
 
 
 /**
