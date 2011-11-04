@@ -24,7 +24,7 @@ object CasbahBuild extends Build {
   override lazy val settings = super.settings ++ buildSettings
 
   lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
-      resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
+      resolvers ++= Seq(sonatypeRels, scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
       testOptions in Test += Tests.Argument("junitxml")
     )
 
@@ -145,6 +145,7 @@ object Resolvers {
   val scalaToolsSnapshots = "snapshots" at "http://scala-tools.org/repo-snapshots"
   val scalaToolsReleases  = "releases" at "http://scala-tools.org/repo-releases"
   val sonatypeSnaps = "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+  val sonatypeRels = "releases" at "https://oss.sonatype.org/content/repositories/releases"
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
 }
 
