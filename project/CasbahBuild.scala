@@ -24,7 +24,7 @@ object CasbahBuild extends Build {
   override lazy val settings = super.settings ++ buildSettings
 
   lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
-      resolvers ++= Seq(sonatypeSnaps, scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
+      resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
       testOptions in Test += Tests.Argument("junitxml")
     )
 
@@ -84,7 +84,7 @@ object CasbahBuild extends Build {
 
 object Dependencies {
 
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.7.0-rc1"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.7.0"
   val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.2"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
