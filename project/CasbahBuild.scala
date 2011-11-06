@@ -24,9 +24,10 @@ object CasbahBuild extends Build {
   override lazy val settings = super.settings ++ buildSettings
 
   lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
-      resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo)/*,
-      testOptions in Test += Tests.Argument("junitxml")*/
+      resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
+      testOptions in Test += Tests.Argument("junitxml")
     )
+
 
   lazy val parentSettings = baseSettings ++ Seq(
     publishArtifact := false
