@@ -25,7 +25,7 @@ object CasbahBuild extends Build {
 
   lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
       resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
-      testOptions in Test += Tests.Argument("junitxml")
+      testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml")
     )
 
 
