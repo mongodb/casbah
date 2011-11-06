@@ -24,6 +24,7 @@ package com.mongodb.casbah.test.query
 
 import com.mongodb.casbah.query._
 import com.mongodb.casbah.commons.test.CasbahSpecification
+import org.bson.types.BasicBSONList
 
 @SuppressWarnings(Array("deprecation"))
 class BarewordOperatorsSpec extends CasbahSpecification {
@@ -78,11 +79,11 @@ class BarewordOperatorsSpec extends CasbahSpecification {
       val or = $or("foo" -> "bar", "x" -> "y")
       or must haveListEntry("$or", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
     }
-/*    "Work with nested operators" in {
+    "Work with nested operators" in {
       val or = $or( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
-      or must haveSuperclass[DBObject]
+      or must haveSuperclass[BasicBSONList]
       or must beEqualTo(MongoDBObject("$or" -> MongoDBList(MongoDBObject("foo" -> "bar", "x" -> "y"))))
-    }*/
+    }
   }
 
   "Casbah's DSL $rename Operator" should {

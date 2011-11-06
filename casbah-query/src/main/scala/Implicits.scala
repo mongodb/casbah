@@ -23,6 +23,7 @@
 package com.mongodb.casbah
 package query
 
+import com.mongodb.casbah.query.dsl.QueryExpressionObject
 
 
 trait Implicits {// extends FluidQueryBarewordOps {
@@ -59,7 +60,7 @@ trait Implicits {// extends FluidQueryBarewordOps {
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
-  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with dsl.DSLDBObject) = {
+  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with QueryExpressionObject) = {
     new {
       val field = nested.field
     } with dsl.ValueTestFluidQueryOperators {
@@ -73,7 +74,9 @@ trait Implicits {// extends FluidQueryBarewordOps {
 
 /*@deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah.query._' instead.")
 object Imports extends query.Imports with commons.Imports*/
-trait Imports extends dsl.FluidQueryBarewordOps with query.BaseImports with query.TypeImports with query.Implicits with commons.Imports with commons.Exports with ValidDateOrNumericTypeHolder
+trait Imports extends dsl.FluidQueryBarewordOps with query.BaseImports with query.TypeImports with query.Implicits
+                 with commons.Imports with commons.Exports with ValidBarewordExpressionArgTypeHolder with ValidDateTypeHolder
+                 with ValidNumericTypeHolder with ValidDateOrNumericTypeHolder
 
 object `package` extends Imports // query.dsl.FluidQueryBarewordOps with commons.Exports with query.BaseImports with query.TypeImports with query.Implicits with commons.Imports with ValidDateOrNumericTypeHolder
 trait BaseImports {
@@ -92,8 +95,18 @@ trait Exports {
 
 object ValidTypes {
   trait JDKDateOk extends ValidDateType[java.util.Date]
-  trait JodaDateTimeOk extends ValidDateOrNumericType[org.joda.time.DateTime]
+  trait JodaDateTimeOk extends ValidDateType[org.joda.time.DateTime]
 
+  // Valid Bareword Query Expression entries
+  trait CoreOperatorResultObj extends ValidBarewordExpressionArgType[DBObject with QueryExpressionObject] {
+  def listify(args: Seq[DBObject with QueryExpressionObject]): Seq[DBObject] = {
+    val bldr = MongoDBList.newBuilder
+    args.foreach(bldr.+=)
+    bldr.result.asInstanceOf[Seq[DBObject]]
+  }
+}
+
+  // ValidNumericTypes
   trait BigIntOk extends ValidNumericType[BigInt] with Numeric.BigIntIsIntegral with Ordering.BigIntOrdering
   trait IntOk extends ValidNumericType[Int] with Numeric.IntIsIntegral with Ordering.IntOrdering
   trait ShortOk extends ValidNumericType[Short] with Numeric.ShortIsIntegral with Ordering.ShortOrdering
@@ -104,6 +117,16 @@ object ValidTypes {
   trait DoubleOk extends ValidNumericType[Double] with Numeric.DoubleIsFractional with Ordering.DoubleOrdering
 }
 
+trait ValidBarewordExpressionArgType[T] {
+  def listify(args: Seq[T]): Seq[DBObject]
+}
+
+trait ValidBarewordExpressionArgTypeHolder {
+  import com.mongodb.casbah.query.ValidTypes.{CoreOperatorResultObj}
+  implicit object CoreOperatorResultObjOk extends CoreOperatorResultObj
+}
+
+/*trait ValidTypeClassHolders extends */
 
 trait ValidNumericType[T]
 
@@ -133,16 +156,16 @@ trait ValidNumericTypeHolder {
 trait ValidDateOrNumericTypeHolder {
   import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, BigIntOk, IntOk, ShortOk, ByteOk,
                                               LongOk, FloatOk, BigDecimalOk, DoubleOk}
-  implicit object JDKDateDoNOk extends JDKDateOk with ValidDateOrNumericType[java.util.Date]
-  implicit object JodaDateTimeDoNOk extends JDKDateOk with ValidDateOrNumericType[org.joda.time.DateTime]
-  implicit object BigIntDoNOk extends BigIntOk with ValidDateOrNumericType[BigInt]
-  implicit object IntDoNOk extends IntOk with ValidDateOrNumericType[Int]
-  implicit object ShortDoNOk extends ShortOk with ValidDateOrNumericType[Short]
-  implicit object ByteDoNOk extends ByteOk with ValidDateOrNumericType[Byte]
-  implicit object LongDoNOk extends LongOk with ValidDateOrNumericType[Long]
-  implicit object FloatDoNOk extends FloatOk with ValidDateOrNumericType[Float]
-  implicit object BigDecimalDoNOk extends BigDecimalOk with ValidDateOrNumericType[BigDecimal]
-  implicit object DoubleDoNOk extends DoubleOk with ValidDateOrNumericType[Double]
+  implicit object JDKDateDoNOk extends ValidDateOrNumericType[java.util.Date]
+  implicit object JodaDateTimeDoNOk extends ValidDateOrNumericType[org.joda.time.DateTime]
+  implicit object BigIntDoNOk extends ValidDateOrNumericType[BigInt]
+  implicit object IntDoNOk extends ValidDateOrNumericType[Int]
+  implicit object ShortDoNOk extends ValidDateOrNumericType[Short]
+  implicit object ByteDoNOk extends ValidDateOrNumericType[Byte]
+  implicit object LongDoNOk extends ValidDateOrNumericType[Long]
+  implicit object FloatDoNOk extends ValidDateOrNumericType[Float]
+  implicit object BigDecimalDoNOk extends ValidDateOrNumericType[BigDecimal]
+  implicit object DoubleDoNOk extends ValidDateOrNumericType[Double]
 }
 
 // vim: set ts=2 sw=2 sts=2 et:

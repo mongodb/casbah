@@ -334,6 +334,8 @@ trait OrOp extends BarewordQueryOperator {
     MongoDBObject("$or" -> bldr.result)
   }
 
+  def $or[A : ValidBarewordExpressionArgType](fields: A*) =
+    MongoDBObject("$or" -> implicitly[ValidBarewordExpressionArgType[A]].listify(fields))
 }
 
 /** 

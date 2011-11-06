@@ -69,14 +69,15 @@ trait ValueTestFluidQueryOperators extends LessThanOp
   with NotEqualsOp
   with TypeOp
 
-trait DSLDBObject {
+trait QueryExpressionObject {
+  self: DBObject =>
   def field: String
 }
 
-object DSLDBObject {
+object QueryExpressionObject {
 
-  def apply[A <: String, B <: Any](kv: (A, B)): DBObject with DSLDBObject = {
-    val obj = new BasicDBObject with DSLDBObject { val field = kv._1 }
+  def apply[A <: String, B <: Any](kv: (A, B)): DBObject with QueryExpressionObject = {
+    val obj = new BasicDBObject with QueryExpressionObject { val field = kv._1 }
     obj.put(kv._1, kv._2)
     obj
   }
@@ -91,7 +92,7 @@ object DSLDBObject {
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
 sealed trait QueryOperator extends Logging {
-  val field: String
+  def field: String
   protected var dbObj: Option[DBObject] = None
 
   /**
@@ -109,7 +110,7 @@ sealed trait QueryOperator extends Logging {
    * WARNING: This does NOT check that target is a serializable type.
    * That is, for the moment, your own problem.
    */
-  protected def op(oper: String, target: Any) = DSLDBObject(dbObj match {
+  protected def op(oper: String, target: Any): DBObject with QueryExpressionObject = QueryExpressionObject(dbObj match {
     case Some(nested) => {
       patchSerialization(target)
       nested.put(oper, target)
@@ -121,6 +122,7 @@ sealed trait QueryOperator extends Logging {
       (field -> opMap)
     }
   })
+
   /** 
    * Temporary fix code for making sure certain edge cases w/ the serialization libs 
    * Don't happen.  This may impose a slight performance penalty.
