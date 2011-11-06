@@ -25,8 +25,9 @@ package commons
 
 import scalaj.collection.Imports._
 
+object `package` extends Imports
+
 trait Implicits {
-  import com.mongodb.{ DBObject, BasicDBObject, BasicDBList }
 
   /*
    * Placeholder Type Alias 
@@ -49,41 +50,46 @@ trait Implicits {
     def asDBObject = map2MongoDBObject(map)
   }
 
-  implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject = new BasicDBObject(map.asJava)
+  implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject = MongoDBObject(map.toList)
+
+  //  implicit def iterable2DBObject(iter: Iterable[(String, Any)]): DBObject = MongoDBObject(iter.toList)
 
   implicit def wrapDBObj(in: DBObject): MongoDBObject =
-    new MongoDBObject { val underlying = in }
+    new MongoDBObject(in)
 
   implicit def unwrapDBObj(in: MongoDBObject): DBObject =
     in.underlying
 
-  implicit def wrapDBList(in: BasicDBList): MongoDBList =
-    new MongoDBList { val underlying = in }
+  implicit def wrapDBList(in: BasicDBList): MongoDBList = new MongoDBList(in)
 
-  implicit def unwrapDBList(in: MongoDBList): BasicDBList =
-    in.underlying
+  implicit def unwrapDBList(in: MongoDBList): BasicDBList = in.underlying
 
   // Register the core Serialization helpers.
   com.mongodb.casbah.commons.conversions.scala.RegisterConversionHelpers()
 }
 
 object Implicits extends Implicits
-object Imports extends Imports
 object BaseImports extends BaseImports
 object TypeImports extends TypeImports
 
+@deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah.commons._' instead.")
+object Imports extends Imports
+
 trait Imports extends BaseImports with TypeImports with Implicits
 
-trait BaseImports {
+trait Exports {
   val MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
-  val DBObject = MongoDBObject
   val MongoDBList = com.mongodb.casbah.commons.MongoDBList
+  type MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
+  type MongoDBList = com.mongodb.casbah.commons.MongoDBList
+}
+
+trait BaseImports {
   val DBList = MongoDBList
+  val DBObject = MongoDBObject
 }
 
 trait TypeImports {
-  type MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
-  type MongoDBList = com.mongodb.casbah.commons.MongoDBList
   type DBObject = com.mongodb.DBObject
   type BasicDBObject = com.mongodb.BasicDBObject
   type BasicDBList = com.mongodb.BasicDBList

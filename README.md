@@ -11,6 +11,8 @@ Contributors
 * Marcello Bastéa-Forte <marcello@cellosoft.com>
 * Philip Wills <otherphil@gmail.com>
 * Novus Partners, Inc. <http://novus.com>, who sponsored the development of this project prior to Version 2.0
+* Ben Gamari <bgamari@gmail.com>
+* Patrick Bohan <arkban@arkban.net>
 
 Reporting Bugs
 --------------

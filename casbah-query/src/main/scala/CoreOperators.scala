@@ -20,14 +20,13 @@
  * 
  */
 
-package com.mongodb.casbah
-package query
+package com.mongodb.casbah.query.dsl
 
-import com.mongodb.casbah.commons.Imports._
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
 
-import com.mongodb.{ DBObject, BasicDBObjectBuilder }
 import scalaj.collection.Imports._
+
+import com.mongodb.casbah.query._
 
 import scala.util.matching._
 import scala.collection.Iterable
@@ -70,14 +69,15 @@ trait ValueTestFluidQueryOperators extends LessThanOp
   with NotEqualsOp
   with TypeOp
 
-trait DSLDBObject {
-  val field: String
+trait QueryExpressionObject {
+  self: DBObject =>
+  def field: String
 }
 
-object DSLDBObject {
+object QueryExpressionObject {
 
-  def apply[A <: String, B <: Any](kv: (A, B)): DBObject with DSLDBObject = {
-    val obj = new BasicDBObject with DSLDBObject { val field = kv._1 }
+  def apply[A <: String, B <: Any](kv: (A, B)): DBObject with QueryExpressionObject = {
+    val obj = new BasicDBObject with QueryExpressionObject { val field = kv._1 }
     obj.put(kv._1, kv._2)
     obj
   }
@@ -92,7 +92,7 @@ object DSLDBObject {
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
 sealed trait QueryOperator extends Logging {
-  val field: String
+  def field: String
   protected var dbObj: Option[DBObject] = None
 
   /**
@@ -110,7 +110,7 @@ sealed trait QueryOperator extends Logging {
    * WARNING: This does NOT check that target is a serializable type.
    * That is, for the moment, your own problem.
    */
-  protected def op(oper: String, target: Any) = DSLDBObject(dbObj match {
+  protected def op(oper: String, target: Any): DBObject with QueryExpressionObject = QueryExpressionObject(dbObj match {
     case Some(nested) => {
       patchSerialization(target)
       nested.put(oper, target)
@@ -122,6 +122,7 @@ sealed trait QueryOperator extends Logging {
       (field -> opMap)
     }
   })
+
   /** 
    * Temporary fix code for making sure certain edge cases w/ the serialization libs 
    * Don't happen.  This may impose a slight performance penalty.
@@ -132,7 +133,7 @@ sealed trait QueryOperator extends Logging {
 
   def anyListOp(oper: String, target: Any*) =
     if (target.size > 1)
-      op(oper, target.toList.asJava)
+      op(oper, target.toList)
     else if (!target(0).isInstanceOf[Iterable[_]] &&
       !target(0).isInstanceOf[Array[_]])
       op(oper, List(target(0)))
@@ -158,7 +159,7 @@ trait NotEqualsOp extends QueryOperator {
   def $ne(target: DBRef) = op(oper, target)
   def $ne(target: ObjectId) = op(oper, target)
   def $ne(target: Boolean) = op(oper, target)
-  def $ne(target: Array[_]) = op(oper, target.toList.asJava)
+  def $ne(target: Array[_]) = op(oper, target.toList)
   def $ne(target: Tuple1[_]) = op(oper, target.productIterator.toList)
   def $ne(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
   def $ne(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
@@ -200,7 +201,7 @@ trait LessThanOp extends QueryOperator {
 
   def $lt(target: String) = op(oper, target)
   def $lt(target: DBObject) = op(oper, target)
-  def $lt(target: Array[_]) = op(oper, target.toList.asJava)
+  def $lt(target: Array[_]) = op(oper, target.toList)
   def $lt(target: Tuple1[_]) = op(oper, target.productIterator.toList)
   def $lt(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
   def $lt(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
@@ -241,7 +242,7 @@ trait LessThanEqualOp extends QueryOperator {
 
   def $lte(target: String) = op(oper, target)
   def $lte(target: DBObject) = op(oper, target)
-  def $lte(target: Array[_]) = op(oper, target.toList.asJava)
+  def $lte(target: Array[_]) = op(oper, target.toList)
   def $lte(target: Tuple1[_]) = op(oper, target.productIterator.toList)
   def $lte(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
   def $lte(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
@@ -282,7 +283,7 @@ trait GreaterThanOp extends QueryOperator {
 
   def $gt(target: String) = op(oper, target)
   def $gt(target: DBObject) = op(oper, target)
-  def $gt(target: Array[_]) = op(oper, target.toList.asJava)
+  def $gt(target: Array[_]) = op(oper, target.toList)
   def $gt(target: Tuple1[_]) = op(oper, target.productIterator.toList)
   def $gt(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
   def $gt(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
@@ -323,7 +324,7 @@ trait GreaterThanEqualOp extends QueryOperator {
 
   def $gte(target: String) = op(oper, target)
   def $gte(target: DBObject) = op(oper, target)
-  def $gte(target: Array[_]) = op(oper, target.toList.asJava)
+  def $gte(target: Array[_]) = op(oper, target.toList)
   def $gte(target: Tuple1[_]) = op(oper, target.productIterator.toList)
   def $gte(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
   def $gte(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
@@ -368,7 +369,7 @@ trait GreaterThanEqualOp extends QueryOperator {
 trait InOp extends QueryOperator {
   private val oper = "$in"
 
-  def $in(target: Array[_]) = op(oper, target.toList.asJava)
+  def $in(target: Array[_]) = op(oper, target.toList)
   def $in(target: Tuple1[_]) = op(oper, target.productIterator.toList)
   def $in(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
   def $in(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
@@ -412,7 +413,7 @@ trait InOp extends QueryOperator {
 trait NotInOp extends QueryOperator {
   private val oper = "$nin"
 
-  def $nin(target: Array[_]) = op(oper, target.toList.asJava)
+  def $nin(target: Array[_]) = op(oper, target.toList)
   def $nin(target: Tuple1[_]) = op(oper, target.productIterator.toList)
   def $nin(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
   def $nin(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
@@ -456,7 +457,7 @@ trait NotInOp extends QueryOperator {
 trait AllOp extends QueryOperator {
   private val oper = "$all"
 
-  def $all(target: Array[_]) = op(oper, target.toList.asJava)
+  def $all(target: Array[_]) = op(oper, target.toList)
   def $all(target: Tuple1[_]) = op(oper, target.productIterator.toList)
   def $all(target: Tuple2[_, _]) = op(oper, target.productIterator.toList)
   def $all(target: Tuple3[_, _, _]) = op(oper, target.productIterator.toList)
@@ -564,8 +565,8 @@ trait NotOp extends QueryOperator {
     MongoDBObject(field -> dbObj)
   }
 
-  def $not(re: scala.util.matching.Regex) = op(field, re.pattern)
-  def $not(re: java.util.regex.Pattern) = op(field, re)
+  def $not(re: scala.util.matching.Regex) = op(oper, re.pattern)
+  def $not(re: java.util.regex.Pattern) = op(oper, re)
 }
 
 /**

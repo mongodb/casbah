@@ -22,9 +22,7 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
-import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
+import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
 
@@ -60,6 +58,8 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @return MongoCollection A wrapped instance of a Mongo DBCollection Class returning generic DBObjects
    */
   def apply(collection: String): MongoCollection = underlying.getCollection(collection).asScala
+
+  def lazyCollection(collection: String) = underlying.getCollection(collection).asLazyScala
 
   def addUser(username: String, passwd: String) = underlying.addUser(username, passwd.toArray)
 
@@ -221,7 +221,9 @@ class MongoDB(val underlying: com.mongodb.DB) {
 
   /** 
    * Sets queries to be OK to run on slave nodes.
+   * @deprecated Replaced with ReadPreference.SECONDARY
    */
+  @deprecated("Replaced with ReadPreference.SECONDARY")
   def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**
@@ -257,7 +259,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @see WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def getWriteConcern() = underlying.getWriteConcern()
+  def getWriteConcern = underlying.getWriteConcern()
 
   /**
    * 
@@ -269,6 +271,42 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def writeConcern = getWriteConcern
+
+  /**
+   * Sets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def readPreference_=(pref: ReadPreference) = setReadPreference(pref)
+
+  /**
+   * Sets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def setReadPreference(pref: ReadPreference) = underlying.setReadPreference(pref)
+
+  /**
+   * Gets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def readPreference = getReadPreference
+
+  /**
+   * Gets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def getReadPreference = underlying.getReadPreference
 
   /**
    * Checks to see if a collection by name %lt;name&gt; exists.
@@ -287,8 +325,8 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @param command An instance of MapReduceCommand representing the required MapReduce
    * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
    */
-  def mapReduce(cmd: MapReduceCommand): MapReduceResult =
-    MapReduceResult(command(cmd.toDBObject))(this)
+  def mapReduce(cmd: map_reduce.MapReduceCommand): map_reduce.MapReduceResult =
+    map_reduce.MapReduceResult(command(cmd.toDBObject))(this)
 
   /**
    * write concern aware write op block.

@@ -23,9 +23,6 @@
 package com.mongodb.casbah
 package map_reduce
 
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
-
 import scalaj.collection.Imports._
 
 class MapReduceException(msg: String) extends MongoException("MongoDB Map/Reduce Error: " + msg)

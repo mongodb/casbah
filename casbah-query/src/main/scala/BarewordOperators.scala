@@ -20,11 +20,11 @@
  * 
  */
 
-package com.mongodb.casbah
-package query
+package com.mongodb.casbah.query.dsl
 
-import com.mongodb.casbah.commons.Imports._
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
+
+import com.mongodb.casbah.query._
 
 import scalaj.collection.Imports._
 
@@ -33,7 +33,7 @@ import scalaj.collection.Imports._
  * 
  * Bareword operators stand on their own - they lack the requirement for an LValue.
  * 
- * Operator implementations (see SetOp for an example) should partially apply apply with just their operator name.
+ * Operator implementations (see SetOp for an example) should partially apply with just their operator name.
  * The apply method's type parameter can be used to restrict the valid RValue values at will.  
  * 
  * 
@@ -44,7 +44,7 @@ import scalaj.collection.Imports._
 trait BarewordQueryOperator extends Logging {
 
   /*
-   * TODO - Implicit filtering of 'valid' (aka convertable) types for [A]
+   * TODO - Implicit filtering of 'valid' (aka convertible) types for [A]
    */
   def apply[A](oper: String)(fields: (String, A)*) = {
     val bldr = MongoDBObject.newBuilder
@@ -204,10 +204,10 @@ trait AddToSetOp extends BarewordQueryOperator {
       protected def op(target: Any) =
         MongoDBObject("$addToSet" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
 
-      def $each(target: Array[Any]) = op(target.toList.asJava)
+      def $each(target: Array[Any]) = op(target.toList)
       def $each(target: Any*) =
         if (target.size > 1)
-          op(target.toList.asJava)
+          op(target.toList)
         else if (!target(0).isInstanceOf[Iterable[_]] &&
           !target(0).isInstanceOf[Array[_]])
           op(List(target(0)))
@@ -281,6 +281,34 @@ trait PullAllOp extends BarewordQueryOperator {
 }
 
 /**
+ * Trait to provide the $and method as a bareword operator.
+ *
+ * $and ("Foo" -> "bar")
+ *
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject  
+ *
+ * TODO - Test that rvalue ends up being an array e.g.:
+ * 
+ *   scala> $or ("foo" -> "bar", "X" -> 5)           
+ *   res1: com.mongodb.casbah.commons.Imports.DBObject = { "$or" : [ { "foo" : "bar" , "X" : 5}]}
+ *  
+ * 
+ * @author Ben Gamari <bgamari.foss@gmail.com>
+ * @since 2.0
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24and
+ */
+
+trait AndOp extends BarewordQueryOperator {
+
+  def $and(fields: (String, Any)*) = {
+    val bldr = MongoDBList.newBuilder
+    for ((k, v) <- fields) bldr += MongoDBObject(k -> v)
+    MongoDBObject("$and" -> bldr.result)
+  }
+
+}
+
+/**
  * Trait to provide the $or method as a bareword operator.
  *
  * $or ("Foo" -> "bar")
@@ -303,9 +331,11 @@ trait OrOp extends BarewordQueryOperator {
   def $or(fields: (String, Any)*) = {
     val bldr = MongoDBList.newBuilder
     for ((k, v) <- fields) bldr += MongoDBObject(k -> v)
-    MongoDBObject("$or" -> bldr.result.asDBObject)
+    MongoDBObject("$or" -> bldr.result)
   }
 
+  def $or[A : ValidBarewordExpressionArgType](fields: A*) =
+    MongoDBObject("$or" -> implicitly[ValidBarewordExpressionArgType[A]].listify(fields))
 }
 
 /** 
@@ -340,9 +370,10 @@ trait NorOp extends BarewordQueryOperator {
   /** ValueTest enabled version */
   def $nor(inner: => DBObject) =
     MongoDBObject("$nor" -> (inner match {
-      case obj: BasicDBList => obj
+      case obj: BasicDBList => obj.toSeq
+      case obj: MongoDBList => obj
       case obj: DBObject => MongoDBList(obj)
-    }).asInstanceOf[BasicDBList])
+    }).asInstanceOf[Seq[Any]])
 
 }
 

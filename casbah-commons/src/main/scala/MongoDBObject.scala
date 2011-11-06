@@ -23,13 +23,11 @@
 package com.mongodb.casbah
 package commons
 
-import com.mongodb.casbah.commons.Imports._
-
 import scala.annotation.tailrec
 import scala.collection.JavaConversions._
 import scala.collection.generic._
-import scala.collection.mutable.Map
 import scala.reflect._
+import collection.mutable.{Builder, Map, MapLike}
 
 /** 
  *  MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
@@ -45,12 +43,14 @@ import scala.reflect._
  * @tparam Object 
  */
 @BeanInfo
-trait MongoDBObject extends Map[String, AnyRef] {
-  val underlying: DBObject
+class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends scala.collection.mutable.Map[String, AnyRef]
+                                                                     with MapLike[String, AnyRef, MongoDBObject] {
+
+  override def empty: MongoDBObject = MongoDBObject.empty
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
-  /** 
+  /**
    * as
    *
    * Works like apply(), unsafe, bare return of a value.
@@ -149,7 +149,7 @@ trait MongoDBObject extends Map[String, AnyRef] {
   @deprecated("containsKey is deprecated in the MongoDB Driver. You should use containsField instead.")
   def containsKey(s: String) = underlying.containsField(s) // method kept for backwards compatibility
   def isPartialObject = underlying.isPartialObject
-  def markAsPartialObject = underlying.markAsPartialObject
+  def markAsPartialObject() = underlying.markAsPartialObject()
   def partialObject = isPartialObject
   override def put(k: String, v: AnyRef) = v match {
     case x: MongoDBObject => put(k, x.asDBObject)
@@ -159,9 +159,7 @@ trait MongoDBObject extends Map[String, AnyRef] {
         case value => Some(value)
       }
   }
-  def putAll(o: DBObject) = underlying.putAll(o)
-  def putAll(m: Map[_, _]) = underlying.putAll(m)
-  def putAll(m: java.util.Map[_, _]) = underlying.putAll(m)
+  def putAll(o: DBObject) { underlying.putAll(o) }
   def removeField(key: String) = underlying.removeField(key)
   def toMap = underlying.toMap
   def asDBObject = underlying
@@ -171,20 +169,33 @@ trait MongoDBObject extends Map[String, AnyRef] {
     case Some(id: ObjectId) => Some(id)
     case _ => None
   }
-}
+
+  override def toString() = underlying.toString
+  override def hashCode() = underlying.hashCode
+  override def equals(that: Any) = that match {
+    case o: MongoDBObject => underlying.equals(o.underlying)
+    case o: MongoDBList => underlying.equals(o.underlying)
+    case _ => underlying.equals(that)
+  }}
 
 object MongoDBObject {
 
-  def empty: DBObject = new MongoDBObject { val underlying = new BasicDBObject }
+  implicit val canBuildFrom: CanBuildFrom[Map[String, Any], (String, Any), DBObject] = new CanBuildFrom[Map[String, Any], (String, Any), DBObject] {
+    def apply(from: Map[String, Any]) = apply()
+    def apply() = newBuilder[String, Any]
+  }
 
+  def empty: DBObject = new MongoDBObject()
+
+  //  def apply[A <: String, B <% Any](otherMap: scala.collection.Map[A, B]) = (newBuilder[A, B] ++= otherMap).result
   def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result
   def apply[A <: String, B <: Any](elems: List[(A, B)]): DBObject = apply(elems: _*)
 
-  def newBuilder[A <: String, B <: Any]: MongoDBObjectBuilder = new MongoDBObjectBuilder
+  def newBuilder[A <: String, B <: Any]: Builder[(String, Any), DBObject] = new MongoDBObjectBuilder
 
 }
 
-sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), DBObject] {
+sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
   import com.mongodb.BasicDBObjectBuilder
 
   protected val empty = BasicDBObjectBuilder.start
@@ -195,7 +206,7 @@ sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(Stri
   }
 
   def clear() { elems = empty }
-  def result: DBObject = new MongoDBObject { val underlying = elems.get }
+  def result(): DBObject = new MongoDBObject(elems.get)
 }
 
 // vim: set ts=2 sw=2 sts=2 et:

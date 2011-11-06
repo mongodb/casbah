@@ -23,41 +23,76 @@
 package com.mongodb.casbah
 package commons
 
-import com.mongodb.casbah.commons.Imports._
 
-import scala.annotation.tailrec
-import scala.collection.generic._
-import scala.collection.mutable.LinearSeq
-import scala.reflect._
-
+import scala.collection.mutable._
 import scalaj.collection.Imports._
 
-import com.mongodb.BasicDBList
-
-trait MongoDBList extends LinearSeq[AnyRef] {
-  val underlying: BasicDBList
+class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any] {
 
   def apply(i: Int) = underlying.get(i)
 
-  def update(i: Int, elem: AnyRef) =
-    underlying.set(i, elem)
+  def update(i: Int, elem: Any) =
+    underlying.set(i, elem.asInstanceOf[AnyRef])
 
-  def +=:(elem: AnyRef): this.type = {
-    underlying.subList(0, 0).add(elem)
+  def +=:(elem: Any): this.type = {
+    underlying.subList(0, 0).add(elem.asInstanceOf[AnyRef])
     this
   }
 
-  def +=(elem: AnyRef): this.type = {
-    underlying.add(elem)
+  def +=(elem: Any): this.type = {
+    underlying.add(elem.asInstanceOf[AnyRef])
     this
   }
 
-  def insertAll(i: Int, elems: Traversable[AnyRef]) = {
+  def insertAll(i: Int, elems: Traversable[Any]) = {
     val ins = underlying.subList(0, i)
-    elems.foreach(x => ins.add(x))
+    elems.foreach(x => ins.add(x.asInstanceOf[AnyRef]))
   }
 
   def remove(i: Int) = underlying.remove(i)
+
+  /**
+   * as
+   *
+   * Works like apply(), unsafe, bare return of a value.
+   * Returns default if nothing matching is found, else
+   * tries to cast a value to the specified type.
+   *
+   * Unless you overrode it, default throws
+   * a NoSuchElementException
+   *
+   * @param idx (Int)
+   * @tparam A
+   * @return (A)
+   * @throws NoSuchElementException
+   */
+  def as[A <: Any: Manifest](idx: Int): A = {
+    require(manifest[A] != manifest[scala.Nothing],
+      "Type inference failed; as[A]() requires an explicit type argument" +
+      "(e.g. dbList.as[<ReturnType>](index)) to function correctly.")
+
+    underlying.get(idx) match {
+      case null => throw new NoSuchElementException
+      case value => value.asInstanceOf[A]
+    }
+  }
+
+  /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
+  def getAs[A <: Any: Manifest](idx: Int): Option[A] = {
+    require(manifest[A] != manifest[scala.Nothing],
+      "Type inference failed; getAs[A]() requires an explicit type argument " +
+      "(e.g. dbList.getAs[<ReturnType>](index) ) to function correctly.")
+
+    underlying.get(idx) match {
+      case null => None
+      case value => Some(value.asInstanceOf[A])
+    }
+  }
+
+  def getAsOrElse[A <: Any: Manifest](idx: Int, default: => A): A = getAs[A](idx) match {
+    case Some(v) => v
+    case None => default
+  }
 
   def clear = underlying.clear
 
@@ -67,14 +102,21 @@ trait MongoDBList extends LinearSeq[AnyRef] {
 
   override def isEmpty = underlying.isEmpty
   override def iterator = underlying.iterator.asScala
+
+  override def toString() = underlying.toString
+  override def hashCode() = underlying.hashCode
+  override def equals(that: Any) = that match {
+    case o: MongoDBObject => underlying.equals(o.underlying)
+    case o: MongoDBList => underlying.equals(o.underlying)
+    case _ => underlying.equals(that)
+  }
 }
 
 object MongoDBList {
 
-  def empty: BasicDBList =
-    new MongoDBList { val underlying = new BasicDBList }
+  def empty: MongoDBList = new MongoDBList()
 
-  def apply[A <: Any](elems: A*): BasicDBList = {
+  def apply[A <: Any](elems: A*): Seq[Any] = {
     val b = newBuilder[A]
     for (xs <- elems) xs match {
       case p: Tuple2[String, _] => b += MongoDBObject(p)
@@ -83,7 +125,7 @@ object MongoDBList {
     b.result
   }
 
-  def concat[A](xss: Traversable[A]*): BasicDBList = {
+  def concat[A](xss: Traversable[A]*): Seq[Any] = {
     val b = newBuilder[A]
     if (xss forall (_.isInstanceOf[IndexedSeq[_]]))
       b.sizeHint(xss map (_.size) sum)
@@ -92,17 +134,15 @@ object MongoDBList {
     b.result
   }
 
-  def newBuilder[A <: Any]: MongoDBListBuilder =
-    new MongoDBListBuilder
+  def newBuilder[A <: Any]: MongoDBListBuilder = new MongoDBListBuilder
 
 }
 
-sealed class MongoDBListBuilder
-  extends scala.collection.mutable.Builder[Any, BasicDBList] {
+sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Seq[Any]] {
 
-  protected val empty = new BasicDBList
+  protected val empty: MongoDBList = new MongoDBList()
 
-  protected var elems = empty
+  protected var elems: MongoDBList = empty
 
   override def +=(x: Any) = {
     val v = x match {
@@ -114,5 +154,5 @@ sealed class MongoDBListBuilder
 
   def clear() { elems = empty }
 
-  def result: BasicDBList = new MongoDBList { val underlying = elems }
+  def result: Seq[Any] = elems
 }

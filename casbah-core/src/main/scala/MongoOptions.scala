@@ -22,8 +22,6 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.Imports._
-
 import scalaj.collection.Imports._
 
 /** 
@@ -53,7 +51,8 @@ object MongoOptions {
     threadsAllowedToBlockForConnectionMultiplier: Int = new MongoOptions().threadsAllowedToBlockForConnectionMultiplier,
     maxWaitTime: Int = new MongoOptions().maxWaitTime,
     connectTimeout: Int = new MongoOptions().connectTimeout,
-    socketTimeout: Int = new MongoOptions().socketTimeout) = {
+    socketTimeout: Int = new MongoOptions().socketTimeout,
+    socketKeepAlive: Boolean = new MongoOptions().socketKeepAlive) = {
     val options = new MongoOptions;
 
     options.autoConnectRetry = autoConnectRetry
@@ -62,6 +61,7 @@ object MongoOptions {
     options.maxWaitTime = maxWaitTime
     options.connectTimeout = connectTimeout
     options.socketTimeout = socketTimeout
+    options.socketKeepAlive = socketKeepAlive
     options
   }
 

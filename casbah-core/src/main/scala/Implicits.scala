@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,8 +22,7 @@
 
 package com.mongodb.casbah
 
-import scalaj.collection.Imports._
-import org.scala_tools.time.Imports._
+object `package` extends Imports with commons.Imports with query.Imports with commons.Exports with query.Exports
 
 /**
  * <code>Implicits</code> object to expose implicit conversions to implementing classes
@@ -84,12 +83,10 @@ trait Implicits {
      * Return a type-neutral Scala wrapper object for the DBCollection
      * @return MongoCollection An instance of the scala wrapper containing the collection object.
      */
-    def asScala: MongoCollection = new MongoCollection(coll)
-    /**
-     * Return a GENERIC Scala wrapper object for the DBCollection specific to a given Parameter type.
-     * @return MongoCollection[A<:DBObject] An instance of the scala wrapper containing the collection object.
-     */
-    def asScalaTyped[A <: com.mongodb.DBObject](implicit m: scala.reflect.Manifest[A]) = new MongoGenericTypedCollection[A](coll)
+    def asScala: MongoCollection = new ConcreteMongoCollection(coll)
+
+    def asLazyScala: LazyMongoCollection = new LazyMongoCollection(coll)
+
   }
 
   /**
@@ -102,12 +99,8 @@ trait Implicits {
      * Return a type-neutral Scala wrapper object for the DBCursor
      * @return MongoCursor An instance of the scala wrapper containing the cursor object.
      */
-    def asScala: MongoCursor = new MongoCursor(cursor)
-    /**
-     * Return a GENERIC Scala wrapper object for the DBCursor specific to a given Parameter type.
-     * @return MongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
-     */
-    def asScalaTyped[A <: com.mongodb.DBObject: Manifest] = new MongoGenericTypedCursor[A](cursor)
+    def asScala: MongoCursor = new ConcreteMongoCursor(cursor)
+
   }
 
   implicit def stringAsNamedCollectionMROutput(name: String) = map_reduce.MapReduceStandardOutput(name)
@@ -115,17 +108,36 @@ trait Implicits {
 }
 
 object Implicits extends Implicits with commons.Implicits with query.Implicits
-object Imports extends Imports with commons.Imports with query.Imports
 object BaseImports extends BaseImports with commons.BaseImports with query.BaseImports
 object TypeImports extends TypeImports with commons.TypeImports with query.TypeImports
 
+@deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah._' instead.")
+object Imports extends Imports with commons.Imports with commons.Exports with query.Imports
+
 trait Imports extends BaseImports with TypeImports with Implicits
 
+package core {
+  trait Exports {
+    type MongoCursor = com.mongodb.casbah.MongoCursor
+    type MongoCollection = com.mongodb.casbah.MongoCollection
+    type LazyMongoCollection = com.mongodb.casbah.LazyMongoCollection
+    type MongoDB = com.mongodb.casbah.MongoDB
+    type MongoConnection = com.mongodb.casbah.MongoConnection
+    type MongoURI = com.mongodb.casbah.MongoURI
+    type LazyMongoCursor = com.mongodb.casbah.LazyMongoCursor
+    type BSONDecodingStrategy = com.mongodb.casbah.BSONDecodingStrategy
+    /**
+     * Static classes
+     */
+    val MongoConnection = com.mongodb.casbah.MongoConnection
+    val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
+    val BSONDecodingStrategy = com.mongodb.casbah.BSONDecodingStrategy
+    val MongoOptions = com.mongodb.casbah.MongoOptions
+    val WriteConcern = com.mongodb.casbah.WriteConcern
+  }
+}
+
 trait BaseImports {
-  val MongoConnection = com.mongodb.casbah.MongoConnection
-  val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
-  val MongoOptions = com.mongodb.casbah.MongoOptions
-  val WriteConcern = com.mongodb.casbah.WriteConcern
   val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   val MapReduceInlineOutput = com.mongodb.casbah.map_reduce.MapReduceInlineOutput
   val MapReduceMergeOutput = com.mongodb.casbah.map_reduce.MapReduceMergeOutput
@@ -133,14 +145,12 @@ trait BaseImports {
 }
 
 trait TypeImports {
-  type MongoConnection = com.mongodb.casbah.MongoConnection
-  type MongoCollection = com.mongodb.casbah.MongoCollection
-  type MongoDB = com.mongodb.casbah.MongoDB
-  type MongoCursor = com.mongodb.casbah.MongoCursor
-  type MongoURI = com.mongodb.casbah.MongoURI
   type MongoOptions = com.mongodb.MongoOptions
   type WriteConcern = com.mongodb.WriteConcern
+  type LazyDBObject = com.mongodb.LazyDBObject
+  type ReadPreference = com.mongodb.ReadPreference
   type WriteResult = com.mongodb.WriteResult
+  type ServerAddress = com.mongodb.ServerAddress
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   type MapReduceResult = com.mongodb.casbah.map_reduce.MapReduceResult
   type MapReduceError = com.mongodb.casbah.map_reduce.MapReduceError
@@ -151,6 +161,8 @@ trait TypeImports {
   type MapReduceMergeOutput = com.mongodb.casbah.map_reduce.MapReduceMergeOutput
   type MapReduceReduceOutput = com.mongodb.casbah.map_reduce.MapReduceReduceOutput
   type DBAddress = com.mongodb.DBAddress
+  type DBEncoder = com.mongodb.DBEncoder
+  type DBDecoder = com.mongodb.DBDecoder
 }
 
 // vim: set ts=2 sw=2 sts=2 et:

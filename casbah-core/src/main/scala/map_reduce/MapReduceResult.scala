@@ -23,8 +23,7 @@
 package com.mongodb.casbah
 package map_reduce
 
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
 
@@ -54,16 +53,16 @@ trait MapReduceResult extends Iterator[DBObject] with Logging {
   /** 
    * The raw output Object from the MongoDB MapReduce call
    */
-  val raw: DBObject
+  def raw: DBObject
 
   val isError = false
   lazy val ok = !isError // This may be deprecated in a future release
   val errorMessage: Option[String] = None
   lazy val err = errorMessage
 
-  val cursor: Iterator[DBObject]
+  def cursor: Iterator[DBObject]
 
-  def next(): DBObject = cursor.next
+  def next(): DBObject = cursor.next()
 
   def hasNext: Boolean = cursor.hasNext
 
@@ -90,7 +89,7 @@ class MapReduceCollectionBasedResult protected[mongodb] (override val raw: DBObj
   override lazy val cursor: Iterator[DBObject] = db(raw.as[String]("result")).find
 
   override def size = cursor.size
-  override def toString = "{MapReduceResult Proxying Result stored in collection [%s] against raw response [%s]}".format(raw.as[String]("result"), raw.toString)
+  override def toString() = "{MapReduceResult Proxying Result stored in collection [%s] against raw response [%s]}".format(raw.as[String]("result"), raw.toString)
 }
 
 class MapReduceInlineResult protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceCollectionBasedResult(raw) {

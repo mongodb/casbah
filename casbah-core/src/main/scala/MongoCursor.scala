@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,12 +22,12 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.DBCursor
+import com.mongodb.casbah.util.Logging
 
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
-
+import com.mongodb.casbah.commons._
 import scalaj.collection.Imports._
+
+import com.mongodb.casbah.util.bson.decoding.OptimizedLazyDBObject
 
 /** 
  * Scala wrapper for Mongo DBCursors,
@@ -42,24 +42,20 @@ import scalaj.collection.Imports._
  * 
  * @tparam T (DBObject or subclass thereof)
  */
-trait MongoCursorBase extends Logging {
+trait MongoCursor extends Iterator[DBObject] with Logging {
 
-  type T <: DBObject
-
-  val underlying: DBCursor
+  def underlying: com.mongodb.DBCursor
 
   /** 
    * next
    *
    * Iterator increment.
    * 
-   * TODO: The cast to T should be examined for sanity/safety.
-   * 
    * {@inheritDoc}
    *
    * @return The next element in the cursor
    */
-  def next() = underlying.next.asInstanceOf[T]
+  def next() = underlying.next
 
   /** 
    * hasNext
@@ -282,8 +278,9 @@ trait MongoCursorBase extends Logging {
    * slaveOk
    * 
    * Makes this query OK to run on a non-master node.
-   *
+   * @deprecated Replaced with ReadPreference.SECONDARY
    */
+  @deprecated("Replaced with ReadPreference.SECONDARY")
   def slaveOk() = underlying.slaveOk() // parens for side-effect
 
   def numGetMores = underlying.numGetMores
@@ -355,7 +352,7 @@ trait MongoCursorBase extends Logging {
    * @tparam A : Numeric 
    * @return the same DBCursor, useful for chaining operations
    */
-  def $maxScan[A: Numeric](max: T): this.type = addSpecial("$maxScan", max)
+  def $maxScan[A: Numeric](max: DBObject): this.type = addSpecial("$maxScan", max)
 
   /** 
    * $query
@@ -468,7 +465,7 @@ trait MongoCursorBase extends Logging {
    * @param  cursor (DBCursor) 
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor): MongoCursorBase
+  def _newInstance(cursor: com.mongodb.DBCursor): MongoCursor
 
   /** 
    * copy
@@ -479,7 +476,7 @@ trait MongoCursorBase extends Logging {
    * 
    * @return The new cursor
    */
-  def copy(): MongoCursorBase = _newInstance(underlying.copy()) // parens for side-effects
+  def copy(): MongoCursor = _newInstance(underlying.copy()) // parens for side-effects
 
 }
 
@@ -494,7 +491,7 @@ trait MongoCursorBase extends Logging {
  * @param  val underlying (com.mongodb.DBCollection) 
  * @tparam DBObject 
  */
-class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterator[DBObject] {
+class ConcreteMongoCursor(val underlying: com.mongodb.DBCursor) extends MongoCursor {
 
   type T = DBObject
 
@@ -527,7 +524,7 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    * @param  cursor (DBCursor) 
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor) = new MongoCursor(cursor)
+  def _newInstance(cursor: com.mongodb.DBCursor) = new ConcreteMongoCursor(cursor)
 
   /** 
    * copy
@@ -538,10 +535,11 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    * 
    * @return The new cursor
    */
-  override def copy(): MongoCursor = _newInstance(underlying.copy()) // parens for side-effects
+  override def copy() = _newInstance(underlying.copy()) // parens for side-effects
 }
 
 object MongoCursor extends Logging {
+
   /** 
    * Initialize a new cursor with your own custom settings
    * 
@@ -550,56 +548,95 @@ object MongoCursor extends Logging {
    * @param  keys (K) Keys to return from the query
    * @return (instance) A new MongoCursor
    */
-  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject,
-    keys: DBObject) = {
-    val cursor = new DBCursor(collection.underlying, query, keys)
+  def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject): MongoCursor = apply(collection, query, keys, collection.readPreference)
 
-    if (manifest[T] == manifest[DBObject])
-      new MongoCursor(cursor)
+  /** 
+   * Initialize a new cursor with your own custom settings
+   * 
+   * @param  collection (MongoCollection)  collection to use
+   * @param  query (Q) Query to perform
+   * @param  keys (K) Keys to return from the query
+   * @param  readPref (ReadPreference) the ReadPreference to use in this cursor
+   * @return (instance) A new MongoCursor
+   */
+  def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject, readPref: ReadPreference): MongoCursor = {
+    val cursor = new com.mongodb.DBCursor(collection.underlying, query, keys, readPref)
+
+    if (manifest[T] == manifest[OptimizedLazyDBObject])
+      new LazyMongoCursor(cursor)
     else
-      new MongoGenericTypedCursor[T](cursor)
+      new ConcreteMongoCursor(cursor)
 
   }
 }
 
-/** 
- * Concrete cursor implementation for typed Cursor operations via Collection.setObjectClass
- * This is a special case cursor for typed operations.
+/**
+ * Proxy of a DBCursor which returns Lazy BSON Objects.
+ *
+ * According to initial tests of the Lazy system:
+ * """
+ * Sub-objects can be obtained with no copy of data, just the offset
+ * changes.
+ * For a 700 bytes object, when accessing only a couple fields, the driver
+ * speed is about 2.5x.
+ * """
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 2.0, 12/23/10
+ * @version 2.2, 8/18/11
  * @since 1.0
- * 
- * @param  val underlying (com.mongodb.DBCollection) 
- * @tparam A A Subclass of DBObject 
+ *
+ * @param  val underlying (com.mongodb.DBCollection)
  */
-class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends MongoCursorBase {
-  type T = A
+class LazyMongoCursor(val underlying: com.mongodb.DBCursor) extends MongoCursor {
+  type T = OptimizedLazyDBObject
 
-  /** 
+  /**
+   * next
+   *
+   * Iterator increment.
+   *
+   * {@inheritDoc}
+   *
+   * @return The next element in the cursor
+   */
+  override def next() = underlying.next.asInstanceOf[OptimizedLazyDBObject]
+
+  /**
+   * hasNext
+   *
+   * Is there another element in the cursor?
+   *
+   * {@inheritDoc}
+   *
+   * @return (Boolean Next)
+   */
+  override def hasNext = underlying.hasNext
+  /**
    * _newInstance
-   * 
+   *
    * Utility method which concrete subclasses
    * are expected to implement for creating a new
-   * instance of THIS concrete implementation from a 
+   * instance of THIS concrete implementation from a
    * Java cursor.  Good with cursor calls that return a new cursor.
    *
-   * @param  cursor (DBCursor) 
+   * @param  cursor (DBCursor)
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor) = new MongoGenericTypedCursor[T](cursor)
+  def _newInstance(cursor: com.mongodb.DBCursor) = new LazyMongoCursor(cursor)
 
-  /** 
+  /**
    * copy
    *
    * Creates a new copy of an existing database cursor.
-   * The new cursor is an iterator even if the original 
+   * The new cursor is an iterator even if the original
    * was an array.
-   * 
+   *
    * @return The new cursor
    */
-  override def copy(): MongoGenericTypedCursor[T] = _newInstance(underlying.copy()) // parens for side-effects
+  override def copy(): LazyMongoCursor = _newInstance(underlying.copy()) // parens for side-effects
 }
+
+
 /** 
  * 
  * 
@@ -610,7 +647,7 @@ class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends M
  * @param  val underlying (DBObject) 
  * @see http://dochub.mongodb.org/core/explain
  */
-sealed class CursorExplanation(val underlying: DBObject) extends MongoDBObject {
+sealed class CursorExplanation(override val underlying: DBObject) extends MongoDBObject {
 
   /** 
    * cursor

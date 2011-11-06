@@ -19,15 +19,14 @@ package commons
 package conversions
 
 import org.bson.{ BSON, Transformer }
-import com.mongodb.casbah.commons.Imports._
 
 package object scala {
-  type MongoConversionHelper = _root_.com.mongodb.casbah.bson.conversions.MongoConversionHelper
-  val RegisterJodaTimeConversionHelpers = _root_.com.mongodb.casbah.bson.conversions.RegisterJodaTimeConversionHelpers
-  val DeregisterJodaTimeConversionHelpers = _root_.com.mongodb.casbah.bson.conversions.DeregisterJodaTimeConversionHelpers
-  type JodaDateTimeHelpers = _root_.com.mongodb.casbah.bson.conversions.JodaDateTimeHelpers
-  type JodaDateTimeSerializer = _root_.com.mongodb.casbah.bson.conversions.JodaDateTimeSerializer
-  type JodaDateTimeDeserializer = _root_.com.mongodb.casbah.bson.conversions.JodaDateTimeDeserializer
+  type MongoConversionHelper = _root_.com.mongodb.casbah.util.bson.conversions.MongoConversionHelper
+  val RegisterJodaTimeConversionHelpers = _root_.com.mongodb.casbah.util.bson.conversions.RegisterJodaTimeConversionHelpers
+  val DeregisterJodaTimeConversionHelpers = _root_.com.mongodb.casbah.util.bson.conversions.DeregisterJodaTimeConversionHelpers
+  type JodaDateTimeHelpers = _root_.com.mongodb.casbah.util.bson.conversions.JodaDateTimeHelpers
+  type JodaDateTimeSerializer = _root_.com.mongodb.casbah.util.bson.conversions.JodaDateTimeSerializer
+  type JodaDateTimeDeserializer = _root_.com.mongodb.casbah.util.bson.conversions.JodaDateTimeDeserializer
 
   /** 
    * Converters for reading Scala types from MongoDB
