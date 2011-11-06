@@ -20,10 +20,11 @@
  * 
  */
 
-package com.mongodb.casbah
-package query
+package com.mongodb.casbah.query.dsl
 
 import com.mongodb.casbah.util.Logging
+
+import com.mongodb.casbah.query._
 
 import scalaj.collection.Imports._
 
@@ -32,7 +33,7 @@ import scalaj.collection.Imports._
  * 
  * Bareword operators stand on their own - they lack the requirement for an LValue.
  * 
- * Operator implementations (see SetOp for an example) should partially apply apply with just their operator name.
+ * Operator implementations (see SetOp for an example) should partially apply with just their operator name.
  * The apply method's type parameter can be used to restrict the valid RValue values at will.  
  * 
  * 

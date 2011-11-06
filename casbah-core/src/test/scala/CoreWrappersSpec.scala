@@ -22,10 +22,8 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.util.Logging
-import com.mongodb.casbah.commons.conversions.scala._
 
-import org.scala_tools.time.Imports._
+import com.mongodb.casbah._
 import com.mongodb.casbah.commons.test.CasbahSpecification
 
 class CoreWrappersSpec extends CasbahSpecification {

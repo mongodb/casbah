@@ -20,10 +20,11 @@
  * 
  */
 
-package com.mongodb.casbah.commons
-package conversions
+package com.mongodb.casbah.test.commons.conversions
 
 import com.mongodb.casbah.commons.conversions.scala._
+
+import com.mongodb.casbah._
 
 import org.scala_tools.time.Imports._
 import com.mongodb.casbah.commons.test.CasbahSpecification

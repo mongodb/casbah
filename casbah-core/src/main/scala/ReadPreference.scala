@@ -16,8 +16,6 @@
  */
 package com.mongodb.casbah
 
-import com.mongodb.DBObject
-
 import scalaj.collection.Imports._
 
 /**

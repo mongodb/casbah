@@ -25,8 +25,9 @@ package query
 
 import com.mongodb.casbah.util.Logging
 
-import com.mongodb.{ DBObject, BasicDBObjectBuilder }
 import scalaj.collection.Imports._
+
+import com.mongodb.casbah.commons._
 
 import scala.util.matching._
 import scala.collection.Iterable

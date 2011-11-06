@@ -26,8 +26,6 @@ import com.mongodb.casbah.util.bson.decoding._
 
 import com.mongodb.casbah.util.Logging
 
-import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
-
 import scalaj.collection.Imports._
 import com.mongodb.{ DBCursor , DBCollection , DBDecoderFactory}
 
@@ -509,12 +507,12 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
     limit: Option[Int] = None,
     finalizeFunction: Option[JSFunction] = None,
     jsScope: Option[String] = None,
-    verbose: Boolean = false): MapReduceResult =
-    MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction,
+    verbose: Boolean = false): map_reduce.MapReduceResult =
+    map_reduce.MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction,
       output, query, sort, limit, finalizeFunction,
       jsScope, verbose).toDBObject))
 
-  def mapReduce(cmd: MapReduceCommand) = MapReduceResult(getDB.command(cmd.toDBObject))
+  def mapReduce(cmd: map_reduce.MapReduceCommand) = map_reduce.MapReduceResult(getDB.command(cmd.toDBObject))
 
   /** Removes objects from the database collection.
    * @param o the object that documents to be removed must match

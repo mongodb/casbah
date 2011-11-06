@@ -22,6 +22,7 @@
 package com.mongodb.casbah.test
 
 import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah._
 import com.mongodb.casbah.util.bson.decoding.OptimizedLazyDBObject
 import java.util.{UUID , Date}
 import org.bson.types.{MinKey, MaxKey, BSONTimestamp, Binary}

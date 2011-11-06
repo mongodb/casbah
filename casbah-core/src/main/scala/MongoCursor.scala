@@ -24,7 +24,9 @@ package com.mongodb.casbah
 
 import com.mongodb.casbah.util.Logging
 
+import com.mongodb.casbah.commons._
 import scalaj.collection.Imports._
+
 import com.mongodb.casbah.util.bson.decoding.OptimizedLazyDBObject
 
 /** 
@@ -42,7 +44,7 @@ import com.mongodb.casbah.util.bson.decoding.OptimizedLazyDBObject
  */
 trait MongoCursor extends Iterator[DBObject] with Logging {
 
-  def underlying: DBCursor
+  def underlying: com.mongodb.DBCursor
 
   /** 
    * next
@@ -463,7 +465,7 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
    * @param  cursor (DBCursor) 
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor): MongoCursor
+  def _newInstance(cursor: com.mongodb.DBCursor): MongoCursor
 
   /** 
    * copy
@@ -489,7 +491,7 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
  * @param  val underlying (com.mongodb.DBCollection) 
  * @tparam DBObject 
  */
-class ConcreteMongoCursor(val underlying: DBCursor) extends MongoCursor {
+class ConcreteMongoCursor(val underlying: com.mongodb.DBCursor) extends MongoCursor {
 
   type T = DBObject
 
@@ -522,7 +524,7 @@ class ConcreteMongoCursor(val underlying: DBCursor) extends MongoCursor {
    * @param  cursor (DBCursor) 
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor) = new ConcreteMongoCursor(cursor)
+  def _newInstance(cursor: com.mongodb.DBCursor) = new ConcreteMongoCursor(cursor)
 
   /** 
    * copy
@@ -558,7 +560,7 @@ object MongoCursor extends Logging {
    * @return (instance) A new MongoCursor
    */
   def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject, readPref: ReadPreference): MongoCursor = {
-    val cursor = new DBCursor(collection.underlying, query, keys, readPref)
+    val cursor = new com.mongodb.DBCursor(collection.underlying, query, keys, readPref)
 
     if (manifest[T] == manifest[OptimizedLazyDBObject])
       new LazyMongoCursor(cursor)
@@ -585,7 +587,7 @@ object MongoCursor extends Logging {
  *
  * @param  val underlying (com.mongodb.DBCollection)
  */
-class LazyMongoCursor(val underlying: DBCursor) extends MongoCursor {
+class LazyMongoCursor(val underlying: com.mongodb.DBCursor) extends MongoCursor {
   type T = OptimizedLazyDBObject
 
   /**
@@ -620,7 +622,7 @@ class LazyMongoCursor(val underlying: DBCursor) extends MongoCursor {
    * @param  cursor (DBCursor)
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor) = new LazyMongoCursor(cursor)
+  def _newInstance(cursor: com.mongodb.DBCursor) = new LazyMongoCursor(cursor)
 
   /**
    * copy

@@ -22,11 +22,7 @@
 
 package com.mongodb.casbah
 
-import scalaj.collection.Imports._
-import org.scala_tools.time.Imports._
-import com.mongodb.WriteResult
-
-object `package` extends Imports with commons.Imports with query.Imports
+object `package` extends Imports with commons.Imports with query.Imports with commons.Exports with query.Exports
 
 /**
  * <code>Implicits</code> object to expose implicit conversions to implementing classes
@@ -116,18 +112,32 @@ object BaseImports extends BaseImports with commons.BaseImports with query.BaseI
 object TypeImports extends TypeImports with commons.TypeImports with query.TypeImports
 
 @deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah._' instead.")
-object Imports extends Imports with commons.Imports with query.Imports
+object Imports extends Imports with commons.Imports with commons.Exports with query.Imports
 
 trait Imports extends BaseImports with TypeImports with Implicits
 
+package core {
+  trait Exports {
+    type MongoCursor = com.mongodb.casbah.MongoCursor
+    type MongoCollection = com.mongodb.casbah.MongoCollection
+    type LazyMongoCollection = com.mongodb.casbah.LazyMongoCollection
+    type MongoDB = com.mongodb.casbah.MongoDB
+    type MongoConnection = com.mongodb.casbah.MongoConnection
+    type MongoURI = com.mongodb.casbah.MongoURI
+    type LazyMongoCursor = com.mongodb.casbah.LazyMongoCursor
+    type BSONDecodingStrategy = com.mongodb.casbah.BSONDecodingStrategy
+    /**
+     * Static classes
+     */
+    val MongoConnection = com.mongodb.casbah.MongoConnection
+    val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
+    val BSONDecodingStrategy = com.mongodb.casbah.BSONDecodingStrategy
+    val MongoOptions = com.mongodb.casbah.MongoOptions
+    val WriteConcern = com.mongodb.casbah.WriteConcern
+  }
+}
+
 trait BaseImports {
-  val MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
-  val MongoDBList = com.mongodb.casbah.commons.MongoDBList
-  val MongoConnection = com.mongodb.casbah.MongoConnection
-  val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
-  val MongoOptions = com.mongodb.casbah.MongoOptions
-  val WriteConcern = com.mongodb.casbah.WriteConcern
-  val BSONDecodingStrategy = com.mongodb.casbah.BSONDecodingStrategy
   val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   val MapReduceInlineOutput = com.mongodb.casbah.map_reduce.MapReduceInlineOutput
   val MapReduceMergeOutput = com.mongodb.casbah.map_reduce.MapReduceMergeOutput
@@ -135,21 +145,12 @@ trait BaseImports {
 }
 
 trait TypeImports {
-  type MongoDBObject = com.mongodb.casbah.commons.MongoDBObject
-  type MongoDBList = com.mongodb.casbah.commons.MongoDBList
-  type MongoConnection = com.mongodb.casbah.MongoConnection
-  type MongoCollection = com.mongodb.casbah.MongoCollection
-  type LazyMongoCollection = com.mongodb.casbah.LazyMongoCollection
-  type LazyDBObject = com.mongodb.LazyDBObject
-  type MongoDB = com.mongodb.casbah.MongoDB
-  type MongoCursor = com.mongodb.casbah.MongoCursor
-  type LazyMongoCursor = com.mongodb.casbah.LazyMongoCursor
-  type MongoURI = com.mongodb.casbah.MongoURI
   type MongoOptions = com.mongodb.MongoOptions
   type WriteConcern = com.mongodb.WriteConcern
+  type LazyDBObject = com.mongodb.LazyDBObject
   type ReadPreference = com.mongodb.ReadPreference
-  type BSONDecodingStrategy = com.mongodb.casbah.BSONDecodingStrategy
   type WriteResult = com.mongodb.WriteResult
+  type ServerAddress = com.mongodb.ServerAddress
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   type MapReduceResult = com.mongodb.casbah.map_reduce.MapReduceResult
   type MapReduceError = com.mongodb.casbah.map_reduce.MapReduceError

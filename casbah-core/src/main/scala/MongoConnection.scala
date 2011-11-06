@@ -25,8 +25,6 @@ package com.mongodb.casbah
 
 import scalaj.collection.Imports._
 
-import com.mongodb.{ Mongo, ServerAddress }
-
 /**
  * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
  * Apply methods are called as MongoConnection(<params>)
@@ -41,7 +39,7 @@ object MongoConnection {
    * @throws UnknownHostException
    * @throws MongoException
    */
-  def apply() = new MongoConnection(new Mongo())
+  def apply() = new MongoConnection(new com.mongodb.Mongo())
 
   /**
    * Replica Set connection
@@ -53,7 +51,7 @@ object MongoConnection {
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoConnection(new Mongo(replicaSetSeeds.asJava))
+  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoConnection(new com.mongodb.Mongo(replicaSetSeeds.asJava))
 
   /**
    * Replica Set connection
@@ -67,21 +65,21 @@ object MongoConnection {
    * @see MongoDBAddress
    */
   def apply(replicaSetSeeds: List[ServerAddress], options: MongoOptions) =
-    new MongoConnection(new Mongo(replicaSetSeeds.asJava, options))
+    new MongoConnection(new com.mongodb.Mongo(replicaSetSeeds.asJava, options))
 
   /** 
    * Connect via a MongoURI
    * 
    * @param  uri (MongoURI) 
    */
-  def apply(uri: MongoURI) = new MongoConnection(new Mongo(uri.underlying))
+  def apply(uri: MongoURI) = new MongoConnection(new com.mongodb.Mongo(uri.underlying))
 
   /** 
    * Connect via a com.mongodb.MongoURI
    * 
    * @param  uri (com.mongodb.MongoURI) 
    */
-  def apply(uri: com.mongodb.MongoURI) = new MongoConnection(new Mongo(uri))
+  def apply(uri: com.mongodb.MongoURI) = new MongoConnection(new com.mongodb.Mongo(uri))
 
   /** 
    * Connects to a (single) mongodb node.
@@ -91,7 +89,7 @@ object MongoConnection {
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(addr: ServerAddress) = new MongoConnection(new Mongo(addr))
+  def apply(addr: ServerAddress) = new MongoConnection(new com.mongodb.Mongo(addr))
 
   /** 
    * Connects to a (single) mongodb node.
@@ -104,7 +102,7 @@ object MongoConnection {
    * @see MongoOptions
    */
   def apply(addr: ServerAddress, options: MongoOptions) =
-    new MongoConnection(new Mongo(addr, options))
+    new MongoConnection(new com.mongodb.Mongo(addr, options))
 
   /** 
    * Creates a Mongo connection in paired mode.
@@ -118,7 +116,7 @@ object MongoConnection {
    * @see MongoDBAddress
    */
   def apply(left: ServerAddress, right: ServerAddress) =
-    new MongoConnection(new Mongo(left, right))
+    new MongoConnection(new com.mongodb.Mongo(left, right))
 
   /** 
    * Creates a Mongo connection in paired mode.
@@ -135,7 +133,7 @@ object MongoConnection {
    */
   def apply(left: ServerAddress, right: ServerAddress,
     options: com.mongodb.MongoOptions) =
-    new MongoConnection(new Mongo(left, right, options))
+    new MongoConnection(new com.mongodb.Mongo(left, right, options))
 
   /** 
    * Connects to a (single) mongodb node (default port)
@@ -144,7 +142,7 @@ object MongoConnection {
    * @throws UnknownHostException
    * @throws MongoException
    */
-  def apply(host: String) = new MongoConnection(new Mongo(host))
+  def apply(host: String) = new MongoConnection(new com.mongodb.Mongo(host))
   /** 
    * Connects to a (single) mongodb node
    * 
@@ -153,9 +151,9 @@ object MongoConnection {
    * @throws UnknownHostException
    * @throws MongoException
    */
-  def apply(host: String, port: Int) = new MongoConnection(new Mongo(host, port))
+  def apply(host: String, port: Int) = new MongoConnection(new com.mongodb.Mongo(host, port))
 
-  def connect(addr: DBAddress) = new MongoDB(Mongo.connect(addr))
+  def connect(addr: DBAddress) = new MongoDB(com.mongodb.Mongo.connect(addr))
 
 }
 
@@ -164,7 +162,7 @@ object MongoConnection {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
-class MongoConnection(val underlying: Mongo) {
+class MongoConnection(val underlying: com.mongodb.Mongo) {
 
   /**
    * Apply method which proxies getDB, allowing you to call
