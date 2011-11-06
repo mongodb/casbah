@@ -70,6 +70,7 @@ trait FluidQueryBarewordOps extends SetOp
   with UnsetOp
   with IncOp
   with OrOp
+  with AndOp
   with RenameOp
   with ArrayOps
   with NorOp
@@ -280,6 +281,16 @@ trait PullAllOp extends BarewordQueryOperator {
       throw new IllegalArgumentException("$pullAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
 }
 
+sealed class NestedListOper(outerField: String) {
+
+  def apply[A <% DBObject](fields: A*): DBObject = {
+    val b = Seq.newBuilder[DBObject]
+    fields.foreach(x => b += x)
+    MongoDBObject(outerField -> b.result())
+  }
+}
+
+
 /**
  * Trait to provide the $and method as a bareword operator.
  *
@@ -300,11 +311,7 @@ trait PullAllOp extends BarewordQueryOperator {
 
 trait AndOp extends BarewordQueryOperator {
 
-  def $and(fields: (String, Any)*) = {
-    val bldr = MongoDBList.newBuilder
-    for ((k, v) <- fields) bldr += MongoDBObject(k -> v)
-    MongoDBObject("$and" -> bldr.result)
-  }
+  def $and = new NestedListOper("$and")
 
 }
 
@@ -328,15 +335,12 @@ trait AndOp extends BarewordQueryOperator {
 
 trait OrOp extends BarewordQueryOperator {
 
-  def $or(fields: (String, Any)*) = {
-    val bldr = MongoDBList.newBuilder
-    for ((k, v) <- fields) bldr += MongoDBObject(k -> v)
-    MongoDBObject("$or" -> bldr.result)
-  }
+/*  def $or[A : ValidBarewordExpressionArgType](fields: A*) =
+    MongoDBObject("$or" -> implicitly[ValidBarewordExpressionArgType[A]].listify(fields))*/
 
-  def $or[A : ValidBarewordExpressionArgType](fields: A*) =
-    MongoDBObject("$or" -> implicitly[ValidBarewordExpressionArgType[A]].listify(fields))
+  def $or = new NestedListOper("$or")
 }
+
 
 /** 
  * Trait to provide the $rename (Rename field) as a bareword operator
