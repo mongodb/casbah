@@ -43,7 +43,7 @@ trait Implicits {// extends FluidQueryBarewordOps {
    */
   implicit def mongoQueryStatements(left: String) = new {
     val field = left
-  } with FluidQueryOperators
+  } with dsl.FluidQueryOperators
 
   /**
    * Implicit extension methods for Tuple2[String, DBObject] values
@@ -59,29 +59,32 @@ trait Implicits {// extends FluidQueryBarewordOps {
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
-  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with DSLDBObject) = {
+  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with dsl.DSLDBObject) = {
     new {
       val field = nested.field
-    } with ValueTestFluidQueryOperators {
+    } with dsl.ValueTestFluidQueryOperators {
       dbObj = nested.getAs[DBObject](nested.field) // TODO - shore the safety of this up
     }
   }
 
-  implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = GeoCoords(coords._1, coords._2)
+  implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = dsl.GeoCoords(coords._1, coords._2)
 
 }
 
 /*@deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah.query._' instead.")
 object Imports extends query.Imports with commons.Imports*/
-trait Imports extends query.dsl.FluidQueryBarewordOps with query.BaseImports with query.TypeImports with query.Implicits with commons.Imports with commons.Exports with ValidDateOrNumericTypeHolder
+trait Imports extends dsl.FluidQueryBarewordOps with query.BaseImports with query.TypeImports with query.Implicits with commons.Imports with commons.Exports with ValidDateOrNumericTypeHolder
 
 object `package` extends Imports // query.dsl.FluidQueryBarewordOps with commons.Exports with query.BaseImports with query.TypeImports with query.Implicits with commons.Imports with ValidDateOrNumericTypeHolder
-trait BaseImports
+trait BaseImports {
+  val GeoCoords = com.mongodb.casbah.query.dsl.GeoCoords
+}
 
-trait TypeImports {}
+trait TypeImports {
+  type GeoCoords = com.mongodb.casbah.query.dsl.GeoCoords[_, _]
+}
 
 trait Exports {
-  type GeoCoords = com.mongodb.casbah.query.GeoCoords[_, _]
   type ValidNumericType[T] = query.ValidNumericType[T]
   type ValidDateType[T] = query.ValidDateType[T]
   type ValidDateOrNumericType[T] = query.ValidDateOrNumericType[T]

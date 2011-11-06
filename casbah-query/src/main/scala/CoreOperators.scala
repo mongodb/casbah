@@ -20,14 +20,13 @@
  * 
  */
 
-package com.mongodb.casbah
-package query
+package com.mongodb.casbah.query.dsl
 
 import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
 
-import com.mongodb.casbah.commons._
+import com.mongodb.casbah.query._
 
 import scala.util.matching._
 import scala.collection.Iterable
@@ -71,7 +70,7 @@ trait ValueTestFluidQueryOperators extends LessThanOp
   with TypeOp
 
 trait DSLDBObject {
-  val field: String
+  def field: String
 }
 
 object DSLDBObject {

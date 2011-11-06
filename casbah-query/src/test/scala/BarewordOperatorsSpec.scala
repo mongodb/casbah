@@ -76,15 +76,13 @@ class BarewordOperatorsSpec extends CasbahSpecification {
   "Casbah's DSL $or Operator" should {
     "Accept multiple values" in {
       val or = $or("foo" -> "bar", "x" -> "y")
-      or must haveEntry("$or" -> Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
+      or must haveListEntry("$or", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
     }
-    // TODO - Fix me!
-    //    "Work with nested operators" in {
-    //      val or = $or { "foo" $lt 5 $gt 1 ++ "x" $gte 10 $lte 152 }
-    //      or must haveSuperclass[DBObject]
-    //      or must beEqualTo(MongoDBObject("$or" -> MongoDBList(MongoDBObject("foo" -> "bar", "x" -> "y"))))
-    //    }
-
+/*    "Work with nested operators" in {
+      val or = $or( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
+      or must haveSuperclass[DBObject]
+      or must beEqualTo(MongoDBObject("$or" -> MongoDBList(MongoDBObject("foo" -> "bar", "x" -> "y"))))
+    }*/
   }
 
   "Casbah's DSL $rename Operator" should {
