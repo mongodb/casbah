@@ -20,10 +20,12 @@
  * 
  */
 
-package com.mongodb.casbah
-package test
+package com.mongodb.casbah.test.gridfs
 
 import com.mongodb.casbah.util.Logging
+
+import com.mongodb.casbah._
+import com.mongodb.casbah.gridfs._
 
 import java.security.MessageDigest
 import java.io._

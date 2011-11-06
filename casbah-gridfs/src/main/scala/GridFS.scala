@@ -26,7 +26,6 @@ package gridfs
 import com.mongodb.casbah.util.Logging
 import com.mongodb.casbah.commons.conversions.scala._
 
-import com.mongodb.DBObject
 import com.mongodb.gridfs.{ GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile, GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile }
 
 import java.io._

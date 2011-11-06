@@ -41,14 +41,15 @@ object Imports extends Imports
 
 trait Imports extends BaseImports with TypeImports with Implicits
 
-trait BaseImports {
+trait Exports {
   val GridFS = com.mongodb.casbah.gridfs.GridFS
-}
 
-trait TypeImports {
   type GridFS = com.mongodb.casbah.gridfs.GridFS
   type GridFSDBFile = com.mongodb.casbah.gridfs.GridFSDBFile
   type GridFSInputFile = com.mongodb.casbah.gridfs.GridFSInputFile
   type GridFSFile = com.mongodb.casbah.gridfs.GridFSFile
 }
+trait BaseImports { }
+
+trait TypeImports { }
 // vim: set ts=2 sw=2 sts=2 et:
