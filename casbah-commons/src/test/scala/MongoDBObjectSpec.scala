@@ -249,6 +249,27 @@ class MongoDBObjectSpec extends CasbahSpecification {
       explicit.hashCode must beEqualTo(control.hashCode())
       explicit.equals(explicit) must beEqualTo(control.equals(control))
     }
+    
+    "Support list creation operators" in {
+      "Prepend to end of a new list" in {
+        "With explicitly created Elements" in {
+          val list = MongoDBObject("x" -> "y") :: MongoDBObject("foo" -> "bar")
+          list must haveSize(2)
+          list(0) must beDBObject
+          (list(0): DBObject) must haveEntries("x" -> "y")
+          list(1) must beDBObject
+          (list(1): DBObject) must haveEntries("foo" -> "bar")
+        }
+        "With implicitly created Elements with an explicit" in {
+          val list = ("x" -> "y") :: MongoDBObject("foo" -> "bar")
+          list must haveSize(2)
+          list(0) must beDBObject
+          (list(0): DBObject) must haveEntries("x" -> "y")
+          list(1) must beDBObject
+          (list(1): DBObject) must haveEntries("foo" -> "bar")
+        }
+      }
+    }
   }
 
 }

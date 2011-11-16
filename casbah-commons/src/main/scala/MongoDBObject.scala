@@ -91,6 +91,26 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends scala.
     super.++(other: DBObject)
   }
 
+  /**
+   * Returns a new list with this MongoDBObject at the *end*
+   * Currently only supports composing with other DBObjects, primarily for
+   * the use of the Query DSL; if you want heterogenous lists, use
+   * MongoDBList directly.
+   * @see MongoDBList
+   *
+   */
+  def ::[A <% DBObject](elem: A): Seq[DBObject] = Seq(elem: DBObject, this)
+
+  /**
+   * Returns a new list with this MongoDBObject at the *end*
+   * Currently only supports composing with other DBObjects, primarily for
+   * the use of the Query DSL; if you want heterogenous lists, use
+   * MongoDBList directly.
+   * @see MongoDBList
+   *
+   */
+  def ::(elem: (String, Any)): Seq[DBObject] = Seq(MongoDBObject(elem), this)
+
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
   def getAs[A <: Any: Manifest](key: String): Option[A] = {
     require(manifest[A] != manifest[scala.Nothing],
