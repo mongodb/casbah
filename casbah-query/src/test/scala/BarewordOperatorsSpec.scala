@@ -24,8 +24,8 @@ package com.mongodb.casbah.test.query
 
 import com.mongodb.casbah.query._
 import com.mongodb.casbah.commons.test.CasbahSpecification
-import org.bson.types.BasicBSONList
 
+// TODO - Operational/Integration testing with this code
 @SuppressWarnings(Array("deprecation"))
 class BarewordOperatorsSpec extends CasbahSpecification {
   "Casbah's DSL $set Operator" should {
@@ -97,13 +97,28 @@ class BarewordOperatorsSpec extends CasbahSpecification {
     }
   }
 
-/*  "Casbah's DSL $and Operator" should {
-    "Work with nested operators" in {
-      val and = $and( "a" -> 1, "a" $gt 5 )
-      and must haveSuperclass[BasicBSONList]
-      and must beEqualTo(MongoDBObject("$and" -> MongoDBList(MongoDBObject("a" -> 1, "a" -> MongoDBObject("$gt" -> 5)))))
+  "Casbah's DSL $and Operatand" >> {
+    "Accept multiple values" in {
+      val and = $and ( "foo" -> "bar", "x" -> "y" )
+      and must haveListEntry("$and", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
     }
-  }*/
+    "Accept a mix" in {
+      val and = $and { "foo" -> "bar" :: ("foo" $gt 5 $lt 10) }
+      and must haveListEntry("$and", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("foo" -> MongoDBObject("$gt" -> 5, "$lt" -> 10))))
+    }
+    "Wandk with nested operatands" in {
+      "As a simple list (comma separated)" in {
+        val and = $and( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
+        and must haveListEntry("$and", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
+          MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
+      }
+      "As a cons (::  constructed) cell" in {
+        val and = $and( ("foo" $lt 5 $gt 1) :: ("x" $gte 10 $lte 152) )
+        and must haveListEntry("$and", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
+          MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
+      }
+    }
+  }
 
   "Casbah's DSL $rename Operator" should {
     "Accept one or many sets of renames" in {
@@ -224,15 +239,26 @@ class BarewordOperatorsSpec extends CasbahSpecification {
 
   }
 
-  "Casbah's DSL $nor operator" should {
-    "Function as expected" in {
-      val nor = $nor { "foo" $gte 15 $lt 35.2 $ne 16 }
-      nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16))))
+  "Casbah's DSL $nor operator" >> {
+    "Accept multiple values" in {
+      val nor = $nor ( "foo" -> "bar", "x" -> "y" )
+      nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
     }
-    "Work with multiples" in {
-      val nor = $nor { "x" -> "y" :: ("foo" $gte 15 $lt 35 $ne 16) }
-      nor must haveListEntry("$nor", Seq(MongoDBObject("x" -> "y"),
-                                         MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35, "$ne" -> 16))))
+   "Accept a mix" in {
+      val nor = $nor { "foo" -> "bar" :: ("foo" $gt 5 $lt 10) }
+      nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("foo" -> MongoDBObject("$gt" -> 5, "$lt" -> 10))))
+    }
+    "Work with nested operators" in {
+      "As a simple list (comma separated)" in {
+        val nor = $nor( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
+        nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
+          MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
+      }
+      "As a cons (::  constructed) cell" in {
+        val nor = $nor( ("foo" $lt 5 $gt 1) :: ("x" $gte 10 $lte 152) )
+        nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
+          MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
+      }
     }
   }
 }
