@@ -70,7 +70,6 @@ trait Implicits {// extends FluidQueryBarewordOps {
 
   implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = dsl.GeoCoords(coords._1, coords._2)
 
-  implicit def kvPairAsDBObject[A <: Any](kv: (String, A)): DBObject = MongoDBObject(kv)
 }
 
 /*@deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah.query._' instead.")
@@ -98,20 +97,17 @@ object ValidTypes {
   trait JDKDateOk extends ValidDateType[java.util.Date]
   trait JodaDateTimeOk extends ValidDateType[org.joda.time.DateTime]
 
-  trait KVPair extends ValidBarewordExpressionArgType[(String, Any)] {
-    def listify(args: Seq[(String, Any)]): Seq[DBObject] = {
-      val bldr = MongoDBList.newBuilder
-      args.foreach(kv => bldr += MongoDBObject(kv))
-      bldr.result.asInstanceOf[Seq[DBObject]]
-    }
+  trait KVPair[A] extends ValidBarewordExpressionArgType[(String, A)] {
+    def toDBObject(arg: (String, A)): DBObject = MongoDBObject(arg)
   }
+
   // Valid Bareword Query Expression entries
   trait CoreOperatorResultObj extends ValidBarewordExpressionArgType[DBObject with QueryExpressionObject] {
-    def listify(args: Seq[DBObject with QueryExpressionObject]): Seq[DBObject] = {
-      val bldr = MongoDBList.newBuilder
-      args.foreach(bldr.+=)
-      bldr.result.asInstanceOf[Seq[DBObject]]
-    }
+    def toDBObject(arg: DBObject with QueryExpressionObject): DBObject = arg
+  }
+
+  trait ConcreteDBObject extends ValidBarewordExpressionArgType[DBObject] {
+    def toDBObject(arg: DBObject): DBObject = arg
   }
 
   // ValidNumericTypes
@@ -126,16 +122,15 @@ object ValidTypes {
 }
 
 trait ValidBarewordExpressionArgType[T] {
-  def listify(args: Seq[T]): Seq[DBObject]
+  def toDBObject(arg: T): DBObject
 }
 
 trait ValidBarewordExpressionArgTypeHolder {
-  import com.mongodb.casbah.query.ValidTypes.{CoreOperatorResultObj, KVPair}
-  implicit object KVPairOk extends CoreOperatorResultObj
+  import com.mongodb.casbah.query.ValidTypes.{ConcreteDBObject, CoreOperatorResultObj, KVPair}
+  implicit def kvPairOk[A]: KVPair[A] = new KVPair[A] {}
+  implicit object ConcreteDBObjectOk extends ConcreteDBObject
   implicit object CoreOperatorResultObjOk extends CoreOperatorResultObj
 }
-
-/*trait ValidTypeClassHolders extends */
 
 trait ValidNumericType[T]
 

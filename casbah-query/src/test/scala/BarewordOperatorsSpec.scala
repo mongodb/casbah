@@ -74,19 +74,26 @@ class BarewordOperatorsSpec extends CasbahSpecification {
     }
   }
 
-  "Casbah's DSL $or Operator" should {
+  "Casbah's DSL $or Operator" >> {
     "Accept multiple values" in {
-      val or = $or("foo" -> "bar", "x" -> "y")
+      val or = $or ( "foo" -> "bar", "x" -> "y" )
       or must haveListEntry("$or", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
     }
     "Accept a mix" in {
-      val or = $or("foo" -> "bar", "foo" $gt 5 $lt 10)
+      val or = $or { "foo" -> "bar" :: ("foo" $gt 5 $lt 10) }
       or must haveListEntry("$or", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("foo" -> MongoDBObject("$gt" -> 5, "$lt" -> 10))))
     }
     "Work with nested operators" in {
-      val or = $or( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
-      or must haveListEntry("$or", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
-                                       MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
+      "As a simple list (comma separated)" in {
+        val or = $or( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
+        or must haveListEntry("$or", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
+          MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
+      }
+      "As a cons (::  constructed) cell" in {
+        val or = $or( ("foo" $lt 5 $gt 1) :: ("x" $gte 10 $lte 152) )
+        or must haveListEntry("$or", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
+          MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
+      }
     }
   }
 
@@ -220,14 +227,12 @@ class BarewordOperatorsSpec extends CasbahSpecification {
   "Casbah's DSL $nor operator" should {
     "Function as expected" in {
       val nor = $nor { "foo" $gte 15 $lt 35.2 $ne 16 }
-      nor.getAs[MongoDBList]("$nor") must have size (1)
-      nor.as[MongoDBList]("$nor").getAs[DBObject](0) must haveSomeEntries("foo.$gte" -> 15, "foo.$lt" -> 35.2, "foo.$ne" -> 16)
+      nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16))))
     }
     "Work with multiples" in {
-      val nor = $nor { ("foo" $gte 15 $lt 35 $ne 16) + ("x" -> "y") }
-      nor.getAs[MongoDBList]("$nor") must have size (1)
-      nor.as[MongoDBList]("$nor").getAs[DBObject](0) must haveSomeEntries("foo.$gte" -> 15, "foo.$lt" -> 35,
-        "foo.$ne" -> 16, "x" -> "y")
+      val nor = $nor { "x" -> "y" :: ("foo" $gte 15 $lt 35 $ne 16) }
+      nor must haveListEntry("$nor", Seq(MongoDBObject("x" -> "y"),
+                                         MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35, "$ne" -> 16))))
     }
   }
 }

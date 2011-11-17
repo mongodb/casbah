@@ -41,7 +41,7 @@ import scalaj.collection.Imports._
  * @since 1.0
  * @see SetOp
  */
-trait BarewordQueryOperator extends Logging {
+trait BarewordQueryOperator {
 
   /*
    * TODO - Implicit filtering of 'valid' (aka convertible) types for [A]
@@ -53,6 +53,22 @@ trait BarewordQueryOperator extends Logging {
   }
 
 }
+
+class NestedBarewordListOperator(oper: String) {
+
+  def apply[A : ValidBarewordExpressionArgType](fields: A*): DBObject = {
+    val b = Seq.newBuilder[DBObject]
+    fields.foreach(x => b += implicitly[ValidBarewordExpressionArgType[A]].toDBObject(x))
+    apply(b.result(): Seq[DBObject])
+  }
+  
+  def apply(list: Seq[DBObject]): DBObject = {
+    MongoDBObject(oper -> list)
+  }
+
+}
+
+
 
 /** 
  * Aggregation object for Bareword Operators.
@@ -134,7 +150,7 @@ trait ArrayOps extends PushOp
 /*
  * Trait to provide the $push (push) method as a bareword operator.
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject  
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject
  *
  * If Field exists but is not an array an error will occur
  * 
@@ -149,7 +165,7 @@ trait PushOp extends BarewordQueryOperator {
 /*
  * Trait to provide the $pushAll (pushAll) method as a bareword operator..
  *
- * Targets an RValue of (String, Array[Any])* to be converted to a  DBObject  
+ * Targets an RValue of (String, Array[Any])* to be converted to a  DBObject
  *
  * RValue MUST Be an array - otherwise use push.
  *
@@ -172,7 +188,7 @@ trait PushAllOp extends BarewordQueryOperator {
 /*
  * Trait to provide the $addToSet (addToSet) method as a bareword operator..
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject  
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject
  *
  * Can also combined with the $each operator for adding many values:
  *
@@ -190,12 +206,12 @@ trait AddToSetOp extends BarewordQueryOperator {
   /* $each-able */
   def $addToSet(field: String) = {
     /**
-     * Special query operator only available on the right-hand side of an 
+     * Special query operator only available on the right-hand side of an
      * $addToSet which takes a list of values.
      *
      * Slightly hacky to prevent it from returning unless completed with a $each
      *
-     * THIS WILL NOT WORK IN MONGOD ANYWHERE BUT INSIDE AN ADDTOSET 
+     * THIS WILL NOT WORK IN MONGOD ANYWHERE BUT INSIDE AN ADDTOSET
      *
      * @author Brendan W. McAdams <brendan@10gen.com>
      * @since 2.0
@@ -237,7 +253,7 @@ trait PopOp extends BarewordQueryOperator {
 /*
  * Trait to provide the $pull (pull) method as a bareword operator..
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject  
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject
  *
  * If Field exists but is not an array an error will occurr.
  * 
@@ -261,7 +277,7 @@ trait PullOp extends BarewordQueryOperator {
 /*
  * Trait to provide the $pullAll (pullAll) method as a bareword operator..
  *
- * Targets an RValue of (String, Array[Any])* to be converted to a  DBObject  
+ * Targets an RValue of (String, Array[Any])* to be converted to a  DBObject
  *
  * RValue MUST Be an array - otherwise use pull.
  *
@@ -281,26 +297,16 @@ trait PullAllOp extends BarewordQueryOperator {
       throw new IllegalArgumentException("$pullAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
 }
 
-sealed class NestedListOper(outerField: String) {
-
-  def apply[A <% DBObject](fields: A*): DBObject = {
-    val b = Seq.newBuilder[DBObject]
-    fields.foreach(x => b += x)
-    MongoDBObject(outerField -> b.result())
-  }
-}
-
-
 /**
  * Trait to provide the $and method as a bareword operator.
  *
  * $and ("Foo" -> "bar")
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject  
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject
  *
  * TODO - Test that rvalue ends up being an array e.g.:
  * 
- *   scala> $or ("foo" -> "bar", "X" -> 5)           
+ *   scala> $or ("foo" -> "bar", "X" -> 5)
  *   res1: com.mongodb.casbah.commons.Imports.DBObject = { "$or" : [ { "foo" : "bar" , "X" : 5}]}
  *  
  * 
@@ -309,10 +315,8 @@ sealed class NestedListOper(outerField: String) {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24and
  */
 
-trait AndOp extends BarewordQueryOperator {
-
-  def $and = new NestedListOper("$and")
-
+trait AndOp {
+  def $and = new NestedBarewordListOperator("$and")
 }
 
 /**
@@ -333,12 +337,8 @@ trait AndOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24or
  */
 
-trait OrOp extends BarewordQueryOperator {
-
-/*  def $or[A : ValidBarewordExpressionArgType](fields: A*) =
-    MongoDBObject("$or" -> implicitly[ValidBarewordExpressionArgType[A]].listify(fields))*/
-
-  def $or = new NestedListOper("$or")
+trait OrOp {
+  def $or = new NestedBarewordListOperator("$or")
 }
 
 
@@ -369,16 +369,8 @@ trait RenameOp extends BarewordQueryOperator {
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nor
  */
-trait NorOp extends BarewordQueryOperator {
-
-  /** ValueTest enabled version */
-  def $nor(inner: => DBObject) =
-    MongoDBObject("$nor" -> (inner match {
-      case obj: BasicDBList => obj.toSeq
-      case obj: MongoDBList => obj
-      case obj: DBObject => MongoDBList(obj)
-    }).asInstanceOf[Seq[Any]])
-
+trait NorOp {
+  def $nor = new NestedBarewordListOperator("$nor")
 }
 
 /**
