@@ -163,7 +163,7 @@ class LazyDecodingSpec extends CasbahSpecification {
             doc must haveEntry("double245_6289" -> 245.6289 )
             doc must haveEntry("oid" -> testOid )
             doc must haveEntry("str" -> "foobarbaz" )
-            //doc.getAs[DBRef]("ref") must beSome( new DBRef(mongoInt.underlying, "books", testRefOid) )
+            doc must haveEntry("uuid" -> testUUID)
             doc must haveEntry("object.abc" -> testDoc.get("abc") )
             doc.getAs[Pattern]("regex").get.pattern() must_==( testRE.pattern.pattern() )
         }
