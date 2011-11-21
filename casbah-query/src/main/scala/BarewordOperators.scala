@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,7 +46,7 @@ trait BarewordQueryOperator {
   /*
    * TODO - Implicit filtering of 'valid' (aka convertible) types for [A]
    */
-  def apply[A](oper: String)(fields: (String, A)*) = {
+  def apply[A](oper: String)(fields: (String, A)*): DBObject = {
     val bldr = MongoDBObject.newBuilder
     for ((k, v) <- fields) bldr += k -> v
     MongoDBObject(oper -> bldr.result.asDBObject)
@@ -92,18 +92,33 @@ trait FluidQueryBarewordOps extends SetOp
   with NorOp
   with BitOp
 
+trait ArrayOps extends PushOp
+                  with PushAllOp
+                  with AddToSetOp
+                  with PopOp
+                  with PullOp
+                  with PullAllOp
+
+trait SetOpBase extends BarewordQueryOperator {
+  protected def _set = apply[Any]("$set")_
+}
+
 /**
  * Trait to provide the $set (Set) Set method as a bareword operator.
- * 
+ *
  * $set ("Foo" -> "bar")
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject  
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24set
  */
-trait SetOp extends BarewordQueryOperator {
-  def $set = apply[Any]("$set")_
+trait SetOp extends SetOpBase {
+  def $set = _set
+}
+
+trait UnsetOpBase extends BarewordQueryOperator {
+  protected def _unset(args: String*): DBObject = apply("$unset")(args.map(_ -> 1): _*)
 }
 
 /**
@@ -111,41 +126,43 @@ trait SetOp extends BarewordQueryOperator {
  *
  * $unset ("foo")
  *
- * Targets an RValue of String*, where String are field names to be converted to a  DBObject  
+ * Targets an RValue of String*, where String are field names to be converted to a  DBObject
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24unset
  */
-trait UnsetOp extends BarewordQueryOperator {
-  def $unset(args: String*) = apply("$unset")(args.map(_ -> 1): _*)
+trait UnsetOp extends UnsetOpBase {
+  def $unset = _unset _
 }
 
-/** 
+trait IncOpBase extends BarewordQueryOperator {
+  protected def _inc[T: ValidNumericType](args: (String, T)*): DBObject = apply[T]("$inc")(args: _*)
+}
+
+/**
  * Trait to provide the $inc (inc) method as a bareword operator..
  *
  *   $inc ("foo" -> 5)
  *
- * Targets an RValue of (String, ValidNumericType)* to be converted to a  DBObject  
+ * Targets an RValue of (String, ValidNumericType)* to be converted to a  DBObject
  *
  * Due to a quirk in the way I implemented type detection this fails if you mix ValidNumericType types.  E.g. floats work, but not mixing floats and ints.
  * This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:
- * 
+ *
  *   $inc ("foo" -> 5.0, "bar" -> 1.6)
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 1.0
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24inc
  */
-trait IncOp extends BarewordQueryOperator {
-  def $inc[T: ValidNumericType](args: (String, T)*) = apply[T]("$inc")(args: _*)
+trait IncOp extends IncOpBase {
+  def $inc[T: ValidNumericType](args: (String,  T)*): DBObject = _inc(args: _*)
 }
 
-trait ArrayOps extends PushOp
-  with PushAllOp
-  with AddToSetOp
-  with PopOp
-  with PullOp
-  with PullAllOp
+
+trait PushOpBase extends BarewordQueryOperator {
+  protected def _push = apply[Any]("$push")_
+}
 
 /*
  * Trait to provide the $push (push) method as a bareword operator.
@@ -153,13 +170,25 @@ trait ArrayOps extends PushOp
  * Targets an RValue of (String, Any)* to be converted to a  DBObject
  *
  * If Field exists but is not an array an error will occur
- * 
+ *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24push
- * 
+ *
  */
-trait PushOp extends BarewordQueryOperator {
-  def $push = apply[Any]("$push")_
+trait PushOp extends PushOpBase {
+  def $push = _push
+}
+
+trait PushAllOpBase extends BarewordQueryOperator {
+  protected def _pushAll[A <: Any: Manifest](args: (String, A)*): DBObject =
+    if (manifest[A] <:< manifest[Iterable[_]])
+      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]): _*)
+    else if (manifest[A] <:< manifest[Product])
+      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Product].productIterator.toIterable): _*)
+    else if (manifest[A].erasure.isArray)
+      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Array[_]].toIterable): _*)
+    else
+      throw new IllegalArgumentException("$pushAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
 }
 
 /*
@@ -173,38 +202,17 @@ trait PushOp extends BarewordQueryOperator {
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pushAll
  */
-trait PushAllOp extends BarewordQueryOperator {
-  def $pushAll[A <: Any: Manifest](args: (String, A)*): DBObject =
-    if (manifest[A] <:< manifest[Iterable[_]])
-      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]): _*)
-    else if (manifest[A] <:< manifest[Product])
-      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Product].productIterator.toIterable): _*)
-    else if (manifest[A].erasure.isArray)
-      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Array[_]].toIterable): _*)
-    else
-      throw new IllegalArgumentException("$pushAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
+trait PushAllOp extends PushAllOpBase {
+  def $pushAll[A <: Any: Manifest](args: (String, A)*): DBObject = _pushAll(args: _*)
 }
 
-/*
- * Trait to provide the $addToSet (addToSet) method as a bareword operator..
- *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject
- *
- * Can also combined with the $each operator for adding many values:
- *
- *   scala> $addToSet ("foo") $each (5, 10, 15, "20"))
- *  res6: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : { "foo" : { "$each" : [ 5 , 10 , 15 , "20"]}}}
- *
- * @author Brendan W. McAdams <brendan@10gen.com>
- * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
- */
-trait AddToSetOp extends BarewordQueryOperator {
-
-  def $addToSet[T <% DBObject](arg: T) =
+trait AddToSetOpBase extends BarewordQueryOperator {
+  protected def _addToSet[T <% DBObject](arg: T): DBObject =
     MongoDBObject("$addToSet" -> arg)
 
+
   /* $each-able */
-  def $addToSet(field: String) = {
+  protected def _addToSet(field: String) = {
     /**
      * Special query operator only available on the right-hand side of an
      * $addToSet which takes a list of values.
@@ -231,23 +239,50 @@ trait AddToSetOp extends BarewordQueryOperator {
         else op(target(0))
     }
   }
+  protected def _addToSet = apply[Any]("$addToSet")_
 
-  def $addToSet = apply[Any]("$addToSet")_
+}
+
+/*
+ * Trait to provide the $addToSet (addToSet) method as a bareword operator..
+ *
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject
+ *
+ * Can also combined with the $each operator for adding many values:
+ *
+ *   scala> $addToSet ("foo") $each (5, 10, 15, "20"))
+ *  res6: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : { "foo" : { "$each" : [ 5 , 10 , 15 , "20"]}}}
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
+ */
+trait AddToSetOp extends AddToSetOpBase {
+  def $addToSet[T <% DBObject](arg: T): DBObject = _addToSet(arg)
+  def $addToSet(field: String) = _addToSet(field)
+  def $addToSet = _addToSet
+}
+
+trait PopOpBase extends BarewordQueryOperator {
+  protected def _pop[T: ValidNumericType](args: (String, T)*) = apply[T]("$pop")(args: _*)
 }
 
 /*
  * Trait to provide the $pop (pop) method as a bareword operator..
  *
- *
- * TODO - Restrict to a 'Whole Number' type
- * 
  * If Field exists but is not an array an error will occurr.
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pop
  */
-trait PopOp extends BarewordQueryOperator {
-  def $pop[T: ValidNumericType](args: (String, T)*) = apply[T]("$pop")(args: _*)
+trait PopOp extends PopOpBase {
+  def $pop[T: ValidNumericType](args: (String, T)*) = _pop(args: _*)
+}
+
+trait PullOpBase extends BarewordQueryOperator {
+  protected def _pull = apply[Any]("$pull")_
+  /** ValueTest enabled version */
+  protected def _pull(inner: => DBObject): DBObject = MongoDBObject("$pull" -> inner)
+  protected def _pull(inner: DBObject): DBObject = MongoDBObject("$pull" -> inner)
 }
 
 /*
@@ -256,21 +291,29 @@ trait PopOp extends BarewordQueryOperator {
  * Targets an RValue of (String, Any)* to be converted to a  DBObject
  *
  * If Field exists but is not an array an error will occurr.
- * 
+ *
  * Pull is special as defined in the docs and needs to allow operators on fields.
- * 
+ *
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pull
  */
-trait PullOp extends BarewordQueryOperator {
+trait PullOp extends PullOpBase {
   def $pull = apply[Any]("$pull")_
+  def $pull(inner: => DBObject): DBObject = _pull(inner)
+  def $pull(inner: DBObject): DBObject = _pull(inner)
+}
 
-  /** ValueTest enabled version */
-  def $pull(inner: => DBObject) =
-    MongoDBObject("$pull" -> inner)
+trait PullAllOpBase extends BarewordQueryOperator {
+  protected def _pullAll[A <: Any: Manifest](args: (String, A)*): DBObject =
+    if (manifest[A] <:< manifest[Iterable[_]])
+      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]): _*)
+    else if (manifest[A] <:< manifest[Product])
+      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Product].productIterator.toIterable): _*)
+    else if (manifest[A].erasure.isArray)
+      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Array[_]].toIterable): _*)
+    else
+      throw new IllegalArgumentException("$pullAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
 
-  def $pull(inner: DBObject) =
-    MongoDBObject("$pull" -> inner)
 
 }
 
@@ -285,16 +328,12 @@ trait PullOp extends BarewordQueryOperator {
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pullAll
  */
-trait PullAllOp extends BarewordQueryOperator {
-  def $pullAll[A <: Any: Manifest](args: (String, A)*): DBObject =
-    if (manifest[A] <:< manifest[Iterable[_]])
-      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]): _*)
-    else if (manifest[A] <:< manifest[Product])
-      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Product].productIterator.toIterable): _*)
-    else if (manifest[A].erasure.isArray)
-      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Array[_]].toIterable): _*)
-    else
-      throw new IllegalArgumentException("$pullAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
+trait PullAllOp extends PullAllOpBase {
+  def $pullAll[A <: Any: Manifest](args: (String, A)*): DBObject = _pullAll(args: _*)
+}
+
+trait AndOpBase {
+  protected def _and = new NestedBarewordListOperator("$and")
 }
 
 /**
@@ -304,19 +343,16 @@ trait PullAllOp extends BarewordQueryOperator {
  *
  * Targets an RValue of (String, Any)* to be converted to a  DBObject
  *
- * TODO - Test that rvalue ends up being an array e.g.:
- * 
- *   scala> $or ("foo" -> "bar", "X" -> 5)
- *   res1: com.mongodb.casbah.commons.Imports.DBObject = { "$or" : [ { "foo" : "bar" , "X" : 5}]}
- *  
- * 
  * @author Ben Gamari <bgamari.foss@gmail.com>
- * @since 2.0
+ * @since 3.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24and
  */
+trait AndOp extends AndOpBase {
+  def $and = _and
+}
 
-trait AndOp {
-  def $and = new NestedBarewordListOperator("$and")
+trait OrOpBase {
+  protected def _or = new NestedBarewordListOperator("$or")
 }
 
 /**
@@ -324,23 +360,20 @@ trait AndOp {
  *
  * $or ("Foo" -> "bar")
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject  
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject
  *
- * TODO - Test that rvalue ends up being an array e.g.:
- * 
- *   scala> $or ("foo" -> "bar", "X" -> 5)           
- *   res1: com.mongodb.casbah.commons.Imports.DBObject = { "$or" : [ { "foo" : "bar" , "X" : 5}]}
- *  
- * 
  * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24or
  */
-
-trait OrOp {
-  def $or = new NestedBarewordListOperator("$or")
+trait OrOp extends OrOpBase {
+  def $or = _or
 }
 
+
+trait RenameOpBase extends BarewordQueryOperator {
+  protected def _rename = apply[Any]("$rename")_
+}
 
 /** 
  * Trait to provide the $rename (Rename field) as a bareword operator
@@ -354,8 +387,12 @@ trait OrOp {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24rename
  *
  */
-trait RenameOp extends BarewordQueryOperator {
-  def $rename = apply[Any]("$rename")_
+trait RenameOp extends RenameOpBase {
+  def $rename = _rename
+}
+
+trait NorOpBase {
+  protected def _nor = new NestedBarewordListOperator("$nor")
 }
 
 /**
@@ -369,25 +406,12 @@ trait RenameOp extends BarewordQueryOperator {
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nor
  */
-trait NorOp {
-  def $nor = new NestedBarewordListOperator("$nor")
+trait NorOp extends NorOpBase {
+  def $nor = _nor
 }
 
-/**
- * Trait to provide the $bit (bit) update method as a bareword Operator
- * 
- * Bit does a bitwise operation either AND or OR against a given field or set of fields
- * with no left anchor.
- * 
- * Targets an RValue of {field: {and|or: integer}}.
- *
- * @author Brendan W. McAdams <brendan@10gen.com>
- * @since 2.1.1
- * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24bit
- */
-trait BitOp extends BarewordQueryOperator {
-
-  def $bit(field: String) = {
+trait BitOpBase extends BarewordQueryOperator {
+  protected def _bit(field: String) = {
     new {
       protected def op(oper: String, target: Any) =
         MongoDBObject("$bit" -> MongoDBObject(field -> MongoDBObject(oper -> target)))
@@ -396,6 +420,21 @@ trait BitOp extends BarewordQueryOperator {
       def or[T: ValidNumericType](target: T) = op("or", target)
     }
   }
+}
 
+/**
+ * Trait to provide the $bit (bit) update method as a bareword Operator
+ *
+ * Bit does a bitwise operation either AND or OR against a given field or set of fields
+ * with no left anchor.
+ *
+ * Targets an RValue of {field: {and|or: integer}}.
+ *
+ * @author Brendan W. McAdams <brendan@10gen.com>
+ * @since 2.1.1
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24bit
+ */
+trait BitOp extends BitOpBase {
+  def $bit(field: String) = _bit(field)
 }
 // vim: set ts=2 sw=2 sts=2 et:

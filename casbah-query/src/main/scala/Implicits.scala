@@ -26,7 +26,7 @@ package query
 import com.mongodb.casbah.query.dsl.QueryExpressionObject
 
 
-trait Implicits {// extends FluidQueryBarewordOps {
+trait Implicits {
 
   /**
    * Implicit extension methods for String values (e.g. a field name)

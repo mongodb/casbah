@@ -31,7 +31,7 @@ import org.scala_tools.time.Imports._
 import com.mongodb.casbah.commons.test.CasbahSpecification
 
 @SuppressWarnings(Array("deprecation"))
-class DSLCoreOperatorsSpec extends CasbahSpecification {
+class LightDSLCoreOperatorsSpec extends CasbahSpecification {
 
   def nonDSL(key: String, oper: String, value: Any) = MongoDBObject(key -> MongoDBObject(oper -> value))
 
@@ -822,7 +822,7 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
         }
       }
       "None (null)" in {
-        // For some reason you can't use NONE 
+        // For some reason you can't use NONE
         val typeOper = "foo".$type[Option[Nothing]]
         typeOper must haveEntry("foo.$type" -> org.bson.BSON.NULL)
       }
@@ -996,3 +996,4 @@ class DSLCoreOperatorsSpec extends CasbahSpecification {
   }
 }
 // vim: set ts=2 sw=2 sts=2 et:
+
