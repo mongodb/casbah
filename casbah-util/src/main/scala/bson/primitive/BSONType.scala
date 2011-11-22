@@ -14,8 +14,8 @@
  * limitations under the License.
  *
  */
-
 package com.mongodb.casbah.util.bson
+package primitive
 
 /**
  * Enumerative lookup for BSON Types, as defined in the spec
