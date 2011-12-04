@@ -44,7 +44,7 @@ object MongoURI {
    * 
    * @param  uri (String) 
    */
-  def apply(uri: String) = new MongoURI(new com.mongodb.MongoURI(uri))
+  def apply(uri: String): MongoURI = new MongoURI(new com.mongodb.MongoURI(uri))
 }
 
 /** 
@@ -60,20 +60,38 @@ object MongoURI {
  * @since 2.0
  */
 class MongoURI(val underlying: com.mongodb.MongoURI) {
-  def username = underlying.getUsername
-  def password = underlying.getPassword
-  def hosts = underlying.getHosts.asScala
-  def database = underlying.getDatabase
-  def collection = underlying.getCollection
-  def options = underlying.getOptions
-  def connect = underlying.connect.asScala
-  def connectDB = underlying.connectDB.asScala
-  def connectDB(m: MongoConnection) =
-    underlying.connectDB(m.underlying).asScala
-  def connectCollection(db: MongoDB) =
-    underlying.connectCollection(db.underlying).asScala
-  def connectCollection(m: MongoConnection) =
-    underlying.connectCollection(m.underlying).asScala
+  def username: Option[String] = Option(underlying.getUsername)
+  def password: Option[Array[Char]] = Option(underlying.getPassword)
+  def hosts: Seq[String] = underlying.getHosts.asScala
+  def database: Option[String] = Option(underlying.getDatabase)
+  def collection: Option[String] = Option(underlying.getCollection)
+  def options: MongoOptions = underlying.getOptions
+  def connect: Either[Throwable, MongoConnection] = try {
+    Right(underlying.connect.asScala)
+  } catch {
+    case t => Left(t)
+  }
+  def connectDB: Either[Throwable, MongoDB] = {
+    try {
+      require(database.isDefined, "Cannot connect to Database as none is defined.")
+      Right(underlying.connectDB.asScala)
+    } catch {
+      case t => Left(t)
+    }
+  }
+  def connectCollection: Either[Throwable, MongoCollection] = {
+    try {
+      require(collection.isDefined, "Cannot connect to Collection as none is defined.")
+      connectDB match {
+        case Right(db) => 
+          Right(db(collection.get))
+        case Left(t) => Left(t)
+      }
+    } catch {
+      case t => Left(t)
+    }
+
+  }
 
   override def toString = underlying.toString
 }
