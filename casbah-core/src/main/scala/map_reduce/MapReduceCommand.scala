@@ -49,7 +49,7 @@ object MapReduceCommand {
     sort: Option[DBObject] = None,
     limit: Option[Int] = None,
     finalizeFunction: Option[JSFunction] = None,
-    jsScope: Option[String] = None,
+    jsScope: Option[DBObject] = None,
     verbose: Boolean = false) = {
     val mrc = new MapReduceCommand()
     mrc.input = input
@@ -89,7 +89,7 @@ class MapReduceCommand protected[mongodb] () {
   var sort: Option[DBObject] = None
   var limit: Option[Int] = None
   var finalizeFunction: Option[JSFunction] = None
-  var jsScope: Option[String] = None
+  var jsScope: Option[DBObject] = None
 
   def toDBObject = {
     val dataObj = MongoDBObject.newBuilder
