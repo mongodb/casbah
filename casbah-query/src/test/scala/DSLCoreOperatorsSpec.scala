@@ -28,10 +28,10 @@ import com.mongodb.casbah.query._
 
 import org.scala_tools.time.Imports._
 
-import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 @SuppressWarnings(Array("deprecation"))
-class LightDSLCoreOperatorsSpec extends CasbahSpecification {
+class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
 
   def nonDSL(key: String, oper: String, value: Any) = MongoDBObject(key -> MongoDBObject(oper -> value))
 

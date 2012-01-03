@@ -21,14 +21,14 @@
  */
 package com.mongodb.casbah.test
 
-import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import com.mongodb.casbah._
 import com.mongodb.casbah.util.bson.decoding.OptimizedLazyDBObject
 import java.util.{UUID , Date}
 import org.bson.types.{MinKey, MaxKey, BSONTimestamp, Binary}
 import java.util.regex.Pattern
 
-class LazyDecodingSpec extends CasbahSpecification {
+class LazyDecodingSpec extends CasbahMutableSpecification {
   implicit val mongoInt = MongoConnection()("casbahIntegration")
   implicit val mongoTest = MongoConnection()("casbahTest_Lazy")
 

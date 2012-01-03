@@ -23,11 +23,11 @@
 package com.mongodb.casbah.test.query
 
 import com.mongodb.casbah.query._
-import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 // TODO - Operational/Integration testing with this code
 @SuppressWarnings(Array("deprecation"))
-class BarewordOperatorsSpec extends CasbahSpecification {
+class BarewordOperatorsSpec extends CasbahMutableSpecification {
   "Casbah's DSL $set Operator" should {
     "Accept one or many pairs of values" in {
       "A single pair" in {

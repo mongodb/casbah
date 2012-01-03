@@ -23,9 +23,9 @@
 package com.mongodb.casbah.test.commons
 
 import com.mongodb.casbah.commons._
-import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
-class MongoDBObjectSpec extends CasbahSpecification {
+class MongoDBObjectSpec extends CasbahMutableSpecification {
 
   "MongoDBObject expand operations" should {
 
