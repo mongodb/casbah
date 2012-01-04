@@ -34,7 +34,16 @@ object CasbahBuild extends Build {
   )
 
   lazy val defaultSettings = baseSettings ++ Seq(
-    libraryDependencies ++= Seq(scalatest(scalaVersion), specs2,  slf4j, slf4jJCL),
+    libraryDependencies ++= Seq(scalatest(scalaVersion), slf4j, slf4jJCL),
+    libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
+      val versionMap = Map("2.8.0" -> ("specs2_2.8.0", "1.5"),
+                           "2.8.1" -> ("specs2_2.8.1", "1.5"),
+                           "2.9.0" -> ("specs2_2.9.0", "1.7.1"),
+                           "2.9.0-1" -> ("specs2_2.9.0", "1.7.1"),
+                           "2.9.1" -> ("specs2_2.9.1", "1.7.1"))
+      val tuple = versionMap.getOrElse(sv, error("Unsupported Scala version for Specs2"))
+      deps :+ ("org.specs2" % tuple._1 % tuple._2)
+    },
     autoCompilerPlugins := true,
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2
@@ -89,10 +98,10 @@ object Dependencies {
   val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.2"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
-  val specs2 = "org.specs2" %% "specs2" % "1.5" % "provided" 
+  val specs2 = "org.specs2" %% "specs2" % "1.5.1" % "provided"
   //val specs2 = specs2Compile % "test"
 
-  def specs2ScalazCore(scalaVer: sbt.SettingKey[String]) = 
+  def specs2ScalazCore(scalaVer: sbt.SettingKey[String]) =
     scalaVersionString(scalaVer) match {
       case "2.8.1" => "org.specs2" %% "specs2-scalaz-core" % "5.1-SNAPSHOT" % "test"
       case _ => "org.specs2" %% "specs2-scalaz-core" % "6.0.RC2" % "test"
@@ -100,7 +109,7 @@ object Dependencies {
 
   def scalaVersionString(scalaVer: sbt.SettingKey[String]): String = {
     var result = ""
-    scalaVer { sv => result = sv }
+    scalaVersion { sv => result = sv }
     if (result == "") result = "2.8.1"
     result
   }
