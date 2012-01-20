@@ -18,19 +18,22 @@
 package com.mongodb.casbah.commons
 package test
 
-import org.specs2.mutable._
+import org.specs2._
 import org.specs2.data.Sized
 import org.specs2.matcher.{ Expectable, Matcher, MapMatchers }
 import org.specs2.matcher.Matchers._
 import com.mongodb.casbah.util.Logging
 import com.mongodb.casbah.commons.MongoDBObject
-import javax.management.remote.rmi._RMIConnection_Stub
 
 object `package` {
 
 }
 
-trait CasbahSpecification extends Specification with DBObjectMatchers with Logging {
+trait CasbahMutableSpecification extends mutable.Specification with CasbahSpecificationBase
+
+trait CasbahSpecification extends Specification with CasbahSpecificationBase
+
+trait CasbahSpecificationBase extends DBObjectMatchers with Logging {
   implicit val sizedOptDBObj = new Sized[Option[DBObject]] {
     def size(t: Option[DBObject]) = t.getOrElse(MongoDBObject.empty).size
   }

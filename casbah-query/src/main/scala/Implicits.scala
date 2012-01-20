@@ -26,7 +26,7 @@ package query
 import com.mongodb.casbah.query.dsl.QueryExpressionObject
 
 
-trait Implicits {// extends FluidQueryBarewordOps {
+trait Implicits {
 
   /**
    * Implicit extension methods for String values (e.g. a field name)
@@ -97,14 +97,18 @@ object ValidTypes {
   trait JDKDateOk extends ValidDateType[java.util.Date]
   trait JodaDateTimeOk extends ValidDateType[org.joda.time.DateTime]
 
+  trait KVPair[A] extends ValidBarewordExpressionArgType[(String, A)] {
+    def toDBObject(arg: (String, A)): DBObject = MongoDBObject(arg)
+  }
+
   // Valid Bareword Query Expression entries
   trait CoreOperatorResultObj extends ValidBarewordExpressionArgType[DBObject with QueryExpressionObject] {
-  def listify(args: Seq[DBObject with QueryExpressionObject]): Seq[DBObject] = {
-    val bldr = MongoDBList.newBuilder
-    args.foreach(bldr.+=)
-    bldr.result.asInstanceOf[Seq[DBObject]]
+    def toDBObject(arg: DBObject with QueryExpressionObject): DBObject = arg
   }
-}
+
+  trait ConcreteDBObject extends ValidBarewordExpressionArgType[DBObject] {
+    def toDBObject(arg: DBObject): DBObject = arg
+  }
 
   // ValidNumericTypes
   trait BigIntOk extends ValidNumericType[BigInt] with Numeric.BigIntIsIntegral with Ordering.BigIntOrdering
@@ -118,15 +122,15 @@ object ValidTypes {
 }
 
 trait ValidBarewordExpressionArgType[T] {
-  def listify(args: Seq[T]): Seq[DBObject]
+  def toDBObject(arg: T): DBObject
 }
 
 trait ValidBarewordExpressionArgTypeHolder {
-  import com.mongodb.casbah.query.ValidTypes.{CoreOperatorResultObj}
+  import com.mongodb.casbah.query.ValidTypes.{ConcreteDBObject, CoreOperatorResultObj, KVPair}
+  implicit def kvPairOk[A]: KVPair[A] = new KVPair[A] {}
+  implicit object ConcreteDBObjectOk extends ConcreteDBObject
   implicit object CoreOperatorResultObjOk extends CoreOperatorResultObj
 }
-
-/*trait ValidTypeClassHolders extends */
 
 trait ValidNumericType[T]
 

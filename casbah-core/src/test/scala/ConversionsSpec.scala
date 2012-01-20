@@ -27,11 +27,11 @@ import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah._
 
 import org.scala_tools.time.Imports._
-import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import org.specs2.specification.BeforeExample
 import org.bson.BSON
 
-class ConversionsSpec extends CasbahSpecification with BeforeExample {
+class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
 
   type JDKDate = java.util.Date
 

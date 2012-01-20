@@ -29,10 +29,10 @@ import com.mongodb.casbah.gridfs._
 
 import java.security.MessageDigest
 import java.io._
-import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 
-class GridFSSpec extends CasbahSpecification {
+class GridFSSpec extends CasbahMutableSpecification {
 /*  override def is = args(sequential = true) ^ super.is*/
 
   implicit val mongo = MongoConnection()("casbah_test")

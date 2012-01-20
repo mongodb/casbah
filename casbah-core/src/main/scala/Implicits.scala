@@ -117,6 +117,12 @@ object Imports extends Imports with commons.Imports with commons.Exports with qu
 trait Imports extends BaseImports with TypeImports with Implicits
 
 package core {
+  /**
+   * You can import core to get "just" Casbah core; no commons, query, etc.
+   * This is useful to pick which QueryDSL type you want, etc.
+   */
+  object `package` extends Imports
+
   trait Exports {
     type MongoCursor = com.mongodb.casbah.MongoCursor
     type MongoCollection = com.mongodb.casbah.MongoCollection

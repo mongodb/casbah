@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -91,7 +91,7 @@ object QueryExpressionObject {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
-sealed trait QueryOperator extends Logging {
+trait QueryOperator extends Logging {
   def field: String
   protected var dbObj: Option[DBObject] = None
 

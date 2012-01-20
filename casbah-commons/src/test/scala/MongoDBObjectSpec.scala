@@ -23,9 +23,9 @@
 package com.mongodb.casbah.test.commons
 
 import com.mongodb.casbah.commons._
-import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
-class MongoDBObjectSpec extends CasbahSpecification {
+class MongoDBObjectSpec extends CasbahMutableSpecification {
 
   "MongoDBObject expand operations" should {
 
@@ -248,6 +248,27 @@ class MongoDBObjectSpec extends CasbahSpecification {
       explicit.toString must beEqualTo(control.toString())
       explicit.hashCode must beEqualTo(control.hashCode())
       explicit.equals(explicit) must beEqualTo(control.equals(control))
+    }
+    
+    "Support list creation operators" in {
+      "Prepend to end of a new list" in {
+        "With explicitly created Elements" in {
+          val list = MongoDBObject("x" -> "y") :: MongoDBObject("foo" -> "bar")
+          list must haveSize(2)
+          list(0) must beDBObject
+          (list(0): DBObject) must haveEntries("x" -> "y")
+          list(1) must beDBObject
+          (list(1): DBObject) must haveEntries("foo" -> "bar")
+        }
+        "With implicitly created Elements with an explicit" in {
+          val list = ("x" -> "y") :: MongoDBObject("foo" -> "bar")
+          list must haveSize(2)
+          list(0) must beDBObject
+          (list(0): DBObject) must haveEntries("x" -> "y")
+          list(1) must beDBObject
+          (list(1): DBObject) must haveEntries("foo" -> "bar")
+        }
+      }
     }
   }
 

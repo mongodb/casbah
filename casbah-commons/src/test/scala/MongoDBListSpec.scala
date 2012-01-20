@@ -23,9 +23,9 @@
 package com.mongodb.casbah.test.commons
 
 import com.mongodb.casbah.commons._
-import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
-class MongoDBListSpec extends CasbahSpecification {
+class MongoDBListSpec extends CasbahMutableSpecification {
   val x = Seq(5, 9, 212, "x", "y", 22.98)
   val y = Seq("spam", "eggs", "foo", "bar")
 

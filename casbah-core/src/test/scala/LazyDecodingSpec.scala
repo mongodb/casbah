@@ -21,14 +21,14 @@
  */
 package com.mongodb.casbah.test
 
-import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import com.mongodb.casbah._
 import com.mongodb.casbah.util.bson.decoding.OptimizedLazyDBObject
 import java.util.{UUID , Date}
 import org.bson.types.{MinKey, MaxKey, BSONTimestamp, Binary}
 import java.util.regex.Pattern
 
-class LazyDecodingSpec extends CasbahSpecification {
+class LazyDecodingSpec extends CasbahMutableSpecification {
   implicit val mongoInt = MongoConnection()("casbahIntegration")
   implicit val mongoTest = MongoConnection()("casbahTest_Lazy")
 
@@ -163,7 +163,7 @@ class LazyDecodingSpec extends CasbahSpecification {
             doc must haveEntry("double245_6289" -> 245.6289 )
             doc must haveEntry("oid" -> testOid )
             doc must haveEntry("str" -> "foobarbaz" )
-            //doc.getAs[DBRef]("ref") must beSome( new DBRef(mongoInt.underlying, "books", testRefOid) )
+            doc must haveEntry("uuid" -> testUUID)
             doc must haveEntry("object.abc" -> testDoc.get("abc") )
             doc.getAs[Pattern]("regex").get.pattern() must_==( testRE.pattern.pattern() )
         }

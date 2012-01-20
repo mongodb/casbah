@@ -26,9 +26,9 @@ import com.mongodb.casbah.util.Logging
 import com.mongodb.casbah.commons.conversions.scala._
 
 import org.scala_tools.time.Imports._
-import com.mongodb.casbah.commons.test.CasbahSpecification
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
-class GroupSpec extends CasbahSpecification {
+class GroupSpec extends CasbahMutableSpecification {
 
   "Casbah's Group Interfaces" should {
     implicit val mongoDB = MongoConnection()("casbahIntegration")
