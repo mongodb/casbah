@@ -151,9 +151,10 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         val push = $pushAll("foo" -> ("bar", "baz", "x", "y"))
         push must haveListEntry("$pushAll.foo", List("bar", "baz", "x", "y"))
       }
-      "Not allow a non-list value" in {
-        ($pushAll("foo" -> "bar")) must throwA[IllegalArgumentException]
-      }
+//      IS NOW A COMPILE ERROR
+//      "Not allow a non-list value" in {
+//        ($pushAll("foo" -> "bar")) must throwA[IllegalArgumentException]
+//      }
       "Accept multiple value lists" in {
         val push = $pushAll("foo" -> ("bar", "baz", "x", "y"), "n" -> (5, 10, 12, 238))
         push must haveListEntry("$pushAll.foo", List("bar", "baz", "x", "y"))
@@ -227,9 +228,10 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         val pull = $pullAll("foo" -> ("bar", "baz", "x", "y"))
         pull must haveEntry("$pullAll.foo" -> Seq("bar", "baz", "x", "y"))
       }
-      "Not allow a non-list value" in {
-        ($pullAll("foo" -> "bar")) must throwA[IllegalArgumentException]
-      }
+//      IS NOW COMPILE ERROR      
+//      "Not allow a non-list value" in {
+//        ($pullAll("foo" -> "bar")) must throwA[IllegalArgumentException]
+//      }
       "Accept multiple value lists" in {
         val pull = $pullAll("foo" -> ("bar", "baz", "x", "y"), "n" -> (5, 10, 12, 238))
         pull must haveEntry("$pullAll.foo" -> Seq("bar", "baz", "x", "y"))

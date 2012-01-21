@@ -34,14 +34,14 @@ object CasbahBuild extends Build {
   )
 
   lazy val defaultSettings = baseSettings ++ Seq(
-    libraryDependencies ++= Seq(scalatest(scalaVersion), slf4j, slf4jJCL),
+    libraryDependencies ++= Seq(scalatest(scalaVersion), slf4j, slf4jJCL, junit),
     libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
       val versionMap = Map("2.8.0" -> ("specs2_2.8.0", "1.5"),
                            "2.8.1" -> ("specs2_2.8.1", "1.5"),
                            "2.9.0" -> ("specs2_2.9.0", "1.7.1"),
                            "2.9.0-1" -> ("specs2_2.9.0", "1.7.1"),
                            "2.9.1" -> ("specs2_2.9.1", "1.7.1"))
-      val tuple = versionMap.getOrElse(sv, error("Unsupported Scala version for Specs2"))
+      val tuple = versionMap.getOrElse(sv, sys.error("Unsupported Scala version for Specs2"))
       deps :+ ("org.specs2" % tuple._1 % tuple._2)
     },
     autoCompilerPlugins := true,
@@ -100,6 +100,7 @@ object Dependencies {
 
   val specs2 = "org.specs2" %% "specs2" % "1.5.1" % "provided"
   //val specs2 = specs2Compile % "test"
+  val junit = "junit" % "junit" % "4.10" % "test"
 
   def specs2ScalazCore(scalaVer: sbt.SettingKey[String]) =
     scalaVersionString(scalaVer) match {
