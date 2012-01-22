@@ -75,7 +75,7 @@ object CasbahBuild extends Build {
   lazy val core = Project(
     id       = "casbah-core",
     base     = file("casbah-core"),
-    settings = defaultSettings 
+    settings = defaultSettings ++ Seq(parallelExecution in Test := false) 
   ) dependsOn(commons, query)
 
   lazy val query = Project(

@@ -113,4 +113,16 @@ object ValidBSONType {
   implicit object BasicDBObject extends ValidBSONType[com.mongodb.BasicDBObject]
   implicit object DBObject extends ValidBSONType[com.mongodb.DBObject]
 }
+
+/*
+ * Nice trick from Miles Sabin using ambiguity in implicit resolution to disallow Nothing
+ */
+sealed trait NotNothing[A]{
+  type B
+}
+
+object NotNothing {
+  implicit val nothing = new NotNothing[Nothing]{ type B = Any }
+  implicit def notNothing[A] = new NotNothing[A]{ type B = A }
+}
 // vim: set ts=2 sw=2 sts=2 et:
