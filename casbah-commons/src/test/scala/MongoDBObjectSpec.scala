@@ -209,6 +209,9 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       dbObj.as[MongoDBList]("foo") must haveTheSameElementsAs(List("a", "b", "c"))
       dbObj.as[DBObject]("bar") must haveEntry("baz" -> "foo")
       dbObj.as[String]("nullValue") must throwA[NoSuchElementException]
+
+//    DOES NOT COMPILE ANYMORE      
+//    (dbObj.as("x"):Any) must throwA[IllegalArgumentException]
     }
 
     "Support 'as' methods for casting by type" in {
@@ -221,6 +224,8 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
         dbObj.getAs[Float]("omgponies") must beNone
         dbObj.getAs[Double]("x").get must throwA[ClassCastException]
 
+//      DOES NOT COMPILE ANYMORE
+//      (dbObj.getAs("x"):Any) must throwA[IllegalArgumentException]
       }
 
       "as functions as expected" in {
