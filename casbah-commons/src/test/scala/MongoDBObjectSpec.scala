@@ -71,6 +71,12 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       fields must beDBObject
     }
 
+    "Per SCALA-69, Nones placed to DBObject should immediately convert to null to present proper getAs behavior" in {
+      val obj = MongoDBObject("foo" -> None)
+
+      obj.getAs[String]("foo") must beNone
+    }
+
     /*"SCALA-42, storing Java Arrays in a DBObject shouldn't break .equals and .hashcode" in {
       val one = MongoDBObject("anArray" -> Array(MongoDBObject("one" -> "oneVal"), MongoDBObject("two" -> "twoVal")))
       val two = MongoDBObject("anArray" -> Array(MongoDBObject("one" -> "oneVal"), MongoDBObject("two" -> "twoVal")))

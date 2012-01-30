@@ -164,6 +164,11 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends scala.
   def partialObject = isPartialObject
   override def put(k: String, v: AnyRef) = v match {
     case x: MongoDBObject => put(k, x.asDBObject)
+    case _v: Option[_] => 
+      underlying.put(k, _v.orNull) match {
+        case null => None
+        case value => Some(value)
+      }
     case _ =>
       underlying.put(k, v) match {
         case null => None
@@ -211,8 +216,11 @@ sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
 
   protected val empty = BasicDBObjectBuilder.start
   protected var elems = empty
-  override def +=(x: (String, Any)) = {
-    elems.add(x._1, x._2)
+  override def +=(x: (String, Any)) = { 
+    x._2 match {
+      case _v: Option[_] => elems.add(x._1, _v.orNull)
+      case _ =>elems.add(x._1, x._2)
+    }
     this
   }
 
