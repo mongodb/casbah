@@ -8,7 +8,7 @@ object CasbahBuild extends Build {
 
   lazy val buildSettings = Seq(
     organization := "com.mongodb.casbah",
-    version      := "3.0.0-SNAPSHOT",
+    version      := "3.0.0-M1",
     scalaVersion := "2.9.1",
     crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.8.1", "2.8.0")
   )
@@ -135,16 +135,32 @@ object Dependencies {
 
 object Publish {
   lazy val settings = Seq(
-    publishTo <<= version(v => Some(publishTarget(v))),
-    credentials += Credentials(Path.userHome / ".ivy2" / ".scalatools_credentials")
-  )
+    publishTo <<= version { v: String => 
+      val nexus = "https://oss.sonatype.org/"
+      if (v.trim.endsWith("SNAPSHOT"))
+        Some("snapshots" at nexus + "content/repositories/snapshots")
+      else
+        Some("releases" at nexus + "service/local/staging/deploy/maven2")
+    },
+    publishMavenStyle := true, 
+    publishArtifact in Test := false,
+    pomIncludeRepository := { x => false },
+    pomExtra := (
+      <url>http://github.com/mongodb/casbah</url> 
+      <licenses>
+        <license>
+          <name>Apache 2</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+          <distribution>repo</distribution>
+        </license>
+      </licenses>
+      <scm>
+        <url>git@github.com:mongodb/casbah.git</url>
+        <connection>scm:git:git@github.com:mongodb/casbah.git</connection>
+      </scm>
+    ))
+        
 
-  private def publishTarget(version: String) = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/%s/".format(
-    if (version.endsWith("-SNAPSHOT"))
-      "snapshots"
-    else
-      "releases"
-  )
      /*override def documentOptions = Seq(
       CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah-%s/%s/sxr/€{FILE_PATH}".format(projectVersion.value, projectName.value)),
       CompoundDocOption("-doc-version", "v%s".format(projectVersion.value)),

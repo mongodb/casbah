@@ -1,4 +1,76 @@
 
+3.0-M1 / 2012-01-30 
+===================
+
+  * SCALA-69: Immediately upon saving any None's will be converted to null inside the DBObject for proper fetching later.
+  * SBT 0.11.2
+  * Update to Java Driver 2.7.3
+    + Updated DBEncoderFactories in DBCollection to conform to new 2.7.3 behavior with nullables
+  * Typesafety kungfu from @jteigen
+    + enforce at compile time that type parameters used for casting are not Nothing 
+    + disable parallel test execution in core since LazyDecodingSpec was failing for no reason when executed together with other tests
+    + enforce  $pushAll & $pullAll arguments can be converted to Iterable at compile time  
+    + switched to a type class (AsQueryParam) for queryparams to avoid code duplication
+  * SCALA-63 - Update and improve Tutorials for Casbah -Specs 2 separate Mutable and non-mutable specifications introduced.
+  * Refactored MongoURI to be more "Scala-Ey" 
+    + Optional fields such as Password & Login now are returned wrapped in Option rather than returning Null as the Java driver does 
+    + The "connect*" methods have been cleaned up     
+        - They now return Either[Throwable, <Result>] to allow for more programatic early handling of connection failures w/o try-catch hell     
+        - Several unecessary legacy methods were removed.
+  * SCALA-66 - New non-global, saner & more performant Encoding / Decoding for custom types 
+    + Extending into the basic structures for core type conversions, ala "Pseudo" Type Classes.
+  * SCALA-46 - Support Java Driver 2.6.5 LazyBSONObject & Decoding
+  * SCALA-59 - Fix Bareword Query Operators to better target accepted values; should only accept KV Tuple Pairs or DBObjects returned from Core Operators 
+    + Complete test suites for $and and $nor although they need to be updated to more appropriate contextual examples rather than just "compiles properly"
+    + New code logic, fixed $or, $and and $nor for proper nested list operations
+    + New :: list cons operator on MongoDBObject to create MongoDBLists on th fly (esp. for DSL)
+  * SCALA-30, SCALA-59- $or is not properly accepting nested values esp. from other DSL constructors 
+    + Introduced proper type class filter base to fix $or, will implement across other operators next.
+  * Deprecate Imports._ Semantic in favor of cleaner Package Objects (object `package`) 
+    + Restructured some code and organizationals around Query DSL to fix test failure. 
+  * Temporarily add SonaType Releases becasue I'm lazy and don't want to wait for central repo sync
+  * Relative path for mongoimport commands now
+  * SCALA-52 - Support new ReadPreference semantics, deprecate SlaveOK  
+    +Tags disabled in java driver until mongos support; disable in Casbah
+  * Fix MapReduce for new Java Driver stuff
+  * Culled deprecated methods out since we're going down the 3.0 road
+  * SCALA-50 - Support MongoDB Server 2.0 getLastError Changes (j, w=string/number) 
+  *  Significant cleanup and refactor around DBCollection; reduced all core write ops to single implementations with default args     
+    + All write ops take an implicit DBEncoder and WriteConcern w/ defaults set now  
+    + Introduced core DBEncoder logic to write ops
+    + String "w" value, new constants, "j" boolean for WriteConcern 
+  * SCALA-51: Added "continueInsertOnError" boolean for WriteConcern
+  * SCALA-39 - Added support for options argument to DBCollection.ensureIndex
+  * SCALA-52 - Support new ReadPreference semantics, deprecate SlaveOK 
+    + Deprecated slaveOK 
+    + Introduced ReadPreference 
+    + Added set/get readPreference bindings at DB/Connection/collection levels
+  * Refactored Collection library to properly use CanBuildFrom, should run cleaner
+  * Added beMongoDBObject, beMongoDBList to verify an object is a MongoDBObject or MongoDBList respectively. - Updated MongoDBObject, MongoDBList to pass toString(), hashCode(), and equals() to the underlying object.
+  * Added back support for 2.8.0 to support third parties.
+  * SCALA-46 Support Lazy Decoding 
+    + Change decoding system to invoke "Create" methods on Callback allowing for further user type decoding such as Primitives
+  * Fixed a stupid bug where occasionally (Due to racing from concurrent test execution in specs2) the CoreWrappersSpec could throw NPEs.
+  * SCALA-46 - Support Java Driver 2.6.5 LazyBSONObject & Decoding 
+    + In order to correct bugs outstanding in the Java Driver, and optimize for Scala rewrote a special Scala Only version, OptimizedLazyBSONObject and related classes.
+    + Removed the _typedValue hook which just muddies the water with Abstract Type erasure.  Just return all as Option[DBObject], do your own casting as necessary.
+    + Introducing Scala versions of the LazyBSON System to Casbah-Util for more scala appropriate hackage.
+    + Finished timing tests on Lazy decoder.  Definitely shows an edge but most performance boost will be realized by frameworks which typically would have had to decode *twice* and can now decode *once*.
+    + Replaced the old Typed Cursors and Collections with the new Lazy ones
+  * Added support for $and bareword operator
+  * SCALA-46 - Support Java Driver 2.6.5 based Lazy BSON Decoding 
+  * Removing the Typed Collection system to make room for a saner LazyDecoding based one  
+    ! Removed the "Base" Cursor and Collection making the base trait simply "MongoCollection" and "MongoCursor" with Concrete versions
+    ! General interface changes and cleanup to sanity of the Collection and Cursors.  Unfortunately probably nastily backwards breaking. Sorry.
+  * Make Specs and ScalaTest "provided" dependencies so users aren't required to have them as dependencies.  Fix Specs2' "changes by version" scalaz dep.
+  * Fixes SCALA-45: Allow filename and contentType to be nullable 
+    + Retrieving filename or contentType on a GridFS File now returns Option[String] when fetched 
+    + To facilitate sane usage, the loan-pattern/execute-around-resource methods now return the _id of the created file as Option[AnyRef]
+  * Move package of logger to be correct, now com.mongodb.casbah.util rather than com.mongodb.casbah.commons
+  * added socketKeepAlive option
+  * Change group with finalize to use underlying implementation
+  * Major cleanups and bugfixes to the DSL, it's heavily and fully tested now and much faster/cleaner
+
 2.1.5.0 / 2011-05-26 
 ==================
   * [2.9.0 only] Adjusted dynamic settings to build against 2.9.0-1 and Casbah 2.1.5.0
