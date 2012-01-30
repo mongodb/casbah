@@ -68,8 +68,6 @@ class NestedBarewordListOperator(oper: String) {
 
 }
 
-
-
 /** 
  * Aggregation object for Bareword Operators.
  * Bareword operators stand on their own - they lack the requirement for an LValue.
@@ -180,15 +178,8 @@ trait PushOp extends PushOpBase {
 }
 
 trait PushAllOpBase extends BarewordQueryOperator {
-  protected def _pushAll[A <: Any: Manifest](args: (String, A)*): DBObject =
-    if (manifest[A] <:< manifest[Iterable[_]])
-      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]): _*)
-    else if (manifest[A] <:< manifest[Product])
-      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Product].productIterator.toIterable): _*)
-    else if (manifest[A].erasure.isArray)
-      apply("$pushAll")(args.map(z => z._1 -> z._2.asInstanceOf[Array[_]].toIterable): _*)
-    else
-      throw new IllegalArgumentException("$pushAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
+  protected def _pushAll[A : AsIterable](args: (String, A)*): DBObject =
+    apply("$pushAll")(args.map(z => z._1 -> AsIterable[A].asIterable(z._2)) :_*)
 }
 
 /*
@@ -203,7 +194,7 @@ trait PushAllOpBase extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pushAll
  */
 trait PushAllOp extends PushAllOpBase {
-  def $pushAll[A <: Any: Manifest](args: (String, A)*): DBObject = _pushAll(args: _*)
+  def $pushAll[A : AsIterable](args: (String, A)*): DBObject = _pushAll(args: _*)
 }
 
 trait AddToSetOpBase extends BarewordQueryOperator {
@@ -304,17 +295,8 @@ trait PullOp extends PullOpBase {
 }
 
 trait PullAllOpBase extends BarewordQueryOperator {
-  protected def _pullAll[A <: Any: Manifest](args: (String, A)*): DBObject =
-    if (manifest[A] <:< manifest[Iterable[_]])
-      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Iterable[_]]): _*)
-    else if (manifest[A] <:< manifest[Product])
-      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Product].productIterator.toIterable): _*)
-    else if (manifest[A].erasure.isArray)
-      apply("$pullAll")(args.map(z => z._1 -> z._2.asInstanceOf[Array[_]].toIterable): _*)
-    else
-      throw new IllegalArgumentException("$pullAll may only be invoked with a (String, A) where String is the field name and A is an Iterable or Product/Tuple of values (got %s).".format(manifest[A]))
-
-
+  protected def _pullAll[A : AsIterable](args: (String, A)*): DBObject =
+    apply("$pullAll")(args.map(z => z._1 -> AsIterable[A].asIterable(z._2)): _*)    
 }
 
 /*
@@ -329,7 +311,7 @@ trait PullAllOpBase extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pullAll
  */
 trait PullAllOp extends PullAllOpBase {
-  def $pullAll[A <: Any: Manifest](args: (String, A)*): DBObject = _pullAll(args: _*)
+  def $pullAll[A : AsIterable](args: (String, A)*): DBObject = _pullAll(args: _*)
 }
 
 trait AndOpBase {

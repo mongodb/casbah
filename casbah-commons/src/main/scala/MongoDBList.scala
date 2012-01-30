@@ -66,11 +66,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
    * @return (A)
    * @throws NoSuchElementException
    */
-  def as[A <: Any: Manifest](idx: Int): A = {
-    require(manifest[A] != manifest[scala.Nothing],
-      "Type inference failed; as[A]() requires an explicit type argument" +
-      "(e.g. dbList.as[<ReturnType>](index)) to function correctly.")
-
+  def as[A : NotNothing](idx: Int): A = {
     underlying.get(idx) match {
       case null => throw new NoSuchElementException
       case value => value.asInstanceOf[A]
@@ -78,18 +74,14 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
   }
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A <: Any: Manifest](idx: Int): Option[A] = {
-    require(manifest[A] != manifest[scala.Nothing],
-      "Type inference failed; getAs[A]() requires an explicit type argument " +
-      "(e.g. dbList.getAs[<ReturnType>](index) ) to function correctly.")
-
+  def getAs[A : NotNothing](idx: Int): Option[A] = {
     underlying.get(idx) match {
       case null => None
       case value => Some(value.asInstanceOf[A])
     }
   }
 
-  def getAsOrElse[A <: Any: Manifest](idx: Int, default: => A): A = getAs[A](idx) match {
+  def getAsOrElse[A : NotNothing](idx: Int, default: => A): A = getAs[A](idx) match {
     case Some(v) => v
     case None => default
   }

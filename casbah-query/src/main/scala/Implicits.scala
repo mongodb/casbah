@@ -132,6 +132,66 @@ trait ValidBarewordExpressionArgTypeHolder {
   implicit object CoreOperatorResultObjOk extends CoreOperatorResultObj
 }
 
+trait AsIterable[A]{
+  def asIterable(a:A):Iterable[_]
+}
+
+object AsIterable {
+  def apply[A](implicit asIterable:AsIterable[A]) = asIterable
+
+  implicit def iterable[A <: Iterable[_]]:AsIterable[A] = new AsIterable[A]{
+    def asIterable(a: A) = a
+  }
+
+  implicit def product[A <: Product]:AsIterable[A] = new AsIterable[A]{
+    def asIterable(a: A) = a.productIterator.toIterable
+  }
+}
+
+@annotation.implicitNotFound("${A} is not a valid query parameter")
+trait AsQueryParam[A]{
+  def asQueryParam(a:A):Any
+}
+
+object AsQueryParam {
+  def apply[A](implicit a:AsQueryParam[A]) = a
+  
+  private def as[A](f:A => Any):AsQueryParam[A] = new AsQueryParam[A]{
+    def asQueryParam(a: A) = f(a)
+  }
+  
+  implicit val string = as[String](identity)
+  implicit def dbObject[A <: DBObject] = as[A](identity)
+  implicit val dbRef = as[DBRef](identity)
+  implicit val objectId = as[ObjectId](identity)
+  implicit val boolean = as[Boolean](identity)
+  implicit def array[A] = as[Array[A]](_.toList)
+  implicit def iterable[A <: Iterable[_]] = as[A](_.toList)
+  implicit def dateOrNumeric[A : ValidDateOrNumericType] = as[A](identity)
+  implicit def tuple1[A1] = as[Tuple1[A1]](_.productIterator.toList)
+  implicit def tuple2[A1,A2] = as[(A1,A2)](_.productIterator.toList)
+  implicit def tuple3[A1,A2,A3] = as[(A1,A2,A3)](_.productIterator.toList)
+  implicit def tuple4[A1,A2,A3,A4] = as[(A1,A2,A3,A4)](_.productIterator.toList)
+  implicit def tuple5[A1,A2,A3,A4,A5] = as[(A1,A2,A3,A4,A5)](_.productIterator.toList)
+  implicit def tuple6[A1,A2,A3,A4,A5,A6] = as[(A1,A2,A3,A4,A5,A6)](_.productIterator.toList)
+  implicit def tuple7[A1,A2,A3,A4,A5,A6,A7] = as[(A1,A2,A3,A4,A5,A6,A7)](_.productIterator.toList)
+  implicit def tuple8[A1,A2,A3,A4,A5,A6,A7,A8] = as[(A1,A2,A3,A4,A5,A6,A7,A8)](_.productIterator.toList)
+  implicit def tuple9[A1,A2,A3,A4,A5,A6,A7,A8,A9] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9)](_.productIterator.toList)
+  implicit def tuple10[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10)](_.productIterator.toList)
+  implicit def tuple11[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11)](_.productIterator.toList)
+  implicit def tuple12[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12)](_.productIterator.toList)
+  implicit def tuple13[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13)](_.productIterator.toList)
+  implicit def tuple14[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14)](_.productIterator.toList)
+  implicit def tuple15[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15)](_.productIterator.toList)
+  implicit def tuple16[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16)](_.productIterator.toList)
+  implicit def tuple17[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17)](_.productIterator.toList)
+  implicit def tuple18[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18)](_.productIterator.toList)
+  implicit def tuple19[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19)](_.productIterator.toList)
+  implicit def tuple20[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20)](_.productIterator.toList)
+  implicit def tuple21[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21)](_.productIterator.toList)
+  implicit def tuple22[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22)](_.productIterator.toList)  
+}
+
 trait ValidNumericType[T]
 
 trait ValidDateType[T]
