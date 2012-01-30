@@ -4,14 +4,12 @@ import Keys._
 object CasbahBuild extends Build {
   import Dependencies._
   import Resolvers._
-  import Publish._
 
   lazy val buildSettings = Seq(
     organization := "com.mongodb.casbah",
     version      := "3.0.0-M1",
-    scalaVersion := "2.9.1",
     crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.8.1", "2.8.0")
-  )
+    )
 
   /**
    * Import some sample data for testing
@@ -23,8 +21,8 @@ object CasbahBuild extends Build {
 
   override lazy val settings = super.settings ++ buildSettings
 
-  lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
-      resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo, sonatypeRels),
+  lazy val baseSettings = Defaults.defaultSettings  ++ Seq(
+      resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
       testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml")
     )
 
@@ -133,46 +131,11 @@ object Dependencies {
 
 }
 
-object Publish {
-  lazy val settings = Seq(
-    publishTo <<= version { v: String => 
-      val nexus = "https://oss.sonatype.org/"
-      if (v.trim.endsWith("SNAPSHOT"))
-        Some("snapshots" at nexus + "content/repositories/snapshots")
-      else
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
-    },
-    publishMavenStyle := true, 
-    publishArtifact in Test := false,
-    pomIncludeRepository := { x => false },
-    pomExtra := (
-      <url>http://github.com/mongodb/casbah</url> 
-      <licenses>
-        <license>
-          <name>Apache 2</name>
-          <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-          <distribution>repo</distribution>
-        </license>
-      </licenses>
-      <scm>
-        <url>git@github.com:mongodb/casbah.git</url>
-        <connection>scm:git:git@github.com:mongodb/casbah.git</connection>
-      </scm>
-    ))
-        
-
-     /*override def documentOptions = Seq(
-      CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah-%s/%s/sxr/€{FILE_PATH}".format(projectVersion.value, projectName.value)),
-      CompoundDocOption("-doc-version", "v%s".format(projectVersion.value)),
-      CompoundDocOption("-doc-title", "Casbah %s".format(projectName.value))
-    )*/
-}
-
 object Resolvers {
   val scalaToolsSnapshots = "snapshots" at "http://scala-tools.org/repo-snapshots"
   val scalaToolsReleases  = "releases" at "http://scala-tools.org/repo-releases"
-  val sonatypeSnaps = "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-  val sonatypeRels = "releases" at "https://oss.sonatype.org/content/repositories/releases"
+  //val sonatypeSnaps = "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+  //val sonatypeRels = "releases" at "https://oss.sonatype.org/content/repositories/releases"
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
 }
 
