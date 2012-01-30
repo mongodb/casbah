@@ -27,7 +27,7 @@ import com.mongodb.casbah.util.bson.decoding._
 import com.mongodb.casbah.util.Logging
 
 import scalaj.collection.Imports._
-import com.mongodb.{ DBCursor , DBCollection , DBDecoderFactory}
+import com.mongodb.{ DBCursor , DBCollection , DBDecoderFactory, DBEncoderFactory}
 
 /**
 * Scala wrapper for Mongo DBCollections,
@@ -57,6 +57,8 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
   }
 
   def customDecoderFactory: Option[DBDecoderFactory] = None
+
+  def customEncoderFactory: Option[DBEncoderFactory] = Option(underlying.getDBEncoderFactory)
 
   /**
    * The underlying Java Mongo Driver Collection object we proxy.
@@ -481,7 +483,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @dochub insert
    * TODO - Wrapper for WriteResult?
    */
-  def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: WriteConcern = writeConcern, encoder: DBEncoder = underlying.getDBEncoderFactory.create ): WriteResult = {
+  def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: WriteConcern = writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ): WriteResult = {
     val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
     b.sizeHint(docs.size)
     for (x <- docs) b += dbObjView(x)
@@ -520,7 +522,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @dochub remove
    * TODO - Wrapper for WriteResult?
    */
-  def remove[A](o: A)(implicit dbObjView: A => DBObject, concern: WriteConcern = getWriteConcern, encoder: DBEncoder = underlying.getDBEncoderFactory.create) =
+  def remove[A](o: A)(implicit dbObjView: A => DBObject, concern: WriteConcern = getWriteConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) =
     underlying.remove(dbObjView(o), concern, encoder)
 
   /** Clears all indices that have not yet been applied to this collection. */
@@ -564,7 +566,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @dochub update
    * TODO - Wrapper for WriteResult?
    */
-   def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false)(implicit queryView: A => DBObject, objView: B => DBObject, concern: WriteConcern = this.writeConcern, encoder: DBEncoder = underlying.getDBEncoderFactory.create ) = 
+   def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false)(implicit queryView: A => DBObject, objView: B => DBObject, concern: WriteConcern = this.writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) = 
     underlying.update(queryView(q), objView(o), upsert, multi, concern, encoder)
 
 
