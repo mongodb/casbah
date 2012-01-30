@@ -94,7 +94,7 @@ object CasbahBuild extends Build {
 
 object Dependencies {
 
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.7.2"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.7.3"
   val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.2"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
