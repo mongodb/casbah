@@ -2,6 +2,7 @@
 3.0-M1 / 2012-01-30 
 ===================
 
+  * Dropped support for Scala 2.8.0; builds available for 2.8.1, 2.9.0, 2.9.0-1 and 2.9.1
   * SCALA-69: Immediately upon saving any None's will be converted to null inside the DBObject for proper fetching later.
   * SBT 0.11.2
   * Update to Java Driver 2.7.3
@@ -47,7 +48,6 @@
     + Added set/get readPreference bindings at DB/Connection/collection levels
   * Refactored Collection library to properly use CanBuildFrom, should run cleaner
   * Added beMongoDBObject, beMongoDBList to verify an object is a MongoDBObject or MongoDBList respectively. - Updated MongoDBObject, MongoDBList to pass toString(), hashCode(), and equals() to the underlying object.
-  * Added back support for 2.8.0 to support third parties.
   * SCALA-46 Support Lazy Decoding 
     + Change decoding system to invoke "Create" methods on Callback allowing for further user type decoding such as Primitives
   * Fixed a stupid bug where occasionally (Due to racing from concurrent test execution in specs2) the CoreWrappersSpec could throw NPEs.

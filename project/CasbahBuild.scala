@@ -8,7 +8,7 @@ object CasbahBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "com.mongodb.casbah",
     version      := "3.0.0-M1",
-    crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.8.1", "2.8.0")
+    crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.8.1")
     )
 
   /**
