@@ -1,6 +1,11 @@
 
-3.0-M1 / 2012-01-30 
-===================
+3.0.0-M2 / 2012-02-01 
+======================
+
+  * SCALA-70: Removed type alias to com.mongodb.WriteConcern and made method args for it explicit, as it was causing a fun post-compile (aka "library compiles, user code doesn't") implosion.
+
+3.0.0--M1 / 2012-01-30 
+======================
 
   * Dropped support for Scala 2.8.0; builds available for 2.8.1, 2.9.0, 2.9.0-1 and 2.9.1
   * SCALA-69: Immediately upon saving any None's will be converted to null inside the DBObject for proper fetching later.
