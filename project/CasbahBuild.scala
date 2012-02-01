@@ -6,7 +6,7 @@ object CasbahBuild extends Build {
   import Resolvers._
 
   lazy val buildSettings = Seq(
-    organization := "com.mongodb.casbah",
+    organization := "org.mongodb",
     version      := "3.0.0-M1",
     crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.8.1")
     )

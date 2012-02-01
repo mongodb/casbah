@@ -306,7 +306,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    *
    * @throws MongoException
    */
-  @deprecated("Pass WriteConcern to write ops instead for single op safety.")
+  @deprecated("Pass com.mongodb.WriteConcern to write ops instead for single op safety.")
   def request(op: this.type => WriteResult) = {
     op(this).getLastError.throwOnError
   }
@@ -327,7 +327,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * 
    * @throws MongoException
    */
-  @deprecated("Pass WriteConcern to write ops instead for single op safety.")
+  @deprecated("Pass com.mongodb.WriteConcern to write ops instead for single op safety.")
   def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)(op: this.type => WriteResult) =
     op(this).getLastError(WriteConcern(w, wTimeout, fsync)).throwOnError
 
@@ -347,8 +347,8 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * 
    * @throws MongoException
    */
-  @deprecated("Pass WriteConcern to write ops instead for single op safety.")
-  def request(concern: WriteConcern)(op: this.type => WriteResult) =
+  @deprecated("Pass com.mongodb.WriteConcern to write ops instead for single op safety.")
+  def request(concern: com.mongodb.WriteConcern)(op: this.type => WriteResult) =
     op(this).getLastError(concern).throwOnError
 
   /** Find a collection that is prefixed with this collection's name.
@@ -483,7 +483,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @dochub insert
    * TODO - Wrapper for WriteResult?
    */
-  def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: WriteConcern = writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ): WriteResult = {
+  def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: com.mongodb.WriteConcern = writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ): WriteResult = {
     val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
     b.sizeHint(docs.size)
     for (x <- docs) b += dbObjView(x)
@@ -522,7 +522,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @dochub remove
    * TODO - Wrapper for WriteResult?
    */
-  def remove[A](o: A)(implicit dbObjView: A => DBObject, concern: WriteConcern = getWriteConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) =
+  def remove[A](o: A)(implicit dbObjView: A => DBObject, concern: com.mongodb.WriteConcern = getWriteConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) =
     underlying.remove(dbObjView(o), concern, encoder)
 
   /** Clears all indices that have not yet been applied to this collection. */
@@ -533,7 +533,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    *        will add <code>_id</code> field to o if needed
    * TODO - Wrapper for WriteResult?
    */
-  def save[A](o: A)(implicit dbObjView: A => DBObject, concern: WriteConcern = writeConcern) = underlying.save(dbObjView(o), writeConcern)
+  def save[A](o: A)(implicit dbObjView: A => DBObject, concern: com.mongodb.WriteConcern = writeConcern) = underlying.save(dbObjView(o), writeConcern)
 
 
   /** Set hint fields for this collection.
@@ -566,7 +566,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @dochub update
    * TODO - Wrapper for WriteResult?
    */
-   def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false)(implicit queryView: A => DBObject, objView: B => DBObject, concern: WriteConcern = this.writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) = 
+   def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false)(implicit queryView: A => DBObject, objView: B => DBObject, concern: com.mongodb.WriteConcern = this.writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) = 
     underlying.update(queryView(q), objView(o), upsert, multi, concern, encoder)
 
 
@@ -611,9 +611,9 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    */
   def getLastError() = getDB.getLastError
   def lastError() = getLastError()
-  def getLastError(concern: WriteConcern) =
+  def getLastError(concern: com.mongodb.WriteConcern) =
     getDB.getLastError(concern)
-  def lastError(concern: WriteConcern) =
+  def lastError(concern: com.mongodb.WriteConcern) =
     getLastError(concern)
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean) =
     getDB.getLastError(w, wTimeout, fsync)
@@ -638,33 +638,33 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * 
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    * 
-   * @param concern (WriteConcern) The write concern to use
-   * @see WriteConcern 
+   * @param concern (com.mongodb.WriteConcern) The write concern to use
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
+  def setWriteConcern(concern: com.mongodb.WriteConcern) = underlying.setWriteConcern(concern)
 
   /**
    * 
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    * 
    * @param concern (WriteConcern) The write concern to use
    * @see WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def writeConcern_=(concern: WriteConcern) = setWriteConcern(concern)
+  def writeConcern_=(concern: com.mongodb.WriteConcern) = setWriteConcern(concern)
 
   /**
    * 
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    * 
-   * @see WriteConcern 
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def getWriteConcern = underlying.getWriteConcern()
@@ -673,9 +673,9 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * 
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    *
-   * @see WriteConcern 
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def writeConcern = getWriteConcern

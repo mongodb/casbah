@@ -266,31 +266,31 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * Will be used for writes to any collection in this database.
    * See the documentation for {@link WriteConcern} for more info.
    * 
-   * @param concern (WriteConcern) The write concern to use
-   * @see WriteConcern 
+   * @param concern (com.mongodb.WriteConcern) The write concern to use
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
+  def setWriteConcern(concern: com.mongodb.WriteConcern) = underlying.setWriteConcern(concern)
 
   /**
    * 
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    * 
-   * @param concern (WriteConcern) The write concern to use
-   * @see WriteConcern 
+   * @param concern (com.mongodb.WriteConcern) The write concern to use
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def writeConcern_=(concern: WriteConcern) = setWriteConcern(concern)
+  def writeConcern_=(concern: com.mongodb.WriteConcern) = setWriteConcern(concern)
 
   /**
    * 
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    * 
-   * @see WriteConcern 
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def getWriteConcern = underlying.getWriteConcern
@@ -299,9 +299,9 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * 
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    *
-   * @see WriteConcern 
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def writeConcern = getWriteConcern

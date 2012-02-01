@@ -151,9 +151,9 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def getLastError() = underlying.getLastError
   def lastError() = getLastError()
-  def getLastError(writeConcern: WriteConcern) =
+  def getLastError(writeConcern: com.mongodb.WriteConcern) =
     underlying.getLastError(writeConcern)
-  def lastError(writeConcern: WriteConcern) =
+  def lastError(writeConcern: com.mongodb.WriteConcern) =
     getLastError(writeConcern)
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean) =
     underlying.getLastError(w, wTimeout, fsync)
@@ -230,33 +230,33 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * 
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    * 
-   * @param concern (WriteConcern) The write concern to use
-   * @see WriteConcern 
+   * @param concern (com.mongodb.WriteConcern) The write concern to use
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
+  def setWriteConcern(concern: com.mongodb.WriteConcern) = underlying.setWriteConcern(concern)
 
   /**
    * 
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    * 
-   * @param concern (WriteConcern) The write concern to use
-   * @see WriteConcern 
+   * @param concern (com.mongodb.WriteConcern) The write concern to use
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def writeConcern_=(concern: WriteConcern) = setWriteConcern(concern)
+  def writeConcern_=(concern: com.mongodb.WriteConcern) = setWriteConcern(concern)
 
   /**
    * 
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    * 
-   * @see WriteConcern 
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def getWriteConcern = underlying.getWriteConcern()
@@ -265,9 +265,9 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * 
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    *
-   * @see WriteConcern 
+   * @see com.mongodb.WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def writeConcern = getWriteConcern
@@ -342,7 +342,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * Your function must return WriteResult, which is the 
    * return type of any mongo write operation like insert/save/update/remove
    * 
-   * If you have set a connection or DB level WriteConcern,
+   * If you have set a connection or DB level com.mongodb.WriteConcern,
    * it will be inherited.
    *
    * @throws MongoException
@@ -385,7 +385,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * 
    * @throws MongoException
    */
-  def request(writeConcern: WriteConcern)(op: MongoDB => WriteResult) =
+  def request(writeConcern: com.mongodb.WriteConcern)(op: MongoDB => WriteResult) =
     op(this).getLastError(writeConcern).throwOnError
 
   def checkedWrite(op: MongoDB => WriteResult) =

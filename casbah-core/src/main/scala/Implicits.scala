@@ -152,7 +152,6 @@ trait BaseImports {
 
 trait TypeImports {
   type MongoOptions = com.mongodb.MongoOptions
-  type WriteConcern = com.mongodb.WriteConcern
   type LazyDBObject = com.mongodb.LazyDBObject
   type ReadPreference = com.mongodb.ReadPreference
   type WriteResult = com.mongodb.WriteResult
