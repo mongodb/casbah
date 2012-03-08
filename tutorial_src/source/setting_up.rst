@@ -43,6 +43,7 @@ Scala 2.8.0 users::
             <groupId>com.mongodb.casbah</groupId>
             <artifactId>casbah_2.8.0</artifactId>                           
             <version>2.1.5.0</version>
+            <type>pom</type>
         <dependency>
 
 Scala 2.8.1 users::
@@ -51,6 +52,7 @@ Scala 2.8.1 users::
             <groupId>com.mongodb.casbah</groupId>
             <artifactId>casbah_2.8.1</artifactId>                           
             <version>2.1.5.0</version>
+            <type>pom</type>
         <dependency>
 
 Scala 2.9.0.1 users (Scala 2.9.0.1 contains `critical fixes against 2.9.0.final <http://www.scala-lang.org/node/9708>`; do not use 2.9.0.final)::
@@ -59,7 +61,19 @@ Scala 2.9.0.1 users (Scala 2.9.0.1 contains `critical fixes against 2.9.0.final 
             <groupId>com.mongodb.casbah</groupId>
             <artifactId>casbah_2.9.0-1</artifactId>                           
             <version>2.1.5.0</version>
+            <type>pom</type>
         <dependency>
+
+
+Scala 2.9.1 users::
+
+        <dependency>
+            <groupId>com.mongodb.casbah</groupId>
+            <artifactId>casbah_2.9.1</artifactId>                           
+            <version>2.1.5-1</version>
+            <type>pom</type>
+        <dependency>
+
         
 
 Setting Up Ivy (w/ Ant)
