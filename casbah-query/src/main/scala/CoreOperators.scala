@@ -309,6 +309,8 @@ trait ModuloOp extends QueryOperator {
 trait SizeOp extends QueryOperator {
   private val oper = "$size"
 
+
+  // TODO - Accept Numeric? As long as we can downconvert for mongo type?
   def $size(target: Int) = op(oper, target)
   def $size(target: BigInt) = op(oper, target)
 }

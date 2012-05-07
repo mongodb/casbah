@@ -159,21 +159,49 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
       getConvertedDate.get must throwA[ClassCastException]
     }
-/*    "toString-ing a JODA Date with JODA Conversions loaded doesn't choke horribly." in {
-      RegisterConversionHelpers()
-      val jodaEntry: DBObject = MongoDBObject("type" -> "jdk",
-        "date" -> jdkDate)
-
-      /*jodaEntry.getAs[DateTime]("date") must beSome(jdkDate)
-      // Casting it as something it isn't will fail
-      lazy val getDate = { jodaEntry.getAs[JDKDate]("date") } 
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
-      getDate.get must throwA[ClassCastException] */
-      RegisterJodaTimeConversionHelpers()
-
-      val json = jodaEntry.toString
-
-    }*/
   }
+  
+  "Casbah and Java Driver custom type encoding" should {
+    val encoder = new com.mongodb.DefaultDBEncoder()
+    def encode(doc: DBObject): Long = {
+      val start = System.currentTimeMillis()
+      val encoded = encoder.encode(doc)
+      val end = System.currentTimeMillis()
+      end - start
+    }
+    DeregisterConversionHelpers()
+    DeregisterJodaTimeConversionHelpers()
+
+    "Produce viable performance numbers to test off of " >> {
+      "Encoding DateTimes without any custom encoders registered " in {
+        var total = 0.0
+        val x = 10000
+        for (n <- 1 to x) {
+          val doc = MongoDBObject("date1" -> new JDKDate, "date2" -> new JDKDate, "foo" -> "bar", "x" -> 5.2)
+          total += encode(doc)
+        }
+
+        val avg = total / x  
+
+        log.error("[Basic] Average encoding time over %s tries: %f [%s]", x, avg, total)
+        avg must beGreaterThan(0.0)
+      }
+      "Encoding Joda DateTimes with custom encoders registered " in {
+        RegisterJodaTimeConversionHelpers()
+        var total = 0.0
+        val x = 10000
+        for (n <- 1 to x) {
+          val doc = MongoDBObject("date1" -> DateTime.now, "date2" -> DateTime.now, "foo" -> "bar", "x" -> 5.2)
+          total += encode(doc)
+        }
+
+        val avg = total / x  
+
+        log.error("[Custom Types] Average encoding time over %s tries: %f [%s]", x, avg, total)
+        avg must beGreaterThan(0.0)
+      }
+    }
+  }
+
 }
 // vim: set ts=2 sw=2 sts=2 et:

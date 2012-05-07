@@ -61,6 +61,20 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
       _match must haveEntries("$match.score.$gt" -> 50, "$match.score.$lte" -> 90, "$match.type.$in" -> List("exam", "quiz"))
     }
   }
+  
+  "Aggregation's Group Operator" should {
+    "Work with field operators" in {
+      "Allow $first" >> {
+        val _group = | $group ("firstAuthor") $first("$author")
+        _group must not beNull
+      }
+    }
+
+    /*"Require _id" in {
+      null must beNull
+    }
+*/
+  }
 }
 
 
