@@ -33,7 +33,7 @@ trait CasbahMutableSpecification extends mutable.Specification with CasbahSpecif
 
 trait CasbahSpecification extends Specification with CasbahSpecificationBase
 
-trait CasbahSpecificationBase extends DBObjectMatchers with Logging {
+trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
   implicit val sizedOptDBObj = new Sized[Option[DBObject]] {
     def size(t: Option[DBObject]) = t.getOrElse(MongoDBObject.empty).size
   }
@@ -51,9 +51,9 @@ trait CasbahSpecificationBase extends DBObjectMatchers with Logging {
   }
 }
 
-trait DBObjectMatchers extends DBObjectBaseMatchers
+trait SpecsDBObjectMatchers extends SpecsDBObjectBaseMatchers
 
-trait DBObjectBaseMatchers extends Logging {
+trait SpecsDBObjectBaseMatchers extends Logging {
 
   protected def someField(map: Expectable[Option[DBObject]], k: String) = if (k.indexOf('.') < 0) {
     map.value.getOrElse(MongoDBObject.empty).getAs[AnyRef](k)

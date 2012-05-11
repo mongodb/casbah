@@ -20,7 +20,7 @@ package scalatest
 import org.scalatest.matchers.Matcher
 import org.scalatest.matchers.MatchResult
 
-trait DBObjectMatchers {
+trait ScalaTestDBObjectMatchers {
 
   protected def someField(map: Option[DBObject], k: String) = if (k.indexOf('.') < 0) {
     map.getOrElse(MongoDBObject.empty).getAs[AnyRef](k)
