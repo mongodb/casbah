@@ -10,6 +10,9 @@ Contributors
 * Max Afonov <max@bumnetworks.com>
 * Marcello Bastéa-Forte <marcello@cellosoft.com>
 * Philip Wills <otherphil@gmail.com>
+* Ben Gamari <bgamari@gmail.com>
+* Patrick Bohan <arkban@arkban.net>
++ Jon-Anders Teigen <@jteigen>
 * Novus Partners, Inc. <http://novus.com>, who sponsored the development of this project prior to Version 2.0
 
 Reporting Bugs
