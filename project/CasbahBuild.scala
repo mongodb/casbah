@@ -7,8 +7,8 @@ object CasbahBuild extends Build {
 
   lazy val buildSettings = Seq(
     organization := "org.mongodb",
-    version      := "3.0.0-M2",
-    crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.8.1")
+    version      := "3.0.0-M3-SNAPSHOT",
+    crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.8.1", "2.8.0")
     )
 
   /**
@@ -127,7 +127,7 @@ object Dependencies {
 
   // JCL bindings for testing only
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
-  val scalaTime        = "org.scala-tools.time" % "time_2.8.0" % "0.2"
+  val scalaTime        = "org.scala-tools.time" %% "time" % "0.5"
 
 }
 
