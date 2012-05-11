@@ -1,28 +1,47 @@
 import sbt._
 import Keys._
 
-object HammersmithBuild extends Build {
+object CasbahBuild extends Build {
   import Dependencies._
   import Resolvers._
 
   lazy val buildSettings = Seq(
-    organization := "com.mongodb.casbah",
+    organization := "org.mongodb",
     version      := "2.2.0-SNAPSHOT",
-    crossScalaVersions := Seq("2.9.0-1", "2.8.1")
+    crossScalaVersions := Seq("2.9.1", "2.9.0-1", "2.9.0", "2.8.1", "2.8.0")
   )
+
+  /**
+   * Import some sample data for testing
+   */
+  "mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
+
+  "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" ! 
+
 
   override lazy val settings = super.settings ++ buildSettings
 
-  lazy val baseSettings = Defaults.defaultSettings ++ Seq(
-    posterous.Publish.posterousEmail := "ask n8han",
-    posterous.Publish.posterousPassword := "where to properly set this"
+  lazy val baseSettings = Defaults.defaultSettings  ++ Seq(
+      resolvers ++= Seq(sonatypeRels, sonatypeSnaps, sonatypeSTArch, mavenOrgRepo),
+      testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml")
+    )
+
+
+  lazy val parentSettings = baseSettings ++ Seq(
+    publishArtifact := false
   )
 
-  lazy val parentSettings = baseSettings ++ Publish.settings
-
   lazy val defaultSettings = baseSettings ++ Seq(
-    libraryDependencies ++= Seq(specs2),
-    resolvers ++= Seq(scalaToolsReleases, scalaToolsSnapshots, mavenOrgRepo),
+    libraryDependencies ++= Seq(scalatest(scalaVersion), slf4j, slf4jJCL, junit),
+    libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
+      val versionMap = Map("2.8.0" -> ("specs2_2.8.0", "1.5"),
+                           "2.8.1" -> ("specs2_2.8.1", "1.5"),
+                           "2.9.0" -> ("specs2_2.9.0", "1.7.1"),
+                           "2.9.0-1" -> ("specs2_2.9.0", "1.7.1"),
+                           "2.9.1" -> ("specs2_2.9.1", "1.7.1"))
+      val tuple = versionMap.getOrElse(sv, sys.error("Unsupported Scala version for Specs2"))
+      deps :+ ("org.specs2" % tuple._1 % tuple._2)
+    },
     autoCompilerPlugins := true,
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2
@@ -33,7 +52,7 @@ object HammersmithBuild extends Build {
     base      = file("."),
     settings  = parentSettings,
     aggregate = Seq(util, commons, core, query, gridfs)
-  )
+  ) dependsOn(util, commons, core, query, gridfs)
 
   lazy val util = Project(
     id       = "casbah-util",
@@ -47,14 +66,14 @@ object HammersmithBuild extends Build {
     id       = "casbah-commons",
     base     = file("casbah-commons"),
     settings = defaultSettings ++ Seq(
-      libraryDependencies ++= Seq(mongoJavaDriver, scalajCollection, slf4j, slf4jJCL, scalaTime, specs2Compile)
+      libraryDependencies ++= Seq(mongoJavaDriver, scalajCollection, slf4j, slf4jJCL, scalaTime)
     )
   ) dependsOn(util)
 
   lazy val core = Project(
     id       = "casbah-core",
     base     = file("casbah-core"),
-    settings = defaultSettings 
+    settings = defaultSettings ++ Seq(parallelExecution in Test := false) 
   ) dependsOn(commons, query)
 
   lazy val query = Project(
@@ -72,48 +91,50 @@ object HammersmithBuild extends Build {
 }
 
 object Dependencies {
-  // TODO - Fix maven artifact
 
-  //val bson = "org.mongodb" % "bson" % "2.5.3"
-
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.6.3"
-  val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.1"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.7.3"
+  val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.2"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
-  val specs2 = "org.specs2" %% "specs2" % "1.5" % "test"
-  val specs2Compile = "org.specs2" %% "specs2" % "1.5"
+  val specs2 = "org.specs2" %% "specs2" % "1.5.1" % "provided"
+  //val specs2 = specs2Compile % "test"
+  val junit = "junit" % "junit" % "4.10" % "test"
+
+  def specs2ScalazCore(scalaVer: sbt.SettingKey[String]) =
+    scalaVersionString(scalaVer) match {
+      case "2.8.1" => "org.specs2" %% "specs2-scalaz-core" % "5.1-SNAPSHOT" % "test"
+      case _ => "org.specs2" %% "specs2-scalaz-core" % "6.0.RC2" % "test"
+    }
+
+  def scalaVersionString(scalaVer: sbt.SettingKey[String]): String = {
+    var result = ""
+    scalaVersion { sv => result = sv }
+    if (result == "") result = "2.8.1"
+    result
+  }
+
+  /*def scalatest(scalaVer: sbt.SettingKey[String]) =
+    scalaVersionString(scalaVer) match {
+      case "2.8.1" => "org.scalatest" % "scalatest_2.8.1" % "1.5.1" % "test"
+      case _ => "org.scalatest" % "scalatest_2.9.0" % "1.6.1" % "test"
+    }*/
+
+  def scalatest(scalaVer: sbt.SettingKey[String]) =
+    scalaVersionString(scalaVer) match {
+      case "2.8.1" => "org.scalatest" % "scalatest_2.8.1" % "1.5.1" % "provided"
+      case _ => "org.scalatest" % "scalatest_2.9.0" % "1.6.1" % "provided"
+    }
 
   // JCL bindings for testing only
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
-  val scalaTime        = "org.scala-tools.time" % "time_2.8.0" % "0.2"
+  val scalaTime        = "org.scala-tools.time" % "time" % "0.5"
 
-}
-
-object Publish {
-  lazy val settings = Seq(
-    publishTo <<= version(v => Some(publishTarget(v))),
-    credentials += Credentials(Path.userHome / ".ivy2" / ".scalatools_credentials")
-  )
-
-  private def publishTarget(version: String) = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/%s/".format(
-    if (version.endsWith("-SNAPSHOT"))
-      "snapshots"
-    else
-      "releases"
-  )
-     /*override def documentOptions = Seq(
-      CompoundDocOption("-doc-source-url", "http://api.mongodb.org/scala/casbah-%s/%s/sxr/€{FILE_PATH}".format(projectVersion.value, projectName.value)),
-      CompoundDocOption("-doc-version", "v%s".format(projectVersion.value)),
-      CompoundDocOption("-doc-title", "Casbah %s".format(projectName.value))
-    )*/
 }
 
 object Resolvers {
-  val scalaToolsSnapshots = "snapshots" at "http://scala-tools.org/repo-snapshots"
-  val scalaToolsReleases  = "releases" at "http://scala-tools.org/repo-releases"
-
-  val jbossRepo = "JBoss Public Repo" at "https://repository.jboss.org/nexus/content/groups/public-jboss/"
+  val sonatypeSnaps = "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+  val sonatypeRels = "releases" at "https://oss.sonatype.org/content/repositories/releases"
+  val sonatypeSTArch = "scalaTools Archive" at "https://oss.sonatype.org/content/groups/scala-tools/"
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
-  val twttrRepo = "Twitter Public Repo" at "http://maven.twttr.com"
 }
 
