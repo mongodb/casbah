@@ -127,7 +127,7 @@ object Dependencies {
 
   // JCL bindings for testing only
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
-  val scalaTime        = "org.scala-tools.time" % "time" % "0.5"
+  val scalaTime        = "org.scala-tools.time" %% "time" % "0.5"
 
 }
 
