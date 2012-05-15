@@ -22,8 +22,8 @@ import org.specs2._
 import org.specs2.data.Sized
 import org.specs2.matcher.{ Expectable, Matcher, MapMatchers }
 import org.specs2.matcher.Matchers._
-import com.mongodb.casbah.util.Logging
-import com.mongodb.casbah.commons.MongoDBObject
+import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.commons.Imports._
 
 object `package` {
 
@@ -43,7 +43,10 @@ trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
   }
 
   implicit val sizedOptDBList = new Sized[Option[MongoDBList]] {
-    def size(t: Option[MongoDBList]) = t.getOrElse(MongoDBList.empty).size
+    def size(t: Option[MongoDBList]) = {
+      val item: MongoDBList =  t.getOrElse(MongoDBList.empty)
+      item.size
+    }
   }
 
   implicit val sizedDBList = new Sized[MongoDBList] {

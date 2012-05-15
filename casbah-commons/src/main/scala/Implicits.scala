@@ -49,19 +49,18 @@ trait Implicits {
     def asDBObject = map2MongoDBObject(map)
   }
 
-  implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject = new BasicDBObject(map.asJava)
+  implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject = 
+    MongoDBObject(map.toList)
 
   implicit def wrapDBObj(in: DBObject): MongoDBObject =
-    new MongoDBObject { val underlying = in }
+    new MongoDBObject(in)
 
   implicit def unwrapDBObj(in: MongoDBObject): DBObject =
     in.underlying
 
-  implicit def wrapDBList(in: BasicDBList): MongoDBList =
-    new MongoDBList { val underlying = in }
+  implicit def wrapDBList(in: BasicDBList): MongoDBList = new MongoDBList(in)
 
-  implicit def unwrapDBList(in: MongoDBList): BasicDBList =
-    in.underlying
+  implicit def unwrapDBList(in: MongoDBList): BasicDBList = in.underlying
 
   // Register the core Serialization helpers.
   conversions.scala.RegisterConversionHelpers()
@@ -106,5 +105,16 @@ object ValidBSONType {
   implicit object BSONObject extends ValidBSONType[org.bson.BSONObject]
   implicit object BasicDBObject extends ValidBSONType[com.mongodb.BasicDBObject]
   implicit object DBObject extends ValidBSONType[com.mongodb.DBObject]
+}
+
+/**
+ * Nice trick from Miles Sabin using ambiguity in implicit resolution to disallow Nothing
+ */
+sealed trait NotNothing[A]{
+  type B
+}
+object NotNothing {
+  implicit val nothing = new NotNothing[Nothing]{ type B = Any }
+  implicit def notNothing[A] = new NotNothing[A]{ type B = A }
 }
 // vim: set ts=2 sw=2 sts=2 et:

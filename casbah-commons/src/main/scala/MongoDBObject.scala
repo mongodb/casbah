@@ -28,7 +28,7 @@ import com.mongodb.casbah.commons.Imports._
 import scala.annotation.tailrec
 import scala.collection.JavaConversions._
 import scala.collection.generic._
-import scala.collection.mutable.Map
+import scala.collection.mutable.{Builder, Map, MapLike}
 import scala.reflect._
 
 /** 
@@ -45,8 +45,10 @@ import scala.reflect._
  * @tparam Object 
  */
 @BeanInfo
-trait MongoDBObject extends Map[String, AnyRef] {
-  val underlying: DBObject
+class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[String, AnyRef]
+                                                        with MapLike[String, AnyRef, MongoDBObject] {
+
+  override def empty: MongoDBObject = MongoDBObject.empty
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
@@ -65,11 +67,7 @@ trait MongoDBObject extends Map[String, AnyRef] {
    * @return (A)
    * @throws NoSuchElementException
    */
-  def as[A <: Any: Manifest](key: String): A = {
-    require(manifest[A] != manifest[scala.Nothing],
-      "Type inference failed; as[A]() requires an explicit type argument" +
-      "(e.g. dbObject.as[<ReturnType>](\"someKey\") ) to function correctly.")
-
+  def as[A : NotNothing](key: String): A = {
     underlying.get(key) match {
       case null => default(key).asInstanceOf[A]
       case value => value.asInstanceOf[A]
@@ -91,19 +89,35 @@ trait MongoDBObject extends Map[String, AnyRef] {
     super.++(other: DBObject)
   }
 
-  /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A <: Any: Manifest](key: String): Option[A] = {
-    require(manifest[A] != manifest[scala.Nothing],
-      "Type inference failed; getAs[A]() requires an explicit type argument " +
-      "(e.g. dbObject.getAs[<ReturnType>](\"somegetAKey\") ) to function correctly.")
+  /**
+   * Returns a new list with this MongoDBObject at the *end*
+   * Currently only supports composing with other DBObjects, primarily for
+   * the use of the Query DSL; if you want heterogenous lists, use
+   * MongoDBList directly.
+   * @see MongoDBList
+   *
+   */
+  def ::[A <% DBObject](elem: A): Seq[DBObject] = Seq(elem: DBObject, this)
 
+  /**
+   * Returns a new list with this MongoDBObject at the *end*
+   * Currently only supports composing with other DBObjects, primarily for
+   * the use of the Query DSL; if you want heterogenous lists, use
+   * MongoDBList directly.
+   * @see MongoDBList
+   *
+   */
+  def ::(elem: (String, Any)): Seq[DBObject] = Seq(MongoDBObject(elem), this)
+
+  /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
+  def getAs[A : NotNothing](key: String): Option[A] = {
     underlying.get(key) match {
       case null => None
       case value => Some(value.asInstanceOf[A])
     }
   }
 
-  def getAsOrElse[A <: Any: Manifest](key: String, default: => A): A = getAs[A](key) match {
+  def getAsOrElse[A : NotNothing](key: String, default: => A): A = getAs[A](key) match {
     case Some(v) => v
     case None => default
   }
@@ -114,8 +128,7 @@ trait MongoDBObject extends Map[String, AnyRef] {
    * Your type parameter must be that of the item at the bottom of the tree you specify...
    * If cast fails - it's your own fault.
    */
-  def expand[A <: Any: Manifest](key: String): Option[A] = {
-    require(manifest[A] != manifest[scala.Nothing], "Type inference failed; expand[A]() requires an explicit type argument (e.g. dbObject[<ReturnType](\"someKey\") ) to function correctly.")
+  def expand[A : NotNothing](key: String): Option[A] = {
     @tailrec
     def _dot(dbObj: MongoDBObject, key: String): Option[_] =
       if (key.indexOf('.') < 0) {
@@ -153,15 +166,28 @@ trait MongoDBObject extends Map[String, AnyRef] {
   def partialObject = isPartialObject
   override def put(k: String, v: AnyRef) = v match {
     case x: MongoDBObject => put(k, x.asDBObject)
+    case _v: Option[_] => 
+      underlying.put(k, _v.orNull) match {
+        case null => None 
+        case value => Some(value)
+      }
     case _ =>
       underlying.put(k, v) match {
         case null => None
         case value => Some(value)
       }
   }
+
   def putAll(o: DBObject) = underlying.putAll(o)
-  def putAll(m: Map[_, _]) = underlying.putAll(m)
-  def putAll(m: java.util.Map[_, _]) = underlying.putAll(m)
+
+  override def toString() = underlying.toString
+  override def hashCode() = underlying.hashCode
+  override def equals(that: Any) = that match {
+    case o: MongoDBObject => underlying.equals(o.underlying)
+    case o: MongoDBList => underlying.equals(o.underlying)
+    case _ => underlying.equals(that)
+  }
+
   def removeField(key: String) = underlying.removeField(key)
   def toMap = underlying.toMap
   def asDBObject = underlying
@@ -175,27 +201,37 @@ trait MongoDBObject extends Map[String, AnyRef] {
 
 object MongoDBObject {
 
-  def empty: DBObject = new MongoDBObject { val underlying = new BasicDBObject }
+  implicit val canBuildFrom: CanBuildFrom[Map[String, Any], (String, Any), DBObject] = 
+    new CanBuildFrom[Map[String, Any], (String, Any), DBObject] {
+      def apply(from: Map[String, Any]) = apply()
+      def apply() = newBuilder[String, Any]
+    }
+
+  def empty: DBObject = new MongoDBObject()
 
   def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result
   def apply[A <: String, B <: Any](elems: List[(A, B)]): DBObject = apply(elems: _*)
 
-  def newBuilder[A <: String, B <: Any]: MongoDBObjectBuilder = new MongoDBObjectBuilder
+  def newBuilder[A <: String, B <: Any]: Builder[(String, Any), DBObject] = new MongoDBObjectBuilder
 
 }
 
-sealed class MongoDBObjectBuilder extends scala.collection.mutable.Builder[(String, Any), DBObject] {
+sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
   import com.mongodb.BasicDBObjectBuilder
 
   protected val empty = BasicDBObjectBuilder.start
   protected var elems = empty
+
   override def +=(x: (String, Any)) = {
-    elems.add(x._1, x._2)
+    x._2 match {
+      case _v: Option[_] => elems.add(x._1, _v.orNull)
+      case _ => elems.add(x._1, x._2)
+    }
     this
   }
 
   def clear() { elems = empty }
-  def result: DBObject = new MongoDBObject { val underlying = elems.get }
+  def result(): DBObject = new MongoDBObject(elems.get)
 }
 
 // vim: set ts=2 sw=2 sts=2 et:

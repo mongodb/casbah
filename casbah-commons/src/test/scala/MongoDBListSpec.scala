@@ -20,27 +20,26 @@
  * 
  */
 
-package com.mongodb.casbah
-package test
+package com.mongodb.casbah.test.commons
 
 import com.mongodb.casbah.commons.Imports._
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+import scalaj.collection.Imports._
 
-import org.specs._
-import org.specs.specification.PendingUntilFixed
+class MongoDBListSpec extends CasbahMutableSpecification {
 
-class MongoDBListSpec extends Specification with PendingUntilFixed {
+
+  val x = Seq(5, 9, 212, "x", "y", 22.98)
+  val y = Seq("spam", "eggs", "foo", "bar")
+
   "MongoDBList Factory & Builder" should {
-    val x = Seq(5, 9, 212, "x", "y", 22.98)
-    val y = Seq("spam", "eggs", "foo", "bar")
-
     "Support 'empty', returning a BasicDBList" in {
       val dbObj = MongoDBList.empty
 
-      dbObj must haveSuperClass[BasicDBList]
       dbObj must haveSize(0)
     }
 
-    "support a 2.8 factory interface which returns a BasicDBList" in {
+    "support a 2.8 factory interface which returns a Seq" in {
       val dbLst = MongoDBList("x", "y", 5, 123.82, 84, "spam", "eggs")
       // A Java version to compare with
       val jLst = new com.mongodb.BasicDBList
@@ -51,11 +50,9 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
       jLst.add(84.asInstanceOf[AnyRef])
       jLst.add("spam")
       jLst.add("eggs")
-      val jObj = jLst.result
+      jLst must not beEmpty
 
-      dbLst must haveSuperClass[BasicDBList]
-      jLst must haveSuperClass[BasicDBList]
-      dbLst must beEqualTo(jLst)
+      dbLst must haveTheSameElementsAs(jLst)
     }
     "Support a 2.8 builder interface which returns a BasicDBList" in {
       val builder = MongoDBList.newBuilder
@@ -68,36 +65,51 @@ class MongoDBListSpec extends Specification with PendingUntilFixed {
 
       val dbLst = builder.result
 
-      dbLst must haveSuperClass[BasicDBList]
       dbLst must haveSize(10)
+      // Note we flattened that list above when we added it
+      dbLst must haveTheSameElementsAs(List("foo", "bar", "x", "y", 5, 212.8, "spam", "eggs", "type erasure" -> "sucks", "omg" -> "ponies!"))
     }
 
     "Support a mix of other lists and flat items and create a single BasicDBList" in {
       val dbLst = MongoDBList(x, y, "omg" -> "ponies", 5, 212.8)
-      dbLst must haveSuperClass[BasicDBList]
       dbLst must haveSize(5)
-      dbLst must beEqualTo(List(x, y, MongoDBObject("omg" -> "ponies"), 5, 212.8))
-
-    } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
-    "Support A list/tuple of dbobject declarations and convert them to a dbobject cleanly" in {
+      dbLst must haveTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5, 212.8))
+    }
+    "Support A list/tuple of dbobject declarations" in {
       val dbLst = MongoDBList(x, y, "omg" -> "ponies", 5,
         MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
         212.8)
-      dbLst must haveSuperClass[BasicDBList]
       dbLst must haveSize(6)
-      dbLst must beEqualTo(List(x, y, MongoDBObject("omg" -> "ponies"), 5,
+      dbLst must haveTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5,
         MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"), 212.8))
-
-    } pendingUntilFixed ("Weird behavior in SPECS matchers, seems like Casbah is fine.")
+    }
 
     "Convert tuple pairs correctly" in {
       val dbList = MongoDBList("omg" -> "ponies")
-      dbList must haveSuperClass[BasicDBList]
       dbList must haveSize(1)
-      /*dbList must beEqualTo(List(MongoDBObject("omg" -> "ponies")))*/
+      dbList must beEqualTo(List(MongoDBObject("omg" -> "ponies")))
     }
   }
 
+/*
+ *  "MongoDBList" >> {
+ *    "Use underlying Object methods" in {
+ *      val seq = MongoDBList(x, y, "omg" -> "ponies", 5,
+ *        MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
+ *        212.8)
+ *
+ *      val raw = new BasicDBList()
+ *      raw += seq
+ *
+ *      val mongo: MongoDBList = raw
+ *      mongo must beMongoDBList
+ *
+ *      raw.toString must beEqualTo(mongo.toString())
+ *      raw.hashCode must beEqualTo(mongo.hashCode())
+ *      raw.equals(raw) must beEqualTo(mongo.equals(mongo))
+ *    }
+ *  }
+ */
 }
 
 // vim: set ts=2 sw=2 sts=2 et:
