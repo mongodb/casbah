@@ -24,10 +24,10 @@ package com.mongodb.casbah
 package query
 
 import com.mongodb.casbah.commons.Imports._
+import com.mongodb.casbah.query.dsl.QueryExpressionObject
 
-import scalaj.collection.Imports._
 
-trait Implicits extends FluidQueryBarewordOps {
+trait Implicits {
 
   /**
    * Implicit extension methods for String values (e.g. a field name)
@@ -45,7 +45,7 @@ trait Implicits extends FluidQueryBarewordOps {
    */
   implicit def mongoQueryStatements(left: String) = new {
     val field = left
-  } with FluidQueryOperators
+  } with dsl.FluidQueryOperators
 
   /**
    * Implicit extension methods for Tuple2[String, DBObject] values
@@ -61,32 +61,49 @@ trait Implicits extends FluidQueryBarewordOps {
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
-  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with DSLDBObject) = {
+  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with QueryExpressionObject) = {
     new {
       val field = nested.field
-    } with ValueTestFluidQueryOperators {
+    } with dsl.ValueTestFluidQueryOperators {
       dbObj = nested.getAs[DBObject](nested.field) // TODO - shore the safety of this up
     }
   }
 
-  implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = GeoCoords(coords._1, coords._2)
+  implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = dsl.GeoCoords(coords._1, coords._2)
 
 }
 
 object Implicits extends query.Implicits with commons.Implicits
-object Imports extends query.Imports with commons.Imports
+/*
+ *object Imports extends query.Imports with commons.Imports
+ */
+object Imports extends dsl.FluidQueryBarewordOps 
+                  with query.Imports              
+                  with commons.Imports 
+                  with ValidBarewordExpressionArgTypeHolder 
+                  with ValidDateTypeHolder 
+                  with ValidNumericTypeHolder 
+                  with ValidDateOrNumericTypeHolder
+
 object BaseImports extends query.BaseImports with commons.BaseImports
 object TypeImports extends query.TypeImports with commons.TypeImports
 
 trait Imports extends query.BaseImports with query.TypeImports with query.Implicits with ValidDateOrNumericTypeHolder
 
-trait BaseImports
+trait BaseImports {
+  val GeoCoords = com.mongodb.casbah.query.dsl.GeoCoords
+  val AsIterable = query.AsIterable
+  val AsQueryParam = query.AsQueryParam
+}
 
 trait TypeImports {
-  type GeoCoords = com.mongodb.casbah.query.GeoCoords[_, _]
+  type GeoCoords = com.mongodb.casbah.query.dsl.GeoCoords[_, _]
   type ValidNumericType[T] = query.ValidNumericType[T]
   type ValidDateType[T] = query.ValidDateType[T]
   type ValidDateOrNumericType[T] = query.ValidDateOrNumericType[T]
+  type ValidBarewordExpressionArgType[T] = query.ValidBarewordExpressionArgType[T]
+  type AsIterable[T] = query.AsIterable[T]
+  type AsQueryParam[T] = query.AsQueryParam[T]
 }
 
 trait ValidNumericType[T]
@@ -96,43 +113,152 @@ trait ValidDateType[T]
 trait ValidDateOrNumericType[T]
 
 trait ValidDateTypeHolder {
-  trait JDKDateOk extends ValidDateType[java.util.Date]
+  import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, JodaDateTimeOk}
   implicit object JDKDateOk extends JDKDateOk
-  trait JodaDateTimeOk extends ValidDateOrNumericType[org.joda.time.DateTime]
   implicit object JodaDateTimeOk extends JodaDateTimeOk
 }
 
+object ValidTypes {
+  trait JDKDateOk extends ValidDateType[java.util.Date]
+  trait JodaDateTimeOk extends ValidDateType[org.joda.time.DateTime]
+  trait KVPair[A] extends ValidBarewordExpressionArgType[(String, A)] {
+    def toDBObject(arg: (String, A)): DBObject = MongoDBObject(arg)
+  }
+
+  // Valid Bareword Query Expression entries
+  trait CoreOperatorResultObj extends ValidBarewordExpressionArgType[DBObject with QueryExpressionObject] {
+    def toDBObject(arg: DBObject with QueryExpressionObject): DBObject = arg
+  }
+
+
+  trait ConcreteDBObject extends ValidBarewordExpressionArgType[DBObject] {
+    def toDBObject(arg: DBObject): DBObject = arg
+  }
+
+
+
+  // ValidNumericTypes
+  trait BigIntOk extends ValidNumericType[BigInt] with Numeric.BigIntIsIntegral with Ordering.BigIntOrdering
+  trait IntOk extends ValidNumericType[Int] with Numeric.IntIsIntegral with Ordering.IntOrdering
+  trait ShortOk extends ValidNumericType[Short] with Numeric.ShortIsIntegral with Ordering.ShortOrdering
+  trait ByteOk extends ValidNumericType[Byte] with Numeric.ByteIsIntegral with Ordering.ByteOrdering
+  trait LongOk extends ValidNumericType[Long] with Numeric.LongIsIntegral with Ordering.LongOrdering
+  trait FloatOk extends ValidNumericType[Float] with Numeric.FloatIsFractional with Ordering.FloatOrdering
+  trait BigDecimalOk extends ValidNumericType[BigDecimal] with Numeric.BigDecimalIsFractional with Ordering.BigDecimalOrdering
+  trait DoubleOk extends ValidNumericType[Double] with Numeric.DoubleIsFractional with Ordering.DoubleOrdering
+}
+
+
+
+trait ValidBarewordExpressionArgType[T] {
+  def toDBObject(arg: T): DBObject
+}
+
+
+
+trait ValidBarewordExpressionArgTypeHolder {
+  import com.mongodb.casbah.query.ValidTypes.{ConcreteDBObject, CoreOperatorResultObj, KVPair}
+  implicit def kvPairOk[A]: KVPair[A] = new KVPair[A] {}
+  implicit object ConcreteDBObjectOk extends ConcreteDBObject
+  implicit object CoreOperatorResultObjOk extends CoreOperatorResultObj
+}
+
+
+
+trait AsIterable[A]{
+  def asIterable(a:A):Iterable[_]
+}
+
+
+
+object AsIterable {
+  def apply[A](implicit asIterable:AsIterable[A]) = asIterable
+
+  implicit def iterable[A <: Iterable[_]]:AsIterable[A] = new AsIterable[A]{
+    def asIterable(a: A) = a
+  }
+
+
+
+  implicit def product[A <: Product]:AsIterable[A] = new AsIterable[A]{
+    def asIterable(a: A) = a.productIterator.toIterable
+  }
+}
+
+
+
+@annotation.implicitNotFound("${A} is not a valid query parameter")
+trait AsQueryParam[A]{
+  def asQueryParam(a:A):Any
+}
+
+
+
+object AsQueryParam {
+  def apply[A](implicit a:AsQueryParam[A]) = a
+
+  private def as[A](f:A => Any):AsQueryParam[A] = new AsQueryParam[A]{
+    def asQueryParam(a: A) = f(a)
+  }
+
+
+
+  implicit val string = as[String](identity)
+  implicit def dbObject[A <: DBObject] = as[A](identity)
+  implicit val dbRef = as[DBRef](identity)
+  implicit val objectId = as[ObjectId](identity)
+  implicit val boolean = as[Boolean](identity)
+  implicit def array[A] = as[Array[A]](_.toList)
+  implicit def iterable[A <: Iterable[_]] = as[A](_.toList)
+  implicit def dateOrNumeric[A : ValidDateOrNumericType] = as[A](identity)
+  implicit def tuple1[A1] = as[Tuple1[A1]](_.productIterator.toList)
+  implicit def tuple2[A1,A2] = as[(A1,A2)](_.productIterator.toList)
+  implicit def tuple3[A1,A2,A3] = as[(A1,A2,A3)](_.productIterator.toList)
+  implicit def tuple4[A1,A2,A3,A4] = as[(A1,A2,A3,A4)](_.productIterator.toList)
+  implicit def tuple5[A1,A2,A3,A4,A5] = as[(A1,A2,A3,A4,A5)](_.productIterator.toList)
+  implicit def tuple6[A1,A2,A3,A4,A5,A6] = as[(A1,A2,A3,A4,A5,A6)](_.productIterator.toList)
+  implicit def tuple7[A1,A2,A3,A4,A5,A6,A7] = as[(A1,A2,A3,A4,A5,A6,A7)](_.productIterator.toList)
+  implicit def tuple8[A1,A2,A3,A4,A5,A6,A7,A8] = as[(A1,A2,A3,A4,A5,A6,A7,A8)](_.productIterator.toList)
+  implicit def tuple9[A1,A2,A3,A4,A5,A6,A7,A8,A9] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9)](_.productIterator.toList)
+  implicit def tuple10[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10)](_.productIterator.toList)
+  implicit def tuple11[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11)](_.productIterator.toList)
+  implicit def tuple12[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12)](_.productIterator.toList)
+  implicit def tuple13[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13)](_.productIterator.toList)
+  implicit def tuple14[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14)](_.productIterator.toList)
+  implicit def tuple15[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15)](_.productIterator.toList)
+  implicit def tuple16[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16)](_.productIterator.toList)
+  implicit def tuple17[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17)](_.productIterator.toList)
+  implicit def tuple18[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18)](_.productIterator.toList)
+  implicit def tuple19[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19)](_.productIterator.toList)
+  implicit def tuple20[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20)](_.productIterator.toList)
+  implicit def tuple21[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21)](_.productIterator.toList)
+  implicit def tuple22[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22)](_.productIterator.toList)  
+}
+
+
 trait ValidNumericTypeHolder {
-  import Numeric._
-  trait BigIntOk extends ValidNumericType[BigInt] with BigIntIsIntegral with Ordering.BigIntOrdering
+  import com.mongodb.casbah.query.ValidTypes.{BigIntOk, IntOk, ShortOk, ByteOk, LongOk, FloatOk, BigDecimalOk, DoubleOk}
   implicit object BigIntOk extends BigIntOk
-  trait IntOk extends ValidNumericType[Int] with IntIsIntegral with Ordering.IntOrdering
   implicit object IntOk extends IntOk
-  trait ShortOk extends ValidNumericType[Short] with ShortIsIntegral with Ordering.ShortOrdering
   implicit object ShortOk extends ShortOk
-  trait ByteOk extends ValidNumericType[Byte] with ByteIsIntegral with Ordering.ByteOrdering
   implicit object ByteOk extends ByteOk
-  trait LongOk extends ValidNumericType[Long] with LongIsIntegral with Ordering.LongOrdering
   implicit object LongOk extends LongOk
-  trait FloatOk extends ValidNumericType[Float] with FloatIsFractional with Ordering.FloatOrdering
   implicit object FloatOk extends FloatOk
-  trait BigDecimalOk extends ValidNumericType[BigDecimal] with BigDecimalIsFractional with Ordering.BigDecimalOrdering
   implicit object BigDecimalOk extends BigDecimalOk
-  trait DoubleOk extends ValidNumericType[Double] with DoubleIsFractional with Ordering.DoubleOrdering
   implicit object DoubleOk extends DoubleOk
 }
 
-trait ValidDateOrNumericTypeHolder extends ValidDateTypeHolder with ValidNumericTypeHolder {
-  implicit object JDKDateDoNOk extends JDKDateOk with ValidDateOrNumericType[java.util.Date]
-  implicit object JodaDateTimeDoNOk extends JDKDateOk with ValidDateOrNumericType[org.joda.time.DateTime]
-  implicit object BigIntDoNOk extends BigIntOk with ValidDateOrNumericType[BigInt]
-  implicit object IntDoNOk extends IntOk with ValidDateOrNumericType[Int]
-  implicit object ShortDoNOk extends ShortOk with ValidDateOrNumericType[Short]
-  implicit object ByteDoNOk extends ByteOk with ValidDateOrNumericType[Byte]
-  implicit object LongDoNOk extends LongOk with ValidDateOrNumericType[Long]
-  implicit object FloatDoNOk extends FloatOk with ValidDateOrNumericType[Float]
-  implicit object BigDecimalDoNOk extends BigDecimalOk with ValidDateOrNumericType[BigDecimal]
-  implicit object DoubleDoNOk extends DoubleOk with ValidDateOrNumericType[Double]
+trait ValidDateOrNumericTypeHolder {
+  import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, BigIntOk, IntOk, ShortOk, ByteOk, LongOk, FloatOk, BigDecimalOk, DoubleOk}
+  implicit object JDKDateDoNOk extends ValidDateOrNumericType[java.util.Date]
+  implicit object JodaDateTimeDoNOk extends ValidDateOrNumericType[org.joda.time.DateTime]
+  implicit object BigIntDoNOk extends ValidDateOrNumericType[BigInt]
+  implicit object IntDoNOk extends ValidDateOrNumericType[Int]
+  implicit object ShortDoNOk extends ValidDateOrNumericType[Short]
+  implicit object ByteDoNOk extends ValidDateOrNumericType[Byte]
+  implicit object LongDoNOk extends ValidDateOrNumericType[Long]
+  implicit object FloatDoNOk extends ValidDateOrNumericType[Float]
+  implicit object BigDecimalDoNOk extends ValidDateOrNumericType[BigDecimal]
+  implicit object DoubleDoNOk extends ValidDateOrNumericType[Double]
 }
-
 // vim: set ts=2 sw=2 sts=2 et:
