@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -93,7 +93,7 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    * a code block.
    * 
    */
-  protected[gridfs] def loan[T <: GridFSFile](file: T)(op: T => Option[AnyRef]) = op(file)
+  protected[gridfs] def loan[T <: GenericGridFSFile](file: T)(op: T => Option[AnyRef]) = op(file)
   /**
    * Create a new GridFS File from a scala.io.Source
    * 
@@ -214,47 +214,27 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
   }
  
 
-  /** Hacky fun - 
-   * Unload the Joda Time code, IF ITS LOADED, and reload it after we're done.
-   * This should minimize conflicts or exceptions from forgetting.
-   * This is hacky as it can potentially clobber anybody's "custom" java.util.Date deserializer with ours.  
-   * TODO - Make this more elegant
-   */
-  def sansJodaTime[T](op: => T) = org.bson.BSON.getDecodingHooks(classOf[java.util.Date]) match {
-    case null => {
-      log.trace("Didn't find a registration for JodaTime.")
-      op
-    }
-    case transformer => {
-      log.trace("DateTime Decoder was loaded; unloading before continuing.")
-      new JodaDateTimeDeserializer { unregister() }
-      val ret = op
-      log.trace("Retrieval finished.  Re-registering decoder.")
-      new JodaDateTimeDeserializer { register() }
-      ret
-    }
-  }
 
   /** Find by query - returns a list */
-  def find[A <% DBObject](query: A) = sansJodaTime { underlying.find(query).asScala }
+  def find[A <% DBObject](query: A) = underlying.find(query).asScala 
   /** Find by query - returns a single item */
-  def find(id: ObjectId): GridFSDBFile = sansJodaTime { underlying.find(id) }
+  def find(id: ObjectId): GridFSDBFile = underlying.find(id)
   /** Find by query - returns a list */
-  def find(filename: String) = sansJodaTime { underlying.find(filename).asScala }
+  def find(filename: String) = underlying.find(filename).asScala 
 
-  def findOne[A <% DBObject](query: A): Option[GridFSDBFile] = sansJodaTime {
+  def findOne[A <% DBObject](query: A): Option[GridFSDBFile] = {
     underlying.findOne(query) match {
       case null => None
       case x => Some(x)
     }
   }
-  def findOne(id: ObjectId): Option[GridFSDBFile] = sansJodaTime {
+  def findOne(id: ObjectId): Option[GridFSDBFile] = {
     underlying.findOne(id) match {
       case null => None
       case x => Some(x)
     }
   }
-  def findOne(filename: String): Option[GridFSDBFile] = sansJodaTime {
+  def findOne(filename: String): Option[GridFSDBFile] = {
     underlying.findOne(filename) match {
       case null => None
       case x => Some(x)
@@ -267,8 +247,8 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
    * Returns a cursor for this filestore
    * of all of the files... 
    */
-  def files = sansJodaTime { new MongoCursor(underlying.getFileList) }
-  def files[A <% DBObject](query: A) = sansJodaTime { new MongoCursor(underlying.getFileList(query)) }
+  def files = { new MongoCursor(underlying.getFileList) }
+  def files[A <% DBObject](query: A) = { new MongoCursor(underlying.getFileList(query)) }
 
   def remove[A <% DBObject](query: A) = underlying.remove(query)
   def remove(id: ObjectId) = underlying.remove(id)
@@ -276,8 +256,11 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
 }
 
 @BeanInfo
-class GridFSFile(override val underlying: MongoGridFSFile) extends MongoDBObject with Logging {
+abstract class GenericGridFSFile(override val underlying: MongoGridFSFile) extends MongoDBObject with Logging {
+  type DateType  
 
+  def convertDate(in: java.util.Date): DateType 
+  
   override def iterator = underlying.keySet.asScala.map { k =>
     k -> underlying.get(k)
   }.toMap.iterator.asInstanceOf[Iterator[(String, AnyRef)]]
@@ -299,7 +282,7 @@ class GridFSFile(override val underlying: MongoGridFSFile) extends MongoDBObject
   def contentType = Option(underlying.getContentType)
   def length = underlying.getLength
   def chunkSize = underlying.getChunkSize
-  def uploadDate = underlying.getUploadDate
+  def uploadDate: DateType = convertDate(underlying.getUploadDate)
   def aliases = underlying.getAliases.asScala
   def metaData: DBObject = underlying.getMetaData
   def metaData_=[A <% DBObject](meta: A) = underlying.setMetaData(meta)
@@ -307,12 +290,19 @@ class GridFSFile(override val underlying: MongoGridFSFile) extends MongoDBObject
 
   override def toString = "{ GridFSFile(id=%s, filename=%s, contentType=%s) }".
     format(id, filename, contentType)
-
 }
 
 @BeanInfo
-class GridFSDBFile protected[gridfs] (override val underlying: MongoGridFSDBFile) extends GridFSFile(underlying) {
+class GridFSFile(_underlying: MongoGridFSFile) extends GenericGridFSFile(_underlying) {
+  type DateType = java.util.Date
+  def convertDate(in: java.util.Date) = in
+}
 
+
+
+@BeanInfo
+abstract class GenericGridFSDBFile protected[gridfs] (override val underlying: MongoGridFSDBFile) extends GenericGridFSFile(underlying) {
+    
   def inputStream = underlying.getInputStream
 
   def source = scala.io.Source.fromInputStream(inputStream)
@@ -328,9 +318,24 @@ class GridFSDBFile protected[gridfs] (override val underlying: MongoGridFSDBFile
 }
 
 @BeanInfo
-class GridFSInputFile protected[gridfs] (override val underlying: MongoGridFSInputFile) extends GridFSFile(underlying) {
+class GridFSDBFile(_underlying: MongoGridFSDBFile) extends GenericGridFSDBFile(_underlying) {
+  type DateType = java.util.Date
+  def convertDate(in: java.util.Date) = in
+}
+
+
+@BeanInfo
+abstract class GenericGridFSInputFile protected[gridfs] (override val underlying: MongoGridFSInputFile) extends GenericGridFSFile(underlying) {
   def filename_=(name: String) = underlying.setFilename(name)
   def contentType_=(cT: String) = underlying.setContentType(cT)
 }
+
+
+@BeanInfo
+class GridFSInputFile(_underlying: MongoGridFSInputFile) extends GenericGridFSInputFile(_underlying) {
+  type DateType = java.util.Date
+  def convertDate(in: java.util.Date) = in
+}
+
 
 // vim: set ts=2 sw=2 sts=2 et:

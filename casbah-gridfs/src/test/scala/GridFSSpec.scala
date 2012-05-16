@@ -26,6 +26,9 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.casbah.commons.Logging
 
+
+import org.scala_tools.time.Imports._
+
 import java.security.MessageDigest
 import java.io._
 
@@ -76,12 +79,64 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
 
       gridfs.findOne("powered_by_mongo_find.png") must beSome[GridFSDBFile]
       var md5 = ""
+      var uploadDate: java.util.Date = null
       gridfs.findOne("powered_by_mongo_find.png") foreach { file =>
         md5 = file.md5
+        uploadDate = file.uploadDate
         log.debug("MD5: %s", file.md5)
       }
       md5 must beEqualTo(logo_md5)
+      require(uploadDate != null)
+      uploadDate must beAnInstanceOf[java.util.Date]
     }
+
+
+
+    "Correctly catch the non-existence of a file and fail gracefully" in {
+      gridfs.findOne("powered_by_mongoFOOBAR235254252.png") must beNone
+    }
+
+    "Return a wrapped MongoCursor if you call files,  as reported by Gregg Carrier" in {
+      val files = gridfs.files
+      files must beAnInstanceOf[MongoCursor]
+    }
+
+    "Be properly iterable" in {
+      val id = gridfs(logo) { fh =>
+        fh.filename = "powered_by_mongo_iter.png"
+        fh.contentType = "image/png"
+      }
+      var x = false
+      for (f <- gridfs) x = true
+      x must beTrue
+    }
+
+  }
+  "Casbah's Joda GridFS Implementations" should {
+    implicit val mongo = MongoConnection()("casbah_test")
+    mongo.dropDatabase()
+    val gridfs = JodaGridFS(mongo)
+
+    "Find the file in GridFS later" in {
+      val id = gridfs(logo_bytes) { fh =>
+        fh.filename = "powered_by_mongo_find.png"
+        fh.contentType = "image/png"
+      }
+
+      gridfs.findOne("powered_by_mongo_find.png") must beSome[JodaGridFSDBFile]
+      var md5 = ""
+      var uploadDate: DateTime = null
+      gridfs.findOne("powered_by_mongo_find.png") foreach { file =>
+        md5 = file.md5
+        uploadDate = file.uploadDate
+        log.debug("MD5: %s", file.md5)
+      }
+      md5 must beEqualTo(logo_md5)
+      require(uploadDate != null)
+      uploadDate must beAnInstanceOf[DateTime]
+    }
+
+
 
     "Correctly catch the non-existence of a file and fail gracefully" in {
       gridfs.findOne("powered_by_mongoFOOBAR235254252.png") must beNone
