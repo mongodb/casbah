@@ -31,6 +31,8 @@ import org.scala_tools.time.Imports._
 
 import java.security.MessageDigest
 import java.io._
+import com.mongodb.casbah.commons.conversions.scala._
+
 
 class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecification {
   implicit val mongo = MongoConnection()("casbah_test")
@@ -87,6 +89,7 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
       }
       md5 must beEqualTo(logo_md5)
       require(uploadDate != null)
+      System.err.println("Date: %s Type: %s".format(uploadDate, uploadDate.getClass))
       uploadDate must beAnInstanceOf[java.util.Date]
     }
 
@@ -110,7 +113,6 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
       for (f <- gridfs) x = true
       x must beTrue
     }
-
   }
   "Casbah's Joda GridFS Implementations" should {
     implicit val mongo = MongoConnection()("casbah_test")
@@ -133,6 +135,7 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
       }
       md5 must beEqualTo(logo_md5)
       require(uploadDate != null)
+      System.err.println("Date: %s Type: %s".format(uploadDate, uploadDate.getClass))
       uploadDate must beAnInstanceOf[DateTime]
     }
 
@@ -147,6 +150,7 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
       files must beAnInstanceOf[MongoCursor]
     }
 
+    DeregisterJodaTimeConversionHelpers()
     "Be properly iterable" in {
       val id = gridfs(logo) { fh =>
         fh.filename = "powered_by_mongo_iter.png"

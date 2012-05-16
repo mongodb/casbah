@@ -259,7 +259,7 @@ class GridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterable[Gr
 abstract class GenericGridFSFile(override val underlying: MongoGridFSFile) extends MongoDBObject with Logging {
   type DateType  
 
-  def convertDate(in: java.util.Date): DateType 
+  def convertDate(in: AnyRef): DateType 
   
   override def iterator = underlying.keySet.asScala.map { k =>
     k -> underlying.get(k)
@@ -282,7 +282,7 @@ abstract class GenericGridFSFile(override val underlying: MongoGridFSFile) exten
   def contentType = Option(underlying.getContentType)
   def length = underlying.getLength
   def chunkSize = underlying.getChunkSize
-  def uploadDate: DateType = convertDate(underlying.getUploadDate)
+  def uploadDate: DateType = convertDate(underlying.get("uploadDate"))
   def aliases = underlying.getAliases.asScala
   def metaData: DBObject = underlying.getMetaData
   def metaData_=[A <% DBObject](meta: A) = underlying.setMetaData(meta)
@@ -295,7 +295,10 @@ abstract class GenericGridFSFile(override val underlying: MongoGridFSFile) exten
 @BeanInfo
 class GridFSFile(_underlying: MongoGridFSFile) extends GenericGridFSFile(_underlying) {
   type DateType = java.util.Date
-  def convertDate(in: java.util.Date) = in
+  def convertDate(in: AnyRef) = in match {
+    case d: java.util.Date => d
+    case j: DateTime => new java.util.Date(j.getMillis)
+  }
 }
 
 
@@ -320,7 +323,10 @@ abstract class GenericGridFSDBFile protected[gridfs] (override val underlying: M
 @BeanInfo
 class GridFSDBFile(_underlying: MongoGridFSDBFile) extends GenericGridFSDBFile(_underlying) {
   type DateType = java.util.Date
-  def convertDate(in: java.util.Date) = in
+  def convertDate(in: AnyRef): DateType = in match {
+    case d: java.util.Date => d
+    case j: DateTime => new java.util.Date(j.getMillis)
+  }
 }
 
 
@@ -334,7 +340,10 @@ abstract class GenericGridFSInputFile protected[gridfs] (override val underlying
 @BeanInfo
 class GridFSInputFile(_underlying: MongoGridFSInputFile) extends GenericGridFSInputFile(_underlying) {
   type DateType = java.util.Date
-  def convertDate(in: java.util.Date) = in
+  def convertDate(in: AnyRef): DateType = in match {
+    case d: java.util.Date => d
+    case j: DateTime => new java.util.Date(j.getMillis)
+  }
 }
 
 
