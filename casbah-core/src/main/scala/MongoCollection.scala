@@ -306,7 +306,6 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    *
    * @throws MongoException
    */
-  @deprecated("Pass com.mongodb.WriteConcern to write ops instead for single op safety.")
   def request(op: this.type => WriteResult) = {
     op(this).getLastError.throwOnError
   }
@@ -327,7 +326,6 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * 
    * @throws MongoException
    */
-  @deprecated("Pass com.mongodb.WriteConcern to write ops instead for single op safety.")
   def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)(op: this.type => WriteResult) =
     op(this).getLastError(WriteConcern(w, wTimeout, fsync)).throwOnError
 
@@ -347,7 +345,6 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * 
    * @throws MongoException
    */
-  @deprecated("Pass com.mongodb.WriteConcern to write ops instead for single op safety.")
   def request(concern: com.mongodb.WriteConcern)(op: this.type => WriteResult) =
     op(this).getLastError(concern).throwOnError
 
