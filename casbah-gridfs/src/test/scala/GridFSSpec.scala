@@ -20,48 +20,67 @@
  * 
  */
 
-package com.mongodb.casbah
-package test
+package com.mongodb.casbah.test.gridfs
 
+import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.casbah.commons.Logging
 
 import java.security.MessageDigest
 import java.io._
 
-import org.specs._
-import org.specs.specification.PendingUntilFixed
+class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecification {
+  implicit val mongo = MongoConnection()("casbah_test")
+  mongo.dropDatabase()
+  val gridfs = GridFS(mongo)
+  def logo_fh = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
 
-class GridFSSpec extends Specification with PendingUntilFixed with Logging {
-  val logo_md5 = "479977b85391a88bbc1da1e9f5175239"
-  val digest = MessageDigest.getInstance("MD5")
+  def logo_bytes = {
+    val data = new Array[Byte](logo_fh.available())
+    logo_fh.read(data)
+    data
+  }
+
+  def logo = new ByteArrayInputStream(logo_bytes)
+
+  lazy val digest = MessageDigest.getInstance("MD5")
+  digest.update(logo_bytes)
+  lazy val logo_md5 = digest.digest().map("%02X" format _).mkString.toLowerCase()
+
+  def findItem(id: ObjectId, filename: Option[String] = None, contentType: Option[String] = None) = {
+    gridfs.findOne(id) must beSome[GridFSDBFile]
+    var md5 = ""
+    var fn: Option[String] = None
+    var ct: Option[String] = None
+    gridfs.findOne(id) foreach { file =>
+      md5 = file.md5
+      fn = file.filename
+      ct = file.contentType
+    }
+
+    md5 must beEqualTo(logo_md5)
+    fn must beEqualTo(filename)
+    ct must beEqualTo(contentType)
+  }
 
   "Casbah's GridFS Implementations" should {
-    shareVariables()
     implicit val mongo = MongoConnection()("casbah_test")
     mongo.dropDatabase()
-    val logo = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
     val gridfs = GridFS(mongo)
 
-    "Correctly save a file to GridFS" in {
-      gridfs must notBeNull
-      logo must notBeNull
-
-      gridfs(logo) { fh =>
-        fh.filename = "powered_by_mongo.png"
+    "Find the file in GridFS later" in {
+      val id = gridfs(logo_bytes) { fh =>
+        fh.filename = "powered_by_mongo_find.png"
         fh.contentType = "image/png"
       }
 
-    }
-
-    "Find the file in GridFS later" in {
-      gridfs.findOne("powered_by_mongo.png") must beSome[GridFSDBFile]
-      gridfs.findOne("powered_by_mongo.png") foreach { file =>
-        file must notBeNull
-        file must haveSuperClass[GridFSDBFile]
-        file.md5 must beEqualTo(logo_md5)
+      gridfs.findOne("powered_by_mongo_find.png") must beSome[GridFSDBFile]
+      var md5 = ""
+      gridfs.findOne("powered_by_mongo_find.png") foreach { file =>
+        md5 = file.md5
         log.debug("MD5: %s", file.md5)
       }
+      md5 must beEqualTo(logo_md5)
     }
 
     "Correctly catch the non-existence of a file and fail gracefully" in {
@@ -70,16 +89,62 @@ class GridFSSpec extends Specification with PendingUntilFixed with Logging {
 
     "Return a wrapped MongoCursor if you call files,  as reported by Gregg Carrier" in {
       val files = gridfs.files
-      files must notBeNull
-      files must haveClass[MongoCursor]
+      files must beAnInstanceOf[MongoCursor]
     }
 
     "Be properly iterable" in {
+      val id = gridfs(logo) { fh =>
+        fh.filename = "powered_by_mongo_iter.png"
+        fh.contentType = "image/png"
+      }
       var x = false
       for (f <- gridfs) x = true
       x must beTrue
     }
 
+  }
+  "Return the created file's ID from the loan pattern methods." should {
+
+    "Using a InputStream" in {
+      val id = gridfs(logo) { fh =>
+        fh.filename = "powered_by_mongo_inputstream.png"
+        fh.contentType = "image/png"
+      }
+      id must beSome[AnyRef]
+      id.get must beAnInstanceOf[ObjectId]
+      findItem(id.get.asInstanceOf[ObjectId], Some("powered_by_mongo_inputstream.png"), Some("image/png"))
+    }
+
+    "Using a Byte Array" in {
+      val id = gridfs(logo_bytes) { fh =>
+        fh.filename = "powered_by_mongo_bytes.png"
+        fh.contentType = "image/png"
+      }
+      id must beSome
+      id.get must beAnInstanceOf[ObjectId]
+      findItem(id.get.asInstanceOf[ObjectId], Some("powered_by_mongo_bytes.png"), Some("image/png"))
+    }
+  }
+  "Allow filename and contentType to be nullable, returning 'None' appropriately." in {
+      "Filename may be null" in {
+        val id = gridfs(logo) { fh =>
+          fh.contentType = "image/png"
+        }
+        id.get must beAnInstanceOf[ObjectId]
+        findItem(id.get.asInstanceOf[ObjectId], None, Some("image/png"))
+      }
+    "content Type may be null" in {
+        val id = gridfs(logo) { fh =>
+          fh.filename = "null_content_type.png"
+        }
+        id.get must beAnInstanceOf[ObjectId]
+        findItem(id.get.asInstanceOf[ObjectId], Some("null_content_type.png"), None)
+      }
+    "both may be null" in {
+        val id = gridfs(logo) { fh => }
+        id.get must beAnInstanceOf[ObjectId]
+        findItem(id.get.asInstanceOf[ObjectId])
+      }
   }
 
 }
