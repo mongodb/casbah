@@ -164,17 +164,20 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
   def isPartialObject = underlying.isPartialObject
   def markAsPartialObject = underlying.markAsPartialObject
   def partialObject = isPartialObject
-  override def put(k: String, v: AnyRef) = v match {
-    case x: MongoDBObject => put(k, x.asDBObject)
-    case _v: Option[_] => 
-      underlying.put(k, _v.orNull) match {
-        case null => None 
-        case value => Some(value)
-      }
-    case _ =>
-      underlying.put(k, v) match {
-        case null => None
-        case value => Some(value)
+
+  override def put(k: String, v: AnyRef) = {
+    val cvt = MongoDBObject.convertValue(v) 
+    cvt match {
+      case _v: Option[_] => 
+        underlying.put(k, _v.orNull) match {
+          case null => None 
+          case value => Some(value)
+        }
+      case _ =>
+        underlying.put(k, cvt) match {
+          case null => None
+          case value => Some(value)
+        }
       }
   }
 
@@ -214,6 +217,20 @@ object MongoDBObject {
 
   def newBuilder[A <: String, B <: Any]: Builder[(String, Any), DBObject] = new MongoDBObjectBuilder
 
+  protected[mongodb] def convertValue(v: Any): Any = v match {
+    case x: MongoDBObject => 
+      x.asDBObject
+    case m: scala.collection.Map[String, _] => 
+      // attempt to convert it to a DBObject
+      m.asDBObject
+    case _v: Option[_] =>
+      val n = convertValue(_v.orNull)
+      val z = Option(n)
+      z
+    case _ =>
+      v
+  }
+
 }
 
 sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
@@ -223,9 +240,10 @@ sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
   protected var elems = empty
 
   override def +=(x: (String, Any)) = {
-    x._2 match {
+    val cvt = MongoDBObject.convertValue(x._2) 
+    cvt match {
       case _v: Option[_] => elems.add(x._1, _v.orNull)
-      case _ => elems.add(x._1, x._2)
+      case _ => elems.add(x._1, cvt)
     }
     this
   }
