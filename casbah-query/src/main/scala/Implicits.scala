@@ -165,6 +165,7 @@ trait ValidBarewordExpressionArgTypeHolder {
 
 
 
+@annotation.implicitNotFound("${A} is not iterable.")
 trait AsIterable[A]{
   def asIterable(a:A):Iterable[_]
 }
@@ -187,7 +188,7 @@ object AsIterable {
 
 
 
-@annotation.implicitNotFound("${A} is not a valid query parameter")
+@annotation.implicitNotFound("${A} is not a valid query parameter.")
 trait AsQueryParam[A]{
   def asQueryParam(a:A):Any
 }
