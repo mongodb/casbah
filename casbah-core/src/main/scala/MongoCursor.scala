@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -282,8 +282,9 @@ trait MongoCursorBase extends Logging {
    * slaveOk
    * 
    * Makes this query OK to run on a non-master node.
-   *
+   * @deprecated Replaced with ReadPreference.SECONDARY
    */
+  @deprecated("Replaced with ReadPreference.SECONDARY")
   def slaveOk() = underlying.slaveOk() // parens for side-effect
 
   def numGetMores = underlying.numGetMores
@@ -550,9 +551,19 @@ object MongoCursor extends Logging {
    * @param  keys (K) Keys to return from the query
    * @return (instance) A new MongoCursor
    */
-  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject,
-    keys: DBObject) = {
-    val cursor = new DBCursor(collection.underlying, query, keys)
+   def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject): MongoCursorBase = apply(collection, query, keys, collection.readPreference)
+
+  /** 
+   * Initialize a new cursor with your own custom settings
+   * 
+   * @param  collection (MongoCollection)  collection to use
+   * @param  query (Q) Query to perform
+   * @param  keys (K) Keys to return from the query
+   * @param  readPreference 
+   * @return (instance) A new MongoCursor
+   */
+  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject, readPref: ReadPreference) = {
+    val cursor = new DBCursor(collection.underlying, query, keys, readPref)
 
     if (manifest[T] == manifest[DBObject])
       new MongoCursor(cursor)
@@ -610,7 +621,7 @@ class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends M
  * @param  val underlying (DBObject) 
  * @see http://dochub.mongodb.org/core/explain
  */
-sealed class CursorExplanation(val underlying: DBObject) extends MongoDBObject {
+sealed class CursorExplanation(override val underlying: DBObject) extends MongoDBObject {
 
   /** 
    * cursor

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,28 +25,24 @@ package com.mongodb.casbah
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.conversions.scala._
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 import org.scala_tools.time.Imports._
 
-import org.specs._
-import org.specs.specification.PendingUntilFixed
+import com.mongodb.casbah.Imports._
 
-class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging {
+
+class CoreWrappersSpec extends CasbahMutableSpecification {
 
   "Casbah behavior between Scala and Java versions of Objects" should {
-    shareVariables
 
     "provide working .asScala methods on the Java version of the objects" in {
 
       val javaConn = new com.mongodb.Mongo() // Java connection
 
       "Connection objects" in {
-        javaConn must notBeNull
 
         val scalaConn = javaConn.asScala
-
-        scalaConn must notBeNull
-        scalaConn must haveSuperClass[com.mongodb.casbah.MongoConnection]
 
         scalaConn.underlying must beEqualTo(javaConn)
       }
@@ -54,12 +50,8 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
       val javaDb = javaConn.getDB("test")
 
       "DB objects" in {
-        javaDb must notBeNull
 
         val scalaDb = javaDb.asScala
-
-        scalaDb must notBeNull
-        scalaDb must haveSuperClass[com.mongodb.casbah.MongoDB]
 
         scalaDb.underlying must beEqualTo(javaDb)
       }
@@ -67,57 +59,33 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
       val javaCollection = javaDb.getCollection("test")
 
       "Collection objects" in {
-        javaCollection must notBeNull
 
         val scalaCollection = javaCollection.asScala
 
-        scalaCollection must notBeNull
-        scalaCollection must haveSuperClass[com.mongodb.casbah.MongoCollection]
 
         scalaCollection.underlying must beEqualTo(javaCollection)
       }
     }
 
     "be directly instantiable, with working apply methods" in {
-      var conn: MongoConnection = null
-      var db: MongoDB = null
-      var coll: MongoCollection = null
+      var conn: MongoConnection = MongoConnection()
+      var db: MongoDB = conn("test")
+      var coll: MongoCollection = db("collection.in")
 
       "MongoConnection" in {
         "direct instantiation" in {
-          conn = MongoConnection()
-          conn must notBeNull
-          conn must haveSuperClass[com.mongodb.casbah.MongoConnection]
-
-          conn.underlying must notBeNull
-          conn.underlying must haveSuperClass[com.mongodb.Mongo]
+          conn.underlying must haveClass[com.mongodb.Mongo]
         }
 
         "the apply method works" in {
-          conn must notBeNull
-
-          db = conn("test")
-
-          db must notBeNull
-          db must haveSuperClass[com.mongodb.casbah.MongoDB]
-
-          db.underlying must notBeNull
-          db.underlying must haveSuperClass[com.mongodb.DB]
+          db.underlying must haveSuperclass[com.mongodb.DB]
 
         }
       }
 
       "MongoDB" in {
         "has a working apply method" in {
-          db must notBeNull
-
-          coll = db("collection.in")
-
-          coll must notBeNull
-          coll must haveSuperClass[com.mongodb.casbah.MongoCollection]
-
-          coll.underlying must notBeNull
-          coll.underlying must haveSuperClass[com.mongodb.DBCollection]
+          coll.underlying must beAnInstanceOf[com.mongodb.DBCollection]
         }
       }
 
@@ -129,13 +97,11 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
       val coll = db("collectoin")
       coll.drop()
       coll.insert(MongoDBObject("foo" -> "bar"))
-      coll must notBeNull
-      coll must haveSuperClass[com.mongodb.casbah.MongoCollection]
+      coll must beAnInstanceOf[com.mongodb.casbah.MongoCollection]
       coll.name must beEqualTo("collectoin")
 
       val newColl = coll.rename("collection")
-      newColl must notBeNull
-      newColl must haveSuperClass[com.mongodb.casbah.MongoCollection]
+      newColl must beAnInstanceOf[com.mongodb.casbah.MongoCollection]
       newColl.name must beEqualTo("collection")
 
       // no mutability in the old collection
@@ -147,7 +113,6 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
   }
 
   "findOne operations" should {
-    shareVariables()
     val db = MongoConnection()("casbahTest")
 
     "Not fail as reported by Max Afonov in SCALA-11" in {
@@ -156,16 +121,15 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
       coll.insert(MongoDBObject("foo" -> "bar"))
       val basicFind = coll.find(MongoDBObject("foo" -> "bar"))
 
-      basicFind must notBeNull
       basicFind must haveSize(1)
 
       val findOne = coll.findOne()
 
-      findOne must beSomething
+      findOne must beSome
 
       val findOneMatch = coll.findOne(MongoDBObject("foo" -> "bar"))
 
-      findOneMatch must beSomething
+      findOneMatch must beSome
 
     }
   }
@@ -173,7 +137,6 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
   "Cursor Operations" should {
     import scala.util.Random
 
-    shareVariables()
     val db = MongoConnection()("casbahTest")
     val coll = db("test_coll_%d".format(System.currentTimeMillis))
 
@@ -183,22 +146,24 @@ class CoreWrappersSpec extends Specification with PendingUntilFixed with Logging
     val first5 = coll.find(MongoDBObject("foo" -> "bar")) limit 5
 
     "Behave in chains" in {
-      "For loops for idiomatic cleanness" in {
-
-        // todo - add limit, skip etc on COLLECTION for cleaner chains like this?
-        val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5 limit 20) yield x
-
-        items must haveSize(20)
-        // TODO - Matchers that support freaking cursors, etc
-        /*items must haveSameElementsAs(first5).not*/
-      }
+/*
+ *      "For loops for idiomatic cleanness" in {
+ *
+ *        // todo - add limit, skip etc on COLLECTION for cleaner chains like this?
+ *        val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5 limit 20) yield x
+ *
+ *        items must haveSize(20)
+ *        // TODO - Matchers that support freaking cursors, etc
+ *        [>items must haveSameElementsAs(first5).not<]
+ *      }
+ */
 
       "Chain operations must return the proper *subtype*" in {
         val cur = coll.find(MongoDBObject("foo" -> "bar")) skip 5
-        cur must haveClass[MongoCursor]
+        cur must beAnInstanceOf[MongoCursor]
 
         val cur2 = coll.find(MongoDBObject("foo" -> "bar")) limit 25 skip 12
-        cur2 must haveClass[MongoCursor]
+        cur2 must beAnInstanceOf[MongoCursor]
 
       }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -151,6 +151,10 @@ trait TypeImports {
   type MapReduceMergeOutput = com.mongodb.casbah.map_reduce.MapReduceMergeOutput
   type MapReduceReduceOutput = com.mongodb.casbah.map_reduce.MapReduceReduceOutput
   type DBAddress = com.mongodb.DBAddress
+  type ReadPreference = com.mongodb.ReadPreference
+  type ServerAddress = com.mongodb.ServerAddress
+  type DBEncoder = com.mongodb.DBEncoder
+  type DBDecoder = com.mongodb.DBDecoder
 }
 
 // vim: set ts=2 sw=2 sts=2 et:

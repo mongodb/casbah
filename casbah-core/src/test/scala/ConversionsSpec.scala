@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,34 +20,33 @@
  * 
  */
 
-package com.mongodb.casbah.commons
-package conversions
+package com.mongodb.casbah.test.commons.conversions
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.conversions.scala._
 
 import org.scala_tools.time.Imports._
+import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+import org.specs2.specification.BeforeExample
+import org.bson.BSON
 
-import org.specs._
-import org.specs.specification.PendingUntilFixed
+import com.mongodb.casbah.Imports._
 
-class ConversionsSpec extends Specification with PendingUntilFixed {
+class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
 
   type JDKDate = java.util.Date
 
-  def clearConversions = beforeContext {
+  def before = {
     DeregisterConversionHelpers()
     DeregisterJodaTimeConversionHelpers()
   }
 
-  "Casbah's Conversion Helpers" ->- (clearConversions) should {
-    shareVariables
+  "Casbah's Conversion Helpers" should {
 
     implicit val mongoDB = MongoConnection()("casbahTest")
     mongoDB.dropDatabase()
 
     "Properly save Option[_] to MongoDB" in {
-      mongoDB must notBeNull
       val mongo = mongoDB("optionSerialization")
       mongo.dropCollection()
 
@@ -66,7 +65,6 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
     jodaDate.getMillis must beEqualTo(jdkDate.getTime)
 
     "Fail to serialize Joda DateTime Objects unless explicitly loaded." in {
-      mongoDB must notBeNull
       val mongo = mongoDB("dateFail")
       mongo.dropCollection()
 
@@ -79,15 +77,12 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"),
         MongoDBObject("date" -> 1))
 
-      jdkEntry.get
-      jdkEntry must beSomething
+      jdkEntry must beSome
 
-      jdkEntry.get must notBeNull
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
     }
 
     "Successfully serialize & deserialize Joda DateTime Objects when convertors are loaded." in {
-      mongoDB must notBeNull
       val mongo = mongoDB("jodaSerDeser")
       mongo.dropCollection()
       RegisterConversionHelpers()
@@ -99,8 +94,7 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
         MongoDBObject("date" -> 1))
 
-      jodaEntry must beSomething
-      jodaEntry.get must notBeNull
+      jodaEntry must beSome
       //jodaEntry.get.get("date") must beSome[DateTime]
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
       // Casting it as something it isn't will fail
@@ -110,7 +104,6 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
     }
 
     "Be successfully deregistered." in {
-      mongoDB must notBeNull
       val mongo = mongoDB("conversionDeReg")
       mongo.dropCollection()
       RegisterConversionHelpers()
@@ -127,9 +120,8 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"),
         MongoDBObject("date" -> 1))
 
-      jdkEntry must beSomething
+      jdkEntry must beSome
 
-      jdkEntry.get must notBeNull
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
       lazy val getDate = { jdkEntry.get.getAs[DateTime]("date") }
@@ -137,7 +129,6 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       getDate.get must throwA[ClassCastException]
     }
     "Inserting a JDKDate should still allow retrieval as JodaTime after Conversions load" in {
-      mongoDB must notBeNull
       val mongo = mongoDB("conversionConversion")
       mongo.dropCollection()
       RegisterConversionHelpers()
@@ -147,9 +138,8 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"),
         MongoDBObject("date" -> 1))
 
-      jdkEntry must beSomething
+      jdkEntry must beSome
 
-      jdkEntry.get must notBeNull
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
       lazy val getDate = { jdkEntry.get.getAs[DateTime]("date") }
@@ -161,9 +151,8 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       val jodaEntry = mongo.findOne(MongoDBObject("type" -> "jdk"),
         MongoDBObject("date" -> 1))
 
-      jodaEntry must beSomething
+      jodaEntry must beSome
 
-      jodaEntry.get must notBeNull
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
       // Casting it as something it isn't will fail
       lazy val getConvertedDate = { jodaEntry.get.getAs[JDKDate]("date") }
@@ -175,7 +164,6 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
       val jodaEntry: DBObject = MongoDBObject("type" -> "jdk",
         "date" -> jdkDate)
 
-      jodaEntry must notBeNull
       /*jodaEntry.getAs[DateTime]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
       lazy val getDate = { jodaEntry.getAs[JDKDate]("date") } 
@@ -185,7 +173,50 @@ class ConversionsSpec extends Specification with PendingUntilFixed {
 
       val json = jodaEntry.toString
 
-      json must notBeNull
+      json must not beNull
+    }
+  }
+  
+  "Casbah and Java Driver custom type encoding" should {
+    val encoder = new com.mongodb.DefaultDBEncoder()
+    def encode(doc: DBObject): Long = {
+      val start = System.currentTimeMillis()
+      val encoded = encoder.encode(doc)
+      val end = System.currentTimeMillis()
+      end - start
+    }
+    DeregisterConversionHelpers()
+    DeregisterJodaTimeConversionHelpers()
+
+    "Produce viable performance numbers to test off of " >> {
+      "Encoding DateTimes without any custom encoders registered " in {
+        var total = 0.0
+        val x = 10000
+        for (n <- 1 to x) {
+          val doc = MongoDBObject("date1" -> new JDKDate, "date2" -> new JDKDate, "foo" -> "bar", "x" -> 5.2)
+          total += encode(doc)
+        }
+
+        val avg = total / x  
+
+        log.error("[Basic] Average encoding time over %s tries: %f [%s]", x, avg, total)
+        avg must beGreaterThan(0.0)
+      }
+
+      "Encoding Joda DateTimes with custom encoders registered " in {
+        RegisterJodaTimeConversionHelpers()
+        var total = 0.0
+        val x = 10000
+        for (n <- 1 to x) {
+          val doc = MongoDBObject("date1" -> DateTime.now, "date2" -> DateTime.now, "foo" -> "bar", "x" -> 5.2)
+          total += encode(doc)
+        }
+
+        val avg = total / x  
+
+        log.error("[Custom Types] Average encoding time over %s tries: %f [%s]", x, avg, total)
+        avg must beGreaterThan(0.0)
+      }
     }
   }
 }

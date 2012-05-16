@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +42,7 @@ object MongoConnection {
    * @throws UnknownHostException
    * @throws MongoException
    */
-  def apply() = new MongoConnection(new Mongo())
+  def apply() = new MongoConnection(new com.mongodb.Mongo())
 
   /**
    * Replica Set connection
@@ -54,7 +54,7 @@ object MongoConnection {
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoConnection(new Mongo(replicaSetSeeds.asJava))
+  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoConnection(new com.mongodb.Mongo(replicaSetSeeds.asJava))
 
   /**
    * Replica Set connection
@@ -68,21 +68,21 @@ object MongoConnection {
    * @see MongoDBAddress
    */
   def apply(replicaSetSeeds: List[ServerAddress], options: MongoOptions) =
-    new MongoConnection(new Mongo(replicaSetSeeds.asJava, options))
+    new MongoConnection(new com.mongodb.Mongo(replicaSetSeeds.asJava, options))
 
   /** 
    * Connect via a MongoURI
    * 
    * @param  uri (MongoURI) 
    */
-  def apply(uri: MongoURI) = new MongoConnection(new Mongo(uri.underlying))
+  def apply(uri: MongoURI) = new MongoConnection(new com.mongodb.Mongo(uri.underlying))
 
   /** 
    * Connect via a com.mongodb.MongoURI
    * 
    * @param  uri (com.mongodb.MongoURI) 
    */
-  def apply(uri: com.mongodb.MongoURI) = new MongoConnection(new Mongo(uri))
+  def apply(uri: com.mongodb.MongoURI) = new MongoConnection(new com.mongodb.Mongo(uri))
 
   /** 
    * Connects to a (single) mongodb node.
@@ -92,7 +92,7 @@ object MongoConnection {
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(addr: ServerAddress) = new MongoConnection(new Mongo(addr))
+  def apply(addr: ServerAddress) = new MongoConnection(new com.mongodb.Mongo(addr))
 
   /** 
    * Connects to a (single) mongodb node.
@@ -105,7 +105,7 @@ object MongoConnection {
    * @see MongoOptions
    */
   def apply(addr: ServerAddress, options: MongoOptions) =
-    new MongoConnection(new Mongo(addr, options))
+    new MongoConnection(new com.mongodb.Mongo(addr, options))
 
   /** 
    * Creates a Mongo connection in paired mode.
@@ -119,7 +119,7 @@ object MongoConnection {
    * @see MongoDBAddress
    */
   def apply(left: ServerAddress, right: ServerAddress) =
-    new MongoConnection(new Mongo(left, right))
+    new MongoConnection(new com.mongodb.Mongo(left, right))
 
   /** 
    * Creates a Mongo connection in paired mode.
@@ -136,7 +136,7 @@ object MongoConnection {
    */
   def apply(left: ServerAddress, right: ServerAddress,
     options: com.mongodb.MongoOptions) =
-    new MongoConnection(new Mongo(left, right, options))
+    new MongoConnection(new com.mongodb.Mongo(left, right, options))
 
   /** 
    * Connects to a (single) mongodb node (default port)
@@ -145,7 +145,7 @@ object MongoConnection {
    * @throws UnknownHostException
    * @throws MongoException
    */
-  def apply(host: String) = new MongoConnection(new Mongo(host))
+  def apply(host: String) = new MongoConnection(new com.mongodb.Mongo(host))
   /** 
    * Connects to a (single) mongodb node
    * 
@@ -154,9 +154,9 @@ object MongoConnection {
    * @throws UnknownHostException
    * @throws MongoException
    */
-  def apply(host: String, port: Int) = new MongoConnection(new Mongo(host, port))
+  def apply(host: String, port: Int) = new MongoConnection(new com.mongodb.Mongo(host, port))
 
-  def connect(addr: DBAddress) = new MongoDB(Mongo.connect(addr))
+  def connect(addr: DBAddress) = new MongoDB(com.mongodb.Mongo.connect(addr))
 
 }
 
@@ -165,7 +165,7 @@ object MongoConnection {
  *
  * @author Brendan W. McAdams <brendan@10gen.com>
  */
-class MongoConnection(val underlying: Mongo) {
+class MongoConnection(val underlying: com.mongodb.Mongo) {
   /**
    * Apply method which proxies getDB, allowing you to call
    * <code>connInstance("dbName")</code>
@@ -228,7 +228,9 @@ class MongoConnection(val underlying: Mongo) {
 
   /** 
    * Sets queries to be OK to run on slave nodes.
+   * @deprecated Replaced with ReadPreference.SECONDARY
    */
+  @deprecated("Replaced with ReadPreference.SECONDARY")
   def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /** 
@@ -293,7 +295,7 @@ class MongoConnection(val underlying: Mongo) {
    * @see WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def getWriteConcern() = underlying.getWriteConcern()
+  def getWriteConcern = underlying.getWriteConcern()
 
   /**
    * 
@@ -306,6 +308,41 @@ class MongoConnection(val underlying: Mongo) {
    */
   def writeConcern = getWriteConcern
 
+ /**
+   * Sets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def readPreference_=(pref: ReadPreference) = setReadPreference(pref)
+
+  /**
+   * Sets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def setReadPreference(pref: ReadPreference) = underlying.setReadPreference(pref)
+
+  /**
+   * Gets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def readPreference = getReadPreference
+
+  /**
+   * Gets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def getReadPreference = underlying.getReadPreference
 }
 
 /**

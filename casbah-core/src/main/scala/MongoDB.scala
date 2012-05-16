@@ -221,7 +221,9 @@ class MongoDB(val underlying: com.mongodb.DB) {
 
   /** 
    * Sets queries to be OK to run on slave nodes.
+   * @deprecated Replaced with ReadPreference.SECONDARY
    */
+  @deprecated("Replaced with ReadPreference.SECONDARY")
   def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**
@@ -257,7 +259,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @see WriteConcern 
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def getWriteConcern() = underlying.getWriteConcern()
+  def getWriteConcern = underlying.getWriteConcern()
 
   /**
    * 
@@ -269,6 +271,42 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def writeConcern = getWriteConcern
+
+  /*
+   * Sets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def readPreference_=(pref: ReadPreference) = setReadPreference(pref)
+
+  /**
+   * Sets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def setReadPreference(pref: ReadPreference) = underlying.setReadPreference(pref)
+
+  /**
+   * Gets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def readPreference = getReadPreference
+
+  /**
+   * Gets the read preference for this database. Will be used as default for
+   * reads from any collection in this database. See the
+   * documentation for {@link ReadPreference} for more information.
+   *
+   * @param preference Read Preference to use
+   */
+  def getReadPreference = underlying.getReadPreference
 
   /**
    * Checks to see if a collection by name %lt;name&gt; exists.
