@@ -281,6 +281,42 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
         }
       }
     }
+    "Eager conversions of nested values" in {
+      "Map values saved as DBObject values should convert" in {
+        "From the MongoDBObject constructor" in {
+          val dbObj = MongoDBObject("foo" -> "bar", "x" -> 5,
+                                    "map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
+          val map: Option[DBObject] = dbObj.getAs[DBObject]("map") 
+          map.orNull must beDBObject 
+          /*
+           *map must haveEntries("spam" -> 8.2, "eggs" -> "bacon")
+           */
+        }
+        "From the MongoDBObjectBuilder" in {
+          val b = MongoDBObject.newBuilder
+          b += "foo" -> "bar"
+          b += "x" -> 5
+          b += "map" -> Map("spam" -> 8.2, "eggs" -> "bacon")
+          val dbObj = b.result
+          val map: Option[DBObject] = dbObj.getAs[DBObject]("map") 
+          map.orNull must beDBObject 
+          /*
+           *map must haveEntries("spam" -> 8.2, "eggs" -> "bacon")
+           */
+        }
+        "From the put method" in {
+          val dbObj = MongoDBObject("foo" -> "bar", "x" -> 5)
+          dbObj += ("map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
+          val map: Option[DBObject] = dbObj.getAs[DBObject]("map") 
+          map.orNull must beDBObject 
+          /*
+           *map must haveEntries("spam" -> 8.2, "eggs" -> "bacon")
+           */
+        }
+
+      }
+
+    }
   }
 
 }
