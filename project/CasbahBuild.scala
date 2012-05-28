@@ -32,13 +32,25 @@ object CasbahBuild extends Build {
   )
 
   lazy val defaultSettings = baseSettings ++ Seq(
-    libraryDependencies ++= Seq(scalatest(scalaVersion), slf4j, slf4jJCL, junit),
+    libraryDependencies ++= Seq(scalatest(scalaVersion),  slf4j, slf4jJCL, junit),
     libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
-      val versionMap = Map("2.8.0" -> ("specs2_2.8.0", "1.5"),
-                           "2.8.1" -> ("specs2_2.8.1", "1.5"),
+      sv match {
+        case "2.9.2" => 
+          deps :+ ("org.scalaj" % "scalaj-collection_2.9.1" % "1.2") 
+          deps :+ ("org.scala-tools.time" % "time_2.9.1" % "0.5")
+        case x => {
+          deps :+ ("org.scalaj" %%  "scalaj-collection" % "1.2") 
+          deps :+ ("org.scala-tools.time" %% "time" % "0.5")
+        }
+      }
+
+    },
+    libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
+      val versionMap = Map("2.8.1" -> ("specs2_2.8.1", "1.5"),
                            "2.9.0" -> ("specs2_2.9.0", "1.7.1"),
                            "2.9.0-1" -> ("specs2_2.9.0", "1.7.1"),
-                           "2.9.1" -> ("specs2_2.9.1", "1.7.1"))
+                           "2.9.1" -> ("specs2_2.9.1", "1.7.1"),
+                           "2.9.2" -> ("specs2_2.9.2", "1.10"))
       val tuple = versionMap.getOrElse(sv, sys.error("Unsupported Scala version for Specs2"))
       deps :+ ("org.specs2" % tuple._1 % tuple._2)
     },
@@ -46,6 +58,7 @@ object CasbahBuild extends Build {
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2
   )
+
 
   lazy val casbah = Project(
     id        = "casbah",
@@ -58,7 +71,7 @@ object CasbahBuild extends Build {
     id       = "casbah-util",
     base     = file("casbah-util"),
     settings = defaultSettings ++ Seq(
-      libraryDependencies ++= Seq(mongoJavaDriver, scalajCollection, slf4j, slf4jJCL, scalaTime)
+      libraryDependencies ++= Seq(mongoJavaDriver, slf4j, slf4jJCL)
     )
   )
 
@@ -66,7 +79,7 @@ object CasbahBuild extends Build {
     id       = "casbah-commons",
     base     = file("casbah-commons"),
     settings = defaultSettings ++ Seq(
-      libraryDependencies ++= Seq(mongoJavaDriver, scalajCollection, slf4j, slf4jJCL, scalaTime)
+      libraryDependencies ++= Seq(mongoJavaDriver, slf4j, slf4jJCL)
     )
   ) dependsOn(util)
 
@@ -93,7 +106,6 @@ object CasbahBuild extends Build {
 object Dependencies {
 
   val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.7.3"
-  val scalajCollection = "org.scalaj" %% "scalaj-collection" % "1.2"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
   val specs2 = "org.specs2" %% "specs2" % "1.5.1" % "provided"
@@ -127,7 +139,6 @@ object Dependencies {
 
   // JCL bindings for testing only
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
-  val scalaTime        = "org.scala-tools.time" %% "time" % "0.5"
 
 }
 
