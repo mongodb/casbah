@@ -2,6 +2,7 @@
 2.3.0-RC1 / 2012-05-29 
 ==================
 
+  * Package Change! Casbah is now available as "org.mongodb" % "casbah" % "2.3.0-RC1"
   * Updated to Mongo Java Driver  2.8.0-RC1
   * Changed some tests to run sequentially to avoid shared variable races.
   * JodaGridFS wasn't properly checked in before.
@@ -37,9 +38,9 @@
         - New code logic, fixed $or, $and and $nor for proper nested list operations       
         - New :: list cons operator on MongoDBObject to create MongoDBLists on th fly (esp. for DSL)     
         - Typesafety kungfu from @jteigen       
-            ~ enforce at compile time that type parameters used for casting are not Nothing       
-            ~ enforce  $pushAll & $pullAll arguments can be converted to Iterable at compile time       
-            ~ switched to a type class (AsQueryParam) for queryparams to avoid code duplication
+            * enforce at compile time that type parameters used for casting are not Nothing       
+            * enforce  $pushAll & $pullAll arguments can be converted to Iterable at compile time       
+            * switched to a type class (AsQueryParam) for queryparams to avoid code duplication
   * SCALA-69: Maps saved to DBObject are now eagerly converted to a DBObject, from factory, builder and put methods.
   * Always return MongoDBList from Factories/Builders instead of Seq[Any]
   * Backports from Casbah 3.0     
