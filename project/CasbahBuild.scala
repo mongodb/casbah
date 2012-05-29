@@ -7,7 +7,7 @@ object CasbahBuild extends Build {
 
   lazy val buildSettings = Seq(
     organization := "org.mongodb",
-    version      := "2.3.0-M1",
+    version      := "2.3.0-RC1",
     crossScalaVersions := Seq("2.9.2", "2.9.1", "2.9.0-1", "2.9.0", "2.8.1")
   )
 
@@ -113,7 +113,7 @@ object CasbahBuild extends Build {
 
 object Dependencies {
 
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.8.0-SNAPSHOT"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.8.0-RC1"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
   val specs2 = "org.specs2" %% "specs2" % "1.5.1" % "provided"

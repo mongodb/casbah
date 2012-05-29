@@ -1,4 +1,12 @@
 
+2.3.0-RC1 / 2012-05-29 
+==================
+
+  * Updated to Mongo Java Driver  2.8.0-RC1
+  * Changed some tests to run sequentially to avoid shared variable races.
+  * JodaGridFS wasn't properly checked in before.
+  * Updated MongoOptions to sync up with options provided in Java Driver.
+
 2.3.0-M1 / 2012-05-28 
 ==================
   * Pre-Beta milestone (linked against unreleased Java Driver release)
