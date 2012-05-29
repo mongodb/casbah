@@ -26,6 +26,10 @@ import com.mongodb.casbah.Imports._
 
 import scalaj.collection.Imports._
 
+import com.mongodb.{ DBCursor , DBCollection , DBDecoderFactory, DBEncoderFactory}
+
+import javax.net.SocketFactory
+
 /** 
  * Helper class for creating MongoOptions instances
  * 
@@ -35,6 +39,7 @@ import scalaj.collection.Imports._
  */
 object MongoOptions {
 
+  val Defaults = new MongoOptions()
   /**
    * Instantiate a new MongoOptions instance
    *
@@ -48,13 +53,25 @@ object MongoOptions {
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(autoConnectRetry: Boolean = new MongoOptions().autoConnectRetry,
-    connectionsPerHost: Int = new MongoOptions().connectionsPerHost,
-    threadsAllowedToBlockForConnectionMultiplier: Int = new MongoOptions().threadsAllowedToBlockForConnectionMultiplier,
-    maxWaitTime: Int = new MongoOptions().maxWaitTime,
-    connectTimeout: Int = new MongoOptions().connectTimeout,
-    socketTimeout: Int = new MongoOptions().socketTimeout,
-    socketKeepAlive: Boolean = new MongoOptions().socketKeepAlive) = {
+  def apply(autoConnectRetry: Boolean = Defaults.autoConnectRetry,
+    connectionsPerHost: Int = Defaults.connectionsPerHost,
+    threadsAllowedToBlockForConnectionMultiplier: Int = Defaults.threadsAllowedToBlockForConnectionMultiplier,
+    maxWaitTime: Int = Defaults.maxWaitTime,
+    connectTimeout: Int = Defaults.connectTimeout,
+    socketTimeout: Int = Defaults.socketTimeout,
+    socketKeepAlive: Boolean = Defaults.socketKeepAlive,
+    maxAutoConnectRetryTime: Long = Defaults.maxAutoConnectRetryTime,
+    slaveOk: Boolean = Defaults.slaveOk,
+    safe: Boolean = Defaults.safe,
+    w: Int = Defaults.w,
+    wTimeout: Int = Defaults.wtimeout,
+    fsync: Boolean = Defaults.fsync,
+    j: Boolean = Defaults.j,
+    dbDecoderFactory: DBDecoderFactory = Defaults.dbDecoderFactory, 
+    dbEncoderFactory: DBEncoderFactory = Defaults.dbEncoderFactory,
+    socketFactory: SocketFactory = Defaults.socketFactory,
+    description: String = Defaults.description
+    ) = {
     val options = new MongoOptions;
 
     options.autoConnectRetry = autoConnectRetry
@@ -64,6 +81,17 @@ object MongoOptions {
     options.connectTimeout = connectTimeout
     options.socketTimeout = socketTimeout
     options.socketKeepAlive = socketKeepAlive
+    options.maxAutoConnectRetryTime = maxAutoConnectRetryTime
+    options.slaveOk = slaveOk
+    options.safe = safe
+    options.w = w
+    options.wtimeout = wTimeout
+    options.fsync = fsync
+    options.j = j
+    options.dbDecoderFactory = dbDecoderFactory
+    options.dbEncoderFactory = dbEncoderFactory
+    options.socketFactory = socketFactory
+    options.description = description
     options
   }
 
