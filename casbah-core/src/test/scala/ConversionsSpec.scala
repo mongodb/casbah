@@ -33,7 +33,7 @@ import org.bson.BSON
 import com.mongodb.casbah.Imports._
 
 class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
-
+  sequential
   type JDKDate = java.util.Date
 
   def before = {

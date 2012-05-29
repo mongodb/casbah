@@ -36,6 +36,7 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 @SuppressWarnings(Array("deprecation"))
 class MapReduceSpec extends CasbahMutableSpecification {
+  sequential
 
   "Casbah's Map/Reduce Engine" should {
 
