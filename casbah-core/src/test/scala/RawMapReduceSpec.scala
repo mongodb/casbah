@@ -30,7 +30,8 @@ import org.scala_tools.time.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 @SuppressWarnings(Array("deprecation"))
-class RawMapReduceSpec extends CasbahMutableSpecification {
+class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecification {
+  sequential
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
     implicit val mongoDB = MongoConnection()("casbahIntegration")

@@ -32,7 +32,7 @@ import org.specs2.specification.BeforeExample
 import org.bson.BSON
 
 class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
-
+  sequential
   type JDKDate = java.util.Date
 
   def before = {
