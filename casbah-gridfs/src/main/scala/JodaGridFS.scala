@@ -221,7 +221,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
   /** Find by query - returns a list */
   def find(filename: String) = underlying.find(filename).asScala 
 
-  def findOne[A <% DBObject](query: A): Option[GridFSDBFile] = {
+  def findOne[A <% DBObject](query: A): Option[JodaGridFSDBFile] = {
     underlying.findOne(query) match {
       case null => None
       case x => Some(x)
