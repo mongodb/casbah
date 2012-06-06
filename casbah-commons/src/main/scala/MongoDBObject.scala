@@ -46,7 +46,7 @@ import scala.reflect._
  */
 @BeanInfo
 class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[String, AnyRef]
-                                                        with MapLike[String, AnyRef, MongoDBObject] {
+                                                        with MapLike[String, AnyRef, MongoDBObject] with Logging {
 
   override def empty: MongoDBObject = MongoDBObject.empty
 
@@ -110,14 +110,18 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
   def ::(elem: (String, Any)): Seq[DBObject] = Seq(MongoDBObject(elem), this)
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A : NotNothing](key: String): Option[A] = {
+  def getAs[A : NotNothing : Manifest](key: String): Option[A] = {
     underlying.get(key) match {
       case null => None
-      case value => Some(value.asInstanceOf[A])
+      case value if manifest[A] >:> Manifest.classType(value.getClass) =>
+        Some(value.asInstanceOf[A])
+      case fail => 
+        log.warn("Unable to cast '%s' as '%s'; please check your types.", Manifest.classType(fail.getClass), manifest[A])
+        None
     }
   }
 
-  def getAsOrElse[A : NotNothing](key: String, default: => A): A = getAs[A](key) match {
+  def getAsOrElse[A : NotNothing : Manifest](key: String, default: => A): A = getAs[A](key) match {
     case Some(v) => v
     case None => default
   }

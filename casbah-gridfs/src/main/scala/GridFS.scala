@@ -288,6 +288,8 @@ abstract class GenericGridFSFile(override val underlying: MongoGridFSFile) exten
   def metaData_=[A <% DBObject](meta: A) = underlying.setMetaData(meta)
   def md5: String = underlying.getMD5
 
+
+
   override def toString = "{ GridFSFile(id=%s, filename=%s, contentType=%s) }".
     format(id, filename, contentType)
 }

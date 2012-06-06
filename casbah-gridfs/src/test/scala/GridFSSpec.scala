@@ -121,6 +121,7 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
 
     "Find the file in GridFS later" in {
       val id = gridfs(logo_bytes) { fh =>
+        fh.put("uploadDate", new DateTime())
         fh.filename = "powered_by_mongo_find.png"
         fh.contentType = "image/png"
       }

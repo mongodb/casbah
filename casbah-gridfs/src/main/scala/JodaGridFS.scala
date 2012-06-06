@@ -263,6 +263,13 @@ class JodaGridFSDBFile(_underlying: MongoGridFSDBFile) extends GenericGridFSDBFi
     case d: java.util.Date => new DateTime(d)
     case j: DateTime => j
   }
+  override def put(key: String, v: AnyRef) = {
+    val _v = v match {
+      case j: DateTime => new java.util.Date(j.getMillis)
+      case default => default
+    }
+    super.put(key, _v)
+  }
 }
 
 @BeanInfo
@@ -272,6 +279,13 @@ class JodaGridFSFile(_underlying: MongoGridFSFile) extends GenericGridFSFile(_un
     case d: java.util.Date => new DateTime(d)
     case j: DateTime => j
   }
+  override def put(key: String, v: AnyRef) = {
+    val _v = v match {
+      case j: DateTime => new java.util.Date(j.getMillis)
+      case default => default
+    }
+    super.put(key, _v)
+  }
 }
 
 @BeanInfo
@@ -280,6 +294,13 @@ class JodaGridFSInputFile(_underlying: MongoGridFSInputFile) extends GenericGrid
   def convertDate(in: AnyRef): DateType = in match {
     case d: java.util.Date => new DateTime(d)
     case j: DateTime => j
+  }
+  override def put(key: String, v: AnyRef) = {
+    val _v = v match {
+      case j: DateTime => new java.util.Date(j.getMillis)
+      case default => default
+    }
+    super.put(key, _v)
   }
 }
 // vim: set ts=2 sw=2 sts=2 et:
