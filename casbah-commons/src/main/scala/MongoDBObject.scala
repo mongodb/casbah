@@ -113,11 +113,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
   def getAs[A : NotNothing : Manifest](key: String): Option[A] = {
     underlying.get(key) match {
       case null => None
-      case value if manifest[A] >:> Manifest.classType(value.getClass) =>
-        Some(value.asInstanceOf[A])
-      case fail => 
-        throw new IllegalArgumentException("Unable to cast '%s' as '%s'; please check your types.".format(Manifest.classType(fail.getClass), manifest[A]))
-        None
+      case value => Some(value.asInstanceOf[A])
     }
   }
 
