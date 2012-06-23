@@ -1,0 +1,54 @@
+Casbah 2.3.0 / 2012-06-23
+============================
+
+  * Update mongo-java-driver to 2.8.0 release
+  * Updated to Mongo Java Driver  2.8.0-RC1
+  * Changed some tests to run sequentially to avoid shared variable races.
+  * JodaGridFS wasn't properly checked in before.
+  * Updated MongoOptions to sync up with options provided in Java Driver.
+  * Pre-Beta milestone (linked against unreleased Java Driver release)
+  * Dropped Scala 2.8.0 support...
+    * 2.1.5-1 is the final Casbah release for 2.8.0; please migrate to Scala 2.8.1 or higher
+  * SCALA-62: Simple solution - hack the date type on the base class.
+    + There is now a JodaGridFS implementation which works cleanly with Joda DateTime and will return them to you
+  * Backport casbah-gridfs from 3.0 
+    + Fixes SCALA-45: Allow filename and contentType to be nullable 
+        - Retrieving filename or contentType on a GridFS File now returns Option[String] when fetched   
+        - To facilitate sane usage, the loan-pattern/execute-around-resource methods now return the _id of the created file as Option[AnyRef]
+  * Backports to casbah-core from 3.0 
+    + SCALA-70: Removed type alias to com.mongodb.WriteConcern and made method args for it explicit, as it was causing a fun post-compile (aka "library compiles, user code doesn't") implosion. 
+    +  added socketKeepAlive option 
+    + Fixes SCALA-45: Allow filename and contentType to be nullable     
+    + Retrieving filename or contentType on a GridFS File now returns Option[String] when fetched     
+    + To facilitate sane usage, the loan-pattern/execute-around-resource methods now return the _id of the created file as Option[AnyRef]
+  * Backports for QueryDSL     
+    + Major cleanups and bugfixes to the DSL, it's heavily and fully tested now and much faster/cleaner     
+    + Added support for $and bareword operator     
+    + SCALA-30, SCALA-59 - $or is not properly accepting nested values esp. from other DSL constructors       
+        - Introduced proper type class filter base to fix $or, will implement across other operators next.     
+    + SCALA-59 - Fix Bareword Query Operators to better target accepted values; should only accept KV Tuple Pairs or DBObjects 
+                 returned from Core Operators       
+        - Complete test suites for $and and $nor although they need to be updated to more appropriate contextual examples rather than 
+          just "compiles properly"       
+        - New code logic, fixed $or, $and and $nor for proper nested list operations       
+        - New :: list cons operator on MongoDBObject to create MongoDBLists on th fly (esp. for DSL)     
+        - Typesafety kungfu from @jteigen       
+            * enforce at compile time that type parameters used for casting are not Nothing       
+            * enforce  $pushAll & $pullAll arguments can be converted to Iterable at compile time       
+            * switched to a type class (AsQueryParam) for queryparams to avoid code duplication
+  * SCALA-69: Maps saved to DBObject are now eagerly converted to a DBObject, from factory, builder and put methods.
+  * Always return MongoDBList from Factories/Builders instead of Seq[Any]
+  * Backports from Casbah 3.0     
+    + Refactor collections (MongoDBList and MongoDBObject)         
+    + Use CanBuildFrom properly to compose more appropriate Collection objects         
+    + As part of above, you should get seq-like objects back from MongoDBList builders & factories instead of the previous BasicDBList; 
+      this is part of attempting to "Hide" DBList and let people work with List/Seq         
+    + SCALA-69: Immediately upon saving any None's will be converted to null inside the DBObject for proper fetching later.         
+    + Add toString, hashCode and equals methods to DBObject         
+    + New, refactored tests for DBObject and DBList     
+        - More typesafety kungfu from @jteigen           
+            + enforce at *compile time* that type parameters used for casting ( as, getAs, getAsOrElse ) are not Nothing
+  * Backport Test Helpers
+    + New MongoDB "smart" test helpers for Specs2 and ScalaTest (Thanks Bill Venners for the latter)
+  * Added SBT Rebel cut, local runner
+

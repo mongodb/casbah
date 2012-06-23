@@ -1,4 +1,11 @@
 
+2.3.0 / 2012-06-23 
+==================
+
+  * Update mongo-java-driver to 2.8.0 release
+  * Corrected incorrect casting issue with Joda gridFS file .
+  * Adjustments to behavior of JodaGridFS to resolve issues reported by users.
+
 2.3.0-RC1 / 2012-05-29 
 ==================
 
