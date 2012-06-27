@@ -132,6 +132,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @dochub indexes
    */
   def ensureIndex[A <% DBObject](keys: A, name: String) = underlying.ensureIndex(keys, name)
+
   /** Ensures an index on this collection (that is, the index will be created if it does not exist).
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * @param keys fields to use for index
