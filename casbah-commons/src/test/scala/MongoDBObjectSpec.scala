@@ -71,6 +71,19 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       fields must beDBObject
     }
 
+    "If a BasicDBList is requested it quietly is recast to something which can be a Seq[]" in {
+      val lst = new BasicDBList()
+      lst.add("Brendan") 
+      lst.add("Mike") 
+      lst.add("Tyler") 
+      lst.add("Jeff") 
+      lst.add("Jesse") 
+      lst.add("Christian")
+      val doc = MongoDBObject("driverAuthors" -> lst) 
+
+      doc.getAs[Seq[_]]("driverAuthors") must beSome[Seq[_]]
+    }
+
     "Per SCALA-69, Nones placed to DBObject should immediately convert to null to present proper getAs behavior" in {
       val obj = MongoDBObject("foo" -> None)
 

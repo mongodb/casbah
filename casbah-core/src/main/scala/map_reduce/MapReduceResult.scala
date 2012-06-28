@@ -94,7 +94,7 @@ class MapReduceCollectionBasedResult protected[mongodb] (override val raw: DBObj
 }
 
 class MapReduceInlineResult protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceCollectionBasedResult(raw) {
-  private val results = raw.as[BasicDBList]("results")
+  private val results = raw.as[MongoDBList]("results")
   override lazy val cursor = new Iterator[DBObject] {
     private val iter = results.iterator
     def next() = iter.next.asInstanceOf[DBObject]

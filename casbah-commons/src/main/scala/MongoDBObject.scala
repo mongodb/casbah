@@ -70,7 +70,10 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
   def as[A : NotNothing](key: String): A = {
     underlying.get(key) match {
       case null => default(key).asInstanceOf[A]
-      case value => value.asInstanceOf[A]
+      case value => if (value.isInstanceOf[BasicDBList]) {
+        // Attempt, if it's a DBList, to wrap it
+        new MongoDBList(value.asInstanceOf[BasicDBList]).asInstanceOf[A]
+      } else value.asInstanceOf[A]
     }
   }
 
@@ -113,7 +116,10 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
   def getAs[A : NotNothing : Manifest](key: String): Option[A] = {
     underlying.get(key) match {
       case null => None
-      case value => Some(value.asInstanceOf[A])
+      case value => if (value.isInstanceOf[BasicDBList]) {
+        // Attempt, if it's a DBList, to wrap it
+        Some(new MongoDBList(value.asInstanceOf[BasicDBList]).asInstanceOf[A])
+      } else Some(value.asInstanceOf[A])
     }
   }
 
