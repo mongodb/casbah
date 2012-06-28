@@ -1,4 +1,11 @@
 
+2.4.0 / 2012-06-28 
+==================
+
+  * Hide BasicDBList; now, getAs and As and related will always return a MongoDBList which is a Seq[_].  Enjoy!
+    + This is an API breakage - you should *never* get back a BasicDBList from Casbah anymore, and asking for 
+      one will cause a ClassCastException.  This brings us more in line with sane Scala APIs
+
 2.3.0 / 2012-06-23 
 ==================
 
