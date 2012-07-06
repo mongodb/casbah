@@ -115,7 +115,7 @@ trait Implicits {
 }
 
 object Implicits extends Implicits with commons.Implicits with query.Implicits
-object Imports extends Imports with commons.Imports with query.Imports
+object Imports extends Imports with commons.Imports with query.Imports with query.dsl.FluidQueryBarewordOps
 object BaseImports extends BaseImports with commons.BaseImports with query.BaseImports
 object TypeImports extends TypeImports with commons.TypeImports with query.TypeImports
 
