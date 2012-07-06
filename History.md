@@ -1,4 +1,9 @@
 
+2.4.1 / 2012-07-06 
+==================
+
+  * Fixed QueryDSL imports for "default" (com.mongodb.casbah.Imports) import so that bareword ops like $set and $inc are available.
+
 2.4.0 / 2012-06-28 
 ==================
 
