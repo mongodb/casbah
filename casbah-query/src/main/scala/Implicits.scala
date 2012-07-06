@@ -69,6 +69,8 @@ trait Implicits {
     }
   }
 
+  def | = new dsl.PipelineOperations {}
+
   implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = dsl.GeoCoords(coords._1, coords._2)
 
 }
