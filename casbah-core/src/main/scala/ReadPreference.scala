@@ -17,6 +17,7 @@
 package com.mongodb.casbah
 
 import scalaj.collection.Imports._
+import com.mongodb.DBObject
 
 /**
  * Helper class for creating ReadPreference instances
@@ -30,45 +31,53 @@ object ReadPreference {
   /**
    * Reads come only through the Primary
    */
-  val Primary = com.mongodb.ReadPreference.PRIMARY
+  val Primary = com.mongodb.ReadPreference.primary()
 
   /**
    * Reads come from Secondary servers (equiv of old SlaveOK)
    */
-  val Secondary = com.mongodb.ReadPreference.SECONDARY
+  val Secondary = com.mongodb.ReadPreference.secondary()
 
 
   /**
-   * Read by particular tags.
-   * Note that you should provide an *ordered* Map for tags,
-   * as the driver looks in order for matching servers.
-   * (DBObjects are automatically order preserving)
-   *
-   * I.E. {dc: "london", type: "backup", foo: "bar"}
-   *
-   * Tries first to find a secondary with 'dc: "London"',
-   * if it doesn't find one then 'type: "backup"', and finally
-   * 'foo: "bar"'.
+   * Reads come from secondary if available, otherwise from primary
    */
-  /*
-   *def apply(tags: DBObject) =
-   *  com.mongodb.ReadPreference.withTags(tags)
-   */
+  val SecondaryPreferred = com.mongodb.ReadPreference.secondaryPreferred()
 
   /**
-   * Read by particular tags.
-   * Note that you should provide an *ordered* Map for tags,
-   * as the driver looks in order for matching servers.
-   * (DBObjects are automatically order preserving)
-   *
-   * I.E. {dc: "london", type: "backup", foo: "bar"}
-   *
-   * Tries first to find a secondary with 'dc: "London"',
-   * if it doesn't find one then 'type: "backup"', and finally
-   * 'foo: "bar"'.
+   * Reads come from nearest node.
    */
-  /*
-   *def apply(tags: Map[String, String]) =
-   *  com.mongodb.ReadPreference.withTags(tags.asJava)
+  val Nearest = com.mongodb.ReadPreference.nearest()
+
+  /**
+   *
+   * @return ReadPreference with reads primary if available
    */
+  def primaryPreferred = com.mongodb.ReadPreference.primaryPreferred()
+
+  /**
+   * @return ReadPreference which reads primary if available, otherwise a secondary respective of tags.
+   */
+  def primaryPreferred(firstTagSet: DBObject, remainingTagSets: DBObject*) =
+    com.mongodb.ReadPreference.primaryPreferred(firstTagSet, remainingTagSets: _*)
+
+  /**
+   * @return ReadPreference which returns secondary respective of tags
+   */
+  def secondary(firstTagSet: DBObject, remainingTagSets: DBObject*) =
+    com.mongodb.ReadPreference.secondary(firstTagSet, remainingTagSets: _*)
+
+  /**
+   * @return ReadPreference which reads secondary if available respective of tags,
+   *         otherwise from primary irresepective of tags
+   */
+  def secondaryPreferred(firstTagSet: DBObject, remainingTagSets: DBObject*) =
+    com.mongodb.ReadPreference.secondaryPreferred(firstTagSet, remainingTagSets: _*)
+
+  /**
+   * @return ReadPreference which reads nearest node respective of tags
+   */
+  def nearest(firstTagSet: DBObject, remainingTagSets: DBObject*) =
+    com.mongodb.ReadPreference.nearest(firstTagSet, remainingTagSets: _*)
+
 }
