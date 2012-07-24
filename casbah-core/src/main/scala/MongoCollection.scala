@@ -100,15 +100,9 @@ trait MongoCollectionBase extends Logging { self =>
 
   /**
    * find distinct values for a key
-   */
-  def distinct(key: String) = underlying.distinct(key).asScala
-
-  /**
-   * find distinct values for a key
    * @param query query to apply on collection
    */
-  def distinct[A <% DBObject](key: String, query: A) =
-    underlying.distinct(key, query).asScala
+  def distinct[A <% DBObject](key: String, query: A = MongoDBObject.empty, readPrefs: ReadPreference = getReadPreference) = underlying.distinct(key).asScala
 
   /** Drops (deletes) this collection
    */
@@ -224,6 +218,7 @@ trait MongoCollectionBase extends Logging { self =>
   def findOne[A <% DBObject](o: A) =
     _typedValue(underlying.findOne(o: DBObject))
 
+
   /**
    * Returns a single object from this collection matching the query.
    * @param o the query object
@@ -231,8 +226,8 @@ trait MongoCollectionBase extends Logging { self =>
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    * @dochub find
    */
-  def findOne[A <% DBObject, B <% DBObject](o: A, fields: B) =
-    _typedValue(underlying.findOne(o: DBObject, fields))
+  def findOne[A <% DBObject, B <% DBObject](o: A, fields: B, readPrefs: ReadPreference = getReadPreference) =
+    _typedValue(underlying.findOne(o: DBObject, fields, readPrefs))
 
   /** 
    * Find an object by its ID.
@@ -388,32 +383,6 @@ trait MongoCollectionBase extends Logging { self =>
 
   /**
    *  Returns the number of documents in the collection
-   *  @return number of documents in the query
-   */
-  def getCount() = underlying.getCount()
-
-  /**
-   *  Returns the number of documents in the collection
-   *  that match the specified query
-   *
-   *  @param query query to select documents to count
-   *  @return number of documents that match query
-   */
-  def getCount[A <% DBObject](query: A) = underlying.getCount(query)
-
-  /**
-   *  Returns the number of documents in the collection
-   *  that match the specified query
-   *
-   *  @param query query to select documents to count
-   *  @param fields fields to return
-   *  @return number of documents that match query and fields
-   */
-  def getCount[A <% DBObject, B <% DBObject](query: A, fields: B) =
-    underlying.getCount(query, fields)
-
-  /**
-   *  Returns the number of documents in the collection
    *  that match the specified query
    *
    *  @param query query to select documents to count
@@ -422,8 +391,9 @@ trait MongoCollectionBase extends Logging { self =>
    *  @param skip # of fields to skip
    *  @return number of documents that match query and fields
    */
-  def getCount[A <% DBObject, B <% DBObject](query: A, fields: B, limit: Long, skip: Long) =
-    underlying.getCount(query, fields, limit, skip)
+  def getCount[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
+                                             limit: Long = 0,  skip: Long = 0, readPrefs: ReadPreference = getReadPreference) =
+    underlying.getCount(query, fields, limit, skip, readPrefs)
 
   /** Returns the database this collection is a member of.
    * @return this collection's database
@@ -512,27 +482,17 @@ trait MongoCollectionBase extends Logging { self =>
 
   def getStats() = underlying.getStats()
 
-  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String) : Iterable[T]=
-    underlying.group(key, cond, initial, reduce).map(_._2.asInstanceOf[T])
-
-  /**
-   * Perform an absurdly simple grouping with no initial object or reduce function.
-   */
-  def group[A <% DBObject, B <% DBObject](key: A, cond: B): Iterable[T] =
-    group(key, cond, MongoDBObject.empty, "function(obj, prev) {}")
-
-  def group[A <% DBObject, B <% DBObject](key: A, cond: B, function: String): Iterable[T] =
-    group(key, cond, MongoDBObject.empty, function)
 
   /**
    * Enables you to call group with the finalize parameter (a function that runs on each
    * row of the output for calculations before sending a return) which the Mongo Java driver does not yet
    * support, by sending a direct DBObject command.  Messy, but it works.
    */
-  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String, finalize: String): Iterable[T] = {
-    underlying.group(key,cond, initial, reduce, finalize).map(_._2.asInstanceOf[T])
+  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C,
+                                                         reduce: String, finalize: String = null,
+                                                         readPrefs: ReadPreference = getReadPreference): Iterable[T] = {
+    underlying.group(key,cond, initial, reduce, finalize, readPrefs).map(_._2.asInstanceOf[T])
   }
-
 
   /**
    * Saves document(s) to the database.
@@ -658,9 +618,9 @@ trait MongoCollectionBase extends Logging { self =>
     case _ => false
   }
 
-  def count = getCount
-  def count[A <% DBObject](query: A) = getCount(query)
-  def count[A <% DBObject, B <% DBObject](query: A, fields: B) = getCount(query, fields)
+  def count[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
+                                          limit: Long = 0, skip: Long = 0, readPrefs: ReadPreference = getReadPreference) =
+    getCount(query, fields, limit, skip, readPrefs)
 
   /**
    *  Gets the the error (if there is one) from the previous operation.  The result of
@@ -837,7 +797,13 @@ trait MongoCollectionBase extends Logging { self =>
   def rename(newName: String): MongoCollection =
     new MongoCollection(self.underlying.rename(newName))
 
+/*
+  def command(cmd: DBObject, options: Int, readPrefs: ReadPreference = getReadPreference) =
+    underlying.command(cmd, options, readPrefs)
+*/
+
   /**
+   *
    * does a rename of this collection to newName
    * As per the Java API this returns a *NEW* Collection,
    * and the old collection is probably no good anymore.
@@ -932,7 +898,7 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase 
   override def headOption = findOne
   override def tail = find.skip(1).toIterable
   override def iterator = find
-  override def size = count.toInt
+  override def size = count().toInt
 
 }
 

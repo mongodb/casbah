@@ -66,13 +66,6 @@ class GroupSpec extends CasbahMutableSpecification {
       result.forall(_.getOrElse("avg_count", 2) == 3)
     }
 
-    "Use a default Group statement that changes nothing" in {
-      val cond = MongoDBObject()
-      val key = MongoDBObject("publicationYear" -> 1)
-      val r1 = mongoDB("books").group(key, cond)
-      val r2 = mongoDB("books").group(key, cond, "function(o,p) { }")
-      r1 must haveTheSameElementsAs(r2)
-    }
 
   }
 
