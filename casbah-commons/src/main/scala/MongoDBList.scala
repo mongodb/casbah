@@ -117,7 +117,7 @@ object MongoDBList {
     b.result
   }
 
-  def concat[A](xss: Traversable[A]*): MongoDBList = {
+  def concat[A](xss: scala.collection.Traversable[A]*): MongoDBList = {
     val b = newBuilder[A]
     if (xss forall (_.isInstanceOf[IndexedSeq[_]]))
       b.sizeHint(xss map (_.size) sum)
