@@ -99,7 +99,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
 
   "MongoDBObject Factory & Builder" should {
     "Support 'empty', returning a DBObject" in {
-      val dbObj = MongoDBObject.empty
+      val dbObj: DBOb = MongoDBObject.empty
 
       dbObj must beDBObject
       dbObj must have size (0)

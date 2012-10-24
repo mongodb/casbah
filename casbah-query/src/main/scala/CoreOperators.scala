@@ -83,6 +83,7 @@ object QueryExpressionObject {
   }
 
 }
+
 /**
  * Base trait for QueryOperators, children
  * are required to define a value for field, which is a String
@@ -112,32 +113,14 @@ trait QueryOperator extends Logging {
    */
   protected def op(oper: String, target: Any): DBObject with QueryExpressionObject = QueryExpressionObject(dbObj match {
     case Some(nested) => {
-      patchSerialization(target)
       nested.put(oper, target)
       (field -> nested)
     }
     case None => {
-      patchSerialization(target)
       val opMap = MongoDBObject(oper -> target)
       (field -> opMap)
     }
   })
-
-  /** 
-   * Temporary fix code for making sure certain edge cases w/ the serialization libs 
-   * Don't happen.  This may impose a slight performance penalty.
-   */
-  protected def patchSerialization(target: Any): Unit = target match {
-    case _ => {}
-  }
-
-  def anyListOp(oper: String, target: Any*) =
-    if (target.size > 1)
-      op(oper, target.toList)
-    else if (!target(0).isInstanceOf[Iterable[_]] &&
-      !target(0).isInstanceOf[Array[_]])
-      op(oper, List(target(0)))
-    else op(oper, target(0))
 
 }
 

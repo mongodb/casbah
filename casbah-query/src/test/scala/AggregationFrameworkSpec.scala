@@ -65,10 +65,24 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
   "Aggregation's Group Operator" should {
     "Work with field operators" in {
       "Allow $first" >> {
-        val _group = | $group ("firstAuthor") $first("$author")
+        val _group = | $group "firstAuthor" $first "$author" 
         _group must not beNull
       }
+      "Allow $last" >> {
+        val _group = | $group "lastAuthor" $last "$author" 
+        _group must not beNull
+      }
+       "Require $-signs in inner operator fields" >> {
+         lazy val _group = | $group "firstAuthor" $first "author"
+         _group must throwA[IllegalArgumentException]
+       }
+
     }
+
+     "Work with multiple operators" in {
+      val _group = | $group { ("lastAuthor" $last "$author") :: ("firstAuthor" $first "$author") }
+     }
+
 
     /*"Require _id" in {
       null must beNull
