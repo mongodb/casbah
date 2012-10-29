@@ -80,7 +80,7 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
     }
 
      "Work with multiple operators" in {
-      val _group = | $group { ("lastAuthor" $last "$author") :: ("firstAuthor" $first "$author") }
+      val _group = | $group { g => (g "lastAuthor" $last "$author") :: (g "firstAuthor" $first "$author") }
      }
 
 
