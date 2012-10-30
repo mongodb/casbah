@@ -89,6 +89,13 @@ class MongoDBListSpec extends CasbahMutableSpecification {
       dbList must haveSize(1)
       dbList must beEqualTo(List(MongoDBObject("omg" -> "ponies")))
     }
+
+    "Concat immutable traversable" in {
+      val dbList = MongoDBList.concat(List("ponies"))
+      dbList must haveSize(1)
+      dbList must beEqualTo(List("ponies"))
+    }
+
   }
 
 /*
