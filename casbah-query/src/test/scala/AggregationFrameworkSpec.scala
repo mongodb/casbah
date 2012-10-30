@@ -76,12 +76,19 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
          lazy val _group = | $group "firstAuthor" $first "author"
          _group must throwA[IllegalArgumentException]
        }
+       "Chain with another op" >> {
+         val _test = | $group "lastAuthor" $last "$author" $unwind "$tags"
+         // TODO - Proper test
+         _test must not beNull
+       }
 
     }
 
-     "Work with multiple operators" in {
-      val _group = | $group { g => (g "lastAuthor" $last "$author") :: (g "firstAuthor" $first "$author") }
+     /*
+      "Work with multiple operators" in {
+      val _group = | $group { "lastAuthor" $last "$author" :: "firstAuthor" $first "$author" }
      }
+     */
 
 
     /*"Require _id" in {
