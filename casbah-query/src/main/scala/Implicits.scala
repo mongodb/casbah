@@ -25,6 +25,7 @@ package query
 
 import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.query.dsl.QueryExpressionObject
+import com.mongodb.casbah.query.dsl.GroupSubOperators
 
 
 trait Implicits {
@@ -45,7 +46,11 @@ trait Implicits {
    */
   implicit def mongoQueryStatements(left: String) = new {
     val field = left
-  } with dsl.FluidQueryOperators
+  } with dsl.FluidQueryOperators 
+  
+  implicit def mongoGroupSubStatements(left: String) = new {
+    val field = left
+  } with dsl.GroupSubOperators
 
   /**
    * Implicit extension methods for Tuple2[String, DBObject] values
@@ -68,6 +73,7 @@ trait Implicits {
       dbObj = nested.getAs[DBObject](nested.field) // TODO - shore the safety of this up
     }
   }
+  
 
   def | = new dsl.PipelineOperations {}
 

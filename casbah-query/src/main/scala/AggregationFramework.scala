@@ -52,31 +52,42 @@ trait PipelineOperator {
 trait PipelineExpression {
 }
 
+object PipelineOperation {
+  
+  def apply[A <: String, B <: Any](kv: (A, B)): DBObject with PipelineOperations = {
+    val obj = new BasicDBObject with PipelineOperations
+    obj.put(kv._1, kv._2)
+    obj
+  }
+}
 
 // TODO - Validations of things like "ran group after sort" for certain opers
 trait PipelineOperations extends GroupOperator
-  with LimitOperator
-  with SkipOperator 
-  with MatchOperator
-  with ProjectOperator
-  with SortOperator
-  with UnwindOperator
+   with LimitOperator
+   with SkipOperator 
+   with MatchOperator
+   with ProjectOperator
+   with SortOperator
+   with UnwindOperator
+ 
+trait GroupSubOperators extends GroupSumOperator
+  with GroupPushOperator
+  with GroupAvgOperator
+  with GroupMinOperator
+  with GroupMaxOperator
+  with GroupFirstOperator
+  with GroupLastOperator
+  with GroupAddToSetOperator
+  
+
 
 trait LimitOperator extends PipelineOperator {
   private val operator = "$limit"
 
   // TODO - Accept Numeric? As long as we can downconvert for mongo type?
-  def $limit(target: Int) = {
-    val obj = new MongoDBObject with PipelineOperations
-    obj put (operator, target)
-    obj
-  }
+  def $limit(target: Int) = PipelineOperation(operator -> target)
 
-  def $limit(target: BigInt) = {
-    val obj = new MongoDBObject with PipelineOperations
-    obj put (operator, target)
-    obj
-  }
+  def $limit(target: BigInt) = PipelineOperation(operator -> target)
 
 }
 
@@ -84,24 +95,17 @@ trait SkipOperator extends PipelineOperator {
   private val operator = "$skip"
 
   // TODO - Accept Numeric? As long as we can downconvert for mongo type?
-  def $skip(target: Int) = {
-    val obj = new MongoDBObject with PipelineOperations
-    obj put (operator, target)
-    obj
-  }
-  def $skip(target: BigInt) = {
-    val obj = new MongoDBObject with PipelineOperations
-    obj put (operator, target)
-    obj
-  } 
+  def $skip(target: Int) = PipelineOperation(operator -> target)
+    
+  def $skip(target: BigInt) = PipelineOperation(operator -> target)
 
 }
 
 trait MatchOperator extends PipelineOperator {
   private val operator = "$match"
 
-  def $match(query: DBObject) = 
-    MongoDBObject(operator -> query)
+  // TODO - Better type filtering to prevent say, group 
+  def $match(query: DBObject) = PipelineOperation(operator -> query)
 }
 
 trait SortOperator extends PipelineOperator {
@@ -110,7 +114,7 @@ trait SortOperator extends PipelineOperator {
   def $sort(fields: (String, Int)*) = {
      val bldr = MongoDBObject.newBuilder
      for ((k, v) <- fields) bldr += k -> v
-     MongoDBObject(operator -> bldr.result)
+     PipelineOperation(operator -> bldr.result)
   }
 }
 
@@ -118,159 +122,191 @@ trait UnwindOperator extends PipelineOperator {
   private val operator = "$unwind"
 
   def $unwind(target: String) = {
-    require(target.startsWith("$"), "The $unwind operator only accepts a $<fieldName> argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_unwind")
-    MongoDBObject("$unwind" -> target)
+    require(target.startsWith("$"), "The $unwind operator only accepts a $<fieldName> argument; bare field names " +
+    		"will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_unwind")
+    PipelineOperation(operator -> target)
   }
 }
 
+// TODO - Implement me
 trait ProjectOperator extends PipelineOperator {
   private val operator = "$project"
 }
 
-trait GroupChain extends PipelineOperations
 
-trait GroupSubOperators extends PipelineOperations {
-  def field: String
-  
-  protected def op(target: Any) = 
-    new BasicDBObject("$group", MongoDBObject(field -> target)) with GroupChain with GroupSubOperatorChain
-
-  /** 
-   * Returns an array of all the values found in the selected field among 
-   * the documents in that group. Every unique value only appears once 
-   * in the result set.
-   *
-   * RValue should be $&lt;documentFieldName&gt;
-   */
-  def $addToSet(target: String) = {
-    require(target.startsWith("$"), "The $group.$addToSet operator only accepts a $<fieldName> argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
-    op(MongoDBObject("$addToSet" -> target))   
-  }
-
-  /** 
-   * Returns the first value it sees for its group.
-   *
-   * Note Only use $first when the $group follows an $sort operation. 
-   * Otherwise, the result of this operation is unpredictable.
-   *
-   * RValue should be $&lt;documentFieldName&gt;
-   */
-  def $first(target: String) = {
-    require(target.startsWith("$"), "The $group.$first operator only accepts a $<fieldName> argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
-    op(MongoDBObject("$first" -> target))
-  }
-
-  /** 
-   * Returns the last value it sees for its group.
-   *
-   * Note Only use $last when the $group follows an $sort operation. 
-   * Otherwise, the result of this operation is unpredictable.
-   *
-   * RValue should be $&lt;documentFieldName&gt;
-   */
-  def $last(target: String) = {
-    require(target.startsWith("$"), "The $group.$last operator only accepts a $<fieldName> argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
-    op(MongoDBObject("$last" -> target))
-  }
-
-  /** 
-   * Returns the highest value among all values of the field in all documents selected by this group.
-   *
-   * RValue should be $&lt;documentFieldName&gt;
-   */
-  def $max(target: String) = {
-    require(target.startsWith("$"), "The $group.$max operator only accepts a $<fieldName> argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
-    op(MongoDBObject("$max" -> target))
-  }
-
-  /** 
-   * Returns the lowest value among all values of the field in all documents selected by this group.
-   *
-   * RValue should be $&lt;documentFieldName&gt;
-   */
-  def $min(target: String) = {
-    require(target.startsWith("$"), "The $group.$min operator only accepts a $<fieldName> argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
-    op(MongoDBObject("$min" -> target))
-  }
-
-  /** 
-   * Returns the average of all values of the field in all documents selected by this group.
-   *
-   * RValue should be $&lt;documentFieldName&gt;
-   */
-  def $avg(target: String) = {
-    require(target.startsWith("$"), "The $group.$avg operator only accepts a $<fieldName> argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
-    op(MongoDBObject("$avg" -> target))
-  }
-
-  /** 
-   * Returns an array of all the values found in the selected field among 
-   * the documents in that group. A value may appear more than once in the 
-   * result set if more than one field in the grouped documents has that value.
-   *
-   * RValue should be $&lt;documentFieldName&gt;
-   */
-  def $push(target: String) = {
-    require(target.startsWith("$"), "The $group.$push operator only accepts a $<fieldName> argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
-    op(MongoDBObject("$push" -> target))
-  }
-
-  /** 
-   * Returns the sum of all the values for a specified field in the 
-   * grouped documents, as in the second use above.
-   * 
-   * The standard usage is to indicate "1" as the value, which counts all the 
-   * members in the group.
-   *
-   * Alternately, if you specify a field value as an argument, $sum will 
-   * increment this field by the specified value for every document in the 
-   * grouping. 
-   *
-   */
-  def $sum(target: String) = {
-    require(target.startsWith("$"), "The $group.$sum operator only accepts a $<fieldName> argument (or '1'); bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
-    op(MongoDBObject("$sum" -> target))
-  }
-
-  /** 
-   * Returns the sum of all the values for a specified field in the 
-   * grouped documents, as in the second use above.
-   * 
-   * The standard usage is to indicate "1" as the value, which counts all the 
-   * members in the group.
-   *
-   * Alternately, if you specify a field value as an argument, $sum will 
-   * increment this field by the specified value for every document in the 
-   * grouping. 
-   *
-   */
-  def $sum(target: Int) = {
-    require(target == 1, "The $group.$sum operator only accepts a numeric argument of '1', or a $<FieldName>. See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
-    op(MongoDBObject("$sum" -> target))
-  }
-
-}
-
-
-// TODO
-// *REQUIRES* an _id field to be defined...
-// "	for _id, it can be a single field reference, a document containing several field references, or a constant of any type."
 trait GroupOperator extends PipelineOperator {
   private val operator = "$group"
 
-  def $group(target: String) = new GroupSubOperators {
-    val field: String = target
+    // TODO - Require GroupSubExpressionObject
+  def $group(target: DBObject) = { 
+    require(target contains "_id", "Aggregation $group statements must contain an _id field representing " +
+    		"the 'GROUP BY' key. Please see the aggregation docs at " +
+    		"http://docs.mongodb.org/manual/reference/aggregation/group/#_S_group")
+    PipelineOperation(operator -> target)
+  }
+}
+
+trait GroupSubExpressionObject {
+  self: DBObject =>
+  def field: String
+  
+}
+
+object GroupSubExpressionObject {
+
+  def apply[A <: String, B <: Any](kv: (A, B)): DBObject with GroupSubExpressionObject = {
+    val obj = new BasicDBObject with GroupSubExpressionObject { val field = kv._1 }
+    obj.put(kv._1, kv._2)
+    obj
+  }
+
+}
+
+trait GroupSubOperator extends Logging {
+  def field: String
+  protected var dbObj: Option[DBObject] = None
+
+  protected def op(oper: String, target: Any): DBObject with GroupSubExpressionObject = GroupSubExpressionObject(dbObj match {
+    case Some(nested) => {
+      nested.put(oper, target)
+      (field -> nested)
+    }
+    case None => {
+      val opMap = MongoDBObject(oper -> target)
+      (field -> opMap)
+    }
+  })
+
+} 
+/** 
+ * Returns an array of all the values found in the selected field among 
+ * the documents in that group. Every unique value only appears once 
+ * in the result set.
+ *
+ * RValue should be $&lt;documentFieldName&gt;
+ */
+trait GroupAddToSetOperator extends GroupSubOperator {
+  
+  def $addToSet(target: String) = {
+    require(target.startsWith("$"), "The $group.$addToSet operator only accepts a $<fieldName> argument; bare field names will not function. " +
+    		"See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
+    op("$addToSet", target)
   }
   
 }
 
+/** 
+ * Returns the first value it sees for its group.
+ *
+ * Note Only use $first when the $group follows an $sort operation. 
+ * Otherwise, the result of this operation is unpredictable.
+ *
+ * RValue should be $&lt;documentFieldName&gt;
+ */
+trait GroupFirstOperator extends GroupSubOperator {
+  
+  def $first(target: String) = {
+    require(target.startsWith("$"), "The $group.$first operator only accepts a $<fieldName> argument; bare field names will not function. " +
+    		"See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
+    op("$first", target)
+  }
+}
 
-trait GroupSubOperatorChain extends PipelineOperator {
-  private val operator = "~~"
-    
-  def ~~(target: String) = new GroupSubOperators {
-    val field: String = target
+/** 
+ * Returns the last value it sees for its group.
+ *
+ * Note Only use $last when the $group follows an $sort operation. 
+ * Otherwise, the result of this operation is unpredictable.
+ *
+ * RValue should be $&lt;documentFieldName&gt;
+ */
+trait GroupLastOperator extends GroupSubOperator {
+  
+  def $last(target: String) = {
+    require(target.startsWith("$"), "The $group.$last operator only accepts a $<fieldName> argument; bare field names will not function. " +
+    		"See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
+    op("$last", target)
+  }
+}
+
+/** 
+ * Returns the highest value among all values of the field in all documents selected by this group.
+ *
+ * RValue should be $&lt;documentFieldName&gt;
+ */
+trait GroupMaxOperator extends GroupSubOperator {
+  
+  def $max(target: String) = {
+    require(target.startsWith("$"), "The $group.$max operator only accepts a $<fieldName> argument; bare field names will not function. " +
+    		"See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
+    op("$max", target)
+  }
+}
+
+/** 
+ * Returns the lowest value among all values of the field in all documents selected by this group.
+ *
+ * RValue should be $&lt;documentFieldName&gt;
+ */
+trait GroupMinOperator extends GroupSubOperator {
+  
+  def $min(target: String) = {
+    require(target.startsWith("$"), "The $group.$min operator only accepts a $<fieldName> argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
+    op("$min", target)
+  }
+}
+
+/** 
+ * Returns the average of all values of the field in all documents selected by this group.
+ *
+ * RValue should be $&lt;documentFieldName&gt;
+ */
+trait GroupAvgOperator extends GroupSubOperator {
+  def $avg(target: String) = {
+    require(target.startsWith("$"), "The $group.$avg operator only accepts a $<fieldName> argument; bare field names will not function. " +
+    		"See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
+    op("$avg", target)
+  }
+}
+
+/** 
+ * Returns an array of all the values found in the selected field among 
+ * the documents in that group. A value may appear more than once in the 
+ * result set if more than one field in the grouped documents has that value.
+ *
+ * RValue should be $&lt;documentFieldName&gt;
+ */
+trait GroupPushOperator extends GroupSubOperator {
+  def $push(target: String) = {
+    require(target.startsWith("$"), "The $group.$push operator only accepts a $<fieldName> argument; bare field names will not function. " +
+    		"See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
+    op("$push", target)
+  }
+}
+
+/** 
+ * Returns the sum of all the values for a specified field in the 
+ * grouped documents, as in the second use above.
+ * 
+ * The standard usage is to indicate "1" as the value, which counts all the 
+ * members in the group.
+ *
+ * Alternately, if you specify a field value as an argument, $sum will 
+ * increment this field by the specified value for every document in the 
+ * grouping. 
+ *
+ */
+trait GroupSumOperator extends GroupSubOperator {
+  def $sum(target: String) = {
+    require(target.startsWith("$"), "The $group.$sum operator only accepts a $<fieldName> argument (or '1'); bare field names will not function." +
+    		" See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
+    op("$sum", target)
   }
   
-  //override def toString = "{ Pending Aggregation DSL Statement }"
+  def $sum(target: Int) = {
+    require(target == 1, "The $group.$sum operator only accepts a numeric argument of '1', or a $<FieldName>. " +
+    		"See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
+    op("$sum", target)
+  }
 }
+
