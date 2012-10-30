@@ -29,6 +29,7 @@ import com.mongodb.casbah.query.Imports._
 
 import scala.util.matching._
 import scala.collection.Iterable
+import scala.collection.mutable.{Seq => MutableSeq}
 
 import org.bson._
 import org.bson.types.BasicBSONList
@@ -42,24 +43,25 @@ object AggregationFramework {}
  * representing the primary pipeline.
  */
 trait PipelineOperator {
+  def list: MongoDBList
 
-  //protected def op(oper: String, target: Any): Map[String, Any] 
-}
-
-/** 
- * Base trait for expressions in the Pipeline 
- */
-trait PipelineExpression {
-}
-
-object PipelineOperation {
+  protected def op(oper: String, target: Any) = 
+    PipelineOperator(oper, target)(list)
   
-  def apply[A <: String, B <: Any](kv: (A, B)): DBObject with PipelineOperations = {
-    val obj = new BasicDBObject with PipelineOperations
+  override def toString = list.toString
+  
+}
+
+object PipelineOperator {
+  
+  def apply[A <: String, B <: Any](kv: (A, B))(pipeline: MongoDBList): DBObject with PipelineOperations with PipelineOperator = {
+    val obj = new BasicDBObject with PipelineOperations with PipelineOperator { val list = pipeline }
     obj.put(kv._1, kv._2)
+    pipeline += obj
     obj
   }
 }
+
 
 // TODO - Validations of things like "ran group after sort" for certain opers
 trait PipelineOperations extends GroupOperator
@@ -69,6 +71,8 @@ trait PipelineOperations extends GroupOperator
    with ProjectOperator
    with SortOperator
    with UnwindOperator
+   
+trait BasePipelineOperations extends PipelineOperations { val list = MongoDBList.empty }
  
 trait GroupSubOperators extends GroupSumOperator
   with GroupPushOperator
@@ -85,9 +89,9 @@ trait LimitOperator extends PipelineOperator {
   private val operator = "$limit"
 
   // TODO - Accept Numeric? As long as we can downconvert for mongo type?
-  def $limit(target: Int) = PipelineOperation(operator -> target)
+  def $limit(target: Int) = op(operator, target)
 
-  def $limit(target: BigInt) = PipelineOperation(operator -> target)
+  def $limit(target: BigInt) = op(operator, target)
 
 }
 
@@ -95,9 +99,9 @@ trait SkipOperator extends PipelineOperator {
   private val operator = "$skip"
 
   // TODO - Accept Numeric? As long as we can downconvert for mongo type?
-  def $skip(target: Int) = PipelineOperation(operator -> target)
+  def $skip(target: Int) = op(operator, target)
     
-  def $skip(target: BigInt) = PipelineOperation(operator -> target)
+  def $skip(target: BigInt) = op(operator, target)
 
 }
 
@@ -105,7 +109,7 @@ trait MatchOperator extends PipelineOperator {
   private val operator = "$match"
 
   // TODO - Better type filtering to prevent say, group 
-  def $match(query: DBObject) = PipelineOperation(operator -> query)
+  def $match(query: DBObject) = op(operator, query)
 }
 
 trait SortOperator extends PipelineOperator {
@@ -114,7 +118,7 @@ trait SortOperator extends PipelineOperator {
   def $sort(fields: (String, Int)*) = {
      val bldr = MongoDBObject.newBuilder
      for ((k, v) <- fields) bldr += k -> v
-     PipelineOperation(operator -> bldr.result)
+     op(operator, bldr.result)
   }
 }
 
@@ -124,7 +128,7 @@ trait UnwindOperator extends PipelineOperator {
   def $unwind(target: String) = {
     require(target.startsWith("$"), "The $unwind operator only accepts a $<fieldName> argument; bare field names " +
     		"will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_unwind")
-    PipelineOperation(operator -> target)
+    op(operator, target)
   }
 }
 
@@ -142,7 +146,7 @@ trait GroupOperator extends PipelineOperator {
     require(target contains "_id", "Aggregation $group statements must contain an _id field representing " +
     		"the 'GROUP BY' key. Please see the aggregation docs at " +
     		"http://docs.mongodb.org/manual/reference/aggregation/group/#_S_group")
-    PipelineOperation(operator -> target)
+    op(operator, target)
   }
 }
 
@@ -176,8 +180,8 @@ trait GroupSubOperator extends Logging {
       (field -> opMap)
     }
   })
-
 } 
+
 /** 
  * Returns an array of all the values found in the selected field among 
  * the documents in that group. Every unique value only appears once 

@@ -63,6 +63,18 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
       val _match = | $match { ("score" $gt 50 $lte 90) ++ ("type" $in ("exam", "quiz")) }
       _match must haveEntries("$match.score.$gt" -> 50, "$match.score.$lte" -> 90, "$match.type.$in" -> List("exam", "quiz"))
     }
+//    "Allow full chaining of operations" in {
+//      val x = |($group { ("lastAuthor" $last "$author") ++ ("firstAuthor" $first "$author")  ++ ("_id" -> "$foo") }, 
+//                $unwind("$tags"),
+//                $sort ( "foo" -> 1, "bar" -> -1 ),
+//                $skip(5),
+//                $limit(10))
+//      x must not beNull
+//    }
+    "Allow full chaining of operations" in {
+      val x = | $group { ("lastAuthor" $last "$author") ++ ("firstAuthor" $first "$author")  ++ ("_id" -> "$foo") } $unwind("$tags") $sort ( "foo" -> 1, "bar" -> -1 ) $skip 5 $limit 10
+      x must not beNull
+    }
   }
   
   "Aggregation's Group Operator" should {
