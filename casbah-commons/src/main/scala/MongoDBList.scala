@@ -45,7 +45,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
     this
   }
 
-  def insertAll(i: Int, elems: Traversable[Any]) = {
+  def insertAll(i: Int, elems: scala.Traversable[Any]) = {
     val ins = underlying.subList(0, i)
     elems.foreach(x => ins.add(x.asInstanceOf[AnyRef]))
   }
