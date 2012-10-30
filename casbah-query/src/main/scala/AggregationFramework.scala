@@ -130,10 +130,10 @@ trait ProjectOperator extends PipelineOperator {
 trait GroupChain extends PipelineOperations
 
 trait GroupSubOperators extends PipelineOperations {
-  val field: String
+  def field: String
   
   protected def op(target: Any) = 
-    new BasicDBObject("$group", MongoDBObject(field -> target)) with GroupChain
+    new BasicDBObject("$group", MongoDBObject(field -> target)) with GroupChain with GroupSubOperatorChain
 
   /** 
    * Returns an array of all the values found in the selected field among 
@@ -251,21 +251,26 @@ trait GroupSubOperators extends PipelineOperations {
 
 }
 
-trait GroupOperatorBase extends PipelineOperator {
-
-  /** composable with suboperators */
-  protected def _group(field: String) = new GroupSubOperators {
-    val field: String = field
-  }
-}
 
 // TODO
-
 // *REQUIRES* an _id field to be defined...
 // "	for _id, it can be a single field reference, a document containing several field references, or a constant of any type."
-trait GroupOperator extends GroupOperatorBase {
+trait GroupOperator extends PipelineOperator {
   private val operator = "$group"
 
-  def $group(field: String) = _group(field)
+  def $group(target: String) = new GroupSubOperators {
+    val field: String = target
+  }
+  
 }
 
+
+trait GroupSubOperatorChain extends PipelineOperator {
+  private val operator = "~~"
+    
+  def ~~(target: String) = new GroupSubOperators {
+    val field: String = target
+  }
+  
+  //override def toString = "{ Pending Aggregation DSL Statement }"
+}

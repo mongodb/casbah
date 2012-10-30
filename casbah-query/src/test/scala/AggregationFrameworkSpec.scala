@@ -24,9 +24,12 @@ package com.mongodb.casbah.test.query
 
 import com.mongodb.casbah.query.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+import org.junit.runner.RunWith
+import org.specs2.runner.JUnitRunner
 
 // TODO - Operational/Integration testing with this code
 @SuppressWarnings(Array("deprecation"))
+@RunWith(classOf[JUnitRunner])
 class AggregationFrameworkSpec extends CasbahMutableSpecification {
 
   "Casbah's Aggregation DSL" should {
@@ -76,11 +79,11 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
          lazy val _group = | $group "firstAuthor" $first "author"
          _group must throwA[IllegalArgumentException]
        }
-       "Chain with another op" >> {
-         val _test = | $group "lastAuthor" $last "$author" $unwind "$tags"
-         // TODO - Proper test
-         _test must not beNull
-       }
+//       "Chain with another op" >> {
+//         val _test = | $group "lastAuthor" $last "$author" $unwind "$tags"
+//         // TODO - Proper test
+//         _test must not beNull
+//       }
 
     }
 
