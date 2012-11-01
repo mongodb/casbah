@@ -34,40 +34,7 @@ import scala.collection.mutable.{ Seq => MutableSeq }
 import org.bson._
 import org.bson.types.BasicBSONList
 
-/**
- * Base traits and configuration for aggregation framework.
- *
- * @author brendan
- *
- */
-package object aggregation {
-
-  /**
-   * Base trait for a Pipeline Operator for
-   * the Aggregation Framework.
-   * These operators are the "core" of Aggregation,
-   * representing the primary pipeline.
-   */
-  trait PipelineOperator {
-    def list: MongoDBList
-
-    protected def op(oper: String, target: Any) =
-      PipelineOperator(oper, target)(list)
-
-    override def toString = list.toString
-
-  }
-
-  object PipelineOperator {
-
-    // TODO - this should be a LIST, not a DBObject.
-    def apply[A <: String, B <: Any](kv: (A, B))(pipeline: MongoDBList): DBObject with PipelineOperations with PipelineOperator = {
-      val obj = new BasicDBObject with PipelineOperations with PipelineOperator { val list = pipeline }
-      obj.put(kv._1, kv._2)
-      pipeline += obj
-      obj
-    }
-  }
+package aggregation {
 
   // TODO - Validations of things like "ran group after sort" for certain opers
   trait PipelineOperations extends GroupOperator
@@ -78,15 +45,38 @@ package object aggregation {
     with SortOperator
     with UnwindOperator
 
-  trait BasePipelineOperations extends PipelineOperations { val list = MongoDBList.empty }
+  /**
+   * Base trait for a Pipeline Operator for
+   * the Aggregation Framework.
+   * These operators are the "core" of Aggregation,
+   * representing the primary pipeline.
+   */
+  trait PipelineOperator {
+    protected[mongodb] def list: MongoDBList
 
-  trait GroupSubOperators extends GroupSumOperator
-    with GroupPushOperator
-    with GroupAvgOperator
-    with GroupMinOperator
-    with GroupMaxOperator
-    with GroupFirstOperator
-    with GroupLastOperator
-    with GroupAddToSetOperator
+    protected def op(oper: String, target: Any) =
+      PipelineOperator(oper, target)(list)
+  }
+
+  object PipelineOperator {
+
+    // TODO - this should be a LIST, not a DBObject.
+    def apply[A <: String, B <: Any](kv: (A, B))(pipeline: MongoDBList): AggregationPipeline  = {
+      pipeline += MongoDBObject(kv._1 -> kv._2)
+      AggregationPipeline(pipeline)
+    }
+  }
+  
+  trait AggregationPipeline extends PipelineOperations { self: MongoDBList => 
+    protected[mongodb] val list = self
+    
+    override def apply(n: Int): AnyRef = list(n)
+    def pipelineSize: Int = list.size
+  }
+
+  object AggregationPipeline {
+    def empty = new MongoDBList with AggregationPipeline
+    def apply(list: MongoDBList) = new MongoDBList(list.underlying) with AggregationPipeline
+  }
 
 }

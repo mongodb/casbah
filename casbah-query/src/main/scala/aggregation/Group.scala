@@ -21,8 +21,25 @@
 package com.mongodb.casbah.query.dsl
 package aggregation
 
+
 import com.mongodb.casbah.query.Imports._
 
+import com.mongodb.casbah.commons.Logging
+
+trait GroupSubOperators extends GroupSumOperator
+  with GroupPushOperator
+  with GroupAvgOperator
+  with GroupMinOperator
+  with GroupMaxOperator
+  with GroupFirstOperator
+  with GroupLastOperator
+  with GroupAddToSetOperator
+
+/**
+ * Base trait for implementation of $group
+ * @author brendan
+ *
+ */
 trait GroupOperator extends PipelineOperator {
   private val operator = "$group"
 
@@ -197,6 +214,4 @@ trait GroupSumOperator extends GroupSubOperator {
     		"See http://docs.mongodb.org/manual/reference/aggregation/#_S_group")
     op("$sum", target)
   }
-}
-
 }

@@ -24,8 +24,6 @@ package com.mongodb.casbah
 package query
 
 import com.mongodb.casbah.commons.Imports._
-import com.mongodb.casbah.query.dsl.QueryExpressionObject
-import com.mongodb.casbah.query.dsl.GroupSubOperators
 
 
 trait Implicits {
@@ -48,9 +46,6 @@ trait Implicits {
     val field = left
   } with dsl.FluidQueryOperators 
   
-  implicit def mongoGroupSubStatements(left: String) = new {
-    val field = left
-  } with dsl.GroupSubOperators
 
   /**
    * Implicit extension methods for Tuple2[String, DBObject] values
@@ -66,7 +61,7 @@ trait Implicits {
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
-  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with QueryExpressionObject) = {
+  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with dsl.QueryExpressionObject) = {
     new {
       val field = nested.field
     } with dsl.ValueTestFluidQueryOperators {
@@ -74,10 +69,15 @@ trait Implicits {
     }
   }
   
-
-  def | = new dsl.BasePipelineOperations {}
-
   implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = dsl.GeoCoords(coords._1, coords._2)
+
+  // Aggregation code
+  implicit def mongoGroupSubStatements(left: String) = new {
+    val field = left
+  } with dsl.aggregation.GroupSubOperators
+  
+  def | = dsl.aggregation.AggregationPipeline.empty
+
 
 }
 
@@ -112,6 +112,7 @@ trait TypeImports {
   type ValidBarewordExpressionArgType[T] = query.ValidBarewordExpressionArgType[T]
   type AsIterable[T] = query.AsIterable[T]
   type AsQueryParam[T] = query.AsQueryParam[T]
+  type AggregationPipeline = dsl.aggregation.AggregationPipeline
 }
 
 trait ValidNumericType[T]
@@ -134,8 +135,8 @@ object ValidTypes {
   }
 
   // Valid Bareword Query Expression entries
-  trait CoreOperatorResultObj extends ValidBarewordExpressionArgType[DBObject with QueryExpressionObject] {
-    def toDBObject(arg: DBObject with QueryExpressionObject): DBObject = arg
+  trait CoreOperatorResultObj extends ValidBarewordExpressionArgType[DBObject with dsl.QueryExpressionObject] {
+    def toDBObject(arg: DBObject with dsl.QueryExpressionObject): DBObject = arg
   }
 
 
