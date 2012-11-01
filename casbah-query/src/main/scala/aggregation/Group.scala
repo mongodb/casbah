@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2013 10gen, Inc. <http://10gen.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,125 +18,10 @@
  *     http://github.com/mongodb/casbah
  *
  */
-
 package com.mongodb.casbah.query.dsl
-
-import com.mongodb.casbah.commons.Logging
-
-import scalaj.collection.Imports._
+package aggregation
 
 import com.mongodb.casbah.query.Imports._
-
-import scala.util.matching._
-import scala.collection.Iterable
-import scala.collection.mutable.{Seq => MutableSeq}
-
-import org.bson._
-import org.bson.types.BasicBSONList
-
-object AggregationFramework {}
-
-/**
- * Base trait for a Pipeline Operator for 
- * the Aggregation Framework.
- * These operators are the "core" of Aggregation,
- * representing the primary pipeline.
- */
-trait PipelineOperator {
-  def list: MongoDBList
-
-  protected def op(oper: String, target: Any) = 
-    PipelineOperator(oper, target)(list)
-  
-  override def toString = list.toString
-  
-}
-
-object PipelineOperator {
-  
-  def apply[A <: String, B <: Any](kv: (A, B))(pipeline: MongoDBList): DBObject with PipelineOperations with PipelineOperator = {
-    val obj = new BasicDBObject with PipelineOperations with PipelineOperator { val list = pipeline }
-    obj.put(kv._1, kv._2)
-    pipeline += obj
-    obj
-  }
-}
-
-
-// TODO - Validations of things like "ran group after sort" for certain opers
-trait PipelineOperations extends GroupOperator
-   with LimitOperator
-   with SkipOperator 
-   with MatchOperator
-   with ProjectOperator
-   with SortOperator
-   with UnwindOperator
-   
-trait BasePipelineOperations extends PipelineOperations { val list = MongoDBList.empty }
- 
-trait GroupSubOperators extends GroupSumOperator
-  with GroupPushOperator
-  with GroupAvgOperator
-  with GroupMinOperator
-  with GroupMaxOperator
-  with GroupFirstOperator
-  with GroupLastOperator
-  with GroupAddToSetOperator
-  
-
-
-trait LimitOperator extends PipelineOperator {
-  private val operator = "$limit"
-
-  // TODO - Accept Numeric? As long as we can downconvert for mongo type?
-  def $limit(target: Int) = op(operator, target)
-
-  def $limit(target: BigInt) = op(operator, target)
-
-}
-
-trait SkipOperator extends PipelineOperator {
-  private val operator = "$skip"
-
-  // TODO - Accept Numeric? As long as we can downconvert for mongo type?
-  def $skip(target: Int) = op(operator, target)
-    
-  def $skip(target: BigInt) = op(operator, target)
-
-}
-
-trait MatchOperator extends PipelineOperator {
-  private val operator = "$match"
-
-  // TODO - Better type filtering to prevent say, group 
-  def $match(query: DBObject) = op(operator, query)
-}
-
-trait SortOperator extends PipelineOperator {
-  private val operator = "$sort"
-
-  def $sort(fields: (String, Int)*) = {
-     val bldr = MongoDBObject.newBuilder
-     for ((k, v) <- fields) bldr += k -> v
-     op(operator, bldr.result)
-  }
-}
-
-trait UnwindOperator extends PipelineOperator {
-  private val operator = "$unwind"
-
-  def $unwind(target: String) = {
-    require(target.startsWith("$"), "The $unwind operator only accepts a $<fieldName> argument; bare field names " +
-    		"will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_unwind")
-    op(operator, target)
-  }
-}
-
-// TODO - Implement me
-trait ProjectOperator extends PipelineOperator {
-  private val operator = "$project"
-}
-
 
 trait GroupOperator extends PipelineOperator {
   private val operator = "$group"
@@ -314,3 +199,4 @@ trait GroupSumOperator extends GroupSubOperator {
   }
 }
 
+}
