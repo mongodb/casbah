@@ -67,16 +67,15 @@ package aggregation {
     }
   }
   
-  trait AggregationPipeline extends PipelineOperations { self: MongoDBList => 
-    protected[mongodb] val list = self
-    
-    override def apply(n: Int): AnyRef = list(n)
-    def pipelineSize: Int = list.size
+  class AggregationPipeline private(protected[mongodb] val list: MongoDBList = MongoDBList.empty) extends PipelineOperations { 
+    def apply(n: Int): DBObject = list(n).asInstanceOf[DBObject]
+    def size: Int = list.size
+    override def toString = "AggregationPipeline { " + list.toString + " } ";
   }
 
   object AggregationPipeline {
-    def empty = new MongoDBList with AggregationPipeline
-    def apply(list: MongoDBList) = new MongoDBList(list.underlying) with AggregationPipeline
+    def empty = new AggregationPipeline()
+    def apply(list: MongoDBList) = new AggregationPipeline(list)
   }
 
 }

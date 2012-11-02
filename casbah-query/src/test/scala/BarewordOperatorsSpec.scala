@@ -97,7 +97,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
     }
   }
 
-  "Casbah's DSL $and Operatand" >> {
+  "Casbah's DSL $and Operator" >> {
     "Accept multiple values" in {
       val and = $and ( "foo" -> "bar", "x" -> "y" )
       and must haveListEntry("$and", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
@@ -106,7 +106,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
       val and = $and { "foo" -> "bar" :: ("foo" $gt 5 $lt 10) }
       and must haveListEntry("$and", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("foo" -> MongoDBObject("$gt" -> 5, "$lt" -> 10))))
     }
-    "Wandk with nested operatands" in {
+    "Work with nested operators" in {
       "As a simple list (comma separated)" in {
         val and = $and( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
         and must haveListEntry("$and", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),

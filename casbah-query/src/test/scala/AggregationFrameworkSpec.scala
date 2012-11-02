@@ -32,7 +32,7 @@ import org.specs2.data.Sized
 @RunWith(classOf[JUnitRunner])
 class AggregationFrameworkSpec extends CasbahMutableSpecification {
   implicit object SizePipeline extends Sized[AggregationPipeline] {
-    def size(t: AggregationPipeline) = t.pipelineSize
+    def size(t: AggregationPipeline) = t.size
   }
 
   "Casbah's Aggregation DSL" should {
@@ -51,8 +51,7 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
      
     "Work with $unwind" in {
       val unwind = | $unwind "$foo"
-      //unwind(0) must haveEntry("$unwind" -> "$foo")
-      unwind must not beNull
+      unwind(0) must haveEntry("$unwind" -> "$foo")
     } 
 
     "Fail to accept a non $-ed target field" in {
@@ -61,20 +60,16 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
 
     "Work with $match and Casbah Queries" in {
       val _match = | $match { "score" $gt 50 $lte 90 }
-      //_match must haveEntry("$match.score.$gt" -> 50) and haveEntry("$match.score.$lte" -> 90)
-      _match must not beNull
+      _match(0) must haveEntry("$match.score.$gt" -> 50) and haveEntry("$match.score.$lte" -> 90)
     }
     "Work with $match and Casbah Queries plus additional chains" in {
       val _match = | $match { ("score" $gt 50 $lte 90) ++ ("type" $in ("exam", "quiz")) }
-      //_match must haveEntries("$match.score.$gt" -> 50, "$match.score.$lte" -> 90, "$match.type.$in" -> List("exam", "quiz"))
-      _match must not beNull
+      _match(0) must haveEntries("$match.score.$gt" -> 50, "$match.score.$lte" -> 90, "$match.type.$in" -> List("exam", "quiz"))
     }
     "Allow full chaining of operations" in {
       val x = | $group { ("lastAuthor" $last "$author") ++ ("firstAuthor" $first "$author")  ++ ("_id" -> "$foo") } 
       val y = x $unwind("$tags") $sort ( "foo" -> 1, "bar" -> -1 ) $skip 5 $limit 10
-      y must beAnInstanceOf[MongoDBList]
       y must have size(5)
-      y must not beNull
     }
   }
   
@@ -98,25 +93,9 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
         
       }
        
-//       "Chain with another op" >> {
-//         val _test = | $group "lastAuthor" $last "$author" $unwind "$tags"
-//         // TODO - Proper test
-//         _test must not beNull
-//       }
 
     }
 
-     /*
-      "Work with multiple operators" in {
-      val _group = | $group { "lastAuthor" $last "$author" :: "firstAuthor" $first "$author" }
-     }
-     */
-
-
-    /*"Require _id" in {
-      null must beNull
-    }
-*/
   }
 }
 

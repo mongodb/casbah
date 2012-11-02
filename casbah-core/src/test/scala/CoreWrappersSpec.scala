@@ -121,7 +121,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       coll.insert(MongoDBObject("foo" -> "bar"))
       val basicFind = coll.find(MongoDBObject("foo" -> "bar"))
 
-      basicFind must haveSize(1)
+      basicFind.size must beEqualTo(1)
 
       val findOne = coll.findOne()
 
