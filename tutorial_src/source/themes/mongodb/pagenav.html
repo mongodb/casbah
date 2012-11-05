@@ -1,0 +1,18 @@
+{#
+    cat basic/sourcelink.html basic/relations.html
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Sphinx sidebar template: "show source" link.
+
+    Sphinx sidebar template: relation links.
+
+    :copyright: Copyright 2007-2011 by the Sphinx team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+#}
+
+<h3><a href="{{ pathto(master_doc) }}">{{ _('MongoDB Manual') }}</a></h3>
+
+{{ toctree(maxdepth=-1) }}
+
+<h3 style="padding-bottom: 1em;"><a href="{{ pathto('genindex') }}">{{ _('Index') }}</a></h3>
+
