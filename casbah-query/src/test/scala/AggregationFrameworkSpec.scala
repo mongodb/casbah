@@ -97,6 +97,36 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
     }
 
   }
+  
+  "A Scala port of the core Aggregation test from the Server" should {
+    "Non-Integration, syntax test" in {
+      // Just pass through fields
+      val p1 = | $project ( "tags" -> 1, "pageViews" -> 1 )
+       
+      val u1 = | $unwind "$tags"
+      
+      val u2 = | $unwind "$b.f"
+      
+      // combine a projection with an unwind
+      val p2 = | $project ( "author" -> 1, "tags" -> 1, "pageViews" -> 1 ) $unwind "$tags"
+      p2 must haveSize(2)
+      
+      // Pulling values out of subdocuments
+      val p3 = | $project ( "otherfoo" -> "$other.foo", "otherbar" -> "$other.bar" )
+      
+      // projection with computed value
+      val p4 = | $project { ("daveWroteIt" $eq("$author", "dave")) ++ ("author" -> 1) }
+      
+      // projection includes a virtual (fabricated) document
+      var p5 = | $project ( "author" -> 1, "pageViews" -> 1, "tags" -> 1 ) $unwind("$tags") 
+      p5 = p5 $project  ( "subDocument" -> MongoDBObject("foo" -> "$pageViews", "bar" -> "$tags"), "author" -> 1 ) 
+      
+      // multi-step aggregation
+      // nested expressions in computed fields
+      var p6 = | $project ("author" -> 1, "tags" -> 1, "pageViews" -> 1) $unwind("$tags") 
+      p6 = p6 $project { ("daveWroteIt" $eq("$author", "dave")) ++ ("weLikeIt" $or) }
+    }
+  }
 }
 
 

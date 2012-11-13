@@ -18,6 +18,8 @@ object CasbahBuild extends Build {
 
   "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" ! 
 
+  "mongoimport -d casbahIntegration -c artilces --drop ./casbah-core/src/test/resources/articles.json" !
+
 
   override lazy val settings = super.settings ++ buildSettings
 

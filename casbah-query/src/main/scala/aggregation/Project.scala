@@ -36,7 +36,7 @@ trait ProjectOperator extends PipelineOperator {
   // TODO - Validate only valid field entries?
   def $project(target: DBObject) = op(operator, target)
   
-  def $project(fields: (String, Int)*) = {
+  def $project(fields: (String, Any)*) = {
      val bldr = MongoDBObject.newBuilder
      for ((k, v) <- fields) bldr += k -> v
      op(operator, bldr.result)
