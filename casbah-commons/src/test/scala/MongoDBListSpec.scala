@@ -87,7 +87,7 @@ class MongoDBListSpec extends CasbahMutableSpecification {
     "Convert tuple pairs correctly" in {
       val dbList = MongoDBList("omg" -> "ponies")
       dbList must haveSize(1)
-      dbList must beEqualTo(List(MongoDBObject("omg" -> "ponies")))
+      dbList must haveTheSameElementsAs(List(MongoDBObject("omg" -> "ponies")))
     }
   }
 
