@@ -24,7 +24,7 @@ package com.mongodb.casbah.test.commons
 
 import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 class MongoDBListSpec extends CasbahMutableSpecification {
 

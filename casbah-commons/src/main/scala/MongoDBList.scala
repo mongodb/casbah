@@ -26,7 +26,7 @@ package commons
 import com.mongodb.casbah.commons.Imports._
 
 import scala.collection.mutable._
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any] {
 

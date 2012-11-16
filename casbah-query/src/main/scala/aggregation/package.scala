@@ -23,7 +23,7 @@ package com.mongodb.casbah.query.dsl
 
 import com.mongodb.casbah.commons.Logging
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 import com.mongodb.casbah.query.Imports._
 

@@ -24,7 +24,7 @@ package com.mongodb.casbah
 
 import com.mongodb.casbah.Imports._
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 import com.mongodb.{ DBCursor , DBCollection , DBDecoderFactory, DBEncoderFactory}
 

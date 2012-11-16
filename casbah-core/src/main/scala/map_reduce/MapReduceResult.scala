@@ -26,7 +26,7 @@ package map_reduce
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 object MapReduceResult extends Logging {
 
