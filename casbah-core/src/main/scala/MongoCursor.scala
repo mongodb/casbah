@@ -27,7 +27,7 @@ import com.mongodb.DBCursor
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 /** 
  * Scala wrapper for Mongo DBCursors,

@@ -24,7 +24,7 @@ package com.mongodb.casbah.test.commons
 
 import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 class MongoDBListSpec extends CasbahMutableSpecification {
 
@@ -87,7 +87,7 @@ class MongoDBListSpec extends CasbahMutableSpecification {
     "Convert tuple pairs correctly" in {
       val dbList = MongoDBList("omg" -> "ponies")
       dbList must haveSize(1)
-      dbList must beEqualTo(List(MongoDBObject("omg" -> "ponies")))
+      dbList must haveTheSameElementsAs(List(MongoDBObject("omg" -> "ponies")))
     }
   }
 

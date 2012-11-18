@@ -16,3 +16,4 @@ tutorial_src/build
 .project
 .classpath
 atlassian-ide-plugin.xml
+.lib

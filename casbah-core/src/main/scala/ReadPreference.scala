@@ -16,7 +16,7 @@
  */
 package com.mongodb.casbah
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 import com.mongodb.DBObject
 
 /**

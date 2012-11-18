@@ -26,7 +26,7 @@ import com.mongodb.casbah.commons.Logging
 
 import com.mongodb.casbah.query.Imports._
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 /** 
  * Base Operator class for Bareword Operators.
