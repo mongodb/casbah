@@ -17,12 +17,12 @@ Setting up SBT
 ---------------
 You can easily add Casbah to SBT, the Scala Build Tool, by adding the following to your `build.sbt` file, substituting $CASBAH_VERSION$ with the latest Casbah release (as of |today|, that is |release|)::
 
-   libraryDependencies += "com.mongodb.casbah" % "casbah" % "$CASBAH_VERSION$"
+   libraryDependencies += "org.mongodb" % "casbah" % "$CASBAH_VERSION$"
 
 
 Alternately, if you are using a `.scala` Build definition, the following entry will work::
 
-    val casbah = "com.mongodb.casbah" %% "casbah" % "$CASBAH_VERSION$"
+    val casbah = "org.mongodb" %% "casbah" % "$CASBAH_VERSION$"
 
 The double percentages (`%%`) is not a typo---it tells SBT that the library is crossbuilt and to find the appropriate version for your project's Scala version.
 
@@ -47,7 +47,7 @@ You can add Casbah to Maven with the following dependency block.
 Please substitute $SCALA_VERSION$ with your Scala version (We support 2.9.x+) and $CASBAH_VERSION$ with the latest Casbah release (as of |today|, that is |release|)::
 
         <dependency>
-            <groupId>com.mongodb.casbah</groupId>
+            <groupId>org.mongodb</groupId>
             <artifactId>casbah_$SCALA_VERSION$</artifactId>                           
             <version>$CASBAH_VERSION$</version>
         <dependency>
@@ -60,7 +60,7 @@ You can add Casbah to Ivy with the following dependency block.
 
 Please substitute $SCALA_VERSION$ with your Scala version (We support 2.9.x+) and $CASBAH_VERSION$ with the latest Casbah release (as of |today|, that is |release|)::
 
-        <dependency org="com.mongodb.casbah" name="casbah_$SCALA_VERSION$" rev="$CASBAH_VERSION$"/>
+        <dependency org="org.mongodb" name="casbah_$SCALA_VERSION$" rev="$CASBAH_VERSION$"/>
         
 
 Setting up without a Dependency/Build Manager (Source + Binary)
