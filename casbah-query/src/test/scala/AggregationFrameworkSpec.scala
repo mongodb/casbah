@@ -121,10 +121,12 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
       var p5 = | $project ( "author" -> 1, "pageViews" -> 1, "tags" -> 1 ) $unwind("$tags") 
       p5 = p5 $project  ( "subDocument" -> MongoDBObject("foo" -> "$pageViews", "bar" -> "$tags"), "author" -> 1 ) 
       
-      // multi-step aggregation
-      // nested expressions in computed fields
-      var p6 = | $project ("author" -> 1, "tags" -> 1, "pageViews" -> 1) $unwind("$tags") 
-      p6 = p6 $project { ("daveWroteIt" $eq("$author", "dave")) ++ ("weLikeIt" $or) }
+      /*
+       *// multi-step aggregation
+       *// nested expressions in computed fields
+       *var p6 = | $project ("author" -> 1, "tags" -> 1, "pageViews" -> 1) $unwind("$tags") 
+       *p6 = p6 $project { ("daveWroteIt" $eq("$author", "dave")) ++ ("weLikeIt" $or) }
+       */
     }
   }
 }
