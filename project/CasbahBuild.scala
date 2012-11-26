@@ -16,7 +16,7 @@ object CasbahBuild extends Build {
    */
   "mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
 
-  "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" ! 
+  "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" !
 
   "mongoimport -d casbahIntegration -c artilces --drop ./casbah-core/src/test/resources/articles.json" !
 
@@ -37,7 +37,7 @@ object CasbahBuild extends Build {
     libraryDependencies ++= Seq(scalatest(scalaVersion),  slf4j, slf4jJCL, junit),
     libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
       sv match {
-        case "2.9.2" => 
+        case "2.9.2" =>
           deps :+ ("org.scalaj" % "scalaj-collection_2.9.1" % "1.2")
         case "2.8.2" =>
           deps :+ ("org.scalaj" %  "scalaj-collection_2.8.1" % "1.2")
@@ -49,9 +49,9 @@ object CasbahBuild extends Build {
     },
     libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
       sv match {
-        case "2.9.2" => 
+        case "2.9.2" =>
           deps :+ ("org.scala-tools.time" % "time_2.9.1" % "0.5")
-        case "2.8.2" => 
+        case "2.8.2" =>
           deps :+ ("org.scala-tools.time" % "time_2.8.1" % "0.5")
         case x => {
           deps :+ ("org.scala-tools.time" %% "time" % "0.5")
@@ -101,26 +101,26 @@ object CasbahBuild extends Build {
   lazy val core = Project(
     id       = "casbah-core",
     base     = file("casbah-core"),
-    settings = defaultSettings ++ Seq(parallelExecution in Test := false) 
+    settings = defaultSettings ++ Seq(parallelExecution in Test := false)
   ) dependsOn(commons, query)
 
   lazy val query = Project(
     id       = "casbah-query",
     base     = file("casbah-query"),
-    settings = defaultSettings 
+    settings = defaultSettings
   ) dependsOn(commons)
 
   lazy val gridfs = Project(
     id       = "casbah-gridfs",
     base     = file("casbah-gridfs"),
-    settings = defaultSettings 
+    settings = defaultSettings
   ) dependsOn(core)
-  
+
 }
 
 object Dependencies {
 
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.9.3"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.10.0"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
   val specs2 = "org.specs2" %% "specs2" % "1.5.1" % "provided"
@@ -164,5 +164,6 @@ object Resolvers {
   val sonatypeRels = "releases" at "https://oss.sonatype.org/content/repositories/releases"
   val sonatypeSTArch = "scalaTools Archive" at "https://oss.sonatype.org/content/groups/scala-tools/"
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
+  val typeSafe = "typesafe" at "http://repo.typesafe.com/typesafe/releases/"
 }
 

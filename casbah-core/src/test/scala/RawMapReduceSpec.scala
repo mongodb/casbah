@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
@@ -50,11 +50,11 @@ class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpec
     val reduceJS = """
       function r( year, values ) {
           var n = { count: 0,  sum: 0 }
-          for ( var i = 0; i < values.length; i++ ){ 
+          for ( var i = 0; i < values.length; i++ ){
               n.sum += values[i].sum;
               n.count += values[i].count;
           }
-          
+
           return n;
       }
     """
@@ -109,7 +109,7 @@ class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpec
       result.getAs[MongoDBList]("results") must beSome
 
       val mongo = result.as[MongoDBList]("results")
-      System.err.println("***" + mongo)
+      // System.err.println("***" + mongo)
       Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
       mongo(0) must beDBObject
       mongo(0) must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))

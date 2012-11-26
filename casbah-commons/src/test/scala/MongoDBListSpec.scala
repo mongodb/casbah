@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah.test.commons
@@ -89,27 +89,26 @@ class MongoDBListSpec extends CasbahMutableSpecification {
       dbList must haveSize(1)
       dbList must beEqualTo(List(MongoDBObject("omg" -> "ponies")))
     }
+
+
+    "Use underlying Object methods" in {
+      val seq = MongoDBList(x, y, "omg" -> "ponies", 5,
+        MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
+        212.8)
+
+      val raw = new BasicDBList()
+      raw += seq
+
+      val mongo: MongoDBList = raw
+      mongo must beMongoDBList
+
+      raw.toString must beEqualTo(mongo.toString())
+      raw.hashCode must beEqualTo(mongo.hashCode())
+      raw.equals(raw) must beEqualTo(mongo.equals(mongo))
+    }
   }
 
-/*
- *  "MongoDBList" >> {
- *    "Use underlying Object methods" in {
- *      val seq = MongoDBList(x, y, "omg" -> "ponies", 5,
- *        MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
- *        212.8)
- *
- *      val raw = new BasicDBList()
- *      raw += seq
- *
- *      val mongo: MongoDBList = raw
- *      mongo must beMongoDBList
- *
- *      raw.toString must beEqualTo(mongo.toString())
- *      raw.hashCode must beEqualTo(mongo.hashCode())
- *      raw.equals(raw) must beEqualTo(mongo.equals(mongo))
- *    }
- *  }
- */
+
 }
 
 // vim: set ts=2 sw=2 sts=2 et:

@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah.test.gridfs
@@ -85,11 +85,11 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
       gridfs.findOne("powered_by_mongo_find.png") foreach { file =>
         md5 = file.md5
         uploadDate = file.uploadDate
-        log.debug("MD5: %s", file.md5)
+        // log.debug("MD5: %s", file.md5)
       }
       md5 must beEqualTo(logo_md5)
       require(uploadDate != null)
-      System.err.println("Date: %s Type: %s".format(uploadDate, uploadDate.getClass))
+      // System.err.println("Date: %s Type: %s".format(uploadDate, uploadDate.getClass))
       uploadDate must beAnInstanceOf[java.util.Date]
     }
 
@@ -132,11 +132,11 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
       gridfs.findOne("powered_by_mongo_find.png") foreach { file =>
         md5 = file.md5
         uploadDate = file.uploadDate
-        log.debug("MD5: %s", file.md5)
+        // log.debug("MD5: %s", file.md5)
       }
       md5 must beEqualTo(logo_md5)
       require(uploadDate != null)
-      System.err.println("Date: %s Type: %s".format(uploadDate, uploadDate.getClass))
+      // System.err.println("Date: %s Type: %s".format(uploadDate, uploadDate.getClass))
       uploadDate must beAnInstanceOf[DateTime]
     }
 

@@ -127,6 +127,8 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
        * var p6 = | $project ("author" -> 1, "tags" -> 1, "pageViews" -> 1) $unwind("$tags")
        * p6 = p6 $project { ("daveWroteIt" $eq("$author", "dave")) ++ ("weLikeIt" $or) }
        */
+
+       success
     }
   }
 }
