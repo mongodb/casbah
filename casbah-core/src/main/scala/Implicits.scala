@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
@@ -44,7 +44,6 @@ import org.scala_tools.time.Imports._
  * Type oriented Collections and Cursors will ALWAYS try to deserialize DBObjects to their type where appropriate
  * (exceptions are things like group and mapReduce which return non-standard data and will be DBObjects)
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  */
 trait Implicits {
 
@@ -122,9 +121,11 @@ object TypeImports extends TypeImports with commons.TypeImports with query.TypeI
 trait Imports extends BaseImports with TypeImports with Implicits
 
 trait BaseImports {
+  val MongoClient = com.mongodb.casbah.MongoClient
   val MongoConnection = com.mongodb.casbah.MongoConnection
   val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
   val MongoOptions = com.mongodb.casbah.MongoOptions
+  val MongoClientOptions = com.mongodb.casbah.MongoClientOptions
   val WriteConcern = com.mongodb.casbah.WriteConcern
   val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   val MapReduceInlineOutput = com.mongodb.casbah.map_reduce.MapReduceInlineOutput
@@ -139,6 +140,10 @@ trait TypeImports {
   type MongoCursor = com.mongodb.casbah.MongoCursor
   type MongoURI = com.mongodb.casbah.MongoURI
   type MongoOptions = com.mongodb.MongoOptions
+  type MongoClient = com.mongodb.casbah.MongoClient
+  type MongoClientOptions = com.mongodb.MongoClientOptions
+  type MongoClientOptionsBuilder = com.mongodb.MongoClientOptions.Builder
+  type MongoClientURI = com.mongodb.MongoClientURI
   type WriteConcern = com.mongodb.WriteConcern
   type WriteResult = com.mongodb.WriteResult
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand

@@ -35,7 +35,7 @@ import com.mongodb.casbah.commons.conversions.scala._
 
 
 class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecification {
-  implicit val mongo = MongoConnection()("casbah_test")
+  implicit val mongo = MongoClient()("casbah_test")
   mongo.dropDatabase()
   val gridfs = GridFS(mongo)
   def logo_fh = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
@@ -69,7 +69,7 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
   }
 
   "Casbah's GridFS Implementations" should {
-    implicit val mongo = MongoConnection()("casbah_test")
+    implicit val mongo = MongoClient()("casbah_test")
     mongo.dropDatabase()
     val gridfs = GridFS(mongo)
 
@@ -115,7 +115,7 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
     }
   }
   "Casbah's Joda GridFS Implementations" should {
-    implicit val mongo = MongoConnection()("casbah_test")
+    implicit val mongo = MongoClient()("casbah_test")
     mongo.dropDatabase()
     val gridfs = JodaGridFS(mongo)
 

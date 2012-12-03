@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
@@ -31,18 +31,17 @@ import scala.collection.generic._
 import scala.collection.mutable.{Builder, Map, MapLike}
 import scala.reflect._
 
-/** 
+/**
  *  MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
  *  Cannot act as a DBObject or implement it's interface
  * due to conflicts between the java methods and scala methods.
  * Implicits and explicit methods allow you to convert to java though.
- * 
+ *
  * We will likely reimplement DBObject itself longterm as a pure base. on the wire format
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 1.0
- * 
- * @tparam String 
- * @tparam Object 
+ *
+ * @tparam String
+ * @tparam Object
  */
 @BeanInfo
 class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[String, AnyRef]
@@ -52,18 +51,18 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
 
   def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
-  /** 
+  /**
    * as
    *
    * Works like apply(), unsafe, bare return of a value.
    * Returns default if nothing matching is found, else
    * tries to cast a value to the specified type.
-   * 
+   *
    * Unless you overrode it, default throws
    * a NoSuchElementException
-   * 
-   * @param  key (String) 
-   * @tparam A 
+   *
+   * @param  key (String)
+   * @tparam A
    * @return (A)
    * @throws NoSuchElementException
    */
@@ -172,11 +171,11 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
   def partialObject = isPartialObject
 
   override def put(k: String, v: AnyRef) = {
-    val cvt = MongoDBObject.convertValue(v) 
+    val cvt = MongoDBObject.convertValue(v)
     cvt match {
-      case _v: Option[_] => 
+      case _v: Option[_] =>
         underlying.put(k, _v.orNull) match {
-          case null => None 
+          case null => None
           case value => Some(value)
         }
       case _ =>
@@ -210,7 +209,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
 
 object MongoDBObject {
 
-  implicit val canBuildFrom: CanBuildFrom[Map[String, Any], (String, Any), DBObject] = 
+  implicit val canBuildFrom: CanBuildFrom[Map[String, Any], (String, Any), DBObject] =
     new CanBuildFrom[Map[String, Any], (String, Any), DBObject] {
       def apply(from: Map[String, Any]) = apply()
       def apply() = newBuilder[String, Any]
@@ -224,9 +223,9 @@ object MongoDBObject {
   def newBuilder[A <: String, B <: Any]: Builder[(String, Any), DBObject] = new MongoDBObjectBuilder
 
   protected[mongodb] def convertValue(v: Any): Any = v match {
-    case x: MongoDBObject => 
+    case x: MongoDBObject =>
       x.asDBObject
-    case m: scala.collection.Map[String, _] => 
+    case m: scala.collection.Map[String, _] =>
       // attempt to convert it to a DBObject
       m.asDBObject
     case _v: Option[_] =>
@@ -246,7 +245,7 @@ sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
   protected var elems = empty
 
   override def +=(x: (String, Any)) = {
-    val cvt = MongoDBObject.convertValue(x._2) 
+    val cvt = MongoDBObject.convertValue(x._2)
     cvt match {
       case _v: Option[_] => elems.add(x._1, _v.orNull)
       case _ => elems.add(x._1, cvt)

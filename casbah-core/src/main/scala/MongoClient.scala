@@ -26,14 +26,15 @@ import com.mongodb.casbah.Imports._
 
 import scalaj.collection.Imports._
 
-import com.mongodb.{ Mongo, ServerAddress }
+import com.mongodb.ServerAddress
+import com.mongodb.{ MongoClient => JavaMongoClient }
 
 /**
  * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
- * Apply methods are called as MongoConnection(<params>)
+ * Apply methods are called as MongoClient(<params>)
  *
  */
-object MongoConnection {
+object MongoClient {
 
   /**
    * Default connection method - connects to default host &amp; port
@@ -41,7 +42,7 @@ object MongoConnection {
    * @throws UnknownHostException
    * @throws MongoException
    */
-  def apply() = new MongoConnection(new com.mongodb.Mongo())
+  def apply() = new MongoClient(new JavaMongoClient())
 
   /**
    * Replica Set connection
@@ -53,89 +54,58 @@ object MongoConnection {
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoConnection(new com.mongodb.Mongo(replicaSetSeeds.asJava))
+  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava))
 
   /**
    * Replica Set connection
    * This works for a replica set or pair,
    * and finds all the members (the master is used by default)
-   * Takes a MongoOptions object
+   * Takes a MongoClientOptions object
    *
    * @param replicaSetSeeds (List[ServerAddress]) The servers to connect to
    * @throws MongoException
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress], options: MongoOptions) =
-    new MongoConnection(new com.mongodb.Mongo(replicaSetSeeds.asJava, options))
+  def apply(replicaSetSeeds: List[ServerAddress], options: MongoClientOptions) =
+    new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava, options))
 
   /**
-   * Connect via a MongoURI
+   * Connect via a MongoClientURI
    *
-   * @param  uri (MongoURI)
+   * @param  uri (MongoClientURI)
    */
-  def apply(uri: MongoURI) = new MongoConnection(new com.mongodb.Mongo(uri.underlying))
+  def apply(uri: MongoClientURI) = new MongoClient(new JavaMongoClient(uri.underlying))
 
   /**
-   * Connect via a com.mongodb.MongoURI
+   * Connect via a com.mongodb.MongoClientURI
    *
-   * @param  uri (com.mongodb.MongoURI)
+   * @param  uri (com.mongodb.MongoClientURI)
    */
-  def apply(uri: com.mongodb.MongoURI) = new MongoConnection(new com.mongodb.Mongo(uri))
-
-  /**
-   * Connects to a (single) mongodb node.
-   *
-   * @param  addr (ServerAddress) the DatabaseAddress
-   * @throws MongoException
-   * @see ServerAddress
-   * @see MongoDBAddress
-   */
-  def apply(addr: ServerAddress) = new MongoConnection(new com.mongodb.Mongo(addr))
+  def apply(uri: com.mongodb.MongoClientURI) = new MongoClient(new JavaMongoClient(uri))
 
   /**
    * Connects to a (single) mongodb node.
    *
    * @param  addr (ServerAddress) the DatabaseAddress
-   * @param  options (MongoOptions) DB Options
    * @throws MongoException
    * @see ServerAddress
    * @see MongoDBAddress
-   * @see MongoOptions
    */
-  def apply(addr: ServerAddress, options: MongoOptions) =
-    new MongoConnection(new com.mongodb.Mongo(addr, options))
+  def apply(addr: ServerAddress) = new MongoClient(new JavaMongoClient(addr))
 
   /**
-   * Creates a Mongo connection in paired mode.
-   * This will also work for a replica set and will find
-   * all the members (the master will be used by default)
+   * Connects to a (single) mongodb node.
    *
-   * @param  left (ServerAddress) the left side of the pair
-   * @param  right (ServerAddress) The right side of the pair
+   * @param  addr (ServerAddress) the DatabaseAddress
+   * @param  options (MongoClientOptions) DB Options
    * @throws MongoException
    * @see ServerAddress
    * @see MongoDBAddress
+   * @see MongoClientOptions
    */
-  def apply(left: ServerAddress, right: ServerAddress) =
-    new MongoConnection(new com.mongodb.Mongo(left, right))
-
-  /**
-   * Creates a Mongo connection in paired mode.
-   * This will also work for a replica set and will find
-   * all the members (the master will be used by default)
-   *
-   * @param  left (ServerAddress) the left side of the pair
-   * @param  right (ServerAddress) The right side of the pair
-   * @param  options (MongoOptions) the MongoDB Options for the connection
-   * @throws MongoException
-   * @see ServerAddress
-   * @see MongoDBAddress
-   * @see MongoOptions
-   */
-  def apply(left: ServerAddress, right: ServerAddress,
-    options: com.mongodb.MongoOptions) =
-    new MongoConnection(new com.mongodb.Mongo(left, right, options))
+  def apply(addr: ServerAddress, options: MongoClientOptions) =
+    new MongoClient(new JavaMongoClient(addr, options))
 
   /**
    * Connects to a (single) mongodb node (default port)
@@ -144,7 +114,7 @@ object MongoConnection {
    * @throws UnknownHostException
    * @throws MongoException
    */
-  def apply(host: String) = new MongoConnection(new com.mongodb.Mongo(host))
+  def apply(host: String) = new MongoClient(new JavaMongoClient(host))
   /**
    * Connects to a (single) mongodb node
    *
@@ -153,24 +123,16 @@ object MongoConnection {
    * @throws UnknownHostException
    * @throws MongoException
    */
-  def apply(host: String, port: Int) = new MongoConnection(new com.mongodb.Mongo(host, port))
-
-  def connect(addr: DBAddress) = new MongoDB(com.mongodb.Mongo.connect(addr))
+  def apply(host: String, port: Int) = new MongoClient(new JavaMongoClient(host, port))
 
 }
 
 /**
- * Wrapper class for the Mongo Connection object.
+ * Wrapper class for the MongoClient object.
  *
  */
-class MongoConnection(val underlying: com.mongodb.Mongo) {
-  /**
-   * Apply method which proxies getDB, allowing you to call
-   * <code>connInstance("dbName")</code>
-   *
-   * @param dbName (String) A string for the database name
-   * @return MongoDB A wrapped instance of a Mongo 'DB Class.
-   */
+class MongoClient(val underlying: JavaMongoClient) {
+
   def apply(dbName: String) = underlying.getDB(dbName).asScala
   def getDB(dbName: String) = apply(dbName)
 
@@ -178,14 +140,17 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @throws MongoException
    */
   def dbNames = getDatabaseNames()
+
   /**
    * @throws MongoException
    */
   def databaseNames = getDatabaseNames()
+
   /**
    * @throws MongoException
    */
   def getDatabaseNames() = underlying.getDatabaseNames.asScala
+
   /**
    * Drops the database if it exists.
    *
@@ -208,6 +173,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @return (ServerAddress) The address of the DB
    */
   def address = getAddress()
+
   /**
    * Gets the address of this database.
    *
@@ -216,20 +182,14 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
   def getAddress() = underlying.getAddress()
 
   def allAddress = getAllAddress()
+
   def getAllAddress() = underlying.getAllAddress()
 
   /**
    * Closes all open connections.
    * NOTE: This connection can't be reused after closing.
    */
-  def close() = underlying.close // use parens because this side-effects
-
-  /**
-   * Sets queries to be OK to run on slave nodes.
-   * @deprecated Replaced with ReadPreference.SECONDARY
-   */
-  @deprecated("Replaced with ReadPreference.SECONDARY")
-  def slaveOk() = underlying.slaveOk() // use parens because this side-effects
+  def close() = underlying.close() // use parens because this side-effects
 
   /**
    * Manipulate Network Options
@@ -238,6 +198,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @see com.mongodb.Bytes
    */
   def addOption(option: Int) = underlying.addOption(option)
+
   /**
    * Manipulate Network Options
    *
@@ -245,6 +206,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @see com.mongodb.Bytes
    */
   def resetOptions() = underlying.resetOptions() // use parens because this side-effects
+
   /**
    * Manipulate Network Options
    *
@@ -252,6 +214,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @see com.mognodb.Bytes
    */
   def getOptions() = underlying.getOptions
+
   /**
    * Manipulate Network Options
    *
@@ -268,7 +231,6 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    *
    * @param concern (WriteConcern) The write concern to use
    * @see WriteConcern
-   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
 
@@ -306,7 +268,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    */
   def writeConcern = getWriteConcern
 
- /**
+  /**
    * Sets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
    * documentation for {@link ReadPreference} for more information.
@@ -342,75 +304,3 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    */
   def getReadPreference = underlying.getReadPreference
 }
-
-/**
- *
- * @author  Brendan W. McAdams <brendan@10gen.com>
- * @since   1.0.1
- */
-object MongoDBAddress {
-
-  /**
-   * Connects to a given database using the host/port info from an existing
-   * DBAddress instance.
-   *
-   * @param  other  DBAddress the existing DBAddress
-   * @param  dbName String the database to which to connect
-   * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
-   */
-  def apply(other: DBAddress, dbName: String) = new DBAddress(other, dbName)
-
-  /**
-   * Creates a new DBAddress... acceptable formats:
-   *
-   * <pre>
-   *   name ("myDB")
-   *   <host>/name ("127.0.0.1/myDB")
-   *   <host>:<port>/name ("127.0.0.1:8080/myDB")
-   * </pre>
-   *
-   * @param  urlFormat String
-   * @return com.mongodb.DBAddress
-   *
-   * @throws java.net.UnknownHostException
-   *
-   */
-  def apply(urlFormat: String) = new DBAddress(urlFormat)
-
-  /**
-   * Connects to a database with a given name at a given host.
-   *
-   * @param  host   String
-   * @param  dbName String
-   * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
-   */
-  def apply(host: String, dbName: String) = new DBAddress(host, dbName)
-
-  /**
-   * Connects to a database with a given host, port &amp; name at a given host.
-   *
-   * @param  host   String
-   * @param  port   Int
-   * @param  dbName String
-   * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
-   */
-  def apply(host: String, port: Int, dbName: String) =
-    new DBAddress(host, port, dbName)
-
-  /**
-   * Connects to a database with a given InetAddress, port &amp; name at a given host.
-   *
-   * @param  addr   java.net.InetAddress
-   * @param  port   Int
-   * @param  dbName String
-   * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
-   * @see java.net.InetAddress
-   */
-  def apply(addr: java.net.InetAddress, port: Int, dbName: String) =
-    new DBAddress(addr, port, dbName)
-}
-

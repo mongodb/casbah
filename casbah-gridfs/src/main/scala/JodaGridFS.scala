@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
@@ -38,11 +38,10 @@ import scalaj.collection.Imports._
 
 import org.scala_tools.time.Imports._
 
-/** 
+/**
  * Companion object for GridFS.
  * Entry point for creation of GridFS Instances.
- * 
- * @author Brendan W. McAdams <brendan@10gen.com>
+ *
  * @since 1.0
  */
 object JodaGridFS extends Logging {
@@ -83,81 +82,81 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
     def hasNext: Boolean = fileSet.hasNext
   }
 
-  /** 
+  /**
    * loan
    *
-   * Basic implementation of the Loan pattern - 
-   * the idea is to pass a Unit returning function 
-   * and a Mongo file handle, and work on it within 
+   * Basic implementation of the Loan pattern -
+   * the idea is to pass a Unit returning function
+   * and a Mongo file handle, and work on it within
    * a code block.
-   * 
+   *
    */
   protected[gridfs] def loan[T <: GenericGridFSFile](file: T)(op: T => Option[AnyRef]) = op(file)
   /**
    * Create a new GridFS File from a scala.io.Source
-   * 
+   *
    * Uses a loan pattern, so you need to pass a curried function which expects a GridFSInputFile
    * as a parameter.
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
-   * @see createFile 
+   * @see createFile
    * @returns The ID of the created File (Option[AnyRef])
    */
   def apply(data: scala.io.Source)(op: FileWriteOp) = withNewFile(data)(op)
 
   /**
    * Create a new GridFS File from a Byte Array
-   * 
+   *
    * Uses a loan pattern, so you need to pass a curried function which expects a GridFSInputFile
    * as a parameter.
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
-   * @see createFile 
+   * @see createFile
    * @returns The ID of the created File (Option[AnyRef])
    */
   def apply(data: Array[Byte])(op: FileWriteOp) = withNewFile(data)(op)
 
   /**
    * Create a new GridFS File from a java.io.File
-   * 
+   *
    * Uses a loan pattern, so you need to pass a curried function which expects a GridFSInputFile
    * as a parameter.
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
-   * @see createFile 
+   * @see createFile
    * @returns The ID of the created File (Option[AnyRef])
    */
   def apply(f: File)(op: FileWriteOp) = withNewFile(f)(op)
 
   /**
    * Create a new GridFS File from a java.io.InputStream
-   * 
+   *
    * Uses a loan pattern, so you need to pass a curried function which expects a GridFSInputFile
    * as a parameter.
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
-   * @see createFile 
+   * @see createFile
    * @returns The ID of the created File (Option[AnyRef])
    */
   def apply(in: InputStream)(op: FileWriteOp) = withNewFile(in)(op)
 
   /**
    * Create a new GridFS File from a java.io.InputStream and a specific filename
-   * 
+   *
    * Uses a loan pattern, so you need to pass a curried function which expects a GridFSInputFile
    * as a parameter.
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
-   * @see createFile 
+   * @see createFile
    * @returns The ID of the created File (Option[AnyRef])
    */
   def apply(in: InputStream, filename: String)(op: FileWriteOp) = withNewFile(in, filename)(op)
 
-  /** 
+  /**
    * createFile
-   * 
+   *
    * Creates a new file in GridFS
-   * 
+   *
    * TODO - Should the curried versions give the option to not automatically save?
    */
   def createFile(data: scala.io.Source): JodaGridFSInputFile = throw new UnsupportedOperationException("Currently no support for scala.io.Source")
@@ -211,15 +210,15 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
     fh.validate()
     Option(fh.id)
   }
- 
+
 
 
   /** Find by query - returns a list */
-  def find[A <% DBObject](query: A) = underlying.find(query).asScala 
+  def find[A <% DBObject](query: A) = underlying.find(query).asScala
   /** Find by query - returns a single item */
   def find(id: ObjectId): JodaGridFSDBFile = underlying.find(id)
   /** Find by query - returns a list */
-  def find(filename: String) = underlying.find(filename).asScala 
+  def find(filename: String) = underlying.find(filename).asScala
 
   def findOne[A <% DBObject](query: A): Option[JodaGridFSDBFile] = {
     underlying.findOne(query) match {
@@ -244,7 +243,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
 
   /**
    * Returns a cursor for this filestore
-   * of all of the files... 
+   * of all of the files...
    */
   def files = { new MongoCursor(underlying.getFileList) }
   def files[A <% DBObject](query: A) = { new MongoCursor(underlying.getFileList(query)) }

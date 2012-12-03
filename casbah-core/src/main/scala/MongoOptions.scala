@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
@@ -26,14 +26,13 @@ import com.mongodb.casbah.Imports._
 
 import scalaj.collection.Imports._
 
-import com.mongodb.{ DBCursor , DBCollection , DBDecoderFactory, DBEncoderFactory}
+import com.mongodb.{ DBDecoderFactory, DBEncoderFactory }
 
 import javax.net.SocketFactory
 
-/** 
+/**
  * Helper class for creating MongoOptions instances
- * 
- * @author Brendan W. McAdams <brendan@10gen.com>
+ *
  * @since 2.0
  * @see com.mongodb.MongoOptions
  */
@@ -67,11 +66,10 @@ object MongoOptions {
     wTimeout: Int = Defaults.wtimeout,
     fsync: Boolean = Defaults.fsync,
     j: Boolean = Defaults.j,
-    dbDecoderFactory: DBDecoderFactory = Defaults.dbDecoderFactory, 
+    dbDecoderFactory: DBDecoderFactory = Defaults.dbDecoderFactory,
     dbEncoderFactory: DBEncoderFactory = Defaults.dbEncoderFactory,
     socketFactory: SocketFactory = Defaults.socketFactory,
-    description: String = Defaults.description
-    ) = {
+    description: String = Defaults.description) = {
     val options = new MongoOptions;
 
     options.autoConnectRetry = autoConnectRetry

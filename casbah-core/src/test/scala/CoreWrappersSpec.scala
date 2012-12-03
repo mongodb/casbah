@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,10 +17,10 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
-package com.mongodb.casbah
+package com.mongodb.casbah.test.core
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
@@ -68,13 +68,13 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     }
 
     "be directly instantiable, with working apply methods" in {
-      var conn: MongoConnection = MongoConnection()
+      var conn: MongoClient = MongoClient()
       var db: MongoDB = conn("test")
       var coll: MongoCollection = db("collection.in")
 
-      "MongoConnection" in {
+      "MongoClient" in {
         "direct instantiation" in {
-          conn.underlying must haveClass[com.mongodb.Mongo]
+          conn.underlying must haveClass[com.mongodb.MongoClient]
         }
 
         "the apply method works" in {
@@ -92,7 +92,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     }
 
     "Renaming a collection successfully tracks the rename in MongoCollection" in {
-      val db = MongoConnection()("casbahTest")
+      val db = MongoClient()("casbahTest")
       db("collection").drop()
       val coll = db("collectoin")
       coll.drop()
@@ -113,7 +113,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
   }
 
   "findOne operations" should {
-    val db = MongoConnection()("casbahTest")
+    val db = MongoClient()("casbahTest")
 
     "Not fail as reported by Max Afonov in SCALA-11" in {
       val coll = db("brand_new_coll_%d".format(System.currentTimeMillis))
@@ -137,7 +137,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
   "Cursor Operations" should {
     import scala.util.Random
 
-    val db = MongoConnection()("casbahTest")
+    val db = MongoClient()("casbahTest")
     val coll = db("test_coll_%d".format(System.currentTimeMillis))
 
     for (i <- 1 to 100)

@@ -20,18 +20,14 @@
  *
  */
 
-package com.mongodb.casbah
-package map_reduce
+package com.mongodb.casbah.test.core
+
+import org.scala_tools.time.Imports._
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.conversions.scala._
-
-import org.scala_tools.time.Imports._
-import com.mongodb.casbah.Imports._
-
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
-
 
 
 @SuppressWarnings(Array("deprecation"))
@@ -40,7 +36,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
   "Casbah's Map/Reduce Engine" should {
 
-    implicit val mongoDB = MongoConnection()("casbahIntegration")
+    implicit val mongoDB = MongoClient()("casbahIntegration")
 
     "Handle error conditions such as non-existent collections gracefully" in {
 
@@ -61,7 +57,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
   }
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
-    implicit val mongoDB = MongoConnection()("casbahIntegration")
+    implicit val mongoDB = MongoClient()("casbahIntegration")
 
     verifyAndInitTreasuryData
 

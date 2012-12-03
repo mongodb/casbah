@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah.test.commons.conversions
@@ -30,8 +30,6 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import org.specs2.specification.BeforeExample
 import org.bson.BSON
 
-import com.mongodb.casbah.Imports._
-
 class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
   sequential
   type JDKDate = java.util.Date
@@ -43,7 +41,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
 
   "Casbah's Conversion Helpers" should {
 
-    implicit val mongoDB = MongoConnection()("casbahTest")
+    implicit val mongoDB = MongoClient()("casbahTest")
     mongoDB.dropDatabase()
 
     "Properly save Option[_] to MongoDB" in {
@@ -99,7 +97,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
       // Casting it as something it isn't will fail
       lazy val getDate = { jodaEntry.get.getAs[JDKDate]("date") }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException]
     }
 
@@ -125,7 +123,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
       lazy val getDate = { jdkEntry.get.getAs[DateTime]("date") }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException]
     }
     "Inserting a JDKDate should still allow retrieval as JodaTime after Conversions load" in {
@@ -143,7 +141,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
       lazy val getDate = { jdkEntry.get.getAs[DateTime]("date") }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException]
 
       RegisterJodaTimeConversionHelpers()
@@ -156,7 +154,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
       // Casting it as something it isn't will fail
       lazy val getConvertedDate = { jodaEntry.get.getAs[JDKDate]("date") }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getConvertedDate.get must throwA[ClassCastException]
     }
     "toString-ing a JODA Date with JODA Conversions loaded doesn't choke horribly." in {
@@ -166,8 +164,8 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
 
       /*jodaEntry.getAs[DateTime]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = { jodaEntry.getAs[JDKDate]("date") } 
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get 
+      lazy val getDate = { jodaEntry.getAs[JDKDate]("date") }
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException] */
       RegisterJodaTimeConversionHelpers()
 
@@ -176,7 +174,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       json must not beNull
     }
   }
-  
+
   "Casbah and Java Driver custom type encoding" should {
     val encoder = new com.mongodb.DefaultDBEncoder()
     def encode(doc: DBObject): Long = {
@@ -197,7 +195,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
           total += encode(doc)
         }
 
-        val avg = total / x  
+        val avg = total / x
 
         log.error("[Basic] Average encoding time over %s tries: %f [%s]", x, avg, total)
         avg must beGreaterThan(0.0)
@@ -212,7 +210,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
           total += encode(doc)
         }
 
-        val avg = total / x  
+        val avg = total / x
 
         log.error("[Custom Types] Average encoding time over %s tries: %f [%s]", x, avg, total)
         avg must beGreaterThan(0.0)

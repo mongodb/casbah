@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
@@ -31,7 +31,6 @@ import scalaj.collection.Imports._
 /**
  * Wrapper for the Mongo <code>DB</code> object providing scala-friendly functionality.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
  * @see com.mongodb.DB
  */
@@ -46,7 +45,6 @@ object MongoDB {
 /**
  * Wrapper for the Mongo <code>DB</code> object providing scala-friendly functionality.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 1.0
  * @see com.mongodb.DB
  */
@@ -219,7 +217,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def readOnly_=(b: Boolean) = setReadOnly(b)
 
-  /** 
+  /**
    * Sets queries to be OK to run on slave nodes.
    * @deprecated Replaced with ReadPreference.SECONDARY
    */
@@ -227,47 +225,47 @@ class MongoDB(val underlying: com.mongodb.DB) {
   def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**
-   * 
+   *
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
    * See the documentation for {@link WriteConcern} for more info.
-   * 
+   *
    * @param concern (WriteConcern) The write concern to use
-   * @see WriteConcern 
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
 
   /**
-   * 
+   *
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
    * See the documentation for {@link WriteConcern} for more info.
-   * 
+   *
    * @param concern (WriteConcern) The write concern to use
-   * @see WriteConcern 
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def writeConcern_=(concern: WriteConcern) = setWriteConcern(concern)
 
   /**
-   * 
+   *
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
    * See the documentation for {@link WriteConcern} for more info.
-   * 
-   * @see WriteConcern 
+   *
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def getWriteConcern = underlying.getWriteConcern()
 
   /**
-   * 
+   *
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
    * See the documentation for {@link WriteConcern} for more info.
    *
-   * @see WriteConcern 
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def writeConcern = getWriteConcern
@@ -332,16 +330,16 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * write concern aware write op block.
    *
    * Checks getLastError after the last write.
-   * If  you run multiple ops you'll only get the final 
+   * If  you run multiple ops you'll only get the final
    * error.
-   * 
+   *
    * Your op function gets a copy of this MongoDB instance.
-   * 
+   *
    * This is for write ops only - you cannot return data from it.
    *
-   * Your function must return WriteResult, which is the 
+   * Your function must return WriteResult, which is the
    * return type of any mongo write operation like insert/save/update/remove
-   * 
+   *
    * If you have set a connection or DB level WriteConcern,
    * it will be inherited.
    *
@@ -354,16 +352,16 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * write concern aware write op block.
    *
    * Checks getLastError after the last write.
-   * If  you run multiple ops you'll only get the final 
+   * If  you run multiple ops you'll only get the final
    * error.
-   * 
+   *
    * Your op function gets a copy of this MongoDB instance.
-   * 
+   *
    * This is for write ops only - you cannot return data from it.
-   * 
-   * Your function must return WriteResult, which is the 
+   *
+   * Your function must return WriteResult, which is the
    * return type of any mongo write operation like insert/save/update/remove
-   * 
+   *
    * @throws MongoException
    */
   def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)(op: MongoDB => WriteResult) =
@@ -373,16 +371,16 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * write concern aware write op block.
    *
    * Checks getLastError after the last write.
-   * If  you run multiple ops you'll only get the final 
+   * If  you run multiple ops you'll only get the final
    * error.
-   * 
+   *
    * Your op function gets a copy of this MongoDB instance.
-   * 
+   *
    * This is for write ops only - you cannot return data from it.
-   * 
-   * Your function must return WriteResult, which is the 
+   *
+   * Your function must return WriteResult, which is the
    * return type of any mongo write operation like insert/save/update/remove
-   * 
+   *
    * @throws MongoException
    */
   def request(writeConcern: WriteConcern)(op: MongoDB => WriteResult) =
@@ -391,32 +389,32 @@ class MongoDB(val underlying: com.mongodb.DB) {
   def checkedWrite(op: MongoDB => WriteResult) =
     op(this).getLastError.throwOnError
 
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def addOption(option: Int) = underlying.addOption(option)
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def resetOptions() = underlying.resetOptions() // use parens because this side-effects
 
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
   def getOptions() = underlying.getOptions
 
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */

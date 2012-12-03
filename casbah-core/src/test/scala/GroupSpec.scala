@@ -22,17 +22,18 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.commons.Logging
-import com.mongodb.casbah.commons.conversions.scala._
+import org.scala_tools.time.Imports._
 
 import com.mongodb.casbah.Imports._
-import org.scala_tools.time.Imports._
+import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+
 
 class GroupSpec extends CasbahMutableSpecification {
 
   "Casbah's Group Interfaces" should {
-    implicit val mongoDB = MongoConnection()("casbahIntegration")
+    implicit val mongoDB = MongoClient()("casbahIntegration")
 
 
     "Work with a normal non-finalized Group statement" in {

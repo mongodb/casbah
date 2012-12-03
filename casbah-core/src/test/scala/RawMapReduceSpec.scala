@@ -20,8 +20,7 @@
  *
  */
 
-package com.mongodb.casbah
-package map_reduce
+package com.mongodb.casbah.test.core
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
@@ -36,7 +35,7 @@ import com.mongodb.casbah.Imports._
 class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecification {
   sequential
   "MongoDB 1.7+ Map/Reduce functionality" should {
-    implicit val mongoDB = MongoConnection()("casbahIntegration")
+    implicit val mongoDB = MongoClient()("casbahIntegration")
 
     verifyAndInitTreasuryData
 
