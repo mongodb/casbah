@@ -82,14 +82,6 @@ object CasbahBuild extends Build {
     aggregate = Seq(util, commons, core, query, gridfs)
   ) dependsOn(util, commons, core, query, gridfs)
 
-  lazy val util = Project(
-    id       = "casbah-util",
-    base     = file("casbah-util"),
-    settings = defaultSettings ++ Seq(
-      libraryDependencies ++= Seq(mongoJavaDriver, slf4j, slf4jJCL)
-    )
-  )
-
   lazy val commons = Project(
     id       = "casbah-commons",
     base     = file("casbah-commons"),
