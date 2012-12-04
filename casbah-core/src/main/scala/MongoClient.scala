@@ -61,8 +61,7 @@ object MongoClient {
    * @throws UnknownHostException
    * @throws MongoException
    */
-  def apply(host: String, options: MongoClientOptions) = new MongoClient(new JavaMongoClient(host, o
-ptions))
+  def apply(host: String, options: MongoClientOptions) = new MongoClient(new JavaMongoClient(host, options))
 
   /**
    * Connects to a (single) mongodb node
@@ -107,8 +106,7 @@ ptions))
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoClient(new JavaMongoClient(replicaSetSe
-eds.asJava))
+  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava))
 
   /**
    * Replica Set connection
