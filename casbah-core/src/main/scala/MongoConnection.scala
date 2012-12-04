@@ -345,7 +345,6 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
 
 /**
  *
- * @author  Brendan W. McAdams <brendan@10gen.com>
  * @since   1.0.1
  */
 object MongoDBAddress {
