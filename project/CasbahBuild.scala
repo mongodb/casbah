@@ -124,7 +124,6 @@ object Dependencies {
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
 
   val specs2 = "org.specs2" %% "specs2" % "1.5.1" % "provided"
-  //val specs2 = specs2Compile % "test"
   val junit = "junit" % "junit" % "4.10" % "test"
 
   def specs2ScalazCore(scalaVer: sbt.SettingKey[String]) =
@@ -140,12 +139,6 @@ object Dependencies {
     if (result == "") result = "2.8.2"
     result
   }
-
-  /*def scalatest(scalaVer: sbt.SettingKey[String]) =
-    scalaVersionString(scalaVer) match {
-      case "2.8.1" => "org.scalatest" % "scalatest_2.8.1" % "1.5.1" % "test"
-      case _ => "org.scalatest" % "scalatest_2.9.0" % "1.6.1" % "test"
-    }*/
 
   def scalatest(scalaVer: sbt.SettingKey[String]) =
     scalaVersionString(scalaVer) match {
