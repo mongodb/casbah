@@ -1,6 +1,5 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
- * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +39,7 @@ object MongoClientURI {
    * <li> mongodb://fred:foobar@localhost/
    * <li> mongodb://server1,server2,server3
    *
-   * See [[http://www.mongodb.org/display/DOCS/Connections]]
+   * See [[http://docs.mongodb.org/manual/reference/connection-string/]]
    *
    * @param  uri (String)
    */
@@ -54,7 +53,7 @@ object MongoClientURI {
  * <li> mongodb://fred:foobar@localhost/
  * <li> mongodb://server1,server2,server3
  *
- *  See [[http://www.mongodb.org/display/DOCS/Connections]]
+ *  See [[http://docs.mongodb.org/manual/reference/connection-string/]]
  *
  * @since 2.5
  */

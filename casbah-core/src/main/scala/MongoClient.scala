@@ -1,6 +1,5 @@
 /**
  * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
- * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,9 +29,10 @@ import com.mongodb.ServerAddress
 import com.mongodb.{ MongoClient => JavaMongoClient }
 
 /**
- * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
- * Apply methods are called as MongoClient(<params>)
+ * Wrapper object for MongoClient connections, providing the static methods the
+ * Java driver gives. Apply methods are called as MongoClient(<params>)
  *
+ * @since 2.5
  */
 object MongoClient {
 
@@ -45,6 +45,59 @@ object MongoClient {
   def apply() = new MongoClient(new JavaMongoClient())
 
   /**
+   * Connects to a (single) mongodb node (default port)
+   *
+   * @param  host (String)  server to connect to
+   * @throws UnknownHostException
+   * @throws MongoException
+   */
+  def apply(host: String) = new MongoClient(new JavaMongoClient(host))
+
+  /**
+   * Creates a Mongo instance based on a (single) mongodb node (default port).
+   *
+   * @param host server to connect to in format host[:port]
+   * @param options default query options
+   * @throws UnknownHostException
+   * @throws MongoException
+   */
+  def apply(host: String, options: MongoClientOptions) = new MongoClient(new JavaMongoClient(host, o
+ptions))
+
+  /**
+   * Connects to a (single) mongodb node
+   *
+   * @param  host (String)  server to connect to
+   * @param  port (Int) the port on which the database is running
+   * @throws UnknownHostException
+   * @throws MongoException
+   */
+  def apply(host: String, port: Int) = new MongoClient(new JavaMongoClient(host, port))
+
+  /**
+   * Connects to a (single) mongodb node.
+   *
+   * @param  addr (ServerAddress) the DatabaseAddress
+   * @throws MongoException
+   * @see ServerAddress
+   * @see MongoDBAddress
+   */
+  def apply(addr: ServerAddress) = new MongoClient(new JavaMongoClient(addr))
+
+  /**
+   * Connects to a (single) mongodb node.
+   *
+   * @param  addr (ServerAddress) the DatabaseAddress
+   * @param  options (MongoClientOptions) DB Options
+   * @throws MongoException
+   * @see ServerAddress
+   * @see MongoDBAddress
+   * @see MongoClientOptions
+   */
+  def apply(addr: ServerAddress, options: MongoClientOptions) =
+    new MongoClient(new JavaMongoClient(addr, options))
+
+  /**
    * Replica Set connection
    * This works for a replica set or pair,
    * and finds all the members (the master is used by default)
@@ -54,7 +107,8 @@ object MongoClient {
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava))
+  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoClient(new JavaMongoClient(replicaSetSe
+eds.asJava))
 
   /**
    * Replica Set connection
@@ -83,47 +137,6 @@ object MongoClient {
    * @param  uri (com.mongodb.MongoClientURI)
    */
   def apply(uri: com.mongodb.MongoClientURI) = new MongoClient(new JavaMongoClient(uri))
-
-  /**
-   * Connects to a (single) mongodb node.
-   *
-   * @param  addr (ServerAddress) the DatabaseAddress
-   * @throws MongoException
-   * @see ServerAddress
-   * @see MongoDBAddress
-   */
-  def apply(addr: ServerAddress) = new MongoClient(new JavaMongoClient(addr))
-
-  /**
-   * Connects to a (single) mongodb node.
-   *
-   * @param  addr (ServerAddress) the DatabaseAddress
-   * @param  options (MongoClientOptions) DB Options
-   * @throws MongoException
-   * @see ServerAddress
-   * @see MongoDBAddress
-   * @see MongoClientOptions
-   */
-  def apply(addr: ServerAddress, options: MongoClientOptions) =
-    new MongoClient(new JavaMongoClient(addr, options))
-
-  /**
-   * Connects to a (single) mongodb node (default port)
-   *
-   * @param  host (String)  server to connect to
-   * @throws UnknownHostException
-   * @throws MongoException
-   */
-  def apply(host: String) = new MongoClient(new JavaMongoClient(host))
-  /**
-   * Connects to a (single) mongodb node
-   *
-   * @param  host (String)  server to connect to
-   * @param  port (Int) the port on which the database is running
-   * @throws UnknownHostException
-   * @throws MongoException
-   */
-  def apply(host: String, port: Int) = new MongoClient(new JavaMongoClient(host, port))
 
 }
 
