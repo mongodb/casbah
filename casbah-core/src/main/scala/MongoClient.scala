@@ -25,7 +25,6 @@ import com.mongodb.casbah.Imports._
 
 import scalaj.collection.Imports._
 
-import com.mongodb.ServerAddress
 import com.mongodb.{ MongoClient => JavaMongoClient }
 
 /**

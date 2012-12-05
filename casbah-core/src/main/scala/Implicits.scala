@@ -127,6 +127,7 @@ trait BaseImports {
   val MongoOptions = com.mongodb.casbah.MongoOptions
   val MongoClientOptions = com.mongodb.casbah.MongoClientOptions
   val WriteConcern = com.mongodb.casbah.WriteConcern
+  val ReadPreference = com.mongodb.casbah.ReadPreference
   val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   val MapReduceInlineOutput = com.mongodb.casbah.map_reduce.MapReduceInlineOutput
   val MapReduceMergeOutput = com.mongodb.casbah.map_reduce.MapReduceMergeOutput
@@ -142,7 +143,6 @@ trait TypeImports {
   type MongoOptions = com.mongodb.MongoOptions
   type MongoClient = com.mongodb.casbah.MongoClient
   type MongoClientOptions = com.mongodb.MongoClientOptions
-  type MongoClientOptionsBuilder = com.mongodb.MongoClientOptions.Builder
   type MongoClientURI = com.mongodb.MongoClientURI
   type WriteConcern = com.mongodb.WriteConcern
   type WriteResult = com.mongodb.WriteResult

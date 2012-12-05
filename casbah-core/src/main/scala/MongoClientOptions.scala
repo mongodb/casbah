@@ -25,7 +25,7 @@ import com.mongodb.casbah.Imports._
 
 import scalaj.collection.Imports._
 
-import com.mongodb.{DBDecoderFactory, DBEncoderFactory}
+import com.mongodb.{DBDecoderFactory, DBEncoderFactory, MongoClientOptions => JavaMongoClientOptions}
 
 import javax.net.SocketFactory
 
@@ -37,7 +37,10 @@ import javax.net.SocketFactory
  */
 object MongoClientOptions {
 
-  val Defaults = new MongoClientOptionsBuilder().build()
+  type Builder = JavaMongoClientOptions.Builder
+
+  val Defaults = new JavaMongoClientOptions.Builder().build()
+
   /**
    * Instantiate a new MongoClientOptions instance
    *
@@ -78,7 +81,7 @@ object MongoClientOptions {
     threadsAllowedToBlockForConnectionMultiplier: Int = Defaults.getThreadsAllowedToBlockForConnectionMultiplier,
     writeConcern: WriteConcern = Defaults.getWriteConcern
     ) = {
-    val builder = new MongoClientOptionsBuilder();
+    val builder = new JavaMongoClientOptions.Builder();
     builder.autoConnectRetry(autoConnectRetry);
     builder.connectionsPerHost(connectionsPerHost);
     builder.connectTimeout(connectTimeout);
@@ -96,6 +99,8 @@ object MongoClientOptions {
     builder.writeConcern(writeConcern);
     builder.build()
   }
+
 }
+
 
 // vim: set ts=2 sw=2 sts=2 et:
