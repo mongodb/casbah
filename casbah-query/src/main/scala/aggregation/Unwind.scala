@@ -33,7 +33,7 @@ trait UnwindOperator extends PipelineOperator {
 
   def $unwind(target: String) = {
     require(target.startsWith("$"), "The $unwind operator only accepts a $<fieldName> argument; bare field names " +
-    		"will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_unwind")
+        "will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_unwind")
     op(operator, target)
   }
 }

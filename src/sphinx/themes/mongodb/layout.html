@@ -177,7 +177,7 @@ https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&issuetype
 <div id="header-db" class="spread">
 <div class="split">
 <div id="logo">
-<div><a href="http://docs.mongodb.org/"><img src="{{ pathto('_static', 1) }}/logo-mongodb.png" width="190" height="55" alt="mongoDB" /></a></div>
+<div><a href="http://docs.mongodb.org/"><img src="{{ pathto('_static', 1) }}/logo-mongodb.png" width="217" height="90" alt="mongoDB" /></a></div>
 </div>
 </div>
 <div class="search-db"><gcse:searchbox></gcse:searchbox></div>
@@ -224,9 +224,6 @@ MongoDB&reg;, Mongo&reg;, and the leaf logo are registered trademarks of 10gen, 
 {%- endif %}
 </div>
 {%- endblock %}
-{%- block marketosrc %}
-<script type="text/javascript" src="//munchkin.marketo.net/munchkin.js"></script>
-{%- endblock %}
 <script type="text/javascript">
 {%- block analytics %}
 var _gaq = _gaq || [];
@@ -246,9 +243,6 @@ _gaq.push(['_trackPageview']);
         s.parentNode.insertBefore(ga, s);
         })();
 {%- endblock -%}
-{%- block marketo %}
-try { mktoMunchkin("017-HGS-593"); } catch(e) {}
-{% endblock -%}
 {%- block jiracollector -%}
 jQuery.ajax({
     url: "https://jira.mongodb.org/s/en_US-bxctp1/782/6/1.2.4/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?collectorId=298ba4e7",

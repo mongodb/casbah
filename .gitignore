@@ -3,6 +3,7 @@
 .cache
 .classpath
 .DS_Store
+.history
 .idea
 .lib
 .project

@@ -20,12 +20,30 @@ object CasbahBuild extends Build {
 
   "mongoimport -d casbahIntegration -c artilces --drop ./casbah-core/src/test/resources/articles.json" !
 
+  val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
+
+  def sxrOpts(baseDir: File, sourceDirs: Seq[Seq[File]], scalaVersion: String): Seq[String] = {
+    if (scalaVersion.startsWith("2.10") || scalaVersion.startsWith("2.8"))
+      Seq()
+    else
+      Seq("-P:sxr:base-directory:" + sourceDirs.flatten.mkString(";").replaceAll("\\\\","/"))
+  }
 
   override lazy val settings = super.settings ++ buildSettings
 
   lazy val baseSettings = Defaults.defaultSettings  ++ Seq(
       resolvers ++= Seq(sonatypeRels, sonatypeSnaps, sonatypeSTArch, mavenOrgRepo),
-      testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml")
+      testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml"),
+      autoCompilerPlugins := true,
+      addCompilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7"),
+      allSourceDirectories <<= projects.map(sourceDirectories in Compile in _).join,
+      scalacOptions in (Compile, doc) <++= (baseDirectory, allSourceDirectories, scalaVersion) map sxrOpts,
+      scalacOptions in (Compile, doc) <++=  (baseDirectory, scalaVersion, version, baseDirectory in LocalProject("casbah")).map {
+        (bd, sv, v, rootBase) =>
+         val tagOrBranch = if (v.endsWith("-SNAPSHOT")) "dev" else "v" + v
+         val docSourceUrl = "http://{{WEBSITE_ROOT}}api.sxr/€{FILE_PATH}.scala.html"
+          Seq("-sourcepath", rootBase.getAbsolutePath, "-doc-source-url", docSourceUrl)
+      }
     )
 
 
@@ -78,7 +96,7 @@ object CasbahBuild extends Build {
   lazy val casbah = Project(
     id        = "casbah",
     base      = file("."),
-    settings  = parentSettings,
+    settings  = parentSettings ++ Unidoc.settings,
     aggregate = Seq(commons, core, query, gridfs)
   ) dependsOn(commons, core, query, gridfs)
 

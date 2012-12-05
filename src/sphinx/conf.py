@@ -10,7 +10,7 @@
 #
 # All configuration values have a default; values that are commented out
 # serve to show the default.
- 
+
 import sys, os
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -41,8 +41,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Casbah (MongoDB + Scala Toolkit) Documentation'
-copyright = u'2010-2013 10gen, Inc.'
+project = 'Casbah (MongoDB + Scala Toolkit) Documentation'
+copyright = '2010-2013 10gen, Inc.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -67,7 +67,7 @@ release = '2.5.0'
 # directories to ignore when looking for source files.
 exclude_patterns = []
 
-# The reST default role (used for this markup: `text`) to use for all documents.
+# The reST default role (used for this markup: `text`) to use for all documents
 #default_role = None
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
@@ -89,7 +89,7 @@ highlight_language = 'scala'
 #modindex_common_prefix = []
 
 
-# -- Options for HTML output ---------------------------------------------------
+# -- Options for HTML output --------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -169,7 +169,7 @@ html_static_path = ['_static']
 htmlhelp_basename = 'CasbahDocumentation'
 
 
-# -- Options for LaTeX output --------------------------------------------------
+# -- Options for LaTeX output -------------------------------------------------
 
 # The paper size ('letter' or 'a4').
 latex_paper_size = 'letter'
@@ -178,10 +178,12 @@ latex_paper_size = 'letter'
 #latex_font_size = '10pt'
 
 # Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title, author, documentclass [howto/manual]).
+# (source start file, target name, title, author, documentclass [howto/manual])
 latex_documents = [
-  ('index', 'CasbahDocumentation.tex', u'Casbah (MongoDB + Scala Toolkit) Documentation',
-   u'Brendan W. McAdams \& 10gen, Inc.', 'manual'),
+  ('index',
+    'CasbahDocumentation.tex',
+    'Casbah (MongoDB + Scala Toolkit) Documentation',
+    '10gen, Inc.', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -213,18 +215,19 @@ latex_logo = 'logo-mongodb.png'
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'CasbahDocumentation', u'Casbah (MongoDB + Scala Toolkit) Documentation',
-     [u'Brendan W. McAdams & 10gen, Inc.'], 1)
+    ('index',
+     'CasbahDocumentation', 'Casbah (MongoDB + Scala Toolkit) Documentation',
+     ['10gen, Inc.'], 1)
 ]
 
 
-# -- Options for Epub output ---------------------------------------------------
+# -- Options for Epub output --------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'Casbah (MongoDB + Scala Toolkit) Documentation'
-epub_author = u'Brendan W. McAdams & 10gen, Inc.'
-epub_publisher = u'10gen, Inc.'
-epub_copyright = u'2010, 2011 10gen, Inc.'
+epub_title = 'Casbah (MongoDB + Scala Toolkit) Documentation'
+epub_author = '10gen, Inc.'
+epub_publisher = '10gen, Inc.'
+epub_copyright = '2010-2012 10gen, Inc.'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.
@@ -258,13 +261,14 @@ epub_copyright = u'2010, 2011 10gen, Inc.'
 #epub_tocdup = True
 
 
-extlinks = {'dochub': ('http://dochub.mongodb.org/core/%s', ''),
-            'commons-api': ('http://api.mongodb.org/scala/casbah/' + release + '/scaladoc/casbah-commons/api/%s', 'Casbah Commons API '),
-            'commons-sxr': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-commons/sxr/%s', 'Casbah Commons Source '),
-            'core-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-core/api/%s', 'Casbah Core API '),
-            'core-sxr': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-core/sxr/%s', 'Casbah Core Source '),
-            'gridfs-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-gridfs/api/%s', 'Casbah GridFS API '),
-            'gridfs-sxr': ('http://sxr.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-gridfs/sxr/%s', 'Casbah GridFS Source '),
-            'query-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-query/api/%s', 'Casbah Query DSL API '),
-            'query-sxr': ('http://sxr.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-query/sxr/%s', 'Casbah Query DSL Source '),
-            }
+extlinks = {
+    'dochub': ('http://dochub.mongodb.org/core/%s', ''),
+    'commons-api': ('http://api.mongodb.org/scala/casbah/' + release + '/scaladoc/casbah-commons/api/%s', 'Casbah Commons API '),
+    'commons-sxr': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-commons/sxr/%s', 'Casbah Commons Source '),
+    'core-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-core/api/%s', 'Casbah Core API '),
+    'core-sxr': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-core/sxr/%s', 'Casbah Core Source '),
+    'gridfs-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-gridfs/api/%s', 'Casbah GridFS API '),
+    'gridfs-sxr': ('http://sxr.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-gridfs/sxr/%s', 'Casbah GridFS Source '),
+    'query-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-query/api/%s', 'Casbah Query DSL API '),
+    'query-sxr': ('http://sxr.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-query/sxr/%s', 'Casbah Query DSL Source '),
+}
