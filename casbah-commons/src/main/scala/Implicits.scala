@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
@@ -29,7 +29,7 @@ trait Implicits {
   import com.mongodb.{ DBObject, BasicDBObject, BasicDBList }
 
   /*
-   * Placeholder Type Alias 
+   * Placeholder Type Alias
    *
    * TODO - Make me a Type Class to define boundaries
    */
@@ -44,12 +44,12 @@ trait Implicits {
   implicit def mapAsDBObject(map: scala.collection.Map[String, Any]) = new {
     /**
      * Return a Mongo <code>DBObject</code> containing the Map values
-     * @return DBObject 
+     * @return DBObject
      */
     def asDBObject = map2MongoDBObject(map)
   }
 
-  implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject = 
+  implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject =
     MongoDBObject(map.toList)
 
   implicit def wrapDBObj(in: DBObject): MongoDBObject =
@@ -117,4 +117,3 @@ object NotNothing {
   implicit val nothing = new NotNothing[Nothing]{ type B = Any }
   implicit def notNothing[A] = new NotNothing[A]{ type B = A }
 }
-// vim: set ts=2 sw=2 sts=2 et:

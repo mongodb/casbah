@@ -403,4 +403,3 @@ trait BitOpBase extends BarewordQueryOperator {
 trait BitOp extends BitOpBase {
   def $bit(field: String) = _bit(field)
 }
-// vim: set ts=2 sw=2 sts=2 et:

@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
@@ -38,14 +38,14 @@ trait Implicits {
    * method.  Chained operators will place the subsequent operators within the same DBObject,
    * e.g. <code>"fooDate" $lte yesterday $gte tomorrow</code> maps to a Mongo query of:
    * <code>{"fooDate": {"$lte": <yesterday>, "$gte": <tomorrow>}}</code>
-   * 
+   *
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
   implicit def mongoQueryStatements(left: String) = new {
     val field = left
   } with dsl.FluidQueryOperators with dsl.aggregation.ProjectSubOperators
-  
+
 
   /**
    * Implicit extension methods for Tuple2[String, DBObject] values
@@ -68,18 +68,18 @@ trait Implicits {
       dbObj = nested.getAs[DBObject](nested.field) // TODO - shore the safety of this up
     }
   }
-  
+
   implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = dsl.GeoCoords(coords._1, coords._2)
 
   // Aggregation code
   implicit def mongoGroupSubStatements(left: String) = new {
     val field = left
   } with dsl.aggregation.GroupSubOperators
-  
+
   /*implicit def mongoProjectSubStatements(left: String) = new {
     val field = left
   } with dsl.aggregation.ProjectSubOperators*/
-  
+
   def | = dsl.aggregation.AggregationPipeline.empty
 
 
@@ -94,12 +94,12 @@ object Implicits extends query.Implicits with commons.Implicits
 /*
  *object Imports extends query.Imports with commons.Imports
  */
-object Imports extends dsl.FluidQueryBarewordOps 
-                  with query.Imports              
-                  with commons.Imports 
-                  with ValidBarewordExpressionArgTypeHolder 
-                  with ValidDateTypeHolder 
-                  with ValidNumericTypeHolder 
+object Imports extends dsl.FluidQueryBarewordOps
+                  with query.Imports
+                  with commons.Imports
+                  with ValidBarewordExpressionArgTypeHolder
+                  with ValidDateTypeHolder
+                  with ValidNumericTypeHolder
                   with ValidDateOrNumericTypeHolder
 
 object BaseImports extends query.BaseImports with commons.BaseImports
@@ -251,7 +251,7 @@ object AsQueryParam {
   implicit def tuple19[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19)](_.productIterator.toList)
   implicit def tuple20[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20)](_.productIterator.toList)
   implicit def tuple21[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21)](_.productIterator.toList)
-  implicit def tuple22[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22)](_.productIterator.toList)  
+  implicit def tuple22[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22)](_.productIterator.toList)
 }
 
 
@@ -280,4 +280,3 @@ trait ValidDateOrNumericTypeHolder {
   implicit object BigDecimalDoNOk extends ValidDateOrNumericType[BigDecimal]
   implicit object DoubleDoNOk extends ValidDateOrNumericType[Double]
 }
-// vim: set ts=2 sw=2 sts=2 et:

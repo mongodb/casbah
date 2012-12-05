@@ -69,4 +69,3 @@ class MongoClientURI(val underlying: com.mongodb.MongoClientURI) {
   override def toString = underlying.toString
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

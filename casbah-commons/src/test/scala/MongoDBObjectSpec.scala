@@ -73,13 +73,13 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
 
     "If a BasicDBList is requested it quietly is recast to something which can be a Seq[]" in {
       val lst = new BasicDBList()
-      lst.add("Brendan") 
-      lst.add("Mike") 
-      lst.add("Tyler") 
-      lst.add("Jeff") 
-      lst.add("Jesse") 
+      lst.add("Brendan")
+      lst.add("Mike")
+      lst.add("Tyler")
+      lst.add("Jeff")
+      lst.add("Jesse")
       lst.add("Christian")
-      val doc = MongoDBObject("driverAuthors" -> lst) 
+      val doc = MongoDBObject("driverAuthors" -> lst)
 
       doc.getAs[Seq[_]]("driverAuthors") must beSome[Seq[_]]
     }
@@ -229,7 +229,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       dbObj.as[DBObject]("bar") must haveEntry("baz" -> "foo")
       dbObj.as[String]("nullValue") must throwA[NoSuchElementException]
 
-//    DOES NOT COMPILE ANYMORE      
+//    DOES NOT COMPILE ANYMORE
 //    (dbObj.as("x"):Any) must throwA[IllegalArgumentException]
     }
 
@@ -273,7 +273,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       explicit.hashCode must beEqualTo(control.hashCode())
       explicit.equals(explicit) must beEqualTo(control.equals(control))
     }
-    
+
     "Support list creation operators" in {
       "Prepend to end of a new list" in {
         "With explicitly created Elements" in {
@@ -299,8 +299,8 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
         "From the MongoDBObject constructor" in {
           val dbObj = MongoDBObject("foo" -> "bar", "x" -> 5,
                                     "map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
-          val map: Option[DBObject] = dbObj.getAs[DBObject]("map") 
-          map.orNull must beDBObject 
+          val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
+          map.orNull must beDBObject
           /*
            *map must haveEntries("spam" -> 8.2, "eggs" -> "bacon")
            */
@@ -311,8 +311,8 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
           b += "x" -> 5
           b += "map" -> Map("spam" -> 8.2, "eggs" -> "bacon")
           val dbObj = b.result
-          val map: Option[DBObject] = dbObj.getAs[DBObject]("map") 
-          map.orNull must beDBObject 
+          val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
+          map.orNull must beDBObject
           /*
            *map must haveEntries("spam" -> 8.2, "eggs" -> "bacon")
            */
@@ -320,8 +320,8 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
         "From the put method" in {
           val dbObj = MongoDBObject("foo" -> "bar", "x" -> 5)
           dbObj += ("map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
-          val map: Option[DBObject] = dbObj.getAs[DBObject]("map") 
-          map.orNull must beDBObject 
+          val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
+          map.orNull must beDBObject
           /*
            *map must haveEntries("spam" -> 8.2, "eggs" -> "bacon")
            */
@@ -334,4 +334,3 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
 
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

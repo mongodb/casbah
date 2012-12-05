@@ -257,4 +257,3 @@ sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
   def result(): DBObject = new MongoDBObject(elems.get)
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,7 +17,7 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
@@ -61,14 +61,14 @@ class MongoOpLog(mongo: MongoConnection = MongoConnection(),
   def next = MongoOpLogEntry(cursor.next)
 
   def verifyOpLog: BSONTimestamp = {
-    // Verify the oplog exists 
+    // Verify the oplog exists
     val last = oplog.find().sort(MongoDBObject("$natural" -> 1)).limit(1)
     assume(last.hasNext,
       "No oplog found. mongod must be a --master or belong to a Replica Set.")
     /**
      * If a startTimestamp was specified attempt to sync from there.
      * An exception is thrown if the timestamp isn't found because
-     * you won't be able to sync. 
+     * you won't be able to sync.
      */
     startTimestamp match {
       case Some(ts) => {
@@ -142,4 +142,3 @@ case class MongoDeleteOperation(timestamp: BSONTimestamp, opID: Long, namespace:
   val opType = DeleteOp
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

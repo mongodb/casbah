@@ -302,4 +302,3 @@ class JodaGridFSInputFile(_underlying: MongoGridFSInputFile) extends GenericGrid
     super.put(key, _v)
   }
 }
-// vim: set ts=2 sw=2 sts=2 et:

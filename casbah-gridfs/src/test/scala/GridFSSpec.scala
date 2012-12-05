@@ -209,4 +209,3 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
 
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

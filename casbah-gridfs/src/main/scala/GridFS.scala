@@ -348,4 +348,3 @@ class GridFSInputFile(_underlying: MongoGridFSInputFile) extends GenericGridFSIn
 }
 
 
-// vim: set ts=2 sw=2 sts=2 et:
