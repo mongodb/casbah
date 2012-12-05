@@ -40,7 +40,6 @@ class MongoClientSpec extends CasbahMutableSpecification {
       "Connection objects" in {
 
         val scalaConn = javaConn.asScala
-
         scalaConn.underlying must beEqualTo(javaConn)
       }
 
@@ -49,7 +48,6 @@ class MongoClientSpec extends CasbahMutableSpecification {
       "DB objects" in {
 
         val scalaDb = javaDb.asScala
-
         scalaDb.underlying must beEqualTo(javaDb)
       }
 
@@ -58,8 +56,6 @@ class MongoClientSpec extends CasbahMutableSpecification {
       "Collection objects" in {
 
         val scalaCollection = javaCollection.asScala
-
-
         scalaCollection.underlying must beEqualTo(javaCollection)
       }
     }
@@ -115,10 +111,7 @@ class MongoClientSpec extends CasbahMutableSpecification {
       val javaCollection = javaDb.getCollection("test")
 
       "Collection objects" in {
-
         val scalaCollection = javaCollection.asScala
-
-
         scalaCollection.underlying must beEqualTo(javaCollection)
       }
     }
