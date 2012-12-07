@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="keyword" content="">
+
+    <link rel="shortcut icon" href="/casbah/2.8/img/favicon.png">
+
+    <title>Casbah Modules</title>
+
+    <link rel="stylesheet" href="/casbah/2.8/lib/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/lib/font-awesome/css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/css/mongodb-docs.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/css/overrides.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/lib/highlight/styles/idea.css" />
+<link rel="stylesheet" href="/casbah/2.8/lib/bootstrap-toggle/bootstrap-toggle.min.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/css/java.css" type="text/css" />
+
+
+  </head>
+
+  <body>
+  
+  <section id="container" class="">
+      
+      <header id="header-db" class="row" role="navigation">
+  <div class="header-content">
+    <div class="toggle-nav pull-left">
+        <i class="fa fa-bars"></i>
+        <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"></div>
+    </div>
+    
+    <div class="logo pull-left">
+      <a href="/casbah/2.8/../">
+        <img src="/casbah/2.8/img/logo-mongodb-header.png", alt="MongoDB.org" />
+      </a>
+    </div>
+    
+    <div>
+<div class="nav-items pull-right">
+  <a href="http://try.mongodb.org/" data-toggle="tooltip" data-placement="bottom" title="Try MongoDB in the browser">Try it Out</a>
+  <a href="http://www.mongodb.org/downloads" data-toggle="tooltip" data-placement="bottom" title="Download MongoDB">Downloads</a>
+  <a href="http://www.mongodb.org/get-involved" data-toggle="tooltip" data-placement="bottom" title="Get involved with MongoDB">Community</a>
+  <a href="http://docs.mongodb.org" data-toggle="tooltip" data-placement="bottom" title="The MongoDB Documentation">Docs</a>
+  <a href="http://blog.mongodb.org" data-toggle="tooltip" data-placement="bottom" title="The MongoDB Blog">Blog</a>
+  <div id="search">
+<form method="get" action="//www.google.com/search" target="_blank">
+    <input type="text" name="searchQuery" size="20" value="" autocomplete="off" placeholder="Search docs">
+    <input type="hidden" name="site" value="/casbah/2.8">
+    <input type="hidden" name="q" value="">
+    <label for="searchQuery"><i class="fa fa-search fa-1"></i></label>
+</form>
+</div>
+
+</div>
+</div>
+
+  </div>
+</header>
+
+      
+
+      
+<aside id="sidebar" class="sidebar">
+    <div class="ssidebar nav-collapse">
+      <div class="ssidebarwrapper">
+        <h3>
+          <a class="index-link" href="/casbah/2.8/../">Casbah</a>
+          <a class="version pull-right" href="/casbah/2.8">2.8</a>
+        </h3>
+
+        
+        <ul class="sidebar-menu">
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+    
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+    
+    
+    
+  
+  
+
+
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+
+          
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/getting-started/">
+        <i class='fa fa-road'></i>
+        Getting Started
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+<li class="toctree-l1  current">
+  <a href="/casbah/2.8/reference/" class="">
+      <i class='fa fa-book'></i>
+      <span>Reference</span>
+      <span class="menu-arrow fa fa-angle-down"></span>
+  </a>
+    <ul  class="current">
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/installation/">
+        
+        Installation
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/modules/">
+        
+        Casbah Modules
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/connecting/">
+        
+        Connecting to MongoDB
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/querying/">
+        
+        Querying
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/query_dsl/">
+        
+        Query DSL
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/aggregation/">
+        
+        Aggregation
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/gridfs/">
+        
+        GridFS
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/serialisation/">
+        
+        Serialisation
+    </a>
+  </li>
+
+
+        
+        
+    </ul>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/changelog/">
+        <i class='fa fa-file-text'></i>
+        Changelog
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/examples/">
+        <i class='fa fa-lightbulb-o'></i>
+        Examples
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/whats-new/">
+        <i class='fa fa-gift'></i>
+        Whats new
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/upgrade/">
+        <i class='fa fa-wrench'></i>
+        Upgrade
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/scaladoc/">
+        <i class='fa fa-file-text-o'></i>
+        API Documentation
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="https://github.com/mongodb/casbah">
+        <i class='fa fa-github'></i>
+        Source Code
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/issues-help/">
+        <i class='fa fa-life-ring'></i>
+        Issues &amp; Help
+    </a>
+  </li>
+
+
+          
+        </ul>
+        
+    </div>
+  </div>
+  
+</aside>
+
+<div class="option-popup closed hidden" id="optionsVersionsPopup">
+<div class="option-header">
+  <i class="fa fa-gear"></i>
+  <span>OPTIONS</span>
+  <i class="fa fa-angle-up pull-right"></i>
+</div>
+<div class="option-body">
+  <ul>
+      
+      <li>
+        <label>Version</label>
+        <div class="btn-group btn-group-xs pull-right">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Select Version <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" id="optionsVersionsMenu">
+          </ul>
+        </div>
+      </li>
+
+   
+
+
+    
+
+  </ul>
+</div>
+</div>
+
+
+
+      
+      <section id="main-content" class="content">
+          <section class="main-column pull-left">
+            <div class="document">
+              <div class="documentwrapper">
+                <div class="bodywrapper">
+                  <div class="body">
+
+
+   
+<a class="edit-link" href="https://github.com/mongodb/casbah/blob/2.8.x/docs/reference/content/reference/modules.md" target="_blank" title="Edit reference/modules.md on GitHub"><i class="fa fa-pencil-square-o"></i></a>
+
+
+
+
+
+
+
+
+
+
+<div class="bc">
+<ul>
+  
+  
+  
+  
+  
+  <li><a href="/casbah/2.8/reference/">Reference</a> <i class="fa fa-angle-right"></i></li>
+  <li>Casbah Modules</li>
+</ul>
+</div>
+
+
+
+
+<h1 id="casbah-modules">Casbah Modules</h1>
+
+<p>While Casbah has many stable of features, some users (such as those
+using a framework like Lift which already provides MongoDB wrappers)
+wanted access to certain parts of Casbah without importing the whole
+system. As a result, Casbah has been broken out into several modules
+which make it easier to pick and choose the features you want.</p>
+
+<p>If you use the individual modules you&rsquo;ll need to use the import
+statement from each of these. If you use the import statement from the
+casbah-core module, everything except GridFS will be imported (not
+everyone uses GridFS so we don&rsquo;t load it into memory &amp; scope unless it
+is needed).</p>
+
+<p>The module names can be used to select which dependencies you want from
+maven/ivy/sbt, as we publish individual artifacts. If you import just
+casbah, this is a master pom which includes the whole system and will
+install all its dependencies, as such there is no single jar file for
+Casbah.</p>
+
+<p>This is the breakdown of dependencies and packages:</p>
+
+<table border="1" class="docutils">
+  <colgroup>
+    <col width="30%">
+    <col width="25%">
+    <col width="45%">
+  </colgroup>
+  <thead valign="bottom">
+    <tr class="row-odd">
+      <th class="head">Module</th>
+      <th class="head">Package</th>
+      <th class="head">Dependencies</th>
+    </tr>
+  </thead>
+  <tbody valign="top">
+    <tr class="row-even">
+      <td>
+        <h4><a class="reference external" href="http://mongodb.github.com/casbah/api/#com.mongodb.casbah.package?Casbah Core">Casbah Core</a></h4>
+        <p>
+          <h5>NOTES</h5>
+          Provides Scala-friendly wrappers to the Java Driver for connections, collections and MapReduce jobs
+        </p>
+      </td>
+      <td>com.mongodb.casbah</td>
+      <td>casbah-commons and casbah-query along with their dependencies transitively
+      </td>
+    </tr>
+    <tr class="row-odd">
+      <td>
+        <h4><a class="reference external" href="http://mongodb.github.com/casbah/api/#com.mongodb.casbah.commons.package?Casbah Commons">Casbah Commons</a></h4>
+        <p>
+          <h5>NOTES</h5>
+          Provides Scala-friendly
+          <a class="reference external" href="http://docs.mongodb.org/manual/?q=DBObject">DBObject</a> &amp;
+          <a class="reference external" href="http://docs.mongodb.org/manual/?q=DBList">DBList</a> implementations as well as Implicit conversions for Scala types</p>
+      </td>
+      <td>com.mongodb.casbah.commons</td>
+      <td>
+        <ul class="first last simple">
+          <li>mongo-java-driver,</li>
+          <li>nscala-time,</li>
+          <li>slf4j-api,</li>
+          <li>slf4j-jcl</li>
+        </ul>
+      </td>
+    </tr>
+    <tr class="row-even">
+      <td>
+        <h4><a class="reference external" href="http://mongodb.github.com/casbah/api/#com.mongodb.casbah.query.package?Query DSL">Query DSL</a></h4>
+        <p>
+          <h5>NOTES</h5>
+          Provides a Scala syntax enhancement mode for creating MongoDB query objects using an Internal DSL supporting Mongo
+          <cite>$ Operators</cite>
+        </p>
+      </td>
+      <td>com.mongodb.casbah.query</td>
+      <td>casbah-commons along with their dependencies transitively
+      </td>
+    </tr>
+    <tr class="row-odd">
+      <td>
+        <h4><a class="reference external" href="http://mongodb.github.com/casbah/api#com.mongodb.casbah.gridfs.package?Gridfs">Gridfs</a></h4>
+        <p>
+          <h5>NOTES</h5>
+          Provides Scala enhanced wrappers to MongoDB’s GridFS filesystem</p>
+      </td>
+      <td>com.mongodb.casbah.gridfs</td>
+      <td>casbah-commons and casbah-query along with their dependencies transitively
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We cover the import of each module in their appropriate tutorials, but
+each module has its own Imports object which loads all of its necessary
+code. By way of example both of these statements would import the Query
+DSL:</p>
+
+<pre><code class="language-scala">// Imports core, which grabs everything including Query DSL
+import com.mongodb.casbah.Imports._
+
+// Imports just the Query DSL along with Commons and its dependencies
+import com.mongodb.casbah.query.Imports._
+
+// Import GridFS modules
+import com.mongodb.casbah.gridfs.Imports._
+</code></pre>
+
+
+
+
+
+
+<div id="btnv">
+  
+  <div class="pull-left">
+  <a class="navigation prev" href="/casbah/2.8/reference/installation/">
+      <i class="fa fa-long-arrow-left"> </i> Installation
+  </a>
+  </div>
+  
+  
+  <div class="pull-right">
+  <a class="navigation next" href="/casbah/2.8/reference/connecting/">
+    Connecting to MongoDB <i class="fa fa-long-arrow-right"> </i>
+  </a>
+  
+</div>
+</div>
+
+
+</div>
+<div class="right-column">
+<div class="wrapper">
+  
+  <div class="toc">
+    <span class="toc-header">On this page</span>
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#casbah-modules">Casbah Modules</a></li>
+</ul>
+</nav>
+  </div>
+  
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</section>
+
+
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+   URL_ROOT:    "/casbah/2.8",
+   VERSION:     "2.8",
+   COLLAPSE_INDEX: false,
+   FILE_SUFFIX: '.html',
+   HAS_SOURCE:  true
+  };
+</script>
+<script type="text/javascript" src="/casbah/2.8/js/jquery.js"></script>
+<script type="text/javascript" src="/casbah/2.8/lib/bootstrap.js"></script>
+<script type="text/javascript" src="/casbah/2.8/js/navbar.js"></script>
+<script type="text/javascript" src="/casbah/2.8/lib/highlight/highlight.pack.js"></script>
+<script type="text/javascript" src="/casbah/2.8/js/scripts.js"></script>
+<script type="text/javascript" src="/casbah/2.8/lib/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script type="text/javascript" src="/casbah/2.8/js/scala.js"></script>
+
+
+
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K75Z5Q"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
+{'gtm.start': new Date().getTime(),event:'gtm.js'}
+);var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K75Z5Q');</script>
+
+
+<script type="text/javascript">
+var _elqQ = _elqQ || [];
+_elqQ.push(['elqSetSiteId', '413370795']);
+_elqQ.push(['elqTrackPageView']);
+(function () {
+function async_load()
+{ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//img03.en25.com/i/elqCfg.min.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }
+if (window.addEventListener) window.addEventListener('DOMContentLoaded', async_load, false);
+else if (window.attachEvent) window.attachEvent('onload', async_load);
+})();
+</script>
+
+</body>
+</html>
+

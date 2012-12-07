@@ -1,0 +1,1182 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>References on Casbah</title>
+    <link>/casbah/3.0/reference/</link>
+    <description>Recent content in References on Casbah</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 25 Sep 2015 15:38:10 +0000</lastBuildDate>
+    <atom:link href="/casbah/3.0/reference/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Serialisation</title>
+      <link>/casbah/3.0/reference/serialisation/</link>
+      <pubDate>Fri, 25 Sep 2015 15:38:10 +0000</pubDate>
+      
+      <guid>/casbah/3.0/reference/serialisation/</guid>
+      <description>
+
+&lt;h1 id=&#34;serialisation&#34;&gt;Serialisation&lt;/h1&gt;
+
+&lt;p&gt;As soon as you construct a &lt;code&gt;MongoClient&lt;/code&gt; object, a few type conversions
+will be loaded automatically for you - Scala&amp;rsquo;s built-in regular
+expressions (e.g. &lt;code&gt;&amp;quot;\\d{4}-\\d{2}-\\d{2}&amp;quot;.r&lt;/code&gt; will now serialize to
+MongoDB automatically with no work from you), as well as a few other
+things. The general idea is that common Java types (such as ArrayList)
+will be returned as the equivalent Scala type.&lt;/p&gt;
+
+&lt;p&gt;If you find you need to unload the default helpers, you can load and
+unload them easily:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;import com.mongodb.casbah.commons.conversions.scala._
+DeregisterConversionHelpers()
+RegisterConversionHelpers()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;joda-time&#34;&gt;Joda Time&lt;/h1&gt;
+
+&lt;p&gt;Many Scala developers tend to prefer &lt;a href=&#34;http://joda-time.sourceforge.net/&#34;&gt;Joda
+time&lt;/a&gt; over JDK Dates, you can also
+explicitly enable serialization and deserialization of them (w/ full
+support for the &lt;a href=&#34;https://github.com/nscala-time/nscala-time&#34;&gt;Scala-Time
+wrappers&lt;/a&gt;) by an explicit
+call:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;import com.mongodb.casbah.commons.conversions.scala._
+RegisterJodaTimeConversionHelpers()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once these are loaded, Joda Time (and Scala Time wrappers) will be saved
+to MongoDB as proper BSON Dates, and on retrieval / deserialisation all
+BSON Dates will be returned as Joda &lt;code&gt;DateTime&lt;/code&gt; instead of a JDK Date
+(aka &lt;code&gt;java.util.Date&lt;/code&gt;). Because this can cause problems in some
+instances, you can explicitly unload the Joda Time helpers:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;import com.mongodb.casbah.commons.conversions.scala._
+DeregisterJodaTimeConversionHelpers()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you prefer Joda &lt;code&gt;LocalDateTime&lt;/code&gt; - theres also a conversion helper for
+that:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;import com.mongodb.casbah.commons.conversions.scala._
+RegisterJodaLocalDateTimeConversionHelpers()
+
+// Remove the helper
+DeregisterJodaLocalDateTimeConversionHelpers()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;custom-conversion-helpers&#34;&gt;Custom Conversion Helpers&lt;/h2&gt;
+
+&lt;p&gt;Writing your own conversion helper is relatively easy, simply provide a
+&lt;code&gt;BSON.addEncodingHook(encodeType, transformer)&lt;/code&gt; and a
+&lt;code&gt;BSON.removeEncodingHooks(encodeType)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;See the &lt;a href=&#34;https://github.com/mongodb/casbah/blob/master/casbah-commons/src/main/scala/conversions/ScalaConversions.scala&#34;&gt;casbah
+conversions&lt;/a&gt;
+for an example of creating your own.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Query DSL</title>
+      <link>/casbah/3.0/reference/query_dsl/</link>
+      <pubDate>Fri, 25 Sep 2015 15:36:10 +0000</pubDate>
+      
+      <guid>/casbah/3.0/reference/query_dsl/</guid>
+      <description>
+
+&lt;h1 id=&#34;query-dsl&#34;&gt;Query DSL&lt;/h1&gt;
+
+&lt;p&gt;Casbah provides a rich fluid query syntax, that allows you to construct
+&lt;code&gt;DBObjects&lt;/code&gt; on the fly using MongoDB query operators.&lt;/p&gt;
+
+&lt;h2 id=&#34;query-selectors&#34;&gt;Query Selectors&lt;/h2&gt;
+
+&lt;h3 id=&#34;comparison-operators&#34;&gt;Comparison Operators&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$all&lt;/code&gt; Matches arrays that contain all elements specified:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;size&amp;quot; $all (&amp;quot;S&amp;quot;, &amp;quot;M&amp;quot;, &amp;quot;L&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$eq&lt;/code&gt; Matches values that are equal to the value specified:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;price&amp;quot; $eq 10
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$gt&lt;/code&gt; Matches values that are greater than the value specified in
+the query&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$gte&lt;/code&gt; Matches values that are equal to or greater than the value
+specified:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;price&amp;quot; $gt 10
+&amp;quot;price&amp;quot; $gte 10
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$in&lt;/code&gt; Matches any of the values that exist in an array specified:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;size&amp;quot; $in (&amp;quot;S&amp;quot;, &amp;quot;M&amp;quot;, &amp;quot;L&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$lt&lt;/code&gt; Matches values that are less than the value specified in the
+query&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$lte&lt;/code&gt; Matches values that are less than or equal to the value
+specified:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;price&amp;quot; $lt 100
+&amp;quot;price&amp;quot; $lte 100
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$ne&lt;/code&gt; Matches all values that are not equal to the value specified:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;price&amp;quot; $ne 1000
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$nin&lt;/code&gt; Matches values that &lt;strong&gt;do not&lt;/strong&gt; exist in an array specified:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;size&amp;quot; $nin (&amp;quot;S&amp;quot;, &amp;quot;XXL&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;logical-operators&#34;&gt;Logical Operators&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$or&lt;/code&gt; Joins query clauses with a logical &lt;code&gt;OR&lt;/code&gt; returns all documents
+that match the conditions of either clause:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$or( &amp;quot;price&amp;quot; $lt 5 $gt 1, &amp;quot;promotion&amp;quot; $eq true )
+$or( ( &amp;quot;price&amp;quot; $lt 5 $gt 1 ) :: ( &amp;quot;stock&amp;quot; $gte 1 ) )
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$and&lt;/code&gt; Joins query clauses with a logical &lt;code&gt;AND&lt;/code&gt; returns all
+documents that match the conditions of both clauses:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$and( &amp;quot;price&amp;quot; $lt 5 $gt 1, &amp;quot;stock&amp;quot; $gte 1 )
+$and( ( &amp;quot;price&amp;quot; $lt 5 $gt 1 ) :: ( &amp;quot;stock&amp;quot; $gte 1 ) )
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$not&lt;/code&gt; Inverts the effect of a query expression and returns
+documents that do &lt;em&gt;not&lt;/em&gt; match the query expression:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;price&amp;quot; $not { _ $gte 5.1 }
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$nor&lt;/code&gt; Joins query clauses with a logical &lt;code&gt;NOR&lt;/code&gt; returns all
+documents that fail to match both clauses:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$nor( &amp;quot;price&amp;quot; $eq 1.99 , &amp;quot;qty&amp;quot; $lt 20, &amp;quot;sale&amp;quot; $eq true )
+$nor( ( &amp;quot;price&amp;quot; $lt 5 $gt 1 ) :: ( &amp;quot;stock&amp;quot; $gte 1 ) )
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;element-operators&#34;&gt;Element Operators&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$exists&lt;/code&gt; Matches documents that have the specified field:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;qty&amp;quot; $exists true
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$mod&lt;/code&gt; Performs a modulo operation on the value of a field and
+selects documents with a specified result:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;qty&amp;quot; $mod (5, 0)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$type&lt;/code&gt; Selects documents if a field is of the specified type:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;size&amp;quot;.$type[BasicDBList]
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;javascript-operators&#34;&gt;JavaScript Operators&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$where&lt;/code&gt; Matches documents that satisfy a JavaScript expression:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$where(&amp;quot;function () { this.credits == this.debits }&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$regex&lt;/code&gt; Selects documents where values match a specified regular
+expression. You can also use native regular expressions:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;foo&amp;quot; $regex &amp;quot;^bar$&amp;quot;
+&amp;quot;foo&amp;quot; $eq &amp;quot;^bar$&amp;quot;.r
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;geospatial-operators&#34;&gt;Geospatial Operators&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$geoWithin&lt;/code&gt; Selects geometries within a bounding
+&lt;a href=&#34;http://docs.mongodb.org/manual/reference/glossary/#term-geojson&#34;&gt;GeoJSON&lt;/a&gt;
+geometry:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Create a GeoJson geometry document
+var geo = MongoDBObject(&amp;quot;$geometry&amp;quot; -&amp;gt;
+        MongoDBObject(&amp;quot;$type&amp;quot; -&amp;gt; &amp;quot;polygon&amp;quot;,
+          &amp;quot;coordinates&amp;quot; -&amp;gt; (((GeoCoords(74.2332, -75.23452),
+                              GeoCoords(123, 456),
+                              GeoCoords(74.2332, -75.23452))))))
+
+
+// Example $geoWithin Queries
+&amp;quot;location&amp;quot; $geoWithin(geo)
+&amp;quot;location&amp;quot; $geoWithin $box ((74.2332, -75.23452), (123, 456))
+&amp;quot;location&amp;quot; $geoWithin $center ((50, 50), 10)
+&amp;quot;location&amp;quot; $geoWithin $centerSphere ((50, 50), 10)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$geoIntersects&lt;/code&gt; Selects geometries that intersect with a
+&lt;a href=&#34;http://docs.mongodb.org/manual/reference/glossary/#term-geojson&#34;&gt;GeoJSON&lt;/a&gt;
+geometry:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Create a GeoJson geometry document
+var geo = MongoDBObject(&amp;quot;$geometry&amp;quot; -&amp;gt;
+            MongoDBObject(&amp;quot;$type&amp;quot; -&amp;gt; &amp;quot;polygon&amp;quot;,
+              &amp;quot;coordinates&amp;quot; -&amp;gt; (((GeoCoords(74.2332, -75.23452),
+                                  GeoCoords(123, 456),
+                                  GeoCoords(74.2332, -75.23452))))))
+val near = &amp;quot;location&amp;quot; $geoIntersects geo
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$near&lt;/code&gt; Returns geospatial objects in proximity to a point:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;location&amp;quot; $near (74.2332, -75.23452)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$nearSphere&lt;/code&gt; Returns geospatial objects in proximity to a point on
+a sphere:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;location&amp;quot; $nearSphere (74.2332, -75.23452)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;array-query-operators&#34;&gt;Array Query Operators&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$elemMatch&lt;/code&gt; Selects documents if element in the array field matches
+all the specified &lt;code&gt;$elemMatch&lt;/code&gt; conditions:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;colour&amp;quot; $elemMatch (MongoDBObject(&amp;quot;base&amp;quot; -&amp;gt; &amp;quot;red&amp;quot;, &amp;quot;flash&amp;quot; -&amp;gt; &amp;quot;silver&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$size&lt;/code&gt; Selects documents if the array field is a specified size:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;comments&amp;quot; $size 12
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;update-dsl-operators&#34;&gt;Update DSL Operators&lt;/h2&gt;
+
+&lt;h3 id=&#34;field-operators&#34;&gt;Field Operators&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$inc&lt;/code&gt; Increments the value of the field by the specified amount:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$inc(&amp;quot;sold&amp;quot; -&amp;gt; 1, &amp;quot;stock&amp;quot; -&amp;gt; -1)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$rename&lt;/code&gt; Renames a field:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$rename(&amp;quot;color&amp;quot; -&amp;gt; &amp;quot;colour&amp;quot;, &amp;quot;realize&amp;quot; -&amp;gt; &amp;quot;realise&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$setOnInsert&lt;/code&gt; Sets the value of a field upon documentation creation
+during an upsert. Has no effect on update operations that modify
+existing documents:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$setOnInsert(&amp;quot;promotion&amp;quot; -&amp;gt; &amp;quot;new&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$set&lt;/code&gt; Sets the value of a field in an existing document:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$set(&amp;quot;promotion&amp;quot; -&amp;gt; &amp;quot;sale&amp;quot;, &amp;quot;qty&amp;quot; -&amp;gt; 100)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$unset&lt;/code&gt; Removes the specified field from an existing document:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$unset(&amp;quot;promotion&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$currentDate&lt;/code&gt; Updates the specified fields to current server-side
+&lt;em&gt;date&lt;/em&gt; or &lt;em&gt;timestamp&lt;/em&gt; (the &lt;em&gt;only&lt;/em&gt; allowed values):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$currentDate(&amp;quot;lastUpdated&amp;quot; -&amp;gt; &amp;quot;date&amp;quot;, &amp;quot;ts&amp;quot; -&amp;gt; &amp;quot;timestamp&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;array-update-operators&#34;&gt;Array Update Operators&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$addToSet&lt;/code&gt; Adds elements to an existing array only if they do not
+already exist in the set:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$addToSet(&amp;quot;sizes&amp;quot; -&amp;gt; &amp;quot;L&amp;quot;, &amp;quot;colours&amp;quot; -&amp;gt; &amp;quot;Blue&amp;quot;)
+$addToSet(&amp;quot;sizes&amp;quot;) $each (&amp;quot;S&amp;quot;, &amp;quot;M&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;XL&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$pop&lt;/code&gt; Removes the first or last item of an array:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$pop(&amp;quot;sizes&amp;quot; -&amp;gt; &amp;quot;L&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$pull&lt;/code&gt; Removes items from an array that match a query statement:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$pull(&amp;quot;sizes&amp;quot; -&amp;gt; &amp;quot;L&amp;quot;)
+$pull(&amp;quot;widgets&amp;quot; $gt 2 )
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$pullAll&lt;/code&gt; Removes multiple values from an array:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$pullAll(&amp;quot;sizes&amp;quot; -&amp;gt; (&amp;quot;S&amp;quot;, &amp;quot;XL&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$push&lt;/code&gt; Adds an item to an array:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$push(&amp;quot;sizes&amp;quot; -&amp;gt; &amp;quot;L&amp;quot;)
+$push(&amp;quot;widgets&amp;quot; $gt 2 )
+$push(&amp;quot;sizes&amp;quot;) $each (&amp;quot;S&amp;quot;, &amp;quot;M&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;XL&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$pushAll&lt;/code&gt; &lt;em&gt;Deprecated.&lt;/em&gt; Adds several items to an array:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$pushAll(&amp;quot;sizes&amp;quot; -&amp;gt; (&amp;quot;S&amp;quot;, &amp;quot;XL&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;bitwise-operators&#34;&gt;Bitwise Operators&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$bit&lt;/code&gt; Performs bitwise &lt;code&gt;AND&lt;/code&gt; and &lt;code&gt;OR&lt;/code&gt; updates of integer values:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$bit(&amp;quot;foo&amp;quot;) and 5
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For the full query syntax to MongoDB see the core docs at:
+&lt;a href=&#34;http://docs.mongodb.org&#34;&gt;docs.mongodb.org&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Querying</title>
+      <link>/casbah/3.0/reference/querying/</link>
+      <pubDate>Fri, 25 Sep 2015 15:36:10 +0000</pubDate>
+      
+      <guid>/casbah/3.0/reference/querying/</guid>
+      <description>
+
+&lt;h1 id=&#34;querying&#34;&gt;Querying&lt;/h1&gt;
+
+&lt;h2 id=&#34;query-operations&#34;&gt;Query operations&lt;/h2&gt;
+
+&lt;p&gt;As Casbah wraps the Java driver, so querying against MongoDB is
+essentially the same. The following methods for finding data:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;find&lt;/code&gt; Returns a cursor&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;findOne&lt;/code&gt; Returns an Option - either Some(MongoDBObject) or None&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;findById&lt;/code&gt; Returns an Option - either Some(MongoDBObject) or None&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;findAndModify&lt;/code&gt; Finds the first document in the query, updates and returns it.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;findAndRemove&lt;/code&gt; Finds the first document in the query, removes and returns it.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The following methods insert and update data:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;save&lt;/code&gt; Saves an object to the collection&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;insert&lt;/code&gt; Saves one or more documents to the collection&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;update&lt;/code&gt; Updates any matching documents operation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For more information about create, read, update and delete (CRUD)
+operations in MongoDB see the &lt;a href=&#34;http://docs.mongodb.org/manual/crud/&#34;&gt;core
+operations&lt;/a&gt; documentation.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&#34;http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoCollection&#34;&gt;collection API
+documentation&lt;/a&gt;
+has a full list of methods and their signatures for interacting with
+collections.&lt;/p&gt;
+
+&lt;h2 id=&#34;bulk-operations&#34;&gt;Bulk Operations&lt;/h2&gt;
+
+&lt;p&gt;Mongodb 2.6 introduces operations. The bulk operations builder can be
+used to construct a list of write operations to perform in bulk for a
+single collection. Bulk operations come in two main flavors.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Ordered bulk operations. These operations execute all the operation
+in order and error out on the first write error.&lt;/li&gt;
+&lt;li&gt;Unordered bulk operations. These operations execute all the
+operations in parallel and aggregates up all the errors. Unordered
+bulk operations do not guarantee order of execution.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;An example of using the bulk api:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val collection = MongoClient()(&amp;quot;test&amp;quot;)(&amp;quot;bulkOperation&amp;quot;)
+
+collection.drop()
+
+val builder = collection.initializeOrderedBulkOperation
+builder.insert(MongoDBObject(&amp;quot;_id&amp;quot; -&amp;gt; 1))
+builder.insert(MongoDBObject(&amp;quot;_id&amp;quot; -&amp;gt; 2))
+builder.insert(MongoDBObject(&amp;quot;_id&amp;quot; -&amp;gt; 3))
+
+builder.find(MongoDBObject(&amp;quot;_id&amp;quot; -&amp;gt; 1)).updateOne($set(&amp;quot;x&amp;quot; -&amp;gt; 2))
+builder.find(MongoDBObject(&amp;quot;_id&amp;quot; -&amp;gt; 2)).removeOne()
+builder.find(MongoDBObject(&amp;quot;_id&amp;quot; -&amp;gt; 3)).replaceOne(MongoDBObject(&amp;quot;_id&amp;quot; -&amp;gt; 3, &amp;quot;x&amp;quot; -&amp;gt; 4))
+
+val result = builder.execute()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For more information see the &lt;a href=&#34;http://docs.mongodb.org/master/reference/method/Bulk/&#34;&gt;bulk
+operations&lt;/a&gt;
+documentation.&lt;/p&gt;
+
+&lt;h2 id=&#34;mongodbobject&#34;&gt;MongoDBObject&lt;/h2&gt;
+
+&lt;p&gt;MongoDB queries work by providing a document to match against. The
+simplest query object is an empty one eg: &lt;code&gt;MongoDBObject()&lt;/code&gt; which
+matches every record in the database.&lt;/p&gt;
+
+&lt;p&gt;MongoDBObject is a simple Map-like class, that wraps the Java driver
+DBObject and provides some nice Scala interfaces:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val query = MongoDBObject(&amp;quot;foo&amp;quot; -&amp;gt; &amp;quot;bar&amp;quot;) ++ (&amp;quot;baz&amp;quot; -&amp;gt; &amp;quot;qux&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;DBObjects have a builder and as such you can also build MongoDBObjects
+that way:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val builder = MongoDBObject.newBuilder
+builder += &amp;quot;foo&amp;quot; -&amp;gt; &amp;quot;bar&amp;quot;
+builder += &amp;quot;baz&amp;quot; -&amp;gt; &amp;quot;qux&amp;quot;
+val query = builder.result
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;Remember to import casbah: &lt;code&gt;import com.mongodb.casbah.Imports._&lt;/code&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Casbah Modules</title>
+      <link>/casbah/3.0/reference/modules/</link>
+      <pubDate>Thu, 24 Sep 2015 15:36:12 +0000</pubDate>
+      
+      <guid>/casbah/3.0/reference/modules/</guid>
+      <description>
+
+&lt;h1 id=&#34;casbah-modules&#34;&gt;Casbah Modules&lt;/h1&gt;
+
+&lt;p&gt;While Casbah has many stable of features, some users (such as those
+using a framework like Lift which already provides MongoDB wrappers)
+wanted access to certain parts of Casbah without importing the whole
+system. As a result, Casbah has been broken out into several modules
+which make it easier to pick and choose the features you want.&lt;/p&gt;
+
+&lt;p&gt;If you use the individual modules you&amp;rsquo;ll need to use the import
+statement from each of these. If you use the import statement from the
+casbah-core module, everything except GridFS will be imported (not
+everyone uses GridFS so we don&amp;rsquo;t load it into memory &amp;amp; scope unless it
+is needed).&lt;/p&gt;
+
+&lt;p&gt;The module names can be used to select which dependencies you want from
+maven/ivy/sbt, as we publish individual artifacts. If you import just
+casbah, this is a master pom which includes the whole system and will
+install all its dependencies, as such there is no single jar file for
+Casbah.&lt;/p&gt;
+
+&lt;p&gt;This is the breakdown of dependencies and packages:&lt;/p&gt;
+
+&lt;table border=&#34;1&#34; class=&#34;docutils&#34;&gt;
+  &lt;colgroup&gt;
+    &lt;col width=&#34;30%&#34;&gt;
+    &lt;col width=&#34;25%&#34;&gt;
+    &lt;col width=&#34;45%&#34;&gt;
+  &lt;/colgroup&gt;
+  &lt;thead valign=&#34;bottom&#34;&gt;
+    &lt;tr class=&#34;row-odd&#34;&gt;
+      &lt;th class=&#34;head&#34;&gt;Module&lt;/th&gt;
+      &lt;th class=&#34;head&#34;&gt;Package&lt;/th&gt;
+      &lt;th class=&#34;head&#34;&gt;Dependencies&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody valign=&#34;top&#34;&gt;
+    &lt;tr class=&#34;row-even&#34;&gt;
+      &lt;td&gt;
+        &lt;h4&gt;&lt;a class=&#34;reference external&#34; href=&#34;http://mongodb.github.com/casbah/api/#com.mongodb.casbah.package?Casbah Core&#34;&gt;Casbah Core&lt;/a&gt;&lt;/h4&gt;
+        &lt;p&gt;
+          &lt;h5&gt;NOTES&lt;/h5&gt;
+          Provides Scala-friendly wrappers to the Java Driver for connections, collections and MapReduce jobs
+        &lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td&gt;com.mongodb.casbah&lt;/td&gt;
+      &lt;td&gt;casbah-commons and casbah-query along with their dependencies transitively
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;row-odd&#34;&gt;
+      &lt;td&gt;
+        &lt;h4&gt;&lt;a class=&#34;reference external&#34; href=&#34;http://mongodb.github.com/casbah/api/#com.mongodb.casbah.commons.package?Casbah Commons&#34;&gt;Casbah Commons&lt;/a&gt;&lt;/h4&gt;
+        &lt;p&gt;
+          &lt;h5&gt;NOTES&lt;/h5&gt;
+          Provides Scala-friendly
+          &lt;a class=&#34;reference external&#34; href=&#34;http://docs.mongodb.org/manual/?q=DBObject&#34;&gt;DBObject&lt;/a&gt; &amp;amp;
+          &lt;a class=&#34;reference external&#34; href=&#34;http://docs.mongodb.org/manual/?q=DBList&#34;&gt;DBList&lt;/a&gt; implementations as well as Implicit conversions for Scala types&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td&gt;com.mongodb.casbah.commons&lt;/td&gt;
+      &lt;td&gt;
+        &lt;ul class=&#34;first last simple&#34;&gt;
+          &lt;li&gt;mongo-java-driver,&lt;/li&gt;
+          &lt;li&gt;nscala-time,&lt;/li&gt;
+          &lt;li&gt;slf4j-api,&lt;/li&gt;
+          &lt;li&gt;slf4j-jcl&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;row-even&#34;&gt;
+      &lt;td&gt;
+        &lt;h4&gt;&lt;a class=&#34;reference external&#34; href=&#34;http://mongodb.github.com/casbah/api/#com.mongodb.casbah.query.package?Query DSL&#34;&gt;Query DSL&lt;/a&gt;&lt;/h4&gt;
+        &lt;p&gt;
+          &lt;h5&gt;NOTES&lt;/h5&gt;
+          Provides a Scala syntax enhancement mode for creating MongoDB query objects using an Internal DSL supporting Mongo
+          &lt;cite&gt;$ Operators&lt;/cite&gt;
+        &lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td&gt;com.mongodb.casbah.query&lt;/td&gt;
+      &lt;td&gt;casbah-commons along with their dependencies transitively
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr class=&#34;row-odd&#34;&gt;
+      &lt;td&gt;
+        &lt;h4&gt;&lt;a class=&#34;reference external&#34; href=&#34;http://mongodb.github.com/casbah/api#com.mongodb.casbah.gridfs.package?Gridfs&#34;&gt;Gridfs&lt;/a&gt;&lt;/h4&gt;
+        &lt;p&gt;
+          &lt;h5&gt;NOTES&lt;/h5&gt;
+          Provides Scala enhanced wrappers to MongoDB’s GridFS filesystem&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td&gt;com.mongodb.casbah.gridfs&lt;/td&gt;
+      &lt;td&gt;casbah-commons and casbah-query along with their dependencies transitively
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;We cover the import of each module in their appropriate tutorials, but
+each module has its own Imports object which loads all of its necessary
+code. By way of example both of these statements would import the Query
+DSL:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;// Imports core, which grabs everything including Query DSL
+import com.mongodb.casbah.Imports._
+
+// Imports just the Query DSL along with Commons and its dependencies
+import com.mongodb.casbah.query.Imports._
+
+// Import GridFS modules
+import com.mongodb.casbah.gridfs.Imports._
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Reference</title>
+      <link>/casbah/3.0/reference/</link>
+      <pubDate>Wed, 23 Sep 2015 15:36:56 +0000</pubDate>
+      
+      <guid>/casbah/3.0/reference/</guid>
+      <description>
+
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+
+&lt;p&gt;Casbah is a Scala toolkit for MongoDB — We use the term &amp;ldquo;toolkit&amp;rdquo; rather than &amp;ldquo;driver&amp;rdquo;”&amp;rdquo;, as Casbah is a layer on top of the official mongo-java-driver for better integration with Scala. This is as opposed to a native implementation of the MongoDB wire protocol, which the Java driver does exceptionally well. Rather than a complete rewrite, Casbah uses implicits, and &lt;em&gt;Pimp My Library&lt;/em&gt; code to enhance the existing Java code.&lt;/p&gt;
+
+&lt;h2 id=&#34;philosophy&#34;&gt;Philosophy&lt;/h2&gt;
+
+&lt;p&gt;Casbah&amp;rsquo;s approach is intended to add fluid, Scala-friendly syntax on top
+of MongoDB and handle conversions of common types.&lt;/p&gt;
+
+&lt;p&gt;If you try to save a Scala List or Seq to MongoDB, we
+&lt;a href=&#34;/casbah/3.0/casbah/3.0/reference/serialisation/&#34;&gt;automatically convert&lt;/a&gt; it
+to a type the Java driver can serialise. If you read a Java type, we convert it
+to a comparable Scala type before it hits your
+code.&lt;/p&gt;
+
+&lt;p&gt;All of this is intended to let you focus on writing the best possible
+Scala code using Scala idioms. A great deal of effort is put into
+providing you the functional and implicit conversion tools you&amp;rsquo;ve come
+to expect from Scala, with the power and flexibility of MongoDB.&lt;/p&gt;
+
+&lt;p&gt;Casbah provides improved interfaces to &lt;a href=&#34;/casbah/3.0/casbah/3.0/reference/gridfs/&#34;&gt;GridFS&lt;/a&gt;,
+Map/Reduce and the core Mongo APIs. It also provides a fluid query syntax
+&lt;a href=&#34;/casbah/3.0/casbah/3.0/reference/querying/&#34;&gt;querying&lt;/a&gt;
+which emulates an internal DSL and allows you to write code which is
+more akin to what you would write in the JS Shell.&lt;/p&gt;
+
+&lt;p&gt;There is also support for easily adding new
+&lt;a href=&#34;/casbah/3.0/casbah/3.0/reference/serialisation/&#34;&gt;serialisation/deserialisation&lt;/a&gt;
+mechanisms for common data types (including Joda Time, if you so choose;
+with some caveats - See the GridFS Section  &lt;a href=&#34;/casbah/3.0/casbah/3.0/reference/gridfs/&#34;&gt;GridFS&lt;/a&gt;).&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Aggregation</title>
+      <link>/casbah/3.0/reference/aggregation/</link>
+      <pubDate>Wed, 23 Sep 2015 15:36:50 +0000</pubDate>
+      
+      <guid>/casbah/3.0/reference/aggregation/</guid>
+      <description>
+
+&lt;h1 id=&#34;aggregation-framework&#34;&gt;Aggregation Framework&lt;/h1&gt;
+
+&lt;p&gt;The MongoDB aggregation framework provides a means to calculate
+aggregated values without having to use
+&lt;a href=&#34;http://docs.mongodb.org/manual/core/map-reduce/&#34;&gt;map-reduce&lt;/a&gt;. While
+map-reduce is powerful, it is often more difficult than necessary for
+many simple aggregation tasks, such as totaling or averaging field
+values.&lt;/p&gt;
+
+&lt;p&gt;If you&amp;rsquo;re familiar with SQL, the aggregation framework provides similar
+functionality to &lt;code&gt;GROUP BY&lt;/code&gt; and related SQL operators as well as simple
+forms of &amp;ldquo;self joins.&amp;rdquo; Additionally, the aggregation framework provides
+projection capabilities to reshape the returned data. Using the
+projections in the aggregation framework, you can add computed fields,
+create new virtual sub-objects, and extract sub-fields into the
+top-level of results.&lt;/p&gt;
+
+&lt;h2 id=&#34;aggregation-syntax&#34;&gt;Aggregation Syntax&lt;/h2&gt;
+
+&lt;p&gt;Conceptually, documents from a collection pass through an aggregation
+pipeline, which transforms these objects as they pass through. For those
+familiar with UNIX-like shells (e.g. bash,) the concept is analogous to
+the pipe (i.e. |) used to string text filters together:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;db.people.aggregate( [&amp;lt;pipeline&amp;gt;] )
+db.runCommand( { aggregate: &amp;quot;people&amp;quot;, pipeline: [&amp;lt;pipeline&amp;gt;] } )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See the &lt;a href=&#34;http://docs.mongodb.org/manual/reference/aggregation/&#34;&gt;aggregation
+reference&lt;/a&gt; for
+information about aggregation operations.&lt;/p&gt;
+
+&lt;h2 id=&#34;aggregation-by-example&#34;&gt;Aggregation By Example&lt;/h2&gt;
+
+&lt;p&gt;First, consider a collection of documents named articles using the
+following format:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;import com.mongodb.casbah.Imports._
+val db = MongoClient()(&amp;quot;test&amp;quot;)
+val coll = db(&amp;quot;aggregate&amp;quot;)
+coll.drop()
+
+coll += MongoDBObject(&amp;quot;title&amp;quot; -&amp;gt; &amp;quot;Programming in Scala&amp;quot; ,
+                      &amp;quot;author&amp;quot; -&amp;gt; &amp;quot;Martin&amp;quot;,
+                      &amp;quot;pageViews&amp;quot; -&amp;gt;  50,
+                      &amp;quot;tags&amp;quot; -&amp;gt;  (&amp;quot;scala&amp;quot;, &amp;quot;functional&amp;quot;, &amp;quot;JVM&amp;quot;) ,
+                      &amp;quot;body&amp;quot; -&amp;gt;  &amp;quot;...&amp;quot;)
+
+coll += MongoDBObject(&amp;quot;title&amp;quot; -&amp;gt; &amp;quot;Programming Clojure&amp;quot; ,
+                      &amp;quot;author&amp;quot; -&amp;gt; &amp;quot;Stuart&amp;quot;,
+                      &amp;quot;pageViews&amp;quot; -&amp;gt;  35,
+                      &amp;quot;tags&amp;quot; -&amp;gt;  (&amp;quot;clojure&amp;quot;, &amp;quot;functional&amp;quot;, &amp;quot;JVM&amp;quot;) ,
+                      &amp;quot;body&amp;quot; -&amp;gt;  &amp;quot;...&amp;quot;)
+
+coll += MongoDBObject(&amp;quot;title&amp;quot; -&amp;gt; &amp;quot;MongoDB: The Definitive Guide&amp;quot; ,
+                      &amp;quot;author&amp;quot; -&amp;gt; &amp;quot;Kristina&amp;quot;,
+                      &amp;quot;pageViews&amp;quot; -&amp;gt;  90,
+                      &amp;quot;tags&amp;quot; -&amp;gt;  (&amp;quot;databases&amp;quot;, &amp;quot;nosql&amp;quot;, &amp;quot;future&amp;quot;) ,
+                      &amp;quot;body&amp;quot; -&amp;gt;  &amp;quot;...&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The following example aggregation operation pivots data to create a set
+of author names grouped by tags applied to an article. Call the
+aggregation framework by issuing the following command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val db = MongoClient()(&amp;quot;test&amp;quot;)
+val coll = db(&amp;quot;aggregate&amp;quot;)
+
+val results = coll.aggregate(
+  List(
+    MongoDBObject(&amp;quot;$project&amp;quot; -&amp;gt;
+      MongoDBObject(&amp;quot;author&amp;quot; -&amp;gt; 1, &amp;quot;tags&amp;quot; -&amp;gt; 1)
+    ),
+    MongoDBObject(&amp;quot;$unwind&amp;quot; -&amp;gt; &amp;quot;$tags&amp;quot;),
+    MongoDBObject(&amp;quot;$group&amp;quot; -&amp;gt;
+      MongoDBObject(&amp;quot;_id&amp;quot; -&amp;gt; &amp;quot;$tags&amp;quot;,
+                    &amp;quot;authors&amp;quot; -&amp;gt; MongoDBObject(&amp;quot;$addToSet&amp;quot; -&amp;gt; &amp;quot;$author&amp;quot;)
+      )
+    )
+  )
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The results of the aggregation themselves can be accessed via &lt;code&gt;results&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;aggregation-cursor-interface-new-in-casbah-2-7&#34;&gt;Aggregation Cursor Interface - new in casbah 2.7&lt;/h3&gt;
+
+&lt;p&gt;MongoDB 2.6 adds the ability to return a cursor from the aggregation
+framework. To do that simply use AggregationOptions with the aggregation
+command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val db = MongoClient()(&amp;quot;test&amp;quot;)
+val coll = db(&amp;quot;aggregate&amp;quot;)
+
+val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
+val results = coll.aggregate(
+  List(
+    MongoDBObject(&amp;quot;$project&amp;quot; -&amp;gt;
+      MongoDBObject(&amp;quot;author&amp;quot; -&amp;gt; 1, &amp;quot;tags&amp;quot; -&amp;gt; 1)
+    ),
+    MongoDBObject(&amp;quot;$unwind&amp;quot; -&amp;gt; &amp;quot;$tags&amp;quot;),
+    MongoDBObject(&amp;quot;$group&amp;quot; -&amp;gt;
+      MongoDBObject(&amp;quot;_id&amp;quot; -&amp;gt; &amp;quot;$tags&amp;quot;,
+                    &amp;quot;authors&amp;quot; -&amp;gt; MongoDBObject(&amp;quot;$addToSet&amp;quot; -&amp;gt; &amp;quot;$author&amp;quot;)
+      )
+    )
+  ),
+  aggregationOptions
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then the you can iterate the results of the aggregation as a normal
+cursor:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;for (result &amp;lt;- results) println(result)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To learn more about aggregation see the &lt;a href=&#34;http://docs.mongodb.org/manual/tutorial/aggregation-examples/&#34;&gt;aggregation
+tutorial&lt;/a&gt;
+and the &lt;a href=&#34;http://docs.mongodb.org/manual/reference/aggregation/&#34;&gt;aggregation
+reference&lt;/a&gt;
+documentation.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Connecting to MongoDB</title>
+      <link>/casbah/3.0/reference/connecting/</link>
+      <pubDate>Wed, 23 Sep 2015 15:36:50 +0000</pubDate>
+      
+      <guid>/casbah/3.0/reference/connecting/</guid>
+      <description>
+
+&lt;h1 id=&#34;connecting-to-mongodb&#34;&gt;Connecting to MongoDB&lt;/h1&gt;
+
+&lt;p&gt;The core connection class is
+&lt;a href=&#34;http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoClient&#34;&gt;MongoClient&lt;/a&gt;.
+The casbah &lt;code&gt;MongoClient&lt;/code&gt; class simply wraps the &lt;a href=&#34;http://api.mongodb.org/java/current/?com/mongodb/MongoClient.html&#34;&gt;MongoClient Java
+class&lt;/a&gt;
+and provides a couple of scala helpers as well.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;MongoClient&lt;/code&gt; is available in the global imports class:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;import com.mongodb.casbah.Imports._
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;simple-connections&#34;&gt;Simple connections&lt;/h2&gt;
+
+&lt;p&gt;Below are some example connecting to MongoDB with Casbah:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;// Connect to default - localhost, 27017
+val mongoClient =  MongoClient()
+
+// connect to &amp;quot;mongodb01&amp;quot; host, default port
+val mongoClient =  MongoClient(&amp;quot;mongodb01&amp;quot;)
+
+// connect to &amp;quot;mongodb02&amp;quot; host, port 42017
+val mongoClient =  MongoClient(&amp;quot;mongodb02&amp;quot;, 42017)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;mongodb-uri&#34;&gt;MongoDB URI&lt;/h2&gt;
+
+&lt;p&gt;As an alternative to providing host and port information, the &lt;a href=&#34;http://docs.mongodb.org/manual/reference/connection-string/&#34;&gt;mongodb
+URI&lt;/a&gt; format
+defines connections between applications and MongoDB. In Casbah the
+&lt;a href=&#34;http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoClientURI&#34;&gt;com.mongodb.casbah.MongoClientURI&lt;/a&gt;
+class handles string URI&amp;rsquo;s:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val uri = MongoClientURI(&amp;quot;mongodb://localhost:27017/&amp;quot;)
+val mongoClient =  MongoClient(uri)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;URI style strings supports all the various connection scenarios, such as connecting to replicasets or using authentication and as such its often considered easier to use.&lt;/p&gt;
+
+&lt;p&gt;The following examples show both the long hand way of connecting
+purely in code and the URI style.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;connecting-to-replicasets-mongos&#34;&gt;Connecting to ReplicaSets / mongos&lt;/h2&gt;
+
+&lt;p&gt;The java driver automatically determines if it is speaking to a
+&lt;a href=&#34;http://docs.mongodb.org/manual/replication/&#34;&gt;replicaset&lt;/a&gt; or a
+&lt;a href=&#34;http://docs.mongodb.org/manual/sharding/&#34;&gt;mongos&lt;/a&gt; and acts accordingly.&lt;/p&gt;
+
+&lt;h3 id=&#34;list-of-serveraddress-instances&#34;&gt;List of ServerAddress instances&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val rs1 = new ServerAddress(&amp;quot;localhost&amp;quot;, 27017)
+val rs2 = new ServerAddress(&amp;quot;localhost&amp;quot;, 27018)
+val rs3 = new ServerAddress(&amp;quot;localhost&amp;quot;, 27019)
+val mongoClient = MongoClient(List(rs1, rs2, rs3))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;The &lt;a href=&#34;http://api.mongodb.org/java/current/?com/mongodb/ServerAddress.html&#34;&gt;ServerAddress&lt;/a&gt; class isn&amp;rsquo;t wrapped by casbah - so you have to call &lt;em&gt;new&lt;/em&gt; eg: &lt;code&gt;new ServerAddress()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;uri-style-connections&#34;&gt;URI style connections&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val uri = MongoClientURI(&amp;quot;mongodb://localhost:27017,localhost:27018,localhost:27019/&amp;quot;)
+val mongoClient = MongoClient(uri)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;authentication&#34;&gt;Authentication&lt;/h2&gt;
+
+&lt;p&gt;MongoDB currently provides two different authentication mechanisms.
+Challenge response and GSSAPI authentication (available in the
+subscriber edition). A commandline example of using GSSAPI
+authentication can be found in the examples.&lt;/p&gt;
+
+&lt;h3 id=&#34;mongodbcredentials&#34;&gt;MongoDBCredentials&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;// Automatically detect SCRAM-SHA-1 or Challenge Response protocol
+val server = new ServerAddress(&amp;quot;localhost&amp;quot;, 27017)
+val credentials = MongoCredential.createCredential(userName, source, password)
+val mongoClient = MongoClient(server, List(credentials))
+
+// SCRAM-SHA-1
+val server = new ServerAddress(&amp;quot;localhost&amp;quot;, 27017)
+val credentials = MongoCredential.createScramSha1Credential(userName, source, password)
+val mongoClient = MongoClient(server, List(credentials))
+
+// Challenge Response
+val server = new ServerAddress(&amp;quot;localhost&amp;quot;, 27017)
+val credentials = MongoCredential.createMongoCRCredential(userName, database, password)
+val mongoClient = MongoClient(server, List(credentials))
+
+// X.509 Protocol
+val server = new ServerAddress(&amp;quot;localhost&amp;quot;, 27017)
+val credentials = MongoCredential.createMongoX509Credential(userName)
+val mongoClient = MongoClient(server, List(credentials))
+
+// SASL PLAIN
+val server = new ServerAddress(&amp;quot;localhost&amp;quot;, 27017)
+val credentials = MongoCredential.createPlainCredential(userName, source, password)
+val mongoClient = MongoClient(server, List(credentials))
+
+// GSSAPI
+val server = new ServerAddress(&amp;quot;localhost&amp;quot;, 27017)
+val credentials = MongoCredential.createGSSAPICredential(userName)
+val mongoClient = MongoClient(server, List(credentials))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;GSSAPI requires the kerberos to be configured correctly in java. Either via flags when running scala:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;-Djava.security.krb5.realm=EXAMPLE.COM
+-Djava.security.krb5.kdc=kdc.example.com -Djavax.security.auth.useSubjectCredsOnly=false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or in scala:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;System.setProperty(&amp;quot;java.security.krb5.realm&amp;quot;, &amp;quot;EXAMPLE.COM&amp;quot;)
+System.setProperty(&amp;quot;java.security.krb5.kdc&amp;quot;, &amp;quot;kdc.example.com&amp;quot;)
+System.setProperty(&amp;quot;javax.security.auth.useSubjectCredsOnly&amp;quot;, &amp;quot;false&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To change Service Name (SPN) with kerberos set the mechanism property
+ on the credential eg:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val credential = MongoCredential.createGSSAPICredential(userName)
+credential.withMechanismProperty(key, value)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;uri-style-connections-1&#34;&gt;URI style connections&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;// SCRAM-SHA-1
+val uri = MongoClientURI(&amp;quot;mongodb://username:pwd@localhost/?authMechanism=SCRAM-SHA-1&amp;quot;)
+val mongoClient =  MongoClient(uri)
+
+// GSSAPI
+val uri = MongoClientURI(&amp;quot;mongodb://username%40domain@kdc.example.com/?authMechanism=MONGODB-GSSAPI&amp;quot;)
+val mongoClient =  MongoClient(uri)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;ssl-connections&#34;&gt;SSL connections&lt;/h2&gt;
+
+&lt;p&gt;By default ssl is off for mongodb, but you can &lt;a href=&#34;http://docs.mongodb.org/manual/tutorial/configure-ssl/&#34;&gt;configure mongodb to
+enable ssl&lt;/a&gt;.
+Subscribers to the enterprise edition of mongodb have ssl support baked
+in.&lt;/p&gt;
+
+&lt;h3 id=&#34;mongoclientoptions&#34;&gt;MongoClientOptions&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val options = MongoClientOptions(socketFactory=SSLSocketFactory.getDefault())
+val client = MongoClient(serverName, options)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;uri-style-connections-2&#34;&gt;URI style connections&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val uri = MongoClientURI(&amp;quot;mongodb://localhost:27017/?ssl=true&amp;quot;)
+val mongoClient = MongoClient(uri)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;Ensure your keystore is configured correctly to validate ssl certificates&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;connection-options&#34;&gt;Connection Options&lt;/h2&gt;
+
+&lt;p&gt;There are extra configuration options for connections, which cover
+setting the default &lt;a href=&#34;http://docs.mongodb.org/manual/core/write-concern/&#34;&gt;write
+concern&lt;/a&gt; and &lt;a href=&#34;http://docs.mongodb.org/manual/core/read-preference/&#34;&gt;read
+preferences&lt;/a&gt; to
+configuring socket timeouts.&lt;/p&gt;
+
+&lt;p&gt;For the more connection options see the &lt;a href=&#34;http://docs.mongodb.org/manual/reference/connection-string/#connection-string-options&#34;&gt;mongodb connection
+reference&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;databases-and-collections&#34;&gt;Databases and Collections&lt;/h2&gt;
+
+&lt;p&gt;To query mongodb you need a collection to query against. Collecions are
+simple to get from a connection, first get the database the collection
+is in, then get the collection:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val mongoClient = MongoClient()
+val db = mongoClient(&amp;quot;databaseName&amp;quot;)
+val collection = db(&amp;quot;collectionName&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>GridFS</title>
+      <link>/casbah/3.0/reference/gridfs/</link>
+      <pubDate>Wed, 23 Sep 2015 15:36:50 +0000</pubDate>
+      
+      <guid>/casbah/3.0/reference/gridfs/</guid>
+      <description>
+
+&lt;h1 id=&#34;gridfs&#34;&gt;GridFS&lt;/h1&gt;
+
+&lt;p&gt;&lt;code&gt;GridFS&lt;/code&gt; is a specification for storing and retrieving files that exceed
+the BSON-document &lt;a href=&#34;http://docs.mongodb.org/manual/reference/limits/#BSON%20Document%20Size&#34;&gt;size
+limit&lt;/a&gt;
+of 16MB.&lt;/p&gt;
+
+&lt;p&gt;Instead of storing a file in a single document, GridFS divides a file
+into parts, or chunks, and stores each of those chunks as a
+separate document. By default GridFS limits chunk size to 256k. GridFS
+uses two collections to store files. One collection stores the file
+chunks, and the other stores file metadata.&lt;/p&gt;
+
+&lt;p&gt;When you query a GridFS store for a file, the driver or client will
+reassemble the chunks as needed. You can perform range queries on files
+stored through GridFS. You also can access information from arbitrary
+sections of files, which allows you to &amp;ldquo;skip&amp;rdquo; into the middle of a video
+or audio file.&lt;/p&gt;
+
+&lt;p&gt;GridFS is useful not only for storing files that exceed 16MB but also
+for storing any files for which you want access without having to load
+the entire file into memory. For more information on the indications of
+GridFS, see
+&lt;a href=&#34;http://docs.mongodb.org/manual/faq/developers/#faq-developers-when-to-use-gridfs&#34;&gt;faq-developers-when-to-use-gridfs&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;The use of the term &lt;em&gt;chunks&lt;/em&gt; in the context of GridFS is not related to the use of the term &lt;em&gt;chunks&lt;/em&gt; in the context of sharding.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;using-gridfs-in-casbah&#34;&gt;Using GridFS in Casbah&lt;/h2&gt;
+
+&lt;p&gt;GridFS is a separate package in Casbah and to use it you must import it
+explicitly. See the &lt;a href=&#34;http://mongodb.github.io/casbah/api/#com.mongodb.casbah.gridfs.package&#34;&gt;full gridfs api
+docs&lt;/a&gt;
+for more information about the package.&lt;/p&gt;
+
+&lt;p&gt;Example use case:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;import java.io.FileInputStream
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.gridfs.Imports._
+
+// Connect to the database
+val mongoClient = MongoClient()(&amp;quot;test&amp;quot;)
+
+// Pass the connection to the GridFS class
+val gridfs = GridFS(mongoClient)
+
+// Save a file to GridFS
+val logo = new FileInputStream(&amp;quot;mongo.png&amp;quot;)
+val id = gridfs(logo) { f =&amp;gt;
+    f.filename = &amp;quot;mongodb_logo.png&amp;quot;
+    f.contentType = &amp;quot;image/png&amp;quot;
+}
+
+// Find a file in GridFS by its ObjectId
+val myFile = gridfs.findOne(id.get.asInstanceOf[ObjectId])
+
+// Or find a file in GridFS by its filename
+val myFile = gridfs.findOne(&amp;quot;mongodb_logo.png&amp;quot;)
+
+// Print all filenames stored in GridFS
+for (f &amp;lt;- gridfs) println(f.filename)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;joda-datetime&#34;&gt;Joda DateTime&lt;/h3&gt;
+
+&lt;p&gt;Due to hardcoding in the Java GridFS driver the Joda Time serialization
+hooks break with GridFS. It tries to explicitly cast certain date fields
+as a &lt;code&gt;java.util.Date&lt;/code&gt;. To that end, on all find ops we explicitly unload
+the Joda Time deserializers and reload them when we&amp;rsquo;re done (if they
+were loaded before we started). This allows GridFS to always work but
+&lt;em&gt;MAY&lt;/em&gt; cause thread safety issues - e.g. if you have another non-GridFS
+read happening at the same time in another thread at the same time, it
+may fail to deserialize BSON Dates as Joda DateTime - and blow up. Be
+careful &amp;mdash; generally we don&amp;rsquo;t recommend mixing Joda Time and GridFS in
+the same JVM at the moment.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Installation</title>
+      <link>/casbah/3.0/reference/installation/</link>
+      <pubDate>Wed, 23 Sep 2015 15:36:12 +0000</pubDate>
+      
+      <guid>/casbah/3.0/reference/installation/</guid>
+      <description>
+
+&lt;h1 id=&#34;installation&#34;&gt;Installation&lt;/h1&gt;
+
+&lt;p&gt;&lt;strong&gt;Casbah&lt;/strong&gt; is released to the &lt;a href=&#34;http://sonatype.org/&#34;&gt;Sonatype&lt;/a&gt;
+repository, the latest Casbah build as is 3.0.0 and supports the
+following scala versions: 2.10.x, 2.11.x, 2.12.0-M2.&lt;/p&gt;
+
+&lt;p&gt;The easiest way to install the latest Casbah driver (3.0.0) is by
+using &lt;a href=&#34;http://www.scala-sbt.org/&#34;&gt;sbt - the Scala Build Tool&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;setting-up-via-sbt&#34;&gt;Setting up via sbt&lt;/h2&gt;
+
+&lt;p&gt;Once you have your sbt project setup - see the &lt;a href=&#34;http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html&#34;&gt;sbt setup
+guide&lt;/a&gt;
+for help there.&lt;/p&gt;
+
+&lt;p&gt;Add Casbah to sbt to your &lt;code&gt;./build.sbt&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;p&gt;To test your installation load the sbt console and try importing casbah:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sbt console
+scala&amp;gt; import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.Imports._
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;problem-solving&#34;&gt;Problem solving&lt;/h2&gt;
+
+&lt;p&gt;If sbt can&amp;rsquo;t find casbah then you may have an older version of sbt and
+will need to add the sonatype resolvers to your ./build.sbt file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;// For stable releases
+resolvers += &amp;quot;Sonatype releases&amp;quot; at &amp;quot;https://oss.sonatype.org/content/repositories/releases&amp;quot;
+// For SNAPSHOT releases
+resolvers += &amp;quot;Sonatype snapshots&amp;quot; at &amp;quot;https://oss.sonatype.org/content/repositories/snapshots&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;alternative-installation-methods&#34;&gt;Alternative installation methods&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Casbah&lt;/strong&gt; is released to the &lt;a href=&#34;http://sonatype.org/&#34;&gt;Sonatype&lt;/a&gt;
+repository, the latest Casbah build as is 3.0.0 and supports the
+following scala versions: 2.10.x, 2.11.x, 2.12.0-M2.&lt;/p&gt;
+
+&lt;h2 id=&#34;using-dependency-build-managers&#34;&gt;Using Dependency/Build Managers&lt;/h2&gt;
+
+&lt;p&gt;First, you should add the package repository to your Dependency/Build
+Manager. Our releases &amp;amp; snapshots are currently hosted at Sonatype; they
+should eventually sync to the Central Maven repository.:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;https://oss.sonatype.org/content/repositories/releases/  /* For Releases */
+https://oss.sonatype.org/content/repositories/snapshots/ /* For snapshots */
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Set both of these repositories up in the appropriate manner - they
+contain Casbah as well as any specific dependencies you may require.&lt;/p&gt;
+
+&lt;h2 id=&#34;setting-up-maven&#34;&gt;Setting Up Maven&lt;/h2&gt;
+
+&lt;p&gt;You can add Casbah to Maven with the following dependency block.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;org.mongodb&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;casbah_$SCALA_VERSION$&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt; 3.0.0 &amp;lt;/version&amp;gt;
+    &amp;lt;type&amp;gt;pom&amp;lt;/type&amp;gt;
+&amp;lt;dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Please substitute &lt;code&gt;$SCALA_VERSION$&lt;/code&gt; with your Scala version (we support 2.10.x, 2.11.x, 2.12.0-M2.)&lt;/p&gt;
+
+&lt;h2 id=&#34;setting-up-ivy-w-ant&#34;&gt;Setting Up Ivy (w/ Ant)&lt;/h2&gt;
+
+&lt;p&gt;You can add Casbah to Ivy with the following dependency block.&lt;/p&gt;
+
+&lt;p&gt;Please substitute &lt;code&gt;$SCALA_VERSION$&lt;/code&gt; with your Scala version (we support 2.10.x, 2.11.x, 2.12.0-M2.)&lt;/p&gt;
+
+&lt;h2 id=&#34;setting-up-without-a-dependency-build-manager-source-binary&#34;&gt;Setting up without a Dependency/Build Manager (Source + Binary)&lt;/h2&gt;
+
+&lt;p&gt;There are two choices:&lt;/p&gt;
+
+&lt;h3 id=&#34;all-dependencies-jar&#34;&gt;All Dependencies Jar&lt;/h3&gt;
+
+&lt;p&gt;As Casbah is published in multiple modules installing it manually can
+take time, especially as the dependencies change depending on the Scala
+version you are using. To simplify this you can download a single all
+inclusive jar for your scala version:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.12/3.0.0/casbah-alldep_2.12.0-M2-3.0.0.jar&#34;&gt;Casbah Scala 2.12.0-M2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.11/3.0.0/casbah-alldep_2.11-3.0.0.jar&#34;&gt;Casbah Scala 2.11&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/3.0.0/casbah-alldep_2.10-3.0.0.jar&#34;&gt;Casbah Scala 2.10&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Once the jar is on your class path you will be able to use Casbah.&lt;/p&gt;
+
+&lt;h3 id=&#34;building-from-source&#34;&gt;Building from source&lt;/h3&gt;
+
+&lt;p&gt;You can always get the latest source for Casbah from &lt;a href=&#34;https://github.com/mongodb/casbah&#34;&gt;the github
+repository&lt;/a&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone git://github.com/mongodb/casbah
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The master branch is once again the leading branch suitable for
+snapshots and releases and should be considered (and kept) stable.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

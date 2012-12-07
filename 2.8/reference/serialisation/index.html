@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="keyword" content="">
+
+    <link rel="shortcut icon" href="/casbah/2.8/img/favicon.png">
+
+    <title>Serialisation</title>
+
+    <link rel="stylesheet" href="/casbah/2.8/lib/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/lib/font-awesome/css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/css/mongodb-docs.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/css/overrides.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/lib/highlight/styles/idea.css" />
+<link rel="stylesheet" href="/casbah/2.8/lib/bootstrap-toggle/bootstrap-toggle.min.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/css/java.css" type="text/css" />
+
+
+  </head>
+
+  <body>
+  
+  <section id="container" class="">
+      
+      <header id="header-db" class="row" role="navigation">
+  <div class="header-content">
+    <div class="toggle-nav pull-left">
+        <i class="fa fa-bars"></i>
+        <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"></div>
+    </div>
+    
+    <div class="logo pull-left">
+      <a href="/casbah/2.8/../">
+        <img src="/casbah/2.8/img/logo-mongodb-header.png", alt="MongoDB.org" />
+      </a>
+    </div>
+    
+    <div>
+<div class="nav-items pull-right">
+  <a href="http://try.mongodb.org/" data-toggle="tooltip" data-placement="bottom" title="Try MongoDB in the browser">Try it Out</a>
+  <a href="http://www.mongodb.org/downloads" data-toggle="tooltip" data-placement="bottom" title="Download MongoDB">Downloads</a>
+  <a href="http://www.mongodb.org/get-involved" data-toggle="tooltip" data-placement="bottom" title="Get involved with MongoDB">Community</a>
+  <a href="http://docs.mongodb.org" data-toggle="tooltip" data-placement="bottom" title="The MongoDB Documentation">Docs</a>
+  <a href="http://blog.mongodb.org" data-toggle="tooltip" data-placement="bottom" title="The MongoDB Blog">Blog</a>
+  <div id="search">
+<form method="get" action="//www.google.com/search" target="_blank">
+    <input type="text" name="searchQuery" size="20" value="" autocomplete="off" placeholder="Search docs">
+    <input type="hidden" name="site" value="/casbah/2.8">
+    <input type="hidden" name="q" value="">
+    <label for="searchQuery"><i class="fa fa-search fa-1"></i></label>
+</form>
+</div>
+
+</div>
+</div>
+
+  </div>
+</header>
+
+      
+
+      
+<aside id="sidebar" class="sidebar">
+    <div class="ssidebar nav-collapse">
+      <div class="ssidebarwrapper">
+        <h3>
+          <a class="index-link" href="/casbah/2.8/../">Casbah</a>
+          <a class="version pull-right" href="/casbah/2.8">2.8</a>
+        </h3>
+
+        
+        <ul class="sidebar-menu">
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+    
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+    
+    
+    
+  
+  
+
+
+        
+      
+    
+    
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+
+          
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/getting-started/">
+        <i class='fa fa-road'></i>
+        Getting Started
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+<li class="toctree-l1  current">
+  <a href="/casbah/2.8/reference/" class="">
+      <i class='fa fa-book'></i>
+      <span>Reference</span>
+      <span class="menu-arrow fa fa-angle-down"></span>
+  </a>
+    <ul  class="current">
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/installation/">
+        
+        Installation
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/modules/">
+        
+        Casbah Modules
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/connecting/">
+        
+        Connecting to MongoDB
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/querying/">
+        
+        Querying
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/query_dsl/">
+        
+        Query DSL
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/aggregation/">
+        
+        Aggregation
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/gridfs/">
+        
+        GridFS
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/serialisation/">
+        
+        Serialisation
+    </a>
+  </li>
+
+
+        
+        
+    </ul>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/changelog/">
+        <i class='fa fa-file-text'></i>
+        Changelog
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/examples/">
+        <i class='fa fa-lightbulb-o'></i>
+        Examples
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/whats-new/">
+        <i class='fa fa-gift'></i>
+        Whats new
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/upgrade/">
+        <i class='fa fa-wrench'></i>
+        Upgrade
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/scaladoc/">
+        <i class='fa fa-file-text-o'></i>
+        API Documentation
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="https://github.com/mongodb/casbah">
+        <i class='fa fa-github'></i>
+        Source Code
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/issues-help/">
+        <i class='fa fa-life-ring'></i>
+        Issues &amp; Help
+    </a>
+  </li>
+
+
+          
+        </ul>
+        
+    </div>
+  </div>
+  
+</aside>
+
+<div class="option-popup closed hidden" id="optionsVersionsPopup">
+<div class="option-header">
+  <i class="fa fa-gear"></i>
+  <span>OPTIONS</span>
+  <i class="fa fa-angle-up pull-right"></i>
+</div>
+<div class="option-body">
+  <ul>
+      
+      <li>
+        <label>Version</label>
+        <div class="btn-group btn-group-xs pull-right">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Select Version <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" id="optionsVersionsMenu">
+          </ul>
+        </div>
+      </li>
+
+   
+
+
+    
+
+  </ul>
+</div>
+</div>
+
+
+
+      
+      <section id="main-content" class="content">
+          <section class="main-column pull-left">
+            <div class="document">
+              <div class="documentwrapper">
+                <div class="bodywrapper">
+                  <div class="body">
+
+
+   
+<a class="edit-link" href="https://github.com/mongodb/casbah/blob/2.8.x/docs/reference/content/reference/serialisation.md" target="_blank" title="Edit reference/serialisation.md on GitHub"><i class="fa fa-pencil-square-o"></i></a>
+
+
+
+
+
+
+
+
+
+
+<div class="bc">
+<ul>
+  
+  
+  
+  
+  
+  <li><a href="/casbah/2.8/reference/">Reference</a> <i class="fa fa-angle-right"></i></li>
+  <li>Serialisation</li>
+</ul>
+</div>
+
+
+
+
+<h1 id="serialisation">Serialisation</h1>
+
+<p>As soon as you construct a <code>MongoClient</code> object, a few type conversions
+will be loaded automatically for you - Scala&rsquo;s built-in regular
+expressions (e.g. <code>&quot;\\d{4}-\\d{2}-\\d{2}&quot;.r</code> will now serialize to
+MongoDB automatically with no work from you), as well as a few other
+things. The general idea is that common Java types (such as ArrayList)
+will be returned as the equivalent Scala type.</p>
+
+<p>If you find you need to unload the default helpers, you can load and
+unload them easily:</p>
+
+<pre><code class="language-scala">import com.mongodb.casbah.commons.conversions.scala._
+DeregisterConversionHelpers()
+RegisterConversionHelpers()
+</code></pre>
+
+<h1 id="joda-time">Joda Time</h1>
+
+<p>Many Scala developers tend to prefer <a href="http://joda-time.sourceforge.net/">Joda
+time</a> over JDK Dates, you can also
+explicitly enable serialization and deserialization of them (w/ full
+support for the <a href="https://github.com/nscala-time/nscala-time">Scala-Time
+wrappers</a>) by an explicit
+call:</p>
+
+<pre><code class="language-scala">import com.mongodb.casbah.commons.conversions.scala._
+RegisterJodaTimeConversionHelpers()
+</code></pre>
+
+<p>Once these are loaded, Joda Time (and Scala Time wrappers) will be saved
+to MongoDB as proper BSON Dates, and on retrieval / deserialisation all
+BSON Dates will be returned as Joda <code>DateTime</code> instead of a JDK Date
+(aka <code>java.util.Date</code>). Because this can cause problems in some
+instances, you can explicitly unload the Joda Time helpers:</p>
+
+<pre><code class="language-scala">import com.mongodb.casbah.commons.conversions.scala._
+DeregisterJodaTimeConversionHelpers()
+</code></pre>
+
+<p>If you prefer Joda <code>LocalDateTime</code> - theres also a conversion helper for
+that:</p>
+
+<pre><code class="language-scala">import com.mongodb.casbah.commons.conversions.scala._
+RegisterJodaLocalDateTimeConversionHelpers()
+
+// Remove the helper
+DeregisterJodaLocalDateTimeConversionHelpers()
+</code></pre>
+
+<h2 id="custom-conversion-helpers">Custom Conversion Helpers</h2>
+
+<p>Writing your own conversion helper is relatively easy, simply provide a
+<code>BSON.addEncodingHook(encodeType, transformer)</code> and a
+<code>BSON.removeEncodingHooks(encodeType)</code>.</p>
+
+<p>See the <a href="https://github.com/mongodb/casbah/blob/master/casbah-commons/src/main/scala/conversions/ScalaConversions.scala">casbah
+conversions</a>
+for an example of creating your own.</p>
+
+
+
+
+
+
+<div id="btnv">
+  
+  <div class="pull-left">
+  <a class="navigation prev" href="/casbah/2.8/reference/gridfs/">
+      <i class="fa fa-long-arrow-left"> </i> GridFS
+  </a>
+  </div>
+  
+  
+</div>
+</div>
+
+
+</div>
+<div class="right-column">
+<div class="wrapper">
+  
+  <div class="toc">
+    <span class="toc-header">On this page</span>
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#serialisation">Serialisation</a></li>
+<li><a href="#joda-time">Joda Time</a>
+<ul>
+<li><a href="#custom-conversion-helpers">Custom Conversion Helpers</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+  
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</section>
+
+
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+   URL_ROOT:    "/casbah/2.8",
+   VERSION:     "2.8",
+   COLLAPSE_INDEX: false,
+   FILE_SUFFIX: '.html',
+   HAS_SOURCE:  true
+  };
+</script>
+<script type="text/javascript" src="/casbah/2.8/js/jquery.js"></script>
+<script type="text/javascript" src="/casbah/2.8/lib/bootstrap.js"></script>
+<script type="text/javascript" src="/casbah/2.8/js/navbar.js"></script>
+<script type="text/javascript" src="/casbah/2.8/lib/highlight/highlight.pack.js"></script>
+<script type="text/javascript" src="/casbah/2.8/js/scripts.js"></script>
+<script type="text/javascript" src="/casbah/2.8/lib/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script type="text/javascript" src="/casbah/2.8/js/scala.js"></script>
+
+
+
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K75Z5Q"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
+{'gtm.start': new Date().getTime(),event:'gtm.js'}
+);var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K75Z5Q');</script>
+
+
+<script type="text/javascript">
+var _elqQ = _elqQ || [];
+_elqQ.push(['elqSetSiteId', '413370795']);
+_elqQ.push(['elqTrackPageView']);
+(function () {
+function async_load()
+{ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//img03.en25.com/i/elqCfg.min.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }
+if (window.addEventListener) window.addEventListener('DOMContentLoaded', async_load, false);
+else if (window.attachEvent) window.attachEvent('onload', async_load);
+})();
+</script>
+
+</body>
+</html>
+

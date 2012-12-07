@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="keyword" content="">
+
+    <link rel="shortcut icon" href="/casbah/3.0/img/favicon.png">
+
+    <title>Getting Started</title>
+
+    <link rel="stylesheet" href="/casbah/3.0/lib/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/3.0/lib/font-awesome/css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/3.0/css/mongodb-docs.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/3.0/css/overrides.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/3.0/lib/highlight/styles/idea.css" />
+<link rel="stylesheet" href="/casbah/3.0/lib/bootstrap-toggle/bootstrap-toggle.min.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/3.0/css/java.css" type="text/css" />
+
+
+  </head>
+
+  <body>
+  
+  <section id="container" class="">
+      
+      <header id="header-db" class="row" role="navigation">
+  <div class="header-content">
+    <div class="toggle-nav pull-left">
+        <i class="fa fa-bars"></i>
+        <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"></div>
+    </div>
+    
+    <div class="logo pull-left">
+      <a href="/casbah/3.0/../">
+        <img src="/casbah/3.0/img/logo-mongodb-header.png", alt="MongoDB.org" />
+      </a>
+    </div>
+    
+    <div>
+<div class="nav-items pull-right">
+  <a href="http://try.mongodb.org/" data-toggle="tooltip" data-placement="bottom" title="Try MongoDB in the browser">Try it Out</a>
+  <a href="http://www.mongodb.org/downloads" data-toggle="tooltip" data-placement="bottom" title="Download MongoDB">Downloads</a>
+  <a href="http://www.mongodb.org/get-involved" data-toggle="tooltip" data-placement="bottom" title="Get involved with MongoDB">Community</a>
+  <a href="http://docs.mongodb.org" data-toggle="tooltip" data-placement="bottom" title="The MongoDB Documentation">Docs</a>
+  <a href="http://blog.mongodb.org" data-toggle="tooltip" data-placement="bottom" title="The MongoDB Blog">Blog</a>
+  <div id="search">
+<form method="get" action="//www.google.com/search" target="_blank">
+    <input type="text" name="searchQuery" size="20" value="" autocomplete="off" placeholder="Search docs">
+    <input type="hidden" name="site" value="/casbah/3.0">
+    <input type="hidden" name="q" value="">
+    <label for="searchQuery"><i class="fa fa-search fa-1"></i></label>
+</form>
+</div>
+
+</div>
+</div>
+
+  </div>
+</header>
+
+      
+
+      
+<aside id="sidebar" class="sidebar">
+    <div class="ssidebar nav-collapse">
+      <div class="ssidebarwrapper">
+        <h3>
+          <a class="index-link" href="/casbah/3.0/../">Casbah</a>
+          <a class="version pull-right" href="/casbah/3.0">3.0</a>
+        </h3>
+
+        
+        <ul class="sidebar-menu">
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+
+          
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/getting-started/">
+        <i class='fa fa-road'></i>
+        Getting Started
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1 ">
+  <a href="/casbah/3.0/reference/" class="">
+      <i class='fa fa-book'></i>
+      <span>Reference</span>
+      <span class="menu-arrow fa fa-angle-right"></span>
+  </a>
+    <ul >
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/installation/">
+        
+        Installation
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/modules/">
+        
+        Casbah Modules
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/connecting/">
+        
+        Connecting to MongoDB
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/querying/">
+        
+        Querying
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/query_dsl/">
+        
+        Query DSL
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/aggregation/">
+        
+        Aggregation
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/gridfs/">
+        
+        GridFS
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/serialisation/">
+        
+        Serialisation
+    </a>
+  </li>
+
+
+        
+        
+    </ul>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/changelog/">
+        <i class='fa fa-file-text'></i>
+        Changelog
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/upgrade/">
+        <i class='fa fa-wrench'></i>
+        Upgrade
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/examples/">
+        <i class='fa fa-lightbulb-o'></i>
+        Examples
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/whats-new/">
+        <i class='fa fa-gift'></i>
+        Whats new
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/scaladoc/">
+        <i class='fa fa-file-text-o'></i>
+        API Documentation
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="https://github.com/mongodb/casbah">
+        <i class='fa fa-github'></i>
+        Source Code
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/issues-help/">
+        <i class='fa fa-life-ring'></i>
+        Issues &amp; Help
+    </a>
+  </li>
+
+
+          
+        </ul>
+        
+    </div>
+  </div>
+  
+</aside>
+
+<div class="option-popup closed hidden" id="optionsVersionsPopup">
+<div class="option-header">
+  <i class="fa fa-gear"></i>
+  <span>OPTIONS</span>
+  <i class="fa fa-angle-up pull-right"></i>
+</div>
+<div class="option-body">
+  <ul>
+      
+      <li>
+        <label>Version</label>
+        <div class="btn-group btn-group-xs pull-right">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Select Version <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" id="optionsVersionsMenu">
+          </ul>
+        </div>
+      </li>
+
+   
+
+
+    
+
+  </ul>
+</div>
+</div>
+
+
+
+      
+      <section id="main-content" class="content">
+          <section class="main-column pull-left">
+            <div class="document">
+              <div class="documentwrapper">
+                <div class="bodywrapper">
+                  <div class="body">
+
+
+   
+<a class="edit-link" href="https://github.com/mongodb/casbah/blob/master/docs/reference/content/getting-started/index.md" target="_blank" title="Edit getting-started/index.md on GitHub"><i class="fa fa-pencil-square-o"></i></a>
+
+
+
+
+
+
+
+
+
+
+<div class="bc">
+<ul>
+  
+  
+  
+  
+  
+  
+  <li>Getting Started</li>
+</ul>
+</div>
+
+
+
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>This quick tutorial should get you up and running doing basic create, read,
+update, delete (CRUD) operations with Casbah.</p>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>Please ensure you have downloaded and installed
+<a href="http://docs.mongodb.org/manual/installation/">mongodb</a> and have it running on
+its default host (localhost) and port (27107).</p>
+
+<h3 id="getting-started-1">Getting started</h3>
+
+<p>The next step is to get and install sbt, create an sbt project and install
+casbah.  I recommend using <a href="https://github.com/paulp/sbt-extras">sbt-extras</a>
+- a special sbt script for installing and running sbt.</p>
+
+<ol>
+<li>Create a project directory: <code>mkdir casbah_tutorial &amp;&amp; cd casbah_tutorial</code></li>
+
+<li><p>Install sbt-extras script:</p>
+
+<pre><code class="language-bash">  curl https://raw.github.com/paulp/sbt-extras/master/sbt &gt; sbt
+  chmod +ux sbt
+</code></pre></li>
+
+<li><p>Create an sbt build file: `build.sbt:</p>
+
+<pre><code class="language-bash">name := &quot;Casbah Tutorial&quot;
+
+
+version := &quot;0.1&quot;
+
+
+scalaVersion := &quot;2.11.7&quot;
+
+
+libraryDependencies += &quot;org.mongodb&quot; %% &quot;casbah&quot; % &quot;3.0.0&quot;
+</code></pre></li>
+
+<li><p>Run the console and test (sbt will automatically install the dependencies):</p>
+
+<pre><code class="language-bash">$ ./sbt console
+scala&gt; import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.Imports._
+</code></pre></li>
+</ol>
+
+<p>If you had any errors installing casbah please refer to the
+<a href="/casbah/3.0/reference/installation/">installation guide</a>, otherwise you
+are ready to start using casbah!</p>
+
+<h3 id="connecting-to-mongodb">Connecting to MongoDB</h3>
+
+<p>The first step of using Casbah is to connect to MongoDB.  Remember, this
+tutorial expects MongoDB to be running on localhost on port 27017.
+<a href="http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoClient">MongoClient</a> is the connection class.</p>
+
+<p>Load the scala shell <code>./sbt console</code></p>
+
+<pre><code class="language-scala">import com.mongodb.casbah.Imports._
+val mongoClient = MongoClient(&quot;localhost&quot;, 27017)
+</code></pre>
+
+<p>There are various connection configuration options see the
+<a href="/casbah/3.0/reference/connecting/">connection guide</a> for more information.</p>
+
+<p><div class="admonition note">
+<h5 class="admonition-title">Note</h5>
+<p>The scala repl has tab completion type: <code>mongoClient.&lt;tab&gt;</code> for a list of all
+ the operations you can run on a connection.</p>
+
+</div>
+</p>
+
+<h3 id="getting-databases-and-collections">Getting databases and collections</h3>
+
+<p>In MongoDB a database doesn&rsquo;t need to exist prior to connecting to it, simply
+adding  documents to a collection is enough to create the database.</p>
+
+<p>Try connecting to the &ldquo;test&rdquo; database and getting a list all the collections:</p>
+
+<pre><code class="language-scala">val db = mongoClient(&quot;test&quot;)
+db.collectionNames
+</code></pre>
+
+<p>If your database is new then <code>db.collectionNames</code> will return an empty <code>Set</code>,
+otherwise it will list the collections in the database.</p>
+
+<p>The next step before starting to add, update and remove documents is to get a
+collection :</p>
+
+<pre><code class="language-scala">val coll = db(&quot;test&quot;)
+</code></pre>
+
+<p><code>coll</code> is the &ldquo;test&rdquo; collection in the &ldquo;test&rdquo; database. You are now ready to
+begin adding documents.</p>
+
+<p><div class="admonition note">
+<h5 class="admonition-title">Note</h5>
+<p>If you had an existing &ldquo;test&rdquo; collection drop it first: <code>coll.drop()</code></p>
+
+</div>
+</p>
+
+<h3 id="doing-crud-operations">Doing CRUD operations</h3>
+
+<p>Inserting, reading, updating and deleting documents in MongoDB is simple.
+The <code>MongoDBObject</code> is a Map-like object that represents a MongoDB Document.</p>
+
+<h4 id="create">Create</h4>
+
+<p>Create two documents <code>a</code> and <code>b</code>:</p>
+
+<pre><code class="language-scala">val a = MongoDBObject(&quot;hello&quot; -&gt; &quot;world&quot;)
+val b = MongoDBObject(&quot;language&quot; -&gt; &quot;scala&quot;)
+</code></pre>
+
+<p>Insert the documents:</p>
+
+<pre><code class="language-scala">coll.insert( a )
+coll.insert( b )
+</code></pre>
+
+<h4 id="read">Read</h4>
+
+<p>Count the number of documents in the &ldquo;test&rdquo; collection:</p>
+
+<pre><code class="language-scala">coll.count()
+</code></pre>
+
+<p>Use <code>find</code> to query the database and return an iterable cursor, then print
+out the string representation of each document:</p>
+
+<pre><code class="language-scala">val allDocs = coll.find()
+println( allDocs )
+for(doc &lt;- allDocs) println( doc )
+</code></pre>
+
+<p><div class="admonition note">
+<h5 class="admonition-title">Note</h5>
+<p>You may notice an extra field in the document: <code>_id</code>. This is the primary key
+for a document, if you don&rsquo;t supply an <code>_id</code> an <code>ObjectId</code> will be created for
+you.</p>
+
+</div>
+</p>
+
+<p>By providing a <code>MongoDBObject</code> to the <code>find</code> method you can filter the
+results:</p>
+
+<pre><code class="language-scala">val hello = MongoDBObject(&quot;hello&quot; -&gt; &quot;world&quot;)
+val helloWorld = coll.findOne( hello )
+
+// Find a document that doesn't exist
+val goodbye = MongoDBObject(&quot;goodbye&quot; -&gt; &quot;world&quot;)
+val goodbyeWorld = coll.findOne( goodbye )
+</code></pre>
+
+<p><div class="admonition note">
+<h5 class="admonition-title">Note</h5>
+<p>Notice that <code>find</code> returns a Cursor and <code>findOne</code> returns an <code>Option</code>.</p>
+
+</div>
+</p>
+
+<h4 id="update">Update</h4>
+
+<p>Now you have some data in MongoDB, how do you change it?  MongoDB provides a
+powerful <code>update</code> method that allows you to change single or multiple
+documents.</p>
+
+<p>First, find the scala document and add its platform:</p>
+
+<pre><code class="language-scala">val query = MongoDBObject(&quot;language&quot; -&gt; &quot;scala&quot;)
+val update = MongoDBObject(&quot;platform&quot; -&gt; &quot;JVM&quot;)
+val result = coll.update( query, update )
+
+println(&quot;Number updated: &quot; + result.getN)
+for (c &lt;- coll.find) println(c)
+</code></pre>
+
+<p><div class="admonition warning">
+<h5 class="admonition-title">warning</h5>
+<p>You will notice that the document is now missing <code>&quot;language&quot; -&gt; &quot;scala&quot;</code>! This is because when using update if you provide a simple document it will replace the existing one with the new document.</p>
+
+<p>This is the most common gotcha for newcomers to MongoDB.</p>
+
+</div>
+</p>
+
+<p>MongoDB comes with a host of
+<a href="http://docs.mongodb.org/manual/core/update/#crud-update-operators">update operators</a>
+to modify documents.  Casbah has a powerful :doc:<code>DSL &lt;guide/querying&gt;</code> for
+creating these update documents. Lets set the language to scala for the JVM document:</p>
+
+<pre><code class="language-scala">val query = MongoDBObject(&quot;platform&quot; -&gt; &quot;JVM&quot;)
+val update = $set(&quot;language&quot; -&gt; &quot;Scala&quot;)
+val result = coll.update( query, update )
+
+println( &quot;Number updated: &quot; + result.getN )
+for ( c &lt;- coll.find ) println( c )
+</code></pre>
+
+<p><div class="admonition note">
+<h5 class="admonition-title">Note</h5>
+<p>By default <code>update</code> will only update a single document - to update
+<em>all</em> the documents set the multi flag: <code>.update( query, update, multi=true)</code>.</p>
+
+</div>
+</p>
+
+<p>Another useful feature of the <code>update</code> command is it also allows you to
+<code>upsert</code> documents on the fly.  Setting <code>upsert=True</code> will insert the
+document if doesn&rsquo;t exist, otherwise update it::</p>
+
+<pre><code class="language-scala">val query = MongoDBObject(&quot;language&quot; -&gt; &quot;clojure&quot;)
+val update = $set(&quot;platform&quot; -&gt; &quot;JVM&quot;)
+val result = coll.update( query, update, upsert=true )
+
+println( &quot;Number updated: &quot; + result.getN )
+for (c &lt;- coll.find) println(c)
+</code></pre>
+
+<h4 id="removing">Removing</h4>
+
+<p>The final part of the tutorial is removing documents.  Remove is the similar to
+<code>find</code>, in that you provide a query of documents to match against:</p>
+
+<pre><code class="language-scala">val query = MongoDBObject(&quot;language&quot; -&gt; &quot;clojure&quot;)
+val result = coll.remove( query )
+
+println(&quot;Number removed: &quot; + result.getN)
+for (c &lt;- coll.find) println(c)
+</code></pre>
+
+<p>To remove all documents, provide a blank document to match all items in the
+database:</p>
+
+<pre><code class="language-scala">val query = MongoDBObject()
+val result = coll.remove( query )
+
+println( &quot;Number removed: &quot; + result.getN )
+println( coll.count() )
+</code></pre>
+
+<p>Rather than iterating the collection and removing each document, its more
+efficient to drop the collection:</p>
+
+<pre><code class="language-scala">coll.drop()
+</code></pre>
+
+<h3 id="learning-more-about-casbah">Learning more about Casbah</h3>
+
+<p>If you got this far you&rsquo;ve made a great start, so well done!  The next step on
+your Casbah journey is the <a href="/casbah/3.0/reference/">Reference</a>,
+where you can learn indepth about how to use casbah and mongodb.</p>
+
+
+
+
+
+
+<div id="btnv">
+  
+  
+</div>
+</div>
+
+
+</div>
+<div class="right-column">
+<div class="wrapper">
+  
+  <div class="toc">
+    <span class="toc-header">On this page</span>
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#getting-started">Getting Started</a>
+<ul>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#getting-started-1">Getting started</a></li>
+<li><a href="#connecting-to-mongodb">Connecting to MongoDB</a></li>
+<li><a href="#getting-databases-and-collections">Getting databases and collections</a></li>
+<li><a href="#doing-crud-operations">Doing CRUD operations</a>
+<ul>
+<li><a href="#create">Create</a></li>
+<li><a href="#read">Read</a></li>
+<li><a href="#update">Update</a></li>
+<li><a href="#removing">Removing</a></li>
+</ul></li>
+<li><a href="#learning-more-about-casbah">Learning more about Casbah</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+  
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</section>
+
+
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+   URL_ROOT:    "/casbah/3.0",
+   VERSION:     "3.0",
+   COLLAPSE_INDEX: false,
+   FILE_SUFFIX: '.html',
+   HAS_SOURCE:  true
+  };
+</script>
+<script type="text/javascript" src="/casbah/3.0/js/jquery.js"></script>
+<script type="text/javascript" src="/casbah/3.0/lib/bootstrap.js"></script>
+<script type="text/javascript" src="/casbah/3.0/js/navbar.js"></script>
+<script type="text/javascript" src="/casbah/3.0/lib/highlight/highlight.pack.js"></script>
+<script type="text/javascript" src="/casbah/3.0/js/scripts.js"></script>
+<script type="text/javascript" src="/casbah/3.0/lib/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script type="text/javascript" src="/casbah/3.0/js/scala.js"></script>
+
+
+
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K75Z5Q"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
+{'gtm.start': new Date().getTime(),event:'gtm.js'}
+);var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K75Z5Q');</script>
+
+
+<script type="text/javascript">
+var _elqQ = _elqQ || [];
+_elqQ.push(['elqSetSiteId', '413370795']);
+_elqQ.push(['elqTrackPageView']);
+(function () {
+function async_load()
+{ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//img03.en25.com/i/elqCfg.min.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }
+if (window.addEventListener) window.addEventListener('DOMContentLoaded', async_load, false);
+else if (window.attachEvent) window.attachEvent('onload', async_load);
+})();
+</script>
+
+</body>
+</html>
+

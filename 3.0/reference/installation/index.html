@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="keyword" content="">
+
+    <link rel="shortcut icon" href="/casbah/3.0/img/favicon.png">
+
+    <title>Installation</title>
+
+    <link rel="stylesheet" href="/casbah/3.0/lib/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/3.0/lib/font-awesome/css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/3.0/css/mongodb-docs.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/3.0/css/overrides.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/3.0/lib/highlight/styles/idea.css" />
+<link rel="stylesheet" href="/casbah/3.0/lib/bootstrap-toggle/bootstrap-toggle.min.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/3.0/css/java.css" type="text/css" />
+
+
+  </head>
+
+  <body>
+  
+  <section id="container" class="">
+      
+      <header id="header-db" class="row" role="navigation">
+  <div class="header-content">
+    <div class="toggle-nav pull-left">
+        <i class="fa fa-bars"></i>
+        <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"></div>
+    </div>
+    
+    <div class="logo pull-left">
+      <a href="/casbah/3.0/../">
+        <img src="/casbah/3.0/img/logo-mongodb-header.png", alt="MongoDB.org" />
+      </a>
+    </div>
+    
+    <div>
+<div class="nav-items pull-right">
+  <a href="http://try.mongodb.org/" data-toggle="tooltip" data-placement="bottom" title="Try MongoDB in the browser">Try it Out</a>
+  <a href="http://www.mongodb.org/downloads" data-toggle="tooltip" data-placement="bottom" title="Download MongoDB">Downloads</a>
+  <a href="http://www.mongodb.org/get-involved" data-toggle="tooltip" data-placement="bottom" title="Get involved with MongoDB">Community</a>
+  <a href="http://docs.mongodb.org" data-toggle="tooltip" data-placement="bottom" title="The MongoDB Documentation">Docs</a>
+  <a href="http://blog.mongodb.org" data-toggle="tooltip" data-placement="bottom" title="The MongoDB Blog">Blog</a>
+  <div id="search">
+<form method="get" action="//www.google.com/search" target="_blank">
+    <input type="text" name="searchQuery" size="20" value="" autocomplete="off" placeholder="Search docs">
+    <input type="hidden" name="site" value="/casbah/3.0">
+    <input type="hidden" name="q" value="">
+    <label for="searchQuery"><i class="fa fa-search fa-1"></i></label>
+</form>
+</div>
+
+</div>
+</div>
+
+  </div>
+</header>
+
+      
+
+      
+<aside id="sidebar" class="sidebar">
+    <div class="ssidebar nav-collapse">
+      <div class="ssidebarwrapper">
+        <h3>
+          <a class="index-link" href="/casbah/3.0/../">Casbah</a>
+          <a class="version pull-right" href="/casbah/3.0">3.0</a>
+        </h3>
+
+        
+        <ul class="sidebar-menu">
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+    
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+    
+    
+    
+  
+  
+
+
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+
+          
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/getting-started/">
+        <i class='fa fa-road'></i>
+        Getting Started
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+<li class="toctree-l1  current">
+  <a href="/casbah/3.0/reference/" class="">
+      <i class='fa fa-book'></i>
+      <span>Reference</span>
+      <span class="menu-arrow fa fa-angle-down"></span>
+  </a>
+    <ul  class="current">
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/installation/">
+        
+        Installation
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/modules/">
+        
+        Casbah Modules
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/connecting/">
+        
+        Connecting to MongoDB
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/querying/">
+        
+        Querying
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/query_dsl/">
+        
+        Query DSL
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/aggregation/">
+        
+        Aggregation
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/gridfs/">
+        
+        GridFS
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/3.0/reference/serialisation/">
+        
+        Serialisation
+    </a>
+  </li>
+
+
+        
+        
+    </ul>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/changelog/">
+        <i class='fa fa-file-text'></i>
+        Changelog
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/upgrade/">
+        <i class='fa fa-wrench'></i>
+        Upgrade
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/examples/">
+        <i class='fa fa-lightbulb-o'></i>
+        Examples
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/whats-new/">
+        <i class='fa fa-gift'></i>
+        Whats new
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/scaladoc/">
+        <i class='fa fa-file-text-o'></i>
+        API Documentation
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="https://github.com/mongodb/casbah">
+        <i class='fa fa-github'></i>
+        Source Code
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/3.0/issues-help/">
+        <i class='fa fa-life-ring'></i>
+        Issues &amp; Help
+    </a>
+  </li>
+
+
+          
+        </ul>
+        
+    </div>
+  </div>
+  
+</aside>
+
+<div class="option-popup closed hidden" id="optionsVersionsPopup">
+<div class="option-header">
+  <i class="fa fa-gear"></i>
+  <span>OPTIONS</span>
+  <i class="fa fa-angle-up pull-right"></i>
+</div>
+<div class="option-body">
+  <ul>
+      
+      <li>
+        <label>Version</label>
+        <div class="btn-group btn-group-xs pull-right">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Select Version <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" id="optionsVersionsMenu">
+          </ul>
+        </div>
+      </li>
+
+   
+
+
+    
+
+  </ul>
+</div>
+</div>
+
+
+
+      
+      <section id="main-content" class="content">
+          <section class="main-column pull-left">
+            <div class="document">
+              <div class="documentwrapper">
+                <div class="bodywrapper">
+                  <div class="body">
+
+
+   
+<a class="edit-link" href="https://github.com/mongodb/casbah/blob/master/docs/reference/content/reference/installation.md" target="_blank" title="Edit reference/installation.md on GitHub"><i class="fa fa-pencil-square-o"></i></a>
+
+
+
+
+
+
+
+
+
+
+<div class="bc">
+<ul>
+  
+  
+  
+  
+  
+  <li><a href="/casbah/3.0/reference/">Reference</a> <i class="fa fa-angle-right"></i></li>
+  <li>Installation</li>
+</ul>
+</div>
+
+
+
+
+<h1 id="installation">Installation</h1>
+
+<p><strong>Casbah</strong> is released to the <a href="http://sonatype.org/">Sonatype</a>
+repository, the latest Casbah build as is 3.0.0 and supports the
+following scala versions: 2.10.x, 2.11.x, 2.12.0-M2.</p>
+
+<p>The easiest way to install the latest Casbah driver (3.0.0) is by
+using <a href="http://www.scala-sbt.org/">sbt - the Scala Build Tool</a>.</p>
+
+<h2 id="setting-up-via-sbt">Setting up via sbt</h2>
+
+<p>Once you have your sbt project setup - see the <a href="http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html">sbt setup
+guide</a>
+for help there.</p>
+
+<p>Add Casbah to sbt to your <code>./build.sbt</code> file:</p>
+
+<p>To test your installation load the sbt console and try importing casbah:</p>
+
+<pre><code>$ sbt console
+scala&gt; import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.Imports._
+</code></pre>
+
+<h2 id="problem-solving">Problem solving</h2>
+
+<p>If sbt can&rsquo;t find casbah then you may have an older version of sbt and
+will need to add the sonatype resolvers to your ./build.sbt file:</p>
+
+<pre><code class="language-scala">// For stable releases
+resolvers += &quot;Sonatype releases&quot; at &quot;https://oss.sonatype.org/content/repositories/releases&quot;
+// For SNAPSHOT releases
+resolvers += &quot;Sonatype snapshots&quot; at &quot;https://oss.sonatype.org/content/repositories/snapshots&quot;
+</code></pre>
+
+<h2 id="alternative-installation-methods">Alternative installation methods</h2>
+
+<p><strong>Casbah</strong> is released to the <a href="http://sonatype.org/">Sonatype</a>
+repository, the latest Casbah build as is 3.0.0 and supports the
+following scala versions: 2.10.x, 2.11.x, 2.12.0-M2.</p>
+
+<h2 id="using-dependency-build-managers">Using Dependency/Build Managers</h2>
+
+<p>First, you should add the package repository to your Dependency/Build
+Manager. Our releases &amp; snapshots are currently hosted at Sonatype; they
+should eventually sync to the Central Maven repository.:</p>
+
+<pre><code class="language-bash">https://oss.sonatype.org/content/repositories/releases/  /* For Releases */
+https://oss.sonatype.org/content/repositories/snapshots/ /* For snapshots */
+</code></pre>
+
+<p>Set both of these repositories up in the appropriate manner - they
+contain Casbah as well as any specific dependencies you may require.</p>
+
+<h2 id="setting-up-maven">Setting Up Maven</h2>
+
+<p>You can add Casbah to Maven with the following dependency block.</p>
+
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.mongodb&lt;/groupId&gt;
+    &lt;artifactId&gt;casbah_$SCALA_VERSION$&lt;/artifactId&gt;
+    &lt;version&gt; 3.0.0 &lt;/version&gt;
+    &lt;type&gt;pom&lt;/type&gt;
+&lt;dependency&gt;
+</code></pre>
+
+<p>Please substitute <code>$SCALA_VERSION$</code> with your Scala version (we support 2.10.x, 2.11.x, 2.12.0-M2.)</p>
+
+<h2 id="setting-up-ivy-w-ant">Setting Up Ivy (w/ Ant)</h2>
+
+<p>You can add Casbah to Ivy with the following dependency block.</p>
+
+<p>Please substitute <code>$SCALA_VERSION$</code> with your Scala version (we support 2.10.x, 2.11.x, 2.12.0-M2.)</p>
+
+<h2 id="setting-up-without-a-dependency-build-manager-source-binary">Setting up without a Dependency/Build Manager (Source + Binary)</h2>
+
+<p>There are two choices:</p>
+
+<h3 id="all-dependencies-jar">All Dependencies Jar</h3>
+
+<p>As Casbah is published in multiple modules installing it manually can
+take time, especially as the dependencies change depending on the Scala
+version you are using. To simplify this you can download a single all
+inclusive jar for your scala version:</p>
+
+<ul>
+<li><a href="http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.12/3.0.0/casbah-alldep_2.12.0-M2-3.0.0.jar">Casbah Scala 2.12.0-M2</a></li>
+<li><a href="http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.11/3.0.0/casbah-alldep_2.11-3.0.0.jar">Casbah Scala 2.11</a></li>
+<li><a href="http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/3.0.0/casbah-alldep_2.10-3.0.0.jar">Casbah Scala 2.10</a></li>
+</ul>
+
+<p>Once the jar is on your class path you will be able to use Casbah.</p>
+
+<h3 id="building-from-source">Building from source</h3>
+
+<p>You can always get the latest source for Casbah from <a href="https://github.com/mongodb/casbah">the github
+repository</a>:</p>
+
+<pre><code>$ git clone git://github.com/mongodb/casbah
+</code></pre>
+
+<p>The master branch is once again the leading branch suitable for
+snapshots and releases and should be considered (and kept) stable.</p>
+
+
+
+
+
+
+<div id="btnv">
+  
+  
+  <div class="pull-right">
+  <a class="navigation next" href="/casbah/3.0/reference/modules/">
+    Casbah Modules <i class="fa fa-long-arrow-right"> </i>
+  </a>
+  
+</div>
+</div>
+
+
+</div>
+<div class="right-column">
+<div class="wrapper">
+  
+  <div class="toc">
+    <span class="toc-header">On this page</span>
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#installation">Installation</a>
+<ul>
+<li><a href="#setting-up-via-sbt">Setting up via sbt</a></li>
+<li><a href="#problem-solving">Problem solving</a></li>
+<li><a href="#alternative-installation-methods">Alternative installation methods</a></li>
+<li><a href="#using-dependency-build-managers">Using Dependency/Build Managers</a></li>
+<li><a href="#setting-up-maven">Setting Up Maven</a></li>
+<li><a href="#setting-up-ivy-w-ant">Setting Up Ivy (w/ Ant)</a></li>
+<li><a href="#setting-up-without-a-dependency-build-manager-source-binary">Setting up without a Dependency/Build Manager (Source + Binary)</a>
+<ul>
+<li><a href="#all-dependencies-jar">All Dependencies Jar</a></li>
+<li><a href="#building-from-source">Building from source</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+  
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</section>
+
+
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+   URL_ROOT:    "/casbah/3.0",
+   VERSION:     "3.0",
+   COLLAPSE_INDEX: false,
+   FILE_SUFFIX: '.html',
+   HAS_SOURCE:  true
+  };
+</script>
+<script type="text/javascript" src="/casbah/3.0/js/jquery.js"></script>
+<script type="text/javascript" src="/casbah/3.0/lib/bootstrap.js"></script>
+<script type="text/javascript" src="/casbah/3.0/js/navbar.js"></script>
+<script type="text/javascript" src="/casbah/3.0/lib/highlight/highlight.pack.js"></script>
+<script type="text/javascript" src="/casbah/3.0/js/scripts.js"></script>
+<script type="text/javascript" src="/casbah/3.0/lib/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script type="text/javascript" src="/casbah/3.0/js/scala.js"></script>
+
+
+
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K75Z5Q"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
+{'gtm.start': new Date().getTime(),event:'gtm.js'}
+);var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K75Z5Q');</script>
+
+
+<script type="text/javascript">
+var _elqQ = _elqQ || [];
+_elqQ.push(['elqSetSiteId', '413370795']);
+_elqQ.push(['elqTrackPageView']);
+(function () {
+function async_load()
+{ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//img03.en25.com/i/elqCfg.min.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }
+if (window.addEventListener) window.addEventListener('DOMContentLoaded', async_load, false);
+else if (window.attachEvent) window.attachEvent('onload', async_load);
+})();
+</script>
+
+</body>
+</html>
+

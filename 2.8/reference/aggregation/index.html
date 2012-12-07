@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="keyword" content="">
+
+    <link rel="shortcut icon" href="/casbah/2.8/img/favicon.png">
+
+    <title>Aggregation</title>
+
+    <link rel="stylesheet" href="/casbah/2.8/lib/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/lib/font-awesome/css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/css/mongodb-docs.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/css/overrides.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/lib/highlight/styles/idea.css" />
+<link rel="stylesheet" href="/casbah/2.8/lib/bootstrap-toggle/bootstrap-toggle.min.css" type="text/css" />
+<link rel="stylesheet" href="/casbah/2.8/css/java.css" type="text/css" />
+
+
+  </head>
+
+  <body>
+  
+  <section id="container" class="">
+      
+      <header id="header-db" class="row" role="navigation">
+  <div class="header-content">
+    <div class="toggle-nav pull-left">
+        <i class="fa fa-bars"></i>
+        <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"></div>
+    </div>
+    
+    <div class="logo pull-left">
+      <a href="/casbah/2.8/../">
+        <img src="/casbah/2.8/img/logo-mongodb-header.png", alt="MongoDB.org" />
+      </a>
+    </div>
+    
+    <div>
+<div class="nav-items pull-right">
+  <a href="http://try.mongodb.org/" data-toggle="tooltip" data-placement="bottom" title="Try MongoDB in the browser">Try it Out</a>
+  <a href="http://www.mongodb.org/downloads" data-toggle="tooltip" data-placement="bottom" title="Download MongoDB">Downloads</a>
+  <a href="http://www.mongodb.org/get-involved" data-toggle="tooltip" data-placement="bottom" title="Get involved with MongoDB">Community</a>
+  <a href="http://docs.mongodb.org" data-toggle="tooltip" data-placement="bottom" title="The MongoDB Documentation">Docs</a>
+  <a href="http://blog.mongodb.org" data-toggle="tooltip" data-placement="bottom" title="The MongoDB Blog">Blog</a>
+  <div id="search">
+<form method="get" action="//www.google.com/search" target="_blank">
+    <input type="text" name="searchQuery" size="20" value="" autocomplete="off" placeholder="Search docs">
+    <input type="hidden" name="site" value="/casbah/2.8">
+    <input type="hidden" name="q" value="">
+    <label for="searchQuery"><i class="fa fa-search fa-1"></i></label>
+</form>
+</div>
+
+</div>
+</div>
+
+  </div>
+</header>
+
+      
+
+      
+<aside id="sidebar" class="sidebar">
+    <div class="ssidebar nav-collapse">
+      <div class="ssidebarwrapper">
+        <h3>
+          <a class="index-link" href="/casbah/2.8/../">Casbah</a>
+          <a class="version pull-right" href="/casbah/2.8">2.8</a>
+        </h3>
+
+        
+        <ul class="sidebar-menu">
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+    
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+
+
+        
+          
+        
+      
+    
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+    
+    
+    
+  
+  
+
+
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+    
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+  
+
+
+          
+
+          
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/getting-started/">
+        <i class='fa fa-road'></i>
+        Getting Started
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+<li class="toctree-l1  current">
+  <a href="/casbah/2.8/reference/" class="">
+      <i class='fa fa-book'></i>
+      <span>Reference</span>
+      <span class="menu-arrow fa fa-angle-down"></span>
+  </a>
+    <ul  class="current">
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/installation/">
+        
+        Installation
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/modules/">
+        
+        Casbah Modules
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/connecting/">
+        
+        Connecting to MongoDB
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/querying/">
+        
+        Querying
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/query_dsl/">
+        
+        Query DSL
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/aggregation/">
+        
+        Aggregation
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/gridfs/">
+        
+        GridFS
+    </a>
+  </li>
+
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l2">
+    <a href="/casbah/2.8/reference/serialisation/">
+        
+        Serialisation
+    </a>
+  </li>
+
+
+        
+        
+    </ul>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/changelog/">
+        <i class='fa fa-file-text'></i>
+        Changelog
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/examples/">
+        <i class='fa fa-lightbulb-o'></i>
+        Examples
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/whats-new/">
+        <i class='fa fa-gift'></i>
+        Whats new
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/upgrade/">
+        <i class='fa fa-wrench'></i>
+        Upgrade
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/scaladoc/">
+        <i class='fa fa-file-text-o'></i>
+        API Documentation
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="https://github.com/mongodb/casbah">
+        <i class='fa fa-github'></i>
+        Source Code
+    </a>
+  </li>
+
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="toctree-l1">
+    <a href="/casbah/2.8/issues-help/">
+        <i class='fa fa-life-ring'></i>
+        Issues &amp; Help
+    </a>
+  </li>
+
+
+          
+        </ul>
+        
+    </div>
+  </div>
+  
+</aside>
+
+<div class="option-popup closed hidden" id="optionsVersionsPopup">
+<div class="option-header">
+  <i class="fa fa-gear"></i>
+  <span>OPTIONS</span>
+  <i class="fa fa-angle-up pull-right"></i>
+</div>
+<div class="option-body">
+  <ul>
+      
+      <li>
+        <label>Version</label>
+        <div class="btn-group btn-group-xs pull-right">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Select Version <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" id="optionsVersionsMenu">
+          </ul>
+        </div>
+      </li>
+
+   
+
+
+    
+
+  </ul>
+</div>
+</div>
+
+
+
+      
+      <section id="main-content" class="content">
+          <section class="main-column pull-left">
+            <div class="document">
+              <div class="documentwrapper">
+                <div class="bodywrapper">
+                  <div class="body">
+
+
+   
+<a class="edit-link" href="https://github.com/mongodb/casbah/blob/2.8.x/docs/reference/content/reference/aggregation.md" target="_blank" title="Edit reference/aggregation.md on GitHub"><i class="fa fa-pencil-square-o"></i></a>
+
+
+
+
+
+
+
+
+
+
+<div class="bc">
+<ul>
+  
+  
+  
+  
+  
+  <li><a href="/casbah/2.8/reference/">Reference</a> <i class="fa fa-angle-right"></i></li>
+  <li>Aggregation</li>
+</ul>
+</div>
+
+
+
+
+<h1 id="aggregation-framework">Aggregation Framework</h1>
+
+<p>The MongoDB aggregation framework provides a means to calculate
+aggregated values without having to use
+<a href="http://docs.mongodb.org/manual/core/map-reduce/">map-reduce</a>. While
+map-reduce is powerful, it is often more difficult than necessary for
+many simple aggregation tasks, such as totaling or averaging field
+values.</p>
+
+<p>If you&rsquo;re familiar with SQL, the aggregation framework provides similar
+functionality to <code>GROUP BY</code> and related SQL operators as well as simple
+forms of &ldquo;self joins.&rdquo; Additionally, the aggregation framework provides
+projection capabilities to reshape the returned data. Using the
+projections in the aggregation framework, you can add computed fields,
+create new virtual sub-objects, and extract sub-fields into the
+top-level of results.</p>
+
+<h2 id="aggregation-syntax">Aggregation Syntax</h2>
+
+<p>Conceptually, documents from a collection pass through an aggregation
+pipeline, which transforms these objects as they pass through. For those
+familiar with UNIX-like shells (e.g. bash,) the concept is analogous to
+the pipe (i.e. |) used to string text filters together:</p>
+
+<pre><code class="language-scala">db.people.aggregate( [&lt;pipeline&gt;] )
+db.runCommand( { aggregate: &quot;people&quot;, pipeline: [&lt;pipeline&gt;] } )
+</code></pre>
+
+<p>See the <a href="http://docs.mongodb.org/manual/reference/aggregation/">aggregation
+reference</a> for
+information about aggregation operations.</p>
+
+<h2 id="aggregation-by-example">Aggregation By Example</h2>
+
+<p>First, consider a collection of documents named articles using the
+following format:</p>
+
+<pre><code class="language-scala">import com.mongodb.casbah.Imports._
+val db = MongoClient()(&quot;test&quot;)
+val coll = db(&quot;aggregate&quot;)
+coll.drop()
+
+coll += MongoDBObject(&quot;title&quot; -&gt; &quot;Programming in Scala&quot; ,
+                      &quot;author&quot; -&gt; &quot;Martin&quot;,
+                      &quot;pageViews&quot; -&gt;  50,
+                      &quot;tags&quot; -&gt;  (&quot;scala&quot;, &quot;functional&quot;, &quot;JVM&quot;) ,
+                      &quot;body&quot; -&gt;  &quot;...&quot;)
+
+coll += MongoDBObject(&quot;title&quot; -&gt; &quot;Programming Clojure&quot; ,
+                      &quot;author&quot; -&gt; &quot;Stuart&quot;,
+                      &quot;pageViews&quot; -&gt;  35,
+                      &quot;tags&quot; -&gt;  (&quot;clojure&quot;, &quot;functional&quot;, &quot;JVM&quot;) ,
+                      &quot;body&quot; -&gt;  &quot;...&quot;)
+
+coll += MongoDBObject(&quot;title&quot; -&gt; &quot;MongoDB: The Definitive Guide&quot; ,
+                      &quot;author&quot; -&gt; &quot;Kristina&quot;,
+                      &quot;pageViews&quot; -&gt;  90,
+                      &quot;tags&quot; -&gt;  (&quot;databases&quot;, &quot;nosql&quot;, &quot;future&quot;) ,
+                      &quot;body&quot; -&gt;  &quot;...&quot;)
+</code></pre>
+
+<p>The following example aggregation operation pivots data to create a set
+of author names grouped by tags applied to an article. Call the
+aggregation framework by issuing the following command:</p>
+
+<pre><code class="language-scala">val db = MongoClient()(&quot;test&quot;)
+val coll = db(&quot;aggregate&quot;)
+
+val results = coll.aggregate(
+  List(
+    MongoDBObject(&quot;$project&quot; -&gt;
+      MongoDBObject(&quot;author&quot; -&gt; 1, &quot;tags&quot; -&gt; 1)
+    ),
+    MongoDBObject(&quot;$unwind&quot; -&gt; &quot;$tags&quot;),
+    MongoDBObject(&quot;$group&quot; -&gt;
+      MongoDBObject(&quot;_id&quot; -&gt; &quot;$tags&quot;,
+                    &quot;authors&quot; -&gt; MongoDBObject(&quot;$addToSet&quot; -&gt; &quot;$author&quot;)
+      )
+    )
+  )
+)
+</code></pre>
+
+<p>The results of the aggregation themselves can be accessed via <code>results</code>.</p>
+
+<h3 id="aggregation-cursor-interface-new-in-casbah-2-7">Aggregation Cursor Interface - new in casbah 2.7</h3>
+
+<p>MongoDB 2.6 adds the ability to return a cursor from the aggregation
+framework. To do that simply use AggregationOptions with the aggregation
+command:</p>
+
+<pre><code class="language-scala">val db = MongoClient()(&quot;test&quot;)
+val coll = db(&quot;aggregate&quot;)
+
+val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
+val results = coll.aggregate(
+  List(
+    MongoDBObject(&quot;$project&quot; -&gt;
+      MongoDBObject(&quot;author&quot; -&gt; 1, &quot;tags&quot; -&gt; 1)
+    ),
+    MongoDBObject(&quot;$unwind&quot; -&gt; &quot;$tags&quot;),
+    MongoDBObject(&quot;$group&quot; -&gt;
+      MongoDBObject(&quot;_id&quot; -&gt; &quot;$tags&quot;,
+                    &quot;authors&quot; -&gt; MongoDBObject(&quot;$addToSet&quot; -&gt; &quot;$author&quot;)
+      )
+    )
+  ),
+  aggregationOptions
+)
+</code></pre>
+
+<p>Then the you can iterate the results of the aggregation as a normal
+cursor:</p>
+
+<pre><code class="language-scala">for (result &lt;- results) println(result)
+</code></pre>
+
+<p>To learn more about aggregation see the <a href="http://docs.mongodb.org/manual/tutorial/aggregation-examples/">aggregation
+tutorial</a>
+and the <a href="http://docs.mongodb.org/manual/reference/aggregation/">aggregation
+reference</a>
+documentation.</p>
+
+
+
+
+
+
+<div id="btnv">
+  
+  <div class="pull-left">
+  <a class="navigation prev" href="/casbah/2.8/reference/query_dsl/">
+      <i class="fa fa-long-arrow-left"> </i> Query DSL
+  </a>
+  </div>
+  
+  
+  <div class="pull-right">
+  <a class="navigation next" href="/casbah/2.8/reference/gridfs/">
+    GridFS <i class="fa fa-long-arrow-right"> </i>
+  </a>
+  
+</div>
+</div>
+
+
+</div>
+<div class="right-column">
+<div class="wrapper">
+  
+  <div class="toc">
+    <span class="toc-header">On this page</span>
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#aggregation-framework">Aggregation Framework</a>
+<ul>
+<li><a href="#aggregation-syntax">Aggregation Syntax</a></li>
+<li><a href="#aggregation-by-example">Aggregation By Example</a>
+<ul>
+<li><a href="#aggregation-cursor-interface-new-in-casbah-2-7">Aggregation Cursor Interface - new in casbah 2.7</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+  
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</section>
+
+
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+   URL_ROOT:    "/casbah/2.8",
+   VERSION:     "2.8",
+   COLLAPSE_INDEX: false,
+   FILE_SUFFIX: '.html',
+   HAS_SOURCE:  true
+  };
+</script>
+<script type="text/javascript" src="/casbah/2.8/js/jquery.js"></script>
+<script type="text/javascript" src="/casbah/2.8/lib/bootstrap.js"></script>
+<script type="text/javascript" src="/casbah/2.8/js/navbar.js"></script>
+<script type="text/javascript" src="/casbah/2.8/lib/highlight/highlight.pack.js"></script>
+<script type="text/javascript" src="/casbah/2.8/js/scripts.js"></script>
+<script type="text/javascript" src="/casbah/2.8/lib/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script type="text/javascript" src="/casbah/2.8/js/scala.js"></script>
+
+
+
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K75Z5Q"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
+{'gtm.start': new Date().getTime(),event:'gtm.js'}
+);var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K75Z5Q');</script>
+
+
+<script type="text/javascript">
+var _elqQ = _elqQ || [];
+_elqQ.push(['elqSetSiteId', '413370795']);
+_elqQ.push(['elqTrackPageView']);
+(function () {
+function async_load()
+{ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//img03.en25.com/i/elqCfg.min.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }
+if (window.addEventListener) window.addEventListener('DOMContentLoaded', async_load, false);
+else if (window.attachEvent) window.attachEvent('onload', async_load);
+})();
+</script>
+
+</body>
+</html>
+

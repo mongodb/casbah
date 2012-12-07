@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Getting-Starteds on Casbah</title>
+    <link>/casbah/2.8/getting-started/</link>
+    <description>Recent content in Getting-Starteds on Casbah</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 23 Sep 2015 15:36:56 +0000</lastBuildDate>
+    <atom:link href="/casbah/2.8/getting-started/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Getting Started</title>
+      <link>/casbah/2.8/getting-started/</link>
+      <pubDate>Wed, 23 Sep 2015 15:36:56 +0000</pubDate>
+      
+      <guid>/casbah/2.8/getting-started/</guid>
+      <description>
+
+&lt;h2 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h2&gt;
+
+&lt;p&gt;This quick tutorial should get you up and running doing basic create, read,
+update, delete (CRUD) operations with Casbah.&lt;/p&gt;
+
+&lt;h3 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h3&gt;
+
+&lt;p&gt;Please ensure you have downloaded and installed
+&lt;a href=&#34;http://docs.mongodb.org/manual/installation/&#34;&gt;mongodb&lt;/a&gt; and have it running on
+its default host (localhost) and port (27107).&lt;/p&gt;
+
+&lt;h3 id=&#34;getting-started-1&#34;&gt;Getting started&lt;/h3&gt;
+
+&lt;p&gt;The next step is to get and install sbt, create an sbt project and install
+casbah.  I recommend using &lt;a href=&#34;https://github.com/paulp/sbt-extras&#34;&gt;sbt-extras&lt;/a&gt;
+- a special sbt script for installing and running sbt.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Create a project directory: &lt;code&gt;mkdir casbah_tutorial &amp;amp;&amp;amp; cd casbah_tutorial&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Install sbt-extras script:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;  curl https://raw.github.com/paulp/sbt-extras/master/sbt &amp;gt; sbt
+  chmod +ux sbt
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Create an sbt build file: `build.sbt:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;name := &amp;quot;Casbah Tutorial&amp;quot;
+
+
+version := &amp;quot;0.1&amp;quot;
+
+
+scalaVersion := &amp;quot;2.11.4&amp;quot;
+
+
+libraryDependencies += &amp;quot;org.mongodb&amp;quot; %% &amp;quot;casbah&amp;quot; % &amp;quot;|release|&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Run the console and test (sbt will automatically install the dependencies):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ ./sbt console
+scala&amp;gt; import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.Imports._
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If you had any errors installing casbah please refer to the
+&lt;a href=&#34;/casbah/2.8/casbah/2.8/reference/installation/&#34;&gt;installation guide&lt;/a&gt;, otherwise you
+are ready to start using casbah!&lt;/p&gt;
+
+&lt;h3 id=&#34;connecting-to-mongodb&#34;&gt;Connecting to MongoDB&lt;/h3&gt;
+
+&lt;p&gt;The first step of using Casbah is to connect to MongoDB.  Remember, this
+tutorial expects MongoDB to be running on localhost on port 27017.
+&lt;a href=&#34;http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoClient&#34;&gt;MongoClient&lt;/a&gt; is the connection class.&lt;/p&gt;
+
+&lt;p&gt;Load the scala shell &lt;code&gt;./sbt console&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;import com.mongodb.casbah.Imports._
+val mongoClient = MongoClient(&amp;quot;localhost&amp;quot;, 27017)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are various connection configuration options see the
+&lt;a href=&#34;/casbah/2.8/casbah/2.8/reference/connecting/&#34;&gt;connection guide&lt;/a&gt; for more information.&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;The scala repl has tab completion type: &lt;code&gt;mongoClient.&amp;lt;tab&amp;gt;&lt;/code&gt; for a list of all
+ the operations you can run on a connection.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;getting-databases-and-collections&#34;&gt;Getting databases and collections&lt;/h3&gt;
+
+&lt;p&gt;In MongoDB a database doesn&amp;rsquo;t need to exist prior to connecting to it, simply
+adding  documents to a collection is enough to create the database.&lt;/p&gt;
+
+&lt;p&gt;Try connecting to the &amp;ldquo;test&amp;rdquo; database and getting a list all the collections:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val db = mongoClient(&amp;quot;test&amp;quot;)
+db.collectionNames
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If your database is new then &lt;code&gt;db.collectionNames&lt;/code&gt; will return an empty &lt;code&gt;Set&lt;/code&gt;,
+otherwise it will list the collections in the database.&lt;/p&gt;
+
+&lt;p&gt;The next step before starting to add, update and remove documents is to get a
+collection :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val coll = db(&amp;quot;test&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;coll&lt;/code&gt; is the &amp;ldquo;test&amp;rdquo; collection in the &amp;ldquo;test&amp;rdquo; database. You are now ready to
+begin adding documents.&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;If you had an existing &amp;ldquo;test&amp;rdquo; collection drop it first: &lt;code&gt;coll.drop()&lt;/code&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;doing-crud-operations&#34;&gt;Doing CRUD operations&lt;/h3&gt;
+
+&lt;p&gt;Inserting, reading, updating and deleting documents in MongoDB is simple.
+The &lt;code&gt;MongoDBObject&lt;/code&gt; is a Map-like object that represents a MongoDB Document.&lt;/p&gt;
+
+&lt;h4 id=&#34;create&#34;&gt;Create&lt;/h4&gt;
+
+&lt;p&gt;Create two documents &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val a = MongoDBObject(&amp;quot;hello&amp;quot; -&amp;gt; &amp;quot;world&amp;quot;)
+val b = MongoDBObject(&amp;quot;language&amp;quot; -&amp;gt; &amp;quot;scala&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Insert the documents:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;coll.insert( a )
+coll.insert( b )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;read&#34;&gt;Read&lt;/h4&gt;
+
+&lt;p&gt;Count the number of documents in the &amp;ldquo;test&amp;rdquo; collection:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;coll.count()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Use &lt;code&gt;find&lt;/code&gt; to query the database and return an iterable cursor, then print
+out the string representation of each document:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val allDocs = coll.find()
+println( allDocs )
+for(doc &amp;lt;- allDocs) println( doc )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;You may notice an extra field in the document: &lt;code&gt;_id&lt;/code&gt;. This is the primary key
+for a document, if you don&amp;rsquo;t supply an &lt;code&gt;_id&lt;/code&gt; an &lt;code&gt;ObjectId&lt;/code&gt; will be created for
+you.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;By providing a &lt;code&gt;MongoDBObject&lt;/code&gt; to the &lt;code&gt;find&lt;/code&gt; method you can filter the
+results:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val hello = MongoDBObject(&amp;quot;hello&amp;quot; -&amp;gt; &amp;quot;world&amp;quot;)
+val helloWorld = coll.findOne( hello )
+
+// Find a document that doesn&#39;t exist
+val goodbye = MongoDBObject(&amp;quot;goodbye&amp;quot; -&amp;gt; &amp;quot;world&amp;quot;)
+val goodbyeWorld = coll.findOne( goodbye )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;Notice that &lt;code&gt;find&lt;/code&gt; returns a Cursor and &lt;code&gt;findOne&lt;/code&gt; returns an &lt;code&gt;Option&lt;/code&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h4 id=&#34;update&#34;&gt;Update&lt;/h4&gt;
+
+&lt;p&gt;Now you have some data in MongoDB, how do you change it?  MongoDB provides a
+powerful &lt;code&gt;update&lt;/code&gt; method that allows you to change single or multiple
+documents.&lt;/p&gt;
+
+&lt;p&gt;First, find the scala document and add its platform:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val query = MongoDBObject(&amp;quot;language&amp;quot; -&amp;gt; &amp;quot;scala&amp;quot;)
+val update = MongoDBObject(&amp;quot;platform&amp;quot; -&amp;gt; &amp;quot;JVM&amp;quot;)
+val result = coll.update( query, update )
+
+println(&amp;quot;Number updated: &amp;quot; + result.getN)
+for (c &amp;lt;- coll.find) println(c)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition warning&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;warning&lt;/h5&gt;
+&lt;p&gt;You will notice that the document is now missing &lt;code&gt;&amp;quot;language&amp;quot; -&amp;gt; &amp;quot;scala&amp;quot;&lt;/code&gt;! This is because when using update if you provide a simple document it will replace the existing one with the new document.&lt;/p&gt;
+
+&lt;p&gt;This is the most common gotcha for newcomers to MongoDB.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;MongoDB comes with a host of
+&lt;a href=&#34;http://docs.mongodb.org/manual/core/update/#crud-update-operators&#34;&gt;update operators&lt;/a&gt;
+to modify documents.  Casbah has a powerful :doc:&lt;code&gt;DSL &amp;lt;guide/querying&amp;gt;&lt;/code&gt; for
+creating these update documents. Lets set the language to scala for the JVM document:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val query = MongoDBObject(&amp;quot;platform&amp;quot; -&amp;gt; &amp;quot;JVM&amp;quot;)
+val update = $set(&amp;quot;language&amp;quot; -&amp;gt; &amp;quot;Scala&amp;quot;)
+val result = coll.update( query, update )
+
+println( &amp;quot;Number updated: &amp;quot; + result.getN )
+for ( c &amp;lt;- coll.find ) println( c )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;h5 class=&#34;admonition-title&#34;&gt;Note&lt;/h5&gt;
+&lt;p&gt;By default &lt;code&gt;update&lt;/code&gt; will only update a single document - to update
+&lt;em&gt;all&lt;/em&gt; the documents set the multi flag: &lt;code&gt;.update( query, update, multi=true)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Another useful feature of the &lt;code&gt;update&lt;/code&gt; command is it also allows you to
+&lt;code&gt;upsert&lt;/code&gt; documents on the fly.  Setting &lt;code&gt;upsert=True&lt;/code&gt; will insert the
+document if doesn&amp;rsquo;t exist, otherwise update it::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val query = MongoDBObject(&amp;quot;language&amp;quot; -&amp;gt; &amp;quot;clojure&amp;quot;)
+val update = $set(&amp;quot;platform&amp;quot; -&amp;gt; &amp;quot;JVM&amp;quot;)
+val result = coll.update( query, update, upsert=true )
+
+println( &amp;quot;Number updated: &amp;quot; + result.getN )
+for (c &amp;lt;- coll.find) println(c)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;removing&#34;&gt;Removing&lt;/h4&gt;
+
+&lt;p&gt;The final part of the tutorial is removing documents.  Remove is the similar to
+&lt;code&gt;find&lt;/code&gt;, in that you provide a query of documents to match against:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val query = MongoDBObject(&amp;quot;language&amp;quot; -&amp;gt; &amp;quot;clojure&amp;quot;)
+val result = coll.remove( query )
+
+println(&amp;quot;Number removed: &amp;quot; + result.getN)
+for (c &amp;lt;- coll.find) println(c)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To remove all documents, provide a blank document to match all items in the
+database:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val query = MongoDBObject()
+val result = coll.remove( query )
+
+println( &amp;quot;Number removed: &amp;quot; + result.getN )
+println( coll.count() )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Rather than iterating the collection and removing each document, its more
+efficient to drop the collection:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;coll.drop()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;learning-more-about-casbah&#34;&gt;Learning more about Casbah&lt;/h3&gt;
+
+&lt;p&gt;If you got this far you&amp;rsquo;ve made a great start, so well done!  The next step on
+your Casbah journey is the &lt;a href=&#34;/casbah/2.8/casbah/2.8/reference/&#34;&gt;Reference&lt;/a&gt;,
+where you can learn indepth about how to use casbah and mongodb.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

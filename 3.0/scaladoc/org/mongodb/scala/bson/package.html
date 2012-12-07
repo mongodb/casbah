@@ -1,0 +1,1076 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>bson - Mongo Scala Driver - org.mongodb.scala.bson</title>
+          <meta name="description" content="bson - Mongo Scala Driver - org.mongodb.scala.bson" />
+          <meta name="keywords" content="bson Mongo Scala Driver org.mongodb.scala.bson" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../../lib/diagrams.js" id="diagrams-js"></script>
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../index.html';
+            var hash = 'org.mongodb.scala.bson.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="org">org</a>.<a href="../../package.html" class="extype" name="org.mongodb">mongodb</a>.<a href="../package.html" class="extype" name="org.mongodb.scala">scala</a></p>
+        <h1>bson</h1><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">bson</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The bson package, contains mirrors and companion objects for <code>Bson</code> values.
+</p></div><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+        </div><div class="toggleContainer block diagram-container" id="content-diagram-container">
+                <span class="toggle diagram-link">Content Hierarchy</span>
+                <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
+                <div class="diagram" id="content-diagram"><svg class="package-diagram" id="graph1" viewBox="0.00 0.00 165.00 94.00" height="94pt" width="165pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 90)" class="graph" id="graph0"><polygon points="-4,4 -4,-90 161,-90 161,4 -4,4" stroke="none" fill="white"></polygon><!-- node0 --><g class="node trait" id="graph1_0"><g id="a_trait|graph1_0"><a xlink:title="org.mongodb.scala.bson.DefaultBsonTransformers" xlink:href="DefaultBsonTransformers.html#inheritance-diagram"><polygon points="157,-86 0,-86 0,-61 157,-61 157,-86" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../lib/trait_diagram.png" y="-80.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="31.3311" text-anchor="start">DefaultBsonTransformers</text></a></g></g><!-- node1 --><g class="node object" id="graph1_1"><g id="a_object|graph1_1"><a xlink:title="org.mongodb.scala.bson.BsonTransformer" xlink:href="BsonTransformer$.html#inheritance-diagram"><polygon points="138.5,-25 18.5,-25 18.5,-0 138.5,-0 138.5,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="28.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="49.1733" text-anchor="start">BsonTransformer</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph1_0_1"><g id="a_inheritance|graph1_0_1"><a xlink:title="BsonTransformer is a subtype of DefaultBsonTransformers"><path d="M78.5,-55.6874C78.5,-45.9173 78.5,-33.8534 78.5,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="76.7501,-55.8435 78.5,-60.8435 80.2501,-55.8435 76.7501,-55.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+              </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="org.mongodb.scala.bson"><span>bson</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="org.mongodb.scala.bson.BsonArray" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonArray=org.bson.BsonArray"></a>
+      <a id="BsonArray:BsonArray"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonArray</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonArray.html class="extype" target="_top">bson.BsonArray</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonArray=org.bson.BsonArray" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonArray</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonBinary" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonBinary=org.bson.BsonBinary"></a>
+      <a id="BsonBinary:BsonBinary"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonBinary</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonBinary.html class="extype" target="_top">bson.BsonBinary</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonBinary=org.bson.BsonBinary" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonBinary</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonBoolean" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonBoolean=org.bson.BsonBoolean"></a>
+      <a id="BsonBoolean:BsonBoolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonBoolean</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonBoolean.html class="extype" target="_top">bson.BsonBoolean</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonBoolean=org.bson.BsonBoolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonBoolean</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonDateTime" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonDateTime=org.bson.BsonDateTime"></a>
+      <a id="BsonDateTime:BsonDateTime"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonDateTime</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonDateTime.html class="extype" target="_top">bson.BsonDateTime</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonDateTime=org.bson.BsonDateTime" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonDateTime</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonDocument" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonDocument=org.bson.BsonDocument"></a>
+      <a id="BsonDocument:BsonDocument"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonDocument</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonDocument.html class="extype" target="_top">bson.BsonDocument</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonDocument=org.bson.BsonDocument" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonDocument</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonDouble" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonDouble=org.bson.BsonDouble"></a>
+      <a id="BsonDouble:BsonDouble"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonDouble</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonDouble.html class="extype" target="_top">bson.BsonDouble</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonDouble=org.bson.BsonDouble" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonDouble</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonElement" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonElement=org.bson.BsonElement"></a>
+      <a id="BsonElement:BsonElement"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonElement</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonElement.html class="extype" target="_top">bson.BsonElement</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonElement=org.bson.BsonElement" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonElement</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonInt32" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonInt32=org.bson.BsonInt32"></a>
+      <a id="BsonInt32:BsonInt32"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonInt32</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonInt32.html class="extype" target="_top">bson.BsonInt32</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonInt32=org.bson.BsonInt32" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonInt32</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonInt64" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonInt64=org.bson.BsonInt64"></a>
+      <a id="BsonInt64:BsonInt64"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonInt64</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonInt64.html class="extype" target="_top">bson.BsonInt64</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonInt64=org.bson.BsonInt64" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonInt64</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonJavaScript" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonJavaScript=org.bson.BsonJavaScript"></a>
+      <a id="BsonJavaScript:BsonJavaScript"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonJavaScript</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonJavaScript.html class="extype" target="_top">bson.BsonJavaScript</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonJavaScript=org.bson.BsonJavaScript" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonJavaScript</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonJavaScriptWithScope" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonJavaScriptWithScope=org.bson.BsonJavaScriptWithScope"></a>
+      <a id="BsonJavaScriptWithScope:BsonJavaScriptWithScope"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonJavaScriptWithScope</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonJavaScriptWithScope.html class="extype" target="_top">bson.BsonJavaScriptWithScope</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonJavaScriptWithScope=org.bson.BsonJavaScriptWithScope" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonJavaScriptWithScope</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonMaxKey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonMaxKey=org.bson.BsonMaxKey"></a>
+      <a id="BsonMaxKey:BsonMaxKey"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonMaxKey</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonMaxKey.html class="extype" target="_top">bson.BsonMaxKey</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonMaxKey=org.bson.BsonMaxKey" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonMaxKey</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonMinKey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonMinKey=org.bson.BsonMinKey"></a>
+      <a id="BsonMinKey:BsonMinKey"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonMinKey</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonMinKey.html class="extype" target="_top">bson.BsonMinKey</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonMinKey=org.bson.BsonMinKey" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonMinKey</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonNull" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonNull=org.bson.BsonNull"></a>
+      <a id="BsonNull:BsonNull"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonNull</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonNull.html class="extype" target="_top">bson.BsonNull</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonNull=org.bson.BsonNull" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonNull</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonNumber" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonNumber=org.bson.BsonNumber"></a>
+      <a id="BsonNumber:BsonNumber"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonNumber</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonNumber.html class="extype" target="_top">bson.BsonNumber</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonNumber=org.bson.BsonNumber" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonNumber</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonObjectId" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonObjectId=org.bson.BsonObjectId"></a>
+      <a id="BsonObjectId:BsonObjectId"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonObjectId</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonObjectId.html class="extype" target="_top">bson.BsonObjectId</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonObjectId=org.bson.BsonObjectId" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonObjectId</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonRegularExpression" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonRegularExpression=org.bson.BsonRegularExpression"></a>
+      <a id="BsonRegularExpression:BsonRegularExpression"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonRegularExpression</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonRegularExpression.html class="extype" target="_top">bson.BsonRegularExpression</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonRegularExpression=org.bson.BsonRegularExpression" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonRegularExpression</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonString" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonString=org.bson.BsonString"></a>
+      <a id="BsonString:BsonString"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonString</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonString.html class="extype" target="_top">bson.BsonString</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonString=org.bson.BsonString" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonString</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonSymbol" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonSymbol=org.bson.BsonSymbol"></a>
+      <a id="BsonSymbol:BsonSymbol"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonSymbol</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonSymbol.html class="extype" target="_top">bson.BsonSymbol</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonSymbol=org.bson.BsonSymbol" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonSymbol</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonTimestamp" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonTimestamp=org.bson.BsonTimestamp"></a>
+      <a id="BsonTimestamp:BsonTimestamp"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonTimestamp</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonTimestamp.html class="extype" target="_top">bson.BsonTimestamp</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonTimestamp=org.bson.BsonTimestamp" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonTimestamp</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonTransformer" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="BsonTransformer[-T]extendsAnyRef"></a>
+      <a id="BsonTransformer[-T]:BsonTransformer[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonTransformer.html"><span class="name">BsonTransformer</span></a><span class="tparams">[<span name="T">-T</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonTransformer[-T]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">BsonTransformers allow the transformation of type <code>T</code> to their corresponding <a href="#BsonValue=org.bson.BsonValue" class="extmbr" name="org.mongodb.scala.bson.BsonValue">BsonValue</a>.</p><div class="fullcomment"><div class="comment cmt"><p>BsonTransformers allow the transformation of type <code>T</code> to their corresponding <a href="#BsonValue=org.bson.BsonValue" class="extmbr" name="org.mongodb.scala.bson.BsonValue">BsonValue</a>.</p><p>Custom implementations can be written to implicitly to convert a <code>T</code> into a <a href="#BsonValue=org.bson.BsonValue" class="extmbr" name="org.mongodb.scala.bson.BsonValue">BsonValue</a> so it can be stored in a <code>Document</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the type of value to be transformed into a <a href="#BsonValue=org.bson.BsonValue" class="extmbr" name="org.mongodb.scala.bson.BsonValue">BsonValue</a>.</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@implicitNotFound</span><span class="args">(<span>
+      
+      <span class="defval" name="&quot;No bson implicit transformer found for type ${T}. Implement or import an implicit BsonTransformer for this type.&quot;">...</span>
+    </span>)</span>
+              
+        </dd><dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonUndefined" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonUndefined=org.bson.BsonUndefined"></a>
+      <a id="BsonUndefined:BsonUndefined"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonUndefined</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonUndefined.html class="extype" target="_top">bson.BsonUndefined</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonUndefined=org.bson.BsonUndefined" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonUndefined</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.BsonValue" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BsonValue=org.bson.BsonValue"></a>
+      <a id="BsonValue:BsonValue"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BsonValue</span><span class="result"> = <a href=http://api.mongodb.org/java/current/index.html?org/bson/BsonValue.html class="extype" target="_top">bson.BsonValue</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonValue=org.bson.BsonValue" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Alias to <code>org.bson.BsonValue</code>
+</p>
+    </li><li name="org.mongodb.scala.bson.DefaultBsonTransformers" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DefaultBsonTransformersextendsAnyRef"></a>
+      <a id="DefaultBsonTransformers:DefaultBsonTransformers"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultBsonTransformers.html"><span class="name">DefaultBsonTransformers</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@DefaultBsonTransformersextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Default BsonTransformers for native types.</p>
+    </li><li name="org.mongodb.scala.bson.Document" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Document=org.mongodb.scala.bson.collection.Document"></a>
+      <a id="Document:Document"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Document</span><span class="result"> = <a href="collection/immutable/Document.html" class="extype" name="org.mongodb.scala.bson.collection.immutable.Document">bson.collection.immutable.Document</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@Document=org.mongodb.scala.bson.collection.Document" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An immutable Document implementation.</p><div class="fullcomment"><div class="comment cmt"><p>An immutable Document implementation.</p><p>A strictly typed <code>Map[String, BsonValue]</code> like structure that traverses the elements in insertion order. Unlike native scala maps there
+is no variance in the value type and it always has to be a <code>BsonValue</code>.
+</p></div></div>
+    </li><li name="org.mongodb.scala.bson.RichBsonElement" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RichBsonElementextendsAnyVal"></a>
+      <a id="RichBsonElement:RichBsonElement"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="package$$RichBsonElement.html"><span class="name">RichBsonElement</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyVal" class="extype" target="_top">AnyVal</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@RichBsonElementextendsAnyVal" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Implicit value class for a <a href="#BsonElement=org.bson.BsonElement" class="extmbr" name="org.mongodb.scala.bson.BsonElement">BsonElement</a> allowing easy access to the key/value pair
+</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="org.mongodb.scala.bson.BsonArray" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonArray"></a>
+      <a id="BsonArray:BsonArray"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonArray$.html"><span class="name">BsonArray</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonArray" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonArray
+</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonArray
+</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonBinary" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonBinary"></a>
+      <a id="BsonBinary:BsonBinary"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonBinary$.html"><span class="name">BsonBinary</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonBinary" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonBinary</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonBinary</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonBoolean" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonBoolean"></a>
+      <a id="BsonBoolean:BsonBoolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonBoolean$.html"><span class="name">BsonBoolean</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonBoolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonBoolean</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonBoolean</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonDateTime" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonDateTime"></a>
+      <a id="BsonDateTime:BsonDateTime"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonDateTime$.html"><span class="name">BsonDateTime</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonDateTime" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonDateTime</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonDateTime</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonDocument" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonDocument"></a>
+      <a id="BsonDocument:BsonDocument"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonDocument$.html"><span class="name">BsonDocument</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonDocument" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonDocument</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonDocument</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonDouble" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonDouble"></a>
+      <a id="BsonDouble:BsonDouble"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonDouble$.html"><span class="name">BsonDouble</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonDouble" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonDouble</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonDouble</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonElement" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonElement"></a>
+      <a id="BsonElement:BsonElement"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonElement$.html"><span class="name">BsonElement</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonElement" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A companion helper for a <code>BsonElement</code> - the mapping from a name to a BsonValue.</p><div class="fullcomment"><div class="comment cmt"><p>A companion helper for a <code>BsonElement</code> - the mapping from a name to a BsonValue.</p><p>Used by the <a href="BsonMagnets$.html" class="extype" name="org.mongodb.scala.bson.BsonMagnets">BsonMagnets</a> and polices valid key/value pairs types for <a href="#Document=org.mongodb.scala.bson.collection.Document" class="extmbr" name="org.mongodb.scala.bson.Document">Document</a>.
+</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonInt32" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonInt32"></a>
+      <a id="BsonInt32:BsonInt32"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonInt32$.html"><span class="name">BsonInt32</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonInt32" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonInt32</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonInt32</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonInt64" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonInt64"></a>
+      <a id="BsonInt64:BsonInt64"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonInt64$.html"><span class="name">BsonInt64</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonInt64" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonInt64</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonInt64</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonJavaScript" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonJavaScript"></a>
+      <a id="BsonJavaScript:BsonJavaScript"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonJavaScript$.html"><span class="name">BsonJavaScript</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonJavaScript" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonJavaScript</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonJavaScript</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonJavaScriptWithScope" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonJavaScriptWithScope"></a>
+      <a id="BsonJavaScriptWithScope:BsonJavaScriptWithScope"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonJavaScriptWithScope$.html"><span class="name">BsonJavaScriptWithScope</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonJavaScriptWithScope" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonJavaScriptWithScope</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonJavaScriptWithScope</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonMagnets" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonMagnets"></a>
+      <a id="BsonMagnets:BsonMagnets"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonMagnets$.html"><span class="name">BsonMagnets</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonMagnets" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A magnet pattern implementation enforcing the validity of user provided native values being able to be converted into <a href="#BsonValue=org.bson.BsonValue" class="extmbr" name="org.mongodb.scala.bson.BsonValue">BsonValue</a>s.</p><div class="fullcomment"><div class="comment cmt"><p>A magnet pattern implementation enforcing the validity of user provided native values being able to be converted into <a href="#BsonValue=org.bson.BsonValue" class="extmbr" name="org.mongodb.scala.bson.BsonValue">BsonValue</a>s.
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonMaxKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonMaxKey"></a>
+      <a id="BsonMaxKey:BsonMaxKey"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonMaxKey$.html"><span class="name">BsonMaxKey</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonMaxKey" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonMaxKey</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonMaxKey</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonMinKey" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonMinKey"></a>
+      <a id="BsonMinKey:BsonMinKey"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonMinKey$.html"><span class="name">BsonMinKey</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonMinKey" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonMinKey</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonMinKey</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonNull" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonNull"></a>
+      <a id="BsonNull:BsonNull"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonNull$.html"><span class="name">BsonNull</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonNull" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonNull</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonNull</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonNumber" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonNumber"></a>
+      <a id="BsonNumber:BsonNumber"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonNumber$.html"><span class="name">BsonNumber</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonNumber" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonNumber</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonNumber</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonObjectId" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonObjectId"></a>
+      <a id="BsonObjectId:BsonObjectId"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonObjectId$.html"><span class="name">BsonObjectId</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonObjectId" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonObjectId</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonObjectId</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonRegularExpression" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonRegularExpression"></a>
+      <a id="BsonRegularExpression:BsonRegularExpression"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonRegularExpression$.html"><span class="name">BsonRegularExpression</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonRegularExpression" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonRegularExpression</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonRegularExpression</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonString"></a>
+      <a id="BsonString:BsonString"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonString$.html"><span class="name">BsonString</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonString" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonString</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonString</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonSymbol" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonSymbol"></a>
+      <a id="BsonSymbol:BsonSymbol"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonSymbol$.html"><span class="name">BsonSymbol</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonSymbol" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonSymbol</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonSymbol</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonTimestamp" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonTimestamp"></a>
+      <a id="BsonTimestamp:BsonTimestamp"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonTimestamp$.html"><span class="name">BsonTimestamp</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonTimestamp" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonTimestamp</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonTimestamp</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.BsonTransformer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonTransformer"></a>
+      <a id="BsonTransformer:BsonTransformer"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonTransformer$.html"><span class="name">BsonTransformer</span></a><span class="result"> extends <a href="DefaultBsonTransformers.html" class="extype" name="org.mongodb.scala.bson.DefaultBsonTransformers">DefaultBsonTransformers</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonTransformer" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Maps the following native scala types to BsonValues:</p><div class="fullcomment"><div class="comment cmt"><p>Maps the following native scala types to BsonValues:</p><ul><li><code>BsonValue =&gt; BsonValue</code></li><li><code>Boolean =&gt; BsonBoolean</code></li><li><code>String =&gt; BsonString</code></li><li><code>Array[Byte] =&gt; BsonBinary</code></li><li><code>Regex =&gt; BsonRegex</code></li><li><code>Date =&gt; BsonDateTime</code></li><li><code>ObjectId =&gt; BsonObjectId</code></li><li><code>Int =&gt; BsonInt32</code></li><li><code>Long =&gt; BsonInt64</code></li><li><code>Double =&gt; BsonDouble</code></li><li><code>None =&gt; BsonNull</code></li><li><code>immutable.Document =&gt; BsonDocument</code></li><li><code>mutable.Document =&gt; BsonDocument</code></li><li><code>Option[T] =&gt; BsonValue</code> where <code>T</code> is one of the above types</li><li><code>Seq[(String, T)] =&gt; BsonDocument</code> where <code>T</code> is one of the above types</li><li><code>Seq[T] =&gt; BsonArray</code> where <code>T</code> is one of the above types
+</li></ul></div></div>
+    </li><li name="org.mongodb.scala.bson.BsonUndefined" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BsonUndefined"></a>
+      <a id="BsonUndefined:BsonUndefined"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BsonUndefined$.html"><span class="name">BsonUndefined</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@BsonUndefined" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion helper for a BsonUndefined</p><div class="fullcomment"><div class="comment cmt"><p>Companion helper for a BsonUndefined</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson.DefaultHelper" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DefaultHelper"></a>
+      <a id="DefaultHelper:DefaultHelper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultHelper$.html"><span class="name">DefaultHelper</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@DefaultHelper" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A helper containing the sealed <code>DefaultsTo</code> trait which is used to determine the default type for a given method.</p><div class="fullcomment"><div class="comment cmt"><p>A helper containing the sealed <code>DefaultsTo</code> trait which is used to determine the default type for a given method.
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../package.html" class="extype" name="org.mongodb.scala">org.mongodb.scala</a>] </dd><dt>Since</dt><dd><p>1.0</p></dd></dl></div>
+    </li><li name="org.mongodb.scala.bson#Document" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Document:org.mongodb.scala.bson.collection.immutable.Document.type"></a>
+      <a id="Document:bson.collection.immutable.Document.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Document</span><span class="result">: <a href="collection/immutable/Document$.html" class="extype" name="org.mongodb.scala.bson.collection.immutable.Document">bson.collection.immutable.Document</a>.type</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@Document:org.mongodb.scala.bson.collection.immutable.Document.type" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An immutable Document implementation.</p><div class="fullcomment"><div class="comment cmt"><p>An immutable Document implementation.</p><p>A strictly typed <code>Map[String, BsonValue]</code> like structure that traverses the elements in insertion order. Unlike native scala maps there
+is no variance in the value type and it always has to be a <code>BsonValue</code>.
+</p></div></div>
+    </li><li name="org.mongodb.scala.bson.codecs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="codecs"></a>
+      <a id="codecs:codecs"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="codecs/package.html"><span class="name">codecs</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@codecs" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="org.mongodb.scala.bson.collection" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="collection"></a>
+      <a id="collection:collection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="collection/package.html"><span class="name">collection</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#org.mongodb.scala.bson.package@collection" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">The collection package.</p>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
