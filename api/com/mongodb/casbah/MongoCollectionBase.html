@@ -1,0 +1,1769 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>com.mongodb.casbah.MongoCollectionBase</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../../lib/template.css" />
+      <script type="text/javascript" src="../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body onload="sh_highlightDocument('../lib/', '.min.js');" class="type">
+      <div id="definition">
+        <img src="../../../lib/trait_big.png" />
+        <p id="owner"><a name="com" class="extype" href="../../package.html">com</a>.<a name="com.mongodb" class="extype" href="../package.html">mongodb</a>.<a name="com.mongodb.casbah" class="extype" href="package.html">casbah</a></p>
+        <h1>MongoCollectionBase</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MongoCollectionBase</span><span class="result"> extends <a name="com.mongodb.casbah.commons.Logging" class="extype" href="commons/Logging.html">Logging</a></span>
+      </span>
+      </h4>
+      
+      <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Scala wrapper for Mongo DBCollections,
+including ones which return custom DBObject subclasses
+via setObjectClass and the like.
+Provides any non-parameterized methods and the basic structure.
+Requires an underlying object of a DBCollection.</p><p>This is a rewrite of the Casbah 1.0 approach which was rather
+naive and unecessarily complex.... formerly was MongoCollectionWrapper
+</p></div><dl class="attributes block"> <dt>Self Type</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="">MongoCollectionBase</a></dd><dt>Source</dt><dd><a target="_blank" href="https://rozza.github.com/casbah/api.sxr//casbah-core/MongoCollection.scala.html">MongoCollection.scala</a></dd><dt>Version</dt><dd><p>2.0, 12/23/10</p></dd><dt>Since</dt><dd><p>1.0
+</p></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.commons.Logging" class="extype" href="commons/Logging.html">Logging</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+        </div><div class="toggleContainer block">
+          <span class="toggle">Known Subclasses</span>
+          <div class="subClasses hiddenContent"><a name="com.mongodb.casbah.MongoCollection" class="extype" href="MongoCollection.html">MongoCollection</a>, <a name="com.mongodb.casbah.MongoGenericTypedCollection" class="extype" href="MongoGenericTypedCollection.html">MongoGenericTypedCollection</a>, <a name="com.mongodb.casbah.MongoTypedCollection" class="extype" href="MongoTypedCollection.html">MongoTypedCollection</a></div>
+        </div></div>
+    
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol><li class="alpha in"><span>Alphabetic</span></li><li class="inherit out"><span>By inheritance</span></li></ol>
+            </div>
+        <div id="ancestors">
+              <span class="filtertype">Inherited</span>
+              <ol><li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li></ol>
+              <ol id="linearization"><li name="com.mongodb.casbah.MongoCollectionBase" class="in"><span>MongoCollectionBase</span></li><li name="com.mongodb.casbah.commons.Logging" class="in"><span>Logging</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+            </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#CursorType" data-isabs="true">
+      <a id="CursorType:CursorType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">CursorType</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#T" data-isabs="true">
+      <a id="T:T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">T</span><span class="result"> &lt;: DBObject</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        <div class="values members" id="values">
+              <h3>Abstract Value Members</h3>
+              <ol><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#_newCursor" data-isabs="true">
+      <a id="_newCursor(DBCursor):CursorType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_newCursor</span><span class="params">(<span name="cursor">cursor: <span name="com.mongodb.DBCursor" class="extype">DBCursor</span></span>)</span><span class="result">: CursorType</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">_newCursor</p><div class="fullcomment"><div class="comment cmt"><p>_newCursor</p><p>Utility method which concrete subclasses
+are expected to implement for creating a new
+instance of the correct cursor implementation from a
+Java cursor.  Good with cursor calls that return a new cursor.
+Should figure out the right type to return based on typing setup.
+</p></div><dl class="paramcmts block"><dt class="param">cursor</dt><dd class="cmt"><p>(DBCursor)</p></dd><dt>returns</dt><dd class="cmt"><p>(MongoCursorBase)
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#_newInstance" data-isabs="true">
+      <a id="_newInstance(DBCollection):MongoCollectionBase"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_newInstance</span><span class="params">(<span name="collection">collection: <span name="com.mongodb.DBCollection" class="extype">DBCollection</span></span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="">MongoCollectionBase</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">_newInstance</p><div class="fullcomment"><div class="comment cmt"><p>_newInstance</p><p>Utility method which concrete subclasses
+are expected to implement for creating a new
+instance of THIS concrete implementation from a
+Java collection.  Good with calls that return a new collection.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>(this.type)
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#underlying" data-isabs="true">
+      <a id="underlying:DBCollection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">underlying</span><span class="result">: <span name="com.mongodb.DBCollection" class="extype">DBCollection</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">The underlying Java Mongo Driver Collection object we proxy.</p>
+    </li></ol>
+            </div>
+
+        <div class="values members" id="values">
+              <h3>Concrete Value Members</h3>
+              <ol><li visbl="pub" name="scala.AnyRef#!=" data-isabs="false">
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $bang$eq">!=</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#!=" data-isabs="false">
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $bang$eq">!=</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef###" data-isabs="false">
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $hash$hash">##</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#+=" data-isabs="false">
+      <a id="+=[A](A)((A) ⇒ DBObject):WriteResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $plus$eq">+=</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="x">x: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="com.mongodb.WriteResult" class="extype">WriteResult</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Save an object to the Collection
+</p><div class="fullcomment"><div class="comment cmt"><p>Save an object to the Collection
+</p></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>object to save to the collection
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#-=" data-isabs="false">
+      <a id="-=[A](A)((A) ⇒ DBObject):WriteResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $minus$eq">-=</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="x">x: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="com.mongodb.WriteResult" class="extype">WriteResult</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Remove a matching object from the collection
+</p><div class="fullcomment"><div class="comment cmt"><p>Remove a matching object from the collection
+</p></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>object to remove from the collection
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#==" data-isabs="false">
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $eq$eq">==</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#==" data-isabs="false">
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $eq$eq">==</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="prt" name="com.mongodb.casbah.MongoCollectionBase#_typedValue" data-isabs="false">
+      <a id="_typedValue(DBObject):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_typedValue</span><span class="params">(<span name="dbObj">dbObj: DBObject</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#addOption" data-isabs="false">
+      <a id="addOption(Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addOption</span><span class="params">(<span name="option">option: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Manipulate Network Options
+</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Network Options
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes
+</p></span>, <span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#apply" data-isabs="false">
+      <a id="apply[A](A,Boolean)((A) ⇒ DBObject):AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="jo">jo: A</span>, <span name="ensureID">ensureID: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: AnyRef</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Adds the &quot;private&quot; fields _id to an object.</p><div class="fullcomment"><div class="comment cmt"><p>Adds the &quot;private&quot; fields _id to an object.</p></div><dl class="paramcmts block"><dt class="param">jo</dt><dd class="cmt"><p>object to which to add fields</p></dd><dt class="param">ensureID</dt><dd class="cmt"><p>whether to add an <code>_id</code> field or not</p></dd><dt>returns</dt><dd class="cmt"><p>the modified object <code>o</code>
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#apply" data-isabs="false">
+      <a id="apply[A](A)((A) ⇒ DBObject):AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="o">o: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: AnyRef</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Adds the &quot;private&quot; fields _id to an object.</p><div class="fullcomment"><div class="comment cmt"><p>Adds the &quot;private&quot; fields _id to an object.</p></div><dl class="paramcmts block"><dt class="param">o</dt><dd class="cmt"><p><code>DBObject</code> to which to add fields</p></dd><dt>returns</dt><dd class="cmt"><p>the modified parameter object
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#asInstanceOf" data-isabs="false">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: AnyRef</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#collection" data-isabs="false">
+      <a id="collection(String):MongoCollection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">collection</span><span class="params">(<span name="n">n: String</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoCollection" class="extype" href="MongoCollection.html">MongoCollection</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Find a collection that is prefixed with this collection's name.</p><div class="fullcomment"><div class="comment cmt"><p>Find a collection that is prefixed with this collection's name.
+A typical use of this might be
+<blockquote>
+<pre>
+   DBCollection users = mongo.getCollection( "wiki" ).getCollection( "users" );
+</pre>
+</blockquote>
+Which is equilalent to
+<pre>
+<blockquote>
+  DBCollection users = mongo.getCollection( "wiki.users" );
+</pre>
+</blockquote></p></div><dl class="paramcmts block"><dt class="param">n</dt><dd class="cmt"><p>the name of the collection to find</p></dd><dt>returns</dt><dd class="cmt"><p>the matching collection</p><p>TODO - Make this support type construction
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#count" data-isabs="false">
+      <a id="count[A, B](A,B,Long,Long,ReadPreference)((A) ⇒ DBObject,(B) ⇒ DBObject):Long"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">count</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="query">query: A</span>, <span name="fields">fields: B</span>, <span name="limit">limit: <span name="scala.Long" class="extype">Long</span></span>, <span name="skip">skip: <span name="scala.Long" class="extype">Long</span></span>, <span name="readPrefs">readPrefs: ReadPreference</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Long" class="extype">Long</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#createIndex" data-isabs="false">
+      <a id="createIndex[A, B](A,B)((A) ⇒ DBObject,(B) ⇒ DBObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">createIndex</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="keys">keys: A</span>, <span name="options">options: B</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#createIndex" data-isabs="false">
+      <a id="createIndex[A](A)((A) ⇒ DBObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">createIndex</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="keys">keys: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Forces creation of an index on a set of fields, if one does not already exist.</p><div class="fullcomment"><div class="comment cmt"><p>Forces creation of an index on a set of fields, if one does not already exist.</p></div><dl class="paramcmts block"><dt class="param">keys</dt><dd class="cmt"><p>an object with a key set of the fields desired for the index
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#customDecoderFactory" data-isabs="false">
+      <a id="customDecoderFactory:Option[DBDecoderFactory]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">customDecoderFactory</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[<span name="com.mongodb.DBDecoderFactory" class="extype">DBDecoderFactory</span>]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#customEncoderFactory" data-isabs="false">
+      <a id="customEncoderFactory:Option[DBEncoderFactory]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">customEncoderFactory</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[<span name="com.mongodb.DBEncoderFactory" class="extype">DBEncoderFactory</span>]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#db" data-isabs="false">
+      <a id="db:MongoDB"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">db</span><span class="result">: <a name="com.mongodb.casbah.MongoDB" class="extype" href="MongoDB.html">MongoDB</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Returns the database this collection is a member of.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the database this collection is a member of.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>this collection's database
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#distinct" data-isabs="false">
+      <a id="distinct[A](String,A,ReadPreference)((A) ⇒ DBObject):Seq[Any]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">distinct</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="key">key: String</span>, <span name="query">query: A</span>, <span name="readPrefs">readPrefs: ReadPreference</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="scala.Any" class="extype">Any</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">find distinct values for a key</p><div class="fullcomment"><div class="comment cmt"><p>find distinct values for a key</p></div><dl class="paramcmts block"><dt class="param">query</dt><dd class="cmt"><p>query to apply on collection
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#drop" data-isabs="false">
+      <a id="drop():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">drop</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Drops (deletes) this collection
+</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#dropCollection" data-isabs="false">
+      <a id="dropCollection():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dropCollection</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Drops (deletes) this collection
+</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#dropIndex" data-isabs="false">
+      <a id="dropIndex(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dropIndex</span><span class="params">(<span name="name">name: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#dropIndex" data-isabs="false">
+      <a id="dropIndex[A](A)((A) ⇒ DBObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dropIndex</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="keys">keys: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#dropIndexes" data-isabs="false">
+      <a id="dropIndexes(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dropIndexes</span><span class="params">(<span name="name">name: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#dropIndexes" data-isabs="false">
+      <a id="dropIndexes():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dropIndexes</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Drops all indices from this collection
+</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#ensureIndex" data-isabs="false">
+      <a id="ensureIndex(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ensureIndex</span><span class="params">(<span name="fieldName">fieldName: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Ensures an index on this collection (that is, the index will be created if it does not exist).</p><div class="fullcomment"><div class="comment cmt"><p>Ensures an index on this collection (that is, the index will be created if it does not exist).
+ensureIndex is optimized and is inexpensive if the index already exists.
+This creates an ascending index on a particular field.</p></div></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#ensureIndex" data-isabs="false">
+      <a id="ensureIndex[A](A,String,Boolean)((A) ⇒ DBObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ensureIndex</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="keys">keys: A</span>, <span name="name">name: String</span>, <span name="unique">unique: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Ensures an optionally unique index on this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Ensures an optionally unique index on this collection.</p></div><dl class="paramcmts block"><dt class="param">keys</dt><dd class="cmt"><p>fields to use for index</p></dd><dt class="param">name</dt><dd class="cmt"><p>an identifier for the index</p></dd><dt class="param">unique</dt><dd class="cmt"><p>if the index should be unique
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#ensureIndex" data-isabs="false">
+      <a id="ensureIndex[A](A,String)((A) ⇒ DBObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ensureIndex</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="keys">keys: A</span>, <span name="name">name: String</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Ensures an index on this collection (that is, the index will be created if it does not exist).</p><div class="fullcomment"><div class="comment cmt"><p>Ensures an index on this collection (that is, the index will be created if it does not exist).
+ensureIndex is optimized and is inexpensive if the index already exists.</p></div><dl class="paramcmts block"><dt class="param">keys</dt><dd class="cmt"><p>fields to use for index</p></dd><dt class="param">name</dt><dd class="cmt"><p>an identifier for the index</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#ensureIndex" data-isabs="false">
+      <a id="ensureIndex[A, B](A,B)((A) ⇒ DBObject,(B) ⇒ DBObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ensureIndex</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="keys">keys: A</span>, <span name="options">options: B</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Ensures an index on this collection (that is, the index will be created if it does not exist).</p><div class="fullcomment"><div class="comment cmt"><p>Ensures an index on this collection (that is, the index will be created if it does not exist).
+ensureIndex is optimized and is inexpensive if the index already exists.</p></div><dl class="paramcmts block"><dt class="param">keys</dt><dd class="cmt"><p>fields to use for index</p></dd><dt class="param">options</dt><dd class="cmt"><p>options for the index (name, unique, etc)</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#ensureIndex" data-isabs="false">
+      <a id="ensureIndex[A](A)((A) ⇒ DBObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ensureIndex</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="keys">keys: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Creates an index on a set of fields, if one does not already exist.</p><div class="fullcomment"><div class="comment cmt"><p>Creates an index on a set of fields, if one does not already exist.</p></div><dl class="paramcmts block"><dt class="param">keys</dt><dd class="cmt"><p>an object with a key set of the fields desired for the index
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#equals" data-isabs="false">
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="obj">obj: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Checks if this collection is equal to another object.</p><div class="fullcomment"><div class="comment cmt"><p>Checks if this collection is equal to another object.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>if the two collections are the same object
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="">MongoCollectionBase</a> → AnyRef → Any</dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#finalize" data-isabs="false">
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#find" data-isabs="false">
+      <a id="find[A, B](A,B,Int,Int)((A) ⇒ DBObject,(B) ⇒ DBObject):CursorType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="ref">ref: A</span>, <span name="fields">fields: B</span>, <span name="numToSkip">numToSkip: <span name="scala.Int" class="extype">Int</span></span>, <span name="batchSize">batchSize: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: CursorType</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Finds an object.</p><div class="fullcomment"><div class="comment cmt"><p>Finds an object.</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>query used to search</p></dd><dt class="param">fields</dt><dd class="cmt"><p>the fields of matching objects to return</p></dd><dt class="param">numToSkip</dt><dd class="cmt"><p>will not return the first <tt>numToSkip</tt> matches</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize &lt; 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch</p></dd><dt>returns</dt><dd class="cmt"><p>the objects, if found</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#find" data-isabs="false">
+      <a id="find[A, B](A,B)((A) ⇒ DBObject,(B) ⇒ DBObject):CursorType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="ref">ref: A</span>, <span name="keys">keys: B</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: CursorType</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Queries for an object in this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Queries for an object in this collection.</p><p>An empty DBObject will match every document in the collection.
+Regardless of fields specified, the _id fields are always returned.</p><p>An example that returns the &quot;x&quot; and &quot;_id&quot; fields for every document
+in the collection that has an &quot;x&quot; field:</p><p><blockquote>
+<pre>
+BasicDBObject keys = new BasicDBObject();
+keys.put("x", 1);
+
+DBCursor cursor = collection.find(new BasicDBObject(), keys);
+</pre>
+</blockquote>
+</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>object for which to search</p></dd><dt class="param">keys</dt><dd class="cmt"><p>fields to return</p></dd><dt>returns</dt><dd class="cmt"><p>a cursor to iterate over results</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#find" data-isabs="false">
+      <a id="find[A](A)((A) ⇒ DBObject):CursorType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="ref">ref: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: CursorType</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Queries for an object in this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Queries for an object in this collection.</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>object for which to search</p></dd><dt>returns</dt><dd class="cmt"><p>an iterator over the results</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#find" data-isabs="false">
+      <a id="find():CursorType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="params">()</span><span class="result">: CursorType</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Queries for all objects in this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Queries for all objects in this collection.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a cursor which will iterate over every object</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findAndModify" data-isabs="false">
+      <a id="findAndModify[A, B, C, D](A,B,C,Boolean,D,Boolean,Boolean)((A) ⇒ DBObject,(B) ⇒ DBObject,(C) ⇒ DBObject,(D) ⇒ DBObject):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findAndModify</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>, <span name="C">C</span>, <span name="D">D</span>]</span><span class="params">(<span name="query">query: A</span>, <span name="fields">fields: B</span>, <span name="sort">sort: C</span>, <span name="remove">remove: <span name="scala.Boolean" class="extype">Boolean</span></span>, <span name="update">update: D</span>, <span name="returnNew">returnNew: <span name="scala.Boolean" class="extype">Boolean</span></span>, <span name="upsert">upsert: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>, <span name="arg2">arg2: (C) ⇒ DBObject</span>, <span name="arg3">arg3: (D) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Finds the first document in the query and updates it.</p><div class="fullcomment"><div class="comment cmt"><p>Finds the first document in the query and updates it.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the old document
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findAndModify" data-isabs="false">
+      <a id="findAndModify[A, B, C](A,B,C)((A) ⇒ DBObject,(B) ⇒ DBObject,(C) ⇒ DBObject):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findAndModify</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>, <span name="C">C</span>]</span><span class="params">(<span name="query">query: A</span>, <span name="sort">sort: B</span>, <span name="update">update: C</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>, <span name="arg2">arg2: (C) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Finds the first document in the query (sorted) and updates it.</p><div class="fullcomment"><div class="comment cmt"><p>Finds the first document in the query (sorted) and updates it.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the old document
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findAndModify" data-isabs="false">
+      <a id="findAndModify[A, B](A,B)((A) ⇒ DBObject,(B) ⇒ DBObject):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findAndModify</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="query">query: A</span>, <span name="update">update: B</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Finds the first document in the query (sorted) and updates it.</p><div class="fullcomment"><div class="comment cmt"><p>Finds the first document in the query (sorted) and updates it.
+If remove is specified it will be removed. If new is specified then the updated
+document will be returned, otherwise the old document is returned (or it would be lost forever).
+You can also specify the fields to return in the document, optionally.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>(Option[T]) of the the found document (before, or after the update)
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findAndRemove" data-isabs="false">
+      <a id="findAndRemove[A](A)((A) ⇒ DBObject):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findAndRemove</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Finds the first document in the query and removes it.</p><div class="fullcomment"><div class="comment cmt"><p>Finds the first document in the query and removes it.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the removed document
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findOne" data-isabs="false">
+      <a id="findOne[A, B](A,B,ReadPreference)((A) ⇒ DBObject,(B) ⇒ DBObject):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findOne</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="o">o: A</span>, <span name="fields">fields: B</span>, <span name="readPrefs">readPrefs: ReadPreference</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Returns a single object from this collection matching the query.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a single object from this collection matching the query.</p></div><dl class="paramcmts block"><dt class="param">o</dt><dd class="cmt"><p>the query object</p></dd><dt class="param">fields</dt><dd class="cmt"><p>fields to return</p></dd><dt>returns</dt><dd class="cmt"><p>(Option[T]) Some() of the object found, or <code>None</code> if no such object exists</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findOne" data-isabs="false">
+      <a id="findOne[A](A)((A) ⇒ DBObject):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findOne</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="o">o: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Returns a single object from this collection matching the query.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a single object from this collection matching the query.</p></div><dl class="paramcmts block"><dt class="param">o</dt><dd class="cmt"><p>the query object</p></dd><dt>returns</dt><dd class="cmt"><p>(Option[T]) Some() of the object found, or <code>None</code> if no such object exists
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findOne" data-isabs="false">
+      <a id="findOne():Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findOne</span><span class="params">()</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Returns a single object from this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a single object from this collection.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>(Option[T]) Some() of the object found, or <code>None</code> if this collection is empty
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findOneByID" data-isabs="false">
+      <a id="findOneByID[B](AnyRef,B)((B) ⇒ DBObject):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findOneByID</span><span class="tparams">[<span name="B">B</span>]</span><span class="params">(<span name="id">id: AnyRef</span>, <span name="fields">fields: B</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Find an object by its ID.</p><div class="fullcomment"><div class="comment cmt"><p>Find an object by its ID.
+Finds an object by its id. This compares the passed in
+value to the _id field of the document.</p><p>Returns a single object from this collection matching the query.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the id to match</p></dd><dt class="param">fields</dt><dd class="cmt"><p>fields to return</p></dd><dt>returns</dt><dd class="cmt"><p>(Option[T]) Some() of the object found, or <code>None</code> if no such object exists</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findOneByID" data-isabs="false">
+      <a id="findOneByID(AnyRef):Option[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findOneByID</span><span class="params">(<span name="id">id: AnyRef</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Find an object by its ID.</p><div class="fullcomment"><div class="comment cmt"><p>Find an object by its ID.
+Finds an object by its id. This compares the passed in
+value to the _id field of the document.</p><p>Returns a single object from this collection matching the query.</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the id to match</p></dd><dt>returns</dt><dd class="cmt"><p>(Option[T]) Some() of the object found, or <code>None</code> if no such object exists
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#fullName" data-isabs="false">
+      <a id="fullName:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fullName</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Returns the full name of this collection, with the database name as a prefix.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the full name of this collection, with the database name as a prefix.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the name of this collection
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
+      <a id="getClass():java.lang.Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: java.lang.Class[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getCollection" data-isabs="false">
+      <a id="getCollection(String):MongoCollection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getCollection</span><span class="params">(<span name="n">n: String</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoCollection" class="extype" href="MongoCollection.html">MongoCollection</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Find a collection that is prefixed with this collection's name.</p><div class="fullcomment"><div class="comment cmt"><p>Find a collection that is prefixed with this collection's name.
+A typical use of this might be
+<blockquote>
+<pre>
+   DBCollection users = mongo.getCollection( "wiki" ).getCollection( "users" );
+</pre>
+</blockquote>
+Which is equilalent to
+<pre>
+<blockquote>
+  DBCollection users = mongo.getCollection( "wiki.users" );
+</pre>
+</blockquote></p></div><dl class="paramcmts block"><dt class="param">n</dt><dd class="cmt"><p>the name of the collection to find</p></dd><dt>returns</dt><dd class="cmt"><p>the matching collection</p><p>TODO - Make this support type construction
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getCount" data-isabs="false">
+      <a id="getCount[A, B](A,B,Long,Long,ReadPreference)((A) ⇒ DBObject,(B) ⇒ DBObject):Long"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getCount</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="query">query: A</span>, <span name="fields">fields: B</span>, <span name="limit">limit: <span name="scala.Long" class="extype">Long</span></span>, <span name="skip">skip: <span name="scala.Long" class="extype">Long</span></span>, <span name="readPrefs">readPrefs: ReadPreference</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Long" class="extype">Long</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt"> Returns the number of documents in the collection
+ that match the specified query
+</p><div class="fullcomment"><div class="comment cmt"><p> Returns the number of documents in the collection
+ that match the specified query
+</p></div><dl class="paramcmts block"><dt class="param">query</dt><dd class="cmt"><p>query to select documents to count</p></dd><dt class="param">fields</dt><dd class="cmt"><p>fields to return</p></dd><dt class="param">limit</dt><dd class="cmt"><p>Max # of fields</p></dd><dt class="param">skip</dt><dd class="cmt"><p># of fields to skip</p></dd><dt>returns</dt><dd class="cmt"><p>number of documents that match query and fields
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getDB" data-isabs="false">
+      <a id="getDB():MongoDB"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDB</span><span class="params">()</span><span class="result">: <a name="com.mongodb.casbah.MongoDB" class="extype" href="MongoDB.html">MongoDB</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Returns the database this collection is a member of.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the database this collection is a member of.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>this collection's database
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getFullName" data-isabs="false">
+      <a id="getFullName():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getFullName</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Returns the full name of this collection, with the database name as a prefix.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the full name of this collection, with the database name as a prefix.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the name of this collection
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getIndexInfo" data-isabs="false">
+      <a id="getIndexInfo():Seq[DBObject]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getIndexInfo</span><span class="params">()</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="com.mongodb.DBObject" class="extype">DBObject</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">  Return a list of the indexes for this collection.</p><div class="fullcomment"><div class="comment cmt"><p>  Return a list of the indexes for this collection.  Each object
+  in the list is the &quot;info document&quot; from MongoDB
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>list of index documents
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getLastError" data-isabs="false">
+      <a id="getLastError(Int,Int,Boolean):CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLastError</span><span class="params">(<span name="w">w: <span name="scala.Int" class="extype">Int</span></span>, <span name="wTimeout">wTimeout: <span name="scala.Int" class="extype">Int</span></span>, <span name="fsync">fsync: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <span name="com.mongodb.CommandResult" class="extype">CommandResult</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getLastError" data-isabs="false">
+      <a id="getLastError(WriteConcern):CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLastError</span><span class="params">(<span name="concern">concern: WriteConcern</span>)</span><span class="result">: <span name="com.mongodb.CommandResult" class="extype">CommandResult</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getLastError" data-isabs="false">
+      <a id="getLastError():CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLastError</span><span class="params">()</span><span class="result">: <span name="com.mongodb.CommandResult" class="extype">CommandResult</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt"> Gets the the error (if there is one) from the previous operation.</p><div class="fullcomment"><div class="comment cmt"><p> Gets the the error (if there is one) from the previous operation.  The result of
+ this command will look like</p><p><pre>
+{ "err" :  errorMessage  , "ok" : 1.0 }
+</pre></p><p>The value for errorMessage will be null if no error occurred, or a description otherwise.</p><p>Care must be taken to ensure that calls to getLastError go to the same connection as that
+of the previous operation. See com.mongodb.Mongo.requestStart for more information.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>DBObject with error and status information
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getName" data-isabs="false">
+      <a id="getName():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getName</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getObjectClass" data-isabs="false">
+      <a id="getObjectClass():java.lang.Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getObjectClass</span><span class="params">()</span><span class="result">: java.lang.Class[_]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Gets the default class for objects in the collection</p><div class="fullcomment"><div class="comment cmt"><p>Gets the default class for objects in the collection</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the class
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getOptions" data-isabs="false">
+      <a id="getOptions():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getOptions</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Manipulate Network Options
+</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Network Options
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes
+</p></span>, <span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getReadPreference" data-isabs="false">
+      <a id="getReadPreference:ReadPreference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getReadPreference</span><span class="result">: <span name="com.mongodb.ReadPreference" class="extype">ReadPreference</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Gets the read preference for this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Gets the read preference for this collection. Will be used as default for
+reads from any collection in this collection. See the
+documentation for <code> ReadPreference</code> for more information.
+</p></div></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getStats" data-isabs="false">
+      <a id="getStats():CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStats</span><span class="params">()</span><span class="result">: <span name="com.mongodb.CommandResult" class="extype">CommandResult</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getWriteConcern" data-isabs="false">
+      <a id="getWriteConcern:WriteConcern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getWriteConcern</span><span class="result">: <span name="com.mongodb.WriteConcern" class="extype">WriteConcern</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">get the write concern for this database,
+which is used for writes to any collection in this database.</p><div class="fullcomment"><div class="comment cmt"><p>get the write concern for this database,
+which is used for writes to any collection in this database.
+See the documentation for <code> com.mongodb.WriteConcern</code> for more info.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+</p></span>, <span class="cmt"><p>WriteConcern</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#group" data-isabs="false">
+      <a id="group[A, B, C](A,B,C,String,String,ReadPreference)((A) ⇒ DBObject,(B) ⇒ DBObject,(C) ⇒ DBObject):Iterable[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">group</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>, <span name="C">C</span>]</span><span class="params">(<span name="key">key: A</span>, <span name="cond">cond: B</span>, <span name="initial">initial: C</span>, <span name="reduce">reduce: String</span>, <span name="finalize">finalize: String</span>, <span name="readPrefs">readPrefs: ReadPreference</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>, <span name="arg2">arg2: (C) ⇒ DBObject</span>)</span><span class="result">: Iterable[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Enables you to call group with the finalize parameter (a function that runs on each
+row of the output for calculations before sending a return) which the Mongo Java driver does not yet
+support, by sending a direct DBObject command.</p><div class="fullcomment"><div class="comment cmt"><p>Enables you to call group with the finalize parameter (a function that runs on each
+row of the output for calculations before sending a return) which the Mongo Java driver does not yet
+support, by sending a direct DBObject command.  Messy, but it works.
+</p></div></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#hashCode" data-isabs="false">
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="">MongoCollectionBase</a> → AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#hintFields_=" data-isabs="false">
+      <a id="hintFields_=[A](List[A])((A) ⇒ DBObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: hintFields_$eq">hintFields_=</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="docs">docs: List[A]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Set hint fields for this collection.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#indexInfo" data-isabs="false">
+      <a id="indexInfo:Seq[DBObject]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">indexInfo</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="com.mongodb.DBObject" class="extype">DBObject</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">  Return a list of the indexes for this collection.</p><div class="fullcomment"><div class="comment cmt"><p>  Return a list of the indexes for this collection.  Each object
+  in the list is the &quot;info document&quot; from MongoDB
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>list of index documents
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#insert" data-isabs="false">
+      <a id="insert[A](A*)((A) ⇒ DBObject,WriteConcern,DBEncoder):WriteResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">insert</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="docs">docs: A*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dbObjView">dbObjView: (A) ⇒ DBObject</span>, <span name="concern">concern: <span name="com.mongodb.WriteConcern" class="extype">WriteConcern</span></span>, <span name="encoder">encoder: DBEncoder</span>)</span><span class="result">: WriteResult</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Saves document(s) to the database.</p><div class="fullcomment"><div class="comment cmt"><p>Saves document(s) to the database.
+if doc doesn't have an _id, one will be added
+you can get the _id that was added from doc after the insert
+</p></div></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#insert" data-isabs="false">
+      <a id="insert[A](A,WriteConcern)((A) ⇒ DBObject):WriteResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">insert</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="doc">doc: A</span>, <span name="concern">concern: <span name="com.mongodb.WriteConcern" class="extype">WriteConcern</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dbObjView">dbObjView: (A) ⇒ DBObject</span>)</span><span class="result">: WriteResult</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Saves document(s) to the database.</p><div class="fullcomment"><div class="comment cmt"><p>Saves document(s) to the database.
+if doc doesn't have an _id, one will be added
+you can get the _id that was added from doc after the insert
+</p></div></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#internalClass_=" data-isabs="false">
+      <a id="internalClass_=(String,Class[_]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: internalClass_$eq">internalClass_=</span><span class="params">(<span name="path">path: String</span>, <span name="c">c: Class[_]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#isCapped" data-isabs="false">
+      <a id="isCapped:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isCapped</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#iterator" data-isabs="false">
+      <a id="iterator:CursorType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">iterator</span><span class="result">: CursorType</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#lastError" data-isabs="false">
+      <a id="lastError(Int,Int,Boolean):CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lastError</span><span class="params">(<span name="w">w: <span name="scala.Int" class="extype">Int</span></span>, <span name="wTimeout">wTimeout: <span name="scala.Int" class="extype">Int</span></span>, <span name="fsync">fsync: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <span name="com.mongodb.CommandResult" class="extype">CommandResult</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#lastError" data-isabs="false">
+      <a id="lastError(WriteConcern):CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lastError</span><span class="params">(<span name="concern">concern: WriteConcern</span>)</span><span class="result">: <span name="com.mongodb.CommandResult" class="extype">CommandResult</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#lastError" data-isabs="false">
+      <a id="lastError():CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lastError</span><span class="params">()</span><span class="result">: <span name="com.mongodb.CommandResult" class="extype">CommandResult</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="prt" name="com.mongodb.casbah.commons.Logging#log" data-isabs="false">
+      <a id="log:Logger"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">log</span><span class="result">: <a name="com.mongodb.casbah.commons.Logger" class="extype" href="commons/Logger.html">Logger</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="com.mongodb.casbah" class="extype" href="package.html">casbah</a>] </dd><dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.commons.Logging" class="extype" href="commons/Logging.html">Logging</a></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#mapReduce" data-isabs="false">
+      <a id="mapReduce(MapReduceCommand):MapReduceResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mapReduce</span><span class="params">(<span name="cmd">cmd: <a name="com.mongodb.casbah.map_reduce.MapReduceCommand" class="extype" href="map_reduce/MapReduceCommand.html">MapReduceCommand</a></span>)</span><span class="result">: <a name="com.mongodb.casbah.map_reduce.MapReduceResult" class="extype" href="map_reduce/MapReduceResult.html">MapReduceResult</a></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#mapReduce" data-isabs="false">
+      <a id="mapReduce(JSFunction,JSFunction,MapReduceOutputTarget,Option[DBObject],Option[DBObject],Option[Int],Option[JSFunction],Option[String],Boolean):MapReduceResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mapReduce</span><span class="params">(<span name="mapFunction">mapFunction: JSFunction</span>, <span name="reduceFunction">reduceFunction: JSFunction</span>, <span name="output">output: MapReduceOutputTarget</span>, <span name="query">query: <span name="scala.Option" class="extype">Option</span>[DBObject] = <span class="symbol"><span class="name"><a href="../../../scala/package.html">None</a></span></span></span>, <span name="sort">sort: <span name="scala.Option" class="extype">Option</span>[DBObject] = <span class="symbol"><span class="name"><a href="../../../scala/package.html">None</a></span></span></span>, <span name="limit">limit: <span name="scala.Option" class="extype">Option</span>[<span name="scala.Int" class="extype">Int</span>] = <span class="symbol"><span class="name"><a href="../../../scala/package.html">None</a></span></span></span>, <span name="finalizeFunction">finalizeFunction: <span name="scala.Option" class="extype">Option</span>[JSFunction] = <span class="symbol"><span class="name"><a href="../../../scala/package.html">None</a></span></span></span>, <span name="jsScope">jsScope: <span name="scala.Option" class="extype">Option</span>[String] = <span class="symbol"><span class="name"><a href="../../../scala/package.html">None</a></span></span></span>, <span name="verbose">verbose: <span name="scala.Boolean" class="extype">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <a name="com.mongodb.casbah.map_reduce.MapReduceResult" class="extype" href="map_reduce/MapReduceResult.html">MapReduceResult</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">mapReduce
+Execute a mapReduce against this collection.</p><div class="fullcomment"><div class="comment cmt"><p>mapReduce
+Execute a mapReduce against this collection.
+NOTE: JSFunction is just a type alias for String
+</p></div><dl class="paramcmts block"><dt class="param">mapFunction</dt><dd class="cmt"><p>(JSFunction) The JavaScript to execute for the map function</p></dd><dt class="param">reduceFunction</dt><dd class="cmt"><p>(JSFunction) The JavaScript to execute for the reduce function</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#name" data-isabs="false">
+      <a id="name:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">name</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notify" data-isabs="false">
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notifyAll" data-isabs="false">
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#objectClass" data-isabs="false">
+      <a id="objectClass:java.lang.Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">objectClass</span><span class="result">: java.lang.Class[_]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Gets the default class for objects in the collection</p><div class="fullcomment"><div class="comment cmt"><p>Gets the default class for objects in the collection</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the class
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#objectClass_=" data-isabs="false">
+      <a id="objectClass_=[A&lt;:DBObject](Class[A])(Manifest[A]):MongoGenericTypedCollection[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: objectClass_$eq">objectClass_=</span><span class="tparams">[<span name="A">A &lt;: DBObject</span>]</span><span class="params">(<span name="c">c: Class[A]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: Manifest[A]</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoGenericTypedCollection" class="extype" href="MongoGenericTypedCollection.html">MongoGenericTypedCollection</a>[A]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">setObjectClass</p><div class="fullcomment"><div class="comment cmt"><p>setObjectClass</p><p>Set a subtype of DBObject which will be used
+to deserialize documents returned from MongoDB.</p><p>This method will return a new <code>MongoTypedCollection[A]</code>
+which you should capture if you want explicit casting.
+Else, this collection will instantiate instances of A but cast them to
+the current <code>T</code> (DBObject if you have a generic collection)
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>A Subtype of DBObject</p></dd><dt class="param">c</dt><dd class="cmt"><p>(Class[A])</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#options" data-isabs="false">
+      <a id="options:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">options</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Manipulate Network Options
+</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Network Options
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes
+</p></span>, <span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#readPreference" data-isabs="false">
+      <a id="readPreference:ReadPreference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readPreference</span><span class="result">: <span name="com.mongodb.ReadPreference" class="extype">ReadPreference</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Gets the read preference for this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Gets the read preference for this collection. Will be used as default for
+reads from any collection in this collection. See the
+documentation for <code> ReadPreference</code> for more information.
+</p></div></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#readPreference_=" data-isabs="false">
+      <a id="readPreference_=(ReadPreference):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: readPreference_$eq">readPreference_=</span><span class="params">(<span name="pref">pref: ReadPreference</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Sets the read preference for this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Sets the read preference for this collection. Will be used as default for
+reads from any collection in this collection. See the
+documentation for <code> ReadPreference</code> for more information.
+</p></div></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#remove" data-isabs="false">
+      <a id="remove[A](A,WriteConcern)((A) ⇒ DBObject,DBEncoder):WriteResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">remove</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="o">o: A</span>, <span name="concern">concern: <span name="com.mongodb.WriteConcern" class="extype">WriteConcern</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dbObjView">dbObjView: (A) ⇒ DBObject</span>, <span name="encoder">encoder: DBEncoder</span>)</span><span class="result">: <span name="com.mongodb.WriteResult" class="extype">WriteResult</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Removes objects from the database collection.</p><div class="fullcomment"><div class="comment cmt"><p>Removes objects from the database collection.</p></div><dl class="paramcmts block"><dt class="param">o</dt><dd class="cmt"><p>the object that documents to be removed must match</p></dd><dt class="param">concern</dt><dd class="cmt"><p>WriteConcern for this operation</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#rename" data-isabs="false">
+      <a id="rename(String,Boolean):MongoCollection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rename</span><span class="params">(<span name="newName">newName: String</span>, <span name="dropTarget">dropTarget: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoCollection" class="extype" href="MongoCollection.html">MongoCollection</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">does a rename of this collection to newName
+As per the Java API this returns a *NEW* Collection,
+and the old collection is probably no good anymore.</p><div class="fullcomment"><div class="comment cmt"><p>does a rename of this collection to newName
+As per the Java API this returns a *NEW* Collection,
+and the old collection is probably no good anymore.</p><p>This collection *WILL NOT* mutate --- the instance will
+still point at a now nonexistant collection with the old name
+... You must capture the return value for the new instance.
+</p></div><dl class="paramcmts block"><dt class="param">newName</dt><dd class="cmt"><p>new collection name (not a full namespace)</p></dd><dt class="param">dropTarget</dt><dd class="cmt"><p>if a collection with the new name exists, whether or not to drop it</p></dd><dt>returns</dt><dd class="cmt"><p>the new collection
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#rename" data-isabs="false">
+      <a id="rename(String):MongoCollection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rename</span><span class="params">(<span name="newName">newName: String</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoCollection" class="extype" href="MongoCollection.html">MongoCollection</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">does a rename of this collection to newName
+As per the Java API this returns a *NEW* Collection,
+and the old collection is probably no good anymore.</p><div class="fullcomment"><div class="comment cmt"><p>does a rename of this collection to newName
+As per the Java API this returns a *NEW* Collection,
+and the old collection is probably no good anymore.</p><p>This collection *WILL NOT* mutate --- the instance will
+still point at a now nonexistant collection with the old name
+... You must capture the return value for the new instance.
+</p></div><dl class="paramcmts block"><dt class="param">newName</dt><dd class="cmt"><p>new collection name (not a full namespace)</p></dd><dt>returns</dt><dd class="cmt"><p>the new collection
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#request" data-isabs="false">
+      <a id="request(WriteConcern)((MongoCollectionBase.this.type) ⇒ WriteResult):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">request</span><span class="params">(<span name="writeConcern">writeConcern: WriteConcern</span>)</span><span class="params">(<span name="op">op: (MongoCollectionBase.this.type) ⇒ WriteResult</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">write concern aware write op block.</p><div class="fullcomment"><div class="comment cmt"><p>write concern aware write op block.</p><p>Checks getLastError after the last write.
+If  you run multiple ops you'll only get the final
+error.</p><p>Your op function gets a copy of this MongoDB instance.</p><p>This is for write ops only - you cannot return data from it.</p><p>Your function must return WriteResult, which is the
+return type of any mongo write operation like insert/save/update/remove
+</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt">MongoException<p>
+</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#request" data-isabs="false">
+      <a id="request(Int,Int,Boolean)((MongoCollectionBase.this.type) ⇒ WriteResult):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">request</span><span class="params">(<span name="w">w: <span name="scala.Int" class="extype">Int</span></span>, <span name="wTimeout">wTimeout: <span name="scala.Int" class="extype">Int</span> = <span class="symbol">0</span></span>, <span name="fsync">fsync: <span name="scala.Boolean" class="extype">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="params">(<span name="op">op: (MongoCollectionBase.this.type) ⇒ WriteResult</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">write concern aware write op block.</p><div class="fullcomment"><div class="comment cmt"><p>write concern aware write op block.</p><p>Checks getLastError after the last write.
+If  you run multiple ops you'll only get the final
+error.</p><p>Your op function gets a copy of this MongoDB instance.</p><p>This is for write ops only - you cannot return data from it.</p><p>Your function must return WriteResult, which is the
+return type of any mongo write operation like insert/save/update/remove
+</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt">MongoException<p>
+</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#request" data-isabs="false">
+      <a id="request((MongoCollectionBase.this.type) ⇒ WriteResult):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">request</span><span class="params">(<span name="op">op: (MongoCollectionBase.this.type) ⇒ WriteResult</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">write concern aware write op block.</p><div class="fullcomment"><div class="comment cmt"><p>write concern aware write op block.</p><p>Checks getLastError after the last write.
+If  you run multiple ops you'll only get the final
+error.</p><p>Your op function gets a copy of this MongoDB instance.</p><p>This is for write ops only - you cannot return data from it.</p><p>Your function must return WriteResult, which is the
+return type of any mongo write operation like insert/save/update/remove</p><p>If you have set a connection or DB level WriteConcern,
+it will be inherited.
+</p></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt">MongoException<p>
+</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#resetIndexCache" data-isabs="false">
+      <a id="resetIndexCache():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resetIndexCache</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Clears all indices that have not yet been applied to this collection.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#resetOptions" data-isabs="false">
+      <a id="resetOptions():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resetOptions</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Manipulate Network Options
+</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Network Options
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes
+</p></span>, <span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#save" data-isabs="false">
+      <a id="save[A](A,WriteConcern)((A) ⇒ DBObject):WriteResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">save</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="o">o: A</span>, <span name="concern">concern: <span name="com.mongodb.WriteConcern" class="extype">WriteConcern</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dbObjView">dbObjView: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="com.mongodb.WriteResult" class="extype">WriteResult</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Saves an object to this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Saves an object to this collection.</p></div><dl class="paramcmts block"><dt class="param">o</dt><dd class="cmt"><p>the <code>DBObject</code> to save
+       will add <code>_id</code> field to o if needed
+TODO - Wrapper for WriteResult?
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#setHintFields" data-isabs="false">
+      <a id="setHintFields[A](List[A])((A) ⇒ DBObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setHintFields</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="docs">docs: List[A]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Set hint fields for this collection.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#setInternalClass" data-isabs="false">
+      <a id="setInternalClass(String,Class[_]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setInternalClass</span><span class="params">(<span name="path">path: String</span>, <span name="c">c: Class[_]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#setObjectClass" data-isabs="false">
+      <a id="setObjectClass[A&lt;:DBObject](Class[A])(Manifest[A]):MongoGenericTypedCollection[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setObjectClass</span><span class="tparams">[<span name="A">A &lt;: DBObject</span>]</span><span class="params">(<span name="c">c: Class[A]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: Manifest[A]</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoGenericTypedCollection" class="extype" href="MongoGenericTypedCollection.html">MongoGenericTypedCollection</a>[A]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">setObjectClass</p><div class="fullcomment"><div class="comment cmt"><p>setObjectClass</p><p>Set a subtype of DBObject which will be used
+to deserialize documents returned from MongoDB.</p><p>This method will return a new <code>MongoTypedCollection[A]</code>
+which you should capture if you want explicit casting.
+Else, this collection will instantiate instances of A but cast them to
+the current <code>T</code> (DBObject if you have a generic collection)
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>A Subtype of DBObject</p><p>TODO - Ensure proper subtype return
+</p></dd><dt class="param">c</dt><dd class="cmt"><p>(Class[A])</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#setReadPreference" data-isabs="false">
+      <a id="setReadPreference(ReadPreference):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setReadPreference</span><span class="params">(<span name="pref">pref: ReadPreference</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Sets the read preference for this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Sets the read preference for this collection. Will be used as default for
+reads from any collection in this collection. See the
+documentation for <code> ReadPreference</code> for more information.
+</p></div></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#setWriteConcern" data-isabs="false">
+      <a id="setWriteConcern(WriteConcern):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setWriteConcern</span><span class="params">(<span name="concern">concern: WriteConcern</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Set the write concern for this database.</p><div class="fullcomment"><div class="comment cmt"><p>Set the write concern for this database.
+Will be used for writes to any collection in this database.
+See the documentation for <code> com.mongodb.WriteConcern</code> for more info.
+</p></div><dl class="paramcmts block"><dt class="param">concern</dt><dd class="cmt"><p>(WriteConcern) The write concern to use</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+</p></span>, <span class="cmt"><p>WriteConcern</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#stats" data-isabs="false">
+      <a id="stats:CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stats</span><span class="result">: <span name="com.mongodb.CommandResult" class="extype">CommandResult</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
+      <a id="synchronized[T0](⇒ T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ T0</span>)</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#toString" data-isabs="false">
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="">MongoCollectionBase</a> → AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#update" data-isabs="false">
+      <a id="update[A, B](A,B,Boolean,Boolean,WriteConcern)((A) ⇒ DBObject,(B) ⇒ DBObject,DBEncoder):WriteResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">update</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="q">q: A</span>, <span name="o">o: B</span>, <span name="upsert">upsert: <span name="scala.Boolean" class="extype">Boolean</span></span>, <span name="multi">multi: <span name="scala.Boolean" class="extype">Boolean</span></span>, <span name="concern">concern: <span name="com.mongodb.WriteConcern" class="extype">WriteConcern</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="queryView">queryView: (A) ⇒ DBObject</span>, <span name="objView">objView: (B) ⇒ DBObject</span>, <span name="encoder">encoder: DBEncoder</span>)</span><span class="result">: <span name="com.mongodb.WriteResult" class="extype">WriteResult</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Performs an update operation.</p><div class="fullcomment"><div class="comment cmt"><p>Performs an update operation.</p></div><dl class="paramcmts block"><dt class="param">q</dt><dd class="cmt"><p>search query for old object to update</p></dd><dt class="param">o</dt><dd class="cmt"><p>object with which to update <tt>q</tt>
+TODO - Wrapper for WriteResult?
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#writeConcern" data-isabs="false">
+      <a id="writeConcern:WriteConcern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">writeConcern</span><span class="result">: <span name="com.mongodb.WriteConcern" class="extype">WriteConcern</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">get the write concern for this database,
+which is used for writes to any collection in this database.</p><div class="fullcomment"><div class="comment cmt"><p>get the write concern for this database,
+which is used for writes to any collection in this database.
+See the documentation for <code> com.mongodb.WriteConcern</code> for more info.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+</p></span>, <span class="cmt"><p>WriteConcern</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#writeConcern_=" data-isabs="false">
+      <a id="writeConcern_=(WriteConcern):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: writeConcern_$eq">writeConcern_=</span><span class="params">(<span name="concern">concern: WriteConcern</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Set the write concern for this database.</p><div class="fullcomment"><div class="comment cmt"><p>Set the write concern for this database.
+Will be used for writes to any collection in this database.
+See the documentation for <code> com.mongodb.WriteConcern</code> for more info.
+</p></div><dl class="paramcmts block"><dt class="param">concern</dt><dd class="cmt"><p>(WriteConcern) The write concern to use</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+</p></span>, <span class="cmt"><p>WriteConcern</p></span></dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div class="values members" id="values">
+              <h3>Deprecated Value Members</h3>
+              <ol><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#slaveOk" data-isabs="false">
+      <a id="slaveOk():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version scala.this.deprecated.init$default$2) Replaced with ReadPreference.SECONDARY">slaveOk</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Sets queries to be OK to run on slave nodes.</p><div class="fullcomment"><div class="comment cmt"><p>Sets queries to be OK to run on slave nodes.</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version scala.this.deprecated.init$default$2)</i> Replaced with ReadPreference.SECONDARY</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#updateMulti" data-isabs="false">
+      <a id="updateMulti[A, B](A,B)((A) ⇒ DBObject,(B) ⇒ DBObject):WriteResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version scala.this.deprecated.init$default$2) In the face of default arguments this is a bit silly. Please use update(multi=True)">updateMulti</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="q">q: A</span>, <span name="o">o: B</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="com.mongodb.WriteResult" class="extype">WriteResult</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Perform a multi update</p><div class="fullcomment"><div class="comment cmt"><p>Perform a multi update</p></div><dl class="paramcmts block"><dt class="param">q</dt><dd class="cmt"><p>search query for old object to update</p></dd><dt class="param">o</dt><dd class="cmt"><p>object with which to update <tt>q</tt>
+</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version scala.this.deprecated.init$default$2)</i> In the face of default arguments this is a bit silly. Please use update(multi=True)</p></dd></dl></div>
+    </li></ol>
+            </div>
+        </div>
+
+        <div id="inheritedMembers">
+        <div name="com.mongodb.casbah.commons.Logging" class="parent">
+              <h3>Inherited from <a name="com.mongodb.casbah.commons.Logging" class="extype" href="commons/Logging.html">Logging</a></h3>
+            </div><div name="scala.AnyRef" class="parent">
+              <h3>Inherited from AnyRef</h3>
+            </div><div name="scala.Any" class="parent">
+              <h3>Inherited from <span name="scala.Any" class="extype">Any</span></h3>
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

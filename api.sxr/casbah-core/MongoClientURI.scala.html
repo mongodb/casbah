@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>MongoClientURI.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ *
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah
+
+<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#10150" title="object com.mongodb.casbah.Imports">Imports</a>._
+
+<span class="keyword">import</span> scalaj.collection.<span title="object scalaj.collection.Imports">Imports</span>._
+
+<span class="comment">/**
+ *
+ *
+ * @since 2.0
+ */</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.MongoClientURI" id="10182">MongoClientURI</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Create a new MongoURI with a URI String e.g.:
+   *
+   * &lt;li&gt; mongodb://localhost
+   * &lt;li&gt; mongodb://fred:foobar@localhost/
+   * &lt;li&gt; mongodb://server1,server2,server3
+   *
+   * See [[http://docs.mongodb.org/manual/reference/connection-string/]]
+   *
+   * @param  uri (String)
+   */</span>
+  <span class="keyword">def</span> <a title="(uri: String)com.mongodb.casbah.MongoClientURI" id="30233">apply</a><span class="delimiter">(</span><a title="String" id="30236">uri</a>: <span title="String">String</span><span class="delimiter">)</span>: <a href="#10184" title="com.mongodb.casbah.MongoClientURI">MongoClientURI</a> = <span title="com.mongodb.casbah.MongoClientURI" class="keyword">new</span> <a href="#10184" title="com.mongodb.casbah.MongoClientURI">MongoClientURI</a><span class="delimiter">(</span><span title="com.mongodb.MongoClientURI" class="keyword">new</span> com.mongodb.<span title="com.mongodb.MongoClientURI">MongoClientURI</span><span class="delimiter">(</span><a href="#30236" title="String">uri</a><span class="delimiter">)</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Create a new MongoURI with a URI String e.g.:
+ *
+ * &lt;li&gt; mongodb://localhost
+ * &lt;li&gt; mongodb://fred:foobar@localhost/
+ * &lt;li&gt; mongodb://server1,server2,server3
+ *
+ *  See [[http://docs.mongodb.org/manual/reference/connection-string/]]
+ *
+ * @since 2.5
+ */</span>
+<span class="keyword">class</span> <a title="class MongoClientURI extends java.lang.Object with ScalaObject" id="10184">MongoClientURI</a><a href="#10184" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="com.mongodb.MongoClientURI" id="30234">underlying</a>: com.mongodb.<span title="com.mongodb.MongoClientURI">MongoClientURI</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="29891">username</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="(x: java.lang.String)Option[java.lang.String]">Option</span><span class="delimiter">(</span><a href="#30234" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getUsername</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[Array[Char]]" id="29892">password</a>: <span title="Option[Array[Char]]">Option</span><span class="delimiter">[</span>Array<span class="delimiter">[</span>Char<span class="delimiter">]</span><span class="delimiter">]</span> = <span title="(x: Array[Char])Option[Array[Char]]">Option</span><span class="delimiter">(</span><a href="#30234" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()Array[Char]">getPassword</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Seq[String]" id="29893">hosts</a>: <span title="Seq[String]">Seq</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <a href="#30234" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="(underlying: java.util.List[java.lang.String])scalaj.collection.j2s.RichList[java.lang.String]">getHosts</span>.<span title="(implicit c: scalaj.collection.j2s.Coercible[java.lang.String,String])Seq[String]">asScala</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="29894">database</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="(x: java.lang.String)Option[java.lang.String]">Option</span><span class="delimiter">(</span><a href="#30234" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getDatabase</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="29895">collection</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="(x: java.lang.String)Option[java.lang.String]">Option</span><span class="delimiter">(</span><a href="#30234" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getCollection</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.Imports.MongoClientOptions" id="29896">options</a>: <span title="com.mongodb.casbah.Imports.MongoClientOptions">MongoClientOptions</span> = <a href="#30234" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()com.mongodb.MongoClientOptions">getOptions</span>
+
+  <span class="keyword">def</span> <a title="=&gt; java.lang.String" id="29897">getURI</a> = <a href="#30234" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getURI</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="29898">toString</a> = <a href="#30234" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">toString</span>
+<span class="delimiter">}</span>
+
+
+        </pre>
+    </body>
+</html>

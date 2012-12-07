@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>MongoDBList.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. &lt;http://novus.com&gt;
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ *
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah
+<span class="keyword">package</span> commons
+
+<span class="keyword">import</span> com.mongodb.casbah.commons.<a href="Implicits.scala.html#10147" title="object com.mongodb.casbah.commons.Imports">Imports</a>._
+
+<span class="keyword">import</span> scala.collection.mutable._
+<span class="keyword">import</span> scalaj.collection.<span title="object scalaj.collection.Imports">Imports</span>._
+
+<span class="keyword">class</span> <a title="class MongoDBList extends java.lang.Object with scala.collection.mutable.Seq[Any] with ScalaObject" id="10182">MongoDBList</a><a href="#10182" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="com.mongodb.casbah.commons.Imports.BasicDBList" id="19105">underlying</a>: <span title="com.mongodb.casbah.commons.Imports.BasicDBList">BasicDBList</span> = <span title="com.mongodb.BasicDBList" class="keyword">new</span> <a href="Implicits.scala.html#12987" title="com.mongodb.BasicDBList">BasicDBList</a><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="scala.collection.mutable.Seq[Any]">Seq</span><span class="delimiter">[</span>Any<span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="(i: Int)java.lang.Object" id="19025">apply</a><span class="delimiter">(</span><a title="Int" id="33836">i</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: Int)java.lang.Object">get</span><span class="delimiter">(</span><a href="#33836" title="Int">i</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(i: Int, elem: Any)Unit" id="19026">update</a><span class="delimiter">(</span><a title="Int" id="33850">i</a>: <span title="Int">Int</span>, <a title="Any" id="33851">elem</a>: <span title="Any">Any</span><span class="delimiter">)</span> =
+    <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: Int, x$2: java.lang.Object)java.lang.Object">set</span><span title="Unit" class="delimiter">(</span><a href="#33850" title="Int">i</a>, <a href="#33851" title="Any">elem</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="AnyRef" class="delimiter">[</span><span title="AnyRef">AnyRef</span><span class="delimiter">]</span><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(elem: Any)MongoDBList.this.type" id="19027">+=:</a><span class="delimiter">(</span><a title="Any" id="33862">elem</a>: <span title="Any">Any</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
+    <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: Int, x$2: Int)java.util.List[java.lang.Object]">subList</span><span class="delimiter">(</span><span title="Int(0)" class="int">0</span>, <span title="Int(0)" class="int">0</span><span class="delimiter">)</span>.<span title="(x$1: java.lang.Object)Boolean">add</span><span class="delimiter">(</span><a href="#33862" title="Any">elem</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="AnyRef" class="delimiter">[</span><span title="AnyRef">AnyRef</span><span class="delimiter">]</span><span class="delimiter">)</span>
+    <a href="#10182" title="MongoDBList.this.type" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(elem: Any)MongoDBList.this.type" id="19028">+=</a><span class="delimiter">(</span><a title="Any" id="33872">elem</a>: <span title="Any">Any</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
+    <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: java.lang.Object)Boolean">add</span><span class="delimiter">(</span><a href="#33872" title="Any">elem</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="AnyRef" class="delimiter">[</span><span title="AnyRef">AnyRef</span><span class="delimiter">]</span><span class="delimiter">)</span>
+    <a href="#10182" title="MongoDBList.this.type" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(i: Int, elems: scala.collection.mutable.Traversable[Any])Unit" id="19029">insertAll</a><span class="delimiter">(</span><a title="Int" id="33887">i</a>: <span title="Int">Int</span>, <a title="scala.collection.mutable.Traversable[Any]" id="33888">elems</a>: <span title="scala.collection.mutable.Traversable[Any]">Traversable</span><span class="delimiter">[</span>Any<span class="delimiter">]</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="java.util.List[java.lang.Object]" id="33891">ins</a> = <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: Int, x$2: Int)java.util.List[java.lang.Object]">subList</span><span class="delimiter">(</span><span title="Int(0)" class="int">0</span>, <a href="#33887" title="Int">i</a><span class="delimiter">)</span>
+    <a href="#33888" title="scala.collection.mutable.Traversable[Any]">elems</a>.<span title="(f: Any =&gt; Boolean)Unit">foreach</span><span class="delimiter">(</span><a title="Any" id="33908">x</a> =&gt; <a href="#33891" title="java.util.List[java.lang.Object]">ins</a>.<span title="(x$1: java.lang.Object)Boolean">add</span><span class="delimiter">(</span><a href="#33908" title="Any">x</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="AnyRef" class="delimiter">[</span><span title="AnyRef">AnyRef</span><span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(i: Int)java.lang.Object" id="19030">remove</a><span class="delimiter">(</span><a title="Int" id="33916">i</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: Int)java.lang.Object">remove</span><span class="delimiter">(</span><a href="#33916" title="Int">i</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * as
+   *
+   * Works like apply(), unsafe, bare return of a value.
+   * Returns default if nothing matching is found, else
+   * tries to cast a value to the specified type.
+   *
+   * Unless you overrode it, default throws
+   * a NoSuchElementException
+   *
+   * @param idx (Int)
+   * @tparam A
+   * @return (A)
+   * @throws NoSuchElementException
+   */</span>
+
+  <span class="keyword">def</span> <a title="[A](idx: Int)(implicit evidence$1: com.mongodb.casbah.commons.NotNothing[A])A" id="33924">as</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="19033">A</a> : NotNothing<span class="delimiter">]</span><span class="delimiter">(</span><a title="Int" id="33923">idx</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <a href="#19033" title="A">A</a> = <span class="delimiter">{</span>
+    <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: Int)java.lang.Object">get</span><span class="delimiter">(</span><a href="#33923" title="Int">idx</a><span class="delimiter">)</span> <span title="A" class="keyword">match</span> <span class="delimiter">{</span>
+      <span class="keyword">case</span> <span title="Nothing" class="keyword">null</span> =&gt; <span title="Nothing" class="keyword">throw</span> <span title="java.util.NoSuchElementException" class="keyword">new</span> <span title="java.util.NoSuchElementException">NoSuchElementException</span>
+      <span class="keyword">case</span> <a title="A" id="33967">value</a> =&gt; <a href="#33967" title="java.lang.Object">value</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="A" class="delimiter">[</span><a href="#19033" title="A">A</a><span class="delimiter">]</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */</span>
+  <span class="keyword">def</span> <a title="[A](idx: Int)(implicit evidence$2: com.mongodb.casbah.commons.NotNothing[A])Option[A]" id="33969">getAs</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="19036">A</a> : NotNothing<span class="delimiter">]</span><span class="delimiter">(</span><a title="Int" id="33968">idx</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="Option[A]">Option</span><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: Int)java.lang.Object">get</span><span class="delimiter">(</span><a href="#33968" title="Int">idx</a><span class="delimiter">)</span> <span title="Option[A]" class="keyword">match</span> <span class="delimiter">{</span>
+      <span class="keyword">case</span> <span title="None.type" class="keyword">null</span> =&gt; <span title="object None">None</span>
+      <span class="keyword">case</span> <a title="Some[A]" id="33976">value</a> =&gt; <span title="(x: A)Some[A]">Some</span><span class="delimiter">(</span><a href="#33976" title="java.lang.Object">value</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="A" class="delimiter">[</span><a href="#19036" title="A">A</a><span class="delimiter">]</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="[A](idx: Int, default: =&gt; A)(implicit evidence$3: com.mongodb.casbah.commons.NotNothing[A])A" id="33982">getAsOrElse</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="19039">A</a> : NotNothing<span class="delimiter">]</span><span class="delimiter">(</span><a title="Int" id="33980">idx</a>: <span title="Int">Int</span>, <a title="=&gt; A" id="33981">default</a>: =&gt; A<span class="delimiter">)</span>: <a href="#19039" title="A">A</a> = <a href="#33969" title="[A](idx: Int)(implicit evidence$2: com.mongodb.casbah.commons.NotNothing[A])Option[A]">getAs</a><span title="(idx: Int)(implicit evidence$2: com.mongodb.casbah.commons.NotNothing[A])Option[A]" class="delimiter">[</span><a href="#19039" title="A">A</a><span class="delimiter">]</span><a href="#33982" title="com.mongodb.casbah.commons.NotNothing[A]" class="delimiter">(</a><a href="#33980" title="Int">idx</a><span class="delimiter">)</span> <span title="A" class="keyword">match</span> <span class="delimiter">{</span>
+    <span class="keyword">case</span> <span title="A">Some</span><span class="delimiter">(</span><a title="A" id="33989">v</a><span class="delimiter">)</span> =&gt; <a href="#33989" title="A">v</a>
+    <span class="keyword">case</span> <span title="A">None</span> =&gt; <a href="#33981" title="=&gt; A">default</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Unit" id="19040">clear</a> = <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="()Unit">clear</span>
+
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.commons.MongoDBList" id="19041">result</a> = <a href="#10182" title="com.mongodb.casbah.commons.MongoDBList" class="keyword">this</a>
+
+  <span class="keyword">def</span> <a title="=&gt; Int" id="19042">length</a> = <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="()Int">size</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="19043">isEmpty</a> = <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="()Boolean">isEmpty</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Iterator[Any]" id="19044">iterator</a> = <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(underlying: java.util.Iterator[java.lang.Object])scalaj.collection.j2s.RichIterator[java.lang.Object]">iterator</span>.<span title="(implicit c: scalaj.collection.j2s.Coercible[java.lang.Object,Any])Iterator[Any]">asScala</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="19045">toString</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="()java.lang.String">toString</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="19046">hashCode</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="()Int">hashCode</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(that: Any)Boolean" id="19047">equals</a><span class="delimiter">(</span><a title="Any" id="34135">that</a>: <span title="Any">Any</span><span class="delimiter">)</span> = <a href="#34135" title="Any">that</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span class="keyword">case</span> <a title="Boolean" id="34138">o</a>: <a href="MongoDBObject.scala.html#10195" title="com.mongodb.casbah.commons.MongoDBObject">MongoDBObject</a> =&gt; <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: Any)Boolean">equals</span><span class="delimiter">(</span><a href="#34138" title="com.mongodb.casbah.commons.MongoDBObject">o</a>.<a href="MongoDBObject.scala.html#18748" title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">underlying</a><span class="delimiter">)</span>
+    <span class="keyword">case</span> <a title="Boolean" id="34139">o</a>: <a href="#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a> =&gt; <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: Any)Boolean">equals</span><span class="delimiter">(</span><a href="#34139" title="com.mongodb.casbah.commons.MongoDBList">o</a>.<a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a><span class="delimiter">)</span>
+    <span class="keyword">case</span> <span title="Boolean">_</span> =&gt; <a href="#19105" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>.<span title="(x$1: Any)Boolean">equals</span><span class="delimiter">(</span><a href="#34135" title="Any">that</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">|</span> <a href="#34135" title="Any">that</a>.<span title="(x$1: Any)Boolean">equals</span><span class="delimiter">(</span><a href="#10182" title="com.mongodb.casbah.commons.MongoDBList" class="keyword">this</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.MongoDBList" id="10183">MongoDBList</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.commons.MongoDBList" id="19095">empty</a>: <a href="#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a> = <a href="#19105" title="com.mongodb.casbah.commons.MongoDBList" class="keyword">new</a> <a href="#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="[A](elems: A*)com.mongodb.casbah.commons.MongoDBList" id="19096">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="19098">A</a> &lt;: Any<span class="delimiter">]</span><span class="delimiter">(</span><a title="A*" id="34145">elems</a>: <span title="A*">A</span>*<span class="delimiter">)</span>: <a href="#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.casbah.commons.MongoDBListBuilder" id="34148">b</a> = <a href="#19102" title="[A]=&gt; com.mongodb.casbah.commons.MongoDBListBuilder">newBuilder</a><span title="com.mongodb.casbah.commons.MongoDBListBuilder" class="delimiter">[</span><a href="#19098" title="A">A</a><span class="delimiter">]</span>
+    <span class="keyword">for</span> <span class="delimiter">(</span><a title="A" id="34176">xs</a> &lt;- <a href="#34145" title="(f: A =&gt; com.mongodb.casbah.commons.MongoDBListBuilder)Unit">elems</a><span class="delimiter">)</span> <a href="#34176" title="A">xs</a> <span title="b.type" class="keyword">match</span> <span class="delimiter">{</span>
+      <span class="keyword">case</span> <a title="b.type" id="34177">p</a>: <span title="(String, _)">Tuple2</span><span class="delimiter">[</span>String, _<span class="delimiter">]</span> =&gt; <a href="#34148" title="com.mongodb.casbah.commons.MongoDBListBuilder">b</a> <a href="#34157" title="(x: Any)b.type">+=</a> <a href="MongoDBObject.scala.html#12954" title="(elems: (String, _)*)com.mongodb.casbah.commons.Imports.DBObject">MongoDBObject</a><span class="delimiter">(</span><a href="#34177" title="(String, _)">p</a><span class="delimiter">)</span>
+      <span class="keyword">case</span> <span title="b.type">_</span> =&gt; <a href="#34148" title="com.mongodb.casbah.commons.MongoDBListBuilder">b</a> <a href="#34157" title="(x: Any)b.type">+=</a> <a href="#34176" title="A">xs</a>
+    <span class="delimiter">}</span>
+    <a href="#34148" title="com.mongodb.casbah.commons.MongoDBListBuilder">b</a>.<a href="#34159" title="()com.mongodb.casbah.commons.MongoDBList">result</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="[A](xss: scala.collection.mutable.Traversable[A]*)com.mongodb.casbah.commons.MongoDBList" id="19099">concat</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="19101">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="scala.collection.mutable.Traversable[A]*" id="34314">xss</a>: <span title="scala.collection.mutable.Traversable[A]*">Traversable</span><span class="delimiter">[</span>A<span class="delimiter">]</span>*<span class="delimiter">)</span>: <a href="#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.casbah.commons.MongoDBListBuilder" id="34317">b</a> = <a href="#19102" title="[A]=&gt; com.mongodb.casbah.commons.MongoDBListBuilder">newBuilder</a><span title="com.mongodb.casbah.commons.MongoDBListBuilder" class="delimiter">[</span><a href="#19101" title="A">A</a><span class="delimiter">]</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#34314" title="scala.collection.mutable.Traversable[A]*">xss</a> <span title="(p: scala.collection.mutable.Traversable[A] =&gt; Boolean)Boolean">forall</span> <span class="delimiter">(</span><a href="#34323" title="scala.collection.mutable.Traversable[A]">_</a>.<span title="[T0]=&gt; Boolean">isInstanceOf</span><span title="Boolean" class="delimiter">[</span><span title="scala.collection.mutable.IndexedSeq[_]">IndexedSeq</span><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">)</span>
+      <a href="#34317" title="com.mongodb.casbah.commons.MongoDBListBuilder">b</a>.<span title="(size: Int)Unit">sizeHint</span><span class="delimiter">(</span><a href="#34314" title="scala.collection.mutable.Traversable[A]*">xss</a> <span title="(f: scala.collection.mutable.Traversable[A] =&gt; Int)(implicit bf: scala.collection.generic.CanBuildFrom[Seq[scala.collection.mutable.Traversable[A]],Int,Seq[Int]])Seq[Int]">map</span> <span class="delimiter">(</span><a href="#34350" title="scala.collection.mutable.Traversable[A]">_</a>.<span title="=&gt; Int">size</span><span class="delimiter">)</span> <span title="(implicit num: Numeric[Int])Int">sum</span><span class="delimiter">)</span>
+
+    <span class="keyword">for</span> <span class="delimiter">(</span><a title="scala.collection.mutable.Traversable[A]" id="35881">xs</a> &lt;- <a href="#34314" title="(f: scala.collection.mutable.Traversable[A] =&gt; com.mongodb.casbah.commons.MongoDBListBuilder)Unit">xss</a><span class="delimiter">)</span> <a href="#34317" title="com.mongodb.casbah.commons.MongoDBListBuilder">b</a> <span title="(xs: scala.collection.TraversableOnce[Any])b.type">++=</span> <a href="#35881" title="scala.collection.mutable.Traversable[A]">xs</a>
+    <a href="#34317" title="com.mongodb.casbah.commons.MongoDBListBuilder">b</a>.<a href="#34159" title="()com.mongodb.casbah.commons.MongoDBList">result</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="[A]=&gt; com.mongodb.casbah.commons.MongoDBListBuilder" id="19102">newBuilder</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="19104">A</a> &lt;: Any<span class="delimiter">]</span>: <a href="#10185" title="com.mongodb.casbah.commons.MongoDBListBuilder">MongoDBListBuilder</a> = <span title="com.mongodb.casbah.commons.MongoDBListBuilder" class="keyword">new</span> <a href="#10185" title="com.mongodb.casbah.commons.MongoDBListBuilder">MongoDBListBuilder</a>
+
+<span class="delimiter">}</span>
+
+<span class="keyword">sealed</span> <span class="keyword">class</span> <a title="class MongoDBListBuilder extends java.lang.Object with scala.collection.mutable.Builder[Any,scala.collection.mutable.Seq[Any]] with ScalaObject" id="10185">MongoDBListBuilder</a> <a href="#10185" title="ScalaObject" class="keyword">extends</a> scala.collection.mutable.<span title="scala.collection.mutable.Builder[Any,scala.collection.mutable.Seq[Any]]">Builder</span><span class="delimiter">[</span>Any, Seq<span class="delimiter">[</span>Any<span class="delimiter">]</span><span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">protected</span> <span class="keyword">val</span> <a title="com.mongodb.casbah.commons.MongoDBList" id="34152">empty</a>: <a href="#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a> = <a href="#19105" title="com.mongodb.casbah.commons.MongoDBList" class="keyword">new</a> <a href="#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a>
+
+  <span class="keyword">protected</span> <span class="keyword">var</span> <a title="com.mongodb.casbah.commons.MongoDBList" id="34155">elems</a>: <a href="#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a>  = <a href="#34152" title="=&gt; com.mongodb.casbah.commons.MongoDBList">empty</a>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(x: Any)MongoDBListBuilder.this.type" id="34157">+=</a><span class="delimiter">(</span><a title="Any" id="34179">x</a>: <span title="Any">Any</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="AnyRef" id="34202">v</a> = <a href="#34179" title="Any">x</a> <span title="AnyRef" class="keyword">match</span> <span class="delimiter">{</span>
+      <span class="keyword">case</span> <span title="AnyRef">_</span> =&gt; <a href="#34179" title="Any">x</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="AnyRef" class="delimiter">[</span><span title="AnyRef">AnyRef</span><span class="delimiter">]</span>
+    <span class="delimiter">}</span>
+    <a href="Implicits.scala.html#10289" title="implicit com.mongodb.casbah.commons.Implicits.unwrapDBList : (in: com.mongodb.casbah.commons.MongoDBList)com.mongodb.BasicDBList">elems</a>.<span title="(x$1: java.lang.Object)Boolean">add</span><span class="delimiter">(</span><a href="#34202" title="AnyRef">v</a><span class="delimiter">)</span>
+    <a href="#10185" title="MongoDBListBuilder.this.type" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="()Unit" id="34158">clear</a><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span> <a href="#34155" title="(x$1: com.mongodb.casbah.commons.MongoDBList)Unit">elems</a> = <a href="#34152" title="=&gt; com.mongodb.casbah.commons.MongoDBList">empty</a> <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="()com.mongodb.casbah.commons.MongoDBList" id="34159">result</a>: <a href="#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a> = <a href="#34155" title="=&gt; com.mongodb.casbah.commons.MongoDBList">elems</a>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

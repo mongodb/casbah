@@ -1,13 +1,14 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Welcome to the Casbah documentation &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation</title>
+<title>Search &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation</title>
 <link rel="shortcut icon" href="http://media.mongodb.org/favicon.ico" />
 <link rel="author" href="https://plus.google.com/101024085748034940765?rel=author" title="MongoDB Google+ Profile"/>
 <meta name="robots" content="index" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="canonical" href="http://docs.mongodb.org/manual/" />
+<link rel="canonical" href="http://docs.mongodb.org/manual/search" />
     
 <link rel="stylesheet" href="_static/mongodb-docs.css" type="text/css" />
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,10 +26,15 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript" src="_static/underscore.js"></script>
 <script type="text/javascript" src="_static/doctools.js"></script>
+<script type="text/javascript" src="_static/searchtools.js"></script>
 <link rel="search" type="application/opensearchdescription+xml" href="http://docs.mongodb.org/osd.xml" title="MongoDB Help"/>
-<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="#" />
-<link rel="start" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="#" />
-<link rel="next" title="1. Getting Started" href="setting_up.html" /> 
+<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
+<link rel="start" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
+  <script type="text/javascript">
+    jQuery(function() { Search.loadIndex("searchindex.js"); });
+  </script>
+   
+
 <script>
   (function() {
     var cx = '017213726194841070573:WMX6838984';
@@ -61,9 +67,9 @@
 <div class="search-db"><gcse:searchbox></gcse:searchbox></div>
 <div id="etp">
 <ul>
-<li><a href="https://github.com/mongodb/docs/blob/BRANCH/source/index.txt" target="_blank" title="Edit index.txt on github">Edit this Page</a></li>
+<li><a href="https://github.com/mongodb/docs/blob/BRANCH/source/search.txt" target="_blank" title="Edit search.txt on github">Edit this Page</a></li>
 <li><a href="http://github.com/mongodb/docs" target="_blank" title="Fork the documentation on GitHub and contribute.">GitHub</a></li>
-<li><a id="jirafeedback" href="https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&amp;issuetype=4&amp;priority=4&amp;summary=Comment+on%3a+%22index%2Etxt%22" target="_blank" title="Report a problem or send feedback about index.txt on Jira">Feedback</a></li>
+<li><a id="jirafeedback" href="https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&amp;issuetype=4&amp;priority=4&amp;summary=Comment+on%3a+%22search%2Etxt%22" target="_blank" title="Report a problem or send feedback about search.txt on Jira">Feedback</a></li>
 </ul>
 </div>
 </div>  
@@ -73,53 +79,29 @@
 <div class="body">
 <div id="cse-results"><gcse:searchresults></gcse:searchresults></div>
 
-  <div class="section" id="welcome-to-the-casbah-documentation">
-<h1>Welcome to the Casbah documentation<a class="headerlink" href="#welcome-to-the-casbah-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Welcome to the Casbah Documentation.  Casbah is a Scala toolkit for MongoDB---We use the term &quot;toolkit&quot; rather than &quot;driver&quot;, as Casbah integrates a layer on top of the official <a class="reference external" href="http://github.com/mongodb/mongo-java-driver">mongo-java-driver</a> for better integration with Scala.  This is as opposed to a native implementation of the MongoDB wire protocol, which the Java driver does exceptionally well. Rather than a complete rewrite, Casbah uses implicits, and <cite>Pimp My Library</cite> code to enhance the existing Java code.</p>
-<p>Casbah's approach is intended to add fluid, Scala-friendly syntax on top of MongoDB and handle conversions of common types.  If you try to save a Scala List or Seq to MongoDB, we automatically convert it to a type the Java driver can serialize.  If you read a Java type,  we convert it to a comparable Scala type before it hits your code.  All of this is intended to let you focus on writing the best possible Scala code using Scala idioms.  A great deal of effort is put into providing you the functional and implicit conversion tools you've come to expect from Scala, with the power and flexibility of MongoDB.</p>
-<p>Casbah provides improved interfaces to GridFS, Map/Reduce and the core Mongo APIs.  It also provides a fluid query syntax which emulates an internal DSL and allows you to write code which looks like what you might write in the JS Shell.  There is also support for easily adding new serialization/deserialization mechanisms for common data types (including Joda Time, if you so choose; with some caveats - See the GridFS Section).</p>
-<p>With version 2.0, Casbah has become an official MongoDB project and will continue to improve the interaction of Scala + MongoDB. Casbah aims to remain fully compatible with the existing Java driver---it does not talk to MongoDB directly, preferring to wrap the Java code.  This means you shouldn't see any wildly unexpected behavior from the underlying Mongo interfaces when a data bug is fixed.</p>
-<p>The <a class="reference external" href="http://api.mongodb.org/scala/casbah/scaladoc/">ScalaDocs for Casbah</a> along with SXR cross referenced source are available at the <a class="reference external" href="http://api.mongodb.org">MongoDB API site</a>.</p>
-<p>You may also download this documentation in other formats.</p>
-<blockquote>
-<div><ul class="simple">
-<li><a class="reference external" href="http://api.mongodb.org/scala/casbah/CasbahDocumentation.epub">ePub</a></li>
-<li><a class="reference external" href="http://api.mongodb.org/scala/casbah/CasbahDocumentation.pdf">PDF</a></li>
-</ul>
-</div></blockquote>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference external" href="http://api.mongodb.org/scala/casbah/scaladoc/">API Docs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="setting_up.html#installing-setting-up-casbah">1.1. Installing &amp; Setting up Casbah</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-sbt">1.1.1. Setting up SBT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#using-dependency-build-managers">1.1.2. Using Dependency/Build Managers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-maven">1.1.3. Setting Up Maven</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-ivy-w-ant">1.1.4. Setting Up Ivy (w/ Ant)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-without-a-dependency-build-manager-source-binary">1.1.5. Setting up without a Dependency/Build Manager (Source + Binary)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="setting_up.html#casbah-modules">1.1.6. Casbah Modules</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">2. Tutorial: Using Casbah</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#import-the-driver">2.1. Import the Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#briefly-automatic-type-conversions">2.2. Briefly: Automatic Type Conversions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#wrappers">2.2.1. Wrappers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#connecting-to-mongodb">2.2.2. Connecting to MongoDB</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#working-with-collections">2.2.3. Working with Collections</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#mongodbobject-a-scala-ble-dbobject-implementation">2.2.4. MongoDBObject - A Scala-ble DBObject Implementation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#mongodblist-mongo-friendly-list-implementation">2.2.5. MongoDBList - Mongo-friendly List implementation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#querying-with-casbah">2.2.6. Querying with Casbah</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#gridfs-with-casbah">2.2.7. GridFS with Casbah</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-
+  <h1 id="search-documentation">Search</h1>
+  <div id="fallback" class="admonition warning">
+  <script type="text/javascript">$('#fallback').hide();</script>
+  <p>
+    Please activate JavaScript to enable the search
+    functionality.
+  </p>
+  </div>
+  <p>
+    From here you can search these documents. Enter your search
+    words into the box below and click "search". Note that the search
+    function will automatically search for all of the words. Pages
+    containing fewer words won't appear in the result list.
+  </p>
+  <form action="" method="get">
+    <input type="text" name="q" value="" />
+    <input type="submit" value="search" />
+    <span id="search-progress" style="padding-left: 10px"></span>
+  </form>
+  
+  <div id="search-results">
+  
+  </div>
 
 </div>
 </div>
@@ -128,7 +110,7 @@
         <div class="sphinxsidebarwrapper">
 
 
-<h3><a href="#">Casbah Manual</a></h3>
+<h3><a href="index.html">Casbah Manual</a></h3>
 
 <ul>
 <li class="toctree-l1"><a class="reference external" href="http://api.mongodb.org/scala/casbah/scaladoc/">API Docs</a></li>

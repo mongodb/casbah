@@ -1,0 +1,8 @@
+.lib
+/casbah-commons
+/casbah-core
+/casbah-query
+/casbah-gridfs
+project
+target
+.DS_Store

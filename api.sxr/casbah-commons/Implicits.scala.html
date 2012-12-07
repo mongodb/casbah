@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>Implicits.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. &lt;http://novus.com&gt;
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ *
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah
+<span class="keyword">package</span> commons
+
+<span class="keyword">import</span> scalaj.collection.<span title="object scalaj.collection.Imports">Imports</span>._
+
+<span class="keyword">trait</span> <a title="trait Implicits extends java.lang.Object with ScalaObject" id="10144">Implicits</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">import</span> com.mongodb.<span class="delimiter">{</span> DBObject, BasicDBObject, BasicDBList <span class="delimiter">}</span>
+
+  <span class="comment">/*
+   * Placeholder Type Alias
+   *
+   * TODO - Make me a Type Class to define boundaries
+   */</span>
+  <span class="keyword">type</span> <a title="String" id="10283">JSFunction</a> = <span title="String">String</span>
+
+  <span class="comment">/**
+   * Implicit extension methods for Scala &lt;code&gt;Map[String, Any]&lt;/code&gt;
+   * to convert to Mongo DBObject instances.
+   * Does not currently convert nested values.
+   * @param map A map of [String, Any]
+   */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit com.mongodb.casbah.commons.Implicits.mapAsDBObject : (map: scala.collection.Map[String,Any])java.lang.Object{def asDBObject: com.mongodb.DBObject}" id="10284">mapAsDBObject</a><span class="delimiter">(</span><a title="scala.collection.Map[String,Any]" id="10723">map</a>: scala.collection.<span title="scala.collection.Map[String,Any]">Map</span><span class="delimiter">[</span>String, Any<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#10726" title="java.lang.Object{def asDBObject: com.mongodb.DBObject}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object" id="10726" class="delimiter">{</a>
+    <span class="comment">/**
+     * Return a Mongo &lt;code&gt;DBObject&lt;/code&gt; containing the Map values
+     * @return DBObject
+     */</span>
+    <span class="keyword">def</span> <a title="=&gt; com.mongodb.DBObject" id="10728">asDBObject</a> = <a href="#10285" title="implicit com.mongodb.casbah.commons.Implicits.map2MongoDBObject : (map: scala.collection.Map[String,Any])com.mongodb.DBObject">map2MongoDBObject</a><span class="delimiter">(</span><a href="#10723" title="scala.collection.Map[String,Any]">map</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit com.mongodb.casbah.commons.Implicits.map2MongoDBObject : (map: scala.collection.Map[String,Any])com.mongodb.DBObject" id="10285">map2MongoDBObject</a><span class="delimiter">(</span><a title="scala.collection.Map[String,Any]" id="10729">map</a>: scala.collection.<span title="scala.collection.Map[String,Any]">Map</span><span class="delimiter">[</span>String, Any<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="com.mongodb.DBObject">DBObject</span> =
+    <a href="MongoDBObject.scala.html#12959" title="(elems: List[(String, Any)])com.mongodb.casbah.commons.Imports.DBObject">MongoDBObject</a><span class="delimiter">(</span><a href="#10729" title="scala.collection.Map[String,Any]">map</a>.<span title="=&gt; List[(String, Any)]">toList</span><span class="delimiter">)</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit com.mongodb.casbah.commons.Implicits.wrapDBObj : (in: com.mongodb.DBObject)com.mongodb.casbah.commons.MongoDBObject" id="10286">wrapDBObj</a><span class="delimiter">(</span><a title="com.mongodb.DBObject" id="17480">in</a>: <span title="com.mongodb.DBObject">DBObject</span><span class="delimiter">)</span>: <a href="MongoDBObject.scala.html#10195" title="com.mongodb.casbah.commons.MongoDBObject">MongoDBObject</a> =
+    <span title="com.mongodb.casbah.commons.MongoDBObject" class="keyword">new</span> <a href="MongoDBObject.scala.html#10195" title="com.mongodb.casbah.commons.MongoDBObject">MongoDBObject</a><span class="delimiter">(</span><a href="#17480" title="com.mongodb.DBObject">in</a><span class="delimiter">)</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit com.mongodb.casbah.commons.Implicits.unwrapDBObj : (in: com.mongodb.casbah.commons.MongoDBObject)com.mongodb.DBObject" id="10287">unwrapDBObj</a><span class="delimiter">(</span><a title="com.mongodb.casbah.commons.MongoDBObject" id="18941">in</a>: <a href="MongoDBObject.scala.html#10195" title="com.mongodb.casbah.commons.MongoDBObject">MongoDBObject</a><span class="delimiter">)</span>: <span title="com.mongodb.DBObject">DBObject</span> =
+    <a href="#18941" title="com.mongodb.casbah.commons.MongoDBObject">in</a>.<a href="MongoDBObject.scala.html#18748" title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">underlying</a>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit com.mongodb.casbah.commons.Implicits.wrapDBList : (in: com.mongodb.BasicDBList)com.mongodb.casbah.commons.MongoDBList" id="10288">wrapDBList</a><span class="delimiter">(</span><a title="com.mongodb.BasicDBList" id="18969">in</a>: <span title="com.mongodb.BasicDBList">BasicDBList</span><span class="delimiter">)</span>: <a href="MongoDBList.scala.html#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a> = <span title="com.mongodb.casbah.commons.MongoDBList" class="keyword">new</span> <a href="MongoDBList.scala.html#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a><span class="delimiter">(</span><a href="#18969" title="com.mongodb.BasicDBList">in</a><span class="delimiter">)</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit com.mongodb.casbah.commons.Implicits.unwrapDBList : (in: com.mongodb.casbah.commons.MongoDBList)com.mongodb.BasicDBList" id="10289">unwrapDBList</a><span class="delimiter">(</span><a title="com.mongodb.casbah.commons.MongoDBList" id="19106">in</a>: <a href="MongoDBList.scala.html#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a><span class="delimiter">)</span>: <span title="com.mongodb.BasicDBList">BasicDBList</span> = <a href="#19106" title="com.mongodb.casbah.commons.MongoDBList">in</a>.<a href="MongoDBList.scala.html#19022" title="=&gt; com.mongodb.casbah.commons.Imports.BasicDBList">underlying</a>
+
+  <span class="comment">// Register the core Serialization helpers.</span>
+  conversions.scala.<a href="ScalaConversions.scala.html#19445" title="()Unit">RegisterConversionHelpers</a><span class="delimiter">(</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.Implicits" id="10145">Implicits</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10144" title="com.mongodb.casbah.commons.Implicits">Implicits</a>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.Imports" id="10147">Imports</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10153" title="com.mongodb.casbah.commons.Imports">Imports</a>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.BaseImports" id="10149">BaseImports</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10154" title="com.mongodb.casbah.commons.BaseImports">BaseImports</a>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.TypeImports" id="10151">TypeImports</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10155" title="com.mongodb.casbah.commons.TypeImports">TypeImports</a>
+
+<span class="keyword">trait</span> <a title="trait Imports extends java.lang.Object with com.mongodb.casbah.commons.BaseImports with com.mongodb.casbah.commons.TypeImports with com.mongodb.casbah.commons.Implicits" id="10153">Imports</a> <span class="keyword">extends</span> <a href="#10154" title="com.mongodb.casbah.commons.BaseImports">BaseImports</a> <span class="keyword">with</span> <a href="#10155" title="com.mongodb.casbah.commons.TypeImports">TypeImports</a> <span class="keyword">with</span> <a href="#10144" title="com.mongodb.casbah.commons.Implicits">Implicits</a>
+
+<span class="keyword">trait</span> <a title="trait BaseImports extends java.lang.Object with ScalaObject" id="10154">BaseImports</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="com.mongodb.casbah.commons.MongoDBObject.type" id="12974">MongoDBObject</a> = com.mongodb.casbah.commons.<a href="MongoDBObject.scala.html#10196" title="object com.mongodb.casbah.commons.MongoDBObject">MongoDBObject</a>
+  <span class="keyword">val</span> <a title="com.mongodb.casbah.commons.MongoDBObject.type" id="12976">DBObject</a> = <a href="#12974" title="=&gt; com.mongodb.casbah.commons.MongoDBObject.type">MongoDBObject</a>
+  <span class="keyword">val</span> <a title="com.mongodb.casbah.commons.MongoDBList.type" id="12978">MongoDBList</a> = com.mongodb.casbah.commons.<a href="MongoDBList.scala.html#10183" title="object com.mongodb.casbah.commons.MongoDBList">MongoDBList</a>
+  <span class="keyword">val</span> <a title="com.mongodb.casbah.commons.MongoDBList.type" id="12980">DBList</a> = <a href="#12978" title="=&gt; com.mongodb.casbah.commons.MongoDBList.type">MongoDBList</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait TypeImports extends java.lang.Object" id="10155">TypeImports</a> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">type</span> <a title="com.mongodb.casbah.commons.MongoDBObject" id="12983">MongoDBObject</a> = com.mongodb.casbah.commons.<a href="MongoDBObject.scala.html#10195" title="com.mongodb.casbah.commons.MongoDBObject">MongoDBObject</a>
+  <span class="keyword">type</span> <a title="com.mongodb.casbah.commons.MongoDBList" id="12984">MongoDBList</a> = com.mongodb.casbah.commons.<a href="MongoDBList.scala.html#10182" title="com.mongodb.casbah.commons.MongoDBList">MongoDBList</a>
+  <span class="keyword">type</span> <a title="com.mongodb.DBObject" id="12985">DBObject</a> = com.mongodb.<span title="com.mongodb.DBObject">DBObject</span>
+  <span class="keyword">type</span> <a title="com.mongodb.BasicDBObject" id="12986">BasicDBObject</a> = com.mongodb.<span title="com.mongodb.BasicDBObject">BasicDBObject</span>
+  <span class="keyword">type</span> <a title="com.mongodb.BasicDBList" id="12987">BasicDBList</a> = com.mongodb.<span title="com.mongodb.BasicDBList">BasicDBList</span>
+  <span class="keyword">type</span> <a title="org.bson.types.ObjectId" id="12988">ObjectId</a> = org.bson.types.<span title="org.bson.types.ObjectId">ObjectId</span>
+  <span class="keyword">type</span> <a title="com.mongodb.DBRef" id="12989">DBRef</a> = com.mongodb.<span title="com.mongodb.DBRef">DBRef</span>
+  <span class="keyword">type</span> <a title="com.mongodb.MongoException" id="12990">MongoException</a> = com.mongodb.<span title="com.mongodb.MongoException">MongoException</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">abstract</span> <span class="keyword">class</span> <a title="class ValidBSONType[T] extends java.lang.Object with ScalaObject" id="10156">ValidBSONType</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="10157">T</a><span class="delimiter">]</span>
+
+<a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[T]" class="keyword">object</a> <a title="object com.mongodb.casbah.commons.ValidBSONType" id="10158">ValidBSONType</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.BasicBSONList" id="30869">BasicBSONList</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[org.bson.types.BasicBSONList]">ValidBSONType</a><span class="delimiter">[</span>org.bson.types.BasicBSONList<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.BasicDBList" id="30871">BasicDBList</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[com.mongodb.BasicDBList]">ValidBSONType</a><span class="delimiter">[</span>com.mongodb.BasicDBList<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.Binary" id="30873">Binary</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[org.bson.types.Binary]">ValidBSONType</a><span class="delimiter">[</span>org.bson.types.Binary<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.BSONTimestamp" id="30875">BSONTimestamp</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[org.bson.types.BSONTimestamp]">ValidBSONType</a><span class="delimiter">[</span>org.bson.types.BSONTimestamp<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.Code" id="30877">Code</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[org.bson.types.Code]">ValidBSONType</a><span class="delimiter">[</span>org.bson.types.Code<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.CodeWScope" id="30879">CodeWScope</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[org.bson.types.CodeWScope]">ValidBSONType</a><span class="delimiter">[</span>org.bson.types.CodeWScope<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.ObjectId" id="30881">ObjectId</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[org.bson.types.ObjectId]">ValidBSONType</a><span class="delimiter">[</span>org.bson.types.ObjectId<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.Symbol" id="30883">Symbol</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[org.bson.types.Symbol]">ValidBSONType</a><span class="delimiter">[</span>org.bson.types.Symbol<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.BSONObject" id="30885">BSONObject</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[org.bson.BSONObject]">ValidBSONType</a><span class="delimiter">[</span>org.bson.BSONObject<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.BasicDBObject" id="30887">BasicDBObject</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[com.mongodb.BasicDBObject]">ValidBSONType</a><span class="delimiter">[</span>com.mongodb.BasicDBObject<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.ValidBSONType.DBObject" id="30889">DBObject</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10156" title="com.mongodb.casbah.commons.ValidBSONType[com.mongodb.DBObject]">ValidBSONType</a><span class="delimiter">[</span>com.mongodb.DBObject<span class="delimiter">]</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Nice trick from Miles Sabin using ambiguity in implicit resolution to disallow Nothing
+ */</span>
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait NotNothing[A] extends java.lang.Object" id="10160">NotNothing</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="10161">A</a><span class="delimiter">]</span><span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">type</span> <a title="&gt;: Nothing &lt;: Any" id="30965">B</a>
+<span class="delimiter">}</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.commons.NotNothing" id="10162">NotNothing</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="nothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Nothing]" id="30968">nothing</a> = <a href="#30974" title="java.lang.Object with com.mongodb.casbah.commons.NotNothing[Nothing]" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Nothing]" id="30974">NotNothing</a><span class="delimiter">[</span>Nothing<span class="delimiter">]</span><span class="delimiter">{</span> <span class="keyword">type</span> <a title="Any" id="30976">B</a> = <span title="Any">Any</span> <span class="delimiter">}</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A]=&gt; java.lang.Object with com.mongodb.casbah.commons.NotNothing[A]{type B = A}" id="30970">notNothing</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="30972">A</a><span class="delimiter">]</span> = <a href="#30989" title="java.lang.Object with com.mongodb.casbah.commons.NotNothing[A]" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[A]" id="30989">NotNothing</a><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">{</span> <span class="keyword">type</span> <a title="A" id="30991">B</a> = <a href="#30972" title="A">A</a> <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

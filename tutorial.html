@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>2. Tutorial: Using Casbah &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation</title>
+<link rel="shortcut icon" href="http://media.mongodb.org/favicon.ico" />
+<link rel="author" href="https://plus.google.com/101024085748034940765?rel=author" title="MongoDB Google+ Profile"/>
+<meta name="robots" content="index" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="canonical" href="http://docs.mongodb.org/manual/tutorial" />
+    
+<link rel="stylesheet" href="_static/mongodb-docs.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="_static/underscore.js"></script>
+<script type="text/javascript" src="_static/doctools.js"></script>
+<link rel="search" type="application/opensearchdescription+xml" href="http://docs.mongodb.org/osd.xml" title="MongoDB Help"/>
+<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
+<link rel="start" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
+<link rel="prev" title="1. Getting Started" href="setting_up.html" /> 
+<script>
+  (function() {
+    var cx = '017213726194841070573:WMX6838984';
+    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+</head>
+<body>
+<div id="top-right">
+<div class="user-right">
+<ul id="header-menu-bar" class="ajs-menu-bar">
+<li class="normal"><a target="_blank" href="http://groups.google.com/group/mongodb-user">Forums</a></li>
+<li class="normal"><a target="_blank" href="http://blog.mongodb.org/">Blog</a></li>
+<li class="normal"><a href="http://www.mongodb.org/downloads">Download</a></li>
+<li class="normal"><a href="http://www.mongodb.org/display/DOCS/Drivers">Drivers</a></li>
+<li class="normal"><a href="http://www.mongodb.org/display/DOCS/Events">Events</a></li>
+<li class="normal last"><a class="last" href="http://www.mongodb.org/display/DOCS/International+Documentation">International</a></li>
+</ul>
+</div>
+</div>
+<div id="header-db" class="spread">
+<div class="split">
+<div id="logo">
+<div><a href="http://docs.mongodb.org/"><img src="_static/logo-mongodb.png" width="217" height="90" alt="mongoDB" /></a></div>
+</div>
+</div>
+<div class="search-db"><gcse:searchbox></gcse:searchbox></div>
+<div id="etp">
+<ul>
+<li><a href="https://github.com/mongodb/docs/blob/BRANCH/source/tutorial.txt" target="_blank" title="Edit tutorial.txt on github">Edit this Page</a></li>
+<li><a href="http://github.com/mongodb/docs" target="_blank" title="Fork the documentation on GitHub and contribute.">GitHub</a></li>
+<li><a id="jirafeedback" href="https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&amp;issuetype=4&amp;priority=4&amp;summary=Comment+on%3a+%22tutorial%2Etxt%22" target="_blank" title="Report a problem or send feedback about tutorial.txt on Jira">Feedback</a></li>
+</ul>
+</div>
+</div>  
+<div class="document">
+<div class="documentwrapper">
+<div class="bodywrapper">
+<div class="body">
+<div id="cse-results"><gcse:searchresults></gcse:searchresults></div>
+
+  <div class="section" id="tutorial-using-casbah">
+<h1>2. Tutorial: Using Casbah<a class="headerlink" href="#tutorial-using-casbah" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="import-the-driver">
+<h2>2.1. Import the Driver<a class="headerlink" href="#import-the-driver" title="Permalink to this headline">¶</a></h2>
+<p>Now that you've added Casbah to your project, it should be available for import.  For this tutorial, we're going to import the <em class="xref std std-ref">Core</em> module which brings in all of Casbah's functionality (except <em class="xref std std-ref">GridFS</em>)  As of this writing, <em class="xref std std-ref">Core</em> lives in the package namespace <tt class="docutils literal"><span class="pre">com.mongodb.casbah</span></tt>.  Casbah uses a few tricks to act as self contained as possible - it provides an <tt class="docutils literal"><span class="pre">Imports</span></tt> object which automatically imports everything you need including Implicit conversions and type aliases to a few common MongoDB types.  This means you should only need to use our <tt class="docutils literal"><span class="pre">Imports</span></tt> package for the majority of your work.  The <tt class="docutils literal"><span class="pre">Imports</span></tt> call will make common types such as <tt class="docutils literal"><span class="pre">DBObject</span></tt>, <tt class="docutils literal"><span class="pre">MongoConnection</span></tt> and <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> available.  <em class="xref std std-ref">Core</em>'s <tt class="docutils literal"><span class="pre">Imports</span></tt> also run the imports from <em class="xref std std-ref">Commons</em> and the <em class="xref std std-ref">Query DSL</em>. Let's start out bringing it into your code; at the appropriate place (Be it inside a class/def/object or at the top of your file), add our import:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.Imports._</span>
+</pre></div>
+</div>
+<p>That's it.  Most of what you need to work with Casbah is now at hand.  .. If you want to know what's going on inside the <tt class="docutils literal"><span class="pre">Imports._</span></tt> take a look at <a class="reference external" href="http://api.mongodb.org/scala/casbah/2.1.5.0/scaladoc/casbah-core/sxr/Implicits.scala.html">Implicits.scala</a> which defines it.</p>
+</div>
+<div class="section" id="briefly-automatic-type-conversions">
+<h2>2.2. Briefly: Automatic Type Conversions<a class="headerlink" href="#briefly-automatic-type-conversions" title="Permalink to this headline">¶</a></h2>
+<p>As we mentioned, as soon as you construct a <tt class="docutils literal"><span class="pre">MongoConnection</span></tt> object, a few type conversions will be loaded automatically for you - Scala's builtin regular expressions (e.g. <tt class="docutils literal"><span class="pre">&quot;\\d{4}-\\d{2}-\\d{2}&quot;.r</span></tt> will now serialize to MongoDB automatically with no work from you), as well as a few other things.  The general idea is that common Java types (such as ArrayList) will be returned as the equivalent Scala type.</p>
+<p>As many Scala developers tend to prefer <a class="reference external" href="http://joda-time.sourceforge.net/">Joda time</a> over JDK Dates, you can also explicitly enable serialization and deserialization of them (w/ full support for the <a class="reference external" href="http://github.com/jorgeortiz85/scala-time">Scala-Time wrappers</a>) by an explicit call:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.conversions.scala._</span>
+<span class="nc">RegisterJodaTimeConversionHelpers</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>Once these are loaded, Joda Time (and Scala Time wrappers) will be saved to MongoDB as proper BSON Dates, and on retrieval/deserialization all BSON Dates will be returned as Joda <tt class="docutils literal"><span class="pre">DateTime</span></tt> instead of a JDK Date (aka <cite>java.util.Date</cite>).  Because this can cause problems in some instances, you can explicitly unload the Joda Time helpers:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.conversions.scala._</span>
+<span class="nc">DeregisterJodaTimeConversionHelpers</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>And reload them later as needed.  If you find you need to unload the other helpers as well, you can load and unload them just as easily:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.conversions.scala._</span>
+<span class="nc">DeregisterConversionHelpers</span><span class="o">()</span>
+<span class="nc">RegisterConversionHelpers</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>It is also possible to create your own custom type serializers and deserializers.  See <em class="xref std std-ref">Custom Serializers and Deserializers</em>.</p>
+<div class="section" id="wrappers">
+<h3>2.2.1. Wrappers<a class="headerlink" href="#wrappers" title="Permalink to this headline">¶</a></h3>
+<p>Casbah provides a series of wrapper classes (and in some cases, companion objects) which proxy the &quot;core&quot; Java driver classes to provide scala functionality.  In general, we've provided a &quot;Scala-esque&quot; wrapper to the MongoDB Java objects whereever possible.  These make sure to make iterable things <tt class="docutils literal"><span class="pre">Iterable</span></tt>, Cursors implement <tt class="docutils literal"><span class="pre">Iterator</span></tt>, DBObjects act like Scala Maps, etc.</p>
+</div>
+<div class="section" id="connecting-to-mongodb">
+<h3>2.2.2. Connecting to MongoDB<a class="headerlink" href="#connecting-to-mongodb" title="Permalink to this headline">¶</a></h3>
+<p>The core Connection class as you may have noted above is <tt class="docutils literal"><span class="pre">com.mongodb.casbah.MongoConnection</span></tt>.  There are two ways to create an instance of it. First, you can invoke <tt class="docutils literal"><span class="pre">.asScala</span></tt> from a MongoDB builtin Connection (<tt class="docutils literal"><span class="pre">com.mongodb.Mongo</span></tt>).  This method is provided via implicits.  The pure Scala way to do it is to invoke one of the <tt class="docutils literal"><span class="pre">apply</span></tt> methods on the companion object:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// Connect to default - localhost, 27017</span>
+<span class="k">val</span> <span class="n">mongoConn</span> <span class="k">=</span> <span class="nc">MongoConnection</span><span class="o">()</span>
+<span class="c1">// mongoConn: com.mongodb.casbah.MongoConnection</span>
+
+<span class="c1">// connect to &quot;mongodb01&quot; host, default port</span>
+<span class="k">val</span> <span class="n">mongoConn</span> <span class="k">=</span> <span class="nc">MongoConnection</span><span class="o">(</span><span class="s">&quot;mongodb01&quot;</span><span class="o">)</span>
+<span class="c1">// mongoConn: com.mongodb.casbah.MongoConnection</span>
+
+<span class="c1">// connect to &quot;mongodb02&quot; host, port 42017</span>
+<span class="k">val</span> <span class="n">mongoConn</span> <span class="k">=</span> <span class="nc">MongoConnection</span><span class="o">(</span><span class="s">&quot;mongodb02&quot;</span><span class="o">,</span> <span class="mi">42017</span><span class="o">)</span>
+<span class="c1">// mongoConn: com.mongodb.casbah.MongoConnection</span>
+</pre></div>
+</div>
+<p>If you imported <tt class="docutils literal"><span class="pre">Imports._</span></tt>, you already have <tt class="docutils literal"><span class="pre">MongoConnection</span></tt> in scope and won't require additional importing.  These all return an instance of the <tt class="docutils literal"><span class="pre">MongoConnection</span></tt> class, which provides all the methods as the Java <tt class="docutils literal"><span class="pre">Mongo</span></tt> class it proxies (which is available from the <tt class="docutils literal"><span class="pre">underlying</span></tt> attribute, incidentally) with the addition of having an apply method for getting a DB instead of calling <tt class="docutils literal"><span class="pre">getDB()</span></tt>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">mongoDB</span> <span class="k">=</span> <span class="n">mongoConn</span><span class="o">(</span><span class="s">&quot;casbah_test&quot;</span><span class="o">)</span>
+<span class="c1">// mongoDB: com.mongodb.casbah.MongoDB = casbah_test</span>
+</pre></div>
+</div>
+<p>This should allow a more fluid Syntax to working with Mongo.  The DB object also provides an <tt class="docutils literal"><span class="pre">apply()</span></tt> for getting Collections so you can freely chain them:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">mongoColl</span> <span class="k">=</span> <span class="n">mongoConn</span><span class="o">(</span><span class="s">&quot;casbah_test&quot;</span><span class="o">)(</span><span class="s">&quot;test_data&quot;</span><span class="o">)</span>
+<span class="c1">// mongoColl: com.mongodb.casbah.MongoCollection = MongoCollection()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="working-with-collections">
+<h3>2.2.3. Working with Collections<a class="headerlink" href="#working-with-collections" title="Permalink to this headline">¶</a></h3>
+<p>Feel free to explore Casbah's <tt class="docutils literal"><span class="pre">MongoDB</span></tt> object on your own; for now let's focus on <tt class="docutils literal"><span class="pre">MongoCollection</span></tt>.</p>
+<p>It should be noted that Casbah's <cite>MongoCollection</cite> object implements Scala's <a class="reference external" href="http://www.scala-lang.org/docu/files/api/scala/collection/Iterable.html">Iterable[A]</a> interface (specifically <tt class="docutils literal"><span class="pre">Iterable[DBObject]</span></tt>), which provides a full monadic interface to your MongoDB collection.  Beginning iteration on the <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> instance is fundamentally equivalent to invoking <tt class="docutils literal"><span class="pre">find</span></tt> on the <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> (without a uqery).  We'll return to this after we discuss working with <tt class="docutils literal"><span class="pre">MongoDBObjects</span></tt> and inserting data...</p>
+</div>
+<div class="section" id="mongodbobject-a-scala-ble-dbobject-implementation">
+<h3>2.2.4. MongoDBObject - A Scala-ble DBObject Implementation<a class="headerlink" href="#mongodbobject-a-scala-ble-dbobject-implementation" title="Permalink to this headline">¶</a></h3>
+<p>As a Scala developer, I find it important to be given the opportunity to work consistently with my data and objects - and in proper Scala fashion.  To that end, I've tried where possible to ensure Casbah provides Scala-ble (my phrasing fr the Scala equivalent of &quot;Pythonic&quot;) interfaces to MongoDB without disabling or hiding the Java equivalents.  A big part of this is extending and enhancing Mongo's <tt class="docutils literal"><span class="pre">DBObject</span></tt> and related classes to work in a Scala-ble fashion.</p>
+<p>That is to say - <tt class="docutils literal"><span class="pre">DBObject</span></tt>, <tt class="docutils literal"><span class="pre">BasicDBOBject</span></tt>, <tt class="docutils literal"><span class="pre">BasicDBObjectBuilder</span></tt>, etc are still available - but there's a better way.  <cite>MongoDBObject</cite> and its companion trait (tacked in a few places implicitly via Pimp-My-Library) provide a series of ways to work with Mongo's DBObjects which closely match the Collection interface Scala 2.8 provides.  Further, <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt> can be implicitly converted to a <tt class="docutils literal"><span class="pre">DBObject</span></tt> - so any existing Mongo Java code will accept it without complaint.  There are two easy ways to create a new <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt>.  In an additive manner:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">newObj</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span><span class="o">,</span>
+                           <span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;y&quot;</span><span class="o">,</span>
+                           <span class="s">&quot;pie&quot;</span> <span class="o">-&gt;</span> <span class="mf">3.14</span><span class="o">,</span>
+                           <span class="s">&quot;spam&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;eggs&quot;</span><span class="o">)</span>
+<span class="cm">/* newObj: com.mongodb.casbah.Imports.DBObject =</span>
+<span class="cm">           { &quot;foo&quot; : &quot;bar&quot; , &quot;x&quot; : &quot;y&quot; , &quot;pie&quot; : 3.14 , &quot;spam&quot; : &quot;eggs&quot;} */</span>
+</pre></div>
+</div>
+<p>You should note the use of the <strong>-&gt;</strong> there. You may recall that <tt class="docutils literal"><span class="pre">&quot;foo&quot;</span> <span class="pre">-&gt;</span> <span class="pre">&quot;bar&quot;</span></tt> is the equivalent of <tt class="docutils literal"><span class="pre">(&quot;foo&quot;,</span> <span class="pre">&quot;bar&quot;)</span></tt>; however, the <strong>-&gt;</strong> is a clear syntactic indicator to the reader that you're working with <tt class="docutils literal"><span class="pre">Map</span></tt>-like objects.  The explicit type annotation is there merely to demonstrate that it will happily return itself as a <tt class="docutils literal"><span class="pre">DBObject</span></tt>, should you so desire.  (You should also be able to call the <tt class="docutils literal"><span class="pre">asDBObject</span></tt> method on it).  However, in most cases this shouldn't be necessary - the Casbah wrappers use View boundaries to allow you to implicitly recast as a proper <tt class="docutils literal"><span class="pre">DBObject</span></tt>.  You could also use a Scala 2.8 style builder to create your object instead:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">builder</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">.</span><span class="n">newBuilder</span>
+<span class="n">builder</span> <span class="o">+=</span> <span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span>
+<span class="n">builder</span> <span class="o">+=</span> <span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;y&quot;</span>
+<span class="n">builder</span> <span class="o">+=</span> <span class="o">(</span><span class="s">&quot;pie&quot;</span> <span class="o">-&gt;</span> <span class="mf">3.14</span><span class="o">)</span>
+<span class="n">builder</span> <span class="o">+=</span> <span class="o">(</span><span class="s">&quot;spam&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;eggs&quot;</span><span class="o">,</span> <span class="s">&quot;mmm&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bacon&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">newObj</span> <span class="k">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">result</span>
+<span class="c1">// newObj: com.mongodb.DBObject =</span>
+<span class="cm">/* { &quot;foo&quot; : &quot;bar&quot; , &quot;x&quot; : &quot;y&quot; , &quot;pie&quot; : 3.14 ,</span>
+<span class="cm">     &quot;spam&quot; : &quot;eggs&quot; , &quot;mmm&quot; : &quot;bacon&quot;} */</span>
+</pre></div>
+</div>
+<p>Being a builder - you must call <tt class="docutils literal"><span class="pre">result</span></tt> to get a <tt class="docutils literal"><span class="pre">DBObject</span></tt>.  You cannot pass the builder instance around and treat it like a <tt class="docutils literal"><span class="pre">DBObject</span></tt>.  I find these to be the most effective, Scala-friendly ways to create new Mongo objects.  You'll also find that despite the fact that these are <tt class="docutils literal"><span class="pre">com.mongodb.DBObject</span></tt> instances now, they provide a Scala <tt class="docutils literal"><span class="pre">Map</span></tt> interface via implicits.  For example, one can <em>put</em> a value to <tt class="docutils literal"><span class="pre">newObj</span></tt> via <tt class="docutils literal"><span class="pre">+=</span></tt>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">newObj</span> <span class="o">+=</span> <span class="s">&quot;OMG&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;Ponies!&quot;</span>
+<span class="c1">// com.mongodb.casbah.MongoDBObject =</span>
+<span class="c1">// Map((foo,bar), (x,y), (pie,3.14), (spam,eggs), (mmm,bacon), (OMG,Ponies!))</span>
+<span class="n">newObj</span> <span class="o">+=</span> <span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;z&quot;</span>
+<span class="c1">// com.mongodb.casbah.MongoDBObject =</span>
+<span class="c1">// Map((foo,bar), (x,z), (pie,3.14), (spam,eggs), (mmm,bacon), (OMG,Ponies!))</span>
+</pre></div>
+</div>
+<p>Note that last - as one would expect with Scala's Mutable <tt class="docutils literal"><span class="pre">Map</span></tt>, a <em>put</em> on an existing value updates it in place.  The first statement adds a new value.  We can also speak to the DBObject as if it's a <tt class="docutils literal"><span class="pre">Map</span></tt>, for example, to get a value.  As MongoDB's <tt class="docutils literal"><span class="pre">DBObject</span></tt> always stores <tt class="docutils literal"><span class="pre">Object</span></tt> (or, in Scala terms <tt class="docutils literal"><span class="pre">AnyRef</span></tt> - you can always force boxing of <tt class="docutils literal"><span class="pre">AnyVal</span></tt> primitives with an <cite>5.asInstanceOf[AnyRef]</cite>), you are going to want to cast the retrieved value:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// apply returns AnyRef</span>
+<span class="k">val</span> <span class="n">x</span> <span class="k">=</span> <span class="n">newObj</span><span class="o">(</span><span class="s">&quot;OMG&quot;</span><span class="o">)</span>
+<span class="cm">/* x: AnyRef = Ponies  */</span>
+
+<span class="c1">// Can&#39;t put AnyRef in a String</span>
+<span class="k">val</span> <span class="n">y</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">newObj</span><span class="o">(</span><span class="s">&quot;OMG&quot;</span><span class="o">)</span>
+<span class="cm">/* error: type mismatch;</span>
+<span class="cm">   found   : AnyRef</span>
+<span class="cm">   required: String</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>/<em>Casbah provides two methods to help automatically infer a type from you however --- `as[A]` which is the typed equivalent of `apply`, and `getAs[A]` which is the typed equivalent of `get` returns `Option[A]`</em>/
+These functions are available on ANY <tt class="docutils literal"><span class="pre">DBObject</span></tt> --- not just ones you created through the <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt> function (There is an implicit conversion loaded that can Pimp any <tt class="docutils literal"><span class="pre">DBObject</span></tt> as <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt>.  You can also use the standard nullsafe 'I want an option' functionality.  However, due to a conflict in DBObject you need to invoke <tt class="docutils literal"><span class="pre">getAs</span></tt> - <tt class="docutils literal"><span class="pre">get</span></tt> invokes the base <tt class="docutils literal"><span class="pre">DBObject</span></tt> java method.  This cannot currently infer type, but requires you to pass it explicitly:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">foo</span> <span class="k">=</span> <span class="n">newObj</span><span class="o">.</span><span class="n">getAs</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;foo&quot;</span><span class="o">)</span>
+<span class="cm">/* foo: Option[String] = Some(bar) */</span>
+<span class="k">val</span> <span class="n">omgWtf</span> <span class="k">=</span> <span class="n">newObj</span><span class="o">.</span><span class="n">getAs</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;OMGWTF&quot;</span><span class="o">)</span>
+<span class="cm">/* omgWtf: Option[String] = None */</span>
+<span class="k">val</span> <span class="n">omgWtfFail</span> <span class="k">=</span> <span class="n">newObj</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="s">&quot;OMGWTF&quot;</span><span class="o">,</span>
+                                  <span class="k">throw</span> <span class="k">new</span> <span class="nc">Exception</span><span class="o">(</span><span class="s">&quot;OMG! WTF? BBQ!&quot;</span><span class="o">))</span>
+<span class="cm">/* java.lang.Exception: OMG! WTF? BBQ! */</span>
+<span class="c1">// Or you can use the chain ops available on Option</span>
+<span class="k">val</span> <span class="n">omgWtfFailChain</span> <span class="k">=</span> <span class="n">newObj</span><span class="o">.</span><span class="n">getAs</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;OMGWTF&quot;</span><span class="o">)</span> <span class="n">orElse</span> <span class="o">(</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">Exception</span><span class="o">(</span><span class="s">&quot;Chain Fail.&quot;</span><span class="o">)</span> <span class="o">)</span>
+<span class="cm">/* java.lang.Exception: Chain Fail. */</span>
+</pre></div>
+</div>
+<div class="section" id="combining-multiple-dbobjects">
+<h4>2.2.4.1. Combining Multiple DBObjects<a class="headerlink" href="#combining-multiple-dbobjects" title="Permalink to this headline">¶</a></h4>
+<p>It's possible additionally to join multiple <tt class="docutils literal"><span class="pre">DBObjects</span></tt> together:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">obj2</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;n&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;212&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">z</span> <span class="k">=</span> <span class="n">newObj</span> <span class="o">++</span> <span class="n">obj2</span>
+<span class="cm">/* z: scala.collection.mutable.Map[String,java.lang.Object] =</span>
+<span class="cm">  Map((foo,bar), (mmm,bacon), (spam,eggs), (pie,3.14), (n,212), (x,y)) */</span>
+<span class="k">val</span> <span class="n">zCast</span><span class="k">:</span> <span class="kt">DBObject</span> <span class="o">=</span> <span class="n">newObj</span> <span class="o">++</span> <span class="n">obj2</span>
+<span class="cm">/* zCast: com.mongodb.casbah.Imports.DBObject =</span>
+<span class="cm">  { &quot;foo&quot; : &quot;bar&quot; , &quot;mmm&quot; : &quot;bacon&quot; , &quot;spam&quot; : &quot;eggs&quot; , &quot;pie&quot; : 3.14 , &quot;n&quot; : &quot;212&quot; , &quot;OMG&quot; : &quot;Ponies!&quot; , &quot;x&quot; : &quot;y&quot;} */</span>
+</pre></div>
+</div>
+<p>Due to some corners in Scala's Map traits some base methods return Map instead of the more appropriate <tt class="docutils literal"><span class="pre">this.type</span></tt>, and you'll need to cast to DBObject explicitly.  However, many of the Map methods don't explicitly do the &quot;OH I'm a DBObject&quot; work for you - in fact, you could put a <tt class="docutils literal"><span class="pre">DBObject</span></tt> on one side and a <tt class="docutils literal"><span class="pre">Map</span></tt> on the other.  But all <tt class="docutils literal"><span class="pre">Map</span></tt> instances can be cast as a <tt class="docutils literal"><span class="pre">DBObject</span></tt> either explicitly, or with an <tt class="docutils literal"><span class="pre">asDBObject</span></tt> call:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">z</span><span class="o">.</span><span class="n">asDBObject</span>
+<span class="c1">// com.mongodb.DBObject =</span>
+<span class="cm">/* { &quot;foo&quot; : &quot;bar&quot; , &quot;mmm&quot; : &quot;bacon&quot; ,</span>
+<span class="cm">     &quot;spam&quot; : &quot;eggs&quot; , &quot;pie&quot; : 3.14 ,</span>
+<span class="cm">     &quot;n&quot; : &quot;212&quot; , &quot;x&quot; : &quot;y&quot;}</span>
+<span class="cm">*/</span>
+
+<span class="k">val</span> <span class="n">zDBObj</span><span class="k">:</span> <span class="kt">DBObject</span> <span class="o">=</span> <span class="n">z</span>
+<span class="c1">// zDBObj: com.mongodb.casbah.Imports.DBObject =</span>
+<span class="cm">/* { &quot;foo&quot; : &quot;bar&quot; , &quot;mmm&quot; : &quot;bacon&quot; ,</span>
+<span class="cm">     &quot;spam&quot; : &quot;eggs&quot; , &quot;pie&quot; : 3.14 ,</span>
+<span class="cm">      &quot;n&quot; : &quot;212&quot; , &quot;x&quot; : &quot;y&quot;}</span>
+<span class="cm"> */</span>
+</pre></div>
+</div>
+<p>This pretty much covers working sanely from Scala with Mongo's <tt class="docutils literal"><span class="pre">DBObject</span></tt>; from here you should be able to work out the rest yourself... from Scala's side it's just a <a class="reference external" href="http://www.scala-lang.org/docu/files/api/scala/collection/mutable/Map.html">scala.collection.mutable.Map[String, AnyRef]</a>.  Implicits are hard - let's go querying!</p>
+</div>
+</div>
+<div class="section" id="mongodblist-mongo-friendly-list-implementation">
+<h3>2.2.5. MongoDBList - Mongo-friendly List implementation<a class="headerlink" href="#mongodblist-mongo-friendly-list-implementation" title="Permalink to this headline">¶</a></h3>
+<p>While Scala's builtin list and sequence types can be serialized to MongoDB, in some cases (especially with Casbah's DSL) it is easier to
+work with <tt class="docutils literal"><span class="pre">MongoDBList</span></tt>, which is built for creating valid Mongo lists.  <tt class="docutils literal"><span class="pre">MongoDBList</span></tt>, like <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt>, follows the Scala 2.8 collections pattern.  It provides an object constructor as well as a builder:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">builder</span> <span class="k">=</span> <span class="nc">MongoDBList</span><span class="o">.</span><span class="n">newBuilder</span>
+<span class="n">builder</span> <span class="o">+=</span> <span class="s">&quot;foo&quot;</span>
+<span class="n">builder</span> <span class="o">+=</span> <span class="s">&quot;bar&quot;</span>
+<span class="n">builder</span> <span class="o">+=</span> <span class="s">&quot;x&quot;</span>
+<span class="n">builder</span> <span class="o">+=</span> <span class="s">&quot;y&quot;</span>
+<span class="k">val</span> <span class="n">newLst</span> <span class="k">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">result</span>
+<span class="cm">/* newLst: com.mongodb.BasicDBList = [ &quot;foo&quot; , &quot;bar&quot; , &quot;x&quot; , &quot;y&quot;] */</span>
+</pre></div>
+</div>
+<p>Apart from that it's a pretty standard Scala list.</p>
+</div>
+<div class="section" id="querying-with-casbah">
+<h3>2.2.6. Querying with Casbah<a class="headerlink" href="#querying-with-casbah" title="Permalink to this headline">¶</a></h3>
+<p>I'm not going to wax lengthily and philosophically on the insertion of data; if you need a bit more guidance you should take a look at the <a class="reference external" href="http://www.mongodb.org/display/DOCS/Tutorial">MongoDB Tutorial</a>. We'll cover updates and such in a bit, but let's insert a few items just to get started with.  It should be pretty straightforward:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">mongoColl</span> <span class="k">=</span> <span class="nc">MongoConnection</span><span class="o">()(</span><span class="s">&quot;casbah_test&quot;</span><span class="o">)(</span><span class="s">&quot;test_data&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">user1</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;user&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bwmcadams&quot;</span><span class="o">,</span>
+                          <span class="s">&quot;email&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;~~brendan~~&lt;AT&gt;10genDOTcom&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">user2</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;user&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;someOtherUser&quot;</span><span class="o">)</span>
+<span class="n">mongoColl</span> <span class="o">+=</span> <span class="n">user1</span>
+<span class="n">mongoColl</span> <span class="o">+=</span> <span class="n">user2</span>
+<span class="n">mongoColl</span><span class="o">.</span><span class="n">find</span><span class="o">()</span>
+<span class="c1">// com.mongodb.casbah.MongoCursor =</span>
+<span class="c1">// MongoCursor{Iterator[DBObject] with 2 objects.}</span>
+
+<span class="k">for</span> <span class="o">{</span> <span class="n">x</span> <span class="k">&lt;-</span> <span class="n">mongoColl</span><span class="o">}</span> <span class="k">yield</span> <span class="n">x</span>
+<span class="cm">/* Iterable[com.mongodb.DBObject] = List(</span>
+<span class="cm">    { &quot;_id&quot; : { &quot;$oid&quot; : &quot;4c3e2bec521142c87cc10fff&quot;} ,</span>
+<span class="cm">      &quot;user&quot; : &quot;bwmcadams&quot; ,</span>
+<span class="cm">      &quot;email&quot; : &quot;~~brendan~~&lt;AT&gt;10genDOTcom&quot;},</span>
+<span class="cm">     { &quot;_id&quot; : { &quot;$oid&quot; : &quot;4c3e2bec521142c87dc10fff&quot;} ,</span>
+<span class="cm">      &quot;user&quot; : &quot;someOtherUser&quot;}</span>
+<span class="cm"> ) */</span>
+</pre></div>
+</div>
+<p>As we mentioned in passing before, you can get a cursor back explicitly via <tt class="docutils literal"><span class="pre">find</span></tt>, or treat the <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> object just like a monad.  For now, you need to use <tt class="docutils literal"><span class="pre">find</span></tt> to get a true query, but it returns an <tt class="docutils literal"><span class="pre">Iterator[DBObject]</span></tt> --- which can also be handled monadically.</p>
+<p>If you wanted to go in and find a particular item, it works much as you'd expect from the Java driver:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">q</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;user&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;someOtherUser&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">cursor</span> <span class="k">=</span> <span class="n">mongoColl</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="n">q</span><span class="o">)</span>
+<span class="c1">// cursor: com.mongodb.casbah.MongoCursor =</span>
+<span class="c1">//    MongoCursor{Iterator[DBObject] with 1 objects.}</span>
+
+<span class="k">val</span> <span class="n">user</span> <span class="k">=</span> <span class="n">mongoColl</span><span class="o">.</span><span class="n">findOne</span><span class="o">(</span><span class="n">q</span><span class="o">)</span>
+<span class="c1">// user: Option[com.mongodb.DBObject] =</span>
+<span class="cm">/* Some({ &quot;_id&quot; : { &quot;$oid&quot; : &quot;4c3e2bec521142c87dc10fff&quot;} ,</span>
+<span class="cm">        &quot;user&quot; : &quot;someOtherUser&quot;}) */</span>
+</pre></div>
+</div>
+<p>The former case returns a Cursor with 1 item - the latter, being a <tt class="docutils literal"><span class="pre">findOne</span></tt>, gives us just the row that matches.  We use <tt class="docutils literal"><span class="pre">Option[_]</span></tt> for <tt class="docutils literal"><span class="pre">findOne</span></tt> for protection from passing <tt class="docutils literal"><span class="pre">null</span></tt> around (I hate <tt class="docutils literal"><span class="pre">null</span></tt>) - If it <em>doesn't</em> find anything, findOne returns <tt class="docutils literal"><span class="pre">None</span></tt>.  A clever hack might be:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">mongoColl</span><span class="o">.</span><span class="n">findOne</span><span class="o">(</span><span class="n">q</span><span class="o">).</span><span class="n">foreach</span> <span class="o">{</span> <span class="n">x</span> <span class="k">=&gt;</span>
+    <span class="c1">// do some work if you found the user...</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">&quot;Found a user! %s&quot;</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">x</span><span class="o">(</span><span class="s">&quot;user&quot;</span><span class="o">)))</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>You can also limit the fields returned, etc just like with the Java driver.  For example, if we wanted to see all the users,
+retrieving just the username:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">q</span>  <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">.</span><span class="n">empty</span>
+<span class="k">val</span> <span class="n">fields</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;user&quot;</span> <span class="o">-&gt;</span> <span class="mi">1</span><span class="o">)</span>
+<span class="k">for</span> <span class="o">(</span><span class="n">x</span> <span class="k">&lt;-</span> <span class="n">mongoColl</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="n">q</span><span class="o">,</span> <span class="n">fields</span><span class="o">))</span> <span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+<span class="cm">/* { &quot;_id&quot; : { &quot;$oid&quot; : &quot;4d190356b9d8ba42efa80898&quot;} , &quot;user&quot; : &quot;bwmcadams&quot;}</span>
+<span class="cm">   { &quot;_id&quot; : { &quot;$oid&quot; : &quot;4d190356b9d8ba42abc1a80898&quot;} , &quot;user&quot; : &quot;someOtherUser&quot;} */</span>
+</pre></div>
+</div>
+<p>As is standard with MongoDB, you always get back the <tt class="docutils literal"><span class="pre">_id</span></tt> field, whether you want it or not.  You may also note one other &quot;Scala 2.8&quot; collection feature above - <tt class="docutils literal"><span class="pre">empty</span></tt>.  <tt class="docutils literal"><span class="pre">MongoDBObject.empty</span></tt> will always give you back a... (you guessed it!) empty <tt class="docutils literal"><span class="pre">DBObject</span></tt>.  This tends to be useful working with MongoDB with certain tasks such as an empty query (all entries) with limited fields.</p>
+<div class="section" id="fluid-querying-with-casbah-s-dsl">
+<h4>2.2.6.1. Fluid Querying with Casbah's DSL<a class="headerlink" href="#fluid-querying-with-casbah-s-dsl" title="Permalink to this headline">¶</a></h4>
+<p>There's one last big feature you should be familiar with to get the most out of Casbah: fluid query syntax.  Casbah allows you in many cases to construct DBObjects on the fly using MongoDB query operators.  If we wanted to find all of the entries which had an email address defined we can use <tt class="docutils literal"><span class="pre">$exists</span></tt>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">q</span> <span class="k">=</span> <span class="s">&quot;email&quot;</span> <span class="nc">$exists</span> <span class="kc">true</span>
+<span class="c1">// q: (String, com.mongodb.DBObject) =</span>
+<span class="c1">// (email,{ &quot;$exists&quot; : true})</span>
+<span class="k">val</span> <span class="n">users</span> <span class="k">=</span> <span class="k">for</span> <span class="o">(</span><span class="n">x</span> <span class="k">&lt;-</span> <span class="n">mongoColl</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="n">q</span><span class="o">))</span> <span class="k">yield</span> <span class="n">x</span>
+<span class="n">assert</span><span class="o">(</span><span class="n">users</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Unless you messed with the sample data we've been assembling thus far, that assertion should pass.  <tt class="docutils literal"><span class="pre">$exists</span></tt> is a <a class="reference external" href="http://www.mongodb.org/display/DOCS/Advanced+Queries">MongoDB Query Expression Operator</a> designed to let you specify that the field must exist.  This is obviously useful in a schemaless setup - we didn't specify an email address for one of our two users.</p>
+<dl class="docutils">
+<dt>That said, the use of <tt class="docutils literal"><span class="pre">&quot;email&quot;</span> <span class="pre">$exists</span> <span class="pre">true</span></tt> as bareword code which just &quot;worked&quot; as a Mongo <tt class="docutils literal"><span class="pre">DBObject</span></tt> shouldn't go without comment.  Casbah provides a powerful <em>fluid query syntax</em> to allow you to operate with MongoDB much like you'd expect to work in the JavaScript shell.  We drop much of the excess nested object syntax to simplify your code.   I find that the use of these expression operators lets me rapidly put queries together that closely match how I'd work with MongoDB in Javascript or Python.  Most of the <a class="reference external" href="http://www.mongodb.org/display/DOCS/Advanced+Queries">MongoDB Query Expression Operators</a> are supported (The exceptions being new ones I haven't added support yet through indolence).  There are two &quot;Essential&quot; types of Query Operators from the standpoint of Casbah:</dt>
+<dd><ul class="first last simple">
+<li>&quot;Bareword&quot; Query Operators</li>
+<li>&quot;Core&quot; Query Operators</li>
+</ul>
+</dd>
+<dt>These are defined in <cite>query/BarewordOperators.scala`</cite>  and <cite>query/CoreOperators.scala</cite>, respectively.  A Bareword query operator is one which doesn't need to be anchored by anything on the left side - you can start your MongoDB Query with it.  A &quot;Core&quot; operator requires a seed, such as a field name, on it's left to start.  They're logically separated so you can't use a &quot;Core&quot; operator by itself.  The currently supported Bareword Operators are:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://www.mongodb.org/display/DOCS/Updating#Updating-%24set">$set</a> - <tt class="docutils literal"><span class="pre">$set</span> <span class="pre">(&quot;foo&quot;</span> <span class="pre">-&gt;</span> <span class="pre">5,</span> <span class="pre">&quot;bar&quot;</span> <span class="pre">-&gt;</span> <span class="pre">28)</span> <span class="pre">//</span> <span class="pre">DBObject</span> <span class="pre">=</span> <span class="pre">{</span> <span class="pre">&quot;$set&quot;</span> <span class="pre">:</span> <span class="pre">{</span> <span class="pre">&quot;foo&quot;</span> <span class="pre">:</span> <span class="pre">5</span> <span class="pre">,</span> <span class="pre">&quot;bar&quot;</span> <span class="pre">:</span> <span class="pre">28}}</span></tt></li>
+<li><a class="reference external" href="http://www.mongodb.org/display/DOCS/Updating#Updating-%24unset">$unset</a> - <tt class="docutils literal"><span class="pre">$unset</span> <span class="pre">(&quot;foo&quot;,</span> <span class="pre">&quot;bar&quot;)</span> <span class="pre">//</span> <span class="pre">DBObject</span> <span class="pre">=</span> <span class="pre">{</span> <span class="pre">&quot;$unset&quot;</span> <span class="pre">:</span> <span class="pre">{</span> <span class="pre">&quot;foo&quot;</span> <span class="pre">:</span> <span class="pre">1</span> <span class="pre">,</span> <span class="pre">&quot;bar&quot;</span> <span class="pre">:</span> <span class="pre">1}}</span></tt></li>
+<li><a class="reference external" href="http://www.mongodb.org/display/DOCS/Updating#Updating-%24inc">$inc</a> - <tt class="docutils literal"><span class="pre">$inc</span> <span class="pre">(&quot;foo&quot;</span> <span class="pre">-&gt;</span> <span class="pre">5.0,</span> <span class="pre">&quot;bar&quot;</span> <span class="pre">-&gt;</span> <span class="pre">1.6)</span> <span class="pre">//</span> <span class="pre">DBObject</span> <span class="pre">=</span> <span class="pre">{</span> <span class="pre">&quot;$inc&quot;</span> <span class="pre">:</span> <span class="pre">{</span> <span class="pre">&quot;foo&quot;</span> <span class="pre">:</span> <span class="pre">5.0</span> <span class="pre">,</span> <span class="pre">&quot;bar&quot;</span> <span class="pre">:</span> <span class="pre">1.6}}</span></tt> (NOTE: Pick a single numeric type and stick with it or the setup fails.)</li>
+<li>And the so-called <a class="reference external" href="http://www.mongodb.org/display/DOCS/Updating">Array Operators</a>: <em>$push</em>, <em>pushAll</em>, <em>$addToSet</em>, <em>$pop</em>, <em>$pull</em>, and <em>$pullAll</em></li>
+</ul>
+</dd>
+</dl>
+<p>There is solid ScalaDoc for each operator.  All of these can be chained inside a larger query as well.  The &quot;Core&quot; operators are the ones you're more likely to encounter regularly (These are doced as well) and all of MongoDB's current operators <em>with the exception of $or and $type</em> are supported (and tested).  If you wanted to find all of the users whose username is <strong>not</strong> <cite>bwmcadams</cite>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">mongoColl</span><span class="o">.</span><span class="n">findOne</span><span class="o">(</span><span class="s">&quot;user&quot;</span> <span class="nc">$ne</span> <span class="s">&quot;bwmcadams&quot;</span><span class="o">)</span>
+<span class="cm">/* Option[com.mongodb.DBObject] =</span>
+<span class="cm">    Some({ &quot;_id&quot; : { &quot;$oid&quot; : &quot;4c3e2bec521142c87dc10fff&quot;} ,</span>
+<span class="cm">         &quot;user&quot; : &quot;someOtherUser&quot;})</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+<p>You also can chain operators for an &quot;and&quot; type query... I often find myself looking for ranges of value.  This is easily accomplished through chaining:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">rangeColl</span> <span class="k">=</span> <span class="n">mongoConn</span><span class="o">(</span><span class="s">&quot;casbah_test&quot;</span><span class="o">)(</span><span class="s">&quot;rangeTests&quot;</span><span class="o">)</span>
+<span class="n">rangeColl</span> <span class="o">+=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="o">)</span>
+<span class="n">rangeColl</span> <span class="o">+=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="mi">30</span><span class="o">)</span>
+<span class="n">rangeColl</span> <span class="o">+=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="mi">35</span><span class="o">)</span>
+<span class="n">rangeColl</span> <span class="o">+=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="mi">50</span><span class="o">)</span>
+<span class="n">rangeColl</span> <span class="o">+=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="mi">60</span><span class="o">)</span>
+<span class="n">rangeColl</span> <span class="o">+=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="mi">75</span><span class="o">)</span>
+<span class="n">rangeColl</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="nc">$lt</span> <span class="mi">50</span> <span class="nc">$gt</span> <span class="mi">5</span><span class="o">)</span>
+<span class="c1">// com.mongodb.casbah.MongoCursor =</span>
+<span class="c1">//  MongoCursor{Iterator[DBObject] with 2 objects.}</span>
+<span class="k">for</span> <span class="o">(</span><span class="n">x</span> <span class="k">&lt;-</span> <span class="n">rangeColl</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="nc">$lt</span> <span class="mi">50</span> <span class="nc">$gt</span> <span class="mi">5</span><span class="o">)</span> <span class="o">)</span> <span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+<span class="c1">// { &quot;_id&quot; : { &quot;$oid&quot; : &quot;4c42426f30daeca8efe48de8&quot;} , &quot;foo&quot; : 30}</span>
+<span class="c1">// { &quot;_id&quot; : { &quot;$oid&quot; : &quot;4c424bca9130daeca8f0e48de8&quot;} , &quot;foo&quot; : 35}</span>
+<span class="k">for</span> <span class="o">(</span><span class="n">x</span> <span class="k">&lt;-</span> <span class="n">rangeColl</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="nc">$lte</span> <span class="mi">50</span> <span class="nc">$gt</span> <span class="mi">5</span><span class="o">)</span> <span class="o">)</span> <span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+<span class="c1">// { &quot;_id&quot; : { &quot;$oid&quot; : &quot;4c42426f30daeca8efe48de8&quot;} , &quot;foo&quot; : 30}</span>
+<span class="c1">// { &quot;_id&quot; : { &quot;$oid&quot; : &quot;4c4249e0a130daeca8f0e48de8&quot;} , &quot;foo&quot; : 35}</span>
+<span class="c1">// { &quot;_id&quot; : { &quot;$oid&quot; : &quot;4c42427330daeca8f1e48de8&quot;} , &quot;foo&quot; : 50}</span>
+</pre></div>
+</div>
+<p>You can get the idea pretty quickly that with these &quot;core&quot; operators you can do some pretty fantastic stuff. What if I want fluidity on multiple fields?  In that case, use the <tt class="docutils literal"><span class="pre">++</span></tt> additivity operator to combine multiple blocks.:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">q</span><span class="k">:</span> <span class="kt">DBObject</span> <span class="o">=</span> <span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="nc">$lt</span> <span class="mi">50</span> <span class="nc">$gt</span> <span class="mi">5</span><span class="o">)</span> <span class="o">++</span> <span class="o">(</span><span class="s">&quot;bar&quot;</span> <span class="nc">$gte</span> <span class="mi">9</span><span class="o">)</span>
+<span class="cm">/* com.mongodb.DBObject =</span>
+<span class="cm">    { &quot;foo&quot; : { &quot;$lt&quot; : 50 , &quot;$gt&quot; : 5} ,</span>
+<span class="cm">      &quot;bar&quot; : { &quot;$gte&quot; : 9}} */</span>
+</pre></div>
+</div>
+<p>Just remember that when you call <tt class="docutils literal"><span class="pre">++</span></tt> with <cite>DBObjects</cite> you get a <cite>Map</cite> instance back and you'll need to cast it.</p>
+<p>If you really feel the need to use <tt class="docutils literal"><span class="pre">++</span></tt> with a mix of DSL and bare matches, we provide additive support for <tt class="docutils literal"><span class="pre">&lt;key&gt;</span> <span class="pre">-&gt;</span> <span class="pre">&lt;value&gt;</span></tt> Tuple pairs.  You should make the query operator calls <em>first</em>:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">qMix</span> <span class="k">=</span> <span class="o">(</span><span class="s">&quot;baz&quot;</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="o">)</span> <span class="o">++</span> <span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="nc">$gte</span> <span class="mi">5</span><span class="o">)</span> <span class="o">++</span> <span class="o">(</span><span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;y&quot;</span><span class="o">)</span>
+<span class="cm">/* error: value ++ is not a member of (java.lang.String, Int)</span>
+<span class="cm">   val qMix = (&quot;baz&quot; -&gt; 5) ++ (&quot;foo&quot; $gte 5) ++ (&quot;x&quot; -&gt; &quot;y&quot;) */</span>
+</pre></div>
+</div>
+<p>The operator is chained against the result of DSL operators (which incidentally properly return a <tt class="docutils literal"><span class="pre">DBObject</span></tt>):</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">qMix</span> <span class="k">=</span> <span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="nc">$gte</span> <span class="mi">5</span><span class="o">)</span> <span class="o">++</span> <span class="o">(</span><span class="s">&quot;baz&quot;</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="o">)</span> <span class="o">++</span> <span class="o">(</span><span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;y&quot;</span><span class="o">)</span>
+<span class="cm">/* qMix: com.mongodb.casbah.commons.Imports.DBObject =</span>
+<span class="cm">   { &quot;foo&quot; : { &quot;$gte&quot; : 5} , &quot;baz&quot; : 5 , &quot;x&quot; : &quot;y&quot;} */</span>
+
+<span class="k">val</span> <span class="n">qMix2</span> <span class="k">=</span> <span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="nc">$gte</span> <span class="mi">5</span> <span class="nc">$lte</span> <span class="mi">10</span><span class="o">)</span> <span class="o">++</span> <span class="o">(</span><span class="s">&quot;baz&quot;</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="o">)</span> <span class="o">++</span> <span class="o">(</span><span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;y&quot;</span><span class="o">)</span> <span class="o">++</span> <span class="o">(</span><span class="s">&quot;n&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;r&quot;</span><span class="o">)</span>
+<span class="cm">/* qMix2: com.mongodb.casbah.commons.Imports.DBObject =</span>
+<span class="cm">   { &quot;foo&quot; : { &quot;$gte&quot; : 5 , &quot;$lte&quot; : 10} , &quot;baz&quot; : 5 , &quot;n&quot; : &quot;r&quot; , &quot;x&quot; : &quot;y&quot;} */</span>
+</pre></div>
+</div>
+<p>If you'd like to see all the possible query operators, I recommend you review <cite>query/CoreOperators.scala</cite>.</p>
+</div>
+</div>
+<div class="section" id="gridfs-with-casbah">
+<h3>2.2.7. GridFS with Casbah<a class="headerlink" href="#gridfs-with-casbah" title="Permalink to this headline">¶</a></h3>
+<p>Casbah contains a few wrappers to <a class="reference external" href="http://www.mongodb.org/display/DOCS/GridFS">GridFS</a> to make it act more like Scala, and favor a <strong>Loan</strong> style pattern which automatically saves for you once you're done (Given a curried function).</p>
+<p>MongoDB's GridFS system allows you to store files within MongoDB - MongoDB chunks the file in a way that allows massive scalability (I've been told the maximum file size is 16 <strong>Exabytes</strong>). Casbah's Scala version of GridFS supports creating files using <tt class="docutils literal"><span class="pre">Array[Byte]</span></tt>, <tt class="docutils literal"><span class="pre">java.io.File</span></tt> and <tt class="docutils literal"><span class="pre">java.io.InputStream</span></tt> (I had some problems with <tt class="docutils literal"><span class="pre">scala.io.Source</span></tt> and it's currently disabled).  GridFS works in terms of <em>buckets</em>.  A bucket is a base collection name, and creates two actual collections: <em>&lt;bucket&gt;.files</em> and <em>&lt;bucket&gt;.chunks</em>.  <em>files</em> contains the object metadata, while <em>chunks</em> contains the actual binary chunks of the files.  If you're interested, you can learn more in the <a class="reference external" href="http://www.mongodb.org/display/DOCS/GridFS+Specification">GridFS Specification</a>.  To work with GridFS you need to provide a connection object, and define the <em>bucket</em> name (without <em>.chunks</em>/<em>.files</em>); however, by default (AKA if you don't specify a bucket) MongoDB uses a bucket called &quot;fs&quot;.</p>
+<p>Because many projects don't use GridFS at all, we don't import it by default.  If you want to use GridFS you'll need to import our GridFS objects:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.gridfs.Imports._</span>
+</pre></div>
+</div>
+<p>Then create your new GridFS handle:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">gridfs</span> <span class="k">=</span> <span class="nc">GridFS</span><span class="o">(</span><span class="n">mongoConn</span><span class="o">)</span> <span class="c1">// creates a GridFS handle on ``fs``</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">gridfs</span></tt> object is very similar to a <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> - it has <tt class="docutils literal"><span class="pre">find</span></tt> &amp; <tt class="docutils literal"><span class="pre">findOne</span></tt> methods and is Iterable.  We're going to pull some sample code from the GridFS unit test.</p>
+<p>Creating a new file with the <strong>loan</strong> style is easy:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">logo</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span><span class="s">&quot;casbah-gridfs/src/test/resources/powered_by_mongo.png&quot;</span><span class="o">)</span>
+<span class="n">gridfs</span><span class="o">(</span><span class="n">logo</span><span class="o">)</span> <span class="o">{</span> <span class="n">fh</span> <span class="k">=&gt;</span>
+  <span class="n">fh</span><span class="o">.</span><span class="n">filename</span> <span class="k">=</span> <span class="s">&quot;powered_by_mongo.png&quot;</span>
+  <span class="n">fh</span><span class="o">.</span><span class="n">contentType</span> <span class="k">=</span> <span class="s">&quot;image/png&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>We have defined a new file in GridFS from the <tt class="docutils literal"><span class="pre">FileInputStream</span></tt>, set it's filename and content type and automatically saved it.  The expected function type of the <tt class="docutils literal"><span class="pre">apply</span></tt> method is <tt class="docutils literal"><span class="pre">type</span> <span class="pre">FileWriteOp</span> <span class="pre">=</span> <span class="pre">GridFSInputFile</span> <span class="pre">=&gt;</span> <span class="pre">Unit</span></tt>.  One Note: Due to hardcoding in the Java GridFS driver the Joda Time serialization hooks break <strong>hard</strong> with GridFS.  It tries to explicitly cast certain date fields as a <tt class="docutils literal"><span class="pre">java.util.Date</span></tt> and fails miserably.  To that end, on all find ops we explicitly unload the Joda Time deserializers and reload them when we're done (if they were loaded before we started).  This allows GridFS to always work but <em>MAY</em> cause thread safety issues - e.g. if you have another non-GridFS read happening at the same time in another thread at the same time, it may fail to deserialize BSON Dates as Joda DateTime - and blow up.  Be careful --- generally we don't recommend mixing Joda Time and GridFS in the same JVM at the moment.</p>
+<p>Finally, before I leave you to explore on your own, I'll show you retrieving a file.  It should look familiar:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="n">gridfs</span><span class="o">.</span><span class="n">findOne</span><span class="o">(</span><span class="s">&quot;powered_by_mongo.png&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">find</span></tt> and <tt class="docutils literal"><span class="pre">findOne</span></tt> can take <tt class="docutils literal"><span class="pre">DBObject</span></tt> like on <tt class="docutils literal"><span class="pre">Collection</span></tt> objects, but you can also pass a filename as a <tt class="docutils literal"><span class="pre">String</span></tt>.  It is possible to have multiple files with the same filename as far as I know, so findOne would only return the first it found.  The returned object is not a DBObject - it is a <cite>GridFSDBFile</cite>.  From here, you should be able to explore and have fun on your own - stay out of trouble!</p>
+</div>
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3><a href="index.html">Casbah Manual</a></h3>
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference external" href="http://api.mongodb.org/scala/casbah/scaladoc/">API Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">2. Tutorial: Using Casbah</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#import-the-driver">2.1. Import the Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#briefly-automatic-type-conversions">2.2. Briefly: Automatic Type Conversions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wrappers">2.2.1. Wrappers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connecting-to-mongodb">2.2.2. Connecting to MongoDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-collections">2.2.3. Working with Collections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mongodbobject-a-scala-ble-dbobject-implementation">2.2.4. MongoDBObject - A Scala-ble DBObject Implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#combining-multiple-dbobjects">2.2.4.1. Combining Multiple DBObjects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#mongodblist-mongo-friendly-list-implementation">2.2.5. MongoDBList - Mongo-friendly List implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#querying-with-casbah">2.2.6. Querying with Casbah</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fluid-querying-with-casbah-s-dsl">2.2.6.1. Fluid Querying with Casbah's DSL</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#gridfs-with-casbah">2.2.7. GridFS with Casbah</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3 style="padding-bottom: 1em;"><a href="genindex.html">Index</a></h3>
+<h3>MongoDB Wiki</h3>
+
+<ul>
+ <li><strong>Getting Started</strong>
+   <ul>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Quickstart">Quickstart</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Introduction">Introduction</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Downloads">Downloads</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/SQL+to+MongoDB+Mapping+Chart">SQL to MongoDB Mapping</a></li>
+   </ul>
+ </li>
+ <li><strong><a href="http://mongodb.org/display/DOCS/Developer+Zone">Developer Documentation</a></strong>
+   <ul>
+     <li><a href="http://mongodb.org/display/DOCS/Connections">Connections</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Databases">Databases</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Collections">Collections</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Documents">Documents</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/GridFS">GridFS</a></li>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Indexes">Indexes</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Querying">Querying</a></li>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Aggregation">Aggregation</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Optimization">Optimization</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Inserting">Inserting</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Updating">Updating</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Removing">Removing</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/MapReduce">MapReduce</a></li>
+   </ul>
+ </li>
+ <li><strong><a href="http://mongodb.org/display/DOCS/Admin+Zone">Administrative Documentation</a></strong>
+   <ul>
+     <li><a href="http://mongodb.org/display/DOCS/Components">Components</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Journaling">Journaling</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Production+Notes">Production Notes</a></li>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Replication">Replication</a></li> -->
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Sharding">Sharding</a></li> -->
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Monitoring+and+Diagnostics">Monitoring and Diagnostics</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Backups">Backups</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Durability+and+Repair">Durability and Repair</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Security+and+Authentication">Security and Authentication</a></li>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Starting+and+Stopping+Mongo">Starting/Stopping MongoDB</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/GridFS+Tools">GridFS Tools</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/DBA+Operations+from+the+Shell">DB Operations from the Shell</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Architecture+and+Components">Architecture and Components</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Windows">Windows</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Troubleshooting">Troubleshooting</a></li>
+   </ul>
+ </li>
+ <li><strong><a href="http://www.mongodb.org/display/DOCS/Community">Community and Ecosystem</a></strong>
+   <ul>
+     <li><a href="http://10gen.com">10gen</a></li>
+     <li><a href="http://www.mongodb.org/events">MongoDB Events</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/MongoDB+Masters">MongoDB Masters</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Slides+and+Video">Slides and Video</a></li>
+     <!-- <li><a href="http://cookbook.mongodb.org/">Cookbook</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Hosting+Center">Hosting Center</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/MongoDB+Monitoring+Service">MongoDB Monitoring Service</a> (<a href="http://mms.10gen.com/help/">docs</a>)</li>
+     <li><a href="http://mongodb.org/display/DOCS/Admin+UIs">Administrative Interfaces</a></li>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/International+Docs">International Documentation</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Books">MongoDB Books</a></li>
+   </ul>
+ </li>
+ <li><strong><a href="http://www.mongodb.org/display/DOCS/Drivers">Drivers</a></strong>
+   <ul>
+     <li>JavaScript (<a href="http://mongodb.org/display/DOCS/Javascript+Language+Center">wiki</a>, <a href="http://api.mongodb.org/js/current">docs</a>)</li>
+     <li>Python (<a href="http://mongodb.org/display/DOCS/Python+Language+Center">wiki</a>, <a href="http://api.mongodb.org/python/current">docs</a>)</li>
+     <li>Ruby (<a href="http://mongodb.org/display/DOCS/Ruby+Language+Center">wiki</a>, <a href="http://api.mongodb.org/ruby/current">docs</a>)</li>
+     <li>PHP (<a href="http://mongodb.org/display/DOCS/PHP+Language+Center">wiki</a>, <a href="http://php.net/mongo/">docs</a>)</li>
+     <li>Perl (<a href="http://mongodb.org/display/DOCS/Perl+Language+Center">wiki</a>, <a href="http://api.mongodb.org/perl/current/">docs</a>)</li>
+     <li>Java (<a href="http://mongodb.org/display/DOCS/Java+Language+Center">wiki</a>, <a href="http://api.mongodb.org/java/current">docs</a>)</li>
+     <li>Scala (<a href="http://mongodb.org/display/DOCS/Scala+Language+Center">wiki</a>, <a href="http://api.mongodb.org/scala/casbah/current/">docs</a>)</li>
+     <li>C# (<a href="http://mongodb.org/display/DOCS/CSharp+Language+Center">wiki</a>, <a href="http://api.mongodb.org/csharp/current/">docs</a>)</li>
+     <li>C (<a href="http://mongodb.org/display/DOCS/C+Language+Center">wiki</a>, <a href="http://api.mongodb.org/c/current/">docs</a>)</li>
+     <li>C++ (<a href="http://mongodb.org/pages/viewpage.action?pageId=133409">wiki</a>, <a href="http://api.mongodb.org/cplusplus/current/">docs</a>)</li>
+     <li>Haskell (<a href="http://mongodb.org/display/DOCS/Haskell+Language+Center">wiki</a>, <a href="http://api.mongodb.org/haskell">docs</a>)</li>
+     <li>Erlang (<a href="http://mongodb.org/display/DOCS/Erlang+Language+Center">wiki</a>, <a href="http://api.mongodb.org/erlang">docs</a>)</li>
+   </ul>
+ </li>
+</ul>
+        </div>
+      </div>
+<div class="clearer"></div>
+</div>
+<div class="footer">
+<p>This documentation is a product of the MongoDB Documentation Project: fork the repository on <a href="https://github.com/mongodb/docs">GitHub</a>, or open a <a id="jirafooter" href="http://jira.mongodb.org/browse/DOCS">Jira Case</a> to contribute.
+<p>
+&copy; Copyright 2010-2013 10gen, Inc.  Licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons</a>.
+MongoDB&reg;, Mongo&reg;, and the leaf logo are registered trademarks of 10gen, Inc.</p>
+</div>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+var pluginUrl = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.') + 'google-analytics.com/plugins/ga/inpage_linkid.js';
+_gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+_gaq.push(['_setAccount', 'UA-7301842-8']);
+_gaq.push(['_setDomainName', 'docs.mongodb.org']);
+_gaq.push(['_trackPageview']);
+(function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+        })();jQuery.ajax({
+    url: "https://jira.mongodb.org/s/en_US-bxctp1/782/6/1.2.4/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?collectorId=298ba4e7",
+    type: "get",
+    cache: true,
+    dataType: "script"
+});
+window.ATL_JQ_PAGE_PROPS =  {
+"triggerFunction": function(showCollectorDialog) {
+jQuery("#jirafeedback").click(function(e) {e.preventDefault();showCollectorDialog();});
+jQuery("#jirafooter").click(function(e) {e.preventDefault();showCollectorDialog();});
+}};
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>Helpers.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. &lt;http://novus.com&gt;
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ *
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah
+<span class="keyword">package</span> commons
+<span class="keyword">package</span> conversions
+
+<span class="keyword">import</span> com.mongodb.casbah.commons.Logging
+
+<span class="keyword">trait</span> <a title="trait MongoConversionHelper extends java.lang.Object with com.mongodb.casbah.commons.Logging with ScalaObject" id="10205">MongoConversionHelper</a> <span title="ScalaObject" class="keyword">extends</span> <a href="Logger.scala.html#10172" title="com.mongodb.casbah.commons.Logging">Logging</a> <span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="()Unit" id="19439">register</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="Logger.scala.html#18936" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="Logger.scala.html#19516" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Reached base registration method on MongoConversionHelper.&quot;)" class="string">&quot;Reached base registration method on MongoConversionHelper.&quot;</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="()Unit" id="19440">unregister</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="Logger.scala.html#18936" title="=&gt; com.mongodb.casbah.commons.Logger">log</a>.<a href="Logger.scala.html#19516" title="(msg: =&gt; String)Unit">debug</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Reached base de-registration method on MongoConversionHelper.&quot;)" class="string">&quot;Reached base de-registration method on MongoConversionHelper.&quot;</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

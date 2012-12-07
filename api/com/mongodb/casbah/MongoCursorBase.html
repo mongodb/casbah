@@ -1,0 +1,958 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>com.mongodb.casbah.MongoCursorBase</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../../lib/template.css" />
+      <script type="text/javascript" src="../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body onload="sh_highlightDocument('../lib/', '.min.js');" class="type">
+      <div id="definition">
+        <img src="../../../lib/trait_big.png" />
+        <p id="owner"><a name="com" class="extype" href="../../package.html">com</a>.<a name="com.mongodb" class="extype" href="../package.html">mongodb</a>.<a name="com.mongodb.casbah" class="extype" href="package.html">casbah</a></p>
+        <h1>MongoCursorBase</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MongoCursorBase</span><span class="result"> extends <a name="com.mongodb.casbah.commons.Logging" class="extype" href="commons/Logging.html">Logging</a></span>
+      </span>
+      </h4>
+      
+      <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Scala wrapper for Mongo DBCursors,
+including ones which return custom DBObject subclasses.</p><p>This is a rewrite of the Casbah 1.0 approach which was rather
+naive and unnecessarily complex.... formerly was MongoCursorWrapper
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="https://rozza.github.com/casbah/api.sxr//casbah-core/MongoCursor.scala.html">MongoCursor.scala</a></dd><dt>Version</dt><dd><p>2.0, 12/23/10</p></dd><dt>Since</dt><dd><p>2.0
+</p></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.commons.Logging" class="extype" href="commons/Logging.html">Logging</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+        </div><div class="toggleContainer block">
+          <span class="toggle">Known Subclasses</span>
+          <div class="subClasses hiddenContent"><a name="com.mongodb.casbah.MongoCursor" class="extype" href="MongoCursor.html">MongoCursor</a>, <a name="com.mongodb.casbah.MongoGenericTypedCursor" class="extype" href="MongoGenericTypedCursor.html">MongoGenericTypedCursor</a></div>
+        </div></div>
+    
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol><li class="alpha in"><span>Alphabetic</span></li><li class="inherit out"><span>By inheritance</span></li></ol>
+            </div>
+        <div id="ancestors">
+              <span class="filtertype">Inherited</span>
+              <ol><li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li></ol>
+              <ol id="linearization"><li name="com.mongodb.casbah.MongoCursorBase" class="in"><span>MongoCursorBase</span></li><li name="com.mongodb.casbah.commons.Logging" class="in"><span>Logging</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+            </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#T" data-isabs="true">
+      <a id="T:T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">T</span><span class="result"> &lt;: DBObject</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        <div class="values members" id="values">
+              <h3>Abstract Value Members</h3>
+              <ol><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#_newInstance" data-isabs="true">
+      <a id="_newInstance(DBCursor):MongoCursorBase"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">_newInstance</span><span class="params">(<span name="cursor">cursor: <span name="com.mongodb.DBCursor" class="extype">DBCursor</span></span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoCursorBase" class="extype" href="">MongoCursorBase</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">_newInstance</p><div class="fullcomment"><div class="comment cmt"><p>_newInstance</p><p>Utility method which concrete subclasses
+are expected to implement for creating a new
+instance of THIS concrete implementation from a
+Java cursor.  Good with cursor calls that return a new cursor.
+</p></div><dl class="paramcmts block"><dt class="param">cursor</dt><dd class="cmt"><p>(DBCursor)</p></dd><dt>returns</dt><dd class="cmt"><p>(this.type)
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#underlying" data-isabs="true">
+      <a id="underlying:DBCursor"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">underlying</span><span class="result">: <span name="com.mongodb.DBCursor" class="extype">DBCursor</span></span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        <div class="values members" id="values">
+              <h3>Concrete Value Members</h3>
+              <ol><li visbl="pub" name="scala.AnyRef#!=" data-isabs="false">
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $bang$eq">!=</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#!=" data-isabs="false">
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $bang$eq">!=</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef###" data-isabs="false">
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $hash$hash">##</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#$explain" data-isabs="false">
+      <a id="$explain(Boolean):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$explain</span><span class="params">(<span name="bool">bool: <span name="scala.Boolean" class="extype">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">$explain</p><div class="fullcomment"><div class="comment cmt"><p>$explain</p><p>Sets a special operator of $explain
+which, if true, explains the query instead of returning results.</p><p>This is the same as calling the explain() method on the cursor.
+</p></div><dl class="paramcmts block"><dt class="param">bool</dt><dd class="cmt"><p>(Boolean = true)</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#$hint" data-isabs="false">
+      <a id="$hint[A](A)((A) ⇒ DBObject):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$hint</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="obj">obj: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">$hint</p><div class="fullcomment"><div class="comment cmt"><p>$hint</p><p>Sets a special operator $hint which
+forces the query to use a given index.</p><p>This is the same as calling hint() on the cursor.
+</p></div><dl class="paramcmts block"><dt class="param">obj</dt><dd class="cmt"><p>(DBObject)</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#$max" data-isabs="false">
+      <a id="$max[A](A)((A) ⇒ DBObject):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$max</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="obj">obj: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">$max</p><div class="fullcomment"><div class="comment cmt"><p>$max</p><p>Sets maximum index bounds - commonly paired with $max
+</p></div><dl class="paramcmts block"><dt class="param">obj</dt><dd class="cmt"><p>(DBObject)</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.mongodb.org/display/DOCS/max+and+max+Query+Specifiers
+</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#$maxScan" data-isabs="false">
+      <a id="$maxScan[A](T)(Numeric[A]):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$maxScan</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="max">max: T</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: Numeric[A]</span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">$maxScan</p><div class="fullcomment"><div class="comment cmt"><p>$maxScan</p><p>Sets a special operator of $maxScan
+Which defines the max number of items to scan.
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>: Numeric</p></dd><dt class="param">max</dt><dd class="cmt"><p>(A)</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#$min" data-isabs="false">
+      <a id="$min[A](A)((A) ⇒ DBObject):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$min</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="obj">obj: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">$min</p><div class="fullcomment"><div class="comment cmt"><p>$min</p><p>Sets minimum index bounds - commonly paired with $max
+</p></div><dl class="paramcmts block"><dt class="param">obj</dt><dd class="cmt"><p>(DBObject)</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.mongodb.org/display/DOCS/min+and+max+Query+Specifiers
+</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#$orderby" data-isabs="false">
+      <a id="$orderby[A](A)((A) ⇒ DBObject):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$orderby</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="obj">obj: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">$orderby</p><div class="fullcomment"><div class="comment cmt"><p>$orderby</p><p>Sets a special operator of $orderby
+which defines the sort spec for this cursor.</p><p>This is the same as calling sort on the cursor.
+</p></div><dl class="paramcmts block"><dt class="param">obj</dt><dd class="cmt"><p>(DBObject)</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#$query" data-isabs="false">
+      <a id="$query[A](A)((A) ⇒ DBObject):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$query</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="q">q: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">$query</p><div class="fullcomment"><div class="comment cmt"><p>$query</p><p>Sets a special operator of $query
+Which defines the query for this cursor.</p><p>This is the same as running find() on a Collection with the query.
+</p></div><dl class="paramcmts block"><dt class="param">q</dt><dd class="cmt"><p>(DBObject)</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#$returnKey" data-isabs="false">
+      <a id="$returnKey(Boolean):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$returnKey</span><span class="params">(<span name="bool">bool: <span name="scala.Boolean" class="extype">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">$returnKey</p><div class="fullcomment"><div class="comment cmt"><p>$returnKey</p><p>Sets a special operator of $returnKey
+If true, returns ONLY the index key.
+Defaults to true if you just call $returnKey
+</p></div><dl class="paramcmts block"><dt class="param">bool</dt><dd class="cmt"><p>(Boolean = true)</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#$showDiskLoc" data-isabs="false">
+      <a id="$showDiskLoc(Boolean):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$showDiskLoc</span><span class="params">(<span name="bool">bool: <span name="scala.Boolean" class="extype">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">$showDiskLoc</p><div class="fullcomment"><div class="comment cmt"><p>$showDiskLoc</p><p>Sets a special operator $showDiskLoc which, if true,
+shows the disk location of results.
+</p></div><dl class="paramcmts block"><dt class="param">bool</dt><dd class="cmt"><p>(Boolean = true)</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#$snapshot" data-isabs="false">
+      <a id="$snapshot(Boolean):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$snapshot</span><span class="params">(<span name="bool">bool: <span name="scala.Boolean" class="extype">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">$snapshot</p><div class="fullcomment"><div class="comment cmt"><p>$snapshot</p><p>Sets a special operator of $snapshot
+which, if True, sets snapshot mode on the query.</p><p>This is the same as calling the snapshot() method on the cursor.
+</p></div><dl class="paramcmts block"><dt class="param">bool</dt><dd class="cmt"><p>(Boolean = true)</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#==" data-isabs="false">
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $eq$eq">==</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#==" data-isabs="false">
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $eq$eq">==</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#addSpecial" data-isabs="false">
+      <a id="addSpecial(String,Any):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addSpecial</span><span class="params">(<span name="name">name: String</span>, <span name="o">o: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">&quot;Special&quot; Operators for cursors</p><div class="fullcomment"><div class="comment cmt"><p>&quot;Special&quot; Operators for cursors</p><p>adds a special operator like $maxScan or $returnKey</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations</p></dd></dl><dl class="attributes block"> <div class="block">Examples:
+                <ol><li class="cmt"><p>addSpecial( &quot;$maxScan&quot; , 100 )
+</p></li>, <li class="cmt"><p>addSpecial( &quot;$returnKey&quot; , 1 )</p></li></ol>
+              </div><dt>See also</dt><dd><span class="cmt"><p>http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-Specialoperators
+</p></span></dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#asInstanceOf" data-isabs="false">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#batchSize" data-isabs="false">
+      <a id="batchSize(Int):MongoCursorBase"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">batchSize</span><span class="params">(<span name="n">n: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoCursorBase" class="extype" href="">MongoCursorBase</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">batchSize</p><div class="fullcomment"><div class="comment cmt"><p>batchSize</p><p>Limits the number of elements returned in one batch.
+</p></div><dl class="paramcmts block"><dt class="param">n</dt><dd class="cmt"><p>(Int) The number of elements to return in a batch</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: AnyRef</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#close" data-isabs="false">
+      <a id="close():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">close</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">close</p><div class="fullcomment"><div class="comment cmt"><p>close</p><p>Kill the current cursor on the server
+</p></div></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#copy" data-isabs="false">
+      <a id="copy():MongoCursorBase"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">copy</span><span class="params">()</span><span class="result">: <a name="com.mongodb.casbah.MongoCursorBase" class="extype" href="">MongoCursorBase</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">copy</p><div class="fullcomment"><div class="comment cmt"><p>copy</p><p>Creates a new copy of an existing database cursor.
+The new cursor is an iterator even if the original
+was an array.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>The new cursor
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#count" data-isabs="false">
+      <a id="count:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">count</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">count</p><div class="fullcomment"><div class="comment cmt"><p>count</p><p>The DBCursor's count of elements in the query, passed through
+from the Java object.  Note that Scala Iterator[_] base trait
+has a count method which tests predicates and you should
+be careful about using that.</p><p><b>NOTE:</b> count() ignores any skip/limit settings on a cursor;
+it is the count of the ENTIRE query results.
+If you want to get a count post-skip/limit
+you must use size()
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>Int indicating the number of elements returned by the query</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt">MongoException<p>
+</p></span></dd><dt>See also</dt><dd><span class="cmt"><p>size()
+</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#cursorId" data-isabs="false">
+      <a id="cursorId:Long"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">cursorId</span><span class="result">: <span name="scala.Long" class="extype">Long</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">cursorId
+</p><div class="fullcomment"><div class="comment cmt"><p>cursorId
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>A long representing the cursorID on the server; 0 = no cursor</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#equals" data-isabs="false">
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#explain" data-isabs="false">
+      <a id="explain:CursorExplanation"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">explain</span><span class="result">: <a name="com.mongodb.casbah.CursorExplanation" class="extype" href="CursorExplanation.html">CursorExplanation</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">explain</p><div class="fullcomment"><div class="comment cmt"><p>explain</p><p>Returns an object containing basic information about the execution
+of the query that created this cursor.
+This creates an instance of CursorExplanation which is a custom
+dbObject with the key/value pairs:</p><ul><li>cursor = Cursor Type</li><li>nscanned = Number of items examined by Mongo for this query</li><li>nscannedObjects = Number of objects examined by Mongo</li><li>n = the number of records which Mongo returned</li><li>millis = how long it took Mongo to execute the query</li><li>nYields = number of times this query yielded the read lock to let writes in</li><li>indexBounds = the index boundaries used.</li></ul><p>CursorExplanation provides utility methods to access these fields.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>an instance of CursorExplanation
+</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://dochub.mongodb.org/core/explain</p></span></dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#finalize" data-isabs="false">
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
+      <a id="getClass():java.lang.Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: java.lang.Class[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#hasNext" data-isabs="false">
+      <a id="hasNext:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hasNext</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">hasNext</p><div class="fullcomment"><div class="comment cmt"><p>hasNext</p><p>Is there another element in the cursor?</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>(Boolean Next)
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#hashCode" data-isabs="false">
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#hint" data-isabs="false">
+      <a id="hint(String):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hint</span><span class="params">(<span name="indexName">indexName: String</span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">hint</p><div class="fullcomment"><div class="comment cmt"><p>hint</p><p>Provide the Database a hint of an indexed field of a collection to use
+to improve performance.
+</p></div><dl class="paramcmts block"><dt class="param">indexName</dt><dd class="cmt"><p>(String) The name of an index</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#hint" data-isabs="false">
+      <a id="hint[A](A)((A) ⇒ DBObject):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hint</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="indexKeys">indexKeys: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">hint</p><div class="fullcomment"><div class="comment cmt"><p>hint</p><p>Provide the Database a hint of which indexed fields of a collection to use
+to improve performance.
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>A view of DBObject to use for the indexKeys</p></dd><dt class="param">indexKeys</dt><dd class="cmt"><p>(A) A DBObject of the index names as keys</p></dd><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#keysWanted" data-isabs="false">
+      <a id="keysWanted:DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">keysWanted</span><span class="result">: <span name="com.mongodb.DBObject" class="extype">DBObject</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#limit" data-isabs="false">
+      <a id="limit(Int):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">limit</span><span class="params">(<span name="n">n: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">limit</p><div class="fullcomment"><div class="comment cmt"><p>limit</p><p>Limits the number of elements returned.</p><p><b>NOTE:</b> Specifying a <em>negative number</em> instructs
+the server to retrun that number of items and close the cursor.
+It will only return what can fit into a <em>single 4MB response</em>
+</p></div><dl class="paramcmts block"><dt class="param">n</dt><dd class="cmt"><p>(Int)  The number of elements to return</p></dd><dt>returns</dt><dd class="cmt"><p>A cursor pointing to the first element of the limited results
+</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://dochub.mongodb.org/core/limit
+</p></span></dd></dl></div>
+    </li><li visbl="prt" name="com.mongodb.casbah.commons.Logging#log" data-isabs="false">
+      <a id="log:Logger"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">log</span><span class="result">: <a name="com.mongodb.casbah.commons.Logger" class="extype" href="commons/Logger.html">Logger</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="com.mongodb.casbah" class="extype" href="package.html">casbah</a>] </dd><dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.commons.Logging" class="extype" href="commons/Logging.html">Logging</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#next" data-isabs="false">
+      <a id="next():T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">next</span><span class="params">()</span><span class="result">: T</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">next</p><div class="fullcomment"><div class="comment cmt"><p>next</p><p>Iterator increment.</p><p>TODO: The cast to T should be examined for sanity/safety.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>The next element in the cursor
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notify" data-isabs="false">
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notifyAll" data-isabs="false">
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#numGetMores" data-isabs="false">
+      <a id="numGetMores:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">numGetMores</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#numSeen" data-isabs="false">
+      <a id="numSeen:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">numSeen</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">numSeen</p><div class="fullcomment"><div class="comment cmt"><p>numSeen</p><p>Returns the number of objects through which this cursor has iterated,
+as tracked by the java driver.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>The number of objects seen
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#option" data-isabs="false">
+      <a id="option:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">option</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Manipulate Query Options</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Query Options</p><p>Gets current option settings - see Bytes.QUERYOPTION_* for list
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes
+</p></span>, <span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#option_=" data-isabs="false">
+      <a id="option_=(Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: option_$eq">option_=</span><span class="params">(<span name="option">option: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Manipulate Query Options</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Query Options</p><p>Adds an option - see Bytes.QUERYOPTION_* for list
+TODO - Create Scala version of Bytes.QUERYOPTION_*
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes
+</p></span>, <span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#options" data-isabs="false">
+      <a id="options:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">options</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Manipulate Query Options</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Query Options</p><p>Gets current option settings - see Bytes.QUERYOPTION_* for list
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes
+</p></span>, <span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#options_=" data-isabs="false">
+      <a id="options_=(Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: options_$eq">options_=</span><span class="params">(<span name="opts">opts: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Manipulate Query Options</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Query Options</p><p>Sets current option settings - see Bytes.QUERYOPTION_* for list
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes
+</p></span>, <span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#query" data-isabs="false">
+      <a id="query:DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">query</span><span class="result">: <span name="com.mongodb.DBObject" class="extype">DBObject</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#resetOptions" data-isabs="false">
+      <a id="resetOptions():DBCursor"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resetOptions</span><span class="params">()</span><span class="result">: <span name="com.mongodb.DBCursor" class="extype">DBCursor</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Manipulate Query Options</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Query Options</p><p>Resets options to default.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes
+</p></span>, <span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#sizes" data-isabs="false">
+      <a id="sizes:Seq[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sizes</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="scala.Int" class="extype">Int</span>]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#skip" data-isabs="false">
+      <a id="skip(Int):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">skip</span><span class="params">(<span name="n">n: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">skip</p><div class="fullcomment"><div class="comment cmt"><p>skip</p><p>Discards a given number of elements at the beginning of the cursor.
+</p></div><dl class="paramcmts block"><dt class="param">n</dt><dd class="cmt"><p>(Int)  The number of elements to skip</p></dd><dt>returns</dt><dd class="cmt"><p>A cursor pointing to the first element of the results
+</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://dochub.mongodb.org/core/skip
+</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#snapshot" data-isabs="false">
+      <a id="snapshot():MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">snapshot</span><span class="params">()</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">snapshot</p><div class="fullcomment"><div class="comment cmt"><p>snapshot</p><p>Use snapshot mode for the query.
+Snapshot mode assures no duplicates are returned, or objects missed,
+which were present at both the start and end of the query's
+execution (if an object is new during the query, or deleted during the query,
+it may or may not be returned, even with snapshot mode).</p><p><b>NOTE:</b> Short query responses (&lt; 1MB) are always effectively snapshotted.
+<b>NOTE:</b> Currently, snapshot mode may not be used with sorting or explicit hints.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the same DBCursor, useful for chaining operations
+</p></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#sort" data-isabs="false">
+      <a id="sort[A](A)((A) ⇒ DBObject):MongoCursorBase.this.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sort</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="orderBy">orderBy: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: MongoCursorBase.this.type</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">sort</p><div class="fullcomment"><div class="comment cmt"><p>sort</p><p>Sort this cursor's elements
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>A view of DBObject to sort by</p></dd><dt class="param">orderBy</dt><dd class="cmt"><p>(A) The fields on which to sort</p></dd><dt>returns</dt><dd class="cmt"><p>A cursor pointing to the first element of the sorted results
+</p></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
+      <a id="synchronized[T0](⇒ T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ T0</span>)</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#toString" data-isabs="false">
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div class="values members" id="values">
+              <h3>Deprecated Value Members</h3>
+              <ol><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#slaveOk" data-isabs="false">
+      <a id="slaveOk():DBCursor"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version scala.this.deprecated.init$default$2) Replaced with ReadPreference.SECONDARY">slaveOk</span><span class="params">()</span><span class="result">: <span name="com.mongodb.DBCursor" class="extype">DBCursor</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">slaveOk</p><div class="fullcomment"><div class="comment cmt"><p>slaveOk</p><p>Makes this query OK to run on a non-master node.</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version scala.this.deprecated.init$default$2)</i> Replaced with ReadPreference.SECONDARY</p></dd></dl></div>
+    </li></ol>
+            </div>
+        </div>
+
+        <div id="inheritedMembers">
+        <div name="com.mongodb.casbah.commons.Logging" class="parent">
+              <h3>Inherited from <a name="com.mongodb.casbah.commons.Logging" class="extype" href="commons/Logging.html">Logging</a></h3>
+            </div><div name="scala.AnyRef" class="parent">
+              <h3>Inherited from AnyRef</h3>
+            </div><div name="scala.Any" class="parent">
+              <h3>Inherited from <span name="scala.Any" class="extype">Any</span></h3>
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

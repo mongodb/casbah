@@ -1,0 +1,770 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>com.mongodb.casbah.query.dsl.aggregation</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../../../../../lib/template.css" />
+      <script type="text/javascript" src="../../../../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body onload="sh_highlightDocument('../lib/', '.min.js');" class="value">
+      <div id="definition">
+        <img src="../../../../../../lib/package_big.png" />
+        <p id="owner"><a name="com" class="extype" href="../../../../../package.html">com</a>.<a name="com.mongodb" class="extype" href="../../../../package.html">mongodb</a>.<a name="com.mongodb.casbah" class="extype" href="../../../package.html">casbah</a>.<a name="com.mongodb.casbah.query" class="extype" href="../../package.html">query</a>.<a name="com.mongodb.casbah.query.dsl" class="extype" href="../package.html">dsl</a></p>
+        <h1>aggregation</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">aggregation</span>
+      </span>
+      </h4>
+      
+      <div class="fullcommenttop" id="comment"></div>
+    
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" data-isabs="false">
+      <a id="AggregationPipeline:AggregationPipeline"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="AggregationPipeline.html"><span class="name">AggregationPipeline</span></a><span class="result"> extends PipelineOperations</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupAddToSetOperator" data-isabs="true">
+      <a id="GroupAddToSetOperator:GroupAddToSetOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupAddToSetOperator.html"><span class="name">GroupAddToSetOperator</span></a><span class="result"> extends GroupSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Returns an array of all the values found in the selected field among
+the documents in that group.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupAvgOperator" data-isabs="true">
+      <a id="GroupAvgOperator:GroupAvgOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupAvgOperator.html"><span class="name">GroupAvgOperator</span></a><span class="result"> extends GroupSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Returns the average of all values of the field in all documents selected by this group.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupFirstOperator" data-isabs="true">
+      <a id="GroupFirstOperator:GroupFirstOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupFirstOperator.html"><span class="name">GroupFirstOperator</span></a><span class="result"> extends GroupSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Returns the first value it sees for its group.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupLastOperator" data-isabs="true">
+      <a id="GroupLastOperator:GroupLastOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupLastOperator.html"><span class="name">GroupLastOperator</span></a><span class="result"> extends GroupSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Returns the last value it sees for its group.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupMaxOperator" data-isabs="true">
+      <a id="GroupMaxOperator:GroupMaxOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupMaxOperator.html"><span class="name">GroupMaxOperator</span></a><span class="result"> extends GroupSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Returns the highest value among all values of the field in all documents selected by this group.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupMinOperator" data-isabs="true">
+      <a id="GroupMinOperator:GroupMinOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupMinOperator.html"><span class="name">GroupMinOperator</span></a><span class="result"> extends GroupSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Returns the lowest value among all values of the field in all documents selected by this group.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupOperator" data-isabs="true">
+      <a id="GroupOperator:GroupOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupOperator.html"><span class="name">GroupOperator</span></a><span class="result"> extends PipelineOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base trait for implementation of $group</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupPushOperator" data-isabs="true">
+      <a id="GroupPushOperator:GroupPushOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupPushOperator.html"><span class="name">GroupPushOperator</span></a><span class="result"> extends GroupSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Returns an array of all the values found in the selected field among
+the documents in that group.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupSubExpressionObject" data-isabs="true">
+      <a id="GroupSubExpressionObject:GroupSubExpressionObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupSubExpressionObject.html"><span class="name">GroupSubExpressionObject</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupSubOperator" data-isabs="true">
+      <a id="GroupSubOperator:GroupSubOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupSubOperator.html"><span class="name">GroupSubOperator</span></a><span class="result"> extends Logging</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupSubOperators" data-isabs="true">
+      <a id="GroupSubOperators:GroupSubOperators"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupSubOperators.html"><span class="name">GroupSubOperators</span></a><span class="result"> extends GroupSumOperator with GroupPushOperator with GroupAvgOperator with GroupMinOperator with GroupMaxOperator with GroupFirstOperator with GroupLastOperator with GroupAddToSetOperator</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupSumOperator" data-isabs="true">
+      <a id="GroupSumOperator:GroupSumOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupSumOperator.html"><span class="name">GroupSumOperator</span></a><span class="result"> extends GroupSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Returns the sum of all the values for a specified field in the
+grouped documents, as in the second use above.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.LimitOperator" data-isabs="true">
+      <a id="LimitOperator:LimitOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="LimitOperator.html"><span class="name">LimitOperator</span></a><span class="result"> extends PipelineOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Trait to implement $limit
+</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.MatchOperator" data-isabs="true">
+      <a id="MatchOperator:MatchOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="MatchOperator.html"><span class="name">MatchOperator</span></a><span class="result"> extends PipelineOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base trait to implement $match,
+uses mostly the core Query DSL API to operate.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.PipelineOperations" data-isabs="true">
+      <a id="PipelineOperations:PipelineOperations"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="PipelineOperations.html"><span class="name">PipelineOperations</span></a><span class="result"> extends GroupOperator with LimitOperator with SkipOperator with MatchOperator with ProjectOperator with SortOperator with UnwindOperator</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.PipelineOperator" data-isabs="true">
+      <a id="PipelineOperator:PipelineOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="PipelineOperator.html"><span class="name">PipelineOperator</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base trait for a Pipeline Operator for
+the Aggregation Framework.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectAddArithmeticOperator" data-isabs="true">
+      <a id="ProjectAddArithmeticOperator:ProjectAddArithmeticOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectAddArithmeticOperator.html"><span class="name">ProjectAddArithmeticOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$add</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectAndBooleanOperator" data-isabs="true">
+      <a id="ProjectAndBooleanOperator:ProjectAndBooleanOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectAndBooleanOperator.html"><span class="name">ProjectAndBooleanOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$and</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectCaseInsensitiveCompareStringOperator" data-isabs="true">
+      <a id="ProjectCaseInsensitiveCompareStringOperator:ProjectCaseInsensitiveCompareStringOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectCaseInsensitiveCompareStringOperator.html"><span class="name">ProjectCaseInsensitiveCompareStringOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$strcasecmp</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectCmpComparisonOperator" data-isabs="true">
+      <a id="ProjectCmpComparisonOperator:ProjectCmpComparisonOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectCmpComparisonOperator.html"><span class="name">ProjectCmpComparisonOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$cmp</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectCondConditionalOperator" data-isabs="true">
+      <a id="ProjectCondConditionalOperator:ProjectCondConditionalOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectCondConditionalOperator.html"><span class="name">ProjectCondConditionalOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$cond</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectDayOfMonthDateOperator" data-isabs="true">
+      <a id="ProjectDayOfMonthDateOperator:ProjectDayOfMonthDateOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectDayOfMonthDateOperator.html"><span class="name">ProjectDayOfMonthDateOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$dayOfMonth</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectDayOfWeekDateOperator" data-isabs="true">
+      <a id="ProjectDayOfWeekDateOperator:ProjectDayOfWeekDateOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectDayOfWeekDateOperator.html"><span class="name">ProjectDayOfWeekDateOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$dayOfWeek</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectDayOfYearDateOperator" data-isabs="true">
+      <a id="ProjectDayOfYearDateOperator:ProjectDayOfYearDateOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectDayOfYearDateOperator.html"><span class="name">ProjectDayOfYearDateOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$dayOfYear</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectDivideArithmeticOperator" data-isabs="true">
+      <a id="ProjectDivideArithmeticOperator:ProjectDivideArithmeticOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectDivideArithmeticOperator.html"><span class="name">ProjectDivideArithmeticOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$divide</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectEqComparisonOperator" data-isabs="true">
+      <a id="ProjectEqComparisonOperator:ProjectEqComparisonOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectEqComparisonOperator.html"><span class="name">ProjectEqComparisonOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$eq</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectGtComparisonOperator" data-isabs="true">
+      <a id="ProjectGtComparisonOperator:ProjectGtComparisonOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectGtComparisonOperator.html"><span class="name">ProjectGtComparisonOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$gt</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectGteComparisonOperator" data-isabs="true">
+      <a id="ProjectGteComparisonOperator:ProjectGteComparisonOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectGteComparisonOperator.html"><span class="name">ProjectGteComparisonOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$gte</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectHourDateOperator" data-isabs="true">
+      <a id="ProjectHourDateOperator:ProjectHourDateOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectHourDateOperator.html"><span class="name">ProjectHourDateOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$hour</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectIfNullConditionalOperator" data-isabs="true">
+      <a id="ProjectIfNullConditionalOperator:ProjectIfNullConditionalOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectIfNullConditionalOperator.html"><span class="name">ProjectIfNullConditionalOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$ifNull</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectLtComparisonOperator" data-isabs="true">
+      <a id="ProjectLtComparisonOperator:ProjectLtComparisonOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectLtComparisonOperator.html"><span class="name">ProjectLtComparisonOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$lt</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectLteComparisonOperator" data-isabs="true">
+      <a id="ProjectLteComparisonOperator:ProjectLteComparisonOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectLteComparisonOperator.html"><span class="name">ProjectLteComparisonOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$lte</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectMinuteDateOperator" data-isabs="true">
+      <a id="ProjectMinuteDateOperator:ProjectMinuteDateOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectMinuteDateOperator.html"><span class="name">ProjectMinuteDateOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$minute</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectMonthDateOperator" data-isabs="true">
+      <a id="ProjectMonthDateOperator:ProjectMonthDateOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectMonthDateOperator.html"><span class="name">ProjectMonthDateOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$month</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectMultiplyArithmeticOperator" data-isabs="true">
+      <a id="ProjectMultiplyArithmeticOperator:ProjectMultiplyArithmeticOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectMultiplyArithmeticOperator.html"><span class="name">ProjectMultiplyArithmeticOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$multiply</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectNeComparisonOperator" data-isabs="true">
+      <a id="ProjectNeComparisonOperator:ProjectNeComparisonOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectNeComparisonOperator.html"><span class="name">ProjectNeComparisonOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$ne</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectNotBooleanOperator" data-isabs="true">
+      <a id="ProjectNotBooleanOperator:ProjectNotBooleanOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectNotBooleanOperator.html"><span class="name">ProjectNotBooleanOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$not</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectOperator" data-isabs="true">
+      <a id="ProjectOperator:ProjectOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectOperator.html"><span class="name">ProjectOperator</span></a><span class="result"> extends PipelineOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base trait to implement $project
+</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectOrBooleanOperator" data-isabs="true">
+      <a id="ProjectOrBooleanOperator:ProjectOrBooleanOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectOrBooleanOperator.html"><span class="name">ProjectOrBooleanOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$or</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectSecondDateOperator" data-isabs="true">
+      <a id="ProjectSecondDateOperator:ProjectSecondDateOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectSecondDateOperator.html"><span class="name">ProjectSecondDateOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$second</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectSubExpressionObject" data-isabs="true">
+      <a id="ProjectSubExpressionObject:ProjectSubExpressionObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectSubExpressionObject.html"><span class="name">ProjectSubExpressionObject</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectSubOperator" data-isabs="true">
+      <a id="ProjectSubOperator:ProjectSubOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectSubOperator.html"><span class="name">ProjectSubOperator</span></a><span class="result"> extends ChainedOperator</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectSubOperators" data-isabs="true">
+      <a id="ProjectSubOperators:ProjectSubOperators"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectSubOperators.html"><span class="name">ProjectSubOperators</span></a><span class="result"> extends ProjectAndBooleanOperator with ProjectOrBooleanOperator with ProjectNotBooleanOperator with ProjectCmpComparisonOperator with ProjectEqComparisonOperator with ProjectGtComparisonOperator with ProjectGteComparisonOperator with ProjectLtComparisonOperator with ProjectLteComparisonOperator with ProjectNeComparisonOperator with ProjectAddArithmeticOperator with ProjectDivideArithmeticOperator with ProjectMultiplyArithmeticOperator with ProjectSubtractArithmeticOperator with ProjectCaseInsensitiveCompareStringOperator with ProjectSubstringStringOperator with ProjectToUpperStringOperator with ProjectToLowerStringOperator with ProjectDayOfYearDateOperator with ProjectDayOfWeekDateOperator with ProjectDayOfMonthDateOperator with ProjectMonthDateOperator with ProjectWeekDateOperator with ProjectHourDateOperator with ProjectMinuteDateOperator with ProjectSecondDateOperator with ProjectCondConditionalOperator with ProjectIfNullConditionalOperator</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectSubstringStringOperator" data-isabs="true">
+      <a id="ProjectSubstringStringOperator:ProjectSubstringStringOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectSubstringStringOperator.html"><span class="name">ProjectSubstringStringOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$substr</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectSubtractArithmeticOperator" data-isabs="true">
+      <a id="ProjectSubtractArithmeticOperator:ProjectSubtractArithmeticOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectSubtractArithmeticOperator.html"><span class="name">ProjectSubtractArithmeticOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$subtract</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectToLowerStringOperator" data-isabs="true">
+      <a id="ProjectToLowerStringOperator:ProjectToLowerStringOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectToLowerStringOperator.html"><span class="name">ProjectToLowerStringOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$toLower</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectToUpperStringOperator" data-isabs="true">
+      <a id="ProjectToUpperStringOperator:ProjectToUpperStringOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectToUpperStringOperator.html"><span class="name">ProjectToUpperStringOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$toUpper</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectWeekDateOperator" data-isabs="true">
+      <a id="ProjectWeekDateOperator:ProjectWeekDateOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectWeekDateOperator.html"><span class="name">ProjectWeekDateOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$week</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectYearDateOperator" data-isabs="true">
+      <a id="ProjectYearDateOperator:ProjectYearDateOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectYearDateOperator.html"><span class="name">ProjectYearDateOperator</span></a><span class="result"> extends ProjectSubOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$year</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.SkipOperator" data-isabs="true">
+      <a id="SkipOperator:SkipOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="SkipOperator.html"><span class="name">SkipOperator</span></a><span class="result"> extends PipelineOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Trait to implement $skip
+</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.SortOperator" data-isabs="true">
+      <a id="SortOperator:SortOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="SortOperator.html"><span class="name">SortOperator</span></a><span class="result"> extends PipelineOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base trait to implement $sort
+</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.UnwindOperator" data-isabs="true">
+      <a id="UnwindOperator:UnwindOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="UnwindOperator.html"><span class="name">UnwindOperator</span></a><span class="result"> extends PipelineOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base trait to implement $unwind
+</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div class="values members" id="values">
+              <h3>Value Members</h3>
+              <ol><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" data-isabs="false">
+      <a id="AggregationPipeline:AggregationPipeline"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="AggregationPipeline$.html"><span class="name">AggregationPipeline</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.GroupSubExpressionObject" data-isabs="false">
+      <a id="GroupSubExpressionObject:GroupSubExpressionObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="GroupSubExpressionObject$.html"><span class="name">GroupSubExpressionObject</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.PipelineOperator" data-isabs="false">
+      <a id="PipelineOperator:PipelineOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="PipelineOperator$.html"><span class="name">PipelineOperator</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.aggregation.ProjectSubExpressionObject" data-isabs="false">
+      <a id="ProjectSubExpressionObject:ProjectSubExpressionObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ProjectSubExpressionObject$.html"><span class="name">ProjectSubExpressionObject</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>package.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 - 2013 10gen, Inc. &lt;http://10gen.com&gt;
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ *
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah.query.dsl
+
+<span class="keyword">import</span> com.mongodb.casbah.commons.Logging
+
+<span class="keyword">import</span> scalaj.collection.<span title="object scalaj.collection.Imports">Imports</span>._
+
+<span class="keyword">import</span> com.mongodb.casbah.query.<a href="Implicits.scala.html#10236" title="object com.mongodb.casbah.query.Imports">Imports</a>._
+
+<span class="keyword">import</span> scala.util.matching._
+<span class="keyword">import</span> scala.collection.Iterable
+<span class="keyword">import</span> scala.collection.mutable.<span class="delimiter">{</span> Seq =&gt; MutableSeq <span class="delimiter">}</span>
+
+<span class="keyword">import</span> org.bson._
+<span class="keyword">import</span> org.bson.types.BasicBSONList
+
+<span class="keyword">package</span> aggregation <span class="delimiter">{</span>
+
+  <span class="comment">// TODO - Validations of things like &quot;ran group after sort&quot; for certain opers</span>
+  <span class="keyword">trait</span> <a title="trait PipelineOperations extends java.lang.Object with com.mongodb.casbah.query.dsl.aggregation.GroupOperator with com.mongodb.casbah.query.dsl.aggregation.LimitOperator with com.mongodb.casbah.query.dsl.aggregation.SkipOperator with com.mongodb.casbah.query.dsl.aggregation.MatchOperator with com.mongodb.casbah.query.dsl.aggregation.ProjectOperator with com.mongodb.casbah.query.dsl.aggregation.SortOperator with com.mongodb.casbah.query.dsl.aggregation.UnwindOperator" id="10364">PipelineOperations</a> <span class="keyword">extends</span> <a href="Group.scala.html#10275" title="com.mongodb.casbah.query.dsl.aggregation.GroupOperator">GroupOperator</a>
+    <span class="keyword">with</span> <a href="Limit.scala.html#10292" title="com.mongodb.casbah.query.dsl.aggregation.LimitOperator">LimitOperator</a>
+    <span class="keyword">with</span> <a href="Skip.scala.html#10342" title="com.mongodb.casbah.query.dsl.aggregation.SkipOperator">SkipOperator</a>
+    <span class="keyword">with</span> <a href="Match.scala.html#10297" title="com.mongodb.casbah.query.dsl.aggregation.MatchOperator">MatchOperator</a>
+    <span class="keyword">with</span> <a href="Project.scala.html#10303" title="com.mongodb.casbah.query.dsl.aggregation.ProjectOperator">ProjectOperator</a>
+    <span class="keyword">with</span> <a href="Sort.scala.html#10347" title="com.mongodb.casbah.query.dsl.aggregation.SortOperator">SortOperator</a>
+    <span class="keyword">with</span> <a href="Unwind.scala.html#10352" title="com.mongodb.casbah.query.dsl.aggregation.UnwindOperator">UnwindOperator</a>
+
+  <span class="comment">/**
+   * Base trait for a Pipeline Operator for
+   * the Aggregation Framework.
+   * These operators are the &quot;core&quot; of Aggregation,
+   * representing the primary pipeline.
+   */</span>
+  <span class="keyword">trait</span> <a title="trait PipelineOperator extends java.lang.Object with ScalaObject" id="10365">PipelineOperator</a> <span title="ScalaObject" class="delimiter">{</span>
+    <span class="keyword">protected</span><span class="delimiter">[</span>mongodb<span class="delimiter">]</span> <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.query.Imports.MongoDBList" id="34391">list</a>: <span title="com.mongodb.casbah.query.Imports.MongoDBList">MongoDBList</span>
+
+    <span class="keyword">protected</span> <span class="keyword">def</span> <a title="(oper: String, target: Any)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="34392">op</a><span class="delimiter">(</span><a title="String" id="42618">oper</a>: <span title="String">String</span>, <a title="Any" id="42619">target</a>: <span title="Any">Any</span><span class="delimiter">)</span> =
+      <a href="#42623" title="(kv: (String, Any))(pipeline: com.mongodb.casbah.query.Imports.MongoDBList)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">PipelineOperator</a><span title="(_1: String, _2: Any)(String, Any)" class="delimiter">(</span><a href="#42618" title="String">oper</a>, <a href="#42619" title="Any">target</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#34391" title="=&gt; com.mongodb.casbah.query.Imports.MongoDBList">list</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">object</span> <a title="object com.mongodb.casbah.query.dsl.aggregation.PipelineOperator" id="10366">PipelineOperator</a> <span title="ScalaObject" class="delimiter">{</span>
+
+    <span class="comment">// TODO - this should be a LIST, not a DBObject.</span>
+    <span class="keyword">def</span> <a title="[A &lt;: String, B](kv: (A, B))(pipeline: com.mongodb.casbah.query.Imports.MongoDBList)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="42623">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: String" id="42626">A</a> &lt;: String, <a title="&gt;: Nothing &lt;: Any" id="42627">B</a> &lt;: Any<span class="delimiter">]</span><span class="delimiter">(</span><a title="(A, B)" id="42628">kv</a>: <span title="(A, B)" class="delimiter">(</span>A, B<span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">(</span><a title="com.mongodb.casbah.query.Imports.MongoDBList" id="42629">pipeline</a>: <span title="com.mongodb.casbah.query.Imports.MongoDBList">MongoDBList</span><span class="delimiter">)</span>: <a href="#10368" title="com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">AggregationPipeline</a>  = <span class="delimiter">{</span>
+      <a href="#42629" title="com.mongodb.casbah.query.Imports.MongoDBList">pipeline</a> <span title="(elem: Any)pipeline.type">+=</span> <a href="Implicits.scala.html#10236" title="(elems: (A, B)*)com.mongodb.casbah.commons.Imports.DBObject">MongoDBObject</a><span class="delimiter">(</span><a href="#42628" title="(A, B)">kv</a>.<span title="(x: A)ArrowAssoc[A]">_1</span> <span title="(y: B)(A, B)">-&gt;</span> <a href="#42628" title="(A, B)">kv</a>.<span title="=&gt; B">_2</span><span class="delimiter">)</span>
+      <a href="#34386" title="(list: com.mongodb.casbah.query.Imports.MongoDBList)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">AggregationPipeline</a><span class="delimiter">(</span><a href="#42629" title="com.mongodb.casbah.query.Imports.MongoDBList">pipeline</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+  
+  <span class="keyword">class</span> <a title="class AggregationPipeline extends java.lang.Object with com.mongodb.casbah.query.dsl.aggregation.PipelineOperations with ScalaObject" id="10368">AggregationPipeline</a> <a href="#10368" title="ScalaObject" class="keyword">private</a><span class="delimiter">(</span><span class="keyword">protected</span><span class="delimiter">[</span>mongodb<span class="delimiter">]</span> <span class="keyword">val</span> <a title="com.mongodb.casbah.query.Imports.MongoDBList" id="34430">list</a>: <span title="com.mongodb.casbah.query.Imports.MongoDBList">MongoDBList</span> = <a href="Implicits.scala.html#10236" title="=&gt; com.mongodb.casbah.commons.MongoDBList.type">MongoDBList</a>.<span title="=&gt; com.mongodb.casbah.commons.MongoDBList">empty</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#10364" title="com.mongodb.casbah.query.dsl.aggregation.PipelineOperations">PipelineOperations</a> <span class="delimiter">{</span> 
+    <span class="keyword">def</span> <a title="(n: Int)com.mongodb.casbah.query.Imports.DBObject" id="34401">apply</a><span class="delimiter">(</span><a title="Int" id="44024">n</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="com.mongodb.casbah.query.Imports.DBObject">DBObject</span> = <a href="#34430" title="(i: Int)java.lang.Object">list</a><span class="delimiter">(</span><a href="#44024" title="Int">n</a><span class="delimiter">)</span>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="com.mongodb.casbah.query.Imports.DBObject" class="delimiter">[</span><span title="com.mongodb.casbah.query.Imports.DBObject">DBObject</span><span class="delimiter">]</span>
+    <span class="keyword">def</span> <a title="=&gt; Int" id="34402">size</a>: <span title="Int">Int</span> = <a href="#34430" title="=&gt; com.mongodb.casbah.query.Imports.MongoDBList">list</a>.<span title="=&gt; Int">size</span>
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="34403">toString</a> = <span title="java.lang.String(&quot;AggregationPipeline { &quot;)" class="string">&quot;AggregationPipeline { &quot;</span> <span title="(x$1: Any)java.lang.String">+</span> <a href="#34430" title="=&gt; com.mongodb.casbah.query.Imports.MongoDBList">list</a>.<span title="()java.lang.String">toString</span> <span title="(x$1: Any)java.lang.String">+</span> <span title="java.lang.String(&quot; } &quot;)" class="string">&quot; } &quot;</span>;
+  <span class="delimiter">}</span>
+
+  <span class="keyword">object</span> <a title="object com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="10369">AggregationPipeline</a> <span title="ScalaObject" class="delimiter">{</span>
+    <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="34385">empty</a> = <a href="#34430" title="com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" class="keyword">new</a> <a href="#10368" title="com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">AggregationPipeline</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="keyword">def</span> <a title="(list: com.mongodb.casbah.query.Imports.MongoDBList)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="34386">apply</a><span class="delimiter">(</span><a title="com.mongodb.casbah.query.Imports.MongoDBList" id="44019">list</a>: <span title="com.mongodb.casbah.query.Imports.MongoDBList">MongoDBList</span><span class="delimiter">)</span> = <span title="com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" class="keyword">new</span> <a href="#10368" title="com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">AggregationPipeline</a><span class="delimiter">(</span><a href="#44019" title="com.mongodb.casbah.query.Imports.MongoDBList">list</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+        </pre>
+    </body>
+</html>

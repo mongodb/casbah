@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>MongoClientOptions.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ *
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah
+
+<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#10150" title="object com.mongodb.casbah.Imports">Imports</a>._
+
+<span class="keyword">import</span> scalaj.collection.<span title="object scalaj.collection.Imports">Imports</span>._
+
+<span class="keyword">import</span> com.mongodb.<span class="delimiter">{</span>DBDecoderFactory, DBEncoderFactory, MongoClientOptions =&gt; JavaMongoClientOptions<span class="delimiter">}</span>
+
+<span class="keyword">import</span> javax.net.SocketFactory
+
+<span class="comment">/**
+ * Helper class for creating MongoClientOptions instances
+ *
+ * @since 2.5
+ * @see com.mongodb.MongoClientOptions
+ */</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.MongoClientOptions" id="10175">MongoClientOptions</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">type</span> <a title="com.mongodb.MongoClientOptions.Builder" id="19283">Builder</a> = JavaMongoClientOptions.<span title="com.mongodb.MongoClientOptions.Builder">Builder</span>
+
+  <span class="keyword">val</span> <a title="com.mongodb.MongoClientOptions" id="19284">Defaults</a> = <span title="com.mongodb.MongoClientOptions.Builder" class="keyword">new</span> <span title="object com.mongodb.MongoClientOptions">JavaMongoClientOptions</span>.<span title="com.mongodb.MongoClientOptions.Builder">Builder</span><span class="delimiter">(</span><span class="delimiter">)</span>.<span title="()com.mongodb.MongoClientOptions">build</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Instantiate a new MongoClientOptions instance
+   *
+   *
+   * @param autoConnectRetry Whether system autoretries on connection errors, default false
+   * @param connectionsPerHost # of connections allowed per host (pool size, per host) default 100
+   * @param connectTimeout Connection timeout in milliseconds default 10,000
+   * @param cursorFinalizerEnabled Sets whether there is a finalize method created that cleans up instances of DBCursor default true
+   * @param dbDecoderFactory override the default decoder factory
+   * @param dbEncoderFactory override the default encoder factory
+   * @param description the description of the MongoClient
+   * @param maxAutoConnectRetryTime Sets the maximum auto connect retry time default 0
+   * @param maxWaitTime the maximum time that a thread will block waiting for a connection, default 1000 * 60 * 2
+   * @param readPreference the read preference to use for queries, map-reduce, aggregation, and count
+   * @param socketFactory the socket factory for creating sockets to the mongo server
+   * @param socketKeepAlive if socket keep alive is enabled, default false
+   * @param socketTimeout socket timeout in milliseconds passed to Socket.setSoTimeout, default 0
+   * @param threadsAllowedToBlockForConnectionMultiplier the multiplier for number of threads allowed to block waiting for a connection, default 5
+   * @param writeConcern the write concern to use
+   * @throws MongoException
+   * @see ServerAddress
+   * @see MongoDBAddress
+   */</span>
+  <span class="keyword">def</span> <a title="(autoConnectRetry: Boolean, connectionsPerHost: Int, connectTimeout: Int, cursorFinalizerEnabled: Boolean, dbDecoderFactory: com.mongodb.DBDecoderFactory, dbEncoderFactory: com.mongodb.DBEncoderFactory, description: String, maxAutoConnectRetryTime: Long, maxWaitTime: Int, readPreference: com.mongodb.casbah.Imports.ReadPreference, socketFactory: javax.net.SocketFactory, socketKeepAlive: Boolean, socketTimeout: Int, threadsAllowedToBlockForConnectionMultiplier: Int, writeConcern: com.mongodb.casbah.Imports.WriteConcern)com.mongodb.MongoClientOptions" id="19286">apply</a><span class="delimiter">(</span>
+    <a title="Boolean" id="30162">autoConnectRetry</a>: <span title="Boolean">Boolean</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()Boolean">isAutoConnectRetry</span>,
+    <a title="Int" id="30163">connectionsPerHost</a>: <span title="Int">Int</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()Int">getConnectionsPerHost</span>,
+    <a title="Int" id="30164">connectTimeout</a>: <span title="Int">Int</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()Int">getConnectTimeout</span>,
+    <a title="Boolean" id="30165">cursorFinalizerEnabled</a>: <span title="Boolean">Boolean</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()Boolean">isCursorFinalizerEnabled</span>,
+    <a title="com.mongodb.DBDecoderFactory" id="30166">dbDecoderFactory</a>: <span title="com.mongodb.DBDecoderFactory">DBDecoderFactory</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()com.mongodb.DBDecoderFactory">getDbDecoderFactory</span>,
+    <a title="com.mongodb.DBEncoderFactory" id="30167">dbEncoderFactory</a>: <span title="com.mongodb.DBEncoderFactory">DBEncoderFactory</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()com.mongodb.DBEncoderFactory">getDbEncoderFactory</span>,
+    <a title="String" id="30168">description</a>: <span title="String">String</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()java.lang.String">getDescription</span>,
+    <a title="Long" id="30169">maxAutoConnectRetryTime</a>: <span title="Long">Long</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()Long">getMaxAutoConnectRetryTime</span>,
+    <a title="Int" id="30170">maxWaitTime</a>: <span title="Int">Int</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()Int">getMaxWaitTime</span>,
+    <a title="com.mongodb.casbah.Imports.ReadPreference" id="30171">readPreference</a>: <span title="com.mongodb.casbah.Imports.ReadPreference">ReadPreference</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()com.mongodb.ReadPreference">getReadPreference</span>,
+    <a title="javax.net.SocketFactory" id="30172">socketFactory</a>: <span title="javax.net.SocketFactory">SocketFactory</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()javax.net.SocketFactory">getSocketFactory</span>,
+    <a title="Boolean" id="30173">socketKeepAlive</a>: <span title="Boolean">Boolean</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()Boolean">isSocketKeepAlive</span>,
+    <a title="Int" id="30174">socketTimeout</a>: <span title="Int">Int</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()Int">getSocketTimeout</span>,
+    <a title="Int" id="30175">threadsAllowedToBlockForConnectionMultiplier</a>: <span title="Int">Int</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()Int">getThreadsAllowedToBlockForConnectionMultiplier</span>,
+    <a title="com.mongodb.casbah.Imports.WriteConcern" id="30176">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span> = <a href="#19284" title="=&gt; com.mongodb.MongoClientOptions">Defaults</a>.<span title="()com.mongodb.WriteConcern">getWriteConcern</span>
+    <span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.MongoClientOptions.Builder" id="30177">builder</a> = <span title="com.mongodb.MongoClientOptions.Builder" class="keyword">new</span> <span title="object com.mongodb.MongoClientOptions">JavaMongoClientOptions</span>.<span title="com.mongodb.MongoClientOptions.Builder">Builder</span><span class="delimiter">(</span><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: Boolean)com.mongodb.MongoClientOptions.Builder">autoConnectRetry</span><span class="delimiter">(</span><a href="#30162" title="Boolean">autoConnectRetry</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: Int)com.mongodb.MongoClientOptions.Builder">connectionsPerHost</span><span class="delimiter">(</span><a href="#30163" title="Int">connectionsPerHost</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: Int)com.mongodb.MongoClientOptions.Builder">connectTimeout</span><span class="delimiter">(</span><a href="#30164" title="Int">connectTimeout</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: Boolean)com.mongodb.MongoClientOptions.Builder">cursorFinalizerEnabled</span><span class="delimiter">(</span><a href="#30165" title="Boolean">cursorFinalizerEnabled</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: com.mongodb.DBDecoderFactory)com.mongodb.MongoClientOptions.Builder">dbDecoderFactory</span><span class="delimiter">(</span><a href="#30166" title="com.mongodb.DBDecoderFactory">dbDecoderFactory</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: com.mongodb.DBEncoderFactory)com.mongodb.MongoClientOptions.Builder">dbEncoderFactory</span><span class="delimiter">(</span><a href="#30167" title="com.mongodb.DBEncoderFactory">dbEncoderFactory</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: java.lang.String)com.mongodb.MongoClientOptions.Builder">description</span><span class="delimiter">(</span><a href="#30168" title="String">description</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: Long)com.mongodb.MongoClientOptions.Builder">maxAutoConnectRetryTime</span><span class="delimiter">(</span><a href="#30169" title="Long">maxAutoConnectRetryTime</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: Int)com.mongodb.MongoClientOptions.Builder">maxWaitTime</span><span class="delimiter">(</span><a href="#30170" title="Int">maxWaitTime</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: com.mongodb.ReadPreference)com.mongodb.MongoClientOptions.Builder">readPreference</span><span class="delimiter">(</span><a href="#30171" title="com.mongodb.casbah.Imports.ReadPreference">readPreference</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: javax.net.SocketFactory)com.mongodb.MongoClientOptions.Builder">socketFactory</span><span class="delimiter">(</span><a href="#30172" title="javax.net.SocketFactory">socketFactory</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: Boolean)com.mongodb.MongoClientOptions.Builder">socketKeepAlive</span><span class="delimiter">(</span><a href="#30173" title="Boolean">socketKeepAlive</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: Int)com.mongodb.MongoClientOptions.Builder">socketTimeout</span><span class="delimiter">(</span><a href="#30174" title="Int">socketTimeout</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: Int)com.mongodb.MongoClientOptions.Builder">threadsAllowedToBlockForConnectionMultiplier</span><span class="delimiter">(</span><a href="#30175" title="Int">threadsAllowedToBlockForConnectionMultiplier</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="(x$1: com.mongodb.WriteConcern)com.mongodb.MongoClientOptions.Builder">writeConcern</span><span class="delimiter">(</span><a href="#30176" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>;
+    <a href="#30177" title="com.mongodb.MongoClientOptions.Builder">builder</a>.<span title="()com.mongodb.MongoClientOptions">build</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+
+
+        </pre>
+    </body>
+</html>

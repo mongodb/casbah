@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>WriteConcern.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2010 10gen, Inc. &lt;http://10gen.com&gt;
+ * Copyright (c) 2009, 2010 Novus Partners, Inc. &lt;http://novus.com&gt;
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ *     http://github.com/mongodb/casbah
+ *
+ */</span>
+
+<span class="keyword">package</span> com.mongodb.casbah
+
+<span class="keyword">import</span> scalaj.collection.<span title="object scalaj.collection.Imports">Imports</span>._
+
+<span class="comment">/**
+ * Helper class for creating WriteConcern instances
+ *
+ * @since 2.0
+ * @see com.mongodb.WriteConcern
+ */</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.WriteConcern" id="10265">WriteConcern</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="comment">/**
+   * No exceptions are raised, even for network issues
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="19288">None</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">NONE</span>
+  <span class="comment">/**
+   * Exceptions are raised for network issues but not server errors.
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="19290">Normal</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">NORMAL</span>
+  <span class="comment">/**
+   * Exceptions are raised for network issues and server errors;
+   * waits on a server for the write operation
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="19292">Safe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">SAFE</span>
+  <span class="comment">/**
+   * Exceptions are raised for network issues and server errors;
+   * waits on a majority of servers for the write operation
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="19294">Majority</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">MAJORITY</span>
+  <span class="comment">/**
+   * Exceptions are raised for network issues and server errors;
+   * Write operations wait for the server to flush data to disk
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="19296">FsyncSafe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">FSYNC_SAFE</span>
+  <span class="comment">/**
+   * Exceptions are raised for network issues, and server errors;
+   * the write operation waits for the server to group commit to the journal file on disk
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="19298">JournalSafe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">JOURNAL_SAFE</span>
+  <span class="comment">/**
+   * Exceptions are raised for network issues and server errors;
+   * waits for at least 2 servers for the write operation.
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="19300">ReplicasSafe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">REPLICAS_SAFE</span>
+
+  <span class="comment">/**
+   * Create a new WriteConcern object.
+   *
+   *	&lt;p&gt; w represents # of servers:
+   * 		&lt;ul&gt;
+   * 			&lt;li&gt;{@code w=-1} None, no checking is done&lt;/li&gt;
+   * 			&lt;li&gt;{@code w=0} None, network socket errors raised&lt;/li&gt;
+   * 			&lt;li&gt;{@code w=1} Checks server for errors as well as network socket errors raised&lt;/li&gt;
+   * 			&lt;li&gt;{@code w&gt;1} Checks servers (w) for errors as well as network socket errors raised&lt;/li&gt;
+   * 		&lt;/ul&gt;
+   * 	&lt;/p&gt;
+   * @param w (Int) Specifies the number of servers to wait for on the write operation, and exception raising behavior. Defaults to {@code 0}
+   * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
+   * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
+   * @param j whether writes should wait for a journaling group commit
+   * @param contineInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
+   */</span>
+  <span class="keyword">def</span> <a title="(w: Int, wTimeout: Int, fsync: Boolean, j: Boolean, continueInsertOnError: Boolean)com.mongodb.WriteConcern" id="19302">apply</a><span class="delimiter">(</span><a title="Int" id="32509">w</a>: <span title="Int">Int</span>,
+            <a title="Int" id="32516">wTimeout</a>: <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>,
+            <a title="Boolean" id="32517">fsync</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
+            <a title="Boolean" id="32518">j</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
+            <a title="Boolean" id="32519">continueInsertOnError</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span> =
+    <span title="(x$1: Int, x$2: Int, x$3: Boolean, x$4: Boolean, x$5: Boolean)com.mongodb.WriteConcern" class="keyword">new</span> com.mongodb.<span title="com.mongodb.WriteConcern">WriteConcern</span><span class="delimiter">(</span><a href="#32509" title="Int">w</a>, <a href="#32516" title="Int">wTimeout</a>, <a href="#32517" title="Boolean">fsync</a>, <a href="#32518" title="Boolean">j</a>, <a href="#32519" title="Boolean">continueInsertOnError</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Create a new WriteConcern object.
+   *
+   *	&lt;p&gt; w is a String representing a valid getLastErrorMode rule (or &quot;majority&quot;)
+   * @param w (Int) Specifies the getLastErrorMode to apply to the write
+   * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
+   * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
+   * @param j whether writes should wait for a journaling group commit
+   * @param contineInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
+   */</span>
+  <span class="keyword">def</span> <a title="(w: String, wTimeout: Int, fsync: Boolean, j: Boolean, continueInsertOnError: Boolean)com.mongodb.WriteConcern" id="19303">withRule</a><span class="delimiter">(</span><a title="String" id="40838">w</a>: <span title="String">String</span>,
+               <a title="Int" id="40845">wTimeout</a>: <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>,
+               <a title="Boolean" id="40846">fsync</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
+               <a title="Boolean" id="40847">j</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
+               <a title="Boolean" id="40848">continueInsertOnError</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span> =
+    <span title="(x$1: java.lang.String, x$2: Int, x$3: Boolean, x$4: Boolean, x$5: Boolean)com.mongodb.WriteConcern" class="keyword">new</span> com.mongodb.<span title="com.mongodb.WriteConcern">WriteConcern</span><span class="delimiter">(</span><a href="#40838" title="String">w</a>, <a href="#40845" title="Int">wTimeout</a>, <a href="#40846" title="Boolean">fsync</a>, <a href="#40847" title="Boolean">j</a>, <a href="#40848" title="Boolean">continueInsertOnError</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Get the WriteConcern constants by name: NONE, NORMAL, SAFE, MAJORITY, FSYNC_SAFE,
+   * JOURNAL_SAFE, REPLICAS_SAFE. (matching is done case insensitively)
+   *
+   * NOTE: This only supports the java versions, no support for the local scala aliases.
+   */</span>
+  <span class="keyword">def</span> <a title="(name: String)com.mongodb.WriteConcern" id="19304">valueOf</a><span class="delimiter">(</span><a title="String" id="40853">name</a>: <span title="String">String</span><span class="delimiter">)</span> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="(x$1: java.lang.String)com.mongodb.WriteConcern">valueOf</span><span class="delimiter">(</span><a href="#40853" title="String">name</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+
+        </pre>
+    </body>
+</html>

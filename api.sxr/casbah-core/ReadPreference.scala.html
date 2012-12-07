@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>ReadPreference.scala</title>
+        <script type="text/javascript" src="jquery-all.js"></script>
+        <script type="text/javascript" src="linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/**
+ * Copyright (c) 2008 - 2011 10gen, Inc. &lt;http://10gen.com&gt;
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */</span>
+<span class="keyword">package</span> com.mongodb.casbah
+
+<span class="keyword">import</span> scalaj.collection.<span title="object scalaj.collection.Imports">Imports</span>._
+<span class="keyword">import</span> com.mongodb.DBObject
+
+<span class="comment">/**
+ * Helper class for creating ReadPreference instances
+ *
+ * @since 2.2
+ * @see com.mongodb.ReadPreference
+ */</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.ReadPreference" id="10259">ReadPreference</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Reads come only through the Primary
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.ReadPreference" id="19306">Primary</a> = com.mongodb.<span title="object com.mongodb.ReadPreference">ReadPreference</span>.<span title="()com.mongodb.ReadPreference">primary</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Reads come from Secondary servers (equiv of old SlaveOK)
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.ReadPreference" id="19308">Secondary</a> = com.mongodb.<span title="object com.mongodb.ReadPreference">ReadPreference</span>.<span title="()com.mongodb.ReadPreference">secondary</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+
+  <span class="comment">/**
+   * Reads come from secondary if available, otherwise from primary
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.ReadPreference" id="19310">SecondaryPreferred</a> = com.mongodb.<span title="object com.mongodb.ReadPreference">ReadPreference</span>.<span title="()com.mongodb.ReadPreference">secondaryPreferred</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Reads come from nearest node.
+   */</span>
+  <span class="keyword">val</span> <a title="com.mongodb.ReadPreference" id="19312">Nearest</a> = com.mongodb.<span title="object com.mongodb.ReadPreference">ReadPreference</span>.<span title="()com.mongodb.ReadPreference">nearest</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   *
+   * @return ReadPreference with reads primary if available
+   */</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.ReadPreference" id="19314">primaryPreferred</a> = com.mongodb.<span title="object com.mongodb.ReadPreference">ReadPreference</span>.<span title="()com.mongodb.ReadPreference">primaryPreferred</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * @return ReadPreference which reads primary if available, otherwise a secondary respective of tags.
+   */</span>
+  <span class="keyword">def</span> <a title="(firstTagSet: com.mongodb.DBObject, remainingTagSets: com.mongodb.DBObject*)com.mongodb.TaggableReadPreference" id="19315">primaryPreferred</a><span class="delimiter">(</span><a title="com.mongodb.DBObject" id="40810">firstTagSet</a>: <span title="com.mongodb.DBObject">DBObject</span>, <a title="com.mongodb.DBObject*" id="40811">remainingTagSets</a>: <span title="com.mongodb.DBObject*">DBObject</span>*<span class="delimiter">)</span> =
+    com.mongodb.<span title="object com.mongodb.ReadPreference">ReadPreference</span>.<span title="(x$1: com.mongodb.DBObject, x$2: &lt;repeated...&gt;[com.mongodb.DBObject])com.mongodb.TaggableReadPreference">primaryPreferred</span><span class="delimiter">(</span><a href="#40810" title="com.mongodb.DBObject">firstTagSet</a>, <a href="#40811" title="com.mongodb.DBObject*">remainingTagSets</a>: _*<span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * @return ReadPreference which returns secondary respective of tags
+   */</span>
+  <span class="keyword">def</span> <a title="(firstTagSet: com.mongodb.DBObject, remainingTagSets: com.mongodb.DBObject*)com.mongodb.TaggableReadPreference" id="19316">secondary</a><span class="delimiter">(</span><a title="com.mongodb.DBObject" id="40816">firstTagSet</a>: <span title="com.mongodb.DBObject">DBObject</span>, <a title="com.mongodb.DBObject*" id="40817">remainingTagSets</a>: <span title="com.mongodb.DBObject*">DBObject</span>*<span class="delimiter">)</span> =
+    com.mongodb.<span title="object com.mongodb.ReadPreference">ReadPreference</span>.<span title="(x$1: com.mongodb.DBObject, x$2: &lt;repeated...&gt;[com.mongodb.DBObject])com.mongodb.TaggableReadPreference">secondary</span><span class="delimiter">(</span><a href="#40816" title="com.mongodb.DBObject">firstTagSet</a>, <a href="#40817" title="com.mongodb.DBObject*">remainingTagSets</a>: _*<span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * @return ReadPreference which reads secondary if available respective of tags,
+   *         otherwise from primary irresepective of tags
+   */</span>
+  <span class="keyword">def</span> <a title="(firstTagSet: com.mongodb.DBObject, remainingTagSets: com.mongodb.DBObject*)com.mongodb.TaggableReadPreference" id="19317">secondaryPreferred</a><span class="delimiter">(</span><a title="com.mongodb.DBObject" id="40822">firstTagSet</a>: <span title="com.mongodb.DBObject">DBObject</span>, <a title="com.mongodb.DBObject*" id="40823">remainingTagSets</a>: <span title="com.mongodb.DBObject*">DBObject</span>*<span class="delimiter">)</span> =
+    com.mongodb.<span title="object com.mongodb.ReadPreference">ReadPreference</span>.<span title="(x$1: com.mongodb.DBObject, x$2: &lt;repeated...&gt;[com.mongodb.DBObject])com.mongodb.TaggableReadPreference">secondaryPreferred</span><span class="delimiter">(</span><a href="#40822" title="com.mongodb.DBObject">firstTagSet</a>, <a href="#40823" title="com.mongodb.DBObject*">remainingTagSets</a>: _*<span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * @return ReadPreference which reads nearest node respective of tags
+   */</span>
+  <span class="keyword">def</span> <a title="(firstTagSet: com.mongodb.DBObject, remainingTagSets: com.mongodb.DBObject*)com.mongodb.TaggableReadPreference" id="19318">nearest</a><span class="delimiter">(</span><a title="com.mongodb.DBObject" id="40828">firstTagSet</a>: <span title="com.mongodb.DBObject">DBObject</span>, <a title="com.mongodb.DBObject*" id="40829">remainingTagSets</a>: <span title="com.mongodb.DBObject*">DBObject</span>*<span class="delimiter">)</span> =
+    com.mongodb.<span title="object com.mongodb.ReadPreference">ReadPreference</span>.<span title="(x$1: com.mongodb.DBObject, x$2: &lt;repeated...&gt;[com.mongodb.DBObject])com.mongodb.TaggableReadPreference">nearest</span><span class="delimiter">(</span><a href="#40828" title="com.mongodb.DBObject">firstTagSet</a>, <a href="#40829" title="com.mongodb.DBObject*">remainingTagSets</a>: _*<span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>
