@@ -1,5 +1,6 @@
 import sbt._
 import Keys._
+import Project.Initialize
 
 object CasbahBuild extends Build {
   import Dependencies._
@@ -10,15 +11,6 @@ object CasbahBuild extends Build {
     version      := "2.5.0-SNAPSHOT",
     crossScalaVersions := Seq("2.9.2", "2.9.1", "2.9.0-1", "2.9.0", "2.8.2", "2.8.1")
   )
-
-  /**
-   * Import some sample data for testing
-   */
-  "mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
-
-  "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" !
-
-  "mongoimport -d casbahIntegration -c artilces --drop ./casbah-core/src/test/resources/articles.json" !
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
 
@@ -43,9 +35,17 @@ object CasbahBuild extends Build {
          val tagOrBranch = if (v.endsWith("-SNAPSHOT")) "dev" else "v" + v
          val docSourceUrl = "http://{{WEBSITE_ROOT}}api.sxr/€{FILE_PATH}.scala.html"
           Seq("-sourcepath", rootBase.getAbsolutePath, "-doc-source-url", docSourceUrl)
-      }
-    )
+      },
+      testOptions in Test += Tests.Setup( () => {
 
+        "mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
+
+        "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" !
+
+        "mongoimport -d casbahIntegration -c artilces --drop ./casbah-core/src/test/resources/articles.json" !
+
+        } )
+    )
 
   lazy val parentSettings = baseSettings ++ Seq(
     publishArtifact := false
