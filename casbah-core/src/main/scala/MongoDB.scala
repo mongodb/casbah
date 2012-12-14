@@ -77,26 +77,22 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @param username  name of user for this database
    * @param passwd password of user for this database
    * @return true if authenticated, false otherwise
-   * @dochub authenticate
    */
   def authenticate(username: String, passwd: String) = underlying.authenticate(username, passwd.toArray)
 
   /** Execute a database command directly.
    * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
    * @return the result of the command from the database
-   * @dochub commands
    */
   def command(cmd: DBObject) = underlying.command(cmd)
   /** Execute a database command directly.
    * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
    * @return the result of the command from the database
-   * @dochub commands
    */
   def command(cmd: String) = underlying.command(cmd)
   /** Execute a database command directly.
    * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
    * @return the result of the command from the database
-   * @dochub commands
    */
   def command(cmd: DBObject, options: Int) = underlying.command(cmd, options)
   /** Creates a collection with a given name and options.
@@ -204,7 +200,6 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * Returns true if this DB is authenticated
    *
    * @return true if authenticated, false otherwise
-   * @dochub authenticate
    */
   def isAuthenticated = underlying.isAuthenticated()
 

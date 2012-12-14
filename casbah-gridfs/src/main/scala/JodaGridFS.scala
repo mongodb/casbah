@@ -100,7 +100,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
    * @see createFile
-   * @returns The ID of the created File (Option[AnyRef])
+   * @return The ID of the created File (Option[AnyRef])
    */
   def apply(data: scala.io.Source)(op: FileWriteOp) = withNewFile(data)(op)
 
@@ -112,7 +112,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
    * @see createFile
-   * @returns The ID of the created File (Option[AnyRef])
+   * @return The ID of the created File (Option[AnyRef])
    */
   def apply(data: Array[Byte])(op: FileWriteOp) = withNewFile(data)(op)
 
@@ -124,7 +124,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
    * @see createFile
-   * @returns The ID of the created File (Option[AnyRef])
+   * @return The ID of the created File (Option[AnyRef])
    */
   def apply(f: File)(op: FileWriteOp) = withNewFile(f)(op)
 
@@ -136,7 +136,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
    * @see createFile
-   * @returns The ID of the created File (Option[AnyRef])
+   * @return The ID of the created File (Option[AnyRef])
    */
   def apply(in: InputStream)(op: FileWriteOp) = withNewFile(in)(op)
 
@@ -148,7 +148,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
    * It AUTOMATICALLY saves the GridFS file at it's end, so throw an exception if you want to fail.
    * If you don't want automatic saving/loaning please see the createFile method instead.
    * @see createFile
-   * @returns The ID of the created File (Option[AnyRef])
+   * @return The ID of the created File (Option[AnyRef])
    */
   def apply(in: InputStream, filename: String)(op: FileWriteOp) = withNewFile(in, filename)(op)
 
@@ -165,7 +165,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
   def createFile(data: Array[Byte]): JodaGridFSInputFile = underlying.createFile(data)
   /**
    * Loan pattern style file creation.
-   * @returns The ID of the created File (Option[AnyRef])
+   * @return The ID of the created File (Option[AnyRef])
    */
   def withNewFile(data: Array[Byte])(op: FileWriteOp) = loan(createFile(data)) { fh =>
     op(fh)
@@ -177,7 +177,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
   def createFile(f: File): JodaGridFSInputFile = underlying.createFile(f)
   /**
    * Loan pattern style file creation.
-   * @returns The ID of the created File (Option[AnyRef])
+   * @return The ID of the created File (Option[AnyRef])
    */
   def withNewFile(f: File)(op: FileWriteOp) = loan(createFile(f)) { fh =>
     op(fh)
@@ -190,7 +190,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
 
   /**
    * Loan pattern style file creation.
-   * @returns The ID of the created File (Option[AnyRef])
+   * @return The ID of the created File (Option[AnyRef])
    */
   def withNewFile(in: InputStream)(op: FileWriteOp) = loan(createFile(in)) { fh =>
     op(fh)
@@ -202,7 +202,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Iterabl
   def createFile(in: InputStream, filename: String): JodaGridFSInputFile = underlying.createFile(in, filename)
   /**
    * Loan pattern style file creation.
-   * @returns The ID of the created File (Option[AnyRef])
+   * @return The ID of the created File (Option[AnyRef])
    */
   def withNewFile(in: InputStream, filename: String)(op: FileWriteOp) = loan(createFile(in, filename)) { fh =>
     op(fh)

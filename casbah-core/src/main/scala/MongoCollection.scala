@@ -127,7 +127,6 @@ trait MongoCollectionBase extends Logging { self =>
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * @param keys fields to use for index
    * @param options options for the index (name, unique, etc)
-   * @dochub indexes
    */
   def ensureIndex[A <% DBObject, B <% DBObject](keys: A, options: B) = underlying.ensureIndex(keys, options)
 
@@ -135,7 +134,6 @@ trait MongoCollectionBase extends Logging { self =>
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * @param keys fields to use for index
    * @param name an identifier for the index
-   * @dochub indexes
    */
   def ensureIndex[A <% DBObject](keys: A, name: String) = underlying.ensureIndex(keys, name)
 
@@ -150,20 +148,17 @@ trait MongoCollectionBase extends Logging { self =>
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * This creates an ascending index on a particular field.
    * @param name an identifier for the index
-   * @dochub indexes
    */
   def ensureIndex(fieldName: String) = underlying.ensureIndex(fieldName)
 
   /** Queries for all objects in this collection.
    * @return a cursor which will iterate over every object
-   * @dochub find
    */
   def find() = _newCursor(underlying.find)
 
   /** Queries for an object in this collection.
    * @param ref object for which to search
    * @return an iterator over the results
-   * @dochub find
    */
   def find[A <% DBObject](ref: A) = _newCursor(underlying.find(ref))
 
@@ -187,7 +182,6 @@ trait MongoCollectionBase extends Logging { self =>
    * @param ref object for which to search
    * @param keys fields to return
    * @return a cursor to iterate over results
-   * @dochub find
    */
   def find[A <% DBObject, B <% DBObject](ref: A, keys: B) = _newCursor(underlying.find(ref, keys))
 
@@ -198,7 +192,6 @@ trait MongoCollectionBase extends Logging { self =>
    * @param batchSize if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch
    * @param options - see Bytes QUERYOPTION_*
    * @return the objects, if found
-   * @dochub find
    */
   def find[A <% DBObject, B <% DBObject](ref: A, fields: B, numToSkip: Int, batchSize: Int) =
     _newCursor(underlying.find(ref, fields, numToSkip, batchSize))
@@ -223,7 +216,6 @@ trait MongoCollectionBase extends Logging { self =>
    * @param o the query object
    * @param fields fields to return
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
-   * @dochub find
    */
   def findOne[A <% DBObject, B <% DBObject](o: A, fields: B, readPrefs: ReadPreference = getReadPreference) =
     _typedValue(underlying.findOne(o: DBObject, fields, readPrefs))
@@ -249,7 +241,6 @@ trait MongoCollectionBase extends Logging { self =>
    * @param id the id to match
    * @param fields fields to return
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
-   * @dochub find
    */
   def findOneByID[B <% DBObject](id: AnyRef, fields: B) =
     _typedValue(underlying.findOne(id, fields))
@@ -499,7 +490,6 @@ trait MongoCollectionBase extends Logging { self =>
    * you can get the _id that was added from doc after the insert
    *
    * @param arr  array of documents (<% DBObject) to save
-   * @dochub insert
    * TODO - Wrapper for WriteResult?
    */
    def insert[A](doc: A, concern: com.mongodb.WriteConcern )(implicit dbObjView: A => DBObject): WriteResult = insert(doc)(dbObjView, concern = concern)
@@ -509,7 +499,6 @@ trait MongoCollectionBase extends Logging { self =>
    * you can get the _id that was added from doc after the insert
    *
    * @param arr  array of documents (<% DBObject) to save
-   * @dochub insert
    * TODO - Wrapper for WriteResult?
    */
   def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: com.mongodb.WriteConcern = writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ): WriteResult = {
@@ -549,7 +538,6 @@ trait MongoCollectionBase extends Logging { self =>
   /** Removes objects from the database collection.
    * @param o the object that documents to be removed must match
    * @param concern WriteConcern for this operation
-   * @dochub remove
    * TODO - Wrapper for WriteResult?
    */
   def remove[A](o: A, concern: com.mongodb.WriteConcern = getWriteConcern)(implicit dbObjView: A => DBObject, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) =
@@ -588,7 +576,6 @@ trait MongoCollectionBase extends Logging { self =>
 
   /**
    * Performs an update operation.
-   * @dochub update
    * @param q search query for old object to update
    * @param o object with which to update <tt>q</tt>
    * TODO - Wrapper for WriteResult?
@@ -599,7 +586,6 @@ trait MongoCollectionBase extends Logging { self =>
 
   /**
    * Perform a multi update
-   * @dochub update
    * @param q search query for old object to update
    * @param o object with which to update <tt>q</tt>
    */
