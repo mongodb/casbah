@@ -31,7 +31,7 @@
       
       <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Trait to provide the $inc (inc) method as a bareword operator..</p><p>  $inc (&quot;foo&quot; -&gt; 5)</p><p>Targets an RValue of (String, ValidNumericType)* to be converted to a  DBObject</p><p>Due to a quirk in the way I implemented type detection this fails if you mix ValidNumericType types.  E.g. floats work, but not mixing floats and ints.
 This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:</p><p>  $inc (&quot;foo&quot; -&gt; 5.0, &quot;bar&quot; -&gt; 1.6)
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://rosslawley.co.uk/casbah/api.sxr//casbah-query/BarewordOperators.scala.html">BarewordOperators.scala</a></dd><dt>Since</dt><dd><p>1.0</p></dd><dt>See also</dt><dd><span class="cmt"><p>http://www.mongodb.org/display/DOCS/Updating#Updating-%24inc
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://rozza.github.com/casbah/api.sxr//casbah-queryBarewordOperators.scala.html">BarewordOperators.scala</a></dd><dt>Since</dt><dd><p>1.0</p></dd><dt>See also</dt><dd><span class="cmt"><p>http://www.mongodb.org/display/DOCS/Updating#Updating-%24inc
 </p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.query.dsl.IncOpBase" class="extype" href="IncOpBase.html">IncOpBase</a>, <a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>

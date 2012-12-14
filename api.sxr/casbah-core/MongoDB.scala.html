@@ -71,6 +71,16 @@
    */</span>
   <span class="keyword">def</span> <a title="(collection: String)com.mongodb.casbah.MongoCollection" id="15165">apply</a><span class="delimiter">(</span><a title="String" id="39018">collection</a>: <span title="String">String</span><span class="delimiter">)</span>: <a href="MongoCollection.scala.html#10196" title="com.mongodb.casbah.MongoCollection">MongoCollection</a> = <a href="#15219" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCollection">getCollection</span><a href="Implicits.scala.html#10950" title="implicit com.mongodb.casbah.Implicits.mongoCollAsScala : (coll: com.mongodb.DBCollection)java.lang.Object{def asScala: com.mongodb.casbah.MongoCollection; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit m: scala.reflect.Manifest[A]): com.mongodb.casbah.MongoGenericTypedCollection[A]}" class="delimiter">(</a><a href="#39018" title="String">collection</a><span class="delimiter">)</span>.<a href="Implicits.scala.html#18769" title="=&gt; com.mongodb.casbah.MongoCollection">asScala</a>
 
+  <span class="comment">// TODO - write tests and make so!</span>
+  <span class="comment">// /**</span>
+  <span class="comment">//  * Creates a Mongo instance based on a (single) mongodb node (default port).</span>
+  <span class="comment">//  *</span>
+  <span class="comment">//  * @param collection a string for the collection name</span>
+  <span class="comment">//  * @param  c (Class[A])</span>
+  <span class="comment">//  * @return MongoTypedCollection[A]</span>
+  <span class="comment">//  */</span>
+  <span class="comment">// def apply(collection: String, objectClass: Class[DBObject]) = underlying.getCollection(collection).asScala.setObjectClass(objectClass)</span>
+
   <span class="keyword">def</span> <a title="(username: String, passwd: String)com.mongodb.WriteResult" id="15166">addUser</a><span class="delimiter">(</span><a title="String" id="39023">username</a>: <span title="String">String</span>, <a title="String" id="39024">passwd</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#15219" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: Array[Char])com.mongodb.WriteResult">addUser</span><span class="delimiter">(</span><a href="#39023" title="String">username</a>, <a href="#39024" title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">passwd</a>.<span title="(implicit evidence$1: ClassManifest[Char])Array[Char]">toArray</span><span class="delimiter">)</span>
 
   <span class="comment">/**
@@ -79,26 +89,22 @@
    * @param username  name of user for this database
    * @param passwd password of user for this database
    * @return true if authenticated, false otherwise
-   * @dochub authenticate
    */</span>
   <span class="keyword">def</span> <a title="(username: String, passwd: String)Boolean" id="15167">authenticate</a><span class="delimiter">(</span><a title="String" id="39722">username</a>: <span title="String">String</span>, <a title="String" id="39723">passwd</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#15219" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: Array[Char])Boolean">authenticate</span><span class="delimiter">(</span><a href="#39722" title="String">username</a>, <a href="#39723" title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">passwd</a>.<span title="(implicit evidence$1: ClassManifest[Char])Array[Char]">toArray</span><span class="delimiter">)</span>
 
   <span class="comment">/** Execute a database command directly.
    * @see &lt;a href=&quot;http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands&quot;&gt;List of Commands&lt;/a&gt;
    * @return the result of the command from the database
-   * @dochub commands
    */</span>
   <span class="keyword">def</span> <a title="(cmd: com.mongodb.casbah.Imports.DBObject)com.mongodb.CommandResult" id="15168">command</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="35528">cmd</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#15219" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.CommandResult">command</span><span class="delimiter">(</span><a href="#35528" title="com.mongodb.casbah.Imports.DBObject">cmd</a><span class="delimiter">)</span>
   <span class="comment">/** Execute a database command directly.
    * @see &lt;a href=&quot;http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands&quot;&gt;List of Commands&lt;/a&gt;
    * @return the result of the command from the database
-   * @dochub commands
    */</span>
   <span class="keyword">def</span> <a title="(cmd: String)com.mongodb.CommandResult" id="15169">command</a><span class="delimiter">(</span><a title="String" id="35521">cmd</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#15219" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.CommandResult">command</span><span class="delimiter">(</span><a href="#35521" title="String">cmd</a><span class="delimiter">)</span>
   <span class="comment">/** Execute a database command directly.
    * @see &lt;a href=&quot;http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands&quot;&gt;List of Commands&lt;/a&gt;
    * @return the result of the command from the database
-   * @dochub commands
    */</span>
   <span class="keyword">def</span> <a title="(cmd: com.mongodb.casbah.Imports.DBObject, options: Int)com.mongodb.CommandResult" id="15170">command</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="35510">cmd</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="Int" id="35511">options</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#15219" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.DBObject, x$2: Int)com.mongodb.CommandResult">command</span><span class="delimiter">(</span><a href="#35510" title="com.mongodb.casbah.Imports.DBObject">cmd</a>, <a href="#35511" title="Int">options</a><span class="delimiter">)</span>
   <span class="comment">/** Creates a collection with a given name and options.
@@ -206,7 +212,6 @@
    * Returns true if this DB is authenticated
    *
    * @return true if authenticated, false otherwise
-   * @dochub authenticate
    */</span>
   <span class="keyword">def</span> <a title="=&gt; Boolean" id="15191">isAuthenticated</a> = <a href="#15219" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Boolean">isAuthenticated</span><span class="delimiter">(</span><span class="delimiter">)</span>
 

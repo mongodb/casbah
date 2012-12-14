@@ -7,10 +7,11 @@
 <link rel="author" href="https://plus.google.com/101024085748034940765?rel=author" title="MongoDB Google+ Profile"/>
 <meta name="robots" content="index" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="canonical" href="http://docs.mongodb.org/manual/setting_up" />
+    
     
 <link rel="stylesheet" href="_static/mongodb-docs.css" type="text/css" />
 <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="_static/casbah.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -25,34 +26,12 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript" src="_static/underscore.js"></script>
 <script type="text/javascript" src="_static/doctools.js"></script>
-<link rel="search" type="application/opensearchdescription+xml" href="http://docs.mongodb.org/osd.xml" title="MongoDB Help"/>
 <link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
 <link rel="start" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
 <link rel="next" title="2. Tutorial: Using Casbah" href="tutorial.html" />
 <link rel="prev" title="Welcome to the Casbah documentation" href="index.html" /> 
-<script>
-  (function() {
-    var cx = '017213726194841070573:WMX6838984';
-    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
-    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-        '//www.google.com/cse/cse.js?cx=' + cx;
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
-  })();
-</script>
 </head>
 <body>
-<div id="top-right">
-<div class="user-right">
-<ul id="header-menu-bar" class="ajs-menu-bar">
-<li class="normal"><a target="_blank" href="http://groups.google.com/group/mongodb-user">Forums</a></li>
-<li class="normal"><a target="_blank" href="http://blog.mongodb.org/">Blog</a></li>
-<li class="normal"><a href="http://www.mongodb.org/downloads">Download</a></li>
-<li class="normal"><a href="http://www.mongodb.org/display/DOCS/Drivers">Drivers</a></li>
-<li class="normal"><a href="http://www.mongodb.org/display/DOCS/Events">Events</a></li>
-<li class="normal last"><a class="last" href="http://www.mongodb.org/display/DOCS/International+Documentation">International</a></li>
-</ul>
-</div>
-</div>
 <div id="header-db" class="spread">
 <div class="split">
 <div id="logo">
@@ -62,9 +41,8 @@
 <div class="search-db"><gcse:searchbox></gcse:searchbox></div>
 <div id="etp">
 <ul>
-<li><a href="https://github.com/mongodb/docs/blob/BRANCH/source/setting_up.txt" target="_blank" title="Edit setting_up.txt on github">Edit this Page</a></li>
-<li><a href="http://github.com/mongodb/docs" target="_blank" title="Fork the documentation on GitHub and contribute.">GitHub</a></li>
-<li><a id="jirafeedback" href="https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&amp;issuetype=4&amp;priority=4&amp;summary=Comment+on%3a+%22setting_up%2Etxt%22" target="_blank" title="Report a problem or send feedback about setting_up.txt on Jira">Feedback</a></li>
+<li><a href="http://github.com/mongodb/casbah" target="_blank" title="Fork the driver on GitHub and contribute.">GitHub</a></li>
+<li><a id="jirafeedback" href="http://jira.10gen.com/browse/SCALA" target="_blank" title="Report a problem or send feedback about setting_up.txt on Jira">Feedback</a></li>
 </ul>
 </div>
 </div>  
@@ -72,11 +50,11 @@
 <div class="documentwrapper">
 <div class="bodywrapper">
 <div class="body">
-<div id="cse-results"><gcse:searchresults></gcse:searchresults></div>
+  <div id="cse-results"></div>
 
   <div class="section" id="getting-started">
 <h1>1. Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>The latest Casbah build as of December 07, 2012 is 2.5.0, built for Scala 2.9.0-1, 2.9.1, 2.9.2, and 2.10.0-RC1.</p>
+<p>The latest Casbah build as of December 14, 2012 is 2.5.0, built for Scala 2.9.0-1, 2.9.1, 2.9.2, and 2.10.0-RC5.</p>
 <div class="section" id="installing-setting-up-casbah">
 <h2>1.1. Installing &amp; Setting up Casbah<a class="headerlink" href="#installing-setting-up-casbah" title="Permalink to this headline">¶</a></h2>
 <p>You should have <a class="reference external" href="http://mongodb.org">MongoDB</a> setup  and running on your machine (these docs assume you are running on <em>localhost</em> on the default port of <em>27017</em>) before proceeding. If you need help setting up MongoDB please see <a class="reference external" href="http://www.mongodb.org/display/DOCS/Quickstart">the MongoDB quickstart install documentation</a>.</p>
@@ -87,7 +65,7 @@
 </dl>
 <div class="section" id="setting-up-sbt">
 <h3>1.1.1. Setting up SBT<a class="headerlink" href="#setting-up-sbt" title="Permalink to this headline">¶</a></h3>
-<p>You can easily add Casbah to SBT, the Scala Build Tool, by adding the following to your <cite>build.sbt</cite> file, substituting $CASBAH_VERSION$ with the latest Casbah release (as of December 07, 2012, that is 2.5.0):</p>
+<p>You can easily add Casbah to SBT, the Scala Build Tool, by adding the following to your <cite>build.sbt</cite> file, substituting $CASBAH_VERSION$ with the latest Casbah release (as of December 14, 2012, that is 2.5.0):</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;org.mongodb&quot;</span> <span class="o">%</span> <span class="s">&quot;casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;$CASBAH_VERSION$&quot;</span>
 </pre></div>
 </div>
@@ -101,8 +79,8 @@
 <div class="section" id="using-dependency-build-managers">
 <h3>1.1.2. Using Dependency/Build Managers<a class="headerlink" href="#using-dependency-build-managers" title="Permalink to this headline">¶</a></h3>
 <p>First, you should add the package repository to your Dependency/Build Manager. Our releases &amp; snapshots are currently hosted at Sonatype; they should eventually sync to the Central Maven repository.:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">https</span><span class="o">://</span><span class="n">oss</span><span class="o">.</span><span class="n">sonatype</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span> <span class="cm">/* For Releases */</span>
-<span class="n">https</span><span class="o">://</span><span class="n">oss</span><span class="o">.</span><span class="n">sonatype</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">snapshots</span><span class="o">/</span> <span class="o">/</span> <span class="cm">/* For snapshots */</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">https</span><span class="o">://</span><span class="n">oss</span><span class="o">.</span><span class="n">sonatype</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span>  <span class="cm">/* For Releases */</span>
+<span class="n">https</span><span class="o">://</span><span class="n">oss</span><span class="o">.</span><span class="n">sonatype</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">snapshots</span><span class="o">/</span> <span class="cm">/* For snapshots */</span>
 </pre></div>
 </div>
 <p>Set both of these repositories up in the appropriate manner - they contain Casbah as well as any specific dependencies you may require. (SBT users note that Scala-Tools is builtin to SBT as most Scala projects publish there)</p>
@@ -110,7 +88,7 @@
 <div class="section" id="setting-up-maven">
 <h3>1.1.3. Setting Up Maven<a class="headerlink" href="#setting-up-maven" title="Permalink to this headline">¶</a></h3>
 <p>You can add Casbah to Maven with the following dependency block.</p>
-<p>Please substitute $SCALA_VERSION$ with your Scala version (We support 2.9.x+) and $CASBAH_VERSION$ with the latest Casbah release (as of December 07, 2012, that is 2.5.0):</p>
+<p>Please substitute $SCALA_VERSION$ with your Scala version (We support 2.9.x+) and $CASBAH_VERSION$ with the latest Casbah release (as of December 14, 2012, that is 2.5.0):</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">mongodb</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">casbah_$SCALA_VERSION$</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
@@ -122,7 +100,7 @@
 <div class="section" id="setting-up-ivy-w-ant">
 <h3>1.1.4. Setting Up Ivy (w/ Ant)<a class="headerlink" href="#setting-up-ivy-w-ant" title="Permalink to this headline">¶</a></h3>
 <p>You can add Casbah to Ivy with the following dependency block.</p>
-<p>Please substitute $SCALA_VERSION$ with your Scala version (We support 2.9.x+) and $CASBAH_VERSION$ with the latest Casbah release (as of December 07, 2012, that is 2.5.0):</p>
+<p>Please substitute $SCALA_VERSION$ with your Scala version (We support 2.9.x+) and $CASBAH_VERSION$ with the latest Casbah release (as of December 14, 2012, that is 2.5.0):</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">dependency</span> <span class="n">org</span><span class="o">=</span><span class="s">&quot;org.mongodb&quot;</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;casbah_$SCALA_VERSION$&quot;</span> <span class="n">rev</span><span class="o">=</span><span class="s">&quot;$CASBAH_VERSION$&quot;</span><span class="o">/&gt;</span>
 </pre></div>
 </div>
@@ -134,10 +112,11 @@
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">$</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="o">://</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">mongodb</span><span class="o">/</span><span class="n">casbah</span>
 </pre></div>
 </div>
-<p>At the time of this writing, the <em>master</em> branch lies fallow, and most development is done in the <cite>release-2.3+</cite> branch, instead.</p>
+<p>The <cite>master</cite> branch is once again the leading branch suitable for snapshots and
+releases and should be considered (and kept) stable.</p>
 </div>
 <div class="section" id="casbah-modules">
-<h3>1.1.6. Casbah Modules<a class="headerlink" href="#casbah-modules" title="Permalink to this headline">¶</a></h3>
+<span id="casbah-gridfs"></span><span id="casbah-query"></span><span id="casbah-commons"></span><span id="casbah-core"></span><h3>1.1.6. Casbah Modules<a class="headerlink" href="#casbah-modules" title="Permalink to this headline">¶</a></h3>
 <p>While Casbah has a large stable of features, some users (such as those using a framework like Lift which already provides MongoDB wrappers) wanted access to certain parts of Casbah without importing the whole system.  As a result, Casbah has been broken out into several modules which make it easier to pick and choose the features you want.</p>
 <p>If you use the individual modules you'll need to use the import statement from each of these.  If you use the import statement from the <cite>casbah-core</cite> module, everything except GridFS will be imported (not everyone uses GridFS so we don't load it into memory &amp; scope unless it is needed).  The module names can be used to select which dependencies you want from maven/ivy/sbt, as we publish individual artifacts.  If you import just <cite>casbah</cite>, this is a master pom which includes the whole system and can be used just like 1.1.x was (that is to say, you can pretend the module system doesn't exist more or less).</p>
 <p>This is the breakdown of dependencies and packages for the new system:</p>
@@ -155,50 +134,60 @@
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><p class="first"><em class="xref std std-ref">casbah-commons</em> (&quot;Commons&quot;)</p>
-<p class="last"><strong>NOTES</strong>
-Provides Scala-friendly
-:dochub:DBObject &amp; :dochub:DBList
-implementations as well as Implicit
-conversions for Scala types</p>
-</td>
-<td>com.mongodb.casbah.commons</td>
-<td>mongo-java-driver,
-scalaj-collection,
-scalaj-time,
-JodaTime,
-slf4j-api</td>
-</tr>
-<tr class="row-odd"><td><p class="first"><em class="xref std std-ref">casbah-query</em> (&quot;Query DSL&quot;)</p>
-<p class="last"><strong>NOTES</strong>
-Provides a Scala syntax enhancement
-mode for creating MongoDB query
-objects using an Internal DSL
-supporting Mongo <cite>$ Operators</cite></p>
-</td>
-<td>com.mongodb.casbah.query</td>
-<td><em class="xref std std-ref">casbah-commons</em>
-along with its dependencies transitively</td>
-</tr>
-<tr class="row-even"><td><p class="first"><em class="xref std std-ref">casbah-core</em> (&quot;Core&quot;)</p>
-<p class="last"><strong>NOTES</strong>
-Provides Scala-friendly
+<tr class="row-even"><td><p class="first"><a class="reference external" href="http://api.mongodb.org/scala/casbah/2.5.0/api/#com.mongodb.casbah.package?Casbah Core">Casbah Core</a></p>
+<p><strong>NOTES</strong></p>
+<p class="last">Provides Scala-friendly
 wrappers to the Java Driver for
 connections, collections and
 MapReduce jobs</p>
 </td>
 <td>com.mongodb.casbah</td>
-<td><em class="xref std std-ref">casbah-commons</em> and <em class="xref std std-ref">casbah-query</em>
-along with their dependencies transitively</td>
+<td>casbah-commons and casbah-query
+along with their
+dependencies
+transitively</td>
 </tr>
-<tr class="row-odd"><td><p class="first"><em class="xref std std-ref">casbah-gridfs</em> (&quot;GridFS&quot;)</p>
-<p class="last"><strong>NOTES</strong>
-Provides Scala enhanced wrappers
+<tr class="row-odd"><td><p class="first"><a class="reference external" href="http://api.mongodb.org/scala/casbah/2.5.0/api/#com.mongodb.casbah.commons.package?Casbah Commons">Casbah Commons</a></p>
+<p><strong>NOTES</strong></p>
+<p class="last">Provides Scala-friendly
+<a class="reference external" href="http://docs.mongodb.org/manual/?q=DBObject">DBObject</a> &amp;
+<a class="reference external" href="http://docs.mongodb.org/manual/?q=DBList">DBList</a>
+implementations as well as Implicit
+conversions for Scala types</p>
+</td>
+<td>com.mongodb.casbah.commons</td>
+<td><ul class="first last simple">
+<li>mongo-java-driver,</li>
+<li>scalaj-collection,</li>
+<li>scalaj-time,</li>
+<li>JodaTime,</li>
+<li>slf4j-api</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first"><a class="reference external" href="http://api.mongodb.org/scala/casbah/2.5.0/api/#com.mongodb.casbah.query.package?Query DSL">Query DSL</a></p>
+<p><strong>NOTES</strong></p>
+<p class="last">Provides a Scala syntax enhancement
+mode for creating MongoDB query
+objects using an Internal DSL
+supporting Mongo <cite>$ Operators</cite></p>
+</td>
+<td>com.mongodb.casbah.query</td>
+<td>casbah-commons
+along with their
+dependencies
+transitively</td>
+</tr>
+<tr class="row-odd"><td><p class="first"><a class="reference external" href="http://api.mongodb.org/scala/casbah/2.5.0/api/#com.mongodb.casbah.gridfs.package?Gridfs">Gridfs</a></p>
+<p><strong>NOTES</strong></p>
+<p class="last">Provides Scala enhanced wrappers
 to MongoDB's GridFS filesystem</p>
 </td>
 <td>com.mongodb.casbah.gridfs</td>
-<td><em class="xref std std-ref">casbah-core</em> and <em class="xref std std-ref">casbah-commons</em>
-along with their dependencies transitively</td>
+<td>casbah-commons and casbah-query
+along with their
+dependencies
+transitively</td>
 </tr>
 </tbody>
 </table>
@@ -225,7 +214,7 @@ along with their dependencies transitively</td>
 <h3><a href="index.html">Casbah Manual</a></h3>
 
 <ul class="current">
-<li class="toctree-l1"><a class="reference external" href="http://api.mongodb.org/scala/casbah/scaladoc/">API Docs</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://api.mongodb.org/scala/casbah/api/#com.mongodb.casbah.package">API Docs</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">1. Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installing-setting-up-casbah">1.1. Installing &amp; Setting up Casbah</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#setting-up-sbt">1.1.1. Setting up SBT</a></li>
@@ -242,8 +231,8 @@ along with their dependencies transitively</td>
 </ul>
 
 
-<h3 style="padding-bottom: 1em;"><a href="genindex.html">Index</a></h3>
-<h3>MongoDB Wiki</h3>
+<hr>
+<br><h3>MongoDB Wiki</h3>
 
 <ul>
  <li><strong>Getting Started</strong>

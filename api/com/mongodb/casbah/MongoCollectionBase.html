@@ -35,7 +35,7 @@ via setObjectClass and the like.
 Provides any non-parameterized methods and the basic structure.
 Requires an underlying object of a DBCollection.</p><p>This is a rewrite of the Casbah 1.0 approach which was rather
 naive and unecessarily complex.... formerly was MongoCollectionWrapper
-</p></div><dl class="attributes block"> <dt>Self Type</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="">MongoCollectionBase</a></dd><dt>Source</dt><dd><a target="_blank" href="http://rosslawley.co.uk/casbah/api.sxr//casbah-core/MongoCollection.scala.html">MongoCollection.scala</a></dd><dt>Version</dt><dd><p>2.0, 12/23/10</p></dd><dt>Since</dt><dd><p>1.0
+</p></div><dl class="attributes block"> <dt>Self Type</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="">MongoCollectionBase</a></dd><dt>Source</dt><dd><a target="_blank" href="http://rozza.github.com/casbah/api.sxr//casbah-coreMongoCollection.scala.html">MongoCollection.scala</a></dd><dt>Version</dt><dd><p>2.0, 12/23/10</p></dd><dt>Since</dt><dd><p>1.0
 </p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.commons.Logging" class="extype" href="commons/Logging.html">Logging</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
@@ -546,7 +546,8 @@ This creates an ascending index on a particular field.</p></div></div>
       </span>
       </h4>
       <p class="shortcomment cmt">Ensures an index on this collection (that is, the index will be created if it does not exist).</p><div class="fullcomment"><div class="comment cmt"><p>Ensures an index on this collection (that is, the index will be created if it does not exist).
-ensureIndex is optimized and is inexpensive if the index already exists.</p></div><dl class="paramcmts block"><dt class="param">keys</dt><dd class="cmt"><p>fields to use for index</p></dd><dt class="param">name</dt><dd class="cmt"><p>an identifier for the index</p></dd></dl></div>
+ensureIndex is optimized and is inexpensive if the index already exists.</p></div><dl class="paramcmts block"><dt class="param">keys</dt><dd class="cmt"><p>fields to use for index</p></dd><dt class="param">name</dt><dd class="cmt"><p>an identifier for the index
+</p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#ensureIndex" data-isabs="false">
       <a id="ensureIndex[A, B](A,B)((A) ⇒ DBObject,(B) ⇒ DBObject):Unit"></a>
       <h4 class="signature">
@@ -559,7 +560,8 @@ ensureIndex is optimized and is inexpensive if the index already exists.</p></di
       </span>
       </h4>
       <p class="shortcomment cmt">Ensures an index on this collection (that is, the index will be created if it does not exist).</p><div class="fullcomment"><div class="comment cmt"><p>Ensures an index on this collection (that is, the index will be created if it does not exist).
-ensureIndex is optimized and is inexpensive if the index already exists.</p></div><dl class="paramcmts block"><dt class="param">keys</dt><dd class="cmt"><p>fields to use for index</p></dd><dt class="param">options</dt><dd class="cmt"><p>options for the index (name, unique, etc)</p></dd></dl></div>
+ensureIndex is optimized and is inexpensive if the index already exists.</p></div><dl class="paramcmts block"><dt class="param">keys</dt><dd class="cmt"><p>fields to use for index</p></dd><dt class="param">options</dt><dd class="cmt"><p>options for the index (name, unique, etc)
+</p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#ensureIndex" data-isabs="false">
       <a id="ensureIndex[A](A)((A) ⇒ DBObject):Unit"></a>
       <h4 class="signature">
@@ -624,7 +626,8 @@ ensureIndex is optimized and is inexpensive if the index already exists.</p></di
         <span class="name">find</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="ref">ref: A</span>, <span name="fields">fields: B</span>, <span name="numToSkip">numToSkip: <span name="scala.Int" class="extype">Int</span></span>, <span name="batchSize">batchSize: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: CursorType</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Finds an object.</p><div class="fullcomment"><div class="comment cmt"><p>Finds an object.</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>query used to search</p></dd><dt class="param">fields</dt><dd class="cmt"><p>the fields of matching objects to return</p></dd><dt class="param">numToSkip</dt><dd class="cmt"><p>will not return the first <tt>numToSkip</tt> matches</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize &lt; 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch</p></dd><dt>returns</dt><dd class="cmt"><p>the objects, if found</p></dd></dl></div>
+      <p class="shortcomment cmt">Finds an object.</p><div class="fullcomment"><div class="comment cmt"><p>Finds an object.</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>query used to search</p></dd><dt class="param">fields</dt><dd class="cmt"><p>the fields of matching objects to return</p></dd><dt class="param">numToSkip</dt><dd class="cmt"><p>will not return the first <tt>numToSkip</tt> matches</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize &lt; 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch</p></dd><dt>returns</dt><dd class="cmt"><p>the objects, if found
+</p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#find" data-isabs="false">
       <a id="find[A, B](A,B)((A) ⇒ DBObject,(B) ⇒ DBObject):CursorType"></a>
       <h4 class="signature">
@@ -646,7 +649,8 @@ keys.put("x", 1);
 DBCursor cursor = collection.find(new BasicDBObject(), keys);
 </pre>
 </blockquote>
-</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>object for which to search</p></dd><dt class="param">keys</dt><dd class="cmt"><p>fields to return</p></dd><dt>returns</dt><dd class="cmt"><p>a cursor to iterate over results</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>object for which to search</p></dd><dt class="param">keys</dt><dd class="cmt"><p>fields to return</p></dd><dt>returns</dt><dd class="cmt"><p>a cursor to iterate over results
+</p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#find" data-isabs="false">
       <a id="find[A](A)((A) ⇒ DBObject):CursorType"></a>
       <h4 class="signature">
@@ -658,7 +662,8 @@ DBCursor cursor = collection.find(new BasicDBObject(), keys);
         <span class="name">find</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="ref">ref: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: CursorType</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Queries for an object in this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Queries for an object in this collection.</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>object for which to search</p></dd><dt>returns</dt><dd class="cmt"><p>an iterator over the results</p></dd></dl></div>
+      <p class="shortcomment cmt">Queries for an object in this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Queries for an object in this collection.</p></div><dl class="paramcmts block"><dt class="param">ref</dt><dd class="cmt"><p>object for which to search</p></dd><dt>returns</dt><dd class="cmt"><p>an iterator over the results
+</p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#find" data-isabs="false">
       <a id="find():CursorType"></a>
       <h4 class="signature">
@@ -670,7 +675,8 @@ DBCursor cursor = collection.find(new BasicDBObject(), keys);
         <span class="name">find</span><span class="params">()</span><span class="result">: CursorType</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Queries for all objects in this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Queries for all objects in this collection.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a cursor which will iterate over every object</p></dd></dl></div>
+      <p class="shortcomment cmt">Queries for all objects in this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Queries for all objects in this collection.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a cursor which will iterate over every object
+</p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findAndModify" data-isabs="false">
       <a id="findAndModify[A, B, C, D](A,B,C,Boolean,D,Boolean,Boolean)((A) ⇒ DBObject,(B) ⇒ DBObject,(C) ⇒ DBObject,(D) ⇒ DBObject):Option[T]"></a>
       <h4 class="signature">
@@ -737,7 +743,8 @@ You can also specify the fields to return in the document, optionally.</p></div>
         <span class="name">findOne</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="o">o: A</span>, <span name="fields">fields: B</span>, <span name="readPrefs">readPrefs: ReadPreference</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[T]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Returns a single object from this collection matching the query.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a single object from this collection matching the query.</p></div><dl class="paramcmts block"><dt class="param">o</dt><dd class="cmt"><p>the query object</p></dd><dt class="param">fields</dt><dd class="cmt"><p>fields to return</p></dd><dt>returns</dt><dd class="cmt"><p>(Option[T]) Some() of the object found, or <code>None</code> if no such object exists</p></dd></dl></div>
+      <p class="shortcomment cmt">Returns a single object from this collection matching the query.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a single object from this collection matching the query.</p></div><dl class="paramcmts block"><dt class="param">o</dt><dd class="cmt"><p>the query object</p></dd><dt class="param">fields</dt><dd class="cmt"><p>fields to return</p></dd><dt>returns</dt><dd class="cmt"><p>(Option[T]) Some() of the object found, or <code>None</code> if no such object exists
+</p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findOne" data-isabs="false">
       <a id="findOne[A](A)((A) ⇒ DBObject):Option[T]"></a>
       <h4 class="signature">
@@ -778,7 +785,8 @@ You can also specify the fields to return in the document, optionally.</p></div>
       <p class="shortcomment cmt">Find an object by its ID.</p><div class="fullcomment"><div class="comment cmt"><p>Find an object by its ID.
 Finds an object by its id. This compares the passed in
 value to the _id field of the document.</p><p>Returns a single object from this collection matching the query.
-</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the id to match</p></dd><dt class="param">fields</dt><dd class="cmt"><p>fields to return</p></dd><dt>returns</dt><dd class="cmt"><p>(Option[T]) Some() of the object found, or <code>None</code> if no such object exists</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the id to match</p></dd><dt class="param">fields</dt><dd class="cmt"><p>fields to return</p></dd><dt>returns</dt><dd class="cmt"><p>(Option[T]) Some() of the object found, or <code>None</code> if no such object exists
+</p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#findOneByID" data-isabs="false">
       <a id="findOneByID(AnyRef):Option[T]"></a>
       <h4 class="signature">
@@ -1372,7 +1380,9 @@ documentation for <code> ReadPreference</code> for more information.
         <span class="name">remove</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="o">o: A</span>, <span name="concern">concern: <span name="com.mongodb.WriteConcern" class="extype">WriteConcern</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dbObjView">dbObjView: (A) ⇒ DBObject</span>, <span name="encoder">encoder: DBEncoder</span>)</span><span class="result">: <span name="com.mongodb.WriteResult" class="extype">WriteResult</span></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Removes objects from the database collection.</p><div class="fullcomment"><div class="comment cmt"><p>Removes objects from the database collection.</p></div><dl class="paramcmts block"><dt class="param">o</dt><dd class="cmt"><p>the object that documents to be removed must match</p></dd><dt class="param">concern</dt><dd class="cmt"><p>WriteConcern for this operation</p></dd></dl></div>
+      <p class="shortcomment cmt">Removes objects from the database collection.</p><div class="fullcomment"><div class="comment cmt"><p>Removes objects from the database collection.</p></div><dl class="paramcmts block"><dt class="param">o</dt><dd class="cmt"><p>the object that documents to be removed must match</p></dd><dt class="param">concern</dt><dd class="cmt"><p>WriteConcern for this operation
+TODO - Wrapper for WriteResult?
+</p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#rename" data-isabs="false">
       <a id="rename(String,Boolean):MongoCollection"></a>
       <h4 class="signature">

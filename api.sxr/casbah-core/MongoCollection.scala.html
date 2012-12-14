@@ -139,7 +139,6 @@
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * @param keys fields to use for index
    * @param options options for the index (name, unique, etc)
-   * @dochub indexes
    */</span>
   <span class="keyword">def</span> <a title="[A, B](keys: A, options: B)(implicit evidence$9: A =&gt; com.mongodb.casbah.Imports.DBObject, implicit evidence$10: B =&gt; com.mongodb.casbah.Imports.DBObject)Unit" id="31495">ensureIndex</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15832">A</a> &lt;% DBObject, <a title="&gt;: Nothing &lt;: Any" id="15833">B</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="31492">keys</a>: <a href="#15832" title="A">A</a>, <a title="B" id="31493">options</a>: <a href="#15833" title="B">B</a><span class="delimiter">)</span> = <a href="#15795" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject, x$2: com.mongodb.DBObject)Unit">ensureIndex</span><span class="delimiter">(</span><a href="#31495" title="(v1: A)com.mongodb.casbah.Imports.DBObject">keys</a>, <a href="#31495" title="(v1: B)com.mongodb.casbah.Imports.DBObject">options</a><span class="delimiter">)</span>
 
@@ -147,7 +146,6 @@
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * @param keys fields to use for index
    * @param name an identifier for the index
-   * @dochub indexes
    */</span>
   <span class="keyword">def</span> <a title="[A](keys: A, name: String)(implicit evidence$11: A =&gt; com.mongodb.casbah.Imports.DBObject)Unit" id="31530">ensureIndex</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15836">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="31528">keys</a>: <a href="#15836" title="A">A</a>, <a title="String" id="31529">name</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#15795" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject, x$2: java.lang.String)Unit">ensureIndex</span><span class="delimiter">(</span><a href="#31530" title="(v1: A)com.mongodb.casbah.Imports.DBObject">keys</a>, <a href="#31529" title="String">name</a><span class="delimiter">)</span>
 
@@ -162,20 +160,17 @@
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * This creates an ascending index on a particular field.
    * @param name an identifier for the index
-   * @dochub indexes
    */</span>
   <span class="keyword">def</span> <a title="(fieldName: String)Unit" id="15840">ensureIndex</a><span class="delimiter">(</span><a title="String" id="31933">fieldName</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#15795" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: java.lang.String)Unit">ensureIndex</span><span class="delimiter">(</span><a href="#31933" title="String">fieldName</a><span class="delimiter">)</span>
 
   <span class="comment">/** Queries for all objects in this collection.
    * @return a cursor which will iterate over every object
-   * @dochub find
    */</span>
   <span class="keyword">def</span> <a title="()MongoCollectionBase.this.CursorType" id="15841">find</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#15995" title="(cursor: com.mongodb.DBCursor)MongoCollectionBase.this.CursorType">_newCursor</a><span class="delimiter">(</span><a href="#15795" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="()com.mongodb.DBCursor">find</span><span class="delimiter">)</span>
 
   <span class="comment">/** Queries for an object in this collection.
    * @param ref object for which to search
    * @return an iterator over the results
-   * @dochub find
    */</span>
   <span class="keyword">def</span> <a title="[A](ref: A)(implicit evidence$13: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCollectionBase.this.CursorType" id="31228">find</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15844">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="31227">ref</a>: <a href="#15844" title="A">A</a><span class="delimiter">)</span> = <a href="#15995" title="(cursor: com.mongodb.DBCursor)MongoCollectionBase.this.CursorType">_newCursor</a><span class="delimiter">(</span><a href="#15795" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBCursor">find</span><span class="delimiter">(</span><a href="#31228" title="(v1: A)com.mongodb.casbah.Imports.DBObject">ref</a><span class="delimiter">)</span><span class="delimiter">)</span>
 
@@ -199,7 +194,6 @@
    * @param ref object for which to search
    * @param keys fields to return
    * @return a cursor to iterate over results
-   * @dochub find
    */</span>
   <span class="keyword">def</span> <a title="[A, B](ref: A, keys: B)(implicit evidence$14: A =&gt; com.mongodb.casbah.Imports.DBObject, implicit evidence$15: B =&gt; com.mongodb.casbah.Imports.DBObject)MongoCollectionBase.this.CursorType" id="31210">find</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15848">A</a> &lt;% DBObject, <a title="&gt;: Nothing &lt;: Any" id="15849">B</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="31207">ref</a>: <a href="#15848" title="A">A</a>, <a title="B" id="31208">keys</a>: <a href="#15849" title="B">B</a><span class="delimiter">)</span> = <a href="#15995" title="(cursor: com.mongodb.DBCursor)MongoCollectionBase.this.CursorType">_newCursor</a><span class="delimiter">(</span><a href="#15795" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject, x$2: com.mongodb.DBObject)com.mongodb.DBCursor">find</span><span class="delimiter">(</span><a href="#31210" title="(v1: A)com.mongodb.casbah.Imports.DBObject">ref</a>, <a href="#31210" title="(v1: B)com.mongodb.casbah.Imports.DBObject">keys</a><span class="delimiter">)</span><span class="delimiter">)</span>
 
@@ -210,7 +204,6 @@
    * @param batchSize if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize &lt; 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch
    * @param options - see Bytes QUERYOPTION_*
    * @return the objects, if found
-   * @dochub find
    */</span>
   <span class="keyword">def</span> <a title="[A, B](ref: A, fields: B, numToSkip: Int, batchSize: Int)(implicit evidence$16: A =&gt; com.mongodb.casbah.Imports.DBObject, implicit evidence$17: B =&gt; com.mongodb.casbah.Imports.DBObject)MongoCollectionBase.this.CursorType" id="30695">find</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15853">A</a> &lt;% DBObject, <a title="&gt;: Nothing &lt;: Any" id="15854">B</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="30690">ref</a>: <a href="#15853" title="A">A</a>, <a title="B" id="30691">fields</a>: <a href="#15854" title="B">B</a>, <a title="Int" id="30692">numToSkip</a>: <span title="Int">Int</span>, <a title="Int" id="30693">batchSize</a>: <span title="Int">Int</span><span class="delimiter">)</span> =
     <a href="#15995" title="(cursor: com.mongodb.DBCursor)MongoCollectionBase.this.CursorType">_newCursor</a><span class="delimiter">(</span><a href="#15795" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject, x$2: com.mongodb.DBObject, x$3: Int, x$4: Int)com.mongodb.DBCursor">find</span><span class="delimiter">(</span><a href="#30695" title="(v1: A)com.mongodb.casbah.Imports.DBObject">ref</a>, <a href="#30695" title="(v1: B)com.mongodb.casbah.Imports.DBObject">fields</a>, <a href="#30692" title="Int">numToSkip</a>, <a href="#30693" title="Int">batchSize</a><span class="delimiter">)</span><span class="delimiter">)</span>
@@ -235,7 +228,6 @@
    * @param o the query object
    * @param fields fields to return
    * @return (Option[T]) Some() of the object found, or &lt;code&gt;None&lt;/code&gt; if no such object exists
-   * @dochub find
    */</span>
   <span class="keyword">def</span> <a title="[A, B](o: A, fields: B, readPrefs: com.mongodb.casbah.Imports.ReadPreference)(implicit evidence$19: A =&gt; com.mongodb.casbah.Imports.DBObject, implicit evidence$20: B =&gt; com.mongodb.casbah.Imports.DBObject)Option[MongoCollectionBase.this.T]" id="31965">findOne</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="31971">A</a> &lt;% DBObject, <a title="&gt;: Nothing &lt;: Any" id="31972">B</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="31961">o</a>: <a href="#31971" title="A">A</a>, <a title="B" id="31962">fields</a>: <a href="#31972" title="B">B</a>, <a title="com.mongodb.casbah.Imports.ReadPreference" id="31968">readPrefs</a>: <span title="com.mongodb.casbah.Imports.ReadPreference">ReadPreference</span> = <a href="#15987" title="=&gt; com.mongodb.ReadPreference">getReadPreference</a><span class="delimiter">)</span> =
     <a href="#15997" title="(dbObj: com.mongodb.casbah.Imports.DBObject)Option[MongoCollectionBase.this.T]">_typedValue</a><span class="delimiter">(</span><a href="#15795" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: com.mongodb.DBObject, x$2: com.mongodb.DBObject, x$3: com.mongodb.ReadPreference)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#31965" title="(v1: A)com.mongodb.casbah.Imports.DBObject">o</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a href="#31965" title="(v1: B)com.mongodb.casbah.Imports.DBObject">fields</a>, <a href="#31968" title="com.mongodb.casbah.Imports.ReadPreference">readPrefs</a><span class="delimiter">)</span><span class="delimiter">)</span>
@@ -261,7 +253,6 @@
    * @param id the id to match
    * @param fields fields to return
    * @return (Option[T]) Some() of the object found, or &lt;code&gt;None&lt;/code&gt; if no such object exists
-   * @dochub find
    */</span>
   <span class="keyword">def</span> <a title="[B](id: AnyRef, fields: B)(implicit evidence$21: B =&gt; com.mongodb.casbah.Imports.DBObject)Option[MongoCollectionBase.this.T]" id="32005">findOneByID</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15867">B</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="AnyRef" id="32003">id</a>: <span title="AnyRef">AnyRef</span>, <a title="B" id="32004">fields</a>: <a href="#15867" title="B">B</a><span class="delimiter">)</span> =
     <a href="#15997" title="(dbObj: com.mongodb.casbah.Imports.DBObject)Option[MongoCollectionBase.this.T]">_typedValue</a><span class="delimiter">(</span><a href="#15795" title="=&gt; com.mongodb.DBCollection">underlying</a>.<span title="(x$1: Any, x$2: com.mongodb.DBObject)com.mongodb.DBObject">findOne</span><span class="delimiter">(</span><a href="#32003" title="AnyRef">id</a>, <a href="#32005" title="(v1: B)com.mongodb.casbah.Imports.DBObject">fields</a><span class="delimiter">)</span><span class="delimiter">)</span>
@@ -511,7 +502,6 @@
    * you can get the _id that was added from doc after the insert
    *
    * @param arr  array of documents (&lt;% DBObject) to save
-   * @dochub insert
    * TODO - Wrapper for WriteResult?
    */</span>
    <span class="keyword">def</span> <a title="[A](doc: A, concern: com.mongodb.WriteConcern)(implicit dbObjView: A =&gt; com.mongodb.casbah.Imports.DBObject)com.mongodb.casbah.Imports.WriteResult" id="15926">insert</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15928">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="35023">doc</a>: <a href="#15928" title="A">A</a>, <a title="com.mongodb.WriteConcern" id="35024">concern</a>: com.mongodb.<span title="com.mongodb.WriteConcern">WriteConcern</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="A =&gt; com.mongodb.casbah.Imports.DBObject" id="35025">dbObjView</a>: A =&gt; DBObject<span class="delimiter">)</span>: <span title="com.mongodb.casbah.Imports.WriteResult">WriteResult</span> = <a href="#10195" title="MongoCollectionBase.this.type">insert</a><a href="#35042" title="com.mongodb.casbah.Imports.DBEncoder" id="35089" class="delimiter">(</a><a href="#35023" title="Seq[A]" id="35079">doc</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#35025" title="A =&gt; com.mongodb.casbah.Imports.DBObject" id="35087">dbObjView</a>, concern = <a href="#35024" title="com.mongodb.WriteConcern" id="35088">concern</a><span class="delimiter">)</span>
@@ -521,7 +511,6 @@
    * you can get the _id that was added from doc after the insert
    *
    * @param arr  array of documents (&lt;% DBObject) to save
-   * @dochub insert
    * TODO - Wrapper for WriteResult?
    */</span>
   <span class="keyword">def</span> <a title="[A](docs: A*)(implicit dbObjView: A =&gt; com.mongodb.casbah.Imports.DBObject, implicit concern: com.mongodb.WriteConcern, implicit encoder: com.mongodb.casbah.Imports.DBEncoder)com.mongodb.casbah.Imports.WriteResult" id="15929">insert</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="35041">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="A*" id="36698">docs</a>: <span title="A*">A</span>*<span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="A =&gt; com.mongodb.casbah.Imports.DBObject" id="35035">dbObjView</a>: A =&gt; DBObject, <a title="com.mongodb.WriteConcern" id="35039">concern</a>: com.mongodb.<span title="com.mongodb.WriteConcern">WriteConcern</span> = <a href="#15983" title="=&gt; com.mongodb.WriteConcern">writeConcern</a>, <a title="com.mongodb.casbah.Imports.DBEncoder" id="35042">encoder</a>: <span title="com.mongodb.casbah.Imports.DBEncoder">DBEncoder</span> = <a href="#15797" title="=&gt; Option[com.mongodb.DBEncoderFactory]">customEncoderFactory</a>.<span title="(f: com.mongodb.DBEncoderFactory =&gt; com.mongodb.DBEncoder)Option[com.mongodb.DBEncoder]">map</span><span class="delimiter">(</span><a href="#35100" title="com.mongodb.DBEncoderFactory">_</a>.<span title="()com.mongodb.DBEncoder">create</span><span class="delimiter">)</span>.<span title="(implicit ev: &lt;:&lt;[Null,com.mongodb.casbah.Imports.DBEncoder])com.mongodb.casbah.Imports.DBEncoder">orNull</span> <span class="delimiter">)</span>: <span title="com.mongodb.casbah.Imports.WriteResult">WriteResult</span> = <span class="delimiter">{</span>
@@ -561,7 +550,6 @@
   <span class="comment">/** Removes objects from the database collection.
    * @param o the object that documents to be removed must match
    * @param concern WriteConcern for this operation
-   * @dochub remove
    * TODO - Wrapper for WriteResult?
    */</span>
   <span class="keyword">def</span> <a title="[A](o: A, concern: com.mongodb.WriteConcern)(implicit dbObjView: A =&gt; com.mongodb.casbah.Imports.DBObject, implicit encoder: com.mongodb.casbah.Imports.DBEncoder)com.mongodb.WriteResult" id="15935">remove</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="36120">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36575">o</a>: <a href="#36120" title="A">A</a>, <a title="com.mongodb.WriteConcern" id="36118">concern</a>: com.mongodb.<span title="com.mongodb.WriteConcern">WriteConcern</span> = <a href="#15982" title="=&gt; com.mongodb.WriteConcern">getWriteConcern</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="A =&gt; com.mongodb.casbah.Imports.DBObject" id="36114">dbObjView</a>: A =&gt; DBObject, <a title="com.mongodb.casbah.Imports.DBEncoder" id="36121">encoder</a>: <span title="com.mongodb.casbah.Imports.DBEncoder">DBEncoder</span> = <a href="#15797" title="=&gt; Option[com.mongodb.DBEncoderFactory]">customEncoderFactory</a>.<span title="(f: com.mongodb.DBEncoderFactory =&gt; com.mongodb.DBEncoder)Option[com.mongodb.DBEncoder]">map</span><span class="delimiter">(</span><a href="#36134" title="com.mongodb.DBEncoderFactory">_</a>.<span title="()com.mongodb.DBEncoder">create</span><span class="delimiter">)</span>.<span title="(implicit ev: &lt;:&lt;[Null,com.mongodb.casbah.Imports.DBEncoder])com.mongodb.casbah.Imports.DBEncoder">orNull</span> <span class="delimiter">)</span> =
@@ -600,7 +588,6 @@
 
   <span class="comment">/**
    * Performs an update operation.
-   * @dochub update
    * @param q search query for old object to update
    * @param o object with which to update &lt;tt&gt;q&lt;/tt&gt;
    * TODO - Wrapper for WriteResult?
@@ -611,7 +598,6 @@
 
   <span class="comment">/**
    * Perform a multi update
-   * @dochub update
    * @param q search query for old object to update
    * @param o object with which to update &lt;tt&gt;q&lt;/tt&gt;
    */</span>
