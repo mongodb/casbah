@@ -37,7 +37,6 @@ trait GroupSubOperators extends GroupSumOperator
 
 /**
  * Base trait for implementation of $group
- * @author brendan
  *
  */
 trait GroupOperator extends PipelineOperator {

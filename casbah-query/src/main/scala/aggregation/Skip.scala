@@ -26,8 +26,7 @@ import com.mongodb.casbah.query.Imports._
 
 /**
  * Trait to implement $skip
- * 
- * @author brendan
+ *
  */
 trait SkipOperator extends PipelineOperator {
   private val operator = "$skip"

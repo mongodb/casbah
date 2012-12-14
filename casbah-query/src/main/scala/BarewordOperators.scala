@@ -313,8 +313,6 @@ trait AndOpBase {
  *
  * Targets an RValue of (String, Any)* to be converted to a  DBObject
  *
- * @author Ben Gamari <bgamari.foss@gmail.com>
- * @since 3.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24and
  */
 trait AndOp extends AndOpBase {

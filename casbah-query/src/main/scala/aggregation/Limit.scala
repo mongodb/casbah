@@ -27,8 +27,7 @@ import com.mongodb.casbah.query.Imports._
 
 /**
  * Trait to implement $limit
- * 
- * @author brendan
+ *
  */
 trait LimitOperator extends PipelineOperator {
   private val operator = "$limit"

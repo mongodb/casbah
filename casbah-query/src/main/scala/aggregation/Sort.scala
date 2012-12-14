@@ -26,8 +26,7 @@ import com.mongodb.casbah.query.Imports._
 
 /**
  * Base trait to implement $sort
- * 
- * @author brendan
+ *
  */
 trait SortOperator extends PipelineOperator {
   private val operator = "$sort"

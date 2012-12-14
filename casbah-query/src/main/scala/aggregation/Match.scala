@@ -27,12 +27,11 @@ import com.mongodb.casbah.query.Imports._
 /**
  * Base trait to implement $match,
  * uses mostly the core Query DSL API to operate.
- * 
- * @author brendan
+ *
  */
 trait MatchOperator extends PipelineOperator {
   private val operator = "$match"
 
-  // TODO - Better type filtering to prevent say, group 
+  // TODO - Better type filtering to prevent say, group
   def $match(query: DBObject) = op(operator, query)
 }
