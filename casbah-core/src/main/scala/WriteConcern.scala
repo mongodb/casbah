@@ -22,7 +22,7 @@
 
 package com.mongodb.casbah
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 /**
  * Helper class for creating WriteConcern instances

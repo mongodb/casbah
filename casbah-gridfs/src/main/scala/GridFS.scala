@@ -19,7 +19,6 @@
  *     http://github.com/mongodb/casbah
  *
  */
-
 package com.mongodb.casbah
 package gridfs
 
@@ -34,7 +33,7 @@ import com.mongodb.gridfs.{ GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDB
 import java.io._
 
 import scala.reflect._
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 import org.scala_tools.time.Imports._
 

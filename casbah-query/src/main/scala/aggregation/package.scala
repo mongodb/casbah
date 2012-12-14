@@ -23,7 +23,7 @@ package com.mongodb.casbah.query.dsl
 
 import com.mongodb.casbah.commons.Logging
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 import com.mongodb.casbah.query.Imports._
 
@@ -66,8 +66,8 @@ package aggregation {
       AggregationPipeline(pipeline)
     }
   }
-  
-  class AggregationPipeline private(protected[mongodb] val list: MongoDBList = MongoDBList.empty) extends PipelineOperations { 
+
+  class AggregationPipeline private(protected[mongodb] val list: MongoDBList = MongoDBList.empty) extends PipelineOperations {
     def apply(n: Int): DBObject = list(n).asInstanceOf[DBObject]
     def size: Int = list.size
     override def toString = "AggregationPipeline { " + list.toString + " } ";

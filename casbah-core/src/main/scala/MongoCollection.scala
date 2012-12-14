@@ -31,7 +31,7 @@ import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
 
 import scala.util.control.Exception._
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 import collection.mutable.ArrayBuffer
 
 /**

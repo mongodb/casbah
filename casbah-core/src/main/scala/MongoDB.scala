@@ -26,7 +26,7 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 /**
  * Wrapper for the Mongo <code>DB</code> object providing scala-friendly functionality.

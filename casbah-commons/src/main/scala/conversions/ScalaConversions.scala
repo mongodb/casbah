@@ -231,7 +231,7 @@ trait ScalaRegexSerializer extends MongoConversionHelper {
 trait ScalaJCollectionSerializer extends MongoConversionHelper {
 
   private val transformer = new Transformer {
-    import scalaj.collection.Imports._
+    import _root_.scala.collection.JavaConverters._
 
     def transform(o: AnyRef): AnyRef = o match {
       case mdbo: MongoDBObject => mdbo.underlying

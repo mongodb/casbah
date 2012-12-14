@@ -23,7 +23,7 @@
 package com.mongodb.casbah
 package commons
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 trait Implicits {
   import com.mongodb.{ DBObject, BasicDBObject, BasicDBList }
