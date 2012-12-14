@@ -52,10 +52,10 @@ object CasbahBuild extends Build {
   )
 
   lazy val defaultSettings = baseSettings ++ Seq(
-    libraryDependencies ++= Seq(
-      scalatest(scalaVersion), scalatime(scalaVersion), specs2(scalaVersion),
+    libraryDependencies <++= (scalaVersion)(sv => Seq(
+      scalatest(sv), scalatime(sv), specs2(sv),
       slf4j, slf4jJCL, junit
-    ),
+    )),
     autoCompilerPlugins := true,
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2
@@ -104,26 +104,19 @@ object Dependencies {
   val junit            = "junit" % "junit" % "4.10" % "test"
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
 
-  def scalaVersionString(scalaVer: sbt.SettingKey[String]): String = {
-    var result = ""
-    scalaVersion { sv => result = sv }
-    if (result == "") result = "2.9.2"
-    result
-  }
-
-  def scalatest(scalaVer: sbt.SettingKey[String]) =
-    scalaVersionString(scalaVer) match {
+  def scalatest(scalaVersion: String) =
+    scalaVersion match {
       case _ => "org.scalatest" % "scalatest_2.9.2" % "1.8" % "provided"
     }
 
-  def scalatime(scalaVer: sbt.SettingKey[String]) =
-      scalaVersionString(scalaVer) match {
+  def scalatime(scalaVersion: String) =
+      scalaVersion match {
         case "2.9.2" => "org.scala-tools.time" % "time_2.9.1" % "0.5"
         case _ => "org.scala-tools.time" %% "time" % "0.5"
       }
 
-  def specs2(scalaVer: sbt.SettingKey[String]) =
-      scalaVersionString(scalaVer) match {
+  def specs2(scalaVersion: String) =
+      scalaVersion match {
           case "2.9.0"   => "org.specs2" % "specs2_2.9.0" % "1.7.1"
           case "2.9.0-1" => "org.specs2" % "specs2_2.9.0" % "1.7.1"
           case "2.9.1"   => "org.specs2" % "specs2_2.9.1" % "1.12.2"
