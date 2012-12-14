@@ -9,13 +9,13 @@ object CasbahBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "org.mongodb",
     version      := "2.5.0-SNAPSHOT",
-    crossScalaVersions := Seq("2.9.2", "2.9.1", "2.9.0-1", "2.9.0", "2.8.2", "2.8.1")
+    crossScalaVersions := Seq("2.9.2", "2.9.1", "2.9.0-1", "2.9.0")
   )
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
 
   def sxrOpts(baseDir: File, sourceDirs: Seq[Seq[File]], scalaVersion: String): Seq[String] = {
-    if (scalaVersion.startsWith("2.10") || scalaVersion.startsWith("2.8"))
+    if (scalaVersion.startsWith("2.10"))
       Seq()
     else
       Seq("-P:sxr:base-directory:" + sourceDirs.flatten.mkString(";").replaceAll("\\\\","/"))
@@ -52,41 +52,10 @@ object CasbahBuild extends Build {
   )
 
   lazy val defaultSettings = baseSettings ++ Seq(
-    libraryDependencies ++= Seq(scalatest(scalaVersion),  slf4j, slf4jJCL, junit),
-    libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
-      sv match {
-        case "2.9.2" =>
-          deps :+ ("org.scalaj" % "scalaj-collection_2.9.1" % "1.2")
-        case "2.8.2" =>
-          deps :+ ("org.scalaj" %  "scalaj-collection_2.8.1" % "1.2")
-        case x => {
-          deps :+ ("org.scalaj" %%  "scalaj-collection" % "1.2")
-        }
-      }
-
-    },
-    libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
-      sv match {
-        case "2.9.2" =>
-          deps :+ ("org.scala-tools.time" % "time_2.9.1" % "0.5")
-        case "2.8.2" =>
-          deps :+ ("org.scala-tools.time" % "time_2.8.1" % "0.5")
-        case x => {
-          deps :+ ("org.scala-tools.time" %% "time" % "0.5")
-        }
-      }
-
-    },
-    libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
-      val versionMap = Map("2.8.1" -> ("specs2_2.8.1", "1.5"),
-                           "2.8.2" -> ("specs2_2.8.2", "1.5"),
-                           "2.9.0" -> ("specs2_2.9.0", "1.7.1"),
-                           "2.9.0-1" -> ("specs2_2.9.0", "1.7.1"),
-                           "2.9.1" -> ("specs2_2.9.1", "1.12.2"),
-                           "2.9.2" -> ("specs2_2.9.2", "1.12.2"))
-      val tuple = versionMap.getOrElse(sv, sys.error("Unsupported Scala version for Specs2"))
-      deps :+ ("org.specs2" % tuple._1 % tuple._2)
-    },
+    libraryDependencies ++= Seq(
+      scalatest(scalaVersion), scalatime(scalaVersion), specs2(scalaVersion),
+      slf4j, slf4jJCL, junit
+    ),
     autoCompilerPlugins := true,
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2
@@ -132,34 +101,34 @@ object Dependencies {
 
   val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.10.0"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
-
-  val specs2 = "org.specs2" %% "specs2" % "1.5.1" % "provided"
-  val junit = "junit" % "junit" % "4.10" % "test"
-
-  def specs2ScalazCore(scalaVer: sbt.SettingKey[String]) =
-    scalaVersionString(scalaVer) match {
-      case "2.8.1" => "org.specs2" %% "specs2-scalaz-core" % "5.1-SNAPSHOT" % "test"
-      case "2.8.2" => "org.specs2" %% "specs2-scalaz-core" % "5.1-SNAPSHOT" % "test"
-      case _ => "org.specs2" %% "specs2-scalaz-core" % "6.0.RC2" % "test"
-    }
+  val junit            = "junit" % "junit" % "4.10" % "test"
+  val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
 
   def scalaVersionString(scalaVer: sbt.SettingKey[String]): String = {
     var result = ""
     scalaVersion { sv => result = sv }
-    if (result == "") result = "2.8.2"
+    if (result == "") result = "2.9.2"
     result
   }
 
   def scalatest(scalaVer: sbt.SettingKey[String]) =
     scalaVersionString(scalaVer) match {
-      case "2.8.1" => "org.scalatest" % "scalatest_2.8.1" % "1.8" % "provided"
-      case "2.8.2" => "org.scalatest" % "scalatest_2.8.2" % "1.8" % "provided"
       case _ => "org.scalatest" % "scalatest_2.9.2" % "1.8" % "provided"
     }
 
-  // JCL bindings for testing only
-  val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
+  def scalatime(scalaVer: sbt.SettingKey[String]) =
+      scalaVersionString(scalaVer) match {
+        case "2.9.2" => "org.scala-tools.time" % "time_2.9.1" % "0.5"
+        case _ => "org.scala-tools.time" %% "time" % "0.5"
+      }
 
+  def specs2(scalaVer: sbt.SettingKey[String]) =
+      scalaVersionString(scalaVer) match {
+          case "2.9.0"   => "org.specs2" % "specs2_2.9.0" % "1.7.1"
+          case "2.9.0-1" => "org.specs2" % "specs2_2.9.0" % "1.7.1"
+          case "2.9.1"   => "org.specs2" % "specs2_2.9.1" % "1.12.2"
+          case "2.9.2"   => "org.specs2" % "specs2_2.9.2" % "1.12.2"
+      }
 }
 
 object Resolvers {
