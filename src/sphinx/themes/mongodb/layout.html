@@ -14,12 +14,7 @@
 {%- else %}
   {%- set titlesuffix = "" %}
 {%- endif %}
-{%- macro githublink() -%}
-<a href="https://github.com/mongodb/docs/blob/{{theme_branch}}/source/{{pagename}}.txt" target="_blank" title="Edit {{pagename|e}}.txt on github">Edit this Page</a>
-{%- endmacro -%}
-{%- macro jiralink() -%}
-https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&issuetype=4&priority=4&summary=Comment+on%3a+%22{{ pagename | escape }}%2Etxt%22
-{%- endmacro -%}
+
 {%- macro relbar(show_logo=True) %}
     <div class="related">
       <ul>
@@ -29,12 +24,8 @@ https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&issuetype
              {{ accesskey(rellink[2]) }}>{{ rellink[3] }}</a>
           {%- if not loop.first %}{{ reldelim2 }}{% endif %}</li>
         {%- endfor #}
-        <li class="right">| {{- githublink() -}} </li>
-        <li class="right">| <a href="http://github.com/mongodb/docs" title="Fork the documentation on GitHub to contribute.">GitHub</a></li>
-        <li class="right"><a href="http://jira.mongodb.org/browse/DOCS" title="Open a case in Jira to report problems or make suggestions.">Jira</a></li>
-        {%- if show_logo  %}
-        <li><p><a href="{{ pathto('index') }}"><img class="logo" src="{{ pathto('_static/' + logo, 1) }}" alt="Logo"/></p></li>
-        {%- endif %}
+        <li class="right">| <a href="http://github.com/mongodb/casbah" title="Fork the documentation on GitHub to contribute.">GitHub</a></li>
+        <li class="right"><a href="https://jira.mongodb.org/browse/SCALA" title="Open a case in Jira to report problems or make suggestions.">Jira</a></li>
 
         {%- block rootrellink %}
         <li style="display:none;"><a href="{{ pathto(master_doc) }}">{{ shorttitle|e }}</a></li>
@@ -105,19 +96,10 @@ https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&issuetype
 <link rel="author" href="https://plus.google.com/101024085748034940765?rel=author" title="MongoDB Google+ Profile"/>
 <meta name="robots" content="index" />
 <meta http-equiv="Content-Type" content="text/html; charset={{ encoding }}" />
-{%- if pagename == 'index' %}
-<link rel="canonical" href="http://docs.mongodb.org/manual/" />
-{%- else %}
-<link rel="canonical" href="http://docs.mongodb.org/manual/{{pagename}}" />
-{%- endif -%}
     {{ metatags }}
     {{ css() }}
     {%- if not embedded %}
     {{ script() }}
-{%- block googlecse_opensearch %}
-{#- can't use Sphinx builtin opensearch, but can point to our own #}
-<link rel="search" type="application/opensearchdescription+xml" href="http://docs.mongodb.org/osd.xml" title="MongoDB Help"/>
-{%- endblock -%}
     {%- if favicon %}
 <link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}"/>
     {%- endif %}
@@ -148,32 +130,9 @@ https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&issuetype
     {%- endif %}
 {%- endblock %}
 {%- block extrahead %} {% endblock %}
-{%- block sitesearch %}
-<script>
-  (function() {
-    var cx = '017213726194841070573:WMX6838984';
-    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
-    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-        '//www.google.com/cse/cse.js?cx=' + cx;
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
-  })();
-</script>
-{%- endblock %}
 </head>
 <body>
 {%- block header %}
-<div id="top-right">
-<div class="user-right">
-<ul id="header-menu-bar" class="ajs-menu-bar">
-<li class="normal"><a target="_blank" href="http://groups.google.com/group/mongodb-user">Forums</a></li>
-<li class="normal"><a target="_blank" href="http://blog.mongodb.org/">Blog</a></li>
-<li class="normal"><a href="http://www.mongodb.org/downloads">Download</a></li>
-<li class="normal"><a href="http://www.mongodb.org/display/DOCS/Drivers">Drivers</a></li>
-<li class="normal"><a href="http://www.mongodb.org/display/DOCS/Events">Events</a></li>
-<li class="normal last"><a class="last" href="http://www.mongodb.org/display/DOCS/International+Documentation">International</a></li>
-</ul>
-</div>
-</div>
 <div id="header-db" class="spread">
 <div class="split">
 <div id="logo">
@@ -183,9 +142,8 @@ https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&issuetype
 <div class="search-db"><gcse:searchbox></gcse:searchbox></div>
 <div id="etp">
 <ul>
-<li>{{ githublink() }}</li>
-<li><a href="http://github.com/mongodb/docs" target="_blank" title="Fork the documentation on GitHub and contribute.">GitHub</a></li>
-<li><a id="jirafeedback" href="{{ jiralink()|e }}" target="_blank" title="Report a problem or send feedback about {{pagename|e}}.txt on Jira">Feedback</a></li>
+<li><a href="http://github.com/mongodb/casbah" target="_blank" title="Fork the driver on GitHub and contribute.">GitHub</a></li>
+<li><a id="jirafeedback" href="http://jira.10gen.com/browse/SCALA" target="_blank" title="Report a problem or send feedback about {{pagename|e}}.txt on Jira">Feedback</a></li>
 </ul>
 </div>
 </div>
@@ -199,7 +157,6 @@ https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&issuetype
 <div class="bodywrapper">
 {%- endif %}
 <div class="body">
-<div id="cse-results"><gcse:searchresults></gcse:searchresults></div>
 {% block body %} {% endblock %}
 </div>
 {%- if render_sidebar %}

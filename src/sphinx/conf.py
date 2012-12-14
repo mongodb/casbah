@@ -172,7 +172,7 @@ htmlhelp_basename = 'CasbahDocumentation'
 # -- Options for LaTeX output -------------------------------------------------
 
 # The paper size ('letter' or 'a4').
-latex_paper_size = 'letter'
+latex_paper_size = 'a4'
 
 # The font size ('10pt', '11pt' or '12pt').
 #latex_font_size = '10pt'
@@ -261,14 +261,11 @@ epub_copyright = '2010-2012 10gen, Inc.'
 #epub_tocdup = True
 
 
+
 extlinks = {
-    'dochub': ('http://dochub.mongodb.org/core/%s', ''),
-    'commons-api': ('http://api.mongodb.org/scala/casbah/' + release + '/scaladoc/casbah-commons/api/%s', 'Casbah Commons API '),
-    'commons-sxr': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-commons/sxr/%s', 'Casbah Commons Source '),
-    'core-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-core/api/%s', 'Casbah Core API '),
-    'core-sxr': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-core/sxr/%s', 'Casbah Core Source '),
-    'gridfs-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-gridfs/api/%s', 'Casbah GridFS API '),
-    'gridfs-sxr': ('http://sxr.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-gridfs/sxr/%s', 'Casbah GridFS Source '),
-    'query-api': ('http://api.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-query/api/%s', 'Casbah Query DSL API '),
-    'query-sxr': ('http://sxr.mongodb.org/scala/casbah/' + release + 'scaladoc/casbah-query/sxr/%s', 'Casbah Query DSL Source '),
+    'dochub': ('http://docs.mongodb.org/manual/?q=%s', ''),
+    'casbah-core': ('http://api.mongodb.org/scala/casbah/' + release + '/api/#com.mongodb.casbah.package?%s', ''),
+    'casbah-commons': ('http://api.mongodb.org/scala/casbah/' + release + '/api/#com.mongodb.casbah.commons.package?%s', ''),
+    'casbah-query': ('http://api.mongodb.org/scala/casbah/' + release + '/api/#com.mongodb.casbah.query.package?%s', ''),
+    'casbah-gridfs': ('http://api.mongodb.org/scala/casbah/' + release + '/api/#com.mongodb.casbah.gridfs.package?%s', ''),
 }
