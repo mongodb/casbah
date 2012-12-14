@@ -126,6 +126,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException]
     }
+
     "Inserting a JDKDate should still allow retrieval as JodaTime after Conversions load" in {
       val mongo = mongoDB("conversionConversion")
       mongo.dropCollection()
@@ -157,6 +158,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getConvertedDate.get must throwA[ClassCastException]
     }
+
     "toString-ing a JODA Date with JODA Conversions loaded doesn't choke horribly." in {
       RegisterConversionHelpers()
       val jodaEntry: DBObject = MongoDBObject("type" -> "jdk",
