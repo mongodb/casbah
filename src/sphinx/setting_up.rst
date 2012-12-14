@@ -1,7 +1,7 @@
 Getting Started
 ***************
 
-The latest Casbah build as of |today| is |release|, built for Scala 2.9.0-1, 2.9.1, 2.9.2, and 2.10.0-RC1.
+The latest Casbah build as of |today| is |release|, built for Scala 2.9.0-1, 2.9.1, 2.9.2, and 2.10.0-RC5.
 
 Installing & Setting up Casbah
 ==============================
@@ -73,7 +73,8 @@ You can always get the latest source for Casbah from `the github repository <htt
 
     $ git clone git://github.com/mongodb/casbah
 
-At the time of this writing, the *master* branch lies fallow, and most development is done in the `release-2.3+` branch, instead.
+The `master` branch is once again the leading branch suitable for snapshots and
+releases and should be considered (and kept) stable.
 
 .. _casbah-core:
 .. _casbah-commons:
