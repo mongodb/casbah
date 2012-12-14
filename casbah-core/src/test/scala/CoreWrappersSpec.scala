@@ -38,7 +38,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
 
     "provide working .asScala methods on the Java version of the objects" in {
 
-      val javaConn = new com.mongodb.Mongo() // Java connection
+      val javaConn = new com.mongodb.MongoClient() // Java connection
 
       "Connection objects" in {
 

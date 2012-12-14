@@ -59,6 +59,16 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def apply(collection: String): MongoCollection = underlying.getCollection(collection).asScala
 
+  // TODO - write tests and make so!
+  // /**
+  //  * Creates a Mongo instance based on a (single) mongodb node (default port).
+  //  *
+  //  * @param collection a string for the collection name
+  //  * @param  c (Class[A])
+  //  * @return MongoTypedCollection[A]
+  //  */
+  // def apply(collection: String, objectClass: Class[DBObject]) = underlying.getCollection(collection).asScala.setObjectClass(objectClass)
+
   def addUser(username: String, passwd: String) = underlying.addUser(username, passwd.toArray)
 
   /**

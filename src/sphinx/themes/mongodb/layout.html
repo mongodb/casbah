@@ -83,6 +83,7 @@
 {%- macro css() %}
 <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
 <link rel="stylesheet" href="{{ pathto('_static/pygments.css', 1) }}" type="text/css" />
+<link rel="stylesheet" href="{{ pathto('_static/casbah.css', 1) }}" type="text/css" />
 {%- for cssfile in css_files %}
 <link rel="stylesheet" href="{{ pathto(cssfile, 1) }}" type="text/css" />
 {%- endfor %}
@@ -157,6 +158,7 @@
 <div class="bodywrapper">
 {%- endif %}
 <div class="body">
+  <div id="cse-results"></div>
 {% block body %} {% endblock %}
 </div>
 {%- if render_sidebar %}
