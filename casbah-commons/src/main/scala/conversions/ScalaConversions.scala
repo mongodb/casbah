@@ -99,7 +99,7 @@ trait Deserializers extends MongoConversionHelper {
  */
 trait Serializers extends MongoConversionHelper
   with ScalaRegexSerializer
-  with ScalaJCollectionSerializer
+  with ScalaCollectionSerializer
   with OptionSerializer {
   override def register() = {
     log.debug("Serializers for Scala Conversions registering")
@@ -228,13 +228,14 @@ trait ScalaRegexSerializer extends MongoConversionHelper {
  * Implementation which is aware of the possible conversions in scalaj-collection and attempts to Leverage it...
  * Not all of these may be serializable by Mongo However... this is a first pass attempt at moving them to Java types
  */
-trait ScalaJCollectionSerializer extends MongoConversionHelper {
+trait ScalaCollectionSerializer extends MongoConversionHelper {
 
   private val transformer = new Transformer {
     import _root_.scala.collection.JavaConverters._
 
     def transform(o: AnyRef): AnyRef = o match {
       case mdbo: MongoDBObject => mdbo.underlying
+      case mdbl: MongoDBList => mdbl.underlying
       case b: _root_.scala.collection.mutable.Buffer[_] => b.asJava
       case s: _root_.scala.collection.mutable.Seq[_] => s.asJava
       case s: _root_.scala.collection.Seq[_] => s.asJava
@@ -242,13 +243,12 @@ trait ScalaJCollectionSerializer extends MongoConversionHelper {
       case s: _root_.scala.collection.Set[_] => s.asJava
       case i: _root_.scala.collection.Iterable[_] => i.asJava
       case i: _root_.scala.collection.Iterator[_] => i.asJava
-      case p: Product => p.productIterator.toList.asJava
       case _ => o // don't warn because we get EVERYTHING
     }
   }
 
   override def register() = {
-    log.debug("Setting up ScalaJCollectionSerializer")
+    log.debug("Setting up ScalaCollectionSerializer")
     BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.Buffer[_]], transformer)
     BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ArrayBuffer[_]], transformer)
     BSON.addEncodingHook(classOf[_root_.scala.collection.mutable.ObservableBuffer[_]], transformer)
