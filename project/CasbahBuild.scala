@@ -12,6 +12,15 @@ object CasbahBuild extends Build {
     crossScalaVersions := Seq("2.10.0-RC5", "2.9.2", "2.9.1", "2.9.0-1", "2.9.0")
   )
 
+  // Load some test data
+  // Todo move out of the build
+  "mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
+
+  "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" !
+
+  "mongoimport -d casbahIntegration -c artilces --drop ./casbah-core/src/test/resources/articles.json" !
+
+
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
 
   def sxrOptions(baseDir: File, sourceDirs: Seq[Seq[File]], scalaVersion: String): Seq[String] = {
@@ -44,16 +53,7 @@ object CasbahBuild extends Build {
          val docSourceOpts = Seq("-sourcepath", rootBase.getAbsolutePath, "-doc-source-url", docSourceUrl)
          val sxrOpts = if (sv.startsWith("2.10")) Seq() else sxrOptions(bd, asd, sv)
          docSourceOpts ++ sxrOpts
-      },
-      testOptions in Test += Tests.Setup( () => {
-
-        "mongoimport -d casbahIntegration -c yield_historical.in --drop ./casbah-core/src/test/resources/yield_historical_in.json" !
-
-        "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" !
-
-        "mongoimport -d casbahIntegration -c artilces --drop ./casbah-core/src/test/resources/articles.json" !
-
-        } )
+      }
     )
 
   lazy val parentSettings = baseSettings ++ Seq(
