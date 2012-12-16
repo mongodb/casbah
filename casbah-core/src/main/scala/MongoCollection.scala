@@ -589,7 +589,7 @@ trait MongoCollectionBase extends Logging { self =>
    * @param q search query for old object to update
    * @param o object with which to update <tt>q</tt>
    */
-  @deprecated("In the face of default arguments this is a bit silly. Please use update(multi=True)")
+  @deprecated("In the face of default arguments this is a bit silly. Please use update(multi=True)", "2.3.0")
   def updateMulti[A <% DBObject, B <% DBObject](q: A, o: B) = underlying.updateMulti(q, o)
 
   override def hashCode() = underlying.hashCode
@@ -764,7 +764,7 @@ trait MongoCollectionBase extends Logging { self =>
    * Sets queries to be OK to run on slave nodes.
    * @deprecated Replaced with ReadPreference.SECONDARY
    */
-  @deprecated("Replaced with ReadPreference.SECONDARY")
+  @deprecated("Replaced with ReadPreference.SECONDARY", "2.3.0")
   def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**

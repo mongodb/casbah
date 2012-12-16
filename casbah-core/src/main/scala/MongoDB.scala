@@ -226,7 +226,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * Sets queries to be OK to run on slave nodes.
    * @deprecated Replaced with ReadPreference.SECONDARY
    */
-  @deprecated("Replaced with ReadPreference.SECONDARY")
+  @deprecated("Replaced with ReadPreference.SECONDARY", "2.3.0")
   def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**

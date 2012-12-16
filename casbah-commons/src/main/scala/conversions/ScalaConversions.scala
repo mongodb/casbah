@@ -53,7 +53,7 @@ object RegisterConversionHelpers extends Serializers
  *
  * @since 1.0
  */
-@deprecated("Be VERY careful using this - it will remove ALL of Casbah's loaded BSON Encoding & Decoding hooks at runtime. If you need to clear Joda Time use DeregisterJodaTimeConversionHelpers.")
+@deprecated("Be VERY careful using this - it will remove ALL of Casbah's loaded BSON Encoding & Decoding hooks at runtime. If you need to clear Joda Time use DeregisterJodaTimeConversionHelpers.", "2.0")
 object DeregisterConversionHelpers extends Serializers
   with Deserializers {
   def apply() = {

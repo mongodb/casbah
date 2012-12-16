@@ -164,7 +164,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
 
   /* Methods needed in order to be a proper DBObject */
   def containsField(s: String) = underlying.containsField(s)
-  @deprecated("containsKey is deprecated in the MongoDB Driver. You should use containsField instead.")
+  @deprecated("containsKey is deprecated in the MongoDB Driver. You should use containsField instead.", "2.0")
   def containsKey(s: String) = underlying.containsField(s) // method kept for backwards compatibility
   def isPartialObject = underlying.isPartialObject
   def markAsPartialObject = underlying.markAsPartialObject
