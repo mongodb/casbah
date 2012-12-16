@@ -17,7 +17,7 @@ notifications:
       - ross@10gen.com
 jdk:
  - openjdk6
- # - openjdk7  # Currently failing with requirements
+ - openjdk7  # Currently failing with requirements
  - oraclejdk7
 services:
   - mongodb
