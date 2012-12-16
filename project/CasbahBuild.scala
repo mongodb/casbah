@@ -9,16 +9,19 @@ object CasbahBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "org.mongodb",
     version      := "2.5.0-SNAPSHOT",
-    crossScalaVersions := Seq("2.9.2", "2.9.1", "2.9.0-1", "2.9.0")
+    crossScalaVersions := Seq("2.10.0-RC5", "2.9.2", "2.9.1", "2.9.0-1", "2.9.0")
   )
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
 
-  def sxrOpts(baseDir: File, sourceDirs: Seq[Seq[File]], scalaVersion: String): Seq[String] = {
+  def sxrOptions(baseDir: File, sourceDirs: Seq[Seq[File]], scalaVersion: String): Seq[String] = {
     if (scalaVersion.startsWith("2.10"))
-      Seq()
-    else
-      Seq("-P:sxr:base-directory:" + sourceDirs.flatten.mkString(";").replaceAll("\\\\","/"))
+      Seq("")
+    else {
+      val xplugin = "-Xplugin:" + (baseDir / "lib" / "sxr_2.9.0-0.2.7.jar").asFile.getAbsolutePath
+      val sxrBaseDir = "-P:sxr:base-directory:" + sourceDirs.flatten.mkString(";").replaceAll("\\\\","/")
+      Seq(xplugin, sxrBaseDir)
+    }
   }
 
   override lazy val settings = super.settings ++ buildSettings
@@ -27,14 +30,20 @@ object CasbahBuild extends Build {
       resolvers ++= Seq(sonatypeRels, sonatypeSnaps, sonatypeSTArch, mavenOrgRepo),
       testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml"),
       autoCompilerPlugins := true,
-      addCompilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7"),
       allSourceDirectories <<= projects.map(sourceDirectories in Compile in _).join,
-      scalacOptions in (Compile, doc) <++= (baseDirectory, allSourceDirectories, scalaVersion) map sxrOpts,
-      scalacOptions in (Compile, doc) <++=  (baseDirectory, scalaVersion, version, baseDirectory in LocalProject("casbah")).map {
-        (bd, sv, v, rootBase) =>
+      scalacOptions <++= scalaVersion map { sv =>
+        sv match {
+          case "2.10.0-RC5" => Seq("-Yeta-expand-keeps-star")
+          case _ => Seq("")
+        }
+      },
+      scalacOptions in (Compile, doc) <++=  (baseDirectory, allSourceDirectories, scalaVersion, version, baseDirectory in LocalProject("casbah")).map {
+        (bd, asd, sv, v, rootBase) =>
          val tagOrBranch = if (v.endsWith("-SNAPSHOT")) "dev" else "v" + v
          val docSourceUrl = "http://{{WEBSITE_ROOT}}api.sxr/€{FILE_PATH}.scala.html"
-          Seq("-sourcepath", rootBase.getAbsolutePath, "-doc-source-url", docSourceUrl)
+         val docSourceOpts = Seq("-sourcepath", rootBase.getAbsolutePath, "-doc-source-url", docSourceUrl)
+         val sxrOpts = if (sv.startsWith("2.10")) Seq() else sxrOptions(bd, asd, sv)
+         docSourceOpts ++ sxrOpts
       },
       testOptions in Test += Tests.Setup( () => {
 
@@ -60,7 +69,6 @@ object CasbahBuild extends Build {
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2
   )
-
 
   lazy val casbah = Project(
     id        = "casbah",
@@ -112,6 +120,7 @@ object Dependencies {
   def scalatime(scalaVersion: String) =
       scalaVersion match {
         case "2.9.2" => "org.scala-tools.time" % "time_2.9.1" % "0.5"
+        case "2.10.0-RC5" => "org.scalaj" % "scalaj-time_2.10.0-M7" % "0.6"
         case _ => "org.scala-tools.time" %% "time" % "0.5"
       }
 
@@ -121,6 +130,7 @@ object Dependencies {
           case "2.9.0-1" => "org.specs2" % "specs2_2.9.0" % "1.7.1"
           case "2.9.1"   => "org.specs2" % "specs2_2.9.1" % "1.12.2"
           case "2.9.2"   => "org.specs2" % "specs2_2.9.2" % "1.12.2"
+          case "2.10.0-RC5"   => "org.specs2" % "specs2_2.10.0-RC5" % "1.12.3"
       }
 }
 
