@@ -43,7 +43,7 @@ object CasbahBuild extends Build {
       scalacOptions <++= scalaVersion map { sv =>
         sv match {
           case "2.10.0-RC5" => Seq("-Yeta-expand-keeps-star")
-          case _ => Seq("")
+          case _ => Seq()
         }
       },
       scalacOptions in (Compile, doc) <++=  (baseDirectory, allSourceDirectories, scalaVersion, version, baseDirectory in LocalProject("casbah")).map {
