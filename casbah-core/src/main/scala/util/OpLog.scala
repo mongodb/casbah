@@ -31,14 +31,16 @@ import com.mongodb.casbah.commons.Logging
 
 import scala.util.control.Exception._
 
-class MongoOpLog(mongo: MongoConnection = MongoConnection(),
+class MongoOpLog(mongoClient: MongoClient = MongoClient(),
   startTimestamp: Option[BSONTimestamp] = None,
-  namespace: Option[String] = None) extends Iterator[MongoOpLogEntry] with Logging {
+  namespace: Option[String] = None,
+  replicaSet: Boolean = true) extends Iterator[MongoOpLogEntry] with Logging {
 
   implicit object BSONTimestampOk extends ValidDateOrNumericType[org.bson.types.BSONTimestamp]
 
-  protected val local = mongo("local")
-  protected val oplog = local("oplog.$main")
+  protected val local = mongoClient("local")
+  protected val oplogName : String = if (replicaSet) "oplog.rs" else "oplog.$main"
+  protected val oplog = local(oplogName)
 
   val tsp = verifyOpLog
 

@@ -13,6 +13,7 @@ Changes in Version 2.5.0
 -  Added unidoc and updated documentation
 -  Updated MongoDBList to handle immutable params
 -  Maven Documentation fix (SCALA-71)
+-  MongoOpLog - uses new MongoClient and defaults to replciaSet oplog database
 
 Changes in Version 2.4.1
 ------------------------
