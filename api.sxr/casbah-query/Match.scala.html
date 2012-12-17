@@ -34,18 +34,18 @@
 <span class="keyword">package</span> com.mongodb.casbah.query.dsl
 <span class="keyword">package</span> aggregation
 
-<span class="keyword">import</span> com.mongodb.casbah.query.<a href="Implicits.scala.html#10236" title="object com.mongodb.casbah.query.Imports">Imports</a>._
+<span class="keyword">import</span> com.mongodb.casbah.query.<a href="Implicits.scala.html#10234" title="object com.mongodb.casbah.query.Imports">Imports</a>._
 
 <span class="comment">/**
  * Base trait to implement $match,
  * uses mostly the core Query DSL API to operate.
  *
  */</span>
-<span class="keyword">trait</span> <a title="trait MatchOperator extends java.lang.Object with com.mongodb.casbah.query.dsl.aggregation.PipelineOperator with ScalaObject" id="10297">MatchOperator</a> <span title="ScalaObject" class="keyword">extends</span> <a href="package.scala.html#10365" title="com.mongodb.casbah.query.dsl.aggregation.PipelineOperator">PipelineOperator</a> <span class="delimiter">{</span>
-  <span class="keyword">private</span> <span class="keyword">val</span> <a title="java.lang.String" id="34413">operator</a> = <span title="java.lang.String(&quot;$match&quot;)" class="string">&quot;$match&quot;</span>
+<span class="keyword">trait</span> <a title="trait MatchOperator extends java.lang.Object with com.mongodb.casbah.query.dsl.aggregation.PipelineOperator with ScalaObject" id="10295">MatchOperator</a> <span title="ScalaObject" class="keyword">extends</span> <a href="package.scala.html#10363" title="com.mongodb.casbah.query.dsl.aggregation.PipelineOperator">PipelineOperator</a> <span class="delimiter">{</span>
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="java.lang.String" id="34696">operator</a> = <span title="java.lang.String(&quot;$match&quot;)" class="string">&quot;$match&quot;</span>
 
   <span class="comment">// TODO - Better type filtering to prevent say, group</span>
-  <span class="keyword">def</span> <a title="(query: com.mongodb.casbah.query.Imports.DBObject)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="34415">$match</a><span class="delimiter">(</span><a title="com.mongodb.casbah.query.Imports.DBObject" id="42969">query</a>: <span title="com.mongodb.casbah.query.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="package.scala.html#34392" title="(oper: String, target: Any)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">op</a><span class="delimiter">(</span><a href="#34413" title="=&gt; java.lang.String">operator</a>, <a href="#42969" title="com.mongodb.casbah.query.Imports.DBObject">query</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(query: com.mongodb.casbah.query.Imports.DBObject)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="34698">$match</a><span class="delimiter">(</span><a title="com.mongodb.casbah.query.Imports.DBObject" id="43252">query</a>: <span title="com.mongodb.casbah.query.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="package.scala.html#34675" title="(oper: String, target: Any)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">op</a><span class="delimiter">(</span><a href="#34696" title="=&gt; java.lang.String">operator</a>, <a href="#43252" title="com.mongodb.casbah.query.Imports.DBObject">query</a><span class="delimiter">)</span>
 <span class="delimiter">}</span>
         </pre>
     </body>

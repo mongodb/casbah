@@ -28,6 +28,7 @@
 <script type="text/javascript" src="_static/doctools.js"></script>
 <link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
 <link rel="start" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
+<link rel="next" title="3. Changelog" href="changelog.html" />
 <link rel="prev" title="1. Getting Started" href="setting_up.html" /> 
 </head>
 <body>
@@ -120,11 +121,11 @@ which should be updated to use <tt class="docutils literal"><span class="pre">Mo
 <div class="section" id="working-with-collections">
 <h3>2.2.3. Working with Collections<a class="headerlink" href="#working-with-collections" title="Permalink to this headline">¶</a></h3>
 <p>Feel free to explore Casbah's <tt class="docutils literal"><span class="pre">MongoDB</span></tt> object on your own; for now let's focus on <tt class="docutils literal"><span class="pre">MongoCollection</span></tt>.</p>
-<p>It should be noted that Casbah's <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> object implements Scala's <a class="reference external" href="http://www.scala-lang.org/docu/files/api/scala/collection/Iterable.html">Iterable[A]</a> interface (specifically <tt class="docutils literal"><span class="pre">Iterable[DBObject]</span></tt>), which provides a full monadic interface to your MongoDB collection.  Beginning iteration on the <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> instance is fundamentally equivalent to invoking <tt class="docutils literal"><span class="pre">find</span></tt> on the <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> (without a uqery).  We'll return to this after we discuss working with <tt class="docutils literal"><span class="pre">MongoDBObjects</span></tt> and inserting data...</p>
+<p>It should be noted that Casbah's <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> object implements Scala's <a class="reference external" href="http://www.scala-lang.org/docu/files/api/scala/collection/Iterable.html">Iterable[A]</a> interface (specifically <tt class="docutils literal"><span class="pre">Iterable[DBObject]</span></tt>), which provides a full monadic interface to your MongoDB collection.  Beginning iteration on the <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> instance is fundamentally equivalent to invoking <tt class="docutils literal"><span class="pre">find</span></tt> on the <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> (without a query).  We'll return to this after we discuss working with <tt class="docutils literal"><span class="pre">MongoDBObjects</span></tt> and inserting data...</p>
 </div>
 <div class="section" id="mongodbobject-a-scala-ble-dbobject-implementation">
 <h3>2.2.4. MongoDBObject - A Scala-ble DBObject Implementation<a class="headerlink" href="#mongodbobject-a-scala-ble-dbobject-implementation" title="Permalink to this headline">¶</a></h3>
-<p>As a Scala developer, I find it important to be given the opportunity to work consistently with my data and objects - and in proper Scala fashion.  To that end, I've tried where possible to ensure Casbah provides Scala-ble (my phrasing fr the Scala equivalent of &quot;Pythonic&quot;) interfaces to MongoDB without disabling or hiding the Java equivalents.  A big part of this is extending and enhancing Mongo's <tt class="docutils literal"><span class="pre">DBObject</span></tt> and related classes to work in a Scala-ble fashion.</p>
+<p>As a Scala developer, I find it important to be given the opportunity to work consistently with my data and objects - and in proper Scala fashion.  To that end, I've tried where possible to ensure Casbah provides Scala-ble (my phrasing for the Scala equivalent of &quot;Pythonic&quot;) interfaces to MongoDB without disabling or hiding the Java equivalents.  A big part of this is extending and enhancing Mongo's <tt class="docutils literal"><span class="pre">DBObject</span></tt> and related classes to work in a Scala-ble fashion.</p>
 <p>That is to say - <tt class="docutils literal"><span class="pre">DBObject</span></tt>, <tt class="docutils literal"><span class="pre">BasicDBOBject</span></tt>, <tt class="docutils literal"><span class="pre">BasicDBObjectBuilder</span></tt>, etc are still available - but there's a better way.  <cite>MongoDBObject</cite> and its companion trait (tacked in a few places implicitly via Pimp-My-Library) provide a series of ways to work with Mongo's DBObjects which closely match the Collection interface Scala 2.8 provides.  Further, <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt> can be implicitly converted to a <tt class="docutils literal"><span class="pre">DBObject</span></tt> - so any existing Mongo Java code will accept it without complaint.  There are two easy ways to create a new <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt>.  In an additive manner</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">newObj</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span><span class="o">,</span>
      <span class="o">|</span>                            <span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;y&quot;</span><span class="o">,</span>
@@ -525,6 +526,7 @@ retrieving just the username</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">3. Changelog</a></li>
 </ul>
 
 

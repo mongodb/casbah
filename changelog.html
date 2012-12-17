@@ -1,0 +1,615 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>3. Changelog &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation</title>
+<link rel="shortcut icon" href="http://media.mongodb.org/favicon.ico" />
+<link rel="author" href="https://plus.google.com/101024085748034940765?rel=author" title="MongoDB Google+ Profile"/>
+<meta name="robots" content="index" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    
+<link rel="stylesheet" href="_static/mongodb-docs.css" type="text/css" />
+<link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="_static/casbah.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="_static/underscore.js"></script>
+<script type="text/javascript" src="_static/doctools.js"></script>
+<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
+<link rel="start" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
+<link rel="prev" title="2. Tutorial: Using Casbah" href="tutorial.html" /> 
+</head>
+<body>
+<div id="header-db" class="spread">
+<div class="split">
+<div id="logo">
+<div><a href="http://docs.mongodb.org/"><img src="_static/logo-mongodb.png" width="217" height="90" alt="mongoDB" /></a></div>
+</div>
+</div>
+<div class="search-db"><gcse:searchbox></gcse:searchbox></div>
+<div id="etp">
+<ul>
+<li><a href="http://github.com/mongodb/casbah" target="_blank" title="Fork the driver on GitHub and contribute.">GitHub</a></li>
+<li><a id="jirafeedback" href="http://jira.10gen.com/browse/SCALA" target="_blank" title="Report a problem or send feedback about changelog.txt on Jira">Feedback</a></li>
+</ul>
+</div>
+</div>  
+<div class="document">
+<div class="documentwrapper">
+<div class="bodywrapper">
+<div class="body">
+  <div id="cse-results"></div>
+
+  <div class="section" id="changelog">
+<h1>3. Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="changes-in-version-2-5-0">
+<h2>3.1. Changes in Version 2.5.0<a class="headerlink" href="#changes-in-version-2-5-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added support for Scala 2.10.0-RC5</li>
+<li>Dropped support for Scala 2.8.X</li>
+<li>Updated support for latest Java driver 2.10.1</li>
+<li>Added support for the new MongoClient connection class</li>
+<li>Removed scalaj.collections dependency</li>
+<li>Updated the build file</li>
+<li>Added unidoc and updated documentation</li>
+<li>Migrated documentation theme</li>
+<li>Updated MongoDBList to handle immutable params</li>
+<li>Maven Documentation fix (SCALA-71)</li>
+<li>MongoOpLog - uses new MongoClient and defaults to replciaSet oplog database</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-2-4-1">
+<h2>3.2. Changes in Version 2.4.1<a class="headerlink" href="#changes-in-version-2-4-1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed QueryDSL imports for “default” (com.mongodb.casbah.Imports)
+import so that bareword ops like $set and $inc are available.</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-2-4-0">
+<h2>3.3. Changes in Version 2.4.0<a class="headerlink" href="#changes-in-version-2-4-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Hide BasicDBList; now, getAs and As and related will always return a
+MongoDBList which is a Seq[_]. Enjoy!</li>
+<li>This is an API breakage - you should <em>never</em> get back a
+BasicDBList from Casbah anymore, and asking for one will cause a
+ClassCastException. This brings us more in line with sane Scala
+APIs</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-2-3-0">
+<h2>3.4. Changes in Version 2.3.0<a class="headerlink" href="#changes-in-version-2-3-0" title="Permalink to this headline">¶</a></h2>
+<p>BT/Maven Package change. Casbah is now available in: “org.mongodb” %%
+“casbah” % “2.3.0”</p>
+<ul class="simple">
+<li>Update mongo-java-driver to 2.8.0 release</li>
+<li>Updated to Mongo Java Driver 2.8.0-RC1</li>
+<li>Changed some tests to run sequentially to avoid shared variable
+races.</li>
+<li>JodaGridFS wasn’t properly checked in before.</li>
+<li>Updated MongoOptions to sync up with options provided in Java Driver.</li>
+<li>Pre-Beta milestone (linked against unreleased Java Driver release)</li>
+<li>Dropped Scala 2.8.0 support...<ul>
+<li>2.1.5-1 is the final Casbah release for 2.8.0; please migrate to
+Scala 2.8.1 or higher</li>
+</ul>
+</li>
+<li>SCALA-62: Simple solution - hack the date type on the base class.<ul>
+<li>There is now a JodaGridFS implementation which works cleanly with
+Joda DateTime and will return them to you</li>
+</ul>
+</li>
+<li>Backport casbah-gridfs from 3.0<ul>
+<li>Fixes SCALA-45: Allow filename and contentType to be nullable<ul>
+<li>Retrieving filename or contentType on a GridFS File now returns
+Option[String] when fetched</li>
+<li>To facilitate sane usage, the
+loan-pattern/execute-around-resource methods now return the
+_id of the created file as Option[AnyRef]</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Backports to casbah-core from 3.0<ul>
+<li>SCALA-70: Removed type alias to com.mongodb.WriteConcern and made
+method args for it explicit, as it was causing a fun post-compile
+(aka “library compiles, user code doesn’t”) implosion.</li>
+<li>added socketKeepAlive option</li>
+<li>Fixes SCALA-45: Allow filename and contentType to be nullable</li>
+<li>Retrieving filename or contentType on a GridFS File now returns
+Option[String] when fetched</li>
+<li>To facilitate sane usage, the loan-pattern/execute-around-resource
+methods now return the _id of the created file as Option[AnyRef]</li>
+</ul>
+</li>
+<li>Backports for QueryDSL<ul>
+<li>Major cleanups and bugfixes to the DSL, it’s heavily and fully
+tested now and much faster/cleaner</li>
+<li>Added support for $and bareword operator</li>
+<li>SCALA-30, SCALA-59 - $or is not properly accepting nested values
+esp. from other DSL constructors<ul>
+<li>Introduced proper type class filter base to fix $or, will
+implement across other operators next.</li>
+</ul>
+</li>
+<li>SCALA-59 - Fix Bareword Query Operators to better target accepted
+values; should only accept KV Tuple Pairs or DBObjects returned
+from Core Operators<ul>
+<li>Complete test suites for $and and $nor although they need to be
+updated to more appropriate contextual examples rather than
+just “compiles properly”</li>
+<li>New code logic, fixed $or, $and and $nor for proper nested list
+operations</li>
+<li>New :: list cons operator on MongoDBObject to create
+MongoDBLists on th fly (esp. for DSL)</li>
+<li>Typesafety kungfu from &#64;jteigen<ul>
+<li>enforce at compile time that type parameters used for
+casting are not Nothing</li>
+<li>enforce $pushAll &amp; $pullAll arguments can be converted to
+Iterable at compile time</li>
+<li>switched to a type class (AsQueryParam) for queryparams to
+avoid code duplication</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SCALA-69: Maps saved to DBObject are now eagerly converted to a
+DBObject, from factory, builder and put methods.</li>
+<li>Always return MongoDBList from Factories/Builders instead of Seq[Any]</li>
+<li>Backports from Casbah 3.0<ul>
+<li>Refactor collections (MongoDBList and MongoDBObject)</li>
+<li>Use CanBuildFrom properly to compose more appropriate Collection
+objects</li>
+<li>As part of above, you should get seq-like objects back from
+MongoDBList builders &amp; factories instead of the previous
+BasicDBList; this is part of attempting to “Hide” DBList and let
+people work with List/Seq</li>
+<li>SCALA-69: Immediately upon saving any None’s will be converted to
+null inside the DBObject for proper fetching later.</li>
+<li>Add toString, hashCode and equals methods to DBObject</li>
+<li>New, refactored tests for DBObject and DBList<ul>
+<li>More typesafety kungfu from &#64;jteigen<ul>
+<li>enforce at <em>compile time</em> that type parameters used for
+casting ( as, getAs, getAsOrElse ) are not Nothing</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Backport Test Helpers<ul>
+<li>New MongoDB “smart” test helpers for Specs2 and ScalaTest (Thanks
+Bill Venners for the latter)</li>
+</ul>
+</li>
+<li>Added SBT Rebel cut, local runner</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-2-1-5-0">
+<h2>3.5. Changes in Version 2.1.5.0<a class="headerlink" href="#changes-in-version-2-1-5-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added support for Scala 2.9.0-1 … As this is a critical fix release
+against 2.9.0.final, 2.9.0.final is not supported. (Note that SBT,
+etc requires the artifact specified as 2.9.0-1, not 2.9.0.1)</li>
+<li>Apart from BugFixes this will be the last Casbah release which
+supports Scala 2.8.0; all future releases will require Scala 2.8.1+
+(See <a class="reference external" href="http://groups.google.com/group/mongodb-casbah-users/browse_thread/thread/faea8dbd5f90aa25">2.8.0 EOL Announcement</a>)</li>
+<li>[2.9.0 only] Adjusted dynamic settings to build against 2.9.0-1 and
+Casbah 2.1.5.0</li>
+<li>[2.9.0 only] Prototype “Dynamic” module (You must enable Scala’s
+support for Dynamic)</li>
+<li>[2.9.0 only] I seem to have missed project files for SBT and
+casbah-dynamic</li>
+<li>[2.9.0 only] Tweaks and adjustments to get this building and testing
+solidly on 2.9.0-1</li>
+<li>Disabled a few tests that weren’t passing and known to be ‘buggy’ in
+specs1. These are fixed for the upcoming 2.2. release on specs2; they
+are test bugs rather than Casbah bugs.</li>
+<li>RegEx <cite>not was just flat out wrong - was producing
+{&quot;foo&quot;: {&quot;foo&quot;: /&lt;regex&gt;/}} instead of {&quot;foo&quot;: {&quot;</cite>not&quot;:{//}}</li>
+<li>Added a getAsOrElse method</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-2-1-0">
+<h2>3.6. Changes in Version 2.1.0<a class="headerlink" href="#changes-in-version-2-1-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>SCALA-22 Added a dropTarget boolean option to rename collection,
+which specifies behavior if named target collection already exists,
+proxies JAVA-238</li>
+<li>Removed resetIndexCache, which has also been removed from the Java
+Driver</li>
+<li>SCALA-21 Added “set metadata” method to match Java Driver (See
+Java-261)</li>
+<li>SCALA-20 Updated to Java Driver 2.5<ul>
+<li>See Release Notes:
+<a class="reference external" href="http://groups.google.com/group/mongodb-user/browse_thread/thread/a693ad4fdf9c3731/931f46f7213b6775?show_docid=931f46f7213b6775">http://groups.google.com/group/mongodb-user/browse_thread/thread/a693ad4fdf9c3731/931f46f7213b6775?show_docid=931f46f7213b6775</a></li>
+</ul>
+</li>
+<li>SCALA-21 - Update GridFS to use DBObject views. Holding back full
+bugfix until we have a 2.5 build to link against</li>
+<li>Example adjustments to filter by start time and namespace</li>
+<li>SCALA-10 - And this is why we unit test. Size was returning empty for
+cursor based results as it wasn’t pulling the right value. Fixed,
+calling cursor.size.</li>
+<li>Added an alternative object construction method for MongoDBObject
+with a list of pairs, rather than varargs [philwills]</li>
+<li>Making scaladoc for MongoURI more explicit. Note that the wiki markup
+for lists isn’t actually implemented in scaladoc yet. [philwills]</li>
+<li>Refactor Collection and Cursors using Abstract types, explicit
+‘DBObject’ version is always returned from DB, Collection etc now.
+Those wanting to use typed versions must code the flip around by
+hand. !!! BREAKING CHANGE, SEE CODE / EXAMPLES</li>
+<li>SCALA-10 Updated MapReduce interfaces to finish 1.8 compatibility<ul>
+<li>Renamed MapReduceError to MapReduceException; MapReduceError is a
+non exception which represents a failed job</li>
+<li>Changed MapReduceResult to automatically proxy ‘results’ in inline
+result sets</li>
+</ul>
+</li>
+<li>Added missing methods to GridFSDBFile necessary to access the
+underlying datastream</li>
+<li>Fixed setter/getter of option on cursor</li>
+<li>For several reasons changed backing trait of DBList PML from Buffer
+to LinearSeq</li>
+<li>Moved to new MapReduce functionality based on MongoDB 1.7.4+ !!! You
+must now specify an output mode.<ul>
+<li>See
+<a class="reference external" href="http://blog.evilmonkeylabs.com/2011/01/27/MongoDB-1_8-MapReduce/">http://blog.evilmonkeylabs.com/2011/01/27/MongoDB-1_8-MapReduce/</a></li>
+</ul>
+</li>
+<li>MapReduce failures shouldn’t throw Error which can crash the runtime</li>
+<li>New MapReduceSpec updates to include tests against new MongoDB
+MapReduce logic</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-2-0-2">
+<h2>3.7. Changes in Version 2.0.2<a class="headerlink" href="#changes-in-version-2-0-2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed the MongoDBOBject ‘as’ operator to return the proper type,
+instead of Any. (philwills)</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-2-0-1">
+<h2>3.8. Changes in Version 2.0.1<a class="headerlink" href="#changes-in-version-2-0-1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>SCALA-16: Added a few additional validation tests against getAs and
+as on MongoDBObject</li>
+<li>SCALA-17 - Fixed syntax of $within and its nested operators, unit
+test passes</li>
+</ul>
+</div>
+<div class="section" id="version-2-0-2011-01-03">
+<h2>3.9. Version 2.0 / 2011-01-03<a class="headerlink" href="#version-2-0-2011-01-03" title="Permalink to this headline">¶</a></h2>
+<p>Notable Changes since Casbah 1.0.8.1:</p>
+<ul class="simple">
+<li>Ownership Change: Casbah is now an officially supported MongoDB
+Driver<ul>
+<li>All bugs should be reported at
+<a class="reference external" href="http://jira.mongodb.org/browse/SCALA">http://jira.mongodb.org/browse/SCALA</a></li>
+<li>Package Change: Casbah is now <tt class="docutils literal"><span class="pre">com.mongodb.casbah</span></tt> (See
+migration guide)</li>
+<li>Documentation (ScalaDocs, Migration Guide &amp; Tutorial) is available
+at <a class="reference external" href="http://api.mongodb.org/scala/casbah">http://api.mongodb.org/scala/casbah</a></li>
+</ul>
+</li>
+<li>Casbah is now broken into several submodules - see
+<a class="reference external" href="http://api.mongodb.org/scala/casbah/migrating.html">http://api.mongodb.org/scala/casbah/migrating.html</a></li>
+<li>Casbah releases are now published to <a class="reference external" href="http://scala-tools.org">http://scala-tools.org</a></li>
+<li>SBT Build now publishes -sources and -javadoc artifacts</li>
+<li>Added heavy test coverage</li>
+<li>++ additivity operator on MongoDBObject for lists of tuple pairs</li>
+<li>Updates to Java Driver wrappings<ul>
+<li>Casbah now wraps Java Driver 2.4 and fully supports all options &amp;
+interfaces including Replica Set and Write Concern support</li>
+<li>added a WriteConcern helper object for Scala users w/ named &amp;
+default args</li>
+<li>added findAndModify / findAndRemove</li>
+</ul>
+</li>
+<li>Stripped out support for implicit Product/Tuple conversions as
+they’re buggy and constantly interfere with other code.</li>
+<li>Migrated Conversions code from core to commons, repackaging as
+com.mongodb.casbah.commons.conversions<ul>
+<li>Moved loading of ConversionHelpers from Connection creation to
+instantiation of Commons’ Implicits (This means conversions are
+ALWAYS loaded now for everyone)</li>
+</ul>
+</li>
+<li>Switched off of configgy to slf4j as akka did<ul>
+<li>Added SLF4J-JCL Bindings as a +test* dependency (so we can print
+logging while testing without forcing you to use an slf4j
+implementation yourself)</li>
+<li>Moved Logger from core to commons</li>
+</ul>
+</li>
+<li>Massive improvements to Query DSL:<ul>
+<li>Added new implementations of $in, $nin, $all and $mod with tests.
+$mod now accepts non-Int numerics and aof two differing types.</li>
+<li>Full test coverage on DSL (and heavy coverage on other modules)</li>
+<li>Migrated $each to a now functioning internal hook on $addToSet
+only exposed in certain circumstances</li>
+<li>Various cleanups to Type constraints in Query DSL</li>
+<li>Full support for all documented MongoDB query operators</li>
+<li>Added new $not syntax, along with identical support for nested
+queries in $pull</li>
+<li>Valid Date and Numeric Type boundaries introduced and used instead
+of Numeric (since Char doesn’t actually workwith Mongo and you
+can’t double up type bounds)</li>
+<li>Added full support for geospatial query.</li>
+<li>Resolved an issue where the $or wasn’t being broken into
+individual documents as expected.</li>
+<li>DSL Operators now return DBObjects rather than Product/Tuple
+(massive fixes to compatibility and performance result)</li>
+<li>Added &#64;see linkage to each core operator’s doc page</li>
+</ul>
+</li>
+<li>GridFS Changes:<ul>
+<li>GridFS’ `files’ now returned a MongoCursor not a raw Java
+DBCursor</li>
+<li>GridFS findOne now returns an Option[_] and detects nulls like
+Collection</li>
+</ul>
+</li>
+<li>Added “safely” resource loaning methods on Collection &amp; DB<ul>
+<li>Given an operation, uses write concern / durability on a single
+connection and throws an exception if anything goes wrong.</li>
+</ul>
+</li>
+<li>Culled casbah-mapper. Mapper now lives as an independent project at
+<a class="reference external" href="http://github.com/maxaf/casbah-mapper">http://github.com/maxaf/casbah-mapper</a></li>
+<li>Bumped version of scala-time to the 0.2 release</li>
+<li>Added DBList support via MongoDBList, following 2.8 collections</li>
+<li>Adjusted boundaries on getAs and expand; the view-permitting Any was
+causing ambiguity issues at runtime with non AnyRefs (e.g. AnyVal).</li>
+<li>Fixed an assumption in expand which could cause runtime failure</li>
+<li>Updated MongoDBObject factory &amp; builder to explicitly return a type;
+some pieces were assuming at runtime that it was a
+MongoDBObjectBuilder$anon1 which was FUBAR</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-1-0-7-4">
+<h2>3.10. Changes in Version 1.0.7.4<a class="headerlink" href="#changes-in-version-1-0-7-4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed some issues w/ GridFS libraries attempting to call toMap in
+iteration, which isn’t implemented on the Java side; added custom
+toString methods on the GridFS files [BWM]</li>
+<li>Cleaned up log spam [BWM / MA]</li>
+<li>Added serialization hook for MongoDBObject to help catch any nested
+instances [MA]</li>
+<li>Cleaned up some stray references to java.lang.Object, replaced with
+AnyRef for good Scala coding practices [BWM]</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-1-0-7">
+<h2>3.11. Changes in Version 1.0.7<a class="headerlink" href="#changes-in-version-1-0-7" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Updated reference to Configgy to have a Scala version attached; this
+was causing issues on some mixed-version users’ systems.</li>
+<li>Corrected massive stupidity from lack of testing on my part and
+disabled ScalaJDeserializers - in most cases these caused runtime
+ClassCastExceptions. <em>SERIALIZERS</em> still in place - Deserializers
+were just plain a bad idea.</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-1-0-5">
+<h2>3.12. Changes in Version 1.0.5<a class="headerlink" href="#changes-in-version-1-0-5" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Due to oddities and ambiguities, stripped the type parameter apply[A]
+method from MongoDBObject. If you want a cast return, please use
+MongoDBObject.getAs[A]. This should minimize odd runtime failures.</li>
+<li>Added toplevel detection in MongoDBObject’s +=/put methods to try and
+convert a MongoDBObject value to DBObject for you.</li>
+<li>Added “Product” arguments to $pushAll - this means you can pass a
+Tuple-style list, where previously it required an Iterable ( $pushAll
+(“foo” -&gt; (5, 10, 23, “spam”, eggs&quot;) should now work).</li>
+<li>Updated to scalaj-collection 1.0 release, built against 2.8.0 final</li>
+<li>Added a new ScalaJ-Collection based Deserializer and Serializer
+layer. All base types supported by ScalaJ collection now use asJava /
+asScala to cleanly ser/deser where possible. This excludes
+Comparator/Comparable and Map types for sanity reasons. See
+com.novus.casbah.mongodb.conversions.scala.ScalaConversions for
+detail. Please report bugs if this breaks your code - it’s nascent
+and a bit naive!</li>
+<li>New Committer - Max Afonov</li>
+<li>Removed the BitBucket Mirror; we’re purely on GitHub now. Bug tracker
+linked from Github page.</li>
+<li>Created a user mailing list -
+<a class="reference external" href="http://groups.google.com/group/mongodb-casbah-users">http://groups.google.com/group/mongodb-casbah-users</a></li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-1-0-2">
+<h2>3.13. Changes in Version 1.0.2<a class="headerlink" href="#changes-in-version-1-0-2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Changed $in, $notin, $all to always generate an array in Any* mode</li>
+<li>Added default type alias import for com.mongodb.DBRef &amp; Casbah’s
+MongoDB class</li>
+</ul>
+</div>
+<div class="section" id="changes-in-version-1-0-1">
+<h2>3.14. Changes in Version 1.0.1<a class="headerlink" href="#changes-in-version-1-0-1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Updated externals to link against 2.8.0 final - 1.0 release had some
+RC/Beta built externals. (scalaj-collection is still linked against
+Beta)</li>
+<li>Added an Object interface, MongoDBAddress, for static construction of
+DBAddress instances.</li>
+<li>Added type aliases in MongoTypeImports for all Casbah companion
+objects - please report any odd behavior this causes.</li>
+<li>Added MapReduceCommand to BaseImports</li>
+</ul>
+</div>
+<div class="section" id="version-1-0">
+<h2>3.15. Version 1.0<a class="headerlink" href="#version-1-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>GridFS enhanced via Loan Pattern</li>
+<li>Full support for MongoDB Query operators via fluid syntax (now with
+lots of testing to minimize breakage)</li>
+<li>Added support for Scala 2.8-style Map interaction w/ DBObject.
+Builder pattern, +=, etc.</li>
+<li>Tutorial Available</li>
+</ul>
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3><a href="index.html">Casbah Manual</a></h3>
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference external" href="http://api.mongodb.org/scala/casbah/api/#com.mongodb.casbah.package">API Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">2. Tutorial: Using Casbah</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">3. Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-5-0">3.1. Changes in Version 2.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-4-1">3.2. Changes in Version 2.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-4-0">3.3. Changes in Version 2.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-3-0">3.4. Changes in Version 2.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-1-5-0">3.5. Changes in Version 2.1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-1-0">3.6. Changes in Version 2.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-0-2">3.7. Changes in Version 2.0.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-0-1">3.8. Changes in Version 2.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-2-0-2011-01-03">3.9. Version 2.0 / 2011-01-03</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-7-4">3.10. Changes in Version 1.0.7.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-7">3.11. Changes in Version 1.0.7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-5">3.12. Changes in Version 1.0.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-2">3.13. Changes in Version 1.0.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-1">3.14. Changes in Version 1.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-0">3.15. Version 1.0</a></li>
+</ul>
+</li>
+</ul>
+
+
+<hr>
+<br><h3>MongoDB Wiki</h3>
+
+<ul>
+ <li><strong>Getting Started</strong>
+   <ul>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Quickstart">Quickstart</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Introduction">Introduction</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Downloads">Downloads</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/SQL+to+MongoDB+Mapping+Chart">SQL to MongoDB Mapping</a></li>
+   </ul>
+ </li>
+ <li><strong><a href="http://mongodb.org/display/DOCS/Developer+Zone">Developer Documentation</a></strong>
+   <ul>
+     <li><a href="http://mongodb.org/display/DOCS/Connections">Connections</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Databases">Databases</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Collections">Collections</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Documents">Documents</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/GridFS">GridFS</a></li>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Indexes">Indexes</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Querying">Querying</a></li>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Aggregation">Aggregation</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Optimization">Optimization</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Inserting">Inserting</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Updating">Updating</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Removing">Removing</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/MapReduce">MapReduce</a></li>
+   </ul>
+ </li>
+ <li><strong><a href="http://mongodb.org/display/DOCS/Admin+Zone">Administrative Documentation</a></strong>
+   <ul>
+     <li><a href="http://mongodb.org/display/DOCS/Components">Components</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Journaling">Journaling</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Production+Notes">Production Notes</a></li>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Replication">Replication</a></li> -->
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Sharding">Sharding</a></li> -->
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Monitoring+and+Diagnostics">Monitoring and Diagnostics</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Backups">Backups</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Durability+and+Repair">Durability and Repair</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Security+and+Authentication">Security and Authentication</a></li>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/Starting+and+Stopping+Mongo">Starting/Stopping MongoDB</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/GridFS+Tools">GridFS Tools</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/DBA+Operations+from+the+Shell">DB Operations from the Shell</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Architecture+and+Components">Architecture and Components</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Windows">Windows</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Troubleshooting">Troubleshooting</a></li>
+   </ul>
+ </li>
+ <li><strong><a href="http://www.mongodb.org/display/DOCS/Community">Community and Ecosystem</a></strong>
+   <ul>
+     <li><a href="http://10gen.com">10gen</a></li>
+     <li><a href="http://www.mongodb.org/events">MongoDB Events</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/MongoDB+Masters">MongoDB Masters</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/Slides+and+Video">Slides and Video</a></li>
+     <!-- <li><a href="http://cookbook.mongodb.org/">Cookbook</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Hosting+Center">Hosting Center</a></li>
+     <li><a href="http://mongodb.org/display/DOCS/MongoDB+Monitoring+Service">MongoDB Monitoring Service</a> (<a href="http://mms.10gen.com/help/">docs</a>)</li>
+     <li><a href="http://mongodb.org/display/DOCS/Admin+UIs">Administrative Interfaces</a></li>
+     <!-- <li><a href="http://mongodb.org/display/DOCS/International+Docs">International Documentation</a></li> -->
+     <li><a href="http://mongodb.org/display/DOCS/Books">MongoDB Books</a></li>
+   </ul>
+ </li>
+ <li><strong><a href="http://www.mongodb.org/display/DOCS/Drivers">Drivers</a></strong>
+   <ul>
+     <li>JavaScript (<a href="http://mongodb.org/display/DOCS/Javascript+Language+Center">wiki</a>, <a href="http://api.mongodb.org/js/current">docs</a>)</li>
+     <li>Python (<a href="http://mongodb.org/display/DOCS/Python+Language+Center">wiki</a>, <a href="http://api.mongodb.org/python/current">docs</a>)</li>
+     <li>Ruby (<a href="http://mongodb.org/display/DOCS/Ruby+Language+Center">wiki</a>, <a href="http://api.mongodb.org/ruby/current">docs</a>)</li>
+     <li>PHP (<a href="http://mongodb.org/display/DOCS/PHP+Language+Center">wiki</a>, <a href="http://php.net/mongo/">docs</a>)</li>
+     <li>Perl (<a href="http://mongodb.org/display/DOCS/Perl+Language+Center">wiki</a>, <a href="http://api.mongodb.org/perl/current/">docs</a>)</li>
+     <li>Java (<a href="http://mongodb.org/display/DOCS/Java+Language+Center">wiki</a>, <a href="http://api.mongodb.org/java/current">docs</a>)</li>
+     <li>Scala (<a href="http://mongodb.org/display/DOCS/Scala+Language+Center">wiki</a>, <a href="http://api.mongodb.org/scala/casbah/current/">docs</a>)</li>
+     <li>C# (<a href="http://mongodb.org/display/DOCS/CSharp+Language+Center">wiki</a>, <a href="http://api.mongodb.org/csharp/current/">docs</a>)</li>
+     <li>C (<a href="http://mongodb.org/display/DOCS/C+Language+Center">wiki</a>, <a href="http://api.mongodb.org/c/current/">docs</a>)</li>
+     <li>C++ (<a href="http://mongodb.org/pages/viewpage.action?pageId=133409">wiki</a>, <a href="http://api.mongodb.org/cplusplus/current/">docs</a>)</li>
+     <li>Haskell (<a href="http://mongodb.org/display/DOCS/Haskell+Language+Center">wiki</a>, <a href="http://api.mongodb.org/haskell">docs</a>)</li>
+     <li>Erlang (<a href="http://mongodb.org/display/DOCS/Erlang+Language+Center">wiki</a>, <a href="http://api.mongodb.org/erlang">docs</a>)</li>
+   </ul>
+ </li>
+</ul>
+        </div>
+      </div>
+<div class="clearer"></div>
+</div>
+<div class="footer">
+<p>This documentation is a product of the MongoDB Documentation Project: fork the repository on <a href="https://github.com/mongodb/docs">GitHub</a>, or open a <a id="jirafooter" href="http://jira.mongodb.org/browse/DOCS">Jira Case</a> to contribute.
+<p>
+&copy; Copyright 2010-2013 10gen, Inc.  Licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons</a>.
+MongoDB&reg;, Mongo&reg;, and the leaf logo are registered trademarks of 10gen, Inc.</p>
+</div>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+var pluginUrl = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.') + 'google-analytics.com/plugins/ga/inpage_linkid.js';
+_gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+_gaq.push(['_setAccount', 'UA-7301842-8']);
+_gaq.push(['_setDomainName', 'docs.mongodb.org']);
+_gaq.push(['_trackPageview']);
+(function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+        })();jQuery.ajax({
+    url: "https://jira.mongodb.org/s/en_US-bxctp1/782/6/1.2.4/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?collectorId=298ba4e7",
+    type: "get",
+    cache: true,
+    dataType: "script"
+});
+window.ATL_JQ_PAGE_PROPS =  {
+"triggerFunction": function(showCollectorDialog) {
+jQuery("#jirafeedback").click(function(e) {e.preventDefault();showCollectorDialog();});
+jQuery("#jirafooter").click(function(e) {e.preventDefault();showCollectorDialog();});
+}};
+</script>
+</body>
+</html>

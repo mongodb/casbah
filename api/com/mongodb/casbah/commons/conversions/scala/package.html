@@ -108,15 +108,15 @@
       </span>
       </h4>
       
-    </li><li visbl="pub" name="com.mongodb.casbah.commons.conversions.scala.ScalaJCollectionSerializer" data-isabs="true">
-      <a id="ScalaJCollectionSerializer:ScalaJCollectionSerializer"></a>
+    </li><li visbl="pub" name="com.mongodb.casbah.commons.conversions.scala.ScalaCollectionSerializer" data-isabs="true">
+      <a id="ScalaCollectionSerializer:ScalaCollectionSerializer"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="ScalaJCollectionSerializer.html"><span class="name">ScalaJCollectionSerializer</span></a><span class="result"> extends MongoConversionHelper</span>
+        <a href="ScalaCollectionSerializer.html"><span class="name">ScalaCollectionSerializer</span></a><span class="result"> extends MongoConversionHelper</span>
       </span>
       </h4>
       <p class="comment cmt">Implementation which is aware of the possible conversions in scalaj-collection and attempts to Leverage it.</p>
@@ -140,7 +140,7 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="Serializers.html"><span class="name">Serializers</span></a><span class="result"> extends MongoConversionHelper with ScalaRegexSerializer with ScalaJCollectionSerializer with OptionSerializer</span>
+        <a href="Serializers.html"><span class="name">Serializers</span></a><span class="result"> extends MongoConversionHelper with ScalaRegexSerializer with ScalaCollectionSerializer with OptionSerializer</span>
       </span>
       </h4>
       <p class="comment cmt">Converters for saving Scala types to MongoDB</p>
@@ -200,7 +200,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="DeregisterConversionHelpers$.html"><span class="name deprecated" title="Deprecated: (Since version scala.this.deprecated.init$default$2) Be VERY careful using this - it will remove ALL of Casbah's loaded BSON Encoding &amp; Decoding hooks at runtime. If you need to clear Joda Time use DeregisterJodaTimeConversionHelpers.">DeregisterConversionHelpers</span></a><span class="result"> extends Serializers with Deserializers</span>
+        <a href="DeregisterConversionHelpers$.html"><span class="name deprecated" title="Deprecated: (Since version 2.0) Be VERY careful using this - it will remove ALL of Casbah's loaded BSON Encoding &amp; Decoding hooks at runtime. If you need to clear Joda Time use DeregisterJodaTimeConversionHelpers.">DeregisterConversionHelpers</span></a><span class="result"> extends Serializers with Deserializers</span>
       </span>
       </h4>
       <p class="comment cmt">&quot;DeRegister&quot; Object, calls the unregistration methods.</p>

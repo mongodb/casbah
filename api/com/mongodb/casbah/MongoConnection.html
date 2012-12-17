@@ -250,27 +250,27 @@ NOTE: This connection can't be reused after closing.
       </h4>
       
     </li><li visbl="pub" name="com.mongodb.casbah.MongoConnection#databaseNames" data-isabs="false">
-      <a id="databaseNames:Seq[String]"></a>
+      <a id="databaseNames:Buffer[String]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">databaseNames</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="java.lang.String" class="extype">String</span>]</span>
+        <span class="name">databaseNames</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="java.lang.String" class="extype">String</span>]</span>
       </span>
       </h4>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt">MongoException<p>
 </p></span></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoConnection#dbNames" data-isabs="false">
-      <a id="dbNames:Seq[String]"></a>
+      <a id="dbNames:Buffer[String]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">dbNames</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="java.lang.String" class="extype">String</span>]</span>
+        <span class="name">dbNames</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="java.lang.String" class="extype">String</span>]</span>
       </span>
       </h4>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt">MongoException<p>
@@ -403,14 +403,14 @@ NOTE: This connection can't be reused after closing.
       </h4>
       
     </li><li visbl="pub" name="com.mongodb.casbah.MongoConnection#getDatabaseNames" data-isabs="false">
-      <a id="getDatabaseNames():Seq[String]"></a>
+      <a id="getDatabaseNames():Buffer[String]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getDatabaseNames</span><span class="params">()</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="java.lang.String" class="extype">String</span>]</span>
+        <span class="name">getDatabaseNames</span><span class="params">()</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="java.lang.String" class="extype">String</span>]</span>
       </span>
       </h4>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt">MongoException<p>
@@ -764,13 +764,13 @@ See the documentation for <code> WriteConcern</code> for more info.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name deprecated" title="Deprecated: (Since version scala.this.deprecated.init$default$2) Replaced with ReadPreference.SECONDARY">slaveOk</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="name deprecated" title="Deprecated: (Since version 2.3.0) Replaced with ReadPreference.SECONDARY">slaveOk</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       <p class="shortcomment cmt">Sets queries to be OK to run on slave nodes.</p><div class="fullcomment"><div class="comment cmt"><p>Sets queries to be OK to run on slave nodes.</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
                 <span class="name">@deprecated</span>
               
-        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version scala.this.deprecated.init$default$2)</i> Replaced with ReadPreference.SECONDARY</p></dd></dl></div>
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 2.3.0)</i> Replaced with ReadPreference.SECONDARY</p></dd></dl></div>
     </li></ol>
             </div>
         </div>

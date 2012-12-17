@@ -65,7 +65,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">MongoOpLog</span><span class="params">(<span name="mongo">mongo: MongoConnection = <span name="com.mongodb.casbah.Imports.MongoConnection.apply()" class="defval">...</span></span>, <span name="startTimestamp">startTimestamp: <span name="scala.Option" class="extype">Option</span>[<span name="org.bson.types.BSONTimestamp" class="extype">BSONTimestamp</span>] = <span class="symbol">scala.None</span></span>, <span name="namespace">namespace: <span name="scala.Option" class="extype">Option</span>[String] = <span class="symbol">scala.None</span></span>)</span>
+        <span class="name">MongoOpLog</span><span class="params">(<span name="mongoClient">mongoClient: MongoClient = <span name="com.mongodb.casbah.Imports.MongoClient.apply()" class="defval">...</span></span>, <span name="startTimestamp">startTimestamp: <span name="scala.Option" class="extype">Option</span>[<span name="org.bson.types.BSONTimestamp" class="extype">BSONTimestamp</span>] = <span class="symbol">scala.None</span></span>, <span name="namespace">namespace: <span name="scala.Option" class="extype">Option</span>[String] = <span class="symbol">scala.None</span></span>, <span name="replicaSet">replicaSet: <span name="scala.Boolean" class="extype">Boolean</span> = <span class="symbol">true</span></span>)</span>
       </span>
       </h4>
       
@@ -912,6 +912,18 @@
       </span>
       <span class="symbol">
         <span class="name">oplog</span><span class="result">: <a name="com.mongodb.casbah.MongoCollection" class="extype" href="../MongoCollection.html">MongoCollection</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li visbl="prt" name="com.mongodb.casbah.util.MongoOpLog#oplogName" data-isabs="false">
+      <a id="oplogName:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">oplogName</span><span class="result">: String</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>

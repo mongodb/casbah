@@ -34,17 +34,17 @@
 <span class="keyword">package</span> com.mongodb.casbah.query.dsl
 <span class="keyword">package</span> aggregation
 
-<span class="keyword">import</span> com.mongodb.casbah.query.<a href="Implicits.scala.html#10236" title="object com.mongodb.casbah.query.Imports">Imports</a>._
+<span class="keyword">import</span> com.mongodb.casbah.query.<a href="Implicits.scala.html#10234" title="object com.mongodb.casbah.query.Imports">Imports</a>._
 
 <span class="comment">/**
  * Trait to implement $skip
  *
  */</span>
-<span class="keyword">trait</span> <a title="trait SkipOperator extends java.lang.Object with com.mongodb.casbah.query.dsl.aggregation.PipelineOperator with ScalaObject" id="10342">SkipOperator</a> <span title="ScalaObject" class="keyword">extends</span> <a href="package.scala.html#10365" title="com.mongodb.casbah.query.dsl.aggregation.PipelineOperator">PipelineOperator</a> <span class="delimiter">{</span>
-  <span class="keyword">private</span> <span class="keyword">val</span> <a title="java.lang.String" id="34409">operator</a> = <span title="java.lang.String(&quot;$skip&quot;)" class="string">&quot;$skip&quot;</span>
+<span class="keyword">trait</span> <a title="trait SkipOperator extends java.lang.Object with com.mongodb.casbah.query.dsl.aggregation.PipelineOperator with ScalaObject" id="10340">SkipOperator</a> <span title="ScalaObject" class="keyword">extends</span> <a href="package.scala.html#10363" title="com.mongodb.casbah.query.dsl.aggregation.PipelineOperator">PipelineOperator</a> <span class="delimiter">{</span>
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="java.lang.String" id="34692">operator</a> = <span title="java.lang.String(&quot;$skip&quot;)" class="string">&quot;$skip&quot;</span>
 
   <span class="comment">// TODO - Accept Numeric? As long as we can downconvert for mongo type?</span>
-  <span class="keyword">def</span> <a title="(target: Int)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="34411">$skip</a><span class="delimiter">(</span><a title="Int" id="43850">target</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="package.scala.html#34392" title="(oper: String, target: Any)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">op</a><span class="delimiter">(</span><a href="#34409" title="=&gt; java.lang.String">operator</a>, <a href="#43850" title="Int">target</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(target: Int)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="34694">$skip</a><span class="delimiter">(</span><a title="Int" id="44133">target</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="package.scala.html#34675" title="(oper: String, target: Any)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">op</a><span class="delimiter">(</span><a href="#34692" title="=&gt; java.lang.String">operator</a>, <a href="#44133" title="Int">target</a><span class="delimiter">)</span>
 <span class="delimiter">}</span>
 
 

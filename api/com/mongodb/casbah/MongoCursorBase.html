@@ -785,14 +785,14 @@ TODO - Create Scala version of Bytes.QUERYOPTION_*
 </p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes
 </p></span>, <span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCursorBase#sizes" data-isabs="false">
-      <a id="sizes:Seq[Int]"></a>
+      <a id="sizes:Buffer[Integer]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sizes</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="scala.Int" class="extype">Int</span>]</span>
+        <span class="name">sizes</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="java.lang.Integer" class="extype">Integer</span>]</span>
       </span>
       </h4>
       
@@ -926,13 +926,13 @@ it may or may not be returned, even with snapshot mode).</p><p><b>NOTE:</b> Shor
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name deprecated" title="Deprecated: (Since version scala.this.deprecated.init$default$2) Replaced with ReadPreference.SECONDARY">slaveOk</span><span class="params">()</span><span class="result">: <span name="com.mongodb.DBCursor" class="extype">DBCursor</span></span>
+        <span class="name deprecated" title="Deprecated: (Since version 2.3.0) Replaced with ReadPreference.SECONDARY">slaveOk</span><span class="params">()</span><span class="result">: <span name="com.mongodb.DBCursor" class="extype">DBCursor</span></span>
       </span>
       </h4>
       <p class="shortcomment cmt">slaveOk</p><div class="fullcomment"><div class="comment cmt"><p>slaveOk</p><p>Makes this query OK to run on a non-master node.</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
                 <span class="name">@deprecated</span>
               
-        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version scala.this.deprecated.init$default$2)</i> Replaced with ReadPreference.SECONDARY</p></dd></dl></div>
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 2.3.0)</i> Replaced with ReadPreference.SECONDARY</p></dd></dl></div>
     </li></ol>
             </div>
         </div>

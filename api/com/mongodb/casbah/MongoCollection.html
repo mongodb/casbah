@@ -653,14 +653,14 @@ Which is equilalent to
       <p class="shortcomment cmt">Returns the database this collection is a member of.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the database this collection is a member of.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>this collection's database
 </p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="MongoCollectionBase.html">MongoCollectionBase</a></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#distinct" data-isabs="false">
-      <a id="distinct[A](String,A,ReadPreference)((A) ⇒ DBObject):Seq[Any]"></a>
+      <a id="distinct[A](String,A,ReadPreference)((A) ⇒ DBObject):scala.collection.mutable.Buffer[_]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">distinct</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="key">key: String</span>, <span name="query">query: A</span>, <span name="readPrefs">readPrefs: ReadPreference</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="scala.Any" class="extype">Any</span>]</span>
+        <span class="name">distinct</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="key">key: String</span>, <span name="query">query: A</span>, <span name="readPrefs">readPrefs: ReadPreference</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: scala.collection.mutable.Buffer[_]</span>
       </span>
       </h4>
       <p class="shortcomment cmt">find distinct values for a key</p><div class="fullcomment"><div class="comment cmt"><p>find distinct values for a key</p></div><dl class="paramcmts block"><dt class="param">query</dt><dd class="cmt"><p>query to apply on collection
@@ -1300,14 +1300,14 @@ Which is equilalent to
       <p class="shortcomment cmt">Returns the full name of this collection, with the database name as a prefix.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the full name of this collection, with the database name as a prefix.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the name of this collection
 </p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="MongoCollectionBase.html">MongoCollectionBase</a></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#getIndexInfo" data-isabs="false">
-      <a id="getIndexInfo():Seq[DBObject]"></a>
+      <a id="getIndexInfo():Buffer[DBObject]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getIndexInfo</span><span class="params">()</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="com.mongodb.DBObject" class="extype">DBObject</span>]</span>
+        <span class="name">getIndexInfo</span><span class="params">()</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="com.mongodb.DBObject" class="extype">DBObject</span>]</span>
       </span>
       </h4>
       <p class="shortcomment cmt">  Return a list of the indexes for this collection.</p><div class="fullcomment"><div class="comment cmt"><p>  Return a list of the indexes for this collection.  Each object
@@ -1542,14 +1542,14 @@ support, by sending a direct DBObject command.  Messy, but it works.
       </h4>
       <p class="shortcomment cmt">Set hint fields for this collection.</p><div class="fullcomment"><div class="comment cmt"><p>Set hint fields for this collection.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="MongoCollectionBase.html">MongoCollectionBase</a></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#indexInfo" data-isabs="false">
-      <a id="indexInfo:Seq[DBObject]"></a>
+      <a id="indexInfo:Buffer[DBObject]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">indexInfo</span><span class="result">: <span name="scala.collection.Seq" class="extype">Seq</span>[<span name="com.mongodb.DBObject" class="extype">DBObject</span>]</span>
+        <span class="name">indexInfo</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="com.mongodb.DBObject" class="extype">DBObject</span>]</span>
       </span>
       </h4>
       <p class="shortcomment cmt">  Return a list of the indexes for this collection.</p><div class="fullcomment"><div class="comment cmt"><p>  Return a list of the indexes for this collection.  Each object
@@ -3090,13 +3090,13 @@ See the documentation for <code> com.mongodb.WriteConcern</code> for more info.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name deprecated" title="Deprecated: (Since version scala.this.deprecated.init$default$2) Replaced with ReadPreference.SECONDARY">slaveOk</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="name deprecated" title="Deprecated: (Since version 2.3.0) Replaced with ReadPreference.SECONDARY">slaveOk</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       <p class="shortcomment cmt">Sets queries to be OK to run on slave nodes.</p><div class="fullcomment"><div class="comment cmt"><p>Sets queries to be OK to run on slave nodes.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="MongoCollectionBase.html">MongoCollectionBase</a></dd><dt>Annotations</dt><dd>
                 <span class="name">@deprecated</span>
               
-        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version scala.this.deprecated.init$default$2)</i> Replaced with ReadPreference.SECONDARY</p></dd></dl></div>
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 2.3.0)</i> Replaced with ReadPreference.SECONDARY</p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoCollectionBase#updateMulti" data-isabs="false">
       <a id="updateMulti[A, B](A,B)((A) ⇒ DBObject,(B) ⇒ DBObject):WriteResult"></a>
       <h4 class="signature">
@@ -3105,14 +3105,14 @@ See the documentation for <code> com.mongodb.WriteConcern</code> for more info.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name deprecated" title="Deprecated: (Since version scala.this.deprecated.init$default$2) In the face of default arguments this is a bit silly. Please use update(multi=True)">updateMulti</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="q">q: A</span>, <span name="o">o: B</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="com.mongodb.WriteResult" class="extype">WriteResult</span></span>
+        <span class="name deprecated" title="Deprecated: (Since version 2.3.0) In the face of default arguments this is a bit silly. Please use update(multi=True)">updateMulti</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="q">q: A</span>, <span name="o">o: B</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>, <span name="arg1">arg1: (B) ⇒ DBObject</span>)</span><span class="result">: <span name="com.mongodb.WriteResult" class="extype">WriteResult</span></span>
       </span>
       </h4>
       <p class="shortcomment cmt">Perform a multi update</p><div class="fullcomment"><div class="comment cmt"><p>Perform a multi update</p></div><dl class="paramcmts block"><dt class="param">q</dt><dd class="cmt"><p>search query for old object to update</p></dd><dt class="param">o</dt><dd class="cmt"><p>object with which to update <tt>q</tt>
 </p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="MongoCollectionBase.html">MongoCollectionBase</a></dd><dt>Annotations</dt><dd>
                 <span class="name">@deprecated</span>
               
-        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version scala.this.deprecated.init$default$2)</i> In the face of default arguments this is a bit silly. Please use update(multi=True)</p></dd></dl></div>
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 2.3.0)</i> In the face of default arguments this is a bit silly. Please use update(multi=True)</p></dd></dl></div>
     </li></ol>
             </div>
         </div>
