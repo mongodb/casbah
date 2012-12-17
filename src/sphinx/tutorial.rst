@@ -85,7 +85,7 @@ Working with Collections
 Feel free to explore Casbah's ``MongoDB`` object on your own; for now let's focus on ``MongoCollection``.
 
 
-It should be noted that Casbah's ``MongoCollection`` object implements Scala's `Iterable[A] <http://www.scala-lang.org/docu/files/api/scala/collection/Iterable.html>`_ interface (specifically ``Iterable[DBObject]``), which provides a full monadic interface to your MongoDB collection.  Beginning iteration on the ``MongoCollection`` instance is fundamentally equivalent to invoking ``find`` on the ``MongoCollection`` (without a uqery).  We'll return to this after we discuss working with ``MongoDBObjects`` and inserting data...
+It should be noted that Casbah's ``MongoCollection`` object implements Scala's `Iterable[A] <http://www.scala-lang.org/docu/files/api/scala/collection/Iterable.html>`_ interface (specifically ``Iterable[DBObject]``), which provides a full monadic interface to your MongoDB collection.  Beginning iteration on the ``MongoCollection`` instance is fundamentally equivalent to invoking ``find`` on the ``MongoCollection`` (without a query).  We'll return to this after we discuss working with ``MongoDBObjects`` and inserting data...
 
 
 .. TODO - make this work
@@ -100,7 +100,7 @@ It should be noted that Casbah's ``MongoCollection`` object implements Scala's `
 MongoDBObject - A Scala-ble DBObject Implementation
 ----------------------------------------------------
 
-As a Scala developer, I find it important to be given the opportunity to work consistently with my data and objects - and in proper Scala fashion.  To that end, I've tried where possible to ensure Casbah provides Scala-ble (my phrasing fr the Scala equivalent of "Pythonic") interfaces to MongoDB without disabling or hiding the Java equivalents.  A big part of this is extending and enhancing Mongo's ``DBObject`` and related classes to work in a Scala-ble fashion.
+As a Scala developer, I find it important to be given the opportunity to work consistently with my data and objects - and in proper Scala fashion.  To that end, I've tried where possible to ensure Casbah provides Scala-ble (my phrasing for the Scala equivalent of "Pythonic") interfaces to MongoDB without disabling or hiding the Java equivalents.  A big part of this is extending and enhancing Mongo's ``DBObject`` and related classes to work in a Scala-ble fashion.
 
 That is to say - ``DBObject``, ``BasicDBOBject``, ``BasicDBObjectBuilder``, etc are still available - but there's a better way.  `MongoDBObject` and its companion trait (tacked in a few places implicitly via Pimp-My-Library) provide a series of ways to work with Mongo's DBObjects which closely match the Collection interface Scala 2.8 provides.  Further, ``MongoDBObject`` can be implicitly converted to a ``DBObject`` - so any existing Mongo Java code will accept it without complaint.  There are two easy ways to create a new ``MongoDBObject``.  In an additive manner
 
