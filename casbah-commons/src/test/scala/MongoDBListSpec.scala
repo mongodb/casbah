@@ -90,6 +90,17 @@ class MongoDBListSpec extends CasbahMutableSpecification {
       dbList must haveTheSameElementsAs(List(MongoDBObject("omg" -> "ponies")))
     }
 
+    "Concat immutable traversable" in {
+      val dbList = MongoDBList.concat(List("ponies"))
+      dbList must haveSize(1)
+      dbList must beEqualTo(List("ponies"))
+    }
+
+    "Concat mutable traversable" in {
+      val dbList = MongoDBList.concat(collection.mutable.Buffer("ponies"))
+      dbList must haveSize(1)
+      dbList must beEqualTo(List("ponies"))
+    }
 
     "Use underlying Object methods" in {
       val seq = MongoDBList(x, y, "omg" -> "ponies", 5,
