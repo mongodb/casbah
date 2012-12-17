@@ -12,6 +12,7 @@ Changes in Version 2.5.0
 -  Updated the build file
 -  Added unidoc and updated documentation
 -  Updated MongoDBList to handle immutable params
+-  Maven Documentation fix (SCALA-71)
 
 Changes in Version 2.4.1
 ------------------------
