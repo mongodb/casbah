@@ -45,7 +45,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
     this
   }
 
-  def insertAll(i: Int, elems: Traversable[Any]) = {
+  def insertAll(i: Int, elems: scala.Traversable[Any]) = {
     val ins = underlying.subList(0, i)
     elems.foreach(x => ins.add(x.asInstanceOf[AnyRef]))
   }
@@ -119,7 +119,7 @@ object MongoDBList {
     b.result
   }
 
-  def concat[A](xss: Traversable[A]*): MongoDBList = {
+  def concat[A](xss: scala.Traversable[A]*): MongoDBList = {
     val b = newBuilder[A]
     if (xss forall (_.isInstanceOf[IndexedSeq[_]]))
       b.sizeHint(xss map (_.size) sum)

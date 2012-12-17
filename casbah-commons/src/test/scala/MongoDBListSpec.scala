@@ -24,7 +24,6 @@ package com.mongodb.casbah.test.commons
 
 import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
-import scalaj.collection.Imports._
 
 class MongoDBListSpec extends CasbahMutableSpecification {
 
@@ -89,6 +88,19 @@ class MongoDBListSpec extends CasbahMutableSpecification {
       dbList must haveSize(1)
       dbList must beEqualTo(List(MongoDBObject("omg" -> "ponies")))
     }
+
+    "Concat immutable traversable" in {
+      val dbList = MongoDBList.concat(List("ponies"))
+      dbList must haveSize(1)
+      dbList must beEqualTo(List("ponies"))
+    }
+
+    "Concat mutable traversable" in {
+      val dbList = MongoDBList.concat(collection.mutable.Buffer("ponies"))
+      dbList must haveSize(1)
+      dbList must beEqualTo(List("ponies"))
+    }
+
   }
 
 /*
