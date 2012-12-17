@@ -11,6 +11,7 @@ Changes in Version 2.5.0
 -  Removed scalaj.collections dependency
 -  Updated the build file
 -  Added unidoc and updated documentation
+-  Migrated documentation theme
 -  Updated MongoDBList to handle immutable params
 -  Maven Documentation fix (SCALA-71)
 -  MongoOpLog - uses new MongoClient and defaults to replciaSet oplog database
