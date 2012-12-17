@@ -25,11 +25,10 @@ object CasbahBuild extends Build {
 
   def sxrOptions(baseDir: File, sourceDirs: Seq[Seq[File]], scalaVersion: String): Seq[String] = {
     if (scalaVersion.startsWith("2.10"))
-      Seq("")
+      Seq()
     else {
-      val xplugin = "-Xplugin:" + (baseDir / "lib" / "sxr_2.9.0-0.2.7.jar").asFile.getAbsolutePath
       val sxrBaseDir = "-P:sxr:base-directory:" + sourceDirs.flatten.mkString(";").replaceAll("\\\\","/")
-      Seq(xplugin, sxrBaseDir)
+      Seq(sxrBaseDir)
     }
   }
 
@@ -39,19 +38,25 @@ object CasbahBuild extends Build {
       resolvers ++= Seq(sonatypeRels, sonatypeSnaps, sonatypeSTArch, mavenOrgRepo),
       testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml"),
       autoCompilerPlugins := true,
-      allSourceDirectories <<= projects.map(sourceDirectories in Compile in _).join,
+      libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
+        sv match {
+          case "2.10.0-RC5" => deps
+          case _ => deps :+ compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7")
+        }
+      },
       scalacOptions <++= scalaVersion map { sv =>
         sv match {
           case "2.10.0-RC5" => Seq("-Yeta-expand-keeps-star")
           case _ => Seq()
         }
       },
+      allSourceDirectories <<= projects.map(sourceDirectories in Compile in _).join,
       scalacOptions in (Compile, doc) <++=  (baseDirectory, allSourceDirectories, scalaVersion, version, baseDirectory in LocalProject("casbah")).map {
         (bd, asd, sv, v, rootBase) =>
          val tagOrBranch = if (v.endsWith("-SNAPSHOT")) "dev" else "v" + v
          val docSourceUrl = "http://{{WEBSITE_ROOT}}api.sxr/€{FILE_PATH}.scala.html"
          val docSourceOpts = Seq("-sourcepath", rootBase.getAbsolutePath, "-doc-source-url", docSourceUrl)
-         val sxrOpts = if (sv.startsWith("2.10")) Seq() else sxrOptions(bd, asd, sv)
+         val sxrOpts = sxrOptions(bd, asd, sv)
          docSourceOpts ++ sxrOpts
       }
     )

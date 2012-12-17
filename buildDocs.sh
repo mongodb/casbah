@@ -25,7 +25,7 @@ find $SITE_DIR/api/ -name \*html -exec sed -i 's#/src\(.*\)/\(.*scala.html\)#\2#
 find $SITE_DIR/api/ -name \*html -exec sed -i "s#/{{WEBSITE_ROOT}}#/$WEBSITE_ROOT#g" {} \;
 
 # Make pdf / epub
-$SPHINX_DIR/ make clean epub latexpdf
+make -C $SPHINX_DIR clean epub latexpdf
 
 cp $SPHINX_DIR/_build/epub/CasbahMongoDBScalaToolkitDocumentation.epub $SITE_DIR/CasbahDocumentation.epub
 cp $SPHINX_DIR/_build/latex/CasbahDocumentation.pdf $SITE_DIR/CasbahDocumentation.pdf
