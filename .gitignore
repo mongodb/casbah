@@ -16,7 +16,6 @@ lib_managed/
 project/boot/
 project/plugins/project
 reports/
-src_managed/
+src/sphinx/_build
 tags
 target/
-tutorial_src/build
