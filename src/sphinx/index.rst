@@ -30,6 +30,7 @@ You may also download this documentation in other formats.
     API Docs <http://api.mongodb.org/scala/casbah/api/#com.mongodb.casbah.package>
     setting_up
     tutorial
+    changelog
 
 
 ..
