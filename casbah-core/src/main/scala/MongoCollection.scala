@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,36 +17,45 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.util.bson.decoding._
-
-import com.mongodb.casbah.util.Logging
-
-import scalaj.collection.Imports._
 import com.mongodb.{ DBCursor , DBCollection , DBDecoderFactory, DBEncoderFactory}
 
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.Logging
+
+import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
+
+import scala.util.control.Exception._
+
+import scala.collection.JavaConverters._
+import collection.mutable.ArrayBuffer
+
 /**
-* Scala wrapper for Mongo DBCollections,
-* including ones which return custom DBObject subclasses
-* via setObjectClass and the like.
-* Provides any non-parameterized methods and the basic structure.
-* Requires an underlying object of a DBCollection.
-*
-* This is a rewrite of the Casbah 1.0 approach which was rather
-* naive and unecessarily complex.... formerly was MongoCollectionWrapper
-*
-* @author Brendan W. McAdams <brendan@10gen.com>
-* @version 2.0, 12/23/10
-* @since 1.0
-*
-* @tparam T (DBObject or subclass thereof)
-*/
-abstract class MongoCollection extends Logging with Iterable[DBObject] {
+ * Scala wrapper for Mongo DBCollections,
+ * including ones which return custom DBObject subclasses
+ * via setObjectClass and the like.
+ * Provides any non-parameterized methods and the basic structure.
+ * Requires an underlying object of a DBCollection.
+ *
+ * This is a rewrite of the Casbah 1.0 approach which was rather
+ * naive and unecessarily complex.... formerly was MongoCollectionWrapper
+ *
+ * @version 2.0, 12/23/10
+ * @since 1.0
+ *
+ * @tparam T (DBObject or subclass thereof)
+ */
+trait MongoCollectionBase extends Logging { self =>
   type T <: DBObject
+  type CursorType
+  /**
+   * The underlying Java Mongo Driver Collection object we proxy.
+   */
+  def underlying: DBCollection
 
   /**
    * If defined, load the customDecoderFactory.
@@ -60,11 +69,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
 
   def customEncoderFactory: Option[DBEncoderFactory] = Option(underlying.getDBEncoderFactory)
 
-  /**
-   * The underlying Java Mongo Driver Collection object we proxy.
-   */
-  def underlying: DBCollection
-
+  def iterator = find
 
   /** Returns the database this collection is a member of.
    * @return this collection's database
@@ -94,15 +99,9 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
 
   /**
    * find distinct values for a key
-   */
-  def distinct(key: String) = underlying.distinct(key).asScala
-
-  /**
-   * find distinct values for a key
    * @param query query to apply on collection
    */
-  def distinct[A <% DBObject](key: String, query: A) =
-    underlying.distinct(key, query).asScala
+  def distinct[A <% DBObject](key: String, query: A = MongoDBObject.empty, readPrefs: ReadPreference = getReadPreference) = underlying.distinct(key).asScala
 
   /** Drops (deletes) this collection
    */
@@ -124,22 +123,19 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @param keys an object with a key set of the fields desired for the index
    */
   def ensureIndex[A <% DBObject](keys: A) = underlying.ensureIndex(keys)
+  /** Ensures an index on this collection (that is, the index will be created if it does not exist).
+   * ensureIndex is optimized and is inexpensive if the index already exists.
+   * @param keys fields to use for index
+   * @param options options for the index (name, unique, etc)
+   */
+  def ensureIndex[A <% DBObject, B <% DBObject](keys: A, options: B) = underlying.ensureIndex(keys, options)
 
   /** Ensures an index on this collection (that is, the index will be created if it does not exist).
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * @param keys fields to use for index
    * @param name an identifier for the index
-   * @dochub indexes
    */
   def ensureIndex[A <% DBObject](keys: A, name: String) = underlying.ensureIndex(keys, name)
-
-  /** Ensures an index on this collection (that is, the index will be created if it does not exist).
-   * ensureIndex is optimized and is inexpensive if the index already exists.
-   * @param keys fields to use for index
-   * @param options options for the index (name, unique, etc)
-   * @dochub indexes
-   */
-  def ensureIndex[A <% DBObject, B <% DBObject](keys: A, options: B) = underlying.ensureIndex(keys, options)
 
   /** Ensures an optionally unique index on this collection.
    * @param keys fields to use for index
@@ -152,20 +148,17 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * This creates an ascending index on a particular field.
    * @param name an identifier for the index
-   * @dochub indexes
    */
   def ensureIndex(fieldName: String) = underlying.ensureIndex(fieldName)
 
-  /** Queries for all objects in this collection. 
+  /** Queries for all objects in this collection.
    * @return a cursor which will iterate over every object
-   * @dochub find
    */
   def find() = _newCursor(underlying.find)
 
   /** Queries for an object in this collection.
    * @param ref object for which to search
    * @return an iterator over the results
-   * @dochub find
    */
   def find[A <% DBObject](ref: A) = _newCursor(underlying.find(ref))
 
@@ -176,20 +169,19 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * Regardless of fields specified, the _id fields are always returned.
    * </p>
    * <p>
-   * An example that returns the "x" and "_id" fields for every document 
+   * An example that returns the "x" and "_id" fields for every document
    * in the collection that has an "x" field:
    * </p>
    * <blockquote><pre>
    * BasicDBObject keys = new BasicDBObject();
    * keys.put("x", 1);
    *
-   * DBCursor cursor = collection.find(new BasicDBObject(), keys); 
+   * DBCursor cursor = collection.find(new BasicDBObject(), keys);
    * </pre></blockquote>
    *
    * @param ref object for which to search
    * @param keys fields to return
    * @return a cursor to iterate over results
-   * @dochub find
    */
   def find[A <% DBObject, B <% DBObject](ref: A, keys: B) = _newCursor(underlying.find(ref, keys))
 
@@ -200,108 +192,106 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @param batchSize if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch
    * @param options - see Bytes QUERYOPTION_*
    * @return the objects, if found
-   * @dochub find
    */
   def find[A <% DBObject, B <% DBObject](ref: A, fields: B, numToSkip: Int, batchSize: Int) =
     _newCursor(underlying.find(ref, fields, numToSkip, batchSize))
 
-  /** 
+  /**
    * Returns a single object from this collection.
    * @return (Option[T]) Some() of the object found, or <code>None</code> if this collection is empty
    */
-  def findOne() = Option(underlying.findOne())
+  def findOne() = _typedValue(underlying.findOne())
 
-  /** 
+  /**
    * Returns a single object from this collection matching the query.
    * @param o the query object
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
   def findOne[A <% DBObject](o: A) =
-    Option(underlying.findOne(o: DBObject))
+    _typedValue(underlying.findOne(o: DBObject))
+
 
   /**
    * Returns a single object from this collection matching the query.
    * @param o the query object
    * @param fields fields to return
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
-   * @dochub find
    */
-  def findOne[A <% DBObject, B <% DBObject](o: A, fields: B) =
-    Option(underlying.findOne(o: DBObject, fields))
+  def findOne[A <% DBObject, B <% DBObject](o: A, fields: B, readPrefs: ReadPreference = getReadPreference) =
+    _typedValue(underlying.findOne(o: DBObject, fields, readPrefs))
 
-  /** 
+  /**
    * Find an object by its ID.
-   * Finds an object by its id. This compares the passed in 
+   * Finds an object by its id. This compares the passed in
    * value to the _id field of the document.
-   * 
+   *
    * Returns a single object from this collection matching the query.
    * @param id the id to match
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
-  def findOneByID(id: AnyRef) = Option(underlying.findOne(id))
+  def findOneByID(id: AnyRef) = _typedValue(underlying.findOne(id))
 
   /**
    * Find an object by its ID.
-   * Finds an object by its id. This compares the passed in 
+   * Finds an object by its id. This compares the passed in
    * value to the _id field of the document.
-   * 
+   *
    * Returns a single object from this collection matching the query.
    *
    * @param id the id to match
    * @param fields fields to return
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
-   * @dochub find
    */
   def findOneByID[B <% DBObject](id: AnyRef, fields: B) =
-    Option(underlying.findOne(id, fields))
+    _typedValue(underlying.findOne(id, fields))
 
   /**
-   * Finds the first document in the query (sorted) and updates it. 
+   * Finds the first document in the query (sorted) and updates it.
    * If remove is specified it will be removed. If new is specified then the updated
    * document will be returned, otherwise the old document is returned (or it would be lost forever).
    * You can also specify the fields to return in the document, optionally.
    * @return (Option[T]) of the the found document (before, or after the update)
    */
   def findAndModify[A <% DBObject, B <% DBObject](query: A, update: B) =
-    Option(underlying.findAndModify(query, update))
+    _typedValue(underlying.findAndModify(query, update))
 
   /**
-   * Finds the first document in the query (sorted) and updates it. 
+   * Finds the first document in the query (sorted) and updates it.
    * @return the old document
    */
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject](query: A, sort: B, update: C) =
-    Option(underlying.findAndModify(query, sort, update))
+    _typedValue(underlying.findAndModify(query, sort, update))
 
   /**
-   * Finds the first document in the query and updates it. 
+   * Finds the first document in the query and updates it.
    * @return the old document
    */
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
     remove: Boolean, update: D,
     returnNew: Boolean, upsert: Boolean) =
-    Option(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
+    _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
 
   /**
-   * Finds the first document in the query and removes it. 
+   * Finds the first document in the query and removes it.
    * @return the removed document
    */
   def findAndRemove[A <% DBObject](query: A) =
-    Option(underlying.findAndRemove(query))
+    _typedValue(underlying.findAndRemove(query))
 
   /**
    * write concern aware write op block.
    *
    * Checks getLastError after the last write.
-   * If  you run multiple ops you'll only get the final 
+   * If  you run multiple ops you'll only get the final
    * error.
-   * 
+   *
    * Your op function gets a copy of this MongoDB instance.
-   * 
+   *
    * This is for write ops only - you cannot return data from it.
-   * 
-   * Your function must return WriteResult, which is the 
+   *
+   * Your function must return WriteResult, which is the
    * return type of any mongo write operation like insert/save/update/remove
-   * 
+   *
    * If you have set a connection or DB level WriteConcern,
    * it will be inherited.
    *
@@ -315,16 +305,16 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * write concern aware write op block.
    *
    * Checks getLastError after the last write.
-   * If  you run multiple ops you'll only get the final 
+   * If  you run multiple ops you'll only get the final
    * error.
-   * 
+   *
    * Your op function gets a copy of this MongoDB instance.
-   * 
+   *
    * This is for write ops only - you cannot return data from it.
-   * 
-   * Your function must return WriteResult, which is the 
+   *
+   * Your function must return WriteResult, which is the
    * return type of any mongo write operation like insert/save/update/remove
-   * 
+   *
    * @throws MongoException
    */
   def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)(op: this.type => WriteResult) =
@@ -334,23 +324,23 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * write concern aware write op block.
    *
    * Checks getLastError after the last write.
-   * If  you run multiple ops you'll only get the final 
+   * If  you run multiple ops you'll only get the final
    * error.
-   * 
+   *
    * Your op function gets a copy of this MongoDB instance.
-   * 
+   *
    * This is for write ops only - you cannot return data from it.
-   * 
-   * Your function must return WriteResult, which is the 
+   *
+   * Your function must return WriteResult, which is the
    * return type of any mongo write operation like insert/save/update/remove
-   * 
+   *
    * @throws MongoException
    */
-  def request(concern: com.mongodb.WriteConcern)(op: this.type => WriteResult) =
-    op(this).getLastError(concern).throwOnError
+  def request(writeConcern: WriteConcern)(op: this.type => WriteResult) =
+    op(this).getLastError(writeConcern).throwOnError
 
   /** Find a collection that is prefixed with this collection's name.
-   * A typical use of this might be 
+   * A typical use of this might be
    * <blockquote><pre>
    *    DBCollection users = mongo.getCollection( "wiki" ).getCollection( "users" );
    * </pre></blockquote>
@@ -366,7 +356,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
   def getCollection(n: String) = underlying.getCollection(n).asScala
 
   /** Find a collection that is prefixed with this collection's name.
-   * A typical use of this might be 
+   * A typical use of this might be
    * <blockquote><pre>
    *    DBCollection users = mongo.getCollection( "wiki" ).getCollection( "users" );
    * </pre></blockquote>
@@ -383,32 +373,6 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
 
   /**
    *  Returns the number of documents in the collection
-   *  @return number of documents in the query
-   */
-  def getCount() = underlying.getCount()
-
-  /**
-   *  Returns the number of documents in the collection
-   *  that match the specified query
-   *
-   *  @param query query to select documents to count
-   *  @return number of documents that match query
-   */
-  def getCount[A <% DBObject](query: A) = underlying.getCount(query)
-
-  /**
-   *  Returns the number of documents in the collection
-   *  that match the specified query
-   *
-   *  @param query query to select documents to count
-   *  @param fields fields to return
-   *  @return number of documents that match query and fields
-   */
-  def getCount[A <% DBObject, B <% DBObject](query: A, fields: B) =
-    underlying.getCount(query, fields)
-
-  /**
-   *  Returns the number of documents in the collection
    *  that match the specified query
    *
    *  @param query query to select documents to count
@@ -417,8 +381,9 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    *  @param skip # of fields to skip
    *  @return number of documents that match query and fields
    */
-  def getCount[A <% DBObject, B <% DBObject](query: A, fields: B, limit: Long, skip: Long) =
-    underlying.getCount(query, fields, limit, skip)
+  def getCount[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
+                                             limit: Long = 0,  skip: Long = 0, readPrefs: ReadPreference = getReadPreference) =
+    underlying.getCount(query, fields, limit, skip, readPrefs)
 
   /** Returns the database this collection is a member of.
    * @return this collection's database
@@ -455,21 +420,68 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
 
   def name = getName()
 
+  /** Gets the default class for objects in the collection
+   * @return the class
+   */
+  def getObjectClass() = underlying.getObjectClass
+
+  /** Gets the default class for objects in the collection
+   * @return the class
+   */
+  def objectClass = getObjectClass()
+
+  /**
+   * setObjectClass
+   *
+   * Set a subtype of DBObject which will be used
+   * to deserialize documents returned from MongoDB.
+   *
+   * This method will return a new <code>MongoTypedCollection[A]</code>
+   * which you should capture if you want explicit casting.
+   * Else, this collection will instantiate instances of A but cast them to
+   * the current <code>T</code> (DBObject if you have a generic collection)
+   *
+   * @param  c (Class[A])
+   * @tparam A A Subtype of DBObject
+   *
+   * TODO - Ensure proper subtype return
+   */
+  def setObjectClass[A <: DBObject: Manifest](c: Class[A]) = {
+    underlying.setObjectClass(c)
+    new MongoGenericTypedCollection[A](underlying = self.underlying)
+  }
+
+  /**
+   * setObjectClass
+   *
+   * Set a subtype of DBObject which will be used
+   * to deserialize documents returned from MongoDB.
+   *
+   * This method will return a new <code>MongoTypedCollection[A]</code>
+   * which you should capture if you want explicit casting.
+   * Else, this collection will instantiate instances of A but cast them to
+   * the current <code>T</code> (DBObject if you have a generic collection)
+   *
+   * @param  c (Class[A])
+   * @tparam A A Subtype of DBObject
+   *
+   */
+  def objectClass_=[A <: DBObject: Manifest](c: Class[A]) = setObjectClass(c)
+
   def stats = getStats()
 
   def getStats() = underlying.getStats()
 
-  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String): Iterable[T] =
-    underlying.group(key, cond, initial, reduce).map(_._2.asInstanceOf[T])
 
   /**
-   * By default perform an absurdly simple grouping with no initial object or reduce function.
+   * Enables you to call group with the finalize parameter (a function that runs on each
+   * row of the output for calculations before sending a return) which the Mongo Java driver does not yet
+   * support, by sending a direct DBObject command.  Messy, but it works.
    */
-  def group[A <% DBObject, B <% DBObject](key: A, cond: B, function: String = "function(obj, prev) {}"): Iterable[T] =
-    group(key, cond, MongoDBObject.empty, function)
-
-  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C, reduce: String, finalize: String): Iterable[T] = {
-    underlying.group(key,cond, initial, reduce, finalize).map(_._2.asInstanceOf[T])
+  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C,
+                                                         reduce: String, finalize: String = null,
+                                                         readPrefs: ReadPreference = getReadPreference): Iterable[T] = {
+    underlying.group(key,cond, initial, reduce, finalize, readPrefs).map(_._2.asInstanceOf[T])
   }
 
   /**
@@ -478,7 +490,15 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * you can get the _id that was added from doc after the insert
    *
    * @param arr  array of documents (<% DBObject) to save
-   * @dochub insert
+   * TODO - Wrapper for WriteResult?
+   */
+   def insert[A](doc: A, concern: com.mongodb.WriteConcern )(implicit dbObjView: A => DBObject): WriteResult = insert(doc)(dbObjView, concern = concern)
+  /**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param arr  array of documents (<% DBObject) to save
    * TODO - Wrapper for WriteResult?
    */
   def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: com.mongodb.WriteConcern = writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ): WriteResult = {
@@ -488,16 +508,17 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
     underlying.insert(b.result, concern, encoder)
   }
 
+
   def isCapped = underlying.isCapped()
 
-  /** 
+  /**
    * mapReduce
    * Execute a mapReduce against this collection.
    * NOTE: JSFunction is just a type alias for String
-   * 
+   *
    * @param  mapFunction (JSFunction) The JavaScript to execute for the map function
    * @param  reduceFunction (JSFunction) The JavaScript to execute for the reduce function
-   * 
+   *
    */
   def mapReduce(mapFunction: JSFunction,
     reduceFunction: JSFunction,
@@ -508,19 +529,18 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
     finalizeFunction: Option[JSFunction] = None,
     jsScope: Option[String] = None,
     verbose: Boolean = false): map_reduce.MapReduceResult =
-    map_reduce.MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction,
-      output, query, sort, limit, finalizeFunction,
-      jsScope, verbose).toDBObject))
+      map_reduce.MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction, output, query, sort, limit, finalizeFunction, jsScope, verbose).toDBObject))
 
   def mapReduce(cmd: map_reduce.MapReduceCommand) = map_reduce.MapReduceResult(getDB.command(cmd.toDBObject))
+
+
 
   /** Removes objects from the database collection.
    * @param o the object that documents to be removed must match
    * @param concern WriteConcern for this operation
-   * @dochub remove
    * TODO - Wrapper for WriteResult?
    */
-  def remove[A](o: A)(implicit dbObjView: A => DBObject, concern: com.mongodb.WriteConcern = getWriteConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) =
+  def remove[A](o: A, concern: com.mongodb.WriteConcern = getWriteConcern)(implicit dbObjView: A => DBObject, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) =
     underlying.remove(dbObjView(o), concern, encoder)
 
   /** Clears all indices that have not yet been applied to this collection. */
@@ -531,7 +551,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    *        will add <code>_id</code> field to o if needed
    * TODO - Wrapper for WriteResult?
    */
-  def save[A](o: A)(implicit dbObjView: A => DBObject, concern: com.mongodb.WriteConcern = writeConcern) = underlying.save(dbObjView(o), writeConcern)
+  def save[A](o: A, concern: com.mongodb.WriteConcern = getWriteConcern)(implicit dbObjView: A => DBObject) = underlying.save(dbObjView(o), concern)
 
 
   /** Set hint fields for this collection.
@@ -558,23 +578,18 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * Performs an update operation.
    * @param q search query for old object to update
    * @param o object with which to update <tt>q</tt>
-   * @param upsert if the database should create the element if it does not exist
-   * @param multi if the update should be applied to all objects matching (db version 1.1.3 and above)
-   * @see http://www.mongodb.org/display/DOCS/Atomic+Operations
-   * @dochub update
    * TODO - Wrapper for WriteResult?
    */
-   def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false)(implicit queryView: A => DBObject, objView: B => DBObject, concern: com.mongodb.WriteConcern = this.writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) = 
+  def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false,  concern: com.mongodb.WriteConcern = this.writeConcern)(implicit queryView: A => DBObject, objView: B => DBObject, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) =
     underlying.update(queryView(q), objView(o), upsert, multi, concern, encoder)
 
 
   /**
    * Perform a multi update
-   * @dochub update
    * @param q search query for old object to update
    * @param o object with which to update <tt>q</tt>
    */
-  @deprecated("In the face of default arguments this is a bit silly. Please use update(multi=True)")
+  @deprecated("In the face of default arguments this is a bit silly. Please use update(multi=True)", "2.3.0")
   def updateMulti[A <% DBObject, B <% DBObject](q: A, o: B) = underlying.updateMulti(q, o)
 
   override def hashCode() = underlying.hashCode
@@ -584,13 +599,13 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @return if the two collections are the same object
    */
   override def equals(obj: Any) = obj match {
-    case other: MongoCollection => underlying.equals(other.underlying)
+    case other: MongoCollectionBase => underlying.equals(other.underlying)
     case _ => false
   }
 
-  def count = getCount
-  def count[A <% DBObject](query: A) = getCount(query)
-  def count[A <% DBObject, B <% DBObject](query: A, fields: B) = getCount(query, fields)
+  def count[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
+                                          limit: Long = 0, skip: Long = 0, readPrefs: ReadPreference = getReadPreference) =
+    getCount(query, fields, limit, skip, readPrefs)
 
   /**
    *  Gets the the error (if there is one) from the previous operation.  The result of
@@ -609,9 +624,9 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    */
   def getLastError() = getDB.getLastError
   def lastError() = getLastError()
-  def getLastError(concern: com.mongodb.WriteConcern) =
+  def getLastError(concern: WriteConcern) =
     getDB.getLastError(concern)
-  def lastError(concern: com.mongodb.WriteConcern) =
+  def lastError(concern: WriteConcern) =
     getLastError(concern)
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean) =
     getDB.getLastError(w, wTimeout, fsync)
@@ -633,51 +648,50 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
   def -=[A <% DBObject](x: A) = remove(x)
 
   /**
-   * 
+   *
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
    * See the documentation for {@link com.mongodb.WriteConcern} for more info.
-   * 
-   * @param concern (com.mongodb.WriteConcern) The write concern to use
-   * @see com.mongodb.WriteConcern 
-   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
-   */
-  def setWriteConcern(concern: com.mongodb.WriteConcern) = underlying.setWriteConcern(concern)
-
-  /**
-   * 
-   * Set the write concern for this database.
-   * Will be used for writes to any collection in this database.
-   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
-   * 
+   *
    * @param concern (WriteConcern) The write concern to use
-   * @see WriteConcern 
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def writeConcern_=(concern: com.mongodb.WriteConcern) = setWriteConcern(concern)
+  def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
 
   /**
-   * 
+   *
+   * Set the write concern for this database.
+   * Will be used for writes to any collection in this database.
+   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
+   *
+   * @param concern (WriteConcern) The write concern to use
+   * @see WriteConcern
+   * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
+   */
+  def writeConcern_=(concern: WriteConcern) = setWriteConcern(concern)
+
+  /**
+   *
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
    * See the documentation for {@link com.mongodb.WriteConcern} for more info.
-   * 
-   * @see com.mongodb.WriteConcern 
+   *
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def getWriteConcern = underlying.getWriteConcern()
 
   /**
-   * 
+   *
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
    * See the documentation for {@link com.mongodb.WriteConcern} for more info.
    *
-   * @see com.mongodb.WriteConcern 
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def writeConcern = getWriteConcern
-
   /**
    * Sets the read preference for this collection. Will be used as default for
    * reads from any collection in this collection. See the
@@ -716,41 +730,41 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
 
   /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def addOption(option: Int) = underlying.addOption(option)
 
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def resetOptions() = underlying.resetOptions() // use parens because this side-effects
 
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def getOptions() = underlying.getOptions
 
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def options = getOptions
 
-  /** 
+  /**
    * Sets queries to be OK to run on slave nodes.
    * @deprecated Replaced with ReadPreference.SECONDARY
    */
-  @deprecated("Replaced with ReadPreference.SECONDARY")
+  @deprecated("Replaced with ReadPreference.SECONDARY", "2.3.0")
   def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**
@@ -758,7 +772,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * As per the Java API this returns a *NEW* Collection,
    * and the old collection is probably no good anymore.
    *
-   * This collection *WILL NOT* mutate --- the instance will 
+   * This collection *WILL NOT* mutate --- the instance will
    * still point at a now nonexistant collection with the old name
    * ... You must capture the return value for the new instance.
    *
@@ -766,14 +780,20 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @return the new collection
    */
   def rename(newName: String): MongoCollection =
-    _newInstance(underlying.rename(newName))
+    new MongoCollection(self.underlying.rename(newName))
+
+/*
+  def command(cmd: DBObject, options: Int, readPrefs: ReadPreference = getReadPreference) =
+    underlying.command(cmd, options, readPrefs)
+*/
 
   /**
+   *
    * does a rename of this collection to newName
    * As per the Java API this returns a *NEW* Collection,
    * and the old collection is probably no good anymore.
    *
-   * This collection *WILL NOT* mutate --- the instance will 
+   * This collection *WILL NOT* mutate --- the instance will
    * still point at a now nonexistant collection with the old name
    * ... You must capture the return value for the new instance.
    *
@@ -782,7 +802,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @return the new collection
    */
   def rename(newName: String, dropTarget: Boolean): MongoCollection =
-    _newInstance(underlying.rename(newName, dropTarget))
+    new MongoCollection(self.underlying.rename(newName, dropTarget))
 
   /**
    * _newCursor
@@ -796,7 +816,7 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @param  cursor (DBCursor)
    * @return (MongoCursorBase)
    */
-  def _newCursor(cursor: DBCursor): MongoCursor
+  def _newCursor(cursor: DBCursor): CursorType
 
   /**
    * _newInstance
@@ -809,84 +829,25 @@ abstract class MongoCollection extends Logging with Iterable[DBObject] {
    * @param  cursor (DBCollection)
    * @return (this.type)
    */
-  def _newInstance(collection: DBCollection): MongoCollection
+  def _newInstance(collection: DBCollection): MongoCollectionBase
 
+  protected def _typedValue(dbObj: DBObject): Option[T] = Option(dbObj.asInstanceOf[T])
 
-  override def head = headOption.get
-  override def headOption = findOne
-  override def tail = find.skip(1).toIterable
-  override def iterator = find
-  override def size = count.toInt
 }
 
 /**
  * Concrete collection implementation expecting standard DBObject operation
  * This is the version of MongoCollectionBase you should expect to use in most cases.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @version 2.0, 12/23/10
  * @since 1.0
  *
  * @tparam DBObject
  */
-class ConcreteMongoCollection(val underlying: DBCollection) extends MongoCollection {
+class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase with Iterable[DBObject] {
+
   type T = DBObject
-
-  /**
-   * _newCursor
-   * 
-   * Utility method which concrete subclasses
-   * are expected to implement for creating a new
-   * instance of the correct cursor implementation from a 
-   * Java cursor.  Good with cursor calls that return a new cursor.
-   * Should figure out the right type to return based on typing setup.
-   *
-   * @param  cursor (DBCursor) 
-   * @return (MongoCursorBase)
-   */
-  def _newCursor(cursor: DBCursor) = new ConcreteMongoCursor(cursor)
-
-  /** 
-   * _newInstance
-   * 
-   * Utility method which concrete subclasses
-   * are expected to implement for creating a new
-   * instance of THIS concrete implementation from a 
-   * Java collection.  Good with calls that return a new collection.
-   *
-   * @param  cursor (DBCollection) 
-   * @return (this.type)
-   */
-  def _newInstance(collection: DBCollection): MongoCollection = new ConcreteMongoCollection(collection)
-
-  def asLazy: LazyMongoCollection = new LazyMongoCollection(underlying)
-}
-
-/**
- * Proxy of a DBCollection which uses an OptimizedLazyDBFactory.
- *
- * Doesn't *require* OptimizedLazyDBObjects to save (They're readonly in
- * the current implementation anyway)
- *
- * According to initial tests of the Lazy system:
- * """
- * Sub-objects can be obtained with no copy of data, just the offset
- * changes.
- * For a 700 bytes object, when accessing only a couple fields, the driver
- * speed is about 2.5x.
- * """
- *
- * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 2.2, 8/18/11
- * @since 1.0
- *
- * @param  val underlying (DBCollection)
- */
-class LazyMongoCollection(val underlying: DBCollection) extends MongoCollection {
-  type T = OptimizedLazyDBObject
-
-  override def customDecoderFactory = Some(OptimizedLazyDBDecoder.Factory)
-
+  type CursorType = MongoCursor
 
   /**
    * _newCursor
@@ -900,7 +861,7 @@ class LazyMongoCollection(val underlying: DBCollection) extends MongoCollection 
    * @param  cursor (DBCursor)
    * @return (MongoCursorBase)
    */
-   def _newCursor(cursor: DBCursor) = new LazyMongoCursor(cursor)
+  def _newCursor(cursor: DBCursor) = new MongoCursor(cursor)
 
   /**
    * _newInstance
@@ -913,18 +874,71 @@ class LazyMongoCollection(val underlying: DBCollection) extends MongoCollection 
    * @param  cursor (DBCollection)
    * @return (this.type)
    */
-   def _newInstance(collection: DBCollection): MongoCollection = new LazyMongoCollection(collection)
+  def _newInstance(collection: DBCollection): MongoCollection = new MongoCollection(collection)
+
+  override protected def _typedValue(dbObj: DBObject): Option[DBObject] = Option(dbObj)
+
+  override def head = headOption.get
+  override def headOption = findOne
+  override def tail = find.skip(1).toIterable
+  override def iterator = find
+  override def size = count().toInt
 
 }
 
+/**
+ * Concrete collection implementation for typed Cursor operations via Collection.setObjectClass et al
+ * This is a special case collection for typed operations
+ *
+ * @version 2.0, 12/23/10
+ * @since 1.0
+ *
+ * @param  val underlying (DBCollection)
+ * @tparam T  A Subclass of DBObject
+ */
+trait MongoTypedCollection extends MongoCollectionBase {
+
+}
+
+class MongoGenericTypedCollection[A <: DBObject](val underlying: DBCollection) extends MongoTypedCollection {
+  type T = A
+  type CursorType = MongoGenericTypedCursor[A]
+
+  /**
+   * _newCursor
+   *
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of the correct cursor implementation from a
+   * Java cursor.  Good with cursor calls that return a new cursor.
+   * Should figure out the right type to return based on typing setup.
+   *
+   * @param  cursor (DBCursor)
+   * @return (MongoCollectionBase)
+   */
+  def _newCursor(cursor: DBCursor) = new MongoGenericTypedCursor[T](cursor)
+
+  /**
+   * _newInstance
+   *
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of THIS concrete implementation from a
+   * Java collection.  Good with calls that return a new collection.
+   *
+   * @param  cursor (DBCollection)
+   * @return (this.type)
+   */
+  def _newInstance(collection: DBCollection) = new MongoGenericTypedCollection[T](collection)
+}
 
 /** Helper object for some static methods
  */
 object MongoCollection extends Logging {
 
-  /** 
+  /**
    * generateIndexName
-   * 
+   *
    * Generate an index name from the set of fields it is over
    *
    * @param  keys (A) The names of the fields used in this index

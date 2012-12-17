@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,49 +17,52 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.util.Logging
+import com.mongodb.DBCursor
 
-import com.mongodb.casbah.commons._
-import scalaj.collection.Imports._
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.Logging
 
-import com.mongodb.casbah.util.bson.decoding.OptimizedLazyDBObject
+import scala.collection.JavaConverters._
 
-/** 
+/**
  * Scala wrapper for Mongo DBCursors,
  * including ones which return custom DBObject subclasses.
- * 
+ *
  * This is a rewrite of the Casbah 1.0 approach which was rather
  * naive and unnecessarily complex.... formerly was MongoCursorWrapper
- * 
- * @author Brendan W. McAdams <brendan@10gen.com>
+ *
  * @version 2.0, 12/23/10
  * @since 2.0
- * 
+ *
  * @tparam T (DBObject or subclass thereof)
  */
-trait MongoCursor extends Iterator[DBObject] with Logging {
+trait MongoCursorBase extends Logging {
 
-  def underlying: com.mongodb.DBCursor
+  type T <: DBObject
 
-  /** 
+  val underlying: DBCursor
+
+  /**
    * next
    *
    * Iterator increment.
-   * 
+   *
+   * TODO: The cast to T should be examined for sanity/safety.
+   *
    * {@inheritDoc}
    *
    * @return The next element in the cursor
    */
-  def next() = underlying.next
+  def next() = underlying.next.asInstanceOf[T]
 
-  /** 
+  /**
    * hasNext
-   * 
+   *
    * Is there another element in the cursor?
    *
    * {@inheritDoc}
@@ -68,9 +71,9 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
    */
   def hasNext = underlying.hasNext
 
-  /** 
+  /**
    * sort
-   * 
+   *
    * Sort this cursor's elements
    *
    * @param  orderBy (A) The fields on which to sort
@@ -83,9 +86,9 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
     this
   }
 
-  /** 
+  /**
    * count
-   * 
+   *
    * The DBCursor's count of elements in the query, passed through
    * from the Java object.  Note that Scala Iterator[_] base trait
    * has a count method which tests predicates and you should
@@ -93,70 +96,70 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
    *
    * <b>NOTE:</b> count() ignores any skip/limit settings on a cursor;
    * it is the count of the ENTIRE query results.
-   * If you want to get a count post-skip/limit 
+   * If you want to get a count post-skip/limit
    * you must use size()
-   * 
+   *
    * @see size()
-   * 
+   *
    * @return Int indicating the number of elements returned by the query
    * @throws MongoException
    */
   def count = underlying.count
 
-  /** 
+  /**
    * Manipulate Query Options
    *
    * Adds an option - see Bytes.QUERYOPTION_* for list
-   * TODO - Create Scala version of Bytes.QUERYOPTION_* 
+   * TODO - Create Scala version of Bytes.QUERYOPTION_*
    *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def option_=(option: Int): Unit = underlying.addOption(option)
 
-  /** 
+  /**
    * Manipulate Query Options
    *
    * Gets current option settings - see Bytes.QUERYOPTION_* for list
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def option = underlying.getOptions
 
-  /** 
+  /**
    * Manipulate Query Options
    *
    * Resets options to default.
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def resetOptions() = underlying.resetOptions() // use parens because this side-effects
 
-  /** 
+  /**
    * Manipulate Query Options
    *
    * Gets current option settings - see Bytes.QUERYOPTION_* for list
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def options = underlying.getOptions
 
-  /** 
+  /**
    * Manipulate Query Options
    *
    * Sets current option settings - see Bytes.QUERYOPTION_* for list
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def options_=(opts: Int): Unit = underlying.setOptions(opts)
 
-  /** 
+  /**
    * hint
-   * 
+   *
    * Provide the Database a hint of which indexed fields of a collection to use
    * to improve performance.
    *
@@ -169,9 +172,9 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
     this
   }
 
-  /** 
+  /**
    * hint
-   * 
+   *
    * Provide the Database a hint of an indexed field of a collection to use
    * to improve performance.
    *
@@ -183,9 +186,9 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
     this
   }
 
-  /** 
+  /**
    * snapshot
-   * 
+   *
    * Use snapshot mode for the query.
    * Snapshot mode assures no duplicates are returned, or objects missed,
    * which were present at both the start and end of the query's
@@ -194,7 +197,7 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
    *
    * <b>NOTE:</b> Short query responses (&lt; 1MB) are always effectively snapshotted.
    * <b>NOTE:</b> Currently, snapshot mode may not be used with sorting or explicit hints.
-   *  
+   *
    * @return the same DBCursor, useful for chaining operations
    */
   def snapshot(): this.type = {
@@ -203,13 +206,13 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
     this
   }
 
-  /** 
+  /**
    * explain
    *
    * Returns an object containing basic information about the execution
    * of the query that created this cursor.
    * This creates an instance of CursorExplanation which is a custom
-   * dbObject with the key/value pairs: 
+   * dbObject with the key/value pairs:
    *     - cursor = Cursor Type
    *     - nscanned = Number of items examined by Mongo for this query
    *     - nscannedObjects = Number of objects examined by Mongo
@@ -225,7 +228,7 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
    */
   def explain = new CursorExplanation(underlying.explain)
 
-  /** 
+  /**
    * limit
    *
    * Limits the number of elements returned.
@@ -233,7 +236,7 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
    * <b>NOTE:</b> Specifying a <em>negative number</em> instructs
    * the server to retrun that number of items and close the cursor.
    * It will only return what can fit into a <em>single 4MB response</em>
-   * 
+   *
    * @param  n (Int)  The number of elements to return
    * @return A cursor pointing to the first element of the limited results
    *
@@ -244,12 +247,12 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
     this
   }
 
-  /**   
+  /**
    * skip
    *
    * Discards a given number of elements at the beginning of the cursor.
    *
-   * @param  n (Int)  The number of elements to skip 
+   * @param  n (Int)  The number of elements to skip
    * @return A cursor pointing to the first element of the results
    *
    * @see http://dochub.mongodb.org/core/skip
@@ -259,35 +262,35 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
     this
   }
 
-  /** 
+  /**
    * cursorId
-   * 
+   *
    * @return A long representing the cursorID on the server; 0 = no cursor
    *
    */
   def cursorId = underlying.getCursorId()
 
-  /** 
+  /**
    * close
-   * 
+   *
    * Kill the current cursor on the server
    */
   def close() = underlying.close() // parens for side-effect
 
-  /** 
+  /**
    * slaveOk
-   * 
+   *
    * Makes this query OK to run on a non-master node.
    * @deprecated Replaced with ReadPreference.SECONDARY
    */
-  @deprecated("Replaced with ReadPreference.SECONDARY")
+  @deprecated("Replaced with ReadPreference.SECONDARY", "2.3.0")
   def slaveOk() = underlying.slaveOk() // parens for side-effect
 
   def numGetMores = underlying.numGetMores
 
-  /** 
+  /**
    * numSeen
-   * 
+   *
    * Returns the number of objects through which this cursor has iterated,
    * as tracked by the java driver.
    *
@@ -297,9 +300,9 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
 
   def sizes = underlying.getSizes.asScala
 
-  /** 
+  /**
    * batchSize
-   * 
+   *
    * Limits the number of elements returned in one batch.
    *
    * @param  n (Int) The number of elements to return in a batch
@@ -317,11 +320,11 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
   /**
    * "Special" Operators for cursors
    *
-   * adds a special operator like $maxScan or $returnKey 
+   * adds a special operator like $maxScan or $returnKey
    * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-Specialoperators
    * {@inheritDoc}
    * @return the same DBCursor, useful for chaining operations
-   * @example addSpecial( "$returnKey" , 1 ) 
+   * @example addSpecial( "$returnKey" , 1 )
    * @example addSpecial( "$maxScan" , 100 )
    */
   def addSpecial(name: String, o: Any): this.type = {
@@ -330,44 +333,44 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
     this
   }
 
-  /** 
+  /**
    * $returnKey
-   * 
+   *
    * Sets a special operator of $returnKey
    * If true, returns ONLY the index key.
    * Defaults to true if you just call $returnKey
    *
-   * @param  bool (Boolean = true) 
+   * @param  bool (Boolean = true)
    * @return the same DBCursor, useful for chaining operations
    */
   def $returnKey(bool: Boolean = true): this.type = addSpecial("$returnKey", bool)
 
-  /** 
+  /**
    * $maxScan
    *
    * Sets a special operator of $maxScan
    * Which defines the max number of items to scan.
-   * 
-   * @param  max (A) 
-   * @tparam A : Numeric 
+   *
+   * @param  max (A)
+   * @tparam A : Numeric
    * @return the same DBCursor, useful for chaining operations
    */
-  def $maxScan[A: Numeric](max: DBObject): this.type = addSpecial("$maxScan", max)
+  def $maxScan[A: Numeric](max: T): this.type = addSpecial("$maxScan", max)
 
-  /** 
+  /**
    * $query
    *
    * Sets a special operator of $query
    * Which defines the query for this cursor.
-   * 
+   *
    * This is the same as running find() on a Collection with the query.
    *
-   * @param  q (DBObject) 
+   * @param  q (DBObject)
    * @return the same DBCursor, useful for chaining operations
    */
   def $query[A <% DBObject](q: A): this.type = addSpecial("$query", q)
 
-  /** 
+  /**
    * $orderby
    *
    * Sets a special operator of $orderby
@@ -375,77 +378,77 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
    *
    * This is the same as calling sort on the cursor.
    *
-   * @param  obj (DBObject) 
+   * @param  obj (DBObject)
    * @return the same DBCursor, useful for chaining operations
    */
   def $orderby[A <% DBObject](obj: A): this.type = addSpecial("$orderby", obj)
 
-  /** 
+  /**
    * $explain
-   * 
+   *
    * Sets a special operator of $explain
    * which, if true, explains the query instead of returning results.
    *
    * This is the same as calling the explain() method on the cursor.
    *
-   * @param  bool (Boolean = true) 
+   * @param  bool (Boolean = true)
    * @return the same DBCursor, useful for chaining operations
    */
   def $explain(bool: Boolean = true): this.type = addSpecial("$explain", bool)
 
   /**
    * $snapshot
-   * 
+   *
    * Sets a special operator of $snapshot
    * which, if True, sets snapshot mode on the query.
    *
    * This is the same as calling the snapshot() method on the cursor.
-   * 
-   * @param  bool (Boolean = true) 
+   *
+   * @param  bool (Boolean = true)
    * @return the same DBCursor, useful for chaining operations
    */
   def $snapshot(bool: Boolean = true): this.type = addSpecial("$snapshot", bool)
 
-  /** 
+  /**
    * $min
-   * 
+   *
    * Sets minimum index bounds - commonly paired with $max
    *
-   * @param  obj (DBObject) 
+   * @param  obj (DBObject)
    * @see http://www.mongodb.org/display/DOCS/min+and+max+Query+Specifiers
    *
    * @return the same DBCursor, useful for chaining operations
    */
   def $min[A <% DBObject](obj: A): this.type = addSpecial("$min", obj)
 
-  /** 
+  /**
    * $max
-   * 
+   *
    * Sets maximum index bounds - commonly paired with $max
    *
-   * @param  obj (DBObject) 
+   * @param  obj (DBObject)
    * @see http://www.mongodb.org/display/DOCS/max+and+max+Query+Specifiers
    *
    * @return the same DBCursor, useful for chaining operations
    */
   def $max[A <% DBObject](obj: A): this.type = addSpecial("$max", obj)
 
-  /** 
+  /**
    * $showDiskLoc
-   * 
+   *
    * Sets a special operator $showDiskLoc which, if true,
    * shows the disk location of results.
    *
-   * @param  bool (Boolean = true) 
+   * @param  bool (Boolean = true)
    * @return the same DBCursor, useful for chaining operations
    */
   def $showDiskLoc(bool: Boolean = true): this.type = addSpecial("$showDiskLoc", bool)
 
   /**
    * $hint
-   * 
+   *
    * Sets a special operator $hint which
-   * forces the query to use a given index. 
+   * forces the query to use a given index.
    *
    * This is the same as calling hint() on the cursor.
    *
@@ -454,163 +457,6 @@ trait MongoCursor extends Iterator[DBObject] with Logging {
    */
   def $hint[A <% DBObject](obj: A): this.type = addSpecial("$hint", obj)
 
-  /** 
-   * _newInstance
-   * 
-   * Utility method which concrete subclasses
-   * are expected to implement for creating a new
-   * instance of THIS concrete implementation from a 
-   * Java cursor.  Good with cursor calls that return a new cursor.
-   *
-   * @param  cursor (DBCursor) 
-   * @return (this.type)
-   */
-  def _newInstance(cursor: com.mongodb.DBCursor): MongoCursor
-
-  /** 
-   * copy
-   *
-   * Creates a new copy of an existing database cursor.
-   * The new cursor is an iterator even if the original 
-   * was an array.
-   * 
-   * @return The new cursor
-   */
-  def copy(): MongoCursor = _newInstance(underlying.copy()) // parens for side-effects
-
-}
-
-/** 
- * Concrete cursor implementation expecting standard DBObject operation
- * This is the version of MongoCursorBase you should expect to use in most cases.
- *
- * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 2.0, 12/23/10
- * @since 1.0
- * 
- * @param  val underlying (com.mongodb.DBCollection) 
- * @tparam DBObject 
- */
-class ConcreteMongoCursor(val underlying: com.mongodb.DBCursor) extends MongoCursor {
-
-  type T = DBObject
-
-  /** 
-   * size
-   * 
-   * The DBCursor's count of elements in the query, 
-   * AFTER the application of skip/limit, passed through
-   * from the Java object. 
-   *
-   * <b>NOTE:</b> size() takes into account any skip/limit settings on a cursor;
-   * it is the size of just the window.
-   * If you want to get a count of the entire query ignoring skip/limit
-   * you must use count()
-   * 
-   * @see count()
-   * 
-   * @return Int indicating the number of elements returned by the query after skip/limit
-   * @throws MongoException
-   */
-  override def size = underlying.size
-  /** 
-   * _newInstance
-   * 
-   * Utility method which concrete subclasses
-   * are expected to implement for creating a new
-   * instance of THIS concrete implementation from a 
-   * Java cursor.  Good with cursor calls that return a new cursor.
-   *
-   * @param  cursor (DBCursor) 
-   * @return (this.type)
-   */
-  def _newInstance(cursor: com.mongodb.DBCursor) = new ConcreteMongoCursor(cursor)
-
-  /** 
-   * copy
-   *
-   * Creates a new copy of an existing database cursor.
-   * The new cursor is an iterator even if the original 
-   * was an array.
-   * 
-   * @return The new cursor
-   */
-  override def copy() = _newInstance(underlying.copy()) // parens for side-effects
-}
-
-object MongoCursor extends Logging {
-
-  /** 
-   * Initialize a new cursor with your own custom settings
-   * 
-   * @param  collection (MongoCollection)  collection to use
-   * @param  query (Q) Query to perform
-   * @param  keys (K) Keys to return from the query
-   * @return (instance) A new MongoCursor
-   */
-  def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject): MongoCursor = apply(collection, query, keys, collection.readPreference)
-
-  /** 
-   * Initialize a new cursor with your own custom settings
-   * 
-   * @param  collection (MongoCollection)  collection to use
-   * @param  query (Q) Query to perform
-   * @param  keys (K) Keys to return from the query
-   * @param  readPref (ReadPreference) the ReadPreference to use in this cursor
-   * @return (instance) A new MongoCursor
-   */
-  def apply[T <: DBObject: Manifest](collection: MongoCollection, query: DBObject, keys: DBObject, readPref: ReadPreference): MongoCursor = {
-    val cursor = new com.mongodb.DBCursor(collection.underlying, query, keys, readPref)
-
-    if (manifest[T] == manifest[OptimizedLazyDBObject])
-      new LazyMongoCursor(cursor)
-    else
-      new ConcreteMongoCursor(cursor)
-
-  }
-}
-
-/**
- * Proxy of a DBCursor which returns Lazy BSON Objects.
- *
- * According to initial tests of the Lazy system:
- * """
- * Sub-objects can be obtained with no copy of data, just the offset
- * changes.
- * For a 700 bytes object, when accessing only a couple fields, the driver
- * speed is about 2.5x.
- * """
- *
- * @author Brendan W. McAdams <brendan@10gen.com>
- * @version 2.2, 8/18/11
- * @since 1.0
- *
- * @param  val underlying (com.mongodb.DBCollection)
- */
-class LazyMongoCursor(val underlying: com.mongodb.DBCursor) extends MongoCursor {
-  type T = OptimizedLazyDBObject
-
-  /**
-   * next
-   *
-   * Iterator increment.
-   *
-   * {@inheritDoc}
-   *
-   * @return The next element in the cursor
-   */
-  override def next() = underlying.next.asInstanceOf[OptimizedLazyDBObject]
-
-  /**
-   * hasNext
-   *
-   * Is there another element in the cursor?
-   *
-   * {@inheritDoc}
-   *
-   * @return (Boolean Next)
-   */
-  override def hasNext = underlying.hasNext
   /**
    * _newInstance
    *
@@ -622,7 +468,7 @@ class LazyMongoCursor(val underlying: com.mongodb.DBCursor) extends MongoCursor 
    * @param  cursor (DBCursor)
    * @return (this.type)
    */
-  def _newInstance(cursor: com.mongodb.DBCursor) = new LazyMongoCursor(cursor)
+  def _newInstance(cursor: DBCursor): MongoCursorBase
 
   /**
    * copy
@@ -633,51 +479,175 @@ class LazyMongoCursor(val underlying: com.mongodb.DBCursor) extends MongoCursor 
    *
    * @return The new cursor
    */
-  override def copy(): LazyMongoCursor = _newInstance(underlying.copy()) // parens for side-effects
+  def copy(): MongoCursorBase = _newInstance(underlying.copy()) // parens for side-effects
+
 }
 
+/**
+ * Concrete cursor implementation expecting standard DBObject operation
+ * This is the version of MongoCursorBase you should expect to use in most cases.
+ *
+ * @version 2.0, 12/23/10
+ * @since 1.0
+ *
+ * @param  val underlying (com.mongodb.DBCollection)
+ * @tparam DBObject
+ */
+class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterator[DBObject] {
 
-/** 
- * 
- * 
- * @author Brendan W. McAdams <brendan@10gen.com>
+  type T = DBObject
+
+  /**
+   * size
+   *
+   * The DBCursor's count of elements in the query,
+   * AFTER the application of skip/limit, passed through
+   * from the Java object.
+   *
+   * <b>NOTE:</b> size() takes into account any skip/limit settings on a cursor;
+   * it is the size of just the window.
+   * If you want to get a count of the entire query ignoring skip/limit
+   * you must use count()
+   *
+   * @see count()
+   *
+   * @return Int indicating the number of elements returned by the query after skip/limit
+   * @throws MongoException
+   */
+  override def size = underlying.size
+  /**
+   * _newInstance
+   *
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of THIS concrete implementation from a
+   * Java cursor.  Good with cursor calls that return a new cursor.
+   *
+   * @param  cursor (DBCursor)
+   * @return (this.type)
+   */
+  def _newInstance(cursor: DBCursor) = new MongoCursor(cursor)
+
+  /**
+   * copy
+   *
+   * Creates a new copy of an existing database cursor.
+   * The new cursor is an iterator even if the original
+   * was an array.
+   *
+   * @return The new cursor
+   */
+  override def copy(): MongoCursor = _newInstance(underlying.copy()) // parens for side-effects
+}
+
+object MongoCursor extends Logging {
+  /**
+   * Initialize a new cursor with your own custom settings
+   *
+   * @param  collection (MongoCollection)  collection to use
+   * @param  query (Q) Query to perform
+   * @param  keys (K) Keys to return from the query
+   * @return (instance) A new MongoCursor
+   */
+   def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject): MongoCursorBase = apply(collection, query, keys, collection.readPreference)
+
+  /**
+   * Initialize a new cursor with your own custom settings
+   *
+   * @param  collection (MongoCollection)  collection to use
+   * @param  query (Q) Query to perform
+   * @param  keys (K) Keys to return from the query
+   * @param  readPreference
+   * @return (instance) A new MongoCursor
+   */
+  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject, readPref: ReadPreference) = {
+    val cursor = new DBCursor(collection.underlying, query, keys, readPref)
+
+    if (manifest[T] == manifest[DBObject])
+      new MongoCursor(cursor)
+    else
+      new MongoGenericTypedCursor[T](cursor)
+
+  }
+}
+
+/**
+ * Concrete cursor implementation for typed Cursor operations via Collection.setObjectClass
+ * This is a special case cursor for typed operations.
+ *
+ * @version 2.0, 12/23/10
+ * @since 1.0
+ *
+ * @param  val underlying (com.mongodb.DBCollection)
+ * @tparam A A Subclass of DBObject
+ */
+class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends MongoCursorBase {
+  type T = A
+
+  /**
+   * _newInstance
+   *
+   * Utility method which concrete subclasses
+   * are expected to implement for creating a new
+   * instance of THIS concrete implementation from a
+   * Java cursor.  Good with cursor calls that return a new cursor.
+   *
+   * @param  cursor (DBCursor)
+   * @return (this.type)
+   */
+  def _newInstance(cursor: DBCursor) = new MongoGenericTypedCursor[T](cursor)
+
+  /**
+   * copy
+   *
+   * Creates a new copy of an existing database cursor.
+   * The new cursor is an iterator even if the original
+   * was an array.
+   *
+   * @return The new cursor
+   */
+  override def copy(): MongoGenericTypedCursor[T] = _newInstance(underlying.copy()) // parens for side-effects
+}
+/**
+ *
+ *
  * @version 1.0, 12/15/10
  * @since 2.0
- * 
- * @param  val underlying (DBObject) 
+ *
+ * @param  val underlying (DBObject)
  * @see http://dochub.mongodb.org/core/explain
  */
 sealed class CursorExplanation(override val underlying: DBObject) extends MongoDBObject {
 
-  /** 
+  /**
    * cursor
-   * 
+   *
    * The cursor type for the query
    * TODO - look at making this an enum?
    */
   def cursor = getAs[String]("cursor")
 
-  /** 
+  /**
    * nscanned
-   * 
+   *
    *  Number of items examined by Mongo for this query.
    *  Items could be objects or index keys---if a "covered" index
    *  is involved, nscanned may be higher than nscannedObjects
-   * 
+   *
    * @return a Long value indicating 'nscanned'
    */
   def nscanned = getAs[Long]("nscanned")
 
-  /** 
+  /**
    * nscannedObjects
-   * 
+   *
    * @return a Long value of # objects examined by Mongo for this query.
    */
   def nscannedObjects = getAs[Long]("nscannedObjects")
 
-  /** 
+  /**
    * nYields
-   * 
+   *
    * @return A long value of the number of times the query yielded the read lock to let writes in
    */
   def nYields = getAs[Long]("nYields")
@@ -689,16 +659,16 @@ sealed class CursorExplanation(override val underlying: DBObject) extends MongoD
    */
   def n = getAs[Long]("n")
 
-  /** 
+  /**
    * millis
-   * 
+   *
    * @return The number of milliseconds the query took to execute
    */
   def millis = getAs[Long]("millis")
 
   /**
    * indexBounds
-   * 
+   *
    * @return the index boundaries this query used.
    */
   def indexBounds = getAs[MongoDBList]("indexBounds")

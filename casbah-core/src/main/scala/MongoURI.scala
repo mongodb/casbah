@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,23 +17,23 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
 
+import com.mongodb.casbah.Imports._
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
-/** 
- * 
- * 
- * @author Brendan W. McAdams <brendan@10gen.com>
+/**
+ *
+ *
  * @since 2.0
  */
 object MongoURI {
 
-  /** 
+  /**
    * Create a new MongoURI with a URI String e.g.:
    *
    * <li> mongodb://localhost
@@ -41,13 +41,13 @@ object MongoURI {
    * <li> mongodb://server1,server2,server3
    *
    * See [[http://www.mongodb.org/display/DOCS/Connections]]
-   * 
-   * @param  uri (String) 
+   *
+   * @param  uri (String)
    */
   def apply(uri: String): MongoURI = new MongoURI(new com.mongodb.MongoURI(uri))
 }
 
-/** 
+/**
  * Create a new MongoURI with a URI String e.g.:
  *
  * <li> mongodb://localhost
@@ -55,8 +55,7 @@ object MongoURI {
  * <li> mongodb://server1,server2,server3
  *
  *  See [[http://www.mongodb.org/display/DOCS/Connections]]
- * 
- * @author Brendan W. McAdams <brendan@10gen.com>
+ *
  * @since 2.0
  */
 class MongoURI(val underlying: com.mongodb.MongoURI) {
@@ -83,17 +82,15 @@ class MongoURI(val underlying: com.mongodb.MongoURI) {
     try {
       require(collection.isDefined, "Cannot connect to Collection as none is defined.")
       connectDB match {
-        case Right(db) => 
+        case Right(db) =>
           Right(db(collection.get))
         case Left(t) => Left(t)
       }
     } catch {
       case t => Left(t)
     }
-
   }
 
   override def toString = underlying.toString
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

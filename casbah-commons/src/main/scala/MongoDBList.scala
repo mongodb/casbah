@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,15 +17,16 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
 package commons
 
+import com.mongodb.casbah.commons.Imports._
 
 import scala.collection.mutable._
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any] {
 
@@ -44,7 +45,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
     this
   }
 
-  def insertAll(i: Int, elems: Traversable[Any]) = {
+  def insertAll(i: Int, elems: scala.Traversable[Any]) = {
     val ins = underlying.subList(0, i)
     elems.foreach(x => ins.add(x.asInstanceOf[AnyRef]))
   }
@@ -66,6 +67,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
    * @return (A)
    * @throws NoSuchElementException
    */
+
   def as[A : NotNothing](idx: Int): A = {
     underlying.get(idx) match {
       case null => throw new NoSuchElementException
@@ -100,7 +102,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
   override def equals(that: Any) = that match {
     case o: MongoDBObject => underlying.equals(o.underlying)
     case o: MongoDBList => underlying.equals(o.underlying)
-    case _ => underlying.equals(that)
+    case _ => underlying.equals(that) | that.equals(this)
   }
 }
 
@@ -117,7 +119,7 @@ object MongoDBList {
     b.result
   }
 
-  def concat[A](xss: Traversable[A]*): MongoDBList = {
+  def concat[A](xss: scala.Traversable[A]*): MongoDBList = {
     val b = newBuilder[A]
     if (xss forall (_.isInstanceOf[IndexedSeq[_]]))
       b.sizeHint(xss map (_.size) sum)
@@ -132,9 +134,9 @@ object MongoDBList {
 
 sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Seq[Any]] {
 
-  protected val empty: MongoDBList = new MongoDBList()
+  protected val empty: MongoDBList = new MongoDBList
 
-  protected var elems: MongoDBList = empty
+  protected var elems: MongoDBList  = empty
 
   override def +=(x: Any) = {
     val v = x match {

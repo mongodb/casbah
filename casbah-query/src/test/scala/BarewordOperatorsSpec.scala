@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,12 +17,12 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah.test.query
 
-import com.mongodb.casbah.query._
+import com.mongodb.casbah.query.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 // TODO - Operational/Integration testing with this code
@@ -97,7 +97,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
     }
   }
 
-  "Casbah's DSL $and Operatand" >> {
+  "Casbah's DSL $and Operator" >> {
     "Accept multiple values" in {
       val and = $and ( "foo" -> "bar", "x" -> "y" )
       and must haveListEntry("$and", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
@@ -106,7 +106,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
       val and = $and { "foo" -> "bar" :: ("foo" $gt 5 $lt 10) }
       and must haveListEntry("$and", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("foo" -> MongoDBObject("$gt" -> 5, "$lt" -> 10))))
     }
-    "Wandk with nested operatands" in {
+    "Work with nested operators" in {
       "As a simple list (comma separated)" in {
         val and = $and( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
         and must haveListEntry("$and", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
@@ -228,7 +228,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         val pull = $pullAll("foo" -> ("bar", "baz", "x", "y"))
         pull must haveEntry("$pullAll.foo" -> Seq("bar", "baz", "x", "y"))
       }
-//      IS NOW COMPILE ERROR      
+//      IS NOW COMPILE ERROR
 //      "Not allow a non-list value" in {
 //        ($pullAll("foo" -> "bar")) must throwA[IllegalArgumentException]
 //      }
@@ -265,4 +265,3 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
   }
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

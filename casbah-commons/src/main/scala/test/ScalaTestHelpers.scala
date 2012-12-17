@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -16,6 +16,9 @@
  */
 package com.mongodb.casbah.commons
 package scalatest
+
+
+import com.mongodb.casbah.commons.Imports._
 
 import org.scalatest.matchers.Matcher
 import org.scalatest.matchers.MatchResult
@@ -66,7 +69,7 @@ trait ScalaTestDBObjectMatchers {
   /** Special version of "containEntry" that expects a list and then uses
    * "hasSameElements" on it.
    */
-  def containListEntry(k: String, l: => Traversable[Any]) = Matcher { map: DBObject =>
+  def containListEntry(k: String, l: => scala.Traversable[Any]) = Matcher { map: DBObject =>
     val objL = listField(map, k).getOrElse(Seq.empty[Any]).toSeq
     val _l = l.toSeq
     MatchResult(

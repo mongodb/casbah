@@ -1,38 +1,31 @@
 #!/bin/sh
 
-rm -rf docs/scaladoc casbah-core/scaladocBuild/
+SCALA=2.9.2
+WEBSITE_ROOT=rozza.github.com/casbah/
+SPHINX_DIR=./src/sphinx
+SITE_DIR=./target/site/
 
-./.sbt "+update" "+clean" "+doc" "+all-docs"
+./sbt ++2.9.2 "update" "clean" "make-site" "unidoc"
 
-cp -R casbah-core/scaladocBuild docs/scaladoc
+mkdir -p $SITE_DIR/api.sxr/casbah-commons
+mkdir -p $SITE_DIR/api.sxr/casbah-core
+mkdir -p $SITE_DIR/api.sxr/casbah-gridfs
+mkdir -p $SITE_DIR/api.sxr/casbah-query
 
-mkdir -p docs/scaladoc/modules/casbah-commons
-mkdir -p docs/scaladoc/modules/casbah-core
-mkdir -p docs/scaladoc/modules/casbah-gridfs
-mkdir -p docs/scaladoc/modules/casbah-query
+cp ./casbah-commons/target/scala-$SCALA/classes.sxr/* $SITE_DIR/api.sxr/casbah-commons
+cp ./casbah-core/target/scala-$SCALA/classes.sxr/* $SITE_DIR/api.sxr/casbah-core
+cp ./casbah-gridfs/target/scala-$SCALA/classes.sxr/* $SITE_DIR/api.sxr/casbah-gridfs
+cp ./casbah-query/target/scala-$SCALA/classes.sxr/* $SITE_DIR/api.sxr/casbah-query
 
-cp -R casbah-commons/target/scala_2.9.0-1/classes.sxr docs/scaladoc/modules/casbah-commons/sxr
-cp -R casbah-commons/target/scala_2.9.0-1/doc/main/api docs/scaladoc/modules/casbah-commons/api
-cp -R casbah-core/target/scala_2.9.0-1/classes.sxr docs/scaladoc/modules/casbah-core/sxr
-cp -R casbah-core/target/scala_2.9.0-1/doc/main/api docs/scaladoc/modules/casbah-core/api
-cp -R casbah-gridfs/target/scala_2.9.0-1/classes.sxr docs/scaladoc/modules/casbah-gridfs/sxr
-cp -R casbah-gridfs/target/scala_2.9.0-1/doc/main/api docs/scaladoc/modules/casbah-gridfs/api
-cp -R casbah-query/target/scala_2.9.0-1/classes.sxr docs/scaladoc/modules/casbah-query/sxr
-cp -R casbah-query/target/scala_2.9.0-1/doc/main/api docs/scaladoc/modules/casbah-query/api
+touch $SITE_DIR/.nojekyll
 
-cp doc_index.html docs/scaladoc/modules/index.html
+# Update the sxr in url
+find $SITE_DIR/api/ -name \*html -exec sed -i 's#/src\(.*\)/\(.*scala.html\)#\2#' {} \;
+# Update WEBSITE ROUTE
+find $SITE_DIR/api/ -name \*html -exec sed -i "s#/{{WEBSITE_ROOT}}#/$WEBSITE_ROOT#g" {} \;
 
-cd tutorial_src
+# Make pdf / epub
+make -C $SPHINX_DIR clean epub latexpdf
 
-make clean html #epub latexpdf
-
-#cp build/epub/CasbahMongoDBScalaToolkitDocumentation.epub ../docs/CasbahDocumentation.epub
-#cp build/latex/CasbahDocumentation.pdf ../docs/CasbahDocumentation.pdf
-cp -R build/html/* ../docs
-
-cd ..
-
-cd docs/scaladoc
-perl -p -i -e 's#a href="http://api.mongodb.org/scala/casbah-(.*)/casbah-(.*)/sxr/.*/casbah-\2/src/main/scala/(.*)"#a href="/scala/casbah/\1/scaladoc/modules/casbah-\2/sxr/\3.scala.html"#gi' `find ./ -name \*.html`
-perl -p -i -e 's#a href="http://api.mongodb.org/scala/casbah-(.*)/casbah-casbah-core/sxr/.*/casbah-(.*)/src/main/scala/(.*)"#a href="/scala/casbah/\1/scaladoc/modules/casbah-\2/sxr/\3.scala.html"#gi' `find ./ -name \*.html`
-
+cp $SPHINX_DIR/_build/epub/CasbahMongoDBScalaToolkitDocumentation.epub $SITE_DIR/CasbahDocumentation.epub
+cp $SPHINX_DIR/_build/latex/CasbahDocumentation.pdf $SITE_DIR/CasbahDocumentation.pdf

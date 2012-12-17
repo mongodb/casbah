@@ -1,4 +1,0 @@
-Minor bugfixes/enhancements.
-
-+ Updated reference to Configgy to have a Scala version attached; this was causing issues on some mixed-version users' systems.
-+ Corrected massive stupidity from lack of testing on my part and disabled ScalaJDeserializers - in most cases these caused runtime ClassCastExceptions.  *SERIALIZERS* still in place - Deserializers were just plain a bad idea.

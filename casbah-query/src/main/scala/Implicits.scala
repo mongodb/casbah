@@ -1,15 +1,15 @@
 /**
- * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed un  def $cond(der the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -17,13 +17,13 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
 package query
 
-import com.mongodb.casbah.query.dsl.QueryExpressionObject
+import com.mongodb.casbah.commons.Imports._
 
 
 trait Implicits {
@@ -38,13 +38,14 @@ trait Implicits {
    * method.  Chained operators will place the subsequent operators within the same DBObject,
    * e.g. <code>"fooDate" $lte yesterday $gte tomorrow</code> maps to a Mongo query of:
    * <code>{"fooDate": {"$lte": <yesterday>, "$gte": <tomorrow>}}</code>
-   * 
+   *
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
   implicit def mongoQueryStatements(left: String) = new {
     val field = left
-  } with dsl.FluidQueryOperators
+  } with dsl.FluidQueryOperators with dsl.aggregation.ProjectSubOperators
+
 
   /**
    * Implicit extension methods for Tuple2[String, DBObject] values
@@ -60,7 +61,7 @@ trait Implicits {
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
-  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with QueryExpressionObject) = {
+  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with dsl.QueryExpressionObject) = {
     new {
       val field = nested.field
     } with dsl.ValueTestFluidQueryOperators {
@@ -68,49 +69,91 @@ trait Implicits {
     }
   }
 
-  def | = new dsl.PipelineOperations {}
-
   implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = dsl.GeoCoords(coords._1, coords._2)
+
+  // Aggregation code
+  implicit def mongoGroupSubStatements(left: String) = new {
+    val field = left
+  } with dsl.aggregation.GroupSubOperators
+
+  /*implicit def mongoProjectSubStatements(left: String) = new {
+    val field = left
+  } with dsl.aggregation.ProjectSubOperators*/
+
+  def | = dsl.aggregation.AggregationPipeline.empty
+
 
 }
 
-/*@deprecated("The Imports._ semantic has been deprecated.  Please import 'com.mongodb.casbah.query._' instead.")
-object Imports extends query.Imports with commons.Imports*/
-trait Imports extends dsl.FluidQueryBarewordOps with query.BaseImports with query.TypeImports with query.Implicits
-                 with commons.Imports with commons.Exports with ValidBarewordExpressionArgTypeHolder with ValidDateTypeHolder
-                 with ValidNumericTypeHolder with ValidDateOrNumericTypeHolder
+trait ChainedOperator {
+  def field: String
+  protected var dbObj: Option[DBObject] = None
+}
 
-object `package` extends Imports // query.dsl.FluidQueryBarewordOps with commons.Exports with query.BaseImports with query.TypeImports with query.Implicits with commons.Imports with ValidDateOrNumericTypeHolder
+object Implicits extends query.Implicits with commons.Implicits
+/*
+ *object Imports extends query.Imports with commons.Imports
+ */
+object Imports extends dsl.FluidQueryBarewordOps
+                  with query.Imports
+                  with commons.Imports
+                  with ValidBarewordExpressionArgTypeHolder
+                  with ValidDateTypeHolder
+                  with ValidNumericTypeHolder
+                  with ValidDateOrNumericTypeHolder
+
+object BaseImports extends query.BaseImports with commons.BaseImports
+object TypeImports extends query.TypeImports with commons.TypeImports
+
+trait Imports extends query.BaseImports with query.TypeImports with query.Implicits with ValidDateOrNumericTypeHolder
+
 trait BaseImports {
   val GeoCoords = com.mongodb.casbah.query.dsl.GeoCoords
+  val AsIterable = query.AsIterable
+  val AsQueryParam = query.AsQueryParam
 }
 
 trait TypeImports {
   type GeoCoords = com.mongodb.casbah.query.dsl.GeoCoords[_, _]
-}
-
-trait Exports {
   type ValidNumericType[T] = query.ValidNumericType[T]
   type ValidDateType[T] = query.ValidDateType[T]
   type ValidDateOrNumericType[T] = query.ValidDateOrNumericType[T]
+  type ValidBarewordExpressionArgType[T] = query.ValidBarewordExpressionArgType[T]
+  type AsIterable[T] = query.AsIterable[T]
+  type AsQueryParam[T] = query.AsQueryParam[T]
+  type AggregationPipeline = dsl.aggregation.AggregationPipeline
+}
+
+trait ValidNumericType[T]
+
+trait ValidDateType[T]
+
+trait ValidDateOrNumericType[T]
+
+trait ValidDateTypeHolder {
+  import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, JodaDateTimeOk}
+  implicit object JDKDateOk extends JDKDateOk
+  implicit object JodaDateTimeOk extends JodaDateTimeOk
 }
 
 object ValidTypes {
   trait JDKDateOk extends ValidDateType[java.util.Date]
   trait JodaDateTimeOk extends ValidDateType[org.joda.time.DateTime]
-
   trait KVPair[A] extends ValidBarewordExpressionArgType[(String, A)] {
     def toDBObject(arg: (String, A)): DBObject = MongoDBObject(arg)
   }
 
   // Valid Bareword Query Expression entries
-  trait CoreOperatorResultObj extends ValidBarewordExpressionArgType[DBObject with QueryExpressionObject] {
-    def toDBObject(arg: DBObject with QueryExpressionObject): DBObject = arg
+  trait CoreOperatorResultObj extends ValidBarewordExpressionArgType[DBObject with dsl.QueryExpressionObject] {
+    def toDBObject(arg: DBObject with dsl.QueryExpressionObject): DBObject = arg
   }
+
 
   trait ConcreteDBObject extends ValidBarewordExpressionArgType[DBObject] {
     def toDBObject(arg: DBObject): DBObject = arg
   }
+
+
 
   // ValidNumericTypes
   trait BigIntOk extends ValidNumericType[BigInt] with Numeric.BigIntIsIntegral with Ordering.BigIntOrdering
@@ -123,9 +166,13 @@ object ValidTypes {
   trait DoubleOk extends ValidNumericType[Double] with Numeric.DoubleIsFractional with Ordering.DoubleOrdering
 }
 
+
+
 trait ValidBarewordExpressionArgType[T] {
   def toDBObject(arg: T): DBObject
 }
+
+
 
 trait ValidBarewordExpressionArgTypeHolder {
   import com.mongodb.casbah.query.ValidTypes.{ConcreteDBObject, CoreOperatorResultObj, KVPair}
@@ -134,9 +181,14 @@ trait ValidBarewordExpressionArgTypeHolder {
   implicit object CoreOperatorResultObjOk extends CoreOperatorResultObj
 }
 
+
+
+@annotation.implicitNotFound("${A} is not iterable.")
 trait AsIterable[A]{
   def asIterable(a:A):Iterable[_]
 }
+
+
 
 object AsIterable {
   def apply[A](implicit asIterable:AsIterable[A]) = asIterable
@@ -145,23 +197,31 @@ object AsIterable {
     def asIterable(a: A) = a
   }
 
+
+
   implicit def product[A <: Product]:AsIterable[A] = new AsIterable[A]{
     def asIterable(a: A) = a.productIterator.toIterable
   }
 }
 
-@annotation.implicitNotFound("${A} is not a valid query parameter")
+
+
+@annotation.implicitNotFound("${A} is not a valid query parameter.")
 trait AsQueryParam[A]{
   def asQueryParam(a:A):Any
 }
 
+
+
 object AsQueryParam {
   def apply[A](implicit a:AsQueryParam[A]) = a
-  
+
   private def as[A](f:A => Any):AsQueryParam[A] = new AsQueryParam[A]{
     def asQueryParam(a: A) = f(a)
   }
-  
+
+
+
   implicit val string = as[String](identity)
   implicit def dbObject[A <: DBObject] = as[A](identity)
   implicit val dbRef = as[DBRef](identity)
@@ -191,24 +251,12 @@ object AsQueryParam {
   implicit def tuple19[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19)](_.productIterator.toList)
   implicit def tuple20[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20)](_.productIterator.toList)
   implicit def tuple21[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21)](_.productIterator.toList)
-  implicit def tuple22[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22)](_.productIterator.toList)  
+  implicit def tuple22[A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22] = as[(A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,A20,A21,A22)](_.productIterator.toList)
 }
 
-trait ValidNumericType[T]
-
-trait ValidDateType[T]
-
-trait ValidDateOrNumericType[T]
-
-trait ValidDateTypeHolder {
-  import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, JodaDateTimeOk}
-  implicit object JDKDateOk extends JDKDateOk
-  implicit object JodaDateTimeOk extends JodaDateTimeOk
-}
 
 trait ValidNumericTypeHolder {
-  import com.mongodb.casbah.query.ValidTypes.{BigIntOk, IntOk, ShortOk, ByteOk, LongOk,
-                                              FloatOk, BigDecimalOk, DoubleOk}
+  import com.mongodb.casbah.query.ValidTypes.{BigIntOk, IntOk, ShortOk, ByteOk, LongOk, FloatOk, BigDecimalOk, DoubleOk}
   implicit object BigIntOk extends BigIntOk
   implicit object IntOk extends IntOk
   implicit object ShortOk extends ShortOk
@@ -220,8 +268,7 @@ trait ValidNumericTypeHolder {
 }
 
 trait ValidDateOrNumericTypeHolder {
-  import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, BigIntOk, IntOk, ShortOk, ByteOk,
-                                              LongOk, FloatOk, BigDecimalOk, DoubleOk}
+  import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, BigIntOk, IntOk, ShortOk, ByteOk, LongOk, FloatOk, BigDecimalOk, DoubleOk}
   implicit object JDKDateDoNOk extends ValidDateOrNumericType[java.util.Date]
   implicit object JodaDateTimeDoNOk extends ValidDateOrNumericType[org.joda.time.DateTime]
   implicit object BigIntDoNOk extends ValidDateOrNumericType[BigInt]
@@ -233,5 +280,3 @@ trait ValidDateOrNumericTypeHolder {
   implicit object BigDecimalDoNOk extends ValidDateOrNumericType[BigDecimal]
   implicit object DoubleDoNOk extends ValidDateOrNumericType[Double]
 }
-
-// vim: set ts=2 sw=2 sts=2 et:

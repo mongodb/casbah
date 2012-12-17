@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,13 +17,16 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
 package map_reduce
 
-import scalaj.collection.Imports._
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.Logging
+
+import scala.collection.JavaConverters._
 
 class MapReduceException(msg: String) extends MongoException("MongoDB Map/Reduce Error: " + msg)
 
@@ -38,8 +41,7 @@ case object MapReduceInlineOutput extends MapReduceOutputTarget
  * Wrapper Object to provide apply methods for the MapReduceCommand class.
  *
  * @see <a href="http://www.mongodb.org/display/DOCS/MapReduce">The MongoDB Map/Reduce Documentation</a>
- * 
- * @author Brendan W. McAdams <brendan@10gen.com>
+ *
  */
 object MapReduceCommand {
   def apply(input: String, map: JSFunction,
@@ -71,13 +73,12 @@ object MapReduceCommand {
  *
  * The Java driver doesn't provide support for many of the possible options in the latest
  * versions of MongoDB, so this wrapper class is used in it's place, and passed directly to
- * a db.runCommand call. 
+ * a db.runCommand call.
  *
  * @todo Integrate support for Lift's JavaScript DSL
  *
  * @see http://www.mongodb.org/display/DOCS/MapReduce
- * 
- * @author Brendan W. McAdams <brendan@10gen.com>
+ *
  */
 class MapReduceCommand protected[mongodb] () {
   var input: String = ""

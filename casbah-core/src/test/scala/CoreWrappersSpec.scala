@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,14 +17,20 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
-package com.mongodb.casbah
+package com.mongodb.casbah.test.core
 
-
-import com.mongodb.casbah._
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+
+import org.scala_tools.time.Imports._
+
+import com.mongodb.casbah.Imports._
+
 
 class CoreWrappersSpec extends CasbahMutableSpecification {
 
@@ -32,7 +38,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
 
     "provide working .asScala methods on the Java version of the objects" in {
 
-      val javaConn = new com.mongodb.Mongo() // Java connection
+      val javaConn = new com.mongodb.MongoClient() // Java connection
 
       "Connection objects" in {
 
@@ -47,7 +53,6 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
 
         val scalaDb = javaDb.asScala
 
-
         scalaDb.underlying must beEqualTo(javaDb)
       }
 
@@ -57,32 +62,37 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
 
         val scalaCollection = javaCollection.asScala
 
+
         scalaCollection.underlying must beEqualTo(javaCollection)
       }
     }
 
     "be directly instantiable, with working apply methods" in {
-      lazy val conn: MongoConnection = MongoConnection()
-      lazy val db: MongoDB = conn("test")
-      lazy val coll: MongoCollection = db("collection.in")
+      var conn: MongoClient = MongoClient()
+      var db: MongoDB = conn("test")
+      var coll: MongoCollection = db("collection.in")
 
-      "MongoConnection" in {
+      "MongoClient" in {
         "direct instantiation" in {
-          conn.underlying must haveClass[com.mongodb.Mongo]
+          conn.underlying must haveClass[com.mongodb.MongoClient]
         }
+
         "the apply method works" in {
           db.underlying must haveSuperclass[com.mongodb.DB]
-        }
-        "MongoDB" in {
-          "has a working apply method" in {
-            coll.underlying must haveSuperclass[com.mongodb.DBCollection]
-          }
+
         }
       }
+
+      "MongoDB" in {
+        "has a working apply method" in {
+          coll.underlying must beAnInstanceOf[com.mongodb.DBCollection]
+        }
+      }
+
     }
 
     "Renaming a collection successfully tracks the rename in MongoCollection" in {
-      val db = MongoConnection()("casbahTest")
+      val db = MongoClient()("casbahTest")
       db("collection").drop()
       val coll = db("collectoin")
       coll.drop()
@@ -103,7 +113,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
   }
 
   "findOne operations" should {
-    val db = MongoConnection()("casbahTest")
+    val db = MongoClient()("casbahTest")
 
     "Not fail as reported by Max Afonov in SCALA-11" in {
       val coll = db("brand_new_coll_%d".format(System.currentTimeMillis))
@@ -111,7 +121,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       coll.insert(MongoDBObject("foo" -> "bar"))
       val basicFind = coll.find(MongoDBObject("foo" -> "bar"))
 
-      basicFind must haveSize(1)
+      basicFind.size must beEqualTo(1)
 
       val findOne = coll.findOne()
 
@@ -127,7 +137,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
   "Cursor Operations" should {
     import scala.util.Random
 
-    val db = MongoConnection()("casbahTest")
+    val db = MongoClient()("casbahTest")
     val coll = db("test_coll_%d".format(System.currentTimeMillis))
 
     for (i <- 1 to 100)
@@ -136,15 +146,17 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     val first5 = coll.find(MongoDBObject("foo" -> "bar")) limit 5
 
     "Behave in chains" in {
-      //"For loops for idiomatic cleanness" in {
-
-        //// todo - add limit, skip etc on COLLECTION for cleaner chains like this?
-        //val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5 limit 20) yield x
-
-        //items must haveSize(20)
-        //// TODO - Matchers that support freaking cursors, etc
-        //[>items must haveSameElementsAs(first5).not<]
-      //}
+/*
+ *      "For loops for idiomatic cleanness" in {
+ *
+ *        // todo - add limit, skip etc on COLLECTION for cleaner chains like this?
+ *        val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5 limit 20) yield x
+ *
+ *        items must haveSize(20)
+ *        // TODO - Matchers that support freaking cursors, etc
+ *        [>items must haveSameElementsAs(first5).not<]
+ *      }
+ */
 
       "Chain operations must return the proper *subtype*" in {
         val cur = coll.find(MongoDBObject("foo" -> "bar")) skip 5
@@ -161,4 +173,3 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
 
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

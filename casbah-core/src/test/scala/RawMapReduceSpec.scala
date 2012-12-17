@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,26 +17,28 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
-package com.mongodb.casbah
-package map_reduce
+package com.mongodb.casbah.test.core
 
-import com.mongodb.casbah.util.Logging
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.conversions.scala._
 
 import org.scala_tools.time.Imports._
-import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+
+import com.mongodb.casbah.Imports._
+
 
 @SuppressWarnings(Array("deprecation"))
 class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecification {
   sequential
-
   "MongoDB 1.7+ Map/Reduce functionality" should {
-    implicit val mongoDB = MongoConnection()("casbahIntegration")
+    implicit val mongoDB = MongoClient()("casbahIntegration")
 
     verifyAndInitTreasuryData
+
 
     val mapJS = """
       function m() {
@@ -47,11 +49,11 @@ class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpec
     val reduceJS = """
       function r( year, values ) {
           var n = { count: 0,  sum: 0 }
-          for ( var i = 0; i < values.length; i++ ){ 
+          for ( var i = 0; i < values.length; i++ ){
               n.sum += values[i].sum;
               n.count += values[i].count;
           }
-          
+
           return n;
       }
     """
@@ -103,9 +105,10 @@ class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpec
 
       result.getAs[Double]("ok") must beSome(1.0)
       result.getAs[String]("result") must beNone
-      result.getAs[BasicDBList]("results") must beSome
+      result.getAs[MongoDBList]("results") must beSome
 
-      val mongo = result.as[BasicDBList]("results")
+      val mongo = result.as[MongoDBList]("results")
+      // System.err.println("***" + mongo)
       Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
       mongo(0) must beDBObject
       mongo(0) must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
@@ -171,13 +174,13 @@ class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpec
           log.info("First pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
-//          result.getAs[String]("result") must beSome("yield_historical.out.merged")
+          result.getAs[String]("result") must beSome("yield_historical.out.merged")
 
           result = mongoDB.command(cmd00s)
           log.info("second pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
-//          result.getAs[String]("result") must beSome("yield_historical.out.merged")
+          result.getAs[String]("result") must beSome("yield_historical.out.merged")
 
           result.expand[Int]("counts.output") must beSome(21)
 
@@ -192,13 +195,13 @@ class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpec
           log.info("First pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
-//          result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
+          result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
 
           result = mongoDB.command(cmd00s)
           log.info("second pass result: %s", result)
 
           result.getAs[Double]("ok") must beSome(1.0)
-          //result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
+          result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
 
           result.expand[Int]("counts.output") must beSome(21)
 
@@ -327,9 +330,8 @@ class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpec
     mongoDB("yield_historical.out.aughts").drop
 
     // Verify the treasury data is loaded or skip the test for now
-    mongoDB("yield_historical.in").size must beGreaterThan(0)  
+    mongoDB("yield_historical.in").size must beGreaterThan(0)
   }
 
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

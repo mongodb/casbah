@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,17 +17,18 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
-package com.mongodb.casbah
-package map_reduce
-
-import com.mongodb.casbah.util.Logging
-import com.mongodb.casbah.commons.conversions.scala._
+package com.mongodb.casbah.test.core
 
 import org.scala_tools.time.Imports._
+
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+
 
 @SuppressWarnings(Array("deprecation"))
 class MapReduceSpec extends CasbahMutableSpecification {
@@ -35,15 +36,16 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
   "Casbah's Map/Reduce Engine" should {
 
-    implicit val mongoDB = MongoConnection()("casbahIntegration")
+    implicit val mongoDB = MongoClient()("casbahIntegration")
 
     "Handle error conditions such as non-existent collections gracefully" in {
+
       val seed = DateTime.now.getMillis
       implicit val mongo = mongoDB("mapReduce.nonexistant.foo.bar.baz.%s".format(seed))
       mongo.dropCollection()
 
       val keySet = distinctKeySet("Foo", "bar", "Baz")
-      log.warn("KeySet: %s", keySet)
+      // log.warn("KeySet: %s", keySet)
 
       for (x <- keySet) {
         log.trace("noop.")
@@ -55,9 +57,10 @@ class MapReduceSpec extends CasbahMutableSpecification {
   }
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
-    implicit val mongoDB = MongoConnection()("casbahIntegration")
+    implicit val mongoDB = MongoClient()("casbahIntegration")
 
     verifyAndInitTreasuryData
+
 
     val mapJS = """
       function m() {
@@ -68,11 +71,11 @@ class MapReduceSpec extends CasbahMutableSpecification {
     val reduceJS = """
       function r( year, values ) {
           var n = { count: 0,  sum: 0 }
-          for ( var i = 0; i < values.length; i++ ){ 
+          for ( var i = 0; i < values.length; i++ ){
               n.sum += values[i].sum;
               n.count += values[i].count;
           }
-          
+
           return n;
       }
     """
@@ -108,8 +111,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
         finalizeFunction = Some(finalizeJS),
         verbose = true)
 
-      /*log.warn("M/R Result: %s", result)*/
-
+      // log.warn("M/R Result: %s", result)
 
       result.isError must beFalse
       result.raw.getAs[String]("result") must beNone
@@ -146,7 +148,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
       result90s.isError must beFalse
       result90s.raw.getAs[String]("result") must beSome("yield_historical.nineties")
       result90s.size must beGreaterThan(0)
-      log.warn("Results: %s", result90s.size)
+      // log.warn("Results: %s", result90s.size)
       result90s.size must beEqualTo(result90s.raw.expand[Int]("counts.output").getOrElse(-1))
 
       val cmd00s = MapReduceCommand(
@@ -160,8 +162,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
       val result00s = mongoDB.mapReduce(cmd00s)
 
-      log.info("M/R result00s: %s", result00s)
-
+      // log.info("M/R result00s: %s", result00s)
 
       result00s.isError must beFalse
       result00s.raw.getAs[String]("result") must beSome("yield_historical.aughts")
@@ -179,7 +180,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
           cmd90s.output = MapReduceMergeOutput("yield_historical.merged")
 
           var result = mongoDB.mapReduce(cmd90s)
-          log.warn("Cmd: %s Results: %s", cmd90s, result)
+          // log.warn("Cmd: %s Results: %s", cmd90s, result)
           result.isError must beFalse
 
           result.raw.getAs[String]("result") must beSome("yield_historical.merged")
@@ -187,7 +188,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
           result = mongoDB.mapReduce(cmd00s)
           result.isError must beFalse
 
-//          result.raw.getAs[String]("result") must beSome[String]("yield_historical.merged")
+          result.raw.getAs[String]("result") must beSome("yield_historical.merged")
 
           result.outputCount must_== (21)
           result.size must_== (result.outputCount)
@@ -232,15 +233,14 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
       val result90s = mongoDB.mapReduce(cmd90s)
 
-      log.info("M/R result90s: %s", result90s)
+      // log.info("M/R result90s: %s", result90s)
 
-      log.info("M/R result90s: %s", result90s)
-
+      result90s must not beNull
 
       result90s.isError must beFalse
       result90s.raw.getAs[String]("result") must beSome("yield_historical.nineties")
       result90s.size must beGreaterThan(0)
-      log.warn("Results: %s", result90s.size)
+      // log.warn("Results: %s", result90s.size)
       result90s.size must beEqualTo(result90s.raw.expand[Int]("counts.output").getOrElse(-1))
 
       val cmd00s = MapReduceCommand(
@@ -273,7 +273,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
           cmd90s.output = MapReduceReduceOutput("yield_historical.reduced")
 
           var result = mongoDB.mapReduce(cmd90s)
-          log.warn("Cmd: %s Results: %s", cmd90s, result)
+          // log.warn("Cmd: %s Results: %s", cmd90s, result)
           result.isError must beFalse
 
           result.raw.getAs[String]("result") must beSome("yield_historical.reduced")
@@ -299,6 +299,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
     mongoDB("yield_historical.nineties").drop
     mongoDB("yield_historical.aughts").drop
 
+    // Verify the treasury data is loaded or skip the test for now
     mongoDB("yield_historical.in").size must beGreaterThan(0)
   }
 
@@ -317,4 +318,3 @@ class MapReduceSpec extends CasbahMutableSpecification {
   }
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

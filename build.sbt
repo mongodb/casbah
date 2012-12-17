@@ -1,0 +1,3 @@
+site.settings
+
+site.sphinxSupport()

@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,15 +17,18 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah.test.commons
 
-import com.mongodb.casbah.commons._
+import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+import scala.collection.JavaConverters._
 
 class MongoDBListSpec extends CasbahMutableSpecification {
+
+
   val x = Seq(5, 9, 212, "x", "y", 22.98)
   val y = Seq("spam", "eggs", "foo", "bar")
 
@@ -84,11 +87,21 @@ class MongoDBListSpec extends CasbahMutableSpecification {
     "Convert tuple pairs correctly" in {
       val dbList = MongoDBList("omg" -> "ponies")
       dbList must haveSize(1)
-      dbList must beEqualTo(List(MongoDBObject("omg" -> "ponies")))
+      dbList must haveTheSameElementsAs(List(MongoDBObject("omg" -> "ponies")))
     }
-  }
 
-  "MongoDBList" >> {
+    "Concat immutable traversable" in {
+      val dbList = MongoDBList.concat(List("ponies"))
+      dbList must haveSize(1)
+      dbList must beEqualTo(List("ponies"))
+    }
+
+    "Concat mutable traversable" in {
+      val dbList = MongoDBList.concat(collection.mutable.Buffer("ponies"))
+      dbList must haveSize(1)
+      dbList must beEqualTo(List("ponies"))
+    }
+
     "Use underlying Object methods" in {
       val seq = MongoDBList(x, y, "omg" -> "ponies", 5,
         MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
@@ -105,6 +118,7 @@ class MongoDBListSpec extends CasbahMutableSpecification {
       raw.equals(raw) must beEqualTo(mongo.equals(mongo))
     }
   }
+
+
 }
 
-// vim: set ts=2 sw=2 sts=2 et:

@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,17 +17,23 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah.test.query
 
-import com.mongodb.casbah.query._
+import com.mongodb.casbah.query.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+import org.junit.runner.RunWith
+import org.specs2.runner.JUnitRunner
+import org.specs2.data.Sized
 
 // TODO - Operational/Integration testing with this code
-@SuppressWarnings(Array("deprecation"))
+@RunWith(classOf[JUnitRunner])
 class AggregationFrameworkSpec extends CasbahMutableSpecification {
+  implicit object SizePipeline extends Sized[AggregationPipeline] {
+    def size(t: AggregationPipeline) = t.size
+  }
 
   "Casbah's Aggregation DSL" should {
     "Work with $limit" in {
@@ -42,11 +48,11 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
       val sort = | $sort ( "foo" -> 1, "bar" -> -1 )
       sort must not beNull
     }
-     
+
     "Work with $unwind" in {
       val unwind = | $unwind "$foo"
-      unwind must haveEntry("$unwind" -> "$foo")
-    } 
+      unwind(0) must haveEntry("$unwind" -> "$foo")
+    }
 
     "Fail to accept a non $-ed target field" in {
       (| $unwind "foo" ) must throwA[IllegalArgumentException]
@@ -54,28 +60,77 @@ class AggregationFrameworkSpec extends CasbahMutableSpecification {
 
     "Work with $match and Casbah Queries" in {
       val _match = | $match { "score" $gt 50 $lte 90 }
-      _match must haveEntry("$match.score.$gt" -> 50) and haveEntry("$match.score.$lte" -> 90)
+      _match(0) must haveEntry("$match.score.$gt" -> 50) and haveEntry("$match.score.$lte" -> 90)
     }
     "Work with $match and Casbah Queries plus additional chains" in {
       val _match = | $match { ("score" $gt 50 $lte 90) ++ ("type" $in ("exam", "quiz")) }
-      _match must haveEntries("$match.score.$gt" -> 50, "$match.score.$lte" -> 90, "$match.type.$in" -> List("exam", "quiz"))
+      _match(0) must haveEntries("$match.score.$gt" -> 50, "$match.score.$lte" -> 90, "$match.type.$in" -> List("exam", "quiz"))
+    }
+    "Allow full chaining of operations" in {
+      val x = | $group { ("lastAuthor" $last "$author") ++ ("firstAuthor" $first "$author")  ++ ("_id" -> "$foo") }
+      val y = x $unwind("$tags") $sort ( "foo" -> 1, "bar" -> -1 ) $skip 5 $limit 10
+      y must have size(5)
     }
   }
-  
+
   "Aggregation's Group Operator" should {
     "Work with field operators" in {
       "Allow $first" >> {
-        val _group = | $group ("firstAuthor") $first("$author")
+        val _group = | $group { ("firstAuthor" $first "$author") ++ ("_id" -> "$isbn") }
         _group must not beNull
       }
+      "Allow $last" >> {
+        val _group = | $group { ("lastAuthor" $last "$author") ++ ("_id" -> "$isbn") }
+        _group must not beNull
+      }
+      "Require $-signs in inner operator fields" >> {
+        lazy val _group = | $group { ("firstAuthor" $first "author") ++ ("_id" -> "$isbn") }
+        _group must throwA[IllegalArgumentException]
+      }
+      "Require _id to be present" >> {
+        lazy val _group = | $group { "firstAuthor" $first "author" }
+        _group must throwA[IllegalArgumentException]
+
+      }
+
+
     }
 
-    /*"Require _id" in {
-      null must beNull
+  }
+
+  "A Scala port of the core Aggregation test from the Server" should {
+    "Non-Integration, syntax test" in {
+      // Just pass through fields
+      val p1 = | $project ( "tags" -> 1, "pageViews" -> 1 )
+
+      val u1 = | $unwind "$tags"
+
+      val u2 = | $unwind "$b.f"
+
+      // combine a projection with an unwind
+      val p2 = | $project ( "author" -> 1, "tags" -> 1, "pageViews" -> 1 ) $unwind "$tags"
+      p2 must haveSize(2)
+
+      // Pulling values out of subdocuments
+      val p3 = | $project ( "otherfoo" -> "$other.foo", "otherbar" -> "$other.bar" )
+
+      // projection with computed value
+      val p4 = | $project { ("daveWroteIt" $eq("$author", "dave")) ++ ("author" -> 1) }
+
+      // projection includes a virtual (fabricated) document
+      var p5 = | $project ( "author" -> 1, "pageViews" -> 1, "tags" -> 1 ) $unwind("$tags")
+      p5 = p5 $project  ( "subDocument" -> MongoDBObject("foo" -> "$pageViews", "bar" -> "$tags"), "author" -> 1 )
+
+      /*
+       * // multi-step aggregation
+       * // nested expressions in computed fields
+       * var p6 = | $project ("author" -> 1, "tags" -> 1, "pageViews" -> 1) $unwind("$tags")
+       * p6 = p6 $project { ("daveWroteIt" $eq("$author", "dave")) ++ ("weLikeIt" $or) }
+       */
+
+       success
     }
-*/
   }
 }
 
 
-// vim: set ts=2 sw=2 sts=2 et:

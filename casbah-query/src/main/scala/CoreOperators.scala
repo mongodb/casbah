@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,16 +17,18 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah.query.dsl
 
-import com.mongodb.casbah.util.Logging
+import com.mongodb.casbah.commons.Logging
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
-import com.mongodb.casbah.query._
+import com.mongodb.casbah.query.Imports._
+
+import com.mongodb.casbah.query.ChainedOperator
 
 import scala.util.matching._
 import scala.collection.Iterable
@@ -38,7 +40,6 @@ import org.bson.types.BasicBSONList
  * Mixed trait which provides all possible
  * operators.  See Implicits for examples of usage.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  */
 trait FluidQueryOperators extends NotEqualsOp
   with LessThanOp
@@ -83,25 +84,22 @@ object QueryExpressionObject {
   }
 
 }
+
 /**
  * Base trait for QueryOperators, children
  * are required to define a value for field, which is a String
  * and refers to the left-hand of the Query (e.g. in Mongo:
  * <code>{"foo": {"$ne": "bar"}}</code> "foo" is the field.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  */
-trait QueryOperator extends Logging {
-  def field: String
-  protected var dbObj: Option[DBObject] = None
-
+trait QueryOperator extends ChainedOperator {
   /**
    * Base method for children to call to convert an operator call
    * into a Mongo DBObject.
    *
    * e.g. <code>"foo" $ne "bar"</code> will convert to
    * <code>{"foo": {"$ne": "bar"}}</code>
-   * 
+   *
    * Optionally, if dbObj, being <code>Some(DBObject)<code> is defined,
    * the <code>op(oper, )</code> method will nest the target value and operator
    * inside the existing dbObj - this is useful for things like mixing
@@ -110,112 +108,89 @@ trait QueryOperator extends Logging {
    * WARNING: This does NOT check that target is a serializable type.
    * That is, for the moment, your own problem.
    */
-  protected def op(oper: String, target: Any): DBObject with QueryExpressionObject = QueryExpressionObject(dbObj match {
+  protected def queryOp(oper: String, target: Any): DBObject with QueryExpressionObject = QueryExpressionObject(dbObj match {
     case Some(nested) => {
-      patchSerialization(target)
       nested.put(oper, target)
       (field -> nested)
     }
     case None => {
-      patchSerialization(target)
       val opMap = MongoDBObject(oper -> target)
       (field -> opMap)
     }
   })
-
-  /** 
-   * Temporary fix code for making sure certain edge cases w/ the serialization libs 
-   * Don't happen.  This may impose a slight performance penalty.
-   */
-  protected def patchSerialization(target: Any): Unit = target match {
-    case _ => {}
-  }
-
-  def anyListOp(oper: String, target: Any*) =
-    if (target.size > 1)
-      op(oper, target.toList)
-    else if (!target(0).isInstanceOf[Iterable[_]] &&
-      !target(0).isInstanceOf[Array[_]])
-      op(oper, List(target(0)))
-    else op(oper, target(0))
 
 }
 
 /**
  * Trait to provide the $ne (Not Equal To) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, Numeric,  
+ * Targets (takes a right-hand value of) String, Numeric,
  * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.
  *
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24ne
  */
 trait NotEqualsOp extends QueryOperator {
   private val oper = "$ne"
-  
-  def $ne[A : AsQueryParam](a:A) = op(oper, AsQueryParam[A].asQueryParam(a))
+
+  def $ne[A : AsQueryParam](a:A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
  * Trait to provide the $lt (Less Than) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates, 
+ * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates,
  * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.
  *
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait LessThanOp extends QueryOperator {
   private val oper = "$lt"
-  
-  def $lt[A : AsQueryParam](a: A) = op(oper, AsQueryParam[A].asQueryParam(a))
+
+  def $lt[A : AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
  * Trait to provide the $lte (Less Than Or Equal To) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates, 
+ * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates,
  * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.*
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait LessThanEqualOp extends QueryOperator {
   private val oper = "$lte"
-  
-  def $lte[A : AsQueryParam](a: A) = op(oper, AsQueryParam[A].asQueryParam(a))
+
+  def $lte[A : AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
  * Trait to provide the $gt (Greater Than) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates, 
+ * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates,
  * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.*
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait GreaterThanOp extends QueryOperator {
   private val oper = "$gt"
-  
-  def $gt[A : AsQueryParam](a: A) = op(oper, AsQueryParam[A].asQueryParam(a))
+
+  def $gt[A : AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
  * Trait to provide the $gte (Greater Than Or Equal To) method on appropriate callers.
  *
- * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates, 
+ * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates,
  * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.*
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%3C%2C%3C%3D%2C%3E%2C%3E%3D
  */
 trait GreaterThanEqualOp extends QueryOperator {
   private val oper = "$gte"
-  
-  def $gte[A : AsQueryParam](a: A) = op(oper, AsQueryParam[A].asQueryParam(a))
+
+  def $gte[A : AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -228,15 +203,14 @@ trait GreaterThanEqualOp extends QueryOperator {
  * <code>var x = "foo" $in (1, 2, 3, 5, 28)</code>
  *
  * As a valid statement - (1...28) is taken as the argument list to $in and converted
- * to an Array under the covers. 
+ * to an Array under the covers.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
- * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24in 
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24in
  */
 trait InOp extends QueryOperator {
   private val oper = "$in"
 
-  def $in[A : AsQueryParam](a: A) = op(oper, AsQueryParam[A].asQueryParam(a))
+  def $in[A : AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -251,13 +225,12 @@ trait InOp extends QueryOperator {
  * As a valid statement - (1...28) is taken as the argument list to $nin and converted
  * to an Array under the covers.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nin
  */
 trait NotInOp extends QueryOperator {
   private val oper = "$nin"
 
-  def $nin[A : AsQueryParam](a: A) = op(oper, AsQueryParam[A].asQueryParam(a))  
+  def $nin[A : AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -272,13 +245,12 @@ trait NotInOp extends QueryOperator {
  * As a valid statement - (1...28) is taken as the argument list to $all and converted
  * to an Array under the covers.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24all
  */
 trait AllOp extends QueryOperator {
   private val oper = "$all"
 
-  def $all[A : AsQueryParam](a: A) = op(oper, AsQueryParam[A].asQueryParam(a))
+  def $all[A : AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -289,13 +261,12 @@ trait AllOp extends QueryOperator {
  * Left and Right can be any ValidNumericType and of two differing types (e.g. one int, one float)
  *
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24mod
  */
 trait ModuloOp extends QueryOperator {
   private val oper = "$mod"
 
-  def $mod[A: ValidNumericType, B: ValidNumericType](left: A, right: B) = op(oper, MongoDBList(left, right))
+  def $mod[A: ValidNumericType, B: ValidNumericType](left: A, right: B) = queryOp(oper, MongoDBList(left, right))
 }
 
 /**
@@ -303,7 +274,6 @@ trait ModuloOp extends QueryOperator {
  *
  * Test value must be an Int or BigInt.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24size
  */
 trait SizeOp extends QueryOperator {
@@ -311,8 +281,8 @@ trait SizeOp extends QueryOperator {
 
 
   // TODO - Accept Numeric? As long as we can downconvert for mongo type?
-  def $size(target: Int) = op(oper, target)
-  def $size(target: BigInt) = op(oper, target)
+  def $size(target: Int) = queryOp(oper, target)
+  def $size(target: BigInt) = queryOp(oper, target)
 }
 
 /**
@@ -320,13 +290,12 @@ trait SizeOp extends QueryOperator {
  *
  * Targets (takes a right-hand value of) Booleans.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24exists%7D%7D
  */
 trait ExistsOp extends QueryOperator {
   private val oper = "$exists"
 
-  def $exists(target: Boolean) = op(oper, target)
+  def $exists(target: Boolean) = queryOp(oper, target)
 }
 
 /**
@@ -334,25 +303,23 @@ trait ExistsOp extends QueryOperator {
  *
  * Targets (takes a right-hand value of) JSFunction [which is currently just as string containing a javascript function]
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-JavascriptExpressionsand%7B%7B%24where%7D%7D
  */
 trait WhereOp extends QueryOperator {
   private val oper = "$where"
 
-  def $where(target: JSFunction) = op(oper, target)
+  def $where(target: JSFunction) = queryOp(oper, target)
 }
 
 /**
  * Trait to provide the $not (Not) negation method on appropriate callers.
- * 
+ *
  * Make sure your anchor it when you have multiple operators e.g.
- * 
+ *
  * "foo".$not $mod(5, 10)
  *
  * Targets (takes a right-hand value of) DBObject or a Scala RegEx
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-Metaoperator%3A%24not
  */
 trait NotOp extends QueryOperator {
@@ -365,8 +332,8 @@ trait NotOp extends QueryOperator {
     MongoDBObject(field -> dbObj)
   }
 
-  def $not(re: scala.util.matching.Regex) = op(oper, re.pattern)
-  def $not(re: java.util.regex.Pattern) = op(oper, re)
+  def $not(re: scala.util.matching.Regex) = queryOp(oper, re.pattern)
+  def $not(re: java.util.regex.Pattern) = queryOp(oper, re)
 }
 
 /**
@@ -375,13 +342,12 @@ trait NotOp extends QueryOperator {
  * Targets (takes a right-hand value of) either an Int of slice indicator or a tuple
  * of skip and limit.
  *
- * &gt; "foo" $slice 5 
+ * &gt; "foo" $slice 5
  * res0: (String, com.mongodb.DBObject) = (foo,{ "$slice" : 5})
  *
  * &gt; "foo" $slice (5, -1)
  * res1: (String, com.mongodb.DBObject) = (foo,{ "$slice" : [ 5 , -1]})
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24sliceoperator
  *
@@ -389,8 +355,8 @@ trait NotOp extends QueryOperator {
 trait SliceOp extends QueryOperator {
   private val oper = "$slice"
 
-  def $slice(target: Int) = op(oper, target)
-  def $slice(slice: Int, limit: Int) = op(oper, MongoDBList(slice, limit))
+  def $slice(target: Int) = queryOp(oper, target)
+  def $slice(slice: Int, limit: Int) = queryOp(oper, MongoDBList(slice, limit))
 }
 
 /**
@@ -398,15 +364,14 @@ trait SliceOp extends QueryOperator {
  *
  * Targets (takes a right-hand value of) a DBObject view context
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
- * @see http://www.mongodb.org/display/DOCS/Dot+Notation+(Reaching+into+Objects)#DotNotation%28ReachingintoObjects%29-Matchingwith%24elemMatch 
+ * @see http://www.mongodb.org/display/DOCS/Dot+Notation+(Reaching+into+Objects)#DotNotation%28ReachingintoObjects%29-Matchingwith%24elemMatch
  *
  */
 trait ElemMatchOp extends QueryOperator {
   private val oper = "$elemMatch"
 
-  def $elemMatch[A <% DBObject](target: A) = op(oper, target)
+  def $elemMatch[A <% DBObject](target: A) = queryOp(oper, target)
 }
 
 sealed abstract class BSONType[A](val operator: Byte)
@@ -435,22 +400,21 @@ object BSONType {
 
 /**
  * $type operator to query by type.
- * 
+ *
  * Can type a BSON.<enum value> or a Context Bounded check.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
- * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24type%7D%7D 
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24type%7D%7D
  */
 trait TypeOp extends QueryOperator {
   private val oper = "$type"
 
-  /** 
+  /**
    * For those who want to pass the static byte from org.bson.BSON explicitly
    * (or with the simple BSON spec indicator)
    * TODO: Test for a valid byte, right now we accept anything you say.
    */
-  def $type(arg: Byte) = op(oper, arg)
+  def $type(arg: Byte) = queryOp(oper, arg)
 
   /**
    * Matches types based on a Context Bound.
@@ -459,7 +423,7 @@ trait TypeOp extends QueryOperator {
    *    "foo".$type[Double]
    *
    */
-  def $type[A](implicit bsonType: BSONType[A]) = op(oper, bsonType.operator)
+  def $type[A](implicit bsonType: BSONType[A]) = queryOp(oper, bsonType.operator)
 }
 
 trait GeospatialOps extends GeoNearOp
@@ -473,14 +437,13 @@ case class GeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifes
 }
 
 /**
- * 
+ *
  * Trait to provide the $near geospatial search method on appropriate callers
  *
  * Note that the args aren't TECHNICALLY latitude and longitude as they depend on:
  *   a) the order you specified your actual index in
  *   b) if you're using actual world maps or something else
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
  */
@@ -502,7 +465,7 @@ trait GeoNearOp extends QueryOperator {
 }
 
 /**
- * 
+ *
  * Trait to provide the $nearSphere geospatial search method on appropriate callers
  *
  *
@@ -511,18 +474,17 @@ trait GeoNearOp extends QueryOperator {
  *   b) if you're using actual world maps or something else
  *
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
  */
 trait GeoNearSphereOp extends QueryOperator {
   private val oper = "$nearSphere"
 
-  def $nearSphere(coords: GeoCoords[_, _]) = op(oper, coords.toList)
+  def $nearSphere(coords: GeoCoords[_, _]) = queryOp(oper, coords.toList)
 }
 
 /**
- * 
+ *
  * Trait to provide the $within geospatial search method on appropriate callers
  *
  *
@@ -530,7 +492,6 @@ trait GeoNearSphereOp extends QueryOperator {
  *   a) the order you specified your actual index in
  *   b) if you're using actual world maps or something else
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
  */
@@ -544,17 +505,17 @@ trait GeoWithinOps extends QueryOperator {
     def $box(lowerLeft: GeoCoords[_, _], upperRight: GeoCoords[_, _]) =
       MongoDBObject(
         self.field ->
-        op("$box", MongoDBList(lowerLeft.toList, upperRight.toList)))
+        queryOp("$box", MongoDBList(lowerLeft.toList, upperRight.toList)))
 
     def $center[T: Numeric](center: GeoCoords[_, _], radius: T) =
       MongoDBObject(
         self.field ->
-        op("$center", MongoDBList(center.toList, radius)))
+        queryOp("$center", MongoDBList(center.toList, radius)))
 
     def $centerSphere[T: Numeric](center: GeoCoords[_, _], radius: T) =
       MongoDBObject(
         self.field ->
-        op("$centerSphere", MongoDBList(center.toList, radius)))
+        queryOp("$centerSphere", MongoDBList(center.toList, radius)))
   }
 
 }

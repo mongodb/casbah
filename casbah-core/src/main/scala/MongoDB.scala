@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -17,19 +17,20 @@
  * For questions and comments about this product, please see the project page at:
  *
  *     http://github.com/mongodb/casbah
- * 
+ *
  */
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.util.Logging
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
 
-import scalaj.collection.Imports._
+import scala.collection.JavaConverters._
 
 /**
  * Wrapper for the Mongo <code>DB</code> object providing scala-friendly functionality.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 2.0
  * @see com.mongodb.DB
  */
@@ -44,7 +45,6 @@ object MongoDB {
 /**
  * Wrapper for the Mongo <code>DB</code> object providing scala-friendly functionality.
  *
- * @author Brendan W. McAdams <brendan@10gen.com>
  * @since 1.0
  * @see com.mongodb.DB
  */
@@ -59,7 +59,15 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def apply(collection: String): MongoCollection = underlying.getCollection(collection).asScala
 
-  def lazyCollection(collection: String) = underlying.getCollection(collection).asLazyScala
+  // TODO - write tests and make so!
+  // /**
+  //  * Creates a Mongo instance based on a (single) mongodb node (default port).
+  //  *
+  //  * @param collection a string for the collection name
+  //  * @param  c (Class[A])
+  //  * @return MongoTypedCollection[A]
+  //  */
+  // def apply(collection: String, objectClass: Class[DBObject]) = underlying.getCollection(collection).asScala.setObjectClass(objectClass)
 
   def addUser(username: String, passwd: String) = underlying.addUser(username, passwd.toArray)
 
@@ -69,26 +77,22 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @param username  name of user for this database
    * @param passwd password of user for this database
    * @return true if authenticated, false otherwise
-   * @dochub authenticate
    */
   def authenticate(username: String, passwd: String) = underlying.authenticate(username, passwd.toArray)
 
   /** Execute a database command directly.
    * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
    * @return the result of the command from the database
-   * @dochub commands
    */
   def command(cmd: DBObject) = underlying.command(cmd)
   /** Execute a database command directly.
    * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
    * @return the result of the command from the database
-   * @dochub commands
    */
   def command(cmd: String) = underlying.command(cmd)
   /** Execute a database command directly.
    * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
    * @return the result of the command from the database
-   * @dochub commands
    */
   def command(cmd: DBObject, options: Int) = underlying.command(cmd, options)
   /** Creates a collection with a given name and options.
@@ -151,9 +155,9 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def getLastError() = underlying.getLastError
   def lastError() = getLastError()
-  def getLastError(writeConcern: com.mongodb.WriteConcern) =
+  def getLastError(writeConcern: WriteConcern) =
     underlying.getLastError(writeConcern)
-  def lastError(writeConcern: com.mongodb.WriteConcern) =
+  def lastError(writeConcern: WriteConcern) =
     getLastError(writeConcern)
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean) =
     underlying.getLastError(w, wTimeout, fsync)
@@ -196,7 +200,6 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * Returns true if this DB is authenticated
    *
    * @return true if authenticated, false otherwise
-   * @dochub authenticate
    */
   def isAuthenticated = underlying.isAuthenticated()
 
@@ -219,60 +222,60 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def readOnly_=(b: Boolean) = setReadOnly(b)
 
-  /** 
+  /**
    * Sets queries to be OK to run on slave nodes.
    * @deprecated Replaced with ReadPreference.SECONDARY
    */
-  @deprecated("Replaced with ReadPreference.SECONDARY")
+  @deprecated("Replaced with ReadPreference.SECONDARY", "2.3.0")
   def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**
-   * 
+   *
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
-   * 
-   * @param concern (com.mongodb.WriteConcern) The write concern to use
-   * @see com.mongodb.WriteConcern 
+   * See the documentation for {@link WriteConcern} for more info.
+   *
+   * @param concern (WriteConcern) The write concern to use
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def setWriteConcern(concern: com.mongodb.WriteConcern) = underlying.setWriteConcern(concern)
+  def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
 
   /**
-   * 
+   *
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
-   * 
-   * @param concern (com.mongodb.WriteConcern) The write concern to use
-   * @see com.mongodb.WriteConcern 
+   * See the documentation for {@link WriteConcern} for more info.
+   *
+   * @param concern (WriteConcern) The write concern to use
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def writeConcern_=(concern: com.mongodb.WriteConcern) = setWriteConcern(concern)
+  def writeConcern_=(concern: WriteConcern) = setWriteConcern(concern)
 
   /**
-   * 
+   *
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
-   * 
-   * @see com.mongodb.WriteConcern 
+   * See the documentation for {@link WriteConcern} for more info.
+   *
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def getWriteConcern = underlying.getWriteConcern()
 
   /**
-   * 
+   *
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link com.mongodb.WriteConcern} for more info.
+   * See the documentation for {@link WriteConcern} for more info.
    *
-   * @see com.mongodb.WriteConcern 
+   * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def writeConcern = getWriteConcern
 
-  /**
+  /*
    * Sets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
    * documentation for {@link ReadPreference} for more information.
@@ -325,24 +328,24 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @param command An instance of MapReduceCommand representing the required MapReduce
    * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
    */
-  def mapReduce(cmd: map_reduce.MapReduceCommand): map_reduce.MapReduceResult =
-    map_reduce.MapReduceResult(command(cmd.toDBObject))(this)
+  def mapReduce(cmd: MapReduceCommand): MapReduceResult =
+    MapReduceResult(command(cmd.toDBObject))(this)
 
   /**
    * write concern aware write op block.
    *
    * Checks getLastError after the last write.
-   * If  you run multiple ops you'll only get the final 
+   * If  you run multiple ops you'll only get the final
    * error.
-   * 
+   *
    * Your op function gets a copy of this MongoDB instance.
-   * 
+   *
    * This is for write ops only - you cannot return data from it.
    *
-   * Your function must return WriteResult, which is the 
+   * Your function must return WriteResult, which is the
    * return type of any mongo write operation like insert/save/update/remove
-   * 
-   * If you have set a connection or DB level com.mongodb.WriteConcern,
+   *
+   * If you have set a connection or DB level WriteConcern,
    * it will be inherited.
    *
    * @throws MongoException
@@ -354,16 +357,16 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * write concern aware write op block.
    *
    * Checks getLastError after the last write.
-   * If  you run multiple ops you'll only get the final 
+   * If  you run multiple ops you'll only get the final
    * error.
-   * 
+   *
    * Your op function gets a copy of this MongoDB instance.
-   * 
+   *
    * This is for write ops only - you cannot return data from it.
-   * 
-   * Your function must return WriteResult, which is the 
+   *
+   * Your function must return WriteResult, which is the
    * return type of any mongo write operation like insert/save/update/remove
-   * 
+   *
    * @throws MongoException
    */
   def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)(op: MongoDB => WriteResult) =
@@ -373,50 +376,50 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * write concern aware write op block.
    *
    * Checks getLastError after the last write.
-   * If  you run multiple ops you'll only get the final 
+   * If  you run multiple ops you'll only get the final
    * error.
-   * 
+   *
    * Your op function gets a copy of this MongoDB instance.
-   * 
+   *
    * This is for write ops only - you cannot return data from it.
-   * 
-   * Your function must return WriteResult, which is the 
+   *
+   * Your function must return WriteResult, which is the
    * return type of any mongo write operation like insert/save/update/remove
-   * 
+   *
    * @throws MongoException
    */
-  def request(writeConcern: com.mongodb.WriteConcern)(op: MongoDB => WriteResult) =
+  def request(writeConcern: WriteConcern)(op: MongoDB => WriteResult) =
     op(this).getLastError(writeConcern).throwOnError
 
   def checkedWrite(op: MongoDB => WriteResult) =
     op(this).getLastError.throwOnError
 
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def addOption(option: Int) = underlying.addOption(option)
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
   def resetOptions() = underlying.resetOptions() // use parens because this side-effects
 
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
   def getOptions() = underlying.getOptions
 
-  /** 
+  /**
    * Manipulate Network Options
-   * 
+   *
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
