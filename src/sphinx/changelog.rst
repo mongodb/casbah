@@ -156,9 +156,8 @@ Changes in Version 2.1.5.0
 -  Disabled a few tests that weren’t passing and known to be ‘buggy’ in
    specs1. These are fixed for the upcoming 2.2. release on specs2; they
    are test bugs rather than Casbah bugs.
--  RegEx
-   :math:`not was just flat out wrong - was producing {"foo": {"foo": /<regex>/}} instead of {"foo": {"`\ not":
-   {//}}
+-  RegEx `not was just flat out wrong - was producing
+   {"foo": {"foo": /<regex>/}} instead of {"foo": {"`\ not":{//}}
 -  Added a getAsOrElse method
 
 .. _2.8.0 EOL Announcement: http://groups.google.com/group/mongodb-casbah-users/browse_thread/thread/faea8dbd5f90aa25
