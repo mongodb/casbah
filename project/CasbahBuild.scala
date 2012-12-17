@@ -53,7 +53,6 @@ object CasbahBuild extends Build {
       allSourceDirectories <<= projects.map(sourceDirectories in Compile in _).join,
       scalacOptions in (Compile, doc) <++=  (baseDirectory, allSourceDirectories, scalaVersion, version, baseDirectory in LocalProject("casbah")).map {
         (bd, asd, sv, v, rootBase) =>
-         val tagOrBranch = if (v.endsWith("-SNAPSHOT")) "dev" else "v" + v
          val docSourceUrl = "http://{{WEBSITE_ROOT}}api.sxr/€{FILE_PATH}.scala.html"
          val docSourceOpts = Seq("-sourcepath", rootBase.getAbsolutePath, "-doc-source-url", docSourceUrl)
          val sxrOpts = sxrOptions(bd, asd, sv)
