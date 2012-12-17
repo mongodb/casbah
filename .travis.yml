@@ -8,7 +8,7 @@ scala:
 # Branches to test
 branches:
   only:
-    - dev
+    - master
 # use the local sbt rebel cut
 script: ./sbt ++$TRAVIS_SCALA_VERSION test
 notifications:
