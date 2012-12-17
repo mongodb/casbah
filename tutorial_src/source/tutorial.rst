@@ -1,4 +1,3 @@
-
 *************************
 Tutorial: Using Casbah
 *************************
@@ -90,7 +89,7 @@ Feel free to explore Casbah's ``MongoDB`` object on your own; for now let's focu
 .. 
 .. You can play with this functionality in more detail on your own, or refer to the unit tests.  For now, let's focus upon working with normal DB Objects.
 .. 
-It should be noted that Casbah's `MongoCollection` object implements Scala's `Iterable[A] <http://www.scala-lang.org/docu/files/api/scala/collection/Iterable.html>`_ interface (specifically ``Iterable[DBObject]``), which provides a full monadic interface to your MongoDB collection.  Beginning iteration on the ``MongoCollection`` instance is fundamentally equivalent to invoking ``find`` on the ``MongoCollection`` (without a uqery).  We'll return to this after we discuss working with ``MongoDBObjects`` and inserting data...
+It should be noted that Casbah's `MongoCollection` object implements Scala's `Iterable[A] <http://www.scala-lang.org/docu/files/api/scala/collection/Iterable.html>`_ interface (specifically ``Iterable[DBObject]``), which provides a full monadic interface to your MongoDB collection.  Beginning iteration on the ``MongoCollection`` instance is fundamentally equivalent to invoking ``find`` on the ``MongoCollection`` (without a query).  We'll return to this after we discuss working with ``MongoDBObjects`` and inserting data...
 
 ----------------------------------------------------
 MongoDBObject - A Scala-ble DBObject Implementation
