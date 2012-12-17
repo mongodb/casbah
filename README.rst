@@ -5,6 +5,8 @@ Casbah
 :Author: Brendan W. McAdams
 :Maintainer: Ross Lawley <ross@10gen.com>
 
+{<img src="https://travis-ci.org/mongodb/casbah.png?branch=master" alt="Build Status" />}[https://travis-ci.org/mongodb/casbah]
+
 About
 =====
 Casbah is an interface for `MongoDB <http://www.mongodb.org>`_ designed to
