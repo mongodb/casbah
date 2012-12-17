@@ -30,12 +30,13 @@ import scala.util.control.Exception._
 
 class MongoOpLog(mongo: MongoConnection = MongoConnection(),
   startTimestamp: Option[BSONTimestamp] = None,
-  namespace: Option[String] = None) extends Iterator[MongoOpLogEntry] with Logging {
+  namespace: Option[String] = None,
+  masterSlaveReplication: Boolean = true) extends Iterator[MongoOpLogEntry] with Logging {
 
   implicit object BSONTimestampOk extends ValidDateOrNumericType[org.bson.types.BSONTimestamp]
 
   protected val local = mongo("local")
-  protected val oplog = local("oplog.$main")
+  protected val oplog = local("oplog." if masterSlaveReplication "$main" else "rs")
 
   val tsp = verifyOpLog
 
