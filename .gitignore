@@ -19,3 +19,4 @@ reports/
 src/sphinx/_build
 tags
 target/
+credentials.sbt
