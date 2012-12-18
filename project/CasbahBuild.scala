@@ -8,6 +8,7 @@ object CasbahBuild extends Build {
 
   lazy val buildSettings = Seq(
     organization := "org.mongodb",
+    organizationHomepage := Some(url("http://www.mongodb.org")),
     version      := "2.5.0-SNAPSHOT",
     crossScalaVersions := Seq("2.10.0-RC5", "2.9.2", "2.9.1", "2.9.0-1", "2.9.0")
   )
@@ -19,7 +20,6 @@ object CasbahBuild extends Build {
   "mongoimport -d casbahIntegration -c books --drop ./casbah-core/src/test/resources/bookstore.json" !
 
   "mongoimport -d casbahIntegration -c artilces --drop ./casbah-core/src/test/resources/articles.json" !
-
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
 
@@ -34,9 +34,10 @@ object CasbahBuild extends Build {
 
   override lazy val settings = super.settings ++ buildSettings
 
-  lazy val baseSettings = Defaults.defaultSettings  ++ Seq(
+  lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
       resolvers ++= Seq(sonatypeRels, sonatypeSnaps, sonatypeSTArch, mavenOrgRepo),
       testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml"),
+      crossPaths := true,
       autoCompilerPlugins := true,
       libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
         sv match {
@@ -69,7 +70,6 @@ object CasbahBuild extends Build {
       scalatest(sv), scalatime(sv), specs2(sv),
       slf4j, slf4jJCL, junit
     )),
-    autoCompilerPlugins := true,
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2
   )
