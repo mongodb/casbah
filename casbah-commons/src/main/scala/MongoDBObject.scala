@@ -45,7 +45,7 @@ import scala.reflect._
  */
 @BeanInfo
 class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[String, AnyRef]
-                                                        with MapLike[String, AnyRef, MongoDBObject] with Logging {
+    with MapLike[String, AnyRef, MongoDBObject] with Logging {
 
   override def empty: MongoDBObject = MongoDBObject.empty
 
@@ -193,7 +193,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
   override def equals(that: Any) = that match {
     case o: MongoDBObject => underlying.equals(o.underlying)
     case o: MongoDBList => underlying.equals(o.underlying)
-    case _ => underlying.equals(that)
+    case _ => underlying.equals(that) | that.equals(this)
   }
 
   def removeField(key: String) = underlying.removeField(key)

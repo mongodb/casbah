@@ -234,17 +234,21 @@ trait ScalaCollectionSerializer extends MongoConversionHelper {
     import _root_.scala.collection.JavaConverters._
 
     def transform(o: AnyRef): AnyRef = o match {
-      case mdbo: MongoDBObject => mdbo.underlying
-      case mdbl: MongoDBList => mdbl.underlying
-      case b: _root_.scala.collection.mutable.Buffer[_] => b.asJava
-      case s: _root_.scala.collection.mutable.Seq[_] => s.asJava
-      case s: _root_.scala.collection.Seq[_] => s.asJava
-      case s: _root_.scala.collection.mutable.Set[_] => s.asJava
-      case s: _root_.scala.collection.Set[_] => s.asJava
-      case i: _root_.scala.collection.Iterable[_] => i.asJava
-      case i: _root_.scala.collection.Iterator[_] => i.asJava
-      case _ => o // don't warn because we get EVERYTHING
-    }
+        case mdbo: MongoDBObject => mdbo.underlying
+        case mdbl: MongoDBList => mdbl.underlying
+        case l: java.util.List[_] => l
+        case b: _root_.scala.collection.mutable.Buffer[_] => b.asJava
+        case s: _root_.scala.collection.mutable.Seq[_] => s.asJava
+        case s: _root_.scala.collection.Seq[_] => s.asJava
+        case s: _root_.scala.collection.mutable.Set[_] => s.asJava
+        case s: _root_.scala.collection.Set[_] => s.asJava
+        case m: _root_.scala.collection.mutable.Map[_, _] => m.asJava
+        case m: _root_.scala.collection.Map[_, _] => m.asJava
+        case i: _root_.scala.collection.Iterable[_] => i.asJava
+        case i: _root_.scala.collection.Iterator[_] => i.asJava
+        case p: Product => p.productIterator.toList.asJava
+        case _ => o // don't warn because we get EVERYTHING
+      }
   }
 
   override def register() = {
@@ -263,5 +267,6 @@ trait ScalaCollectionSerializer extends MongoConversionHelper {
     BSON.addEncodingHook(classOf[Product], transformer)
     super.register()
   }
+
 }
 

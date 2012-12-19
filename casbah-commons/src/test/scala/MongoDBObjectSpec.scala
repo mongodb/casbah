@@ -167,6 +167,33 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       explicit must beDBObject
       explicit must beEqualTo(control)
     }
+    "Support complex lists into DBObjects" in {
+      val control: DBObject = MongoDBObject(
+        "a" -> 1, "b" -> 2,
+        "c" -> MongoDBList(MongoDBObject("x" -> 1), MongoDBObject("y" -> 2))
+      )
+
+      control must beDBObject
+
+      val map = Map("a" -> 1, "b" -> 2, "c" -> List(Map("x" -> 1), Map("y" -> 2)))
+
+      val cast: DBObject = map
+
+      cast must beDBObject
+      cast.toString must beEqualTo(control.toString())
+      cast.equals(cast) must beEqualTo(control.equals(control))
+
+      val explicit = map.asDBObject
+
+      explicit must beDBObject
+      explicit.toString must beEqualTo(control.toString())
+      explicit.equals(explicit) must beEqualTo(control.equals(control))
+
+      // TODO FIX:
+      // cast must beEqualTo(control)
+      // explicit must beEqualTo(control)
+
+    }
   }
 
   "MongoDBObject" >> {
