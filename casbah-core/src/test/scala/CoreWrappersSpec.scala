@@ -91,6 +91,21 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
 
     }
 
+    "allow indexes to work as expected" in {
+      val db = MongoClient()("casbahTest")
+
+      val coll = db("indexTest")
+      coll.drop()
+
+      coll.insert(MongoDBObject("foo" -> "bar"))
+      coll.indexInfo.length must beEqualTo(1)
+
+      coll.ensureIndex(MongoDBObject("uid"->1), "user_index", true)
+      coll.indexInfo.length must beEqualTo(2)
+
+      coll.indexInfo(1)("key") == MongoDBObject("uid" -> 1)
+    }
+
     "Renaming a collection successfully tracks the rename in MongoCollection" in {
       val db = MongoClient()("casbahTest")
       db("collection").drop()
