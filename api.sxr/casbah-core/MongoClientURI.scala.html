@@ -33,7 +33,7 @@
 
 <span class="keyword">package</span> com.mongodb.casbah
 
-<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#10148" title="object com.mongodb.casbah.Imports">Imports</a>._
+<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#9878" title="object com.mongodb.casbah.Imports">Imports</a>._
 
 <span class="keyword">import</span> scala.collection.<span title="object scala.collection.JavaConverters">JavaConverters</span>._
 
@@ -42,7 +42,7 @@
  *
  * @since 2.0
  */</span>
-<span class="keyword">object</span> <a title="object com.mongodb.casbah.MongoClientURI" id="10180">MongoClientURI</a> <span title="ScalaObject" class="delimiter">{</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.MongoClientURI" id="9910">MongoClientURI</a> <span title="ScalaObject" class="delimiter">{</span>
 
   <span class="comment">/**
    * Create a new MongoURI with a URI String e.g.:
@@ -55,7 +55,7 @@
    *
    * @param  uri (String)
    */</span>
-  <span class="keyword">def</span> <a title="(uri: String)com.mongodb.casbah.MongoClientURI" id="29499">apply</a><span class="delimiter">(</span><a title="String" id="29502">uri</a>: <span title="String">String</span><span class="delimiter">)</span>: <a href="#10182" title="com.mongodb.casbah.MongoClientURI">MongoClientURI</a> = <span title="com.mongodb.casbah.MongoClientURI" class="keyword">new</span> <a href="#10182" title="com.mongodb.casbah.MongoClientURI">MongoClientURI</a><span class="delimiter">(</span><span title="com.mongodb.MongoClientURI" class="keyword">new</span> com.mongodb.<span title="com.mongodb.MongoClientURI">MongoClientURI</span><span class="delimiter">(</span><a href="#29502" title="String">uri</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(uri: String)com.mongodb.casbah.MongoClientURI" id="29071">apply</a><span class="delimiter">(</span><a title="String" id="29074">uri</a>: <span title="String">String</span><span class="delimiter">)</span>: <a href="#9912" title="com.mongodb.casbah.MongoClientURI">MongoClientURI</a> = <span title="com.mongodb.casbah.MongoClientURI" class="keyword">new</span> <a href="#9912" title="com.mongodb.casbah.MongoClientURI">MongoClientURI</a><span class="delimiter">(</span><span title="com.mongodb.MongoClientURI" class="keyword">new</span> com.mongodb.<span title="com.mongodb.MongoClientURI">MongoClientURI</span><span class="delimiter">(</span><a href="#29074" title="String">uri</a><span class="delimiter">)</span><span class="delimiter">)</span>
 <span class="delimiter">}</span>
 
 <span class="comment">/**
@@ -69,16 +69,16 @@
  *
  * @since 2.5
  */</span>
-<span class="keyword">class</span> <a title="class MongoClientURI extends java.lang.Object with ScalaObject" id="10182">MongoClientURI</a><a href="#10182" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="com.mongodb.MongoClientURI" id="29500">underlying</a>: com.mongodb.<span title="com.mongodb.MongoClientURI">MongoClientURI</span><span class="delimiter">)</span> <span class="delimiter">{</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="29224">username</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="(x: java.lang.String)Option[java.lang.String]">Option</span><span class="delimiter">(</span><a href="#29500" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getUsername</span><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[Array[Char]]" id="29225">password</a>: <span title="Option[Array[Char]]">Option</span><span class="delimiter">[</span>Array<span class="delimiter">[</span>Char<span class="delimiter">]</span><span class="delimiter">]</span> = <span title="(x: Array[Char])Option[Array[Char]]">Option</span><span class="delimiter">(</span><a href="#29500" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()Array[Char]">getPassword</span><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="=&gt; Seq[String]" id="29226">hosts</a>: <span title="Seq[String]">Seq</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <a href="#29500" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="(l: java.util.List[java.lang.String])collection.JavaConverters.AsScala[scala.collection.mutable.Buffer[java.lang.String]]">getHosts</span>.<span title="=&gt; scala.collection.mutable.Buffer[java.lang.String]">asScala</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="29227">database</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="(x: java.lang.String)Option[java.lang.String]">Option</span><span class="delimiter">(</span><a href="#29500" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getDatabase</span><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="29228">collection</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="(x: java.lang.String)Option[java.lang.String]">Option</span><span class="delimiter">(</span><a href="#29500" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getCollection</span><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.Imports.MongoClientOptions" id="29229">options</a>: <span title="com.mongodb.casbah.Imports.MongoClientOptions">MongoClientOptions</span> = <a href="#29500" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()com.mongodb.MongoClientOptions">getOptions</span>
+<span class="keyword">class</span> <a title="class MongoClientURI extends java.lang.Object with ScalaObject" id="9912">MongoClientURI</a><a href="#9912" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="com.mongodb.MongoClientURI" id="29072">underlying</a>: com.mongodb.<span title="com.mongodb.MongoClientURI">MongoClientURI</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="28796">username</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="(x: java.lang.String)Option[java.lang.String]">Option</span><span class="delimiter">(</span><a href="#29072" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getUsername</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[Array[Char]]" id="28797">password</a>: <span title="Option[Array[Char]]">Option</span><span class="delimiter">[</span>Array<span class="delimiter">[</span>Char<span class="delimiter">]</span><span class="delimiter">]</span> = <span title="(x: Array[Char])Option[Array[Char]]">Option</span><span class="delimiter">(</span><a href="#29072" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()Array[Char]">getPassword</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Seq[String]" id="28798">hosts</a>: <span title="Seq[String]">Seq</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <a href="#29072" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="(l: java.util.List[java.lang.String])collection.JavaConverters.AsScala[scala.collection.mutable.Buffer[java.lang.String]]">getHosts</span>.<span title="=&gt; scala.collection.mutable.Buffer[java.lang.String]">asScala</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="28799">database</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="(x: java.lang.String)Option[java.lang.String]">Option</span><span class="delimiter">(</span><a href="#29072" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getDatabase</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="28800">collection</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> = <span title="(x: java.lang.String)Option[java.lang.String]">Option</span><span class="delimiter">(</span><a href="#29072" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getCollection</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.Imports.MongoClientOptions" id="28801">options</a>: <span title="com.mongodb.casbah.Imports.MongoClientOptions">MongoClientOptions</span> = <a href="#29072" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()com.mongodb.MongoClientOptions">getOptions</span>
 
-  <span class="keyword">def</span> <a title="=&gt; java.lang.String" id="29230">getURI</a> = <a href="#29500" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getURI</span>
-  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="29231">toString</a> = <a href="#29500" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">toString</span>
+  <span class="keyword">def</span> <a title="=&gt; java.lang.String" id="28802">getURI</a> = <a href="#29072" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">getURI</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="28803">toString</a> = <a href="#29072" title="=&gt; com.mongodb.MongoClientURI">underlying</a>.<span title="()java.lang.String">toString</span>
 <span class="delimiter">}</span>
 
 

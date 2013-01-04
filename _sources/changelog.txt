@@ -4,11 +4,13 @@ Changelog
 Changes in Version 2.5.0
 ------------------------
 
--  Added support for Scala 2.10.0-RC5
+-  Added support for Scala 2.10.0
+-  Dropped support for Scala 2.9.0
 -  Dropped support for Scala 2.8.X
 -  Updated support for latest Java driver 2.10.1
 -  Added support for the new MongoClient connection class
 -  Removed scalaj.collections dependency
+-  Updated to nscala-time
 -  Updated the build file
 -  Added unidoc and updated documentation
 -  Migrated documentation theme

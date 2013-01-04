@@ -33,20 +33,20 @@
 <span class="keyword">package</span> com.mongodb.casbah.query.dsl
 <span class="keyword">package</span> aggregation
 
-<span class="keyword">import</span> com.mongodb.casbah.query.<a href="Implicits.scala.html#10234" title="object com.mongodb.casbah.query.Imports">Imports</a>._
+<span class="keyword">import</span> com.mongodb.casbah.query.<a href="Implicits.scala.html#9964" title="object com.mongodb.casbah.query.Imports">Imports</a>._
 
 
 
 <span class="comment">/**
  * Base trait to implement $unwind
  */</span>
-<span class="keyword">trait</span> <a title="trait UnwindOperator extends java.lang.Object with com.mongodb.casbah.query.dsl.aggregation.PipelineOperator with ScalaObject" id="10350">UnwindOperator</a> <span title="ScalaObject" class="keyword">extends</span> <a href="package.scala.html#10363" title="com.mongodb.casbah.query.dsl.aggregation.PipelineOperator">PipelineOperator</a> <span class="delimiter">{</span>
-  <span class="keyword">private</span> <span class="keyword">val</span> <a title="java.lang.String" id="34709">operator</a> = <span title="java.lang.String(&quot;$unwind&quot;)" class="string">&quot;$unwind&quot;</span>
+<span class="keyword">trait</span> <a title="trait UnwindOperator extends java.lang.Object with com.mongodb.casbah.query.dsl.aggregation.PipelineOperator with ScalaObject" id="10080">UnwindOperator</a> <span title="ScalaObject" class="keyword">extends</span> <a href="package.scala.html#10093" title="com.mongodb.casbah.query.dsl.aggregation.PipelineOperator">PipelineOperator</a> <span class="delimiter">{</span>
+  <span class="keyword">private</span> <span class="keyword">val</span> <a title="java.lang.String" id="34488">operator</a> = <span title="java.lang.String(&quot;$unwind&quot;)" class="string">&quot;$unwind&quot;</span>
 
-  <span class="keyword">def</span> <a title="(target: String)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="34711">$unwind</a><span class="delimiter">(</span><a title="String" id="44233">target</a>: <span title="String">String</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
-    <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span><a href="#44233" title="String">target</a>.<span title="(x$1: java.lang.String)Boolean">startsWith</span><span class="delimiter">(</span><span title="java.lang.String(&quot;$&quot;)" class="string">&quot;$&quot;</span><span class="delimiter">)</span>, <span class="string">&quot;The $unwind operator only accepts a $&lt;fieldName&gt; argument; bare field names &quot;</span> <span title="java.lang.String(&quot;The $unwind operator only accepts a $&lt;fieldName&gt; argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_unwind&quot;)">+</span>
+  <span class="keyword">def</span> <a title="(target: String)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" id="34490">$unwind</a><span class="delimiter">(</span><a title="String" id="44012">target</a>: <span title="String">String</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span><a href="#44012" title="String">target</a>.<span title="(x$1: java.lang.String)Boolean">startsWith</span><span class="delimiter">(</span><span title="java.lang.String(&quot;$&quot;)" class="string">&quot;$&quot;</span><span class="delimiter">)</span>, <span class="string">&quot;The $unwind operator only accepts a $&lt;fieldName&gt; argument; bare field names &quot;</span> <span title="java.lang.String(&quot;The $unwind operator only accepts a $&lt;fieldName&gt; argument; bare field names will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_unwind&quot;)">+</span>
         <span class="string">&quot;will not function. See http://docs.mongodb.org/manual/reference/aggregation/#_S_unwind&quot;</span><span class="delimiter">)</span>
-    <a href="package.scala.html#34675" title="(oper: String, target: Any)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">op</a><span class="delimiter">(</span><a href="#34709" title="=&gt; java.lang.String">operator</a>, <a href="#44233" title="String">target</a><span class="delimiter">)</span>
+    <a href="package.scala.html#34454" title="(oper: String, target: Any)com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline">op</a><span class="delimiter">(</span><a href="#34488" title="=&gt; java.lang.String">operator</a>, <a href="#44012" title="String">target</a><span class="delimiter">)</span>
   <span class="delimiter">}</span>
 <span class="delimiter">}</span>
 
