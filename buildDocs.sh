@@ -39,6 +39,7 @@ if git diff-index --quiet HEAD --; then
     mv target .target
     rm * -rf
     mv .target/site/* .
+    mv .target target
 
     echo " Please check the new docs and checkin ..."
 else
