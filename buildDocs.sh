@@ -29,3 +29,20 @@ make -C $SPHINX_DIR clean epub latexpdf
 
 cp $SPHINX_DIR/_build/epub/CasbahMongoDBScalaToolkitDocumentation.epub $SITE_DIR/CasbahDocumentation.epub
 cp $SPHINX_DIR/_build/latex/CasbahDocumentation.pdf $SITE_DIR/CasbahDocumentation.pdf
+
+if git diff-index --quiet HEAD --; then
+    echo " ========================== "
+    echo " Updating `gh-pages` branch"
+    echo " ========================== "
+
+    git co gh-pages
+    mv target .target
+    rm * -rf
+    mv .target/site/* .
+
+    echo " Please check the new docs and checkin ..."
+else
+    echo "You have changes not checked-in - cannot automatically update gh-pages"
+fi
+
+
