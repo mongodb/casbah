@@ -22,7 +22,7 @@
 
 package com.mongodb.casbah.test.core
 
-import org.scala_tools.time.Imports._
+import com.github.nscala_time.time.Imports._
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging

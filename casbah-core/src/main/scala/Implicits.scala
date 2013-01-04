@@ -23,7 +23,7 @@
 package com.mongodb.casbah
 
 import scala.collection.JavaConverters._
-import org.scala_tools.time.Imports._
+import com.github.nscala_time.time.Imports._
 
 /**
  * <code>Implicits</code> object to expose implicit conversions to implementing classes

@@ -31,7 +31,7 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocketFactory;
 
-import org.scala_tools.time.Imports._
+import com.github.nscala_time.time.Imports._
 
 
 class MongoClientOptionsSpec extends CasbahMutableSpecification {

@@ -25,7 +25,7 @@ package com.mongodb.casbah.test.commons.conversions
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.conversions.scala._
 
-import org.scala_tools.time.Imports._
+import com.github.nscala_time.time.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import org.specs2.specification.BeforeExample
 import org.bson.BSON

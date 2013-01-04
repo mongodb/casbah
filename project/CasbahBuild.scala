@@ -10,7 +10,7 @@ object CasbahBuild extends Build {
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
     version      := "2.5.0-SNAPSHOT",
-    crossScalaVersions := Seq("2.10.0-RC5", "2.9.2", "2.9.1", "2.9.0-1", "2.9.0")
+    crossScalaVersions := Seq("2.10.0", "2.9.2", "2.9.1")
   )
 
   // Load some test data
@@ -41,13 +41,13 @@ object CasbahBuild extends Build {
       autoCompilerPlugins := true,
       libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
         sv match {
-          case "2.10.0-RC5" => deps
+          case "2.10.0" => deps
           case _ => deps :+ compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7")
         }
       },
       scalacOptions <++= scalaVersion map { sv =>
         sv match {
-          case "2.10.0-RC5" => Seq("-Yeta-expand-keeps-star")
+          case "2.10.0" => Seq("-Yeta-expand-keeps-star")
           case _ => Seq()
         }
       },
@@ -123,9 +123,7 @@ object Dependencies {
 
   def scalatime(scalaVersion: String) =
       scalaVersion match {
-        case "2.9.2" => "org.scala-tools.time" % "time_2.9.1" % "0.5"
-        case "2.10.0-RC5" => "org.scalaj" % "scalaj-time_2.10.0-M7" % "0.6"
-        case _ => "org.scala-tools.time" %% "time" % "0.5"
+        case _ => "com.github.nscala-time" %% "nscala-time" % "0.2.0"
       }
 
   def specs2(scalaVersion: String) =
@@ -134,7 +132,7 @@ object Dependencies {
           case "2.9.0-1" => "org.specs2" % "specs2_2.9.0" % "1.7.1"
           case "2.9.1"   => "org.specs2" % "specs2_2.9.1" % "1.12.2"
           case "2.9.2"   => "org.specs2" % "specs2_2.9.2" % "1.12.2"
-          case "2.10.0-RC5"   => "org.specs2" % "specs2_2.10.0-RC5" % "1.12.3"
+          case "2.10.0"   => "org.specs2" %% "specs2" % "1.13"
       }
 }
 

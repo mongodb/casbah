@@ -36,7 +36,7 @@ import java.io._
 import scala.reflect._
 import scala.collection.JavaConverters._
 
-import org.scala_tools.time.Imports._
+import com.github.nscala_time.time.Imports._
 
 /**
  * Companion object for GridFS.

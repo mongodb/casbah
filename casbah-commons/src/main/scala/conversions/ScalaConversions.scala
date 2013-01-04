@@ -29,7 +29,7 @@ import com.mongodb.casbah.commons.Logging
 
 import org.bson.{ BSON, Transformer }
 
-import org.scala_tools.time.Imports._
+import com.github.nscala_time.time.Imports._
 
 /**
  * " Register" Object, calls the registration methods.
