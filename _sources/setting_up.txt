@@ -1,7 +1,7 @@
 Getting Started
 ***************
 
-The latest Casbah build as of |today| is |release|, built for Scala 2.9.0-1, 2.9.1, 2.9.2, and 2.10.0-RC5.
+The latest Casbah build as of |today| is |release|, built for Scala 2.9.1, 2.9.2 and 2.10.0.
 
 Installing & Setting up Casbah
 ==============================
