@@ -4,7 +4,6 @@ scala:
   - 2.10.0
   - 2.9.2
   - 2.9.1
-  - 2.9.0-1
 # Branches to test
 branches:
   only:
