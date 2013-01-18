@@ -137,10 +137,9 @@ object Dependencies {
 }
 
 object Resolvers {
-  val sonatypeSnaps = "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-  val sonatypeRels = "releases" at "https://oss.sonatype.org/content/repositories/releases"
+  val sonatypeSnaps = "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+  val sonatypeRels = "Sonatype releases" at "https://oss.sonatype.org/content/repositories/releases"
   val sonatypeSTArch = "scalaTools Archive" at "https://oss.sonatype.org/content/groups/scala-tools/"
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
-  val typeSafe = "typesafe" at "http://repo.typesafe.com/typesafe/releases/"
 }
 

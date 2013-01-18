@@ -9,7 +9,6 @@ object Publish {
     pomExtra := casbahPomExtra,
     publishTo <<= sonatypePublishTo,
     credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
-    publishMavenStyle := true,
     pomIncludeRepository := { x => false },
     publishMavenStyle := true
   )
