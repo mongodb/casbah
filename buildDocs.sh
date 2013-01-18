@@ -1,4 +1,34 @@
 #!/bin/sh
+usage()
+{
+cat << EOF
+usage: $0 options
+
+This script generates the casbah documentation
+
+OPTIONS:
+   -h      Show this message
+   -g      Auto update the gh-pages branch
+EOF
+}
+
+GHPAGES=false
+while getopts "h:g" OPTION
+do
+     case $OPTION in
+         h)
+             usage
+             exit 1
+             ;;
+         g)
+             GHPAGES=$OPTARG
+             ;;
+         ?)
+             usage
+             exit
+             ;;
+     esac
+done
 
 SCALA=2.9.2
 WEBSITE_ROOT=rozza.github.com/casbah/
@@ -30,7 +60,7 @@ make -C $SPHINX_DIR clean epub latexpdf
 cp $SPHINX_DIR/_build/epub/CasbahMongoDBScalaToolkitDocumentation.epub $SITE_DIR/CasbahDocumentation.epub
 cp $SPHINX_DIR/_build/latex/CasbahDocumentation.pdf $SITE_DIR/CasbahDocumentation.pdf
 
-if git diff-index --quiet HEAD --; then
+if $GHPAGES && git diff-index --quiet HEAD --; then
     echo " ========================== "
     echo " Updating `gh-pages` branch"
     echo " ========================== "
@@ -42,7 +72,7 @@ if git diff-index --quiet HEAD --; then
     mv .target target
 
     echo " Please check the new docs and checkin ..."
-else
+elif $GHPAGES; then
     echo "You have changes not checked-in - cannot automatically update gh-pages"
 fi
 
