@@ -16,6 +16,6 @@ notifications:
       - ross@10gen.com
 jdk:
  - openjdk7
- - openjdk6
+# - openjdk6
 services:
   - mongodb
