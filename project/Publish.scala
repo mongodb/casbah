@@ -10,7 +10,8 @@ object Publish {
     publishTo <<= sonatypePublishTo,
     credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
     pomIncludeRepository := { x => false },
-    publishMavenStyle := true
+    publishMavenStyle := true,
+    publishArtifact in Test := false
   )
 
   def sonatypePublishTo: Initialize[Option[Resolver]] = {
