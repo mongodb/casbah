@@ -62,7 +62,9 @@ object CasbahBuild extends Build {
     )
 
   lazy val parentSettings = baseSettings ++ Seq(
-    publishArtifact := false
+    publishArtifact in (Compile, packageBin) := false,
+    publishArtifact in (Compile, packageDoc) := false,
+    publishArtifact in (Compile, packageSrc) := false
   )
 
   lazy val defaultSettings = baseSettings ++ Seq(
