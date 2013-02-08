@@ -57,17 +57,16 @@
 <p>Casbah's approach is intended to add fluid, Scala-friendly syntax on top of MongoDB and handle conversions of common types.  If you try to save a Scala List or Seq to MongoDB, we automatically convert it to a type the Java driver can serialize.  If you read a Java type,  we convert it to a comparable Scala type before it hits your code.  All of this is intended to let you focus on writing the best possible Scala code using Scala idioms.  A great deal of effort is put into providing you the functional and implicit conversion tools you've come to expect from Scala, with the power and flexibility of MongoDB.</p>
 <p>Casbah provides improved interfaces to GridFS, Map/Reduce and the core Mongo APIs.  It also provides a fluid query syntax which emulates an internal DSL and allows you to write code which looks like what you might write in the JS Shell.  There is also support for easily adding new serialization/deserialization mechanisms for common data types (including Joda Time, if you so choose; with some caveats - See the GridFS Section).</p>
 <p>With version 2.0, Casbah has become an official MongoDB project and will continue to improve the interaction of Scala + MongoDB. Casbah aims to remain fully compatible with the existing Java driver---it does not talk to MongoDB directly, preferring to wrap the Java code.  This means you shouldn't see any wildly unexpected behavior from the underlying Mongo interfaces when a data bug is fixed.</p>
-<p>The <a class="reference external" href="./api/#com.mongodb.casbah.package">ScalaDocs for Casbah</a> along with SXR cross referenced source are available at the <a class="reference external" href="http://api.mongodb.org">MongoDB API site</a>.</p>
+<p>The <a class="reference external" href="api/#com.mongodb.casbah.package">ScalaDocs for Casbah</a> along with SXR cross referenced source are available at the <a class="reference external" href="http://api.mongodb.org">MongoDB API site</a>.</p>
 <p>You may also download this documentation in other formats.</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference external" href="./CasbahDocumentation.epub">ePub</a></li>
-<li><a class="reference external" href="./CasbahDocumentation.pdf">PDF</a></li>
+<li><a class="reference external" href="CasbahDocumentation.epub">ePub</a></li>
+<li><a class="reference external" href="CasbahDocumentation.pdf">PDF</a></li>
 </ul>
 </div></blockquote>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference external" href="http://api.mongodb.org/scala/casbah/api/#com.mongodb.casbah.package">API Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="setting_up.html#installing-setting-up-casbah">1.1. Installing &amp; Setting up Casbah</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="setting_up.html#setting-up-sbt">1.1.1. Setting up SBT</a></li>
@@ -127,7 +126,6 @@
 <h3><a href="#">Casbah Manual</a></h3>
 
 <ul>
-<li class="toctree-l1"><a class="reference external" href="http://api.mongodb.org/scala/casbah/api/#com.mongodb.casbah.package">API Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">2. Tutorial: Using Casbah</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">3. Changelog</a></li>

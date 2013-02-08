@@ -66,17 +66,17 @@
 <h2>2.2. Briefly: Automatic Type Conversions<a class="headerlink" href="#briefly-automatic-type-conversions" title="Permalink to this headline">¶</a></h2>
 <p>As we mentioned, as soon as you construct a <tt class="docutils literal"><span class="pre">MongoClient</span></tt> object, a few type conversions will be loaded automatically for you - Scala's builtin regular expressions (e.g. <tt class="docutils literal"><span class="pre">&quot;\\d{4}-\\d{2}-\\d{2}&quot;.r</span></tt> will now serialize to MongoDB automatically with no work from you), as well as a few other things.  The general idea is that common Java types (such as ArrayList) will be returned as the equivalent Scala type.</p>
 <p>As many Scala developers tend to prefer <a class="reference external" href="http://joda-time.sourceforge.net/">Joda time</a> over JDK Dates, you can also explicitly enable serialization and deserialization of them (w/ full support for the <a class="reference external" href="http://github.com/jorgeortiz85/scala-time">Scala-Time wrappers</a>) by an explicit call:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.conversions.scala._</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.common.conversions.scala._</span>
 <span class="nc">RegisterJodaTimeConversionHelpers</span><span class="o">()</span>
 </pre></div>
 </div>
 <p>Once these are loaded, Joda Time (and Scala Time wrappers) will be saved to MongoDB as proper BSON Dates, and on retrieval/deserialization all BSON Dates will be returned as Joda <tt class="docutils literal"><span class="pre">DateTime</span></tt> instead of a JDK Date (aka <cite>java.util.Date</cite>).  Because this can cause problems in some instances, you can explicitly unload the Joda Time helpers:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.conversions.scala._</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.common.conversions.scala._</span>
 <span class="nc">DeregisterJodaTimeConversionHelpers</span><span class="o">()</span>
 </pre></div>
 </div>
 <p>And reload them later as needed.  If you find you need to unload the other helpers as well, you can load and unload them just as easily:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.conversions.scala._</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.common.conversions.scala._</span>
 <span class="nc">DeregisterConversionHelpers</span><span class="o">()</span>
 <span class="nc">RegisterConversionHelpers</span><span class="o">()</span>
 </pre></div>
@@ -504,7 +504,6 @@ retrieving just the username</p>
 <h3><a href="index.html">Casbah Manual</a></h3>
 
 <ul class="current">
-<li class="toctree-l1"><a class="reference external" href="http://api.mongodb.org/scala/casbah/api/#com.mongodb.casbah.package">API Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">2. Tutorial: Using Casbah</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#import-the-driver">2.1. Import the Driver</a></li>
