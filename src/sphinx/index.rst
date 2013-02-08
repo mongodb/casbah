@@ -34,11 +34,11 @@ You may also download this documentation in other formats.
 
 
 
-Indices and tables
-==================
+.. Indices and tables
+.. ==================
 
-* `API Docs <api/#com.mongodb.casbah.package>`_
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * `API Docs <api/#com.mongodb.casbah.package>`_
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`
 
