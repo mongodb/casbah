@@ -35,7 +35,7 @@ WEBSITE_ROOT=api.mongodb.org/scala/casbah/current/
 SPHINX_DIR=./src/sphinx
 SITE_DIR=./target/site/
 
-./sbt ++2.9.2 "update" "clean" "compile" "make-site" "unidoc"
+./sbt ++2.9.2 "update" "clean" "compile" "unidoc"
 
 mkdir -p $SITE_DIR/api.sxr/casbah-commons
 mkdir -p $SITE_DIR/api.sxr/casbah-core
@@ -57,8 +57,9 @@ find $SITE_DIR/api/ -name \*html -exec sed -i 's#/src\(.*\)/\(.*scala.html\)#/\2
 find $SITE_DIR/api/ -name \*html -exec sed -i "s#/{{WEBSITE_ROOT}}#/$WEBSITE_ROOT#g" {} \;
 
 # Make pdf / epub
-make -C $SPHINX_DIR clean epub latexpdf
+make -C $SPHINX_DIR clean html epub latexpdf
 
+cp -R $SPHINX_DIR/_build/html/* $SITE_DIR
 cp $SPHINX_DIR/_build/epub/CasbahMongoDBScalaToolkitDocumentation.epub $SITE_DIR/CasbahDocumentation.epub
 cp $SPHINX_DIR/_build/latex/CasbahDocumentation.pdf $SITE_DIR/CasbahDocumentation.pdf
 
