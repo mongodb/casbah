@@ -88,6 +88,26 @@ highlight_language = 'scala'
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
 
+languages = [
+    ("ar", "Arabic"),
+    ("cn", "Chinese"),
+    ("cs", "Czech"),
+    ("de", "German"),
+    ("es", "Spanish"),
+    ("fr", "French"),
+    ("hu", "Hungarian"),
+    ("id", "Indonesian"),
+    ("it", "Italian"),
+    ("jp", "Japanese"),
+    ("ko", "Korean"),
+    ("lt", "Lithuanian"),
+    ("pl", "Polish"),
+    ("pt", "Portuguese"),
+    ("ro", "Romanian"),
+    ("ru", "Russian"),
+    ("tr", "Turkish"),
+    ("uk", "Ukrainian")
+]
 
 # -- Options for HTML output --------------------------------------------------
 
@@ -105,10 +125,10 @@ html_theme_path = ['themes']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-#html_title = None
+# html_title =
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-#html_short_title = None
+html_short_title = 'Casbah, Scala Driver'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
@@ -133,7 +153,17 @@ html_static_path = ['_static']
 html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
-#html_sidebars = {}
+html_sidebars = {
+    '**': ['pagenav.html', 'casbah.html', 'intrasites.html'],
+}
+
+html_theme_options = {
+    'translations': languages,
+    'repo_name': 'casbah',
+    'jira_project': 'SCALA',
+    'google_analytics': 'UA-7301842-13',
+    'project': 'scala',
+}
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.

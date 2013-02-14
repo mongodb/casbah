@@ -1,10 +1,6 @@
-.. Casbah (MongoDB Scala Toolkit) Tutorial documentation master file, created by
-   sphinx-quickstart on Thu Dec  9 12.0.19:28 2010.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to the Casbah documentation
-===================================================================
+===================================
+Welcome to the Casbah Documentation
+===================================
 
 Welcome to the Casbah Documentation.  Casbah is a Scala toolkit for MongoDB---We use the term "toolkit" rather than "driver", as Casbah integrates a layer on top of the official `mongo-java-driver <http://github.com/mongodb/mongo-java-driver>`_ for better integration with Scala.  This is as opposed to a native implementation of the MongoDB wire protocol, which the Java driver does exceptionally well. Rather than a complete rewrite, Casbah uses implicits, and `Pimp My Library` code to enhance the existing Java code.
 
@@ -42,4 +38,3 @@ You may also download this documentation in other formats.
 .. * :ref:`genindex`
 .. * :ref:`modindex`
 .. * :ref:`search`
-
