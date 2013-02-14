@@ -70,7 +70,7 @@ if $GHPAGES && git diff-index --quiet HEAD --; then
     git co gh-pages
     mv target .target
     rm * -rf
-    mv .target/site/* .
+    cp -R .target/site/* .
     mv .target target
 
     echo " Please check the new docs and checkin ..."
