@@ -31,6 +31,7 @@ You may also download this documentation in other formats.
     setting_up
     tutorial
     changelog
+    upgrade
 
 
 
