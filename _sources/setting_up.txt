@@ -17,7 +17,7 @@ Setting up SBT
 ---------------
 You can easily add Casbah to SBT, the Scala Build Tool, by adding the following to your `build.sbt` file, substituting $CASBAH_VERSION$ with the latest Casbah release (as of |today|, that is |release|)::
 
-   libraryDependencies += "org.mongodb" % "casbah" % "$CASBAH_VERSION$"
+   libraryDependencies += "org.mongodb" %% "casbah" % "$CASBAH_VERSION$"
 
 
 Alternately, if you are using a `.scala` Build definition, the following entry will work::

@@ -66,7 +66,7 @@
 <div class="section" id="setting-up-sbt">
 <h3>1.1.1. Setting up SBT<a class="headerlink" href="#setting-up-sbt" title="Permalink to this headline">¶</a></h3>
 <p>You can easily add Casbah to SBT, the Scala Build Tool, by adding the following to your <cite>build.sbt</cite> file, substituting $CASBAH_VERSION$ with the latest Casbah release (as of February 14, 2013, that is 2.5.0):</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;org.mongodb&quot;</span> <span class="o">%</span> <span class="s">&quot;casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;$CASBAH_VERSION$&quot;</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;org.mongodb&quot;</span> <span class="o">%%</span> <span class="s">&quot;casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;$CASBAH_VERSION$&quot;</span>
 </pre></div>
 </div>
 <p>Alternately, if you are using a <cite>.scala</cite> Build definition, the following entry will work:</p>
