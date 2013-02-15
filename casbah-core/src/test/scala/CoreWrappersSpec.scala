@@ -181,8 +181,36 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
         cur2 must beAnInstanceOf[MongoCursor]
 
       }
-
     }
+  }
+
+  "Distinct operations" should {
+      val db = MongoClient()("casbahTest")
+      val coll = db("distinct")
+      coll.drop()
+
+      for (i <- 1 to 99)
+        coll += MongoDBObject("_id" -> i, "x" -> i % 10)
+
+      "except, just a key" in {
+        val l = coll.distinct( "x" )
+        l.size must beEqualTo(10)
+      }
+
+      "except key and query" in {
+        val l = coll.distinct( "x" , "_id" $gt 95 )
+        l.size must beEqualTo(4)
+      }
+
+      "except key and readPref" in {
+        val l = coll.distinct( "x", readPrefs=ReadPreference.Primary )
+        l.size must beEqualTo(10)
+      }
+
+      "except key, query and readPref" in {
+        val l = coll.distinct( "x" , "_id" $gt 95, ReadPreference.Primary )
+        l.size must beEqualTo(4)
+      }
 
   }
 

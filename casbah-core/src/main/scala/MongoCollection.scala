@@ -101,7 +101,7 @@ trait MongoCollectionBase extends Logging { self =>
    * find distinct values for a key
    * @param query query to apply on collection
    */
-  def distinct[A <% DBObject](key: String, query: A = MongoDBObject.empty, readPrefs: ReadPreference = getReadPreference) = underlying.distinct(key).asScala
+  def distinct[A <% DBObject](key: String, query: A = MongoDBObject.empty, readPrefs: ReadPreference = getReadPreference) = underlying.distinct(key, query, readPrefs).asScala
 
   /** Drops (deletes) this collection
    */
