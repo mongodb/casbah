@@ -68,14 +68,14 @@ class MongoURI(val underlying: com.mongodb.MongoURI) {
   def connect: Either[Throwable, MongoConnection] = try {
     Right(underlying.connect.asScala)
   } catch {
-    case t => Left(t)
+    case t : Throwable => Left(t)
   }
   def connectDB: Either[Throwable, MongoDB] = {
     try {
       require(database.isDefined, "Cannot connect to Database as none is defined.")
       Right(underlying.connectDB.asScala)
     } catch {
-      case t => Left(t)
+      case t : Throwable => Left(t)
     }
   }
   def connectCollection: Either[Throwable, MongoCollection] = {
@@ -87,7 +87,7 @@ class MongoURI(val underlying: com.mongodb.MongoURI) {
         case Left(t) => Left(t)
       }
     } catch {
-      case t => Left(t)
+      case t : Throwable => Left(t)
     }
   }
 

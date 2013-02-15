@@ -10,6 +10,7 @@ object CasbahBuild extends Build {
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
     version      := "2.5.0",
+    scalaVersion := "2.10.0",
     crossScalaVersions := Seq("2.10.0", "2.9.2", "2.9.1")
   )
 
@@ -47,7 +48,7 @@ object CasbahBuild extends Build {
       },
       scalacOptions <++= scalaVersion map { sv =>
         sv match {
-          case "2.10.0" => Seq("-Yeta-expand-keeps-star")
+          case "2.10.0" => Seq("-Yeta-expand-keeps-star", "-feature")
           case _ => Seq()
         }
       },
