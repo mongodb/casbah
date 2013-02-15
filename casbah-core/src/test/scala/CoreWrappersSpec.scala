@@ -192,7 +192,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       for (i <- 1 to 99)
         coll += MongoDBObject("_id" -> i, "x" -> i % 10)
 
-      "except, just a key" in {
+      "except just a key" in {
         val l = coll.distinct( "x" )
         l.size must beEqualTo(10)
       }
