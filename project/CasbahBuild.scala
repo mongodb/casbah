@@ -64,13 +64,14 @@ object CasbahBuild extends Build {
   lazy val parentSettings = baseSettings ++ Seq(
     publishArtifact in (Compile, packageBin) := false,
     publishArtifact in (Compile, packageDoc) := false,
-    publishArtifact in (Compile, packageSrc) := false
+    publishArtifact in (Compile, packageSrc) := false,
+    publish := {},
+    publishLocal := {}
   )
 
   lazy val defaultSettings = baseSettings ++ Seq(
     libraryDependencies <++= (scalaVersion)(sv => Seq(
-      scalatest(sv), scalatime(sv), specs2(sv),
-      slf4j, slf4jJCL, junit
+      scalatime(sv), slf4j, slf4jJCL, junit
     )),
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2
@@ -80,8 +81,8 @@ object CasbahBuild extends Build {
     id        = "casbah",
     base      = file("."),
     settings  = parentSettings ++ Unidoc.settings,
-    aggregate = Seq(commons, core, query, gridfs)
-  ) dependsOn(commons, core, query, gridfs)
+    aggregate = Seq(commons, core, query, gridfs, specs2Helper, scalatestHelper)
+  )
 
   lazy val commons = Project(
     id       = "casbah-commons",
@@ -91,23 +92,45 @@ object CasbahBuild extends Build {
     )
   )
 
+  lazy val commonsTest = Project(
+    id       = "casbah-commons-test",
+    base     = file("casbah-commons-test"),
+    settings = defaultSettings ++ parentSettings
+  ) dependsOn(commons, specs2Helper)
+
+  lazy val specs2Helper = Project(
+    id        = "casbah-specs2",
+    base      = file("casbah-specs2"),
+    settings  = defaultSettings ++ Seq(
+      libraryDependencies <+= scalaVersion(specs2)
+    )
+  ) dependsOn(commons)
+
+  lazy val scalatestHelper = Project(
+    id        = "casbah-scalatest",
+    base      = file("casbah-scalatest"),
+    settings  = defaultSettings ++ Seq(
+      libraryDependencies <+= scalaVersion(scalatest)
+    )
+  ) dependsOn(commons)
+
   lazy val core = Project(
     id       = "casbah-core",
     base     = file("casbah-core"),
     settings = defaultSettings ++ Seq(parallelExecution in Test := false)
-  ) dependsOn(commons, query)
+  ) dependsOn(commons, query, specs2Helper % "test->test")
 
   lazy val query = Project(
     id       = "casbah-query",
     base     = file("casbah-query"),
     settings = defaultSettings
-  ) dependsOn(commons)
+  ) dependsOn(commons, specs2Helper % "test->test")
 
   lazy val gridfs = Project(
     id       = "casbah-gridfs",
     base     = file("casbah-gridfs"),
     settings = defaultSettings
-  ) dependsOn(core)
+  ) dependsOn(core, specs2Helper % "test->test")
 
 }
 
@@ -120,7 +143,7 @@ object Dependencies {
 
   def scalatest(scalaVersion: String) =
     scalaVersion match {
-      case _ => "org.scalatest" % "scalatest_2.9.2" % "1.8" % "provided"
+      case _ => "org.scalatest" %% "scalatest" % "1.9.1"
     }
 
   def scalatime(scalaVersion: String) =
