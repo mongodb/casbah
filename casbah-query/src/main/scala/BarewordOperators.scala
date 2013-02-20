@@ -109,12 +109,6 @@ trait SetOp extends BarewordQueryOperator {
   def $set[A](fields: (String, A)*): DBObject = apply[A]("$set")(fields)
 }
 
-trait UnsetOpBase extends BarewordQueryOperator {
-  protected def _unset(args: String*): DBObject =
-    apply[Int]("$unset")(Seq(args.map(_ -> 1): _*))
-}
-
-
 /**
  * Trait to provide the $unset (UnSet) UnSet method as a bareword operator..
  *
@@ -124,11 +118,9 @@ trait UnsetOpBase extends BarewordQueryOperator {
  *
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24unset
  */
-trait UnsetOp extends UnsetOpBase {
-  def $unset(args: String*): DBObject = {
-    val fields: Seq[(String, Int)] = Seq(args.map(_ -> 1): _*)
+trait UnsetOp extends BarewordQueryOperator {
+  def $unset(args: String*): DBObject =
     apply[Int]("$unset")(Seq(args.map(_ -> 1): _*))
-  }
 }
 
 /**
@@ -223,10 +215,6 @@ trait AddToSetOp extends BarewordQueryOperator {
 
 }
 
-trait PopOpBase extends BarewordQueryOperator {
-  protected def _pop[T: ValidNumericType](args: (String, T)*) = apply[T]("$pop")(Seq(args: _*))
-}
-
 /*
  * Trait to provide the $pop (pop) method as a bareword operator..
  *
@@ -234,8 +222,8 @@ trait PopOpBase extends BarewordQueryOperator {
  *
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pop
  */
-trait PopOp extends PopOpBase {
-  def $pop[T: ValidNumericType](args: (String, T)*) = _pop(args: _*)
+trait PopOp extends BarewordQueryOperator {
+  def $pop[T: ValidNumericType](args: (String, T)*) = apply[T]("$pop")(Seq(args: _*))
 }
 
 /*
@@ -270,10 +258,6 @@ trait PullAllOp extends BarewordQueryOperator {
     apply("$pullAll")(Seq(args.map(z => z._1 -> AsIterable[A].asIterable(z._2)): _*))
 }
 
-trait AndOpBase {
-  protected def _and = new NestedBarewordListOperator("$and")
-}
-
 /**
  * Trait to provide the $and method as a bareword operator.
  *
@@ -283,12 +267,8 @@ trait AndOpBase {
  *
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24and
  */
-trait AndOp extends AndOpBase {
-  def $and = _and
-}
-
-trait OrOpBase {
-  protected def _or = new NestedBarewordListOperator("$or")
+trait AndOp {
+  def $and = new NestedBarewordListOperator("$and")
 }
 
 /**
@@ -301,8 +281,8 @@ trait OrOpBase {
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24or
  */
-trait OrOp extends OrOpBase {
-  def $or = _or
+trait OrOp {
+  def $or = new NestedBarewordListOperator("$or")
 }
 
 /**
@@ -320,10 +300,6 @@ trait RenameOp extends BarewordQueryOperator {
   def $rename[A](fields: (String, A)*) = apply[Any]("$rename")(fields)
 }
 
-trait NorOpBase {
-  protected def _nor = new NestedBarewordListOperator("$nor")
-}
-
 /**
  * Trait to provide the $nor (nor ) method as a bareword operator
  *
@@ -334,20 +310,8 @@ trait NorOpBase {
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nor
  */
-trait NorOp extends NorOpBase {
-  def $nor = _nor
-}
-
-trait BitOpBase extends BarewordQueryOperator {
-  protected def _bit(field: String) = {
-    new {
-      protected def op(oper: String, target: Any) =
-        MongoDBObject("$bit" -> MongoDBObject(field -> MongoDBObject(oper -> target)))
-
-      def and[T: ValidNumericType](target: T) = op("and", target)
-      def or[T: ValidNumericType](target: T) = op("or", target)
-    }
-  }
+trait NorOp {
+  def $nor = new NestedBarewordListOperator("$nor")
 }
 
 /**
@@ -361,6 +325,14 @@ trait BitOpBase extends BarewordQueryOperator {
  * @since 2.1.1
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24bit
  */
-trait BitOp extends BitOpBase {
-  def $bit(field: String) = _bit(field)
+trait BitOp extends BarewordQueryOperator {
+  def $bit(field: String) = {
+    new {
+      protected def op(oper: String, target: Any) =
+        MongoDBObject("$bit" -> MongoDBObject(field -> MongoDBObject(oper -> target)))
+
+      def and[T: ValidNumericType](target: T) = op("and", target)
+      def or[T: ValidNumericType](target: T) = op("or", target)
+    }
+  }
 }
