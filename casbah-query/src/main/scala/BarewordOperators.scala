@@ -45,7 +45,8 @@ trait BarewordQueryOperator {
   /*
    * TODO - Implicit filtering of 'valid' (aka convertible) types for [A]
    */
-  def apply[A](oper: String)(fields: (String, A)*): DBObject = {
+
+  def apply[A](oper: String)(fields: Seq[(String, A)]): DBObject = {
     val bldr = MongoDBObject.newBuilder
     for ((k, v) <- fields) bldr += k -> v
     MongoDBObject(oper -> bldr.result.asDBObject)
@@ -95,10 +96,6 @@ trait ArrayOps extends PushOp
                   with PullOp
                   with PullAllOp
 
-trait SetOpBase extends BarewordQueryOperator {
-  protected def _set = apply[Any]("$set")_
-}
-
 /**
  * Trait to provide the $set (Set) Set method as a bareword operator.
  *
@@ -108,13 +105,15 @@ trait SetOpBase extends BarewordQueryOperator {
  *
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24set
  */
-trait SetOp extends SetOpBase {
-  def $set = _set
+trait SetOp extends BarewordQueryOperator {
+  def $set[A](fields: (String, A)*): DBObject = apply[A]("$set")(fields)
 }
 
 trait UnsetOpBase extends BarewordQueryOperator {
-  protected def _unset(args: String*): DBObject = apply("$unset")(args.map(_ -> 1): _*)
+  protected def _unset(args: String*): DBObject =
+    apply[Int]("$unset")(Seq(args.map(_ -> 1): _*))
 }
+
 
 /**
  * Trait to provide the $unset (UnSet) UnSet method as a bareword operator..
@@ -126,11 +125,10 @@ trait UnsetOpBase extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24unset
  */
 trait UnsetOp extends UnsetOpBase {
-  def $unset = _unset _
-}
-
-trait IncOpBase extends BarewordQueryOperator {
-  protected def _inc[T: ValidNumericType](args: (String, T)*): DBObject = apply[T]("$inc")(args: _*)
+  def $unset(args: String*): DBObject = {
+    val fields: Seq[(String, Int)] = Seq(args.map(_ -> 1): _*)
+    apply[Int]("$unset")(Seq(args.map(_ -> 1): _*))
+  }
 }
 
 /**
@@ -148,13 +146,8 @@ trait IncOpBase extends BarewordQueryOperator {
  * @since 1.0
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24inc
  */
-trait IncOp extends IncOpBase {
-  def $inc[T: ValidNumericType](args: (String,  T)*): DBObject = _inc(args: _*)
-}
-
-
-trait PushOpBase extends BarewordQueryOperator {
-  protected def _push = apply[Any]("$push")_
+trait IncOp extends BarewordQueryOperator {
+  def $inc[T: ValidNumericType](args: (String,  T)*): DBObject = apply[T]("$inc")(args)
 }
 
 /*
@@ -167,13 +160,8 @@ trait PushOpBase extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24push
  *
  */
-trait PushOp extends PushOpBase {
-  def $push = _push
-}
-
-trait PushAllOpBase extends BarewordQueryOperator {
-  protected def _pushAll[A : AsIterable](args: (String, A)*): DBObject =
-    apply("$pushAll")(args.map(z => z._1 -> AsIterable[A].asIterable(z._2)) :_*)
+trait PushOp extends BarewordQueryOperator {
+  def $push[A](fields: (String, A)*): DBObject = apply[A]("$push")(fields)
 }
 
 /*
@@ -186,17 +174,27 @@ trait PushAllOpBase extends BarewordQueryOperator {
  *
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pushAll
  */
-trait PushAllOp extends PushAllOpBase {
-  def $pushAll[A : AsIterable](args: (String, A)*): DBObject = _pushAll(args: _*)
+trait PushAllOp extends BarewordQueryOperator {
+  def $pushAll[A : AsIterable](args: (String, A)*): DBObject =
+    apply("$pushAll")(Seq(args.map(z => z._1 -> AsIterable[A].asIterable(z._2)) :_*))
 }
 
-trait AddToSetOpBase extends BarewordQueryOperator {
-  protected def _addToSet[T <% DBObject](arg: T): DBObject =
-    MongoDBObject("$addToSet" -> arg)
-
-
-  /* $each-able */
-  protected def _addToSet(field: String) = {
+/*
+ * Trait to provide the $addToSet (addToSet) method as a bareword operator..
+ *
+ * Targets an RValue of (String, Any)* to be converted to a  DBObject
+ *
+ * Can also combined with the $each operator for adding many values:
+ *
+ *   scala> $addToSet ("foo") $each (5, 10, 15, "20"))
+ *  res6: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : { "foo" : { "$each" : [ 5 , 10 , 15 , "20"]}}}
+ *
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
+ */
+trait AddToSetOp extends BarewordQueryOperator {
+  def $addToSet[T <% DBObject](arg: T): DBObject = MongoDBObject("$addToSet" -> arg)
+  def $addToSet[A](fields: (String, A)*): DBObject = apply[A]("$addToSet")(fields)
+  def $addToSet(field: String) = {
     /**
      * Special query operator only available on the right-hand side of an
      * $addToSet which takes a list of values.
@@ -205,7 +203,7 @@ trait AddToSetOpBase extends BarewordQueryOperator {
      *
      * THIS WILL NOT WORK IN MONGOD ANYWHERE BUT INSIDE AN ADDTOSET
      *
-         * @since 2.0
+     * @since 2.0
      * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
      */
     new {
@@ -222,30 +220,11 @@ trait AddToSetOpBase extends BarewordQueryOperator {
         else op(target(0))
     }
   }
-  protected def _addToSet = apply[Any]("$addToSet")_
 
-}
-
-/*
- * Trait to provide the $addToSet (addToSet) method as a bareword operator..
- *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject
- *
- * Can also combined with the $each operator for adding many values:
- *
- *   scala> $addToSet ("foo") $each (5, 10, 15, "20"))
- *  res6: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : { "foo" : { "$each" : [ 5 , 10 , 15 , "20"]}}}
- *
- * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
- */
-trait AddToSetOp extends AddToSetOpBase {
-  def $addToSet[T <% DBObject](arg: T): DBObject = _addToSet(arg)
-  def $addToSet(field: String) = _addToSet(field)
-  def $addToSet = _addToSet
 }
 
 trait PopOpBase extends BarewordQueryOperator {
-  protected def _pop[T: ValidNumericType](args: (String, T)*) = apply[T]("$pop")(args: _*)
+  protected def _pop[T: ValidNumericType](args: (String, T)*) = apply[T]("$pop")(Seq(args: _*))
 }
 
 /*
@@ -259,13 +238,6 @@ trait PopOp extends PopOpBase {
   def $pop[T: ValidNumericType](args: (String, T)*) = _pop(args: _*)
 }
 
-trait PullOpBase extends BarewordQueryOperator {
-  protected def _pull = apply[Any]("$pull")_
-  /** ValueTest enabled version */
-  protected def _pull(inner: => DBObject): DBObject = MongoDBObject("$pull" -> inner)
-  protected def _pull(inner: DBObject): DBObject = MongoDBObject("$pull" -> inner)
-}
-
 /*
  * Trait to provide the $pull (pull) method as a bareword operator..
  *
@@ -277,15 +249,10 @@ trait PullOpBase extends BarewordQueryOperator {
  *
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pull
  */
-trait PullOp extends PullOpBase {
-  def $pull = apply[Any]("$pull")_
-  def $pull(inner: => DBObject): DBObject = _pull(inner)
-  def $pull(inner: DBObject): DBObject = _pull(inner)
-}
-
-trait PullAllOpBase extends BarewordQueryOperator {
-  protected def _pullAll[A : AsIterable](args: (String, A)*): DBObject =
-    apply("$pullAll")(args.map(z => z._1 -> AsIterable[A].asIterable(z._2)): _*)
+trait PullOp extends BarewordQueryOperator {
+  def $pull[A](fields: (String, A)*) = apply[Any]("$pull")(fields)
+  def $pull(inner: => DBObject): DBObject = MongoDBObject("$pull" -> inner)
+  def $pull(inner: DBObject): DBObject = MongoDBObject("$pull" -> inner)
 }
 
 /*
@@ -298,8 +265,9 @@ trait PullAllOpBase extends BarewordQueryOperator {
  *
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pullAll
  */
-trait PullAllOp extends PullAllOpBase {
-  def $pullAll[A : AsIterable](args: (String, A)*): DBObject = _pullAll(args: _*)
+trait PullAllOp extends BarewordQueryOperator {
+  def $pullAll[A : AsIterable](args: (String, A)*): DBObject =
+    apply("$pullAll")(Seq(args.map(z => z._1 -> AsIterable[A].asIterable(z._2)): _*))
 }
 
 trait AndOpBase {
@@ -337,11 +305,6 @@ trait OrOp extends OrOpBase {
   def $or = _or
 }
 
-
-trait RenameOpBase extends BarewordQueryOperator {
-  protected def _rename = apply[Any]("$rename")_
-}
-
 /**
  * Trait to provide the $rename (Rename field) as a bareword operator
  *
@@ -353,8 +316,8 @@ trait RenameOpBase extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24rename
  *
  */
-trait RenameOp extends RenameOpBase {
-  def $rename = _rename
+trait RenameOp extends BarewordQueryOperator {
+  def $rename[A](fields: (String, A)*) = apply[Any]("$rename")(fields)
 }
 
 trait NorOpBase {

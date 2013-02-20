@@ -48,7 +48,11 @@ object CasbahBuild extends Build {
       },
       scalacOptions <++= scalaVersion map { sv =>
         sv match {
-          case "2.10.0" => Seq("-Yeta-expand-keeps-star", "-feature")
+          case "2.10.0" => Seq(
+                               "-feature",
+                               "-language:reflectiveCalls",
+                               "-language:implicitConversions",
+                               "-language:postfixOps")
           case _ => Seq()
         }
       },
@@ -145,4 +149,3 @@ object Resolvers {
   val sonatypeSTArch = "scalaTools Archive" at "https://oss.sonatype.org/content/groups/scala-tools/"
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
 }
-
