@@ -22,6 +22,8 @@
 
 package com.mongodb.casbah
 
+import scala.sys.process._
+import org.specs2.specification.Scope
 import com.github.nscala_time.time.Imports._
 
 import com.mongodb.casbah.Imports._
@@ -31,12 +33,11 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 
 class GroupSpec extends CasbahMutableSpecification {
+  implicit val mongoDB = MongoClient()("casbahIntegration")
 
   "Casbah's Group Interfaces" should {
-    implicit val mongoDB = MongoClient()("casbahIntegration")
 
-
-    "Work with a normal non-finalized Group statement" in {
+    "Work with a normal non-finalized Group statement" in new testData {
       val cond = MongoDBObject()
       val key = MongoDBObject("publicationYear" -> 1)
       val initial = MongoDBObject("count" -> 0)
@@ -46,7 +47,7 @@ class GroupSpec extends CasbahMutableSpecification {
     }
 
     // Test for SCALA-37
-    "Work with a trivial finalized Group statement" in {
+    "Work with a trivial finalized Group statement" in new testData {
       val cond = MongoDBObject()
       val key = MongoDBObject("publicationYear" -> 1)
       val initial = MongoDBObject("count" -> 0)
@@ -55,16 +56,21 @@ class GroupSpec extends CasbahMutableSpecification {
       result.size must beEqualTo(31)
     }
 
-    "Work with a less-trivial finalized Group statement" in {
+    "Work with a less-trivial finalized Group statement" in new testData {
       val cond = MongoDBObject()
       val key = MongoDBObject("publicationYear" -> 1)
       val initial = MongoDBObject("count" -> 0)
       val reduce = "function(obj, prev) { prev.count++; }"
-      val finalize = "function(out) { out.avg_count = 3; }"
-      val result = mongoDB("books").group(key, cond, initial, reduce, finalize)
+      val finalise = "function(out) { out.avg_count = 3; }"
+      val result = mongoDB("books").group(key, cond, initial, reduce, finalise)
       result.forall(_.getOrElse("avg_count", 2) == 3)
     }
 
+    trait testData extends Scope {
+      Seq("mongoimport", "-d", "casbahIntegration", "-c", "books", "--drop", "./casbah-core/src/test/resources/bookstore.json").!!
+      // Verify the treasury data is loaded or skip the test for now
+      mongoDB("books").size must beGreaterThan(0)
+    }
   }
 
 }

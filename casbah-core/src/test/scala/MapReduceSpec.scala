@@ -22,6 +22,8 @@
 
 package com.mongodb.casbah.test.core
 
+import scala.sys.process._
+import org.specs2.specification.Scope
 import com.github.nscala_time.time.Imports._
 
 import com.mongodb.casbah.Imports._
@@ -34,9 +36,10 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 class MapReduceSpec extends CasbahMutableSpecification {
   sequential
 
-  "Casbah's Map/Reduce Engine" should {
 
-    implicit val mongoDB = MongoClient()("casbahIntegration")
+  implicit val mongoDB = MongoClient()("casbahIntegration")
+
+  "Casbah's Map/Reduce Engine" should {
 
     "Handle error conditions such as non-existent collections gracefully" in {
 
@@ -58,9 +61,6 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
     implicit val mongoDB = MongoClient()("casbahIntegration")
-
-    verifyAndInitTreasuryData
-
 
     val mapJS = """
       function m() {
@@ -87,7 +87,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
       }
     """
 
-    "Produce results in a named collection for all data" in {
+    "Produce results in a named collection for all data" in new testData {
       val coll = mongoDB("yield_historical.in")
       val result = coll.mapReduce(
         mapJS,
@@ -102,7 +102,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
       result.size must beEqualTo(result.raw.expand[Int]("counts.output").getOrElse(-1))
     }
 
-    "Produce results in a named collection for inline data" in {
+    "Produce results in a named collection for inline data" in new testData {
       val coll = mongoDB("yield_historical.in")
       val result = coll.mapReduce(
         mapJS,
@@ -123,13 +123,9 @@ class MapReduceSpec extends CasbahMutableSpecification {
       item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
     }
 
-    "Produce results for merged output" in {
-      verifyAndInitTreasuryData
+    "Produce results for merged output" in new testData {
 
       import java.util.Date
-      mongoDB("yield_historical.merged").size must beEqualTo(0)
-      mongoDB("yield_historical.aughts").size must beEqualTo(0)
-      mongoDB("yield_historical.nineties").size must beEqualTo(0)
 
       val cmd90s = MapReduceCommand(
         "yield_historical.in",
@@ -161,8 +157,6 @@ class MapReduceSpec extends CasbahMutableSpecification {
         verbose = true)
 
       val result00s = mongoDB.mapReduce(cmd00s)
-
-      // log.info("M/R result00s: %s", result00s)
 
       result00s.isError must beFalse
       result00s.raw.getAs[String]("result") must beSome("yield_historical.aughts")
@@ -214,13 +208,8 @@ class MapReduceSpec extends CasbahMutableSpecification {
       }
     }
 
-    "Produce results for reduced output (multiples into a single final collection)" in {
-      verifyAndInitTreasuryData
+    "Produce results for reduced output (multiples into a single final collection)" in new testData {
       import java.util.Date
-
-      mongoDB("yield_historical.all").size must beEqualTo(0)
-      mongoDB("yield_historical.aughts").size must beEqualTo(0)
-      mongoDB("yield_historical.nineties").size must beEqualTo(0)
 
       val cmd90s = MapReduceCommand(
         "yield_historical.in",
@@ -292,12 +281,14 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
   }
 
-  def verifyAndInitTreasuryData()(implicit mongoDB: MongoDB) = {
+  trait testData extends Scope {
     mongoDB("yield_historical.all").drop
     mongoDB("yield_historical.merged").drop
     mongoDB("yield_historical.merged_fresh").drop
     mongoDB("yield_historical.nineties").drop
     mongoDB("yield_historical.aughts").drop
+
+    Seq("mongoimport", "-d", "casbahIntegration", "-c", "yield_historical.in", "--drop", "./casbah-core/src/test/resources/yield_historical_in.json").!!
 
     // Verify the treasury data is loaded or skip the test for now
     mongoDB("yield_historical.in").size must beGreaterThan(0)

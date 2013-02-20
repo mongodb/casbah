@@ -28,6 +28,12 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 // TODO - Operational/Integration testing with this code
 @SuppressWarnings(Array("deprecation"))
 class BarewordOperatorsSpec extends CasbahMutableSpecification {
+
+  // var conn: MongoClient = MongoClient()
+  // var db: MongoDB = conn("test")
+  // var coll: MongoCollection = db("barewordoperator")
+  // coll.drop()
+
   "Casbah's DSL $set Operator" should {
     "Accept one or many pairs of values" in {
       "A single pair" in {
@@ -151,16 +157,14 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         val push = $pushAll("foo" -> ("bar", "baz", "x", "y"))
         push must haveListEntry("$pushAll.foo", List("bar", "baz", "x", "y"))
       }
-//      IS NOW A COMPILE ERROR
-//      "Not allow a non-list value" in {
-//        ($pushAll("foo" -> "bar")) must throwA[IllegalArgumentException]
-//      }
+
       "Accept multiple value lists" in {
         val push = $pushAll("foo" -> ("bar", "baz", "x", "y"), "n" -> (5, 10, 12, 238))
         push must haveListEntry("$pushAll.foo", List("bar", "baz", "x", "y"))
         push must haveListEntry("$pushAll.n", List(5, 10, 12, 238))
       }
     }
+
     "$addToSet" in {
       "Accept a single value" in {
         val addToSet = $addToSet("foo" -> "bar")
@@ -176,6 +180,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         addToSet must haveListEntry("$addToSet.foo.$each", Seq("x", "y", "foo", "bar", "baz"))
       }
     }
+
     "$bit" in {
       "Accept a single value" in {
         "For 'and'" in {
@@ -228,10 +233,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         val pull = $pullAll("foo" -> ("bar", "baz", "x", "y"))
         pull must haveEntry("$pullAll.foo" -> Seq("bar", "baz", "x", "y"))
       }
-//      IS NOW COMPILE ERROR
-//      "Not allow a non-list value" in {
-//        ($pullAll("foo" -> "bar")) must throwA[IllegalArgumentException]
-//      }
+
       "Accept multiple value lists" in {
         val pull = $pullAll("foo" -> ("bar", "baz", "x", "y"), "n" -> (5, 10, 12, 238))
         pull must haveEntry("$pullAll.foo" -> Seq("bar", "baz", "x", "y"))
