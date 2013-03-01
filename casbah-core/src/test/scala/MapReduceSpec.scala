@@ -123,6 +123,36 @@ class MapReduceSpec extends CasbahMutableSpecification {
       item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
     }
 
+    "Produce results with variable from jsScope" in {
+      val f = """
+        function f( year, value ){
+          value.scopeVar = scopeVar;
+          return scopeVar;
+        }
+      """
+
+      val coll = mongoDB("yield_historical.in")
+      val result = coll.mapReduce(
+        mapJS,
+        reduceJS,
+        MapReduceInlineOutput,
+        finalizeFunction = Some(f),
+        jsScope = Some(MongoDBObject("scopeVar" -> "testScopeVar")),
+        verbose = true)
+
+      /*log.warn("M/R Result: %s", result)*/
+
+
+      result.isError must beFalse
+      result.raw.getAs[String]("result") must beNone
+      result.size must beGreaterThan(0)
+      result.size must beEqualTo(result.raw.expand[Int]("counts.output").getOrElse(-1))
+
+      val item = result.next
+      item must beDBObject
+      item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> "testScopeVar"))
+    }
+
     "Produce results for merged output" in {
       verifyAndInitTreasuryData
 
