@@ -121,7 +121,7 @@ object Dependencies {
 
   def scalatest(scalaVersion: String) =
     (scalaVersion match {
-      case _ => "org.scalatest" % "scalatest_2.9.2" % "1.8" 
+      case _ => "org.scalatest" %% "scalatest" % "1.9.1"
     }) % "test"
 
   def scalatime(scalaVersion: String) =
@@ -131,11 +131,9 @@ object Dependencies {
 
   def specs2(scalaVersion: String) =
       (scalaVersion match {
-          case "2.9.0"   => "org.specs2" % "specs2_2.9.0" % "1.7.1"
-          case "2.9.0-1" => "org.specs2" % "specs2_2.9.0" % "1.7.1"
-          case "2.9.1"   => "org.specs2" % "specs2_2.9.1" % "1.12.2"
-          case "2.9.2"   => "org.specs2" % "specs2_2.9.2" % "1.12.2"
-          case "2.10.0"   => "org.specs2" %% "specs2" % "1.13"
+          case "2.9.1"   => "org.specs2" %% "specs2" % "1.12.2"
+          case "2.9.2"   => "org.specs2" %% "specs2" % "1.12.3"
+          case "2.10.0"   => "org.specs2" %% "specs2" % "1.14"
       }) % "test"
 }
 
