@@ -33,6 +33,7 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 
 class GroupSpec extends CasbahMutableSpecification {
+  sequential
   implicit val mongoDB = MongoClient()("casbahIntegration")
 
   "Casbah's Group Interfaces" should {
