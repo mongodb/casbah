@@ -92,19 +92,19 @@ object CasbahBuild extends Build {
     id       = "casbah-core",
     base     = file("casbah-core"),
     settings = defaultSettings ++ Seq(parallelExecution in Test := false)
-  ) dependsOn(commons, query)
+  ) dependsOn(commons % "test->test;compile", query)
 
   lazy val query = Project(
     id       = "casbah-query",
     base     = file("casbah-query"),
     settings = defaultSettings
-  ) dependsOn(commons)
+  ) dependsOn(commons % "test->test;compile" )
 
   lazy val gridfs = Project(
     id       = "casbah-gridfs",
     base     = file("casbah-gridfs"),
     settings = defaultSettings
-  ) dependsOn(core)
+  ) dependsOn(commons % "test->test", core)
 
 }
 
@@ -116,9 +116,9 @@ object Dependencies {
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
 
   def scalatest(scalaVersion: String) =
-    scalaVersion match {
-      case _ => "org.scalatest" % "scalatest_2.9.2" % "1.8" % "provided"
-    }
+    (scalaVersion match {
+      case _ => "org.scalatest" %% "scalatest" % "1.9.1"
+    }) % "test"
 
   def scalatime(scalaVersion: String) =
       scalaVersion match {
@@ -126,13 +126,11 @@ object Dependencies {
       }
 
   def specs2(scalaVersion: String) =
-      scalaVersion match {
-          case "2.9.0"   => "org.specs2" % "specs2_2.9.0" % "1.7.1"
-          case "2.9.0-1" => "org.specs2" % "specs2_2.9.0" % "1.7.1"
-          case "2.9.1"   => "org.specs2" % "specs2_2.9.1" % "1.12.2"
-          case "2.9.2"   => "org.specs2" % "specs2_2.9.2" % "1.12.2"
-          case "2.10.0"   => "org.specs2" %% "specs2" % "1.13"
-      }
+      (scalaVersion match {
+          case "2.9.1"   => "org.specs2" %% "specs2" % "1.12.2"
+          case "2.9.2"   => "org.specs2" %% "specs2" % "1.12.3"
+          case "2.10.0"   => "org.specs2" %% "specs2" % "1.14"
+      }) % "test"
 }
 
 object Resolvers {
