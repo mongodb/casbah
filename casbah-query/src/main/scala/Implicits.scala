@@ -94,18 +94,20 @@ object Implicits extends query.Implicits with commons.Implicits
 /*
  *object Imports extends query.Imports with commons.Imports
  */
-object Imports extends dsl.FluidQueryBarewordOps
-                  with query.Imports
-                  with commons.Imports
-                  with ValidBarewordExpressionArgTypeHolder
-                  with ValidDateTypeHolder
-                  with ValidNumericTypeHolder
-                  with ValidDateOrNumericTypeHolder
+object Imports extends query.Imports with commons.Imports
+
 
 object BaseImports extends query.BaseImports with commons.BaseImports
 object TypeImports extends query.TypeImports with commons.TypeImports
 
-trait Imports extends query.BaseImports with query.TypeImports with query.Implicits with ValidDateOrNumericTypeHolder
+trait Imports extends query.BaseImports
+                      with query.TypeImports
+                      with query.Implicits
+                      with dsl.FluidQueryBarewordOps
+                      with ValidBarewordExpressionArgTypeHolder
+                      with ValidDateTypeHolder
+                      with ValidNumericTypeHolder
+                      with ValidDateOrNumericTypeHolder
 
 trait BaseImports {
   val GeoCoords = com.mongodb.casbah.query.dsl.GeoCoords
@@ -153,8 +155,6 @@ object ValidTypes {
     def toDBObject(arg: DBObject): DBObject = arg
   }
 
-
-
   // ValidNumericTypes
   trait BigIntOk extends ValidNumericType[BigInt] with Numeric.BigIntIsIntegral with Ordering.BigIntOrdering
   trait IntOk extends ValidNumericType[Int] with Numeric.IntIsIntegral with Ordering.IntOrdering
@@ -167,11 +167,9 @@ object ValidTypes {
 }
 
 
-
 trait ValidBarewordExpressionArgType[T] {
   def toDBObject(arg: T): DBObject
 }
-
 
 
 trait ValidBarewordExpressionArgTypeHolder {
@@ -182,12 +180,10 @@ trait ValidBarewordExpressionArgTypeHolder {
 }
 
 
-
 @annotation.implicitNotFound("${A} is not iterable.")
 trait AsIterable[A]{
   def asIterable(a:A):Iterable[_]
 }
-
 
 
 object AsIterable {
@@ -197,13 +193,10 @@ object AsIterable {
     def asIterable(a: A) = a
   }
 
-
-
   implicit def product[A <: Product]:AsIterable[A] = new AsIterable[A]{
     def asIterable(a: A) = a.productIterator.toIterable
   }
 }
-
 
 
 @annotation.implicitNotFound("${A} is not a valid query parameter.")
@@ -212,15 +205,12 @@ trait AsQueryParam[A]{
 }
 
 
-
 object AsQueryParam {
   def apply[A](implicit a:AsQueryParam[A]) = a
 
   private def as[A](f:A => Any):AsQueryParam[A] = new AsQueryParam[A]{
     def asQueryParam(a: A) = f(a)
   }
-
-
 
   implicit val string = as[String](identity)
   implicit def dbObject[A <: DBObject] = as[A](identity)
@@ -266,6 +256,7 @@ trait ValidNumericTypeHolder {
   implicit object BigDecimalOk extends BigDecimalOk
   implicit object DoubleOk extends DoubleOk
 }
+
 
 trait ValidDateOrNumericTypeHolder {
   import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, BigIntOk, IntOk, ShortOk, ByteOk, LongOk, FloatOk, BigDecimalOk, DoubleOk}

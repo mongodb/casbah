@@ -36,7 +36,6 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 class MapReduceSpec extends CasbahMutableSpecification {
   sequential
 
-
   implicit val mongoDB = MongoClient()("casbahIntegration")
 
   "Casbah's Map/Reduce Engine" should {
