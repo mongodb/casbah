@@ -37,7 +37,7 @@ First, you should add the package repository to your Dependency/Build Manager. O
    https://oss.sonatype.org/content/repositories/releases/  /* For Releases */
    https://oss.sonatype.org/content/repositories/snapshots/ /* For snapshots */
 
-Set both of these repositories up in the appropriate manner - they contain Casbah as well as any specific dependencies you may require. (SBT users note that Scala-Tools is builtin to SBT as most Scala projects publish there)
+Set both of these repositories up in the appropriate manner - they contain Casbah as well as any specific dependencies you may require.
 
 
 Setting Up Maven
