@@ -270,6 +270,16 @@ class QueryIntegrationSpec extends CasbahMutableSpecification {
           coll.update(MongoDBObject("a" -> "b"), pull)
           coll.findOne.get.as[MongoDBList]("foo") must beEqualTo(MongoDBList(3, 2, 1))
         }
+        "a sub document from a list" in {
+          coll.drop
+          coll += MongoDBObject("_id" -> "xyz", "answers" -> MongoDBList(
+            MongoDBObject("name" -> "Yes"),
+            MongoDBObject("name" -> "No")
+          ))
+          val pull = $pull ( "answers" -> MongoDBObject("name" -> "Yes") )
+          coll.update(MongoDBObject("_id" -> "xyz"), pull)
+          coll.findOne.get.as[MongoDBList]("answers") must beEqualTo(MongoDBList(MongoDBObject("name" -> "No")))
+        }
       }
       "Accept multiple values" in {
         coll.drop

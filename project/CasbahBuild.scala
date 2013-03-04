@@ -40,8 +40,7 @@ object CasbahBuild extends Build {
       },
       scalacOptions <++= scalaVersion map { sv =>
         sv match {
-          case "2.10.0" => Seq(
-                               "-feature",
+          case "2.10.0" => Seq("-feature",
                                "-language:reflectiveCalls",
                                "-language:implicitConversions",
                                "-language:postfixOps")
