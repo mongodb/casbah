@@ -36,15 +36,15 @@ trait Implicits {
    * Mixes in the QueryOperators defined in the QueryOperators mixin.
    * The NestedQuery implicit [Defined below] allows you to call chained operators on the return value of this
    * method.  Chained operators will place the subsequent operators within the same DBObject,
-   * e.g. <code>"fooDate" $lte yesterday $gte tomorrow</code> maps to a Mongo query of:
-   * <code>{"fooDate": {"$lte": <yesterday>, "$gte": <tomorrow>}}</code>
+   * e.g. <code>"fooDate" \$lte yesterday \$gte tomorrow</code> maps to a Mongo query of:
+   * <code>{"fooDate": {"\$lte": <yesterday>, "\$gte": <tomorrow>}}</code>
    *
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
   implicit def mongoQueryStatements(left: String) = new {
     val field = left
-  } with dsl.FluidQueryOperators with dsl.aggregation.ProjectSubOperators
+  } with dsl.FluidQueryOperators // with dsl.aggregation.ProjectSubOperators
 
 
   /**
@@ -55,8 +55,8 @@ trait Implicits {
    * Mixes in the QueryOperators defined in the QueryOperators mixin.
    * The NestedQuery implicits allows you to call chained operators on the return value of the
    * base String method method.  Chained operators will place the subsequent operators within the same DBObject,
-   * e.g. <code>"fooDate" $lte yesterday $gte tomorrow</code> maps to a Mongo query of:
-   * <code>{"fooDate": {"$lte": <yesterday>, "$gte": <tomorrow>}}</code>
+   * e.g. <code>"fooDate" \$lte yesterday \$gte tomorrow</code> maps to a Mongo query of:
+   * <code>{"fooDate": {"\$lte": <yesterday>, "\$gte": <tomorrow>}}</code>
    *
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
@@ -71,16 +71,17 @@ trait Implicits {
 
   implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)) = dsl.GeoCoords(coords._1, coords._2)
 
-  // Aggregation code
-  implicit def mongoGroupSubStatements(left: String) = new {
-    val field = left
-  } with dsl.aggregation.GroupSubOperators
+  // Aggregation temporarily removed
+  // // Aggregation code
+  // implicit def mongoGroupSubStatements(left: String) = new {
+  //   val field = left
+  // } with dsl.aggregation.GroupSubOperators
 
-  /*implicit def mongoProjectSubStatements(left: String) = new {
-    val field = left
-  } with dsl.aggregation.ProjectSubOperators*/
+  // implicit def mongoProjectSubStatements(left: String) = new {
+  //   val field = left
+  // } with dsl.aggregation.ProjectSubOperators
 
-  def | = dsl.aggregation.AggregationPipeline.empty
+  // def | = dsl.aggregation.AggregationPipeline.empty
 
 
 }
@@ -123,7 +124,7 @@ trait TypeImports {
   type ValidBarewordExpressionArgType[T] = query.ValidBarewordExpressionArgType[T]
   type AsIterable[T] = query.AsIterable[T]
   type AsQueryParam[T] = query.AsQueryParam[T]
-  type AggregationPipeline = dsl.aggregation.AggregationPipeline
+  // type AggregationPipeline = dsl.aggregation.AggregationPipeline
 }
 
 trait ValidNumericType[T]

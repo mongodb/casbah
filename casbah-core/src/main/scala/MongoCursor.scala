@@ -320,12 +320,10 @@ trait MongoCursorBase extends Logging {
   /**
    * "Special" Operators for cursors
    *
-   * adds a special operator like $maxScan or $returnKey
+   * adds a special operator like \$maxScan or \$returnKey
    * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-Specialoperators
    * {@inheritDoc}
    * @return the same DBCursor, useful for chaining operations
-   * @example addSpecial( "$returnKey" , 1 )
-   * @example addSpecial( "$maxScan" , 100 )
    */
   def addSpecial(name: String, o: Any): this.type = {
     // The Java code returns a copy of itself (via _this_) so no clone/_newInstance
@@ -334,11 +332,11 @@ trait MongoCursorBase extends Logging {
   }
 
   /**
-   * $returnKey
+   * \$returnKey
    *
-   * Sets a special operator of $returnKey
+   * Sets a special operator of \$returnKey
    * If true, returns ONLY the index key.
-   * Defaults to true if you just call $returnKey
+   * Defaults to true if you just call \$returnKey
    *
    * @param  bool (Boolean = true)
    * @return the same DBCursor, useful for chaining operations
@@ -346,9 +344,9 @@ trait MongoCursorBase extends Logging {
   def $returnKey(bool: Boolean = true): this.type = addSpecial("$returnKey", bool)
 
   /**
-   * $maxScan
+   * \$maxScan
    *
-   * Sets a special operator of $maxScan
+   * Sets a special operator of \$maxScan
    * Which defines the max number of items to scan.
    *
    * @param  max (A)
@@ -358,9 +356,9 @@ trait MongoCursorBase extends Logging {
   def $maxScan[A: Numeric](max: T): this.type = addSpecial("$maxScan", max)
 
   /**
-   * $query
+   * \$query
    *
-   * Sets a special operator of $query
+   * Sets a special operator of \$query
    * Which defines the query for this cursor.
    *
    * This is the same as running find() on a Collection with the query.
@@ -371,9 +369,9 @@ trait MongoCursorBase extends Logging {
   def $query[A <% DBObject](q: A): this.type = addSpecial("$query", q)
 
   /**
-   * $orderby
+   * \$orderby
    *
-   * Sets a special operator of $orderby
+   * Sets a special operator of \$orderby
    * which defines the sort spec for this cursor.
    *
    * This is the same as calling sort on the cursor.
@@ -384,9 +382,9 @@ trait MongoCursorBase extends Logging {
   def $orderby[A <% DBObject](obj: A): this.type = addSpecial("$orderby", obj)
 
   /**
-   * $explain
+   * \$explain
    *
-   * Sets a special operator of $explain
+   * Sets a special operator of \$explain
    * which, if true, explains the query instead of returning results.
    *
    * This is the same as calling the explain() method on the cursor.
@@ -397,9 +395,9 @@ trait MongoCursorBase extends Logging {
   def $explain(bool: Boolean = true): this.type = addSpecial("$explain", bool)
 
   /**
-   * $snapshot
+   * \$snapshot
    *
-   * Sets a special operator of $snapshot
+   * Sets a special operator of \$snapshot
    * which, if True, sets snapshot mode on the query.
    *
    * This is the same as calling the snapshot() method on the cursor.
@@ -410,9 +408,9 @@ trait MongoCursorBase extends Logging {
   def $snapshot(bool: Boolean = true): this.type = addSpecial("$snapshot", bool)
 
   /**
-   * $min
+   * \$min
    *
-   * Sets minimum index bounds - commonly paired with $max
+   * Sets minimum index bounds - commonly paired with \$max
    *
    * @param  obj (DBObject)
    * @see http://www.mongodb.org/display/DOCS/min+and+max+Query+Specifiers
@@ -422,9 +420,9 @@ trait MongoCursorBase extends Logging {
   def $min[A <% DBObject](obj: A): this.type = addSpecial("$min", obj)
 
   /**
-   * $max
+   * \$max
    *
-   * Sets maximum index bounds - commonly paired with $max
+   * Sets maximum index bounds - commonly paired with \$max
    *
    * @param  obj (DBObject)
    * @see http://www.mongodb.org/display/DOCS/max+and+max+Query+Specifiers
@@ -434,9 +432,9 @@ trait MongoCursorBase extends Logging {
   def $max[A <% DBObject](obj: A): this.type = addSpecial("$max", obj)
 
   /**
-   * $showDiskLoc
+   * \$showDiskLoc
    *
-   * Sets a special operator $showDiskLoc which, if true,
+   * Sets a special operator \$showDiskLoc which, if true,
    * shows the disk location of results.
    *
    * @param  bool (Boolean = true)
@@ -445,9 +443,9 @@ trait MongoCursorBase extends Logging {
   def $showDiskLoc(bool: Boolean = true): this.type = addSpecial("$showDiskLoc", bool)
 
   /**
-   * $hint
+   * \$hint
    *
-   * Sets a special operator $hint which
+   * Sets a special operator \$hint which
    * forces the query to use a given index.
    *
    * This is the same as calling hint() on the cursor.

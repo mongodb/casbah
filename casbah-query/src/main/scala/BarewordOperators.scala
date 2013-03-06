@@ -97,11 +97,11 @@ trait ArrayOps extends PushOp
                   with PullAllOp
 
 /**
- * Trait to provide the $set (Set) Set method as a bareword operator.
+ * Trait to provide the \$set (Set) Set method as a bareword operator.
  *
- * $set ("Foo" -> "bar")
+ * {{{ \$set ("Foo" -> "bar") }}}
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject
+ * Targets an RValue of (String, Any)* to be converted to a DBObject
  *
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24set
  */
@@ -110,11 +110,11 @@ trait SetOp extends BarewordQueryOperator {
 }
 
 /**
- * Trait to provide the $unset (UnSet) UnSet method as a bareword operator..
+ * Trait to provide the \$unset (UnSet) UnSet method as a bareword operator..
  *
- * $unset ("foo")
+ * {{{ \$unset ("foo") }}}
  *
- * Targets an RValue of String*, where String are field names to be converted to a  DBObject
+ * Targets an RValue of String*, where String are field names to be converted to a DBObject
  *
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24unset
  */
@@ -124,16 +124,17 @@ trait UnsetOp extends BarewordQueryOperator {
 }
 
 /**
- * Trait to provide the $inc (inc) method as a bareword operator..
+ * Trait to provide the \$inc (inc) method as a bareword operator..
  *
- *   $inc ("foo" -> 5)
+ *   {{{ \$inc ("foo" -> 5) }}}
  *
- * Targets an RValue of (String, ValidNumericType)* to be converted to a  DBObject
+ * Targets an RValue of (String, ValidNumericType)* to be converted to a DBObject
  *
- * Due to a quirk in the way I implemented type detection this fails if you mix ValidNumericType types.  E.g. floats work, but not mixing floats and ints.
- * This can be easily circumvented if you want 'ints' with floats by making your ints floats with .0:
+ * Due to a quirk in the way I implemented type detection this fails if you mix ValidNumericType types.
+ * E.g. floats work, but not mixing floats and ints. This can be easily circumvented
+ * if you want 'ints' with floats by making your ints floats with .0:
  *
- *   $inc ("foo" -> 5.0, "bar" -> 1.6)
+ *   {{{ \$inc ("foo" -> 5.0, "bar" -> 1.6) }}}
  *
  * @since 1.0
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24inc
@@ -143,9 +144,9 @@ trait IncOp extends BarewordQueryOperator {
 }
 
 /*
- * Trait to provide the $push (push) method as a bareword operator.
+ * Trait to provide the \$push (push) method as a bareword operator.
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject
+ * Targets an RValue of (String, Any)* to be converted to a DBObject
  *
  * If Field exists but is not an array an error will occur
  *
@@ -157,9 +158,9 @@ trait PushOp extends BarewordQueryOperator {
 }
 
 /*
- * Trait to provide the $pushAll (pushAll) method as a bareword operator..
+ * Trait to provide the \$pushAll (pushAll) method as a bareword operator..
  *
- * Targets an RValue of (String, Array[Any])* to be converted to a  DBObject
+ * Targets an RValue of (String, Array[Any])* to be converted to a DBObject
  *
  * RValue MUST Be an array - otherwise use push.
  *
@@ -172,14 +173,16 @@ trait PushAllOp extends BarewordQueryOperator {
 }
 
 /*
- * Trait to provide the $addToSet (addToSet) method as a bareword operator..
+ * Trait to provide the \$addToSet (addToSet) method as a bareword operator..
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject
+ * Targets an RValue of (String, Any)* to be converted to a DBObject
  *
- * Can also combined with the $each operator for adding many values:
+ * Can also combined with the \$each operator for adding many values:
  *
- *   scala> $addToSet ("foo") $each (5, 10, 15, "20"))
- *  res6: com.mongodb.casbah.commons.Imports.DBObject = { "$addToSet" : { "foo" : { "$each" : [ 5 , 10 , 15 , "20"]}}}
+ * {{{
+ *  scala> \$addToSet ("foo") \$each (5, 10, 15, "20"))
+ *  res1: com.mongodb.casbah.commons.Imports.DBObject = { "\$addToSet" : { "foo" : { "\$each" : [ 5 , 10 , 15 , "20"]}}}
+ * }}}
  *
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
  */
@@ -189,9 +192,9 @@ trait AddToSetOp extends BarewordQueryOperator {
   def $addToSet(field: String) = {
     /**
      * Special query operator only available on the right-hand side of an
-     * $addToSet which takes a list of values.
+     * \$addToSet which takes a list of values.
      *
-     * Slightly hacky to prevent it from returning unless completed with a $each
+     * Slightly hacky to prevent it from returning unless completed with a \$each
      *
      * THIS WILL NOT WORK IN MONGOD ANYWHERE BUT INSIDE AN ADDTOSET
      *
@@ -216,7 +219,7 @@ trait AddToSetOp extends BarewordQueryOperator {
 }
 
 /*
- * Trait to provide the $pop (pop) method as a bareword operator..
+ * Trait to provide the \$pop (pop) method as a bareword operator..
  *
  * If Field exists but is not an array an error will occurr.
  *
@@ -227,9 +230,9 @@ trait PopOp extends BarewordQueryOperator {
 }
 
 /*
- * Trait to provide the $pull (pull) method as a bareword operator..
+ * Trait to provide the \$pull (pull) method as a bareword operator..
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject
+ * Targets an RValue of (String, Any)* to be converted to a DBObject
  *
  * If Field exists but is not an array an error will occurr.
  *
@@ -244,9 +247,9 @@ trait PullOp extends BarewordQueryOperator {
 }
 
 /*
- * Trait to provide the $pullAll (pullAll) method as a bareword operator..
+ * Trait to provide the \$pullAll (pullAll) method as a bareword operator..
  *
- * Targets an RValue of (String, Array[Any])* to be converted to a  DBObject
+ * Targets an RValue of (String, Array[Any])* to be converted to a DBObject
  *
  * RValue MUST Be an array - otherwise use pull.
  *
@@ -259,11 +262,11 @@ trait PullAllOp extends BarewordQueryOperator {
 }
 
 /**
- * Trait to provide the $and method as a bareword operator.
+ * Trait to provide the \$and method as a bareword operator.
  *
- * $and ("Foo" -> "bar")
+ * {{{ \$and ("Foo" -> "bar") }}}
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject
+ * Targets an RValue of (String, Any)* to be converted to a DBObject
  *
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24and
  */
@@ -272,11 +275,11 @@ trait AndOp {
 }
 
 /**
- * Trait to provide the $or method as a bareword operator.
+ * Trait to provide the \$or method as a bareword operator.
  *
- * $or ("Foo" -> "bar")
+ * {{{ \$or ("Foo" -> "bar") }}}
  *
- * Targets an RValue of (String, Any)* to be converted to a  DBObject
+ * Targets an RValue of (String, Any)* to be converted to a DBObject
  *
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24or
@@ -286,7 +289,7 @@ trait OrOp {
 }
 
 /**
- * Trait to provide the $rename (Rename field) as a bareword operator
+ * Trait to provide the \$rename (Rename field) as a bareword operator
  *
  * Targets (takes a right-hand value of) a DBObject or a Tuple of (String, String)
  *
@@ -301,11 +304,11 @@ trait RenameOp extends BarewordQueryOperator {
 }
 
 /**
- * Trait to provide the $nor (nor ) method as a bareword operator
+ * Trait to provide the \$nor (nor) method as a bareword operator
  *
- * Nor is a combination of $not and $or with no left anchor
+ * Nor is a combination of \$not and \$or with no left anchor
  *
- * Targets an RValue of (String, Array[Any])* to be converted to a  DBObject
+ * Targets an RValue of (String, Array[Any])* to be converted to a DBObject
  *
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nor
@@ -315,7 +318,7 @@ trait NorOp {
 }
 
 /**
- * Trait to provide the $bit (bit) update method as a bareword Operator
+ * Trait to provide the \$bit (bit) update method as a bareword Operator
  *
  * Bit does a bitwise operation either AND or OR against a given field or set of fields
  * with no left anchor.

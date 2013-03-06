@@ -89,7 +89,7 @@ object QueryExpressionObject {
  * Base trait for QueryOperators, children
  * are required to define a value for field, which is a String
  * and refers to the left-hand of the Query (e.g. in Mongo:
- * <code>{"foo": {"$ne": "bar"}}</code> "foo" is the field.
+ * <code>{"foo": {"\$ne": "bar"}}</code> "foo" is the field.
  *
  */
 trait QueryOperator extends ChainedOperator {
@@ -97,13 +97,13 @@ trait QueryOperator extends ChainedOperator {
    * Base method for children to call to convert an operator call
    * into a Mongo DBObject.
    *
-   * e.g. <code>"foo" $ne "bar"</code> will convert to
-   * <code>{"foo": {"$ne": "bar"}}</code>
+   * e.g. <code>"foo" \$ne "bar"</code> will convert to
+   * <code>{"foo": {"\$ne": "bar"}}</code>
    *
    * Optionally, if dbObj, being <code>Some(DBObject)<code> is defined,
    * the <code>op(oper, )</code> method will nest the target value and operator
    * inside the existing dbObj - this is useful for things like mixing
-   * <code>$lte</code> and <code>$gte</code>
+   * <code>\$lte</code> and <code>\$gte</code>
    *
    * WARNING: This does NOT check that target is a serializable type.
    * That is, for the moment, your own problem.
@@ -122,7 +122,7 @@ trait QueryOperator extends ChainedOperator {
 }
 
 /**
- * Trait to provide the $ne (Not Equal To) method on appropriate callers.
+ * Trait to provide the \$ne (Not Equal To) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) String, Numeric,
  * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.
@@ -137,7 +137,7 @@ trait NotEqualsOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $lt (Less Than) method on appropriate callers.
+ * Trait to provide the \$lt (Less Than) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates,
  * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.
@@ -152,7 +152,7 @@ trait LessThanOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $lte (Less Than Or Equal To) method on appropriate callers.
+ * Trait to provide the \$lte (Less Than Or Equal To) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates,
  * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.*
@@ -166,7 +166,7 @@ trait LessThanEqualOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $gt (Greater Than) method on appropriate callers.
+ * Trait to provide the \$gt (Greater Than) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates,
  * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.*
@@ -180,7 +180,7 @@ trait GreaterThanOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $gte (Greater Than Or Equal To) method on appropriate callers.
+ * Trait to provide the \$gte (Greater Than Or Equal To) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) String, Numeric, JDK And Joda Dates,
  * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.*
@@ -194,15 +194,15 @@ trait GreaterThanEqualOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $in (In Array) method on appropriate callers.
+ * Trait to provide the \$in (In Array) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) Arrays of [Any] and variable argument lists of Any.
  *
  * Note that the magic of Scala DSLey-ness means that you can write a method such as:
  *
- * <code>var x = "foo" $in (1, 2, 3, 5, 28)</code>
+ * <code>var x = "foo" \$in (1, 2, 3, 5, 28)</code>
  *
- * As a valid statement - (1...28) is taken as the argument list to $in and converted
+ * As a valid statement - (1...28) is taken as the argument list to \$in and converted
  * to an Array under the covers.
  *
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24in
@@ -214,15 +214,15 @@ trait InOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $nin (NOT In Array) method on appropriate callers.
+ * Trait to provide the \$nin (NOT In Array) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) Arrays of [Any] and variable argument lists of Any.
  *
  * Note that the magic of Scala DSLey-ness means that you can write a method such as:
  *
- * <code>var x = "foo" $nin (1, 2, 3, 5, 28)</code>
+ * <code>var x = "foo" \$nin (1, 2, 3, 5, 28)</code>
  *
- * As a valid statement - (1...28) is taken as the argument list to $nin and converted
+ * As a valid statement - (1...28) is taken as the argument list to \$nin and converted
  * to an Array under the covers.
  *
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nin
@@ -234,15 +234,15 @@ trait NotInOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $all (Match ALL In Array) method on appropriate callers.
+ * Trait to provide the \$all (Match ALL In Array) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) Arrays of [Any] and variable argument lists of Any.
  *
  * Note that the magic of Scala DSLey-ness means that you can write a method such as:
  *
- * <code>var x = "foo" $all (1, 2, 3, 5, 28)</code>
+ * <code>var x = "foo" \$all (1, 2, 3, 5, 28)</code>
  *
- * As a valid statement - (1...28) is taken as the argument list to $all and converted
+ * As a valid statement - (1...28) is taken as the argument list to \$all and converted
  * to an Array under the covers.
  *
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24all
@@ -254,7 +254,7 @@ trait AllOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $mod (Modulo) method on appropriate callers.
+ * Trait to provide the \$mod (Modulo) method on appropriate callers.
  *
  * Targets a left and right value where the formula is (field % left == right)
  *
@@ -270,7 +270,7 @@ trait ModuloOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $size (Size) method on appropriate callers.
+ * Trait to provide the \$size (Size) method on appropriate callers.
  *
  * Test value must be an Int or BigInt.
  *
@@ -286,7 +286,7 @@ trait SizeOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $exists (Exists) method on appropriate callers.
+ * Trait to provide the \$exists (Exists) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) Booleans.
  *
@@ -299,7 +299,7 @@ trait ExistsOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $where (Where) method on appropriate callers.
+ * Trait to provide the \$where (Where) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) JSFunction [which is currently just as string containing a javascript function]
  *
@@ -312,11 +312,11 @@ trait WhereOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $not (Not) negation method on appropriate callers.
+ * Trait to provide the \$not (Not) negation method on appropriate callers.
  *
  * Make sure your anchor it when you have multiple operators e.g.
  *
- * "foo".$not $mod(5, 10)
+ * <code>"foo".\$not \$mod(5, 10)</code>
  *
  * Targets (takes a right-hand value of) DBObject or a Scala RegEx
  *
@@ -337,16 +337,16 @@ trait NotOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $slice (Slice of Array) method on appropriate callers.
+ * Trait to provide the \$slice (Slice of Array) method on appropriate callers.
  *
  * Targets (takes a right-hand value of) either an Int of slice indicator or a tuple
  * of skip and limit.
  *
- * &gt; "foo" $slice 5
- * res0: (String, com.mongodb.DBObject) = (foo,{ "$slice" : 5})
+ * &gt; "foo" \$slice 5
+ * res0: (String, com.mongodb.DBObject) = (foo,{ "\$slice" : 5})
  *
- * &gt; "foo" $slice (5, -1)
- * res1: (String, com.mongodb.DBObject) = (foo,{ "$slice" : [ 5 , -1]})
+ * &gt; "foo" \$slice (5, -1)
+ * res1: (String, com.mongodb.DBObject) = (foo,{ "\$slice" : [ 5 , -1]})
  *
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24sliceoperator
@@ -360,7 +360,7 @@ trait SliceOp extends QueryOperator {
 }
 
 /**
- * Trait to provide the $elemMatch method on appropriate callers.
+ * Trait to provide the \$elemMatch method on appropriate callers.
  *
  * Targets (takes a right-hand value of) a DBObject view context
  *
@@ -399,7 +399,7 @@ object BSONType {
 }
 
 /**
- * $type operator to query by type.
+ * \$type operator to query by type.
  *
  * Can type a BSON.<enum value> or a Context Bounded check.
  *
@@ -420,7 +420,7 @@ trait TypeOp extends QueryOperator {
    * Matches types based on a Context Bound.
    * Requires anchoring to prevent compiler confusion:
    *
-   *    "foo".$type[Double]
+   *    "foo".\$type[Double]
    *
    */
   def $type[A](implicit bsonType: BSONType[A]) = queryOp(oper, bsonType.operator)
@@ -438,7 +438,7 @@ case class GeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifes
 
 /**
  *
- * Trait to provide the $near geospatial search method on appropriate callers
+ * Trait to provide the \$near geospatial search method on appropriate callers
  *
  * Note that the args aren't TECHNICALLY latitude and longitude as they depend on:
  *   a) the order you specified your actual index in
@@ -466,7 +466,7 @@ trait GeoNearOp extends QueryOperator {
 
 /**
  *
- * Trait to provide the $nearSphere geospatial search method on appropriate callers
+ * Trait to provide the \$nearSphere geospatial search method on appropriate callers
  *
  *
  * Note that  the args aren't TECHNICALLY latitude and longitude as they depend on:
@@ -485,7 +485,7 @@ trait GeoNearSphereOp extends QueryOperator {
 
 /**
  *
- * Trait to provide the $within geospatial search method on appropriate callers
+ * Trait to provide the \$within geospatial search method on appropriate callers
  *
  *
  * Note that  the args aren't TECHNICALLY latitude and longitude as they depend on:
