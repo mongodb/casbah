@@ -25,10 +25,6 @@ import org.specs2.matcher.Matchers._
 import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.Imports._
 
-object `package` {
-
-}
-
 trait CasbahMutableSpecification extends mutable.Specification with CasbahSpecificationBase
 
 trait CasbahSpecification extends Specification with CasbahSpecificationBase

@@ -22,15 +22,15 @@
 
 package com.mongodb.casbah.test.gridfs
 
+import java.security.MessageDigest
+import java.io._
+
+import com.github.nscala_time.time.Imports._
+
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.casbah.commons.Logging
 
-
-import com.github.nscala_time.time.Imports._
-
-import java.security.MessageDigest
-import java.io._
 import com.mongodb.casbah.commons.conversions.scala._
 
 
@@ -93,8 +93,6 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
       uploadDate must beAnInstanceOf[java.util.Date]
     }
 
-
-
     "Correctly catch the non-existence of a file and fail gracefully" in {
       gridfs.findOne("powered_by_mongoFOOBAR235254252.png") must beNone
     }
@@ -139,8 +137,6 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
       // System.err.println("Date: %s Type: %s".format(uploadDate, uploadDate.getClass))
       uploadDate must beAnInstanceOf[DateTime]
     }
-
-
 
     "Correctly catch the non-existence of a file and fail gracefully" in {
       gridfs.findOne("powered_by_mongoFOOBAR235254252.png") must beNone
@@ -208,4 +204,5 @@ class GridFSSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpecificat
   }
 
 }
+
 
