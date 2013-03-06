@@ -1,6 +1,14 @@
 Upgrade
 =======
 
+Version 2.5.1
+-------------
+
+Scala 2.10
+~~~~~~~~~~
+
+The `-Yeta-expand-keeps-star` compiler flag is no longer required.
+
 Version 2.5.0
 -------------
 
