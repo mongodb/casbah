@@ -8,6 +8,7 @@ Changes in Version 2.5.1
 - Added 2.9.3 support (SCALA-94)
 - Removed Specs2 and Scalaz dependencies outside test (SCALA-93)
 - Fixed 2.10 support, no need for -Yeta-expand-keeps-star compile flag (SCALA-89)
+- Fixed distinct regression (SCALA-92)
 
 Changes in Version 2.5.0
 ------------------------
