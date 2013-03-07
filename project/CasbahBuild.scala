@@ -10,8 +10,8 @@ object CasbahBuild extends Build {
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
     version      := "2.5.1-SNAPSHOT",
-    scalaVersion := "2.10.0",
-    crossScalaVersions := Seq("2.10.0", "2.9.3", "2.9.2", "2.9.1")
+    scalaVersion := "2.10",
+    crossScalaVersions := Seq("2.10.1-RC3", "2.10.0", "2.9.3", "2.9.2", "2.9.1")
   )
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
@@ -27,6 +27,11 @@ object CasbahBuild extends Build {
 
   override lazy val settings = super.settings ++ buildSettings
 
+  val scalac210Options = Seq("-feature",
+                               "-language:reflectiveCalls",
+                               "-language:implicitConversions",
+                               "-language:postfixOps")
+
   lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
       resolvers ++= Seq(sonatypeRels, sonatypeSnaps, sonatypeSTArch, mavenOrgRepo),
       testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml"),
@@ -34,16 +39,15 @@ object CasbahBuild extends Build {
       autoCompilerPlugins := true,
       libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
         sv match {
+          case "2.10.1-RC3" => deps
           case "2.10.0" => deps
           case _ => deps :+ compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7")
         }
       },
       scalacOptions <++= scalaVersion map { sv =>
         sv match {
-          case "2.10.0" => Seq("-feature",
-                               "-language:reflectiveCalls",
-                               "-language:implicitConversions",
-                               "-language:postfixOps")
+          case "2.10.1-RC3" => scalac210Options
+          case "2.10.0" => scalac210Options
           case _ => Seq()
         }
       },
@@ -116,12 +120,14 @@ object Dependencies {
 
   def scalatest(scalaVersion: String) =
     (scalaVersion match {
+      case "2.10.1-RC3" => "org.scalatest" % "scalatest_2.10" % "1.9.1"
       case _ => "org.scalatest" %% "scalatest" % "1.9.1"
     }) % "test"
 
   def scalatime(scalaVersion: String) =
       scalaVersion match {
         case "2.9.3" => "com.github.nscala-time" % "nscala-time_2.9.2" % "0.2.0"
+        case "2.10.1-RC3" => "com.github.nscala-time" % "nscala-time_2.10" % "0.2.0"
         case _ => "com.github.nscala-time" %% "nscala-time" % "0.2.0"
       }
 
@@ -131,6 +137,7 @@ object Dependencies {
           case "2.9.2"   => "org.specs2" %% "specs2" % "1.12.3"
           case "2.9.3"   => "org.specs2" % "specs2_2.9.2" % "1.12.3"
           case "2.10.0"   => "org.specs2" %% "specs2" % "1.14"
+          case "2.10.1-RC3" => "org.specs2" % "specs2_2.10" % "1.14"
       }) % "test"
 }
 
