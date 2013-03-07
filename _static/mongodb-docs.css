@@ -717,7 +717,7 @@ div.body p { line-height: 1.5em; }
 
 div.body li>p { line-height: 1.5em; }
 
-div.highlight pre { background-color: #F5F5F5; }
+div.highlight pre, pre.literal-block { background-color: #F5F5F5; }
 
 div.section > h2, div.section > h3,div.section > h4 {
     margin-top:0;

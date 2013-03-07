@@ -77,25 +77,21 @@
             
   <div class="section" id="getting-started">
 <h1>1. Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>The latest Casbah build as of February 14, 2013 is 2.5.0, built for Scala 2.9.1, 2.9.2 and 2.10.0.</p>
+<p>The latest Casbah build as is 2.5.0 and supports scala versions: 2.9.1, 2.9.2 and 2.10.0.</p>
 <div class="section" id="installing-setting-up-casbah">
 <h2>1.1. Installing &amp; Setting up Casbah<a class="headerlink" href="#installing-setting-up-casbah" title="Permalink to this headline">¶</a></h2>
 <p>You should have <a class="reference external" href="http://mongodb.org">MongoDB</a> setup  and running on your machine (these docs assume you are running on <em>localhost</em> on the default port of <em>27017</em>) before proceeding. If you need help setting up MongoDB please see <a class="reference external" href="http://www.mongodb.org/display/DOCS/Quickstart">the MongoDB quickstart install documentation</a>.</p>
-<p>To start with, you need to either download the latest Casbah driver and place it in your classpath, or set it up in the dependency manager/build tool of your choice (The authors highly recommend the Scala <a class="reference external" href="http://code.google.com/p/simple-build-tool/">simple-build-tool</a> - it makes Scala development easy).</p>
-<dl class="docutils">
-<dt><em>PLEASE NOTE</em>: As of the 2.0 release, Casbah has been broken into</dt>
-<dd>several modules which can be used to strip down which features you need.  For example, you can use the Query DSL independent of the GridFS implementation if you wish. The following dependency manager information uses the master artifact which downloads and uses <em>all</em> of Casbah's modules by default.</dd>
-</dl>
+<p>Now you need to install the latest Casbah driver - version is 2.5.0 and is supports scala versions; 2.9.1, 2.9.2 and 2.10.0.  This is normally done by configuring it in the dependency manager/build tool of your choice. The authors highly recommend the Scala <a class="reference external" href="http://code.google.com/p/simple-build-tool/">simple-build-tool</a> aka &quot;SBT&quot; as it makes Scala development easy.</p>
 <div class="section" id="setting-up-sbt">
 <h3>1.1.1. Setting up SBT<a class="headerlink" href="#setting-up-sbt" title="Permalink to this headline">¶</a></h3>
-<p>You can easily add Casbah to SBT, the Scala Build Tool, by adding the following to your <cite>build.sbt</cite> file, substituting $CASBAH_VERSION$ with the latest Casbah release (as of February 14, 2013, that is 2.5.0):</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;org.mongodb&quot;</span> <span class="o">%%</span> <span class="s">&quot;casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;$CASBAH_VERSION$&quot;</span>
-</pre></div>
-</div>
-<p>Alternately, if you are using a <cite>.scala</cite> Build definition, the following entry will work:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">casbah</span> <span class="k">=</span> <span class="s">&quot;org.mongodb&quot;</span> <span class="o">%%</span> <span class="s">&quot;casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;$CASBAH_VERSION$&quot;</span>
-</pre></div>
-</div>
+<p>You can easily add Casbah to SBT, the Scala Build Tool, by adding the following to your <cite>build.sbt</cite> file</p>
+<pre class="literal-block">
+libraryDependencies += &quot;org.mongodb&quot; %% &quot;casbah&quot; % &quot;2.5.0&quot;
+</pre>
+<p>Alternately, if you are using a <cite>.scala</cite> Build definition, the following entry will work</p>
+<pre class="literal-block">
+val casbah = &quot;org.mongodb&quot; %% &quot;casbah&quot; % &quot;2.5.0&quot;
+</pre>
 <p>The double percentages (<cite>%%</cite>) is not a typo---it tells SBT that the library is crossbuilt and to find the appropriate version for your project's Scala version.</p>
 <p>Don't forget to reload the project and run <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">update</span></tt> afterwards to download the dependencies (SBT doesn't check every build like Maven).</p>
 </div>
@@ -106,16 +102,16 @@
 <span class="n">https</span><span class="o">://</span><span class="n">oss</span><span class="o">.</span><span class="n">sonatype</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">snapshots</span><span class="o">/</span> <span class="cm">/* For snapshots */</span>
 </pre></div>
 </div>
-<p>Set both of these repositories up in the appropriate manner - they contain Casbah as well as any specific dependencies you may require. (SBT users note that Scala-Tools is builtin to SBT as most Scala projects publish there)</p>
+<p>Set both of these repositories up in the appropriate manner - they contain Casbah as well as any specific dependencies you may require.</p>
 </div>
 <div class="section" id="setting-up-maven">
 <h3>1.1.3. Setting Up Maven<a class="headerlink" href="#setting-up-maven" title="Permalink to this headline">¶</a></h3>
 <p>You can add Casbah to Maven with the following dependency block.</p>
-<p>Please substitute $SCALA_VERSION$ with your Scala version (We support 2.9.x+) and $CASBAH_VERSION$ with the latest Casbah release (as of February 14, 2013, that is 2.5.0):</p>
+<p>Please substitute $SCALA_VERSION$ with your Scala version (we support 2.9.x+)</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">mongodb</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">casbah_$SCALA_VERSION$</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="nc">$CASBAH_VERSION</span><span class="n">$</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;|</span><span class="n">release</span><span class="o">|&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">type</span><span class="o">&gt;</span><span class="n">pom</span><span class="o">&lt;/</span><span class="n">type</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
 </pre></div>
@@ -124,10 +120,10 @@
 <div class="section" id="setting-up-ivy-w-ant">
 <h3>1.1.4. Setting Up Ivy (w/ Ant)<a class="headerlink" href="#setting-up-ivy-w-ant" title="Permalink to this headline">¶</a></h3>
 <p>You can add Casbah to Ivy with the following dependency block.</p>
-<p>Please substitute $SCALA_VERSION$ with your Scala version (We support 2.9.x+) and $CASBAH_VERSION$ with the latest Casbah release (as of February 14, 2013, that is 2.5.0):</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">dependency</span> <span class="n">org</span><span class="o">=</span><span class="s">&quot;org.mongodb&quot;</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;casbah_$SCALA_VERSION$&quot;</span> <span class="n">rev</span><span class="o">=</span><span class="s">&quot;$CASBAH_VERSION$&quot;</span><span class="o">/&gt;</span>
-</pre></div>
-</div>
+<p>Please substitute $SCALA_VERSION$ with your Scala version (we support 2.9.x+)</p>
+<pre class="literal-block">
+&lt;dependency org=&quot;org.mongodb&quot; name=&quot;casbah_$SCALA_VERSION$&quot; rev=&quot;2.5.0&quot;/&gt;
+</pre>
 </div>
 <div class="section" id="setting-up-without-a-dependency-build-manager-source-binary">
 <h3>1.1.5. Setting up without a Dependency/Build Manager (Source + Binary)<a class="headerlink" href="#setting-up-without-a-dependency-build-manager-source-binary" title="Permalink to this headline">¶</a></h3>
@@ -182,10 +178,9 @@ conversions for Scala types</p>
 <td>com.mongodb.casbah.commons</td>
 <td><ul class="first last simple">
 <li>mongo-java-driver,</li>
-<li>scalaj-collection,</li>
-<li>scalaj-time,</li>
-<li>JodaTime,</li>
-<li>slf4j-api</li>
+<li>nscala-time,</li>
+<li>slf4j-api,</li>
+<li>slf4j-jcl</li>
 </ul>
 </td>
 </tr>

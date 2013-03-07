@@ -1,28 +1,29 @@
 Getting Started
 ***************
 
-The latest Casbah build as of |today| is |release|, built for Scala 2.9.1, 2.9.2 and 2.10.0.
+The latest Casbah build as is |release| and supports scala versions: |scala_versions|.
 
 Installing & Setting up Casbah
 ==============================
 
 You should have `MongoDB <http://mongodb.org>`_ setup  and running on your machine (these docs assume you are running on *localhost* on the default port of *27017*) before proceeding. If you need help setting up MongoDB please see `the MongoDB quickstart install documentation <http://www.mongodb.org/display/DOCS/Quickstart>`_.
 
-To start with, you need to either download the latest Casbah driver and place it in your classpath, or set it up in the dependency manager/build tool of your choice (The authors highly recommend the Scala `simple-build-tool <http://code.google.com/p/simple-build-tool/>`_ - it makes Scala development easy).
-
-*PLEASE NOTE*: As of the 2.0 release, Casbah has been broken into
- several modules which can be used to strip down which features you need.  For example, you can use the Query DSL independent of the GridFS implementation if you wish. The following dependency manager information uses the master artifact which downloads and uses *all* of Casbah's modules by default.
+Now you need to install the latest Casbah driver - version is |release| and is supports scala versions; |scala_versions|.  This is normally done by configuring it in the dependency manager/build tool of your choice. The authors highly recommend the Scala `simple-build-tool <http://code.google.com/p/simple-build-tool/>`_ aka "SBT" as it makes Scala development easy.
 
 Setting up SBT
 ---------------
-You can easily add Casbah to SBT, the Scala Build Tool, by adding the following to your `build.sbt` file, substituting $CASBAH_VERSION$ with the latest Casbah release (as of |today|, that is |release|)::
+You can easily add Casbah to SBT, the Scala Build Tool, by adding the following to your `build.sbt` file
 
-   libraryDependencies += "org.mongodb" %% "casbah" % "$CASBAH_VERSION$"
+.. parsed-literal::
+
+   libraryDependencies += "org.mongodb" %% "casbah" % "|release|"
 
 
-Alternately, if you are using a `.scala` Build definition, the following entry will work::
+Alternately, if you are using a `.scala` Build definition, the following entry will work
 
-    val casbah = "org.mongodb" %% "casbah" % "$CASBAH_VERSION$"
+.. parsed-literal::
+
+    val casbah = "org.mongodb" %% "casbah" % "|release|"
 
 The double percentages (`%%`) is not a typo---it tells SBT that the library is crossbuilt and to find the appropriate version for your project's Scala version.
 
@@ -37,19 +38,21 @@ First, you should add the package repository to your Dependency/Build Manager. O
    https://oss.sonatype.org/content/repositories/releases/  /* For Releases */
    https://oss.sonatype.org/content/repositories/snapshots/ /* For snapshots */
 
-Set both of these repositories up in the appropriate manner - they contain Casbah as well as any specific dependencies you may require. (SBT users note that Scala-Tools is builtin to SBT as most Scala projects publish there)
+Set both of these repositories up in the appropriate manner - they contain Casbah as well as any specific dependencies you may require.
 
 
 Setting Up Maven
 -----------------
 You can add Casbah to Maven with the following dependency block.
 
-Please substitute $SCALA_VERSION$ with your Scala version (We support 2.9.x+) and $CASBAH_VERSION$ with the latest Casbah release (as of |today|, that is |release|)::
+Please substitute $SCALA_VERSION$ with your Scala version (we support 2.9.x+)
+
+.. parsed-literal::
 
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>casbah_$SCALA_VERSION$</artifactId>
-            <version>$CASBAH_VERSION$</version>
+            <version>|release|</version>
             <type>pom</type>
         <dependency>
 
@@ -59,9 +62,11 @@ Setting Up Ivy (w/ Ant)
 -----------------------
 You can add Casbah to Ivy with the following dependency block.
 
-Please substitute $SCALA_VERSION$ with your Scala version (We support 2.9.x+) and $CASBAH_VERSION$ with the latest Casbah release (as of |today|, that is |release|)::
+Please substitute $SCALA_VERSION$ with your Scala version (we support 2.9.x+)
 
-        <dependency org="org.mongodb" name="casbah_$SCALA_VERSION$" rev="$CASBAH_VERSION$"/>
+.. parsed-literal::
+
+        <dependency org="org.mongodb" name="casbah_$SCALA_VERSION$" rev="|release|"/>
 
 
 Setting up without a Dependency/Build Manager (Source + Binary)
@@ -105,11 +110,11 @@ This is the breakdown of dependencies and packages for the new system:
   | MapReduce jobs                      |                            |                                                 |
   +-------------------------------------+----------------------------+-------------------------------------------------+
   | :casbah-commons:`Casbah Commons`    | com.mongodb.casbah.commons |                                                 |
-  |                                     |                            |   * mongo-java-driver,                          |
-  | **NOTES**                           |                            |   * scalaj-collection,                          |
-  |                                     |                            |   * scalaj-time,                                |
-  | Provides Scala-friendly             |                            |   * JodaTime,                                   |
-  | :dochub:`DBObject` &                |                            |   * slf4j-api                                   |
+  |                                     |                            |  * mongo-java-driver,                           |
+  | **NOTES**                           |                            |  * nscala-time,                                 |
+  |                                     |                            |  * slf4j-api,                                   |
+  | Provides Scala-friendly             |                            |  * slf4j-jcl                                    |
+  | :dochub:`DBObject` &                |                            |                                                 |
   | :dochub:`DBList`                    |                            |                                                 |
   | implementations as well as Implicit |                            |                                                 |
   | conversions for Scala types         |                            |                                                 |
@@ -138,3 +143,4 @@ We cover the import of each module in their appropriate tutorials, but each modu
     // Imports just the Query DSL along with Commons and its dependencies
     import com.mongodb.casbah.query.Imports._
 
+.. |scala_versions| replace:: 2.9.1, 2.9.2 and 2.10.0

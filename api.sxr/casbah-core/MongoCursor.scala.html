@@ -36,7 +36,7 @@
 
 <span class="keyword">import</span> com.mongodb.DBCursor
 
-<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#9878" title="object com.mongodb.casbah.Imports">Imports</a>._
+<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#9872" title="object com.mongodb.casbah.Imports">Imports</a>._
 <span class="keyword">import</span> com.mongodb.casbah.commons.Logging
 
 <span class="keyword">import</span> scala.collection.<span title="object scala.collection.JavaConverters">JavaConverters</span>._
@@ -53,11 +53,11 @@
  *
  * @tparam T (DBObject or subclass thereof)
  */</span>
-<span class="keyword">trait</span> <a title="trait MongoCursorBase extends java.lang.Object with com.mongodb.casbah.commons.Logging with ScalaObject" id="9948">MongoCursorBase</a> <span title="ScalaObject" class="keyword">extends</span> <span title="com.mongodb.casbah.commons.Logging">Logging</span> <span class="delimiter">{</span>
+<span class="keyword">trait</span> <a title="trait MongoCursorBase extends java.lang.Object with com.mongodb.casbah.commons.Logging with ScalaObject" id="9942">MongoCursorBase</a> <span title="ScalaObject" class="keyword">extends</span> <span title="com.mongodb.casbah.commons.Logging">Logging</span> <span class="delimiter">{</span>
 
-  <span class="keyword">type</span> <a title="&gt;: Nothing &lt;: com.mongodb.casbah.Imports.DBObject" id="18247">T</a> &lt;: DBObject
+  <span class="keyword">type</span> <a title="&gt;: Nothing &lt;: com.mongodb.casbah.Imports.DBObject" id="18145">T</a> &lt;: DBObject
 
-  <span class="keyword">val</span> <a title="=&gt; com.mongodb.DBCursor" id="18248">underlying</a>: <span title="com.mongodb.DBCursor">DBCursor</span>
+  <span class="keyword">val</span> <a title="=&gt; com.mongodb.DBCursor" id="18146">underlying</a>: <span title="com.mongodb.DBCursor">DBCursor</span>
 
   <span class="comment">/**
    * next
@@ -70,7 +70,7 @@
    *
    * @return The next element in the cursor
    */</span>
-  <span class="keyword">def</span> <a title="()MongoCursorBase.this.T" id="18249">next</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBObject">next</span>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="MongoCursorBase.this.T" class="delimiter">[</span><a href="#18247" title="MongoCursorBase.this.T">T</a><span class="delimiter">]</span>
+  <span class="keyword">def</span> <a title="()MongoCursorBase.this.T" id="18147">next</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBObject">next</span>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="MongoCursorBase.this.T" class="delimiter">[</span><a href="#18145" title="MongoCursorBase.this.T">T</a><span class="delimiter">]</span>
 
   <span class="comment">/**
    * hasNext
@@ -81,7 +81,7 @@
    *
    * @return (Boolean Next)
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Boolean" id="18250">hasNext</a> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Boolean">hasNext</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="18148">hasNext</a> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Boolean">hasNext</span>
 
   <span class="comment">/**
    * sort
@@ -92,10 +92,10 @@
    * @tparam A  A view of DBObject to sort by
    * @return A cursor pointing to the first element of the sorted results
    */</span>
-  <span class="keyword">def</span> <a title="[A](orderBy: A)(implicit evidence$1: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36234">sort</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18253">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36233">orderBy</a>: <a href="#18253" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="[A](orderBy: A)(implicit evidence$1: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36503">sort</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18151">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36502">orderBy</a>: <a href="#18151" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
     <span class="comment">// The Java code returns a copy of itself (via _this_) so no clone/_newInstance</span>
-    <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBCursor">sort</span><span class="delimiter">(</span><a href="#36234" title="(v1: A)com.mongodb.casbah.Imports.DBObject">orderBy</a><span class="delimiter">)</span>
-    <a href="#9948" title="MongoCursorBase.this.type" class="keyword">this</a>
+    <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBCursor">sort</span><span class="delimiter">(</span><a href="#36503" title="(v1: A)com.mongodb.casbah.Imports.DBObject">orderBy</a><span class="delimiter">)</span>
+    <a href="#9942" title="MongoCursorBase.this.type" class="keyword">this</a>
   <span class="delimiter">}</span>
 
   <span class="comment">/**
@@ -116,7 +116,7 @@
    * @return Int indicating the number of elements returned by the query
    * @throws MongoException
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Int" id="18254">count</a> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">count</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="18152">count</a> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">count</span>
 
   <span class="comment">/**
    * Manipulate Query Options
@@ -127,7 +127,7 @@
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */</span>
-  <span class="keyword">def</span> <a title="(option: Int)Unit" id="18255">option_=</a><span class="delimiter">(</span><a title="Int" id="36245">option</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="Unit">Unit</span> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: Int)com.mongodb.DBCursor">addOption</span><span title="Unit" class="delimiter">(</span><a href="#36245" title="Int">option</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(option: Int)Unit" id="18153">option_=</a><span class="delimiter">(</span><a title="Int" id="36514">option</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="Unit">Unit</span> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: Int)com.mongodb.DBCursor">addOption</span><span title="Unit" class="delimiter">(</span><a href="#36514" title="Int">option</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * Manipulate Query Options
@@ -137,7 +137,7 @@
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Int" id="18256">option</a> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">getOptions</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="18154">option</a> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">getOptions</span>
 
   <span class="comment">/**
    * Manipulate Query Options
@@ -147,7 +147,7 @@
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */</span>
-  <span class="keyword">def</span> <a title="()com.mongodb.DBCursor" id="18257">resetOptions</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">resetOptions</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// use parens because this side-effects</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.DBCursor" id="18155">resetOptions</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">resetOptions</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// use parens because this side-effects</span>
 
   <span class="comment">/**
    * Manipulate Query Options
@@ -157,7 +157,7 @@
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Int" id="18258">options</a> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">getOptions</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="18156">options</a> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">getOptions</span>
 
   <span class="comment">/**
    * Manipulate Query Options
@@ -167,7 +167,7 @@
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */</span>
-  <span class="keyword">def</span> <a title="(opts: Int)Unit" id="18259">options_=</a><span class="delimiter">(</span><a title="Int" id="36255">opts</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="Unit">Unit</span> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: Int)com.mongodb.DBCursor">setOptions</span><span title="Unit" class="delimiter">(</span><a href="#36255" title="Int">opts</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(opts: Int)Unit" id="18157">options_=</a><span class="delimiter">(</span><a title="Int" id="36524">opts</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="Unit">Unit</span> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: Int)com.mongodb.DBCursor">setOptions</span><span title="Unit" class="delimiter">(</span><a href="#36524" title="Int">opts</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * hint
@@ -179,9 +179,9 @@
    * @tparam A A view of DBObject to use for the indexKeys
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="[A](indexKeys: A)(implicit evidence$2: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36258">hint</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18262">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36257">indexKeys</a>: <a href="#18262" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
-    <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBCursor">hint</span><span class="delimiter">(</span><a href="#36258" title="(v1: A)com.mongodb.casbah.Imports.DBObject">indexKeys</a><span class="delimiter">)</span>
-    <a href="#9948" title="MongoCursorBase.this.type" class="keyword">this</a>
+  <span class="keyword">def</span> <a title="[A](indexKeys: A)(implicit evidence$2: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36527">hint</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18160">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36526">indexKeys</a>: <a href="#18160" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
+    <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.DBCursor">hint</span><span class="delimiter">(</span><a href="#36527" title="(v1: A)com.mongodb.casbah.Imports.DBObject">indexKeys</a><span class="delimiter">)</span>
+    <a href="#9942" title="MongoCursorBase.this.type" class="keyword">this</a>
   <span class="delimiter">}</span>
 
   <span class="comment">/**
@@ -193,9 +193,9 @@
    * @param  indexName (String) The name of an index
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="(indexName: String)MongoCursorBase.this.type" id="18263">hint</a><span class="delimiter">(</span><a title="String" id="36267">indexName</a>: <span title="String">String</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
-    <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCursor">hint</span><span class="delimiter">(</span><a href="#36267" title="String">indexName</a><span class="delimiter">)</span>
-    <a href="#9948" title="MongoCursorBase.this.type" class="keyword">this</a>
+  <span class="keyword">def</span> <a title="(indexName: String)MongoCursorBase.this.type" id="18161">hint</a><span class="delimiter">(</span><a title="String" id="36536">indexName</a>: <span title="String">String</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
+    <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCursor">hint</span><span class="delimiter">(</span><a href="#36536" title="String">indexName</a><span class="delimiter">)</span>
+    <a href="#9942" title="MongoCursorBase.this.type" class="keyword">this</a>
   <span class="delimiter">}</span>
 
   <span class="comment">/**
@@ -212,10 +212,10 @@
    *
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="()MongoCursorBase.this.type" id="18264">snapshot</a><span class="delimiter">(</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="()MongoCursorBase.this.type" id="18162">snapshot</a><span class="delimiter">(</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
     <span class="comment">// The Java code returns a copy of itself (via _this_) so no clone/_newInstance</span>
-    <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">snapshot</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// parens for side-effecting</span>
-    <a href="#9948" title="MongoCursorBase.this.type" class="keyword">this</a>
+    <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">snapshot</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// parens for side-effecting</span>
+    <a href="#9942" title="MongoCursorBase.this.type" class="keyword">this</a>
   <span class="delimiter">}</span>
 
   <span class="comment">/**
@@ -238,7 +238,7 @@
    * @see http://dochub.mongodb.org/core/explain
    * @return an instance of CursorExplanation
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.CursorExplanation" id="18265">explain</a> = <span title="com.mongodb.casbah.CursorExplanation" class="keyword">new</span> <a href="#9954" title="com.mongodb.casbah.CursorExplanation">CursorExplanation</a><span class="delimiter">(</span><a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBObject">explain</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.casbah.CursorExplanation" id="18163">explain</a> = <span title="com.mongodb.casbah.CursorExplanation" class="keyword">new</span> <a href="#9948" title="com.mongodb.casbah.CursorExplanation">CursorExplanation</a><span class="delimiter">(</span><a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBObject">explain</span><span class="delimiter">)</span>
 
   <span class="comment">/**
    * limit
@@ -254,9 +254,9 @@
    *
    * @see http://dochub.mongodb.org/core/limit
    */</span>
-  <span class="keyword">def</span> <a title="(n: Int)MongoCursorBase.this.type" id="18266">limit</a><span class="delimiter">(</span><a title="Int" id="36289">n</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
-    <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: Int)com.mongodb.DBCursor">limit</span><span class="delimiter">(</span><a href="#36289" title="Int">n</a><span class="delimiter">)</span>
-    <a href="#9948" title="MongoCursorBase.this.type" class="keyword">this</a>
+  <span class="keyword">def</span> <a title="(n: Int)MongoCursorBase.this.type" id="18164">limit</a><span class="delimiter">(</span><a title="Int" id="36558">n</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
+    <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: Int)com.mongodb.DBCursor">limit</span><span class="delimiter">(</span><a href="#36558" title="Int">n</a><span class="delimiter">)</span>
+    <a href="#9942" title="MongoCursorBase.this.type" class="keyword">this</a>
   <span class="delimiter">}</span>
 
   <span class="comment">/**
@@ -269,9 +269,9 @@
    *
    * @see http://dochub.mongodb.org/core/skip
    */</span>
-  <span class="keyword">def</span> <a title="(n: Int)MongoCursorBase.this.type" id="18267">skip</a><span class="delimiter">(</span><a title="Int" id="35577">n</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
-    <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: Int)com.mongodb.DBCursor">skip</span><span class="delimiter">(</span><a href="#35577" title="Int">n</a><span class="delimiter">)</span>
-    <a href="#9948" title="MongoCursorBase.this.type" class="keyword">this</a>
+  <span class="keyword">def</span> <a title="(n: Int)MongoCursorBase.this.type" id="18165">skip</a><span class="delimiter">(</span><a title="Int" id="35846">n</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
+    <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: Int)com.mongodb.DBCursor">skip</span><span class="delimiter">(</span><a href="#35846" title="Int">n</a><span class="delimiter">)</span>
+    <a href="#9942" title="MongoCursorBase.this.type" class="keyword">this</a>
   <span class="delimiter">}</span>
 
   <span class="comment">/**
@@ -280,14 +280,14 @@
    * @return A long representing the cursorID on the server; 0 = no cursor
    *
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Long" id="18268">cursorId</a> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Long">getCursorId</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Long" id="18166">cursorId</a> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Long">getCursorId</span><span class="delimiter">(</span><span class="delimiter">)</span>
 
   <span class="comment">/**
    * close
    *
    * Kill the current cursor on the server
    */</span>
-  <span class="keyword">def</span> <a title="()Unit" id="18269">close</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Unit">close</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// parens for side-effect</span>
+  <span class="keyword">def</span> <a title="()Unit" id="18167">close</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Unit">close</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// parens for side-effect</span>
 
   <span class="comment">/**
    * slaveOk
@@ -296,9 +296,9 @@
    * @deprecated Replaced with ReadPreference.SECONDARY
    */</span>
   @deprecated<span class="delimiter">(</span><span class="string">&quot;Replaced with ReadPreference.SECONDARY&quot;</span>, <span class="string">&quot;2.3.0&quot;</span><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="()com.mongodb.DBCursor" id="18270">slaveOk</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">slaveOk</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// parens for side-effect</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.DBCursor" id="18168">slaveOk</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">slaveOk</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// parens for side-effect</span>
 
-  <span class="keyword">def</span> <a title="=&gt; Int" id="18271">numGetMores</a> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">numGetMores</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="18169">numGetMores</a> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">numGetMores</span>
 
   <span class="comment">/**
    * numSeen
@@ -308,9 +308,9 @@
    *
    * @return The number of objects seen
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Int" id="18272">numSeen</a> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">numSeen</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="18170">numSeen</a> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">numSeen</span>
 
-  <span class="keyword">def</span> <a title="=&gt; scala.collection.mutable.Buffer[java.lang.Integer]" id="18273">sizes</a> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(l: java.util.List[java.lang.Integer])collection.JavaConverters.AsScala[scala.collection.mutable.Buffer[java.lang.Integer]]">getSizes</span>.<span title="=&gt; scala.collection.mutable.Buffer[java.lang.Integer]">asScala</span>
+  <span class="keyword">def</span> <a title="=&gt; scala.collection.mutable.Buffer[java.lang.Integer]" id="18171">sizes</a> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(l: java.util.List[java.lang.Integer])collection.JavaConverters.AsScala[scala.collection.mutable.Buffer[java.lang.Integer]]">getSizes</span>.<span title="=&gt; scala.collection.mutable.Buffer[java.lang.Integer]">asScala</span>
 
   <span class="comment">/**
    * batchSize
@@ -320,59 +320,57 @@
    * @param  n (Int) The number of elements to return in a batch
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="(n: Int)com.mongodb.casbah.MongoCursorBase" id="18274">batchSize</a><span class="delimiter">(</span><a title="Int" id="36327">n</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
-    <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: Int)com.mongodb.DBCursor">batchSize</span><span class="delimiter">(</span><a href="#36327" title="Int">n</a><span class="delimiter">)</span>
-    <a href="#9948" title="com.mongodb.casbah.MongoCursorBase" class="keyword">this</a>
+  <span class="keyword">def</span> <a title="(n: Int)com.mongodb.casbah.MongoCursorBase" id="18172">batchSize</a><span class="delimiter">(</span><a title="Int" id="36596">n</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: Int)com.mongodb.DBCursor">batchSize</span><span class="delimiter">(</span><a href="#36596" title="Int">n</a><span class="delimiter">)</span>
+    <a href="#9942" title="com.mongodb.casbah.MongoCursorBase" class="keyword">this</a>
   <span class="delimiter">}</span>
 
-  <span class="keyword">def</span> <a title="=&gt; com.mongodb.DBObject" id="18275">keysWanted</a> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBObject">getKeysWanted</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.DBObject" id="18173">keysWanted</a> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBObject">getKeysWanted</span>
 
-  <span class="keyword">def</span> <a title="=&gt; com.mongodb.DBObject" id="18276">query</a> = <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBObject">getQuery</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.DBObject" id="18174">query</a> = <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBObject">getQuery</span>
 
   <span class="comment">/**
    * &quot;Special&quot; Operators for cursors
    *
-   * adds a special operator like $maxScan or $returnKey
+   * adds a special operator like \$maxScan or \$returnKey
    * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-Specialoperators
    * {@inheritDoc}
    * @return the same DBCursor, useful for chaining operations
-   * @example addSpecial( &quot;$returnKey&quot; , 1 )
-   * @example addSpecial( &quot;$maxScan&quot; , 100 )
    */</span>
-  <span class="keyword">def</span> <a title="(name: String, o: Any)MongoCursorBase.this.type" id="18277">addSpecial</a><span class="delimiter">(</span><a title="String" id="36336">name</a>: <span title="String">String</span>, <a title="Any" id="36337">o</a>: <span title="Any">Any</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(name: String, o: Any)MongoCursorBase.this.type" id="18175">addSpecial</a><span class="delimiter">(</span><a title="String" id="36605">name</a>: <span title="String">String</span>, <a title="Any" id="36606">o</a>: <span title="Any">Any</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="delimiter">{</span>
     <span class="comment">// The Java code returns a copy of itself (via _this_) so no clone/_newInstance</span>
-    <a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: java.lang.String, x$2: Any)com.mongodb.DBCursor">addSpecial</span><span class="delimiter">(</span><a href="#36336" title="String">name</a>, <a href="#36337" title="Any">o</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="AnyRef" class="delimiter">[</span><span title="AnyRef">AnyRef</span><span class="delimiter">]</span><span class="delimiter">)</span>
-    <a href="#9948" title="MongoCursorBase.this.type" class="keyword">this</a>
+    <a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="(x$1: java.lang.String, x$2: Any)com.mongodb.DBCursor">addSpecial</span><span class="delimiter">(</span><a href="#36605" title="String">name</a>, <a href="#36606" title="Any">o</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="AnyRef" class="delimiter">[</span><span title="AnyRef">AnyRef</span><span class="delimiter">]</span><span class="delimiter">)</span>
+    <a href="#9942" title="MongoCursorBase.this.type" class="keyword">this</a>
   <span class="delimiter">}</span>
 
   <span class="comment">/**
-   * $returnKey
+   * \$returnKey
    *
-   * Sets a special operator of $returnKey
+   * Sets a special operator of \$returnKey
    * If true, returns ONLY the index key.
-   * Defaults to true if you just call $returnKey
+   * Defaults to true if you just call \$returnKey
    *
    * @param  bool (Boolean = true)
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="(bool: Boolean)MongoCursorBase.this.type" id="18278">$returnKey</a><span class="delimiter">(</span><a title="Boolean" id="36341">bool</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18277" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$returnKey&quot;)" class="string">&quot;$returnKey&quot;</span>, <a href="#36341" title="Boolean">bool</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(bool: Boolean)MongoCursorBase.this.type" id="18176">$returnKey</a><span class="delimiter">(</span><a title="Boolean" id="36610">bool</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18175" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$returnKey&quot;)" class="string">&quot;$returnKey&quot;</span>, <a href="#36610" title="Boolean">bool</a><span class="delimiter">)</span>
 
   <span class="comment">/**
-   * $maxScan
+   * \$maxScan
    *
-   * Sets a special operator of $maxScan
+   * Sets a special operator of \$maxScan
    * Which defines the max number of items to scan.
    *
    * @param  max (A)
    * @tparam A : Numeric
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="[A](max: MongoCursorBase.this.T)(implicit evidence$3: Numeric[A])MongoCursorBase.this.type" id="36343">$maxScan</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18281">A</a>: Numeric<span class="delimiter">]</span><span class="delimiter">(</span><a title="MongoCursorBase.this.T" id="36342">max</a>: <a href="#18247" title="MongoCursorBase.this.T">T</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18277" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$maxScan&quot;)" class="string">&quot;$maxScan&quot;</span>, <a href="#36342" title="MongoCursorBase.this.T">max</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[A](max: MongoCursorBase.this.T)(implicit evidence$3: Numeric[A])MongoCursorBase.this.type" id="36612">$maxScan</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18179">A</a>: Numeric<span class="delimiter">]</span><span class="delimiter">(</span><a title="MongoCursorBase.this.T" id="36611">max</a>: <a href="#18145" title="MongoCursorBase.this.T">T</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18175" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$maxScan&quot;)" class="string">&quot;$maxScan&quot;</span>, <a href="#36611" title="MongoCursorBase.this.T">max</a><span class="delimiter">)</span>
 
   <span class="comment">/**
-   * $query
+   * \$query
    *
-   * Sets a special operator of $query
+   * Sets a special operator of \$query
    * Which defines the query for this cursor.
    *
    * This is the same as running find() on a Collection with the query.
@@ -380,12 +378,12 @@
    * @param  q (DBObject)
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="[A](q: A)(implicit evidence$4: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36736">$query</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18284">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36735">q</a>: <a href="#18284" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18277" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$query&quot;)" class="string">&quot;$query&quot;</span>, <a href="#36735" title="A">q</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[A](q: A)(implicit evidence$4: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36616">$query</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18182">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36615">q</a>: <a href="#18182" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18175" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$query&quot;)" class="string">&quot;$query&quot;</span>, <a href="#36615" title="A">q</a><span class="delimiter">)</span>
 
   <span class="comment">/**
-   * $orderby
+   * \$orderby
    *
-   * Sets a special operator of $orderby
+   * Sets a special operator of \$orderby
    * which defines the sort spec for this cursor.
    *
    * This is the same as calling sort on the cursor.
@@ -393,12 +391,12 @@
    * @param  obj (DBObject)
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="[A](obj: A)(implicit evidence$5: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36741">$orderby</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18287">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36740">obj</a>: <a href="#18287" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18277" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$orderby&quot;)" class="string">&quot;$orderby&quot;</span>, <a href="#36740" title="A">obj</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[A](obj: A)(implicit evidence$5: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36621">$orderby</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18185">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36620">obj</a>: <a href="#18185" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18175" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$orderby&quot;)" class="string">&quot;$orderby&quot;</span>, <a href="#36620" title="A">obj</a><span class="delimiter">)</span>
 
   <span class="comment">/**
-   * $explain
+   * \$explain
    *
-   * Sets a special operator of $explain
+   * Sets a special operator of \$explain
    * which, if true, explains the query instead of returning results.
    *
    * This is the same as calling the explain() method on the cursor.
@@ -406,12 +404,12 @@
    * @param  bool (Boolean = true)
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="(bool: Boolean)MongoCursorBase.this.type" id="18288">$explain</a><span class="delimiter">(</span><a title="Boolean" id="36747">bool</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18277" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$explain&quot;)" class="string">&quot;$explain&quot;</span>, <a href="#36747" title="Boolean">bool</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(bool: Boolean)MongoCursorBase.this.type" id="18186">$explain</a><span class="delimiter">(</span><a title="Boolean" id="36627">bool</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18175" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$explain&quot;)" class="string">&quot;$explain&quot;</span>, <a href="#36627" title="Boolean">bool</a><span class="delimiter">)</span>
 
   <span class="comment">/**
-   * $snapshot
+   * \$snapshot
    *
-   * Sets a special operator of $snapshot
+   * Sets a special operator of \$snapshot
    * which, if True, sets snapshot mode on the query.
    *
    * This is the same as calling the snapshot() method on the cursor.
@@ -419,47 +417,47 @@
    * @param  bool (Boolean = true)
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="(bool: Boolean)MongoCursorBase.this.type" id="18289">$snapshot</a><span class="delimiter">(</span><a title="Boolean" id="36750">bool</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18277" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$snapshot&quot;)" class="string">&quot;$snapshot&quot;</span>, <a href="#36750" title="Boolean">bool</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(bool: Boolean)MongoCursorBase.this.type" id="18187">$snapshot</a><span class="delimiter">(</span><a title="Boolean" id="36630">bool</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18175" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$snapshot&quot;)" class="string">&quot;$snapshot&quot;</span>, <a href="#36630" title="Boolean">bool</a><span class="delimiter">)</span>
 
   <span class="comment">/**
-   * $min
+   * \$min
    *
-   * Sets minimum index bounds - commonly paired with $max
+   * Sets minimum index bounds - commonly paired with \$max
    *
    * @param  obj (DBObject)
    * @see http://www.mongodb.org/display/DOCS/min+and+max+Query+Specifiers
    *
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="[A](obj: A)(implicit evidence$6: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36752">$min</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18292">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36751">obj</a>: <a href="#18292" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18277" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$min&quot;)" class="string">&quot;$min&quot;</span>, <a href="#36751" title="A">obj</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[A](obj: A)(implicit evidence$6: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36632">$min</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18190">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36631">obj</a>: <a href="#18190" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18175" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$min&quot;)" class="string">&quot;$min&quot;</span>, <a href="#36631" title="A">obj</a><span class="delimiter">)</span>
 
   <span class="comment">/**
-   * $max
+   * \$max
    *
-   * Sets maximum index bounds - commonly paired with $max
+   * Sets maximum index bounds - commonly paired with \$max
    *
    * @param  obj (DBObject)
    * @see http://www.mongodb.org/display/DOCS/max+and+max+Query+Specifiers
    *
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="[A](obj: A)(implicit evidence$7: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36757">$max</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18295">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36756">obj</a>: <a href="#18295" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18277" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$max&quot;)" class="string">&quot;$max&quot;</span>, <a href="#36756" title="A">obj</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[A](obj: A)(implicit evidence$7: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36637">$max</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18193">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36636">obj</a>: <a href="#18193" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18175" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$max&quot;)" class="string">&quot;$max&quot;</span>, <a href="#36636" title="A">obj</a><span class="delimiter">)</span>
 
   <span class="comment">/**
-   * $showDiskLoc
+   * \$showDiskLoc
    *
-   * Sets a special operator $showDiskLoc which, if true,
+   * Sets a special operator \$showDiskLoc which, if true,
    * shows the disk location of results.
    *
    * @param  bool (Boolean = true)
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="(bool: Boolean)MongoCursorBase.this.type" id="18296">$showDiskLoc</a><span class="delimiter">(</span><a title="Boolean" id="36763">bool</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18277" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$showDiskLoc&quot;)" class="string">&quot;$showDiskLoc&quot;</span>, <a href="#36763" title="Boolean">bool</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(bool: Boolean)MongoCursorBase.this.type" id="18194">$showDiskLoc</a><span class="delimiter">(</span><a title="Boolean" id="36643">bool</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18175" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$showDiskLoc&quot;)" class="string">&quot;$showDiskLoc&quot;</span>, <a href="#36643" title="Boolean">bool</a><span class="delimiter">)</span>
 
   <span class="comment">/**
-   * $hint
+   * \$hint
    *
-   * Sets a special operator $hint which
+   * Sets a special operator \$hint which
    * forces the query to use a given index.
    *
    * This is the same as calling hint() on the cursor.
@@ -467,7 +465,7 @@
    * @param obj (DBObject)
    * @return the same DBCursor, useful for chaining operations
    */</span>
-  <span class="keyword">def</span> <a title="[A](obj: A)(implicit evidence$8: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36765">$hint</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18299">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36764">obj</a>: <a href="#18299" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18277" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$hint&quot;)" class="string">&quot;$hint&quot;</span>, <a href="#36764" title="A">obj</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[A](obj: A)(implicit evidence$8: A =&gt; com.mongodb.casbah.Imports.DBObject)MongoCursorBase.this.type" id="36645">$hint</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="18197">A</a> &lt;% DBObject<span class="delimiter">]</span><span class="delimiter">(</span><a title="A" id="36644">obj</a>: <a href="#18197" title="A">A</a><span class="delimiter">)</span>: <span class="keyword">this</span>.<span class="keyword">type</span> = <a href="#18175" title="(name: String, o: Any)MongoCursorBase.this.type">addSpecial</a><span class="delimiter">(</span><span title="java.lang.String(&quot;$hint&quot;)" class="string">&quot;$hint&quot;</span>, <a href="#36644" title="A">obj</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * _newInstance
@@ -480,7 +478,7 @@
    * @param  cursor (DBCursor)
    * @return (this.type)
    */</span>
-  <span class="keyword">def</span> <a title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoCursorBase" id="18300">_newInstance</a><span class="delimiter">(</span><a title="com.mongodb.DBCursor" id="36769">cursor</a>: <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">)</span>: <a href="#9948" title="com.mongodb.casbah.MongoCursorBase">MongoCursorBase</a>
+  <span class="keyword">def</span> <a title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoCursorBase" id="18198">_newInstance</a><span class="delimiter">(</span><a title="com.mongodb.DBCursor" id="36649">cursor</a>: <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">)</span>: <a href="#9942" title="com.mongodb.casbah.MongoCursorBase">MongoCursorBase</a>
 
   <span class="comment">/**
    * copy
@@ -491,7 +489,7 @@
    *
    * @return The new cursor
    */</span>
-  <span class="keyword">def</span> <a title="()com.mongodb.casbah.MongoCursorBase" id="18301">copy</a><span class="delimiter">(</span><span class="delimiter">)</span>: <a href="#9948" title="com.mongodb.casbah.MongoCursorBase">MongoCursorBase</a> = <a href="#18300" title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoCursorBase">_newInstance</a><span class="delimiter">(</span><a href="#18248" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">copy</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="comment">// parens for side-effects</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.casbah.MongoCursorBase" id="18199">copy</a><span class="delimiter">(</span><span class="delimiter">)</span>: <a href="#9942" title="com.mongodb.casbah.MongoCursorBase">MongoCursorBase</a> = <a href="#18198" title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoCursorBase">_newInstance</a><span class="delimiter">(</span><a href="#18146" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">copy</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="comment">// parens for side-effects</span>
 
 <span class="delimiter">}</span>
 
@@ -505,9 +503,9 @@
  * @param  val underlying (com.mongodb.DBCollection)
  * @tparam DBObject
  */</span>
-<span class="keyword">class</span> <a title="class MongoCursor extends java.lang.Object with com.mongodb.casbah.MongoCursorBase with Iterator[com.mongodb.casbah.Imports.DBObject] with ScalaObject" id="9949">MongoCursor</a><a href="#9949" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="com.mongodb.DBCursor" id="18605">underlying</a>: <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#9948" title="com.mongodb.casbah.MongoCursorBase">MongoCursorBase</a> <span class="keyword">with</span> <span title="Iterator[com.mongodb.casbah.Imports.DBObject]">Iterator</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> <span class="delimiter">{</span>
+<span class="keyword">class</span> <a title="class MongoCursor extends java.lang.Object with com.mongodb.casbah.MongoCursorBase with Iterator[com.mongodb.casbah.Imports.DBObject] with ScalaObject" id="9943">MongoCursor</a><a href="#9943" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="com.mongodb.DBCursor" id="18503">underlying</a>: <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#9942" title="com.mongodb.casbah.MongoCursorBase">MongoCursorBase</a> <span class="keyword">with</span> <span title="Iterator[com.mongodb.casbah.Imports.DBObject]">Iterator</span><span class="delimiter">[</span>DBObject<span class="delimiter">]</span> <span class="delimiter">{</span>
 
-  <span class="keyword">type</span> <a title="com.mongodb.casbah.Imports.DBObject" id="18601">T</a> = <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>
+  <span class="keyword">type</span> <a title="com.mongodb.casbah.Imports.DBObject" id="18499">T</a> = <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>
 
   <span class="comment">/**
    * size
@@ -526,7 +524,7 @@
    * @return Int indicating the number of elements returned by the query after skip/limit
    * @throws MongoException
    */</span>
-  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Int" id="18602">size</a> = <a href="#18605" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">size</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Int" id="18500">size</a> = <a href="#18503" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()Int">size</span>
   <span class="comment">/**
    * _newInstance
    *
@@ -538,7 +536,7 @@
    * @param  cursor (DBCursor)
    * @return (this.type)
    */</span>
-  <span class="keyword">def</span> <a title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoCursor" id="18603">_newInstance</a><span class="delimiter">(</span><a title="com.mongodb.DBCursor" id="36785">cursor</a>: <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">)</span> = <span title="com.mongodb.casbah.MongoCursor" class="keyword">new</span> <a href="#9949" title="com.mongodb.casbah.MongoCursor">MongoCursor</a><span class="delimiter">(</span><a href="#36785" title="com.mongodb.DBCursor">cursor</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoCursor" id="18501">_newInstance</a><span class="delimiter">(</span><a title="com.mongodb.DBCursor" id="36665">cursor</a>: <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">)</span> = <span title="com.mongodb.casbah.MongoCursor" class="keyword">new</span> <a href="#9943" title="com.mongodb.casbah.MongoCursor">MongoCursor</a><span class="delimiter">(</span><a href="#36665" title="com.mongodb.DBCursor">cursor</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * copy
@@ -549,10 +547,10 @@
    *
    * @return The new cursor
    */</span>
-  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()com.mongodb.casbah.MongoCursor" id="18604">copy</a><span class="delimiter">(</span><span class="delimiter">)</span>: <a href="#9949" title="com.mongodb.casbah.MongoCursor">MongoCursor</a> = <a href="#18603" title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoCursor">_newInstance</a><span class="delimiter">(</span><a href="#18605" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">copy</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="comment">// parens for side-effects</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()com.mongodb.casbah.MongoCursor" id="18502">copy</a><span class="delimiter">(</span><span class="delimiter">)</span>: <a href="#9943" title="com.mongodb.casbah.MongoCursor">MongoCursor</a> = <a href="#18501" title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoCursor">_newInstance</a><span class="delimiter">(</span><a href="#18503" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">copy</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="comment">// parens for side-effects</span>
 <span class="delimiter">}</span>
 
-<span class="keyword">object</span> <a title="object com.mongodb.casbah.MongoCursor" id="9950">MongoCursor</a> <span title="ScalaObject" class="keyword">extends</span> <span title="com.mongodb.casbah.commons.Logging">Logging</span> <span class="delimiter">{</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.MongoCursor" id="9944">MongoCursor</a> <span title="ScalaObject" class="keyword">extends</span> <span title="com.mongodb.casbah.commons.Logging">Logging</span> <span class="delimiter">{</span>
   <span class="comment">/**
    * Initialize a new cursor with your own custom settings
    *
@@ -561,7 +559,7 @@
    * @param  keys (K) Keys to return from the query
    * @return (instance) A new MongoCursor
    */</span>
-   <span class="keyword">def</span> <a title="[T &lt;: com.mongodb.casbah.Imports.DBObject](collection: com.mongodb.casbah.MongoCollectionBase, query: com.mongodb.casbah.Imports.DBObject, keys: com.mongodb.casbah.Imports.DBObject)(implicit evidence$9: Manifest[T])com.mongodb.casbah.MongoCursorBase" id="36800">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: com.mongodb.casbah.Imports.DBObject" id="36792">T</a> &lt;: DBObject: Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoCollectionBase" id="36797">collection</a>: <a href="MongoCollection.scala.html#9923" title="com.mongodb.casbah.MongoCollectionBase">MongoCollectionBase</a>, <a title="com.mongodb.casbah.Imports.DBObject" id="36798">query</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="36799">keys</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span>: <a href="#9948" title="com.mongodb.casbah.MongoCursorBase">MongoCursorBase</a> = <a href="#36811" title="(collection: com.mongodb.casbah.MongoCollectionBase, query: com.mongodb.casbah.Imports.DBObject, keys: com.mongodb.casbah.Imports.DBObject, readPref: com.mongodb.casbah.Imports.ReadPreference)(implicit evidence$10: Manifest[T])com.mongodb.casbah.MongoCursorBase{def copy(): com.mongodb.casbah.MongoCursorBase{type T &gt;: this.T &lt;: com.mongodb.casbah.Imports.DBObject}; def _newInstance(cursor: com.mongodb.DBCursor): com.mongodb.casbah.MongoCursorBase{type T &gt;: this.T &lt;: com.mongodb.casbah.Imports.DBObject}}">apply</a><a href="#36800" title="Manifest[T]" class="delimiter">(</a><a href="#36797" title="com.mongodb.casbah.MongoCollectionBase">collection</a>, <a href="#36798" title="com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#36799" title="com.mongodb.casbah.Imports.DBObject">keys</a>, <a href="#36797" title="com.mongodb.casbah.MongoCollectionBase">collection</a>.<a href="MongoCollection.scala.html#15448" title="=&gt; com.mongodb.ReadPreference">readPreference</a><span class="delimiter">)</span>
+   <span class="keyword">def</span> <a title="[T &lt;: com.mongodb.casbah.Imports.DBObject](collection: com.mongodb.casbah.MongoCollectionBase, query: com.mongodb.casbah.Imports.DBObject, keys: com.mongodb.casbah.Imports.DBObject)(implicit evidence$9: Manifest[T])com.mongodb.casbah.MongoCursorBase" id="36680">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: com.mongodb.casbah.Imports.DBObject" id="36672">T</a> &lt;: DBObject: Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoCollectionBase" id="36677">collection</a>: <a href="MongoCollection.scala.html#9917" title="com.mongodb.casbah.MongoCollectionBase">MongoCollectionBase</a>, <a title="com.mongodb.casbah.Imports.DBObject" id="36678">query</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="36679">keys</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span>: <a href="#9942" title="com.mongodb.casbah.MongoCursorBase">MongoCursorBase</a> = <a href="#36691" title="(collection: com.mongodb.casbah.MongoCollectionBase, query: com.mongodb.casbah.Imports.DBObject, keys: com.mongodb.casbah.Imports.DBObject, readPref: com.mongodb.casbah.Imports.ReadPreference)(implicit evidence$10: Manifest[T])com.mongodb.casbah.MongoCursorBase{def copy(): com.mongodb.casbah.MongoCursorBase{type T &gt;: this.T &lt;: com.mongodb.casbah.Imports.DBObject}; def _newInstance(cursor: com.mongodb.DBCursor): com.mongodb.casbah.MongoCursorBase{type T &gt;: this.T &lt;: com.mongodb.casbah.Imports.DBObject}}">apply</a><a href="#36680" title="Manifest[T]" class="delimiter">(</a><a href="#36677" title="com.mongodb.casbah.MongoCollectionBase">collection</a>, <a href="#36678" title="com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#36679" title="com.mongodb.casbah.Imports.DBObject">keys</a>, <a href="#36677" title="com.mongodb.casbah.MongoCollectionBase">collection</a>.<a href="MongoCollection.scala.html#15346" title="=&gt; com.mongodb.ReadPreference">readPreference</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * Initialize a new cursor with your own custom settings
@@ -572,13 +570,13 @@
    * @param  readPreference
    * @return (instance) A new MongoCursor
    */</span>
-  <span class="keyword">def</span> <a title="[T &lt;: com.mongodb.casbah.Imports.DBObject](collection: com.mongodb.casbah.MongoCollectionBase, query: com.mongodb.casbah.Imports.DBObject, keys: com.mongodb.casbah.Imports.DBObject, readPref: com.mongodb.casbah.Imports.ReadPreference)(implicit evidence$10: Manifest[T])com.mongodb.casbah.MongoCursorBase{def copy(): com.mongodb.casbah.MongoCursorBase{type T &gt;: this.T &lt;: com.mongodb.casbah.Imports.DBObject}; def _newInstance(cursor: com.mongodb.DBCursor): com.mongodb.casbah.MongoCursorBase{type T &gt;: this.T &lt;: com.mongodb.casbah.Imports.DBObject}}" id="36811">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: com.mongodb.casbah.Imports.DBObject" id="36795">T</a> &lt;: DBObject: Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoCollectionBase" id="36807">collection</a>: <a href="MongoCollection.scala.html#9923" title="com.mongodb.casbah.MongoCollectionBase">MongoCollectionBase</a>, <a title="com.mongodb.casbah.Imports.DBObject" id="36808">query</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="36809">keys</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.ReadPreference" id="36810">readPref</a>: <span title="com.mongodb.casbah.Imports.ReadPreference">ReadPreference</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
-    <span class="keyword">val</span> <a title="com.mongodb.DBCursor" id="36814">cursor</a> = <span title="com.mongodb.DBCursor" class="keyword">new</span> <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">(</span><a href="#36807" title="com.mongodb.casbah.MongoCollectionBase">collection</a>.<a href="MongoCollection.scala.html#15257" title="=&gt; com.mongodb.DBCollection">underlying</a>, <a href="#36808" title="com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#36809" title="com.mongodb.casbah.Imports.DBObject">keys</a>, <a href="#36810" title="com.mongodb.casbah.Imports.ReadPreference">readPref</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="[T &lt;: com.mongodb.casbah.Imports.DBObject](collection: com.mongodb.casbah.MongoCollectionBase, query: com.mongodb.casbah.Imports.DBObject, keys: com.mongodb.casbah.Imports.DBObject, readPref: com.mongodb.casbah.Imports.ReadPreference)(implicit evidence$10: Manifest[T])com.mongodb.casbah.MongoCursorBase{def copy(): com.mongodb.casbah.MongoCursorBase{type T &gt;: this.T &lt;: com.mongodb.casbah.Imports.DBObject}; def _newInstance(cursor: com.mongodb.DBCursor): com.mongodb.casbah.MongoCursorBase{type T &gt;: this.T &lt;: com.mongodb.casbah.Imports.DBObject}}" id="36691">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: com.mongodb.casbah.Imports.DBObject" id="36675">T</a> &lt;: DBObject: Manifest<span class="delimiter">]</span><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoCollectionBase" id="36687">collection</a>: <a href="MongoCollection.scala.html#9917" title="com.mongodb.casbah.MongoCollectionBase">MongoCollectionBase</a>, <a title="com.mongodb.casbah.Imports.DBObject" id="36688">query</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="36689">keys</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="com.mongodb.casbah.Imports.ReadPreference" id="36690">readPref</a>: <span title="com.mongodb.casbah.Imports.ReadPreference">ReadPreference</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.DBCursor" id="36694">cursor</a> = <span title="com.mongodb.DBCursor" class="keyword">new</span> <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">(</span><a href="#36687" title="com.mongodb.casbah.MongoCollectionBase">collection</a>.<a href="MongoCollection.scala.html#15155" title="=&gt; com.mongodb.DBCollection">underlying</a>, <a href="#36688" title="com.mongodb.casbah.Imports.DBObject">query</a>, <a href="#36689" title="com.mongodb.casbah.Imports.DBObject">keys</a>, <a href="#36690" title="com.mongodb.casbah.Imports.ReadPreference">readPref</a><span class="delimiter">)</span>
 
-    <span title="&lt;none&gt; extends com.mongodb.casbah.MongoCursorBase" class="keyword">if</span> <span class="delimiter">(</span><span title="[T](implicit m: Manifest[T])Manifest[T]">manifest</span><a href="#36811" title="(implicit m: Manifest[T])Manifest[T]" class="delimiter">[</a><a href="#36795" title="T">T</a><span class="delimiter">]</span> <span title="(x$1: AnyRef)Boolean">==</span> <span title="[T](implicit m: Manifest[T])Manifest[T]">manifest</span><span title="(implicit m: Manifest[com.mongodb.casbah.Imports.DBObject])Manifest[com.mongodb.casbah.Imports.DBObject]" class="delimiter">[</span><span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">]</span><span class="delimiter">)</span>
-      <span title="com.mongodb.casbah.MongoCursor" class="keyword">new</span> <a href="#9949" title="com.mongodb.casbah.MongoCursor">MongoCursor</a><span class="delimiter">(</span><a href="#36814" title="com.mongodb.DBCursor">cursor</a><span class="delimiter">)</span>
+    <span title="&lt;none&gt; extends com.mongodb.casbah.MongoCursorBase" class="keyword">if</span> <span class="delimiter">(</span><span title="[T](implicit m: Manifest[T])Manifest[T]">manifest</span><a href="#36691" title="(implicit m: Manifest[T])Manifest[T]" class="delimiter">[</a><a href="#36675" title="T">T</a><span class="delimiter">]</span> <span title="(x$1: AnyRef)Boolean">==</span> <span title="[T](implicit m: Manifest[T])Manifest[T]">manifest</span><span title="(implicit m: Manifest[com.mongodb.casbah.Imports.DBObject])Manifest[com.mongodb.casbah.Imports.DBObject]" class="delimiter">[</span><span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">]</span><span class="delimiter">)</span>
+      <span title="com.mongodb.casbah.MongoCursor" class="keyword">new</span> <a href="#9943" title="com.mongodb.casbah.MongoCursor">MongoCursor</a><span class="delimiter">(</span><a href="#36694" title="com.mongodb.DBCursor">cursor</a><span class="delimiter">)</span>
     <span class="keyword">else</span>
-      <span title="com.mongodb.casbah.MongoGenericTypedCursor[T]" class="keyword">new</span> <a href="#9952" title="com.mongodb.casbah.MongoGenericTypedCursor[T]">MongoGenericTypedCursor</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><a href="#36814" title="com.mongodb.DBCursor">cursor</a><span class="delimiter">)</span>
+      <span title="com.mongodb.casbah.MongoGenericTypedCursor[T]" class="keyword">new</span> <a href="#9946" title="com.mongodb.casbah.MongoGenericTypedCursor[T]">MongoGenericTypedCursor</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><a href="#36694" title="com.mongodb.DBCursor">cursor</a><span class="delimiter">)</span>
 
   <span class="delimiter">}</span>
 <span class="delimiter">}</span>
@@ -593,8 +591,8 @@
  * @param  val underlying (com.mongodb.DBCollection)
  * @tparam A A Subclass of DBObject
  */</span>
-<span class="keyword">class</span> <a title="class MongoGenericTypedCursor[A &lt;: com.mongodb.casbah.Imports.DBObject] extends java.lang.Object with com.mongodb.casbah.MongoCursorBase with ScalaObject" id="9952">MongoGenericTypedCursor</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: com.mongodb.casbah.Imports.DBObject" id="9953">A</a> &lt;: DBObject<span class="delimiter">]</span><a href="#9952" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="com.mongodb.DBCursor" id="18309">underlying</a>: <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#9948" title="com.mongodb.casbah.MongoCursorBase">MongoCursorBase</a> <span class="delimiter">{</span>
-  <span class="keyword">type</span> <a title="A" id="18306">T</a> = <a href="#9953" title="A">A</a>
+<span class="keyword">class</span> <a title="class MongoGenericTypedCursor[A &lt;: com.mongodb.casbah.Imports.DBObject] extends java.lang.Object with com.mongodb.casbah.MongoCursorBase with ScalaObject" id="9946">MongoGenericTypedCursor</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: com.mongodb.casbah.Imports.DBObject" id="9947">A</a> &lt;: DBObject<span class="delimiter">]</span><a href="#9946" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="com.mongodb.DBCursor" id="18207">underlying</a>: <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#9942" title="com.mongodb.casbah.MongoCursorBase">MongoCursorBase</a> <span class="delimiter">{</span>
+  <span class="keyword">type</span> <a title="A" id="18204">T</a> = <a href="#9947" title="A">A</a>
 
   <span class="comment">/**
    * _newInstance
@@ -607,7 +605,7 @@
    * @param  cursor (DBCursor)
    * @return (this.type)
    */</span>
-  <span class="keyword">def</span> <a title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]" id="18307">_newInstance</a><span class="delimiter">(</span><a title="com.mongodb.DBCursor" id="36860">cursor</a>: <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">)</span> = <span title="com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]" class="keyword">new</span> <a href="#9952" title="com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]">MongoGenericTypedCursor</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><a href="#36860" title="com.mongodb.DBCursor">cursor</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]" id="18205">_newInstance</a><span class="delimiter">(</span><a title="com.mongodb.DBCursor" id="36740">cursor</a>: <span title="com.mongodb.DBCursor">DBCursor</span><span class="delimiter">)</span> = <span title="com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]" class="keyword">new</span> <a href="#9946" title="com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]">MongoGenericTypedCursor</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><a href="#36740" title="com.mongodb.DBCursor">cursor</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * copy
@@ -618,7 +616,7 @@
    *
    * @return The new cursor
    */</span>
-  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]" id="18308">copy</a><span class="delimiter">(</span><span class="delimiter">)</span>: <a href="#9952" title="com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]">MongoGenericTypedCursor</a><span class="delimiter">[</span>T<span class="delimiter">]</span> = <a href="#18307" title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]">_newInstance</a><span class="delimiter">(</span><a href="#18309" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">copy</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="comment">// parens for side-effects</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]" id="18206">copy</a><span class="delimiter">(</span><span class="delimiter">)</span>: <a href="#9946" title="com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]">MongoGenericTypedCursor</a><span class="delimiter">[</span>T<span class="delimiter">]</span> = <a href="#18205" title="(cursor: com.mongodb.DBCursor)com.mongodb.casbah.MongoGenericTypedCursor[MongoGenericTypedCursor.this.T]">_newInstance</a><span class="delimiter">(</span><a href="#18207" title="=&gt; com.mongodb.DBCursor">underlying</a>.<span title="()com.mongodb.DBCursor">copy</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="comment">// parens for side-effects</span>
 <span class="delimiter">}</span>
 <span class="comment">/**
  *
@@ -629,7 +627,7 @@
  * @param  val underlying (DBObject)
  * @see http://dochub.mongodb.org/core/explain
  */</span>
-<span class="keyword">sealed</span> <span class="keyword">class</span> <a title="class CursorExplanation extends com.mongodb.casbah.commons.MongoDBObject with ScalaObject" id="9954">CursorExplanation</a><a href="#9954" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="com.mongodb.casbah.Imports.DBObject" id="36288">underlying</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="Implicits.scala.html#9878" title="com.mongodb.casbah.commons.MongoDBObject">MongoDBObject</a> <span class="delimiter">{</span>
+<span class="keyword">sealed</span> <span class="keyword">class</span> <a title="class CursorExplanation extends com.mongodb.casbah.commons.MongoDBObject with ScalaObject" id="9948">CursorExplanation</a><a href="#9948" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="com.mongodb.casbah.Imports.DBObject" id="36557">underlying</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="Implicits.scala.html#9872" title="com.mongodb.casbah.commons.MongoDBObject">MongoDBObject</a> <span class="delimiter">{</span>
 
   <span class="comment">/**
    * cursor
@@ -637,7 +635,7 @@
    * The cursor type for the query
    * TODO - look at making this an enum?
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="36281">cursor</a> = <a href="#9954" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[String], implicit evidence$5: scala.reflect.Manifest[String])Option[String]" class="delimiter">[</span><span title="String">String</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[String]" class="delimiter">(</span><span title="java.lang.String(&quot;cursor&quot;)" class="string">&quot;cursor&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[String]" id="36550">cursor</a> = <a href="#9948" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[String], implicit evidence$5: scala.reflect.Manifest[String])Option[String]" class="delimiter">[</span><span title="String">String</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[String]" class="delimiter">(</span><span title="java.lang.String(&quot;cursor&quot;)" class="string">&quot;cursor&quot;</span><span class="delimiter">)</span>
 
   <span class="comment">/**
    * nscanned
@@ -648,42 +646,42 @@
    *
    * @return a Long value indicating 'nscanned'
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[Long]" id="36282">nscanned</a> = <a href="#9954" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[Long], implicit evidence$5: scala.reflect.Manifest[Long])Option[Long]" class="delimiter">[</span><span title="Long">Long</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Long]" class="delimiter">(</span><span title="java.lang.String(&quot;nscanned&quot;)" class="string">&quot;nscanned&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[Long]" id="36551">nscanned</a> = <a href="#9948" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[Long], implicit evidence$5: scala.reflect.Manifest[Long])Option[Long]" class="delimiter">[</span><span title="Long">Long</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Long]" class="delimiter">(</span><span title="java.lang.String(&quot;nscanned&quot;)" class="string">&quot;nscanned&quot;</span><span class="delimiter">)</span>
 
   <span class="comment">/**
    * nscannedObjects
    *
    * @return a Long value of # objects examined by Mongo for this query.
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[Long]" id="36283">nscannedObjects</a> = <a href="#9954" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[Long], implicit evidence$5: scala.reflect.Manifest[Long])Option[Long]" class="delimiter">[</span><span title="Long">Long</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Long]" class="delimiter">(</span><span title="java.lang.String(&quot;nscannedObjects&quot;)" class="string">&quot;nscannedObjects&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[Long]" id="36552">nscannedObjects</a> = <a href="#9948" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[Long], implicit evidence$5: scala.reflect.Manifest[Long])Option[Long]" class="delimiter">[</span><span title="Long">Long</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Long]" class="delimiter">(</span><span title="java.lang.String(&quot;nscannedObjects&quot;)" class="string">&quot;nscannedObjects&quot;</span><span class="delimiter">)</span>
 
   <span class="comment">/**
    * nYields
    *
    * @return A long value of the number of times the query yielded the read lock to let writes in
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[Long]" id="36284">nYields</a> = <a href="#9954" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[Long], implicit evidence$5: scala.reflect.Manifest[Long])Option[Long]" class="delimiter">[</span><span title="Long">Long</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Long]" class="delimiter">(</span><span title="java.lang.String(&quot;nYields&quot;)" class="string">&quot;nYields&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[Long]" id="36553">nYields</a> = <a href="#9948" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[Long], implicit evidence$5: scala.reflect.Manifest[Long])Option[Long]" class="delimiter">[</span><span title="Long">Long</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Long]" class="delimiter">(</span><span title="java.lang.String(&quot;nYields&quot;)" class="string">&quot;nYields&quot;</span><span class="delimiter">)</span>
 
   <span class="comment">/**
    * n
    *
    * @return a Long value of the number of objects which Mongo returned
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[Long]" id="36285">n</a> = <a href="#9954" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[Long], implicit evidence$5: scala.reflect.Manifest[Long])Option[Long]" class="delimiter">[</span><span title="Long">Long</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Long]" class="delimiter">(</span><span title="java.lang.String(&quot;n&quot;)" class="string">&quot;n&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[Long]" id="36554">n</a> = <a href="#9948" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[Long], implicit evidence$5: scala.reflect.Manifest[Long])Option[Long]" class="delimiter">[</span><span title="Long">Long</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Long]" class="delimiter">(</span><span title="java.lang.String(&quot;n&quot;)" class="string">&quot;n&quot;</span><span class="delimiter">)</span>
 
   <span class="comment">/**
    * millis
    *
    * @return The number of milliseconds the query took to execute
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[Long]" id="36286">millis</a> = <a href="#9954" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[Long], implicit evidence$5: scala.reflect.Manifest[Long])Option[Long]" class="delimiter">[</span><span title="Long">Long</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Long]" class="delimiter">(</span><span title="java.lang.String(&quot;millis&quot;)" class="string">&quot;millis&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[Long]" id="36555">millis</a> = <a href="#9948" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[Long], implicit evidence$5: scala.reflect.Manifest[Long])Option[Long]" class="delimiter">[</span><span title="Long">Long</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[Long]" class="delimiter">(</span><span title="java.lang.String(&quot;millis&quot;)" class="string">&quot;millis&quot;</span><span class="delimiter">)</span>
 
   <span class="comment">/**
    * indexBounds
    *
    * @return the index boundaries this query used.
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Option[com.mongodb.casbah.Imports.MongoDBList]" id="36287">indexBounds</a> = <a href="#9954" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[com.mongodb.casbah.Imports.MongoDBList], implicit evidence$5: scala.reflect.Manifest[com.mongodb.casbah.Imports.MongoDBList])Option[com.mongodb.casbah.Imports.MongoDBList]" class="delimiter">[</span><span title="com.mongodb.casbah.Imports.MongoDBList">MongoDBList</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[com.mongodb.casbah.Imports.MongoDBList]" class="delimiter">(</span><span title="java.lang.String(&quot;indexBounds&quot;)" class="string">&quot;indexBounds&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Option[com.mongodb.casbah.Imports.MongoDBList]" id="36556">indexBounds</a> = <a href="#9948" title="[A](key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[A], implicit evidence$5: scala.reflect.Manifest[A])Option[A]">getAs</a><span title="(key: String)(implicit evidence$4: com.mongodb.casbah.commons.NotNothing[com.mongodb.casbah.Imports.MongoDBList], implicit evidence$5: scala.reflect.Manifest[com.mongodb.casbah.Imports.MongoDBList])Option[com.mongodb.casbah.Imports.MongoDBList]" class="delimiter">[</span><span title="com.mongodb.casbah.Imports.MongoDBList">MongoDBList</span><span class="delimiter">]</span><span title="notNothing extends java.lang.Object with com.mongodb.casbah.commons.NotNothing[com.mongodb.casbah.Imports.MongoDBList]" class="delimiter">(</span><span title="java.lang.String(&quot;indexBounds&quot;)" class="string">&quot;indexBounds&quot;</span><span class="delimiter">)</span>
 
 <span class="delimiter">}</span>
 

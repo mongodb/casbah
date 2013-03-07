@@ -25,7 +25,7 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">BitOp</span><span class="result"> extends <a name="com.mongodb.casbah.query.dsl.BitOpBase" class="extype" href="BitOpBase.html">BitOpBase</a></span>
+        <span class="name">BitOp</span><span class="result"> extends <a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a></span>
       </span>
       </h4>
       
@@ -34,10 +34,10 @@ with no left anchor.</p><p>Targets an RValue of {field: {and|or: integer}}.
 </p></div><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://api.mongodb.org/scala/casbah/current/api.sxr/casbah-query/BarewordOperators.scala.html">BarewordOperators.scala</a></dd><dt>Since</dt><dd><p>2.1.1</p></dd><dt>See also</dt><dd><span class="cmt"><p>http://www.mongodb.org/display/DOCS/Updating#Updating-%24bit
 </p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.query.dsl.BitOpBase" class="extype" href="BitOpBase.html">BitOpBase</a>, <a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+          <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
         </div><div class="toggleContainer block">
           <span class="toggle">Known Subclasses</span>
-          <div class="subClasses hiddenContent"><a name="com.mongodb.casbah.query.dsl.FluidQueryBarewordOps" class="extype" href="FluidQueryBarewordOps.html">FluidQueryBarewordOps</a>, <a name="com.mongodb.casbah.query.Imports" class="extype" href="../Imports$.html">Imports</a>, <a name="com.mongodb.casbah.Imports" class="extype" href="../../Imports$.html">Imports</a></div>
+          <div class="subClasses hiddenContent"><a name="com.mongodb.casbah.query.dsl.FluidQueryBarewordOps" class="extype" href="FluidQueryBarewordOps.html">FluidQueryBarewordOps</a>, <a name="com.mongodb.casbah.query.Imports" class="extype" href="../Imports.html">Imports</a>, <a name="com.mongodb.casbah.query.Imports" class="extype" href="../Imports$.html">Imports</a>, <a name="com.mongodb.casbah.Imports" class="extype" href="../../Imports$.html">Imports</a></div>
         </div></div>
     
 
@@ -51,7 +51,7 @@ with no left anchor.</p><p>Targets an RValue of {field: {and|or: integer}}.
               <span class="filtertype">Inherited</span>
               <ol><li class="hideall out"><span>Hide All</span></li>
               <li class="showall in"><span>Show all</span></li></ol>
-              <ol id="linearization"><li name="com.mongodb.casbah.query.dsl.BitOp" class="in"><span>BitOp</span></li><li name="com.mongodb.casbah.query.dsl.BitOpBase" class="in"><span>BitOpBase</span></li><li name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="in"><span>BarewordQueryOperator</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+              <ol id="linearization"><li name="com.mongodb.casbah.query.dsl.BitOp" class="in"><span>BitOp</span></li><li name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="in"><span>BarewordQueryOperator</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
             </div>
         <div id="visbl">
             <span class="filtertype">Visibility</span>
@@ -141,27 +141,15 @@ with no left anchor.</p><p>Targets an RValue of {field: {and|or: integer}}.
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li visbl="prt" name="com.mongodb.casbah.query.dsl.BitOpBase#_bit" data-isabs="false">
-      <a id="_bit(String):AnyRef { ... /* 2 definitions in type refinement */ }"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">_bit</span><span class="params">(<span name="field">field: String</span>)</span><span class="result">: AnyRef { ... /* 2 definitions in type refinement */ }</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.query.dsl.BitOpBase" class="extype" href="BitOpBase.html">BitOpBase</a></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.BarewordQueryOperator#apply" data-isabs="false">
-      <a id="apply[A](String)((String, A)*):DBObject"></a>
+      <a id="apply[A](String)(Seq[(String, A)]):DBObject"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="oper">oper: String</span>)</span><span class="params">(<span name="fields">fields: (String, A)*</span>)</span><span class="result">: DBObject</span>
+        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="oper">oper: String</span>)</span><span class="params">(<span name="fields">fields: Seq[(String, A)]</span>)</span><span class="result">: DBObject</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a></dd></dl></div>
@@ -379,9 +367,7 @@ with no left anchor.</p><p>Targets an RValue of {field: {and|or: integer}}.
         </div>
 
         <div id="inheritedMembers">
-        <div name="com.mongodb.casbah.query.dsl.BitOpBase" class="parent">
-              <h3>Inherited from <a name="com.mongodb.casbah.query.dsl.BitOpBase" class="extype" href="BitOpBase.html">BitOpBase</a></h3>
-            </div><div name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="parent">
+        <div name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="parent">
               <h3>Inherited from <a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a></h3>
             </div><div name="scala.AnyRef" class="parent">
               <h3>Inherited from AnyRef</h3>

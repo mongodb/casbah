@@ -324,18 +324,6 @@ Capable of returning a Scala optimized wrapper object.</p></div><dl class="param
       <p class="shortcomment cmt">Implicit extension methods for Mongo's DB object.</p><div class="fullcomment"><div class="comment cmt"><p>Implicit extension methods for Mongo's DB object.
 Capable of returning a Scala optimized wrapper object.</p></div><dl class="paramcmts block"><dt class="param">db</dt><dd class="cmt"><p>A <code>DB</code> object to wrap
 </p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.Implicits" class="extype" href="Implicits.html">Implicits</a></dd></dl></div>
-    </li><li visbl="pub" name="com.mongodb.casbah.query.Implicits#mongoGroupSubStatements" data-isabs="false">
-      <a id="mongoGroupSubStatements(String):GroupSubOperators"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">mongoGroupSubStatements</span><span class="params">(<span name="left">left: String</span>)</span><span class="result">: <a name="com.mongodb.casbah.query.dsl.aggregation.GroupSubOperators" class="extype" href="query/dsl/aggregation/GroupSubOperators.html">GroupSubOperators</a></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.query.Implicits" class="extype" href="query/Implicits.html">Implicits</a></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.query.Implicits#mongoNestedDBObjectQueryStatements" data-isabs="false">
       <a id="mongoNestedDBObjectQueryStatements(DBObject with QueryExpressionObject):ValueTestFluidQueryOperators"></a>
       <h4 class="signature">
@@ -359,14 +347,14 @@ e.g. <code>"fooDate" $lte yesterday $gte tomorrow</code> maps to a Mongo query o
 </p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
 </p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.query.Implicits" class="extype" href="query/Implicits.html">Implicits</a></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.query.Implicits#mongoQueryStatements" data-isabs="false">
-      <a id="mongoQueryStatements(String):FluidQueryOperators with ProjectSubOperators"></a>
+      <a id="mongoQueryStatements(String):FluidQueryOperators"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">mongoQueryStatements</span><span class="params">(<span name="left">left: String</span>)</span><span class="result">: <a name="com.mongodb.casbah.query.dsl.FluidQueryOperators" class="extype" href="query/dsl/FluidQueryOperators.html">FluidQueryOperators</a> with <a name="com.mongodb.casbah.query.dsl.aggregation.ProjectSubOperators" class="extype" href="query/dsl/aggregation/ProjectSubOperators.html">ProjectSubOperators</a></span>
+        <span class="name">mongoQueryStatements</span><span class="params">(<span name="left">left: String</span>)</span><span class="result">: <a name="com.mongodb.casbah.query.dsl.FluidQueryOperators" class="extype" href="query/dsl/FluidQueryOperators.html">FluidQueryOperators</a></span>
       </span>
       </h4>
       <p class="shortcomment cmt">Implicit extension methods for String values (e.</p><div class="fullcomment"><div class="comment cmt"><p>Implicit extension methods for String values (e.g. a field name)
@@ -555,18 +543,6 @@ e.g. <code>"fooDate" $lte yesterday $gte tomorrow</code> maps to a Mongo query o
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.commons.Implicits" class="extype" href="commons/Implicits.html">Implicits</a></dd></dl></div>
-    </li><li visbl="pub" name="com.mongodb.casbah.query.Implicits#|" data-isabs="false">
-      <a id="|:AggregationPipeline"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name" title="gt4s: $bar">|</span><span class="result">: <a name="com.mongodb.casbah.query.dsl.aggregation.AggregationPipeline" class="extype" href="query/dsl/aggregation/AggregationPipeline.html">AggregationPipeline</a></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.query.Implicits" class="extype" href="query/Implicits.html">Implicits</a></dd></dl></div>
     </li></ol>
             </div>
 

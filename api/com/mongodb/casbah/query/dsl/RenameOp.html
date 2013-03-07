@@ -25,17 +25,17 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">RenameOp</span><span class="result"> extends <a name="com.mongodb.casbah.query.dsl.RenameOpBase" class="extype" href="RenameOpBase.html">RenameOpBase</a></span>
+        <span class="name">RenameOp</span><span class="result"> extends <a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a></span>
       </span>
       </h4>
       
       <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Trait to provide the $rename (Rename field) as a bareword operator</p><p>Targets (takes a right-hand value of) a DBObject or a Tuple of (String, String)</p><p>WORKS ONLY IN MONGODB 1.7.2+
 </p></div><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://api.mongodb.org/scala/casbah/current/api.sxr/casbah-query/BarewordOperators.scala.html">BarewordOperators.scala</a></dd><dt>Since</dt><dd><p>2.0</p></dd><dt>See also</dt><dd><span class="cmt"><p>http://www.mongodb.org/display/DOCS/Updating#Updating-%24rename</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.query.dsl.RenameOpBase" class="extype" href="RenameOpBase.html">RenameOpBase</a>, <a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+          <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
         </div><div class="toggleContainer block">
           <span class="toggle">Known Subclasses</span>
-          <div class="subClasses hiddenContent"><a name="com.mongodb.casbah.query.dsl.FluidQueryBarewordOps" class="extype" href="FluidQueryBarewordOps.html">FluidQueryBarewordOps</a>, <a name="com.mongodb.casbah.query.Imports" class="extype" href="../Imports$.html">Imports</a>, <a name="com.mongodb.casbah.Imports" class="extype" href="../../Imports$.html">Imports</a></div>
+          <div class="subClasses hiddenContent"><a name="com.mongodb.casbah.query.dsl.FluidQueryBarewordOps" class="extype" href="FluidQueryBarewordOps.html">FluidQueryBarewordOps</a>, <a name="com.mongodb.casbah.query.Imports" class="extype" href="../Imports.html">Imports</a>, <a name="com.mongodb.casbah.query.Imports" class="extype" href="../Imports$.html">Imports</a>, <a name="com.mongodb.casbah.Imports" class="extype" href="../../Imports$.html">Imports</a></div>
         </div></div>
     
 
@@ -49,7 +49,7 @@
               <span class="filtertype">Inherited</span>
               <ol><li class="hideall out"><span>Hide All</span></li>
               <li class="showall in"><span>Show all</span></li></ol>
-              <ol id="linearization"><li name="com.mongodb.casbah.query.dsl.RenameOp" class="in"><span>RenameOp</span></li><li name="com.mongodb.casbah.query.dsl.RenameOpBase" class="in"><span>RenameOpBase</span></li><li name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="in"><span>BarewordQueryOperator</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+              <ol id="linearization"><li name="com.mongodb.casbah.query.dsl.RenameOp" class="in"><span>RenameOp</span></li><li name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="in"><span>BarewordQueryOperator</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
             </div>
         <div id="visbl">
             <span class="filtertype">Visibility</span>
@@ -104,14 +104,14 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.RenameOp#$rename" data-isabs="false">
-      <a id="$rename:((String, Any)*) ⇒ DBObject"></a>
+      <a id="$rename[A]((String, A)*):DBObject"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">$rename</span><span class="result">: ((String, <span name="scala.Any" class="extype">Any</span>)*) ⇒ DBObject</span>
+        <span class="name">$rename</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="fields">fields: (String, A)*</span>)</span><span class="result">: DBObject</span>
       </span>
       </h4>
       
@@ -139,27 +139,15 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li visbl="prt" name="com.mongodb.casbah.query.dsl.RenameOpBase#_rename" data-isabs="false">
-      <a id="_rename:((String, Any)*) ⇒ DBObject"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">_rename</span><span class="result">: ((String, <span name="scala.Any" class="extype">Any</span>)*) ⇒ DBObject</span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.query.dsl.RenameOpBase" class="extype" href="RenameOpBase.html">RenameOpBase</a></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.BarewordQueryOperator#apply" data-isabs="false">
-      <a id="apply[A](String)((String, A)*):DBObject"></a>
+      <a id="apply[A](String)(Seq[(String, A)]):DBObject"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="oper">oper: String</span>)</span><span class="params">(<span name="fields">fields: (String, A)*</span>)</span><span class="result">: DBObject</span>
+        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="oper">oper: String</span>)</span><span class="params">(<span name="fields">fields: Seq[(String, A)]</span>)</span><span class="result">: DBObject</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a></dd></dl></div>
@@ -377,9 +365,7 @@
         </div>
 
         <div id="inheritedMembers">
-        <div name="com.mongodb.casbah.query.dsl.RenameOpBase" class="parent">
-              <h3>Inherited from <a name="com.mongodb.casbah.query.dsl.RenameOpBase" class="extype" href="RenameOpBase.html">RenameOpBase</a></h3>
-            </div><div name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="parent">
+        <div name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="parent">
               <h3>Inherited from <a name="com.mongodb.casbah.query.dsl.BarewordQueryOperator" class="extype" href="BarewordQueryOperator.html">BarewordQueryOperator</a></h3>
             </div><div name="scala.AnyRef" class="parent">
               <h3>Inherited from AnyRef</h3>

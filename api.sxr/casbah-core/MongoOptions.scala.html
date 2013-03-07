@@ -34,7 +34,7 @@
 
 <span class="keyword">package</span> com.mongodb.casbah
 
-<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#9878" title="object com.mongodb.casbah.Imports">Imports</a>._
+<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#9872" title="object com.mongodb.casbah.Imports">Imports</a>._
 
 <span class="keyword">import</span> scala.collection.<span title="object scala.collection.JavaConverters">JavaConverters</span>._
 
@@ -48,9 +48,9 @@
  * @since 2.0
  * @see com.mongodb.MongoOptions
  */</span>
-<span class="keyword">object</span> <a title="object com.mongodb.casbah.MongoOptions" id="9972">MongoOptions</a> <span title="ScalaObject" class="delimiter">{</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.MongoOptions" id="9966">MongoOptions</a> <span title="ScalaObject" class="delimiter">{</span>
 
-  <span class="keyword">val</span> <a title="com.mongodb.MongoOptions" id="18741">Defaults</a> = <span title="com.mongodb.MongoOptions" class="keyword">new</span> <a href="Implicits.scala.html#11270" title="com.mongodb.MongoOptions">MongoOptions</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">val</span> <a title="com.mongodb.MongoOptions" id="18639">Defaults</a> = <span title="com.mongodb.MongoOptions" class="keyword">new</span> <a href="Implicits.scala.html#11192" title="com.mongodb.MongoOptions">MongoOptions</a><span class="delimiter">(</span><span class="delimiter">)</span>
   <span class="comment">/**
    * Instantiate a new MongoOptions instance
    *
@@ -64,45 +64,45 @@
    * @see ServerAddress
    * @see MongoDBAddress
    */</span>
-  <span class="keyword">def</span> <a title="(autoConnectRetry: Boolean, connectionsPerHost: Int, threadsAllowedToBlockForConnectionMultiplier: Int, maxWaitTime: Int, connectTimeout: Int, socketTimeout: Int, socketKeepAlive: Boolean, maxAutoConnectRetryTime: Long, slaveOk: Boolean, safe: Boolean, w: Int, wTimeout: Int, fsync: Boolean, j: Boolean, dbDecoderFactory: com.mongodb.DBDecoderFactory, dbEncoderFactory: com.mongodb.DBEncoderFactory, socketFactory: javax.net.SocketFactory, description: String)com.mongodb.MongoOptions" id="18743">apply</a><span class="delimiter">(</span><a title="Boolean" id="39014">autoConnectRetry</a>: <span title="Boolean">Boolean</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">autoConnectRetry</span>,
-    <a title="Int" id="39015">connectionsPerHost</a>: <span title="Int">Int</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">connectionsPerHost</span>,
-    <a title="Int" id="39016">threadsAllowedToBlockForConnectionMultiplier</a>: <span title="Int">Int</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">threadsAllowedToBlockForConnectionMultiplier</span>,
-    <a title="Int" id="39017">maxWaitTime</a>: <span title="Int">Int</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">maxWaitTime</span>,
-    <a title="Int" id="39018">connectTimeout</a>: <span title="Int">Int</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">connectTimeout</span>,
-    <a title="Int" id="39019">socketTimeout</a>: <span title="Int">Int</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">socketTimeout</span>,
-    <a title="Boolean" id="39020">socketKeepAlive</a>: <span title="Boolean">Boolean</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">socketKeepAlive</span>,
-    <a title="Long" id="39021">maxAutoConnectRetryTime</a>: <span title="Long">Long</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Long">maxAutoConnectRetryTime</span>,
-    <a title="Boolean" id="39022">slaveOk</a>: <span title="Boolean">Boolean</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">slaveOk</span>,
-    <a title="Boolean" id="39023">safe</a>: <span title="Boolean">Boolean</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">safe</span>,
-    <a title="Int" id="39024">w</a>: <span title="Int">Int</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">w</span>,
-    <a title="Int" id="39025">wTimeout</a>: <span title="Int">Int</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">wtimeout</span>,
-    <a title="Boolean" id="39026">fsync</a>: <span title="Boolean">Boolean</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">fsync</span>,
-    <a title="Boolean" id="39027">j</a>: <span title="Boolean">Boolean</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">j</span>,
-    <a title="com.mongodb.DBDecoderFactory" id="39028">dbDecoderFactory</a>: <span title="com.mongodb.DBDecoderFactory">DBDecoderFactory</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="com.mongodb.DBDecoderFactory">dbDecoderFactory</span>,
-    <a title="com.mongodb.DBEncoderFactory" id="39029">dbEncoderFactory</a>: <span title="com.mongodb.DBEncoderFactory">DBEncoderFactory</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="com.mongodb.DBEncoderFactory">dbEncoderFactory</span>,
-    <a title="javax.net.SocketFactory" id="39030">socketFactory</a>: <span title="javax.net.SocketFactory">SocketFactory</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="javax.net.SocketFactory">socketFactory</span>,
-    <a title="String" id="39031">description</a>: <span title="String">String</span> = <a href="#18741" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="java.lang.String">description</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
-    <span class="keyword">val</span> <a title="com.mongodb.MongoOptions" id="39032">options</a> = <span title="com.mongodb.MongoOptions" class="keyword">new</span> <a href="Implicits.scala.html#11270" title="com.mongodb.MongoOptions">MongoOptions</a>;
+  <span class="keyword">def</span> <a title="(autoConnectRetry: Boolean, connectionsPerHost: Int, threadsAllowedToBlockForConnectionMultiplier: Int, maxWaitTime: Int, connectTimeout: Int, socketTimeout: Int, socketKeepAlive: Boolean, maxAutoConnectRetryTime: Long, slaveOk: Boolean, safe: Boolean, w: Int, wTimeout: Int, fsync: Boolean, j: Boolean, dbDecoderFactory: com.mongodb.DBDecoderFactory, dbEncoderFactory: com.mongodb.DBEncoderFactory, socketFactory: javax.net.SocketFactory, description: String)com.mongodb.MongoOptions" id="18641">apply</a><span class="delimiter">(</span><a title="Boolean" id="38894">autoConnectRetry</a>: <span title="Boolean">Boolean</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">autoConnectRetry</span>,
+    <a title="Int" id="38895">connectionsPerHost</a>: <span title="Int">Int</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">connectionsPerHost</span>,
+    <a title="Int" id="38896">threadsAllowedToBlockForConnectionMultiplier</a>: <span title="Int">Int</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">threadsAllowedToBlockForConnectionMultiplier</span>,
+    <a title="Int" id="38897">maxWaitTime</a>: <span title="Int">Int</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">maxWaitTime</span>,
+    <a title="Int" id="38898">connectTimeout</a>: <span title="Int">Int</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">connectTimeout</span>,
+    <a title="Int" id="38899">socketTimeout</a>: <span title="Int">Int</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">socketTimeout</span>,
+    <a title="Boolean" id="38900">socketKeepAlive</a>: <span title="Boolean">Boolean</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">socketKeepAlive</span>,
+    <a title="Long" id="38901">maxAutoConnectRetryTime</a>: <span title="Long">Long</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Long">maxAutoConnectRetryTime</span>,
+    <a title="Boolean" id="38902">slaveOk</a>: <span title="Boolean">Boolean</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">slaveOk</span>,
+    <a title="Boolean" id="38903">safe</a>: <span title="Boolean">Boolean</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">safe</span>,
+    <a title="Int" id="38904">w</a>: <span title="Int">Int</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">w</span>,
+    <a title="Int" id="38905">wTimeout</a>: <span title="Int">Int</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Int">wtimeout</span>,
+    <a title="Boolean" id="38906">fsync</a>: <span title="Boolean">Boolean</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">fsync</span>,
+    <a title="Boolean" id="38907">j</a>: <span title="Boolean">Boolean</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="Boolean">j</span>,
+    <a title="com.mongodb.DBDecoderFactory" id="38908">dbDecoderFactory</a>: <span title="com.mongodb.DBDecoderFactory">DBDecoderFactory</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="com.mongodb.DBDecoderFactory">dbDecoderFactory</span>,
+    <a title="com.mongodb.DBEncoderFactory" id="38909">dbEncoderFactory</a>: <span title="com.mongodb.DBEncoderFactory">DBEncoderFactory</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="com.mongodb.DBEncoderFactory">dbEncoderFactory</span>,
+    <a title="javax.net.SocketFactory" id="38910">socketFactory</a>: <span title="javax.net.SocketFactory">SocketFactory</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="javax.net.SocketFactory">socketFactory</span>,
+    <a title="String" id="38911">description</a>: <span title="String">String</span> = <a href="#18639" title="=&gt; com.mongodb.MongoOptions">Defaults</a>.<span title="java.lang.String">description</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="com.mongodb.MongoOptions" id="38912">options</a> = <span title="com.mongodb.MongoOptions" class="keyword">new</span> <a href="Implicits.scala.html#11192" title="com.mongodb.MongoOptions">MongoOptions</a>;
 
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">autoConnectRetry</span> = <a href="#39014" title="Boolean">autoConnectRetry</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Int">connectionsPerHost</span> = <a href="#39015" title="Int">connectionsPerHost</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Int">threadsAllowedToBlockForConnectionMultiplier</span> = <a href="#39016" title="Int">threadsAllowedToBlockForConnectionMultiplier</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Int">maxWaitTime</span> = <a href="#39017" title="Int">maxWaitTime</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Int">connectTimeout</span> = <a href="#39018" title="Int">connectTimeout</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Int">socketTimeout</span> = <a href="#39019" title="Int">socketTimeout</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">socketKeepAlive</span> = <a href="#39020" title="Boolean">socketKeepAlive</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Long">maxAutoConnectRetryTime</span> = <a href="#39021" title="Long">maxAutoConnectRetryTime</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">slaveOk</span> = <a href="#39022" title="Boolean">slaveOk</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">safe</span> = <a href="#39023" title="Boolean">safe</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Int">w</span> = <a href="#39024" title="Int">w</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Int">wtimeout</span> = <a href="#39025" title="Int">wTimeout</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">fsync</span> = <a href="#39026" title="Boolean">fsync</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">j</span> = <a href="#39027" title="Boolean">j</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="com.mongodb.DBDecoderFactory">dbDecoderFactory</span> = <a href="#39028" title="com.mongodb.DBDecoderFactory">dbDecoderFactory</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="com.mongodb.DBEncoderFactory">dbEncoderFactory</span> = <a href="#39029" title="com.mongodb.DBEncoderFactory">dbEncoderFactory</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="javax.net.SocketFactory">socketFactory</span> = <a href="#39030" title="javax.net.SocketFactory">socketFactory</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>.<span title="java.lang.String">description</span> = <a href="#39031" title="String">description</a>
-    <a href="#39032" title="com.mongodb.MongoOptions">options</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">autoConnectRetry</span> = <a href="#38894" title="Boolean">autoConnectRetry</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Int">connectionsPerHost</span> = <a href="#38895" title="Int">connectionsPerHost</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Int">threadsAllowedToBlockForConnectionMultiplier</span> = <a href="#38896" title="Int">threadsAllowedToBlockForConnectionMultiplier</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Int">maxWaitTime</span> = <a href="#38897" title="Int">maxWaitTime</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Int">connectTimeout</span> = <a href="#38898" title="Int">connectTimeout</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Int">socketTimeout</span> = <a href="#38899" title="Int">socketTimeout</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">socketKeepAlive</span> = <a href="#38900" title="Boolean">socketKeepAlive</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Long">maxAutoConnectRetryTime</span> = <a href="#38901" title="Long">maxAutoConnectRetryTime</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">slaveOk</span> = <a href="#38902" title="Boolean">slaveOk</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">safe</span> = <a href="#38903" title="Boolean">safe</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Int">w</span> = <a href="#38904" title="Int">w</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Int">wtimeout</span> = <a href="#38905" title="Int">wTimeout</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">fsync</span> = <a href="#38906" title="Boolean">fsync</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="Boolean">j</span> = <a href="#38907" title="Boolean">j</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="com.mongodb.DBDecoderFactory">dbDecoderFactory</span> = <a href="#38908" title="com.mongodb.DBDecoderFactory">dbDecoderFactory</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="com.mongodb.DBEncoderFactory">dbEncoderFactory</span> = <a href="#38909" title="com.mongodb.DBEncoderFactory">dbEncoderFactory</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="javax.net.SocketFactory">socketFactory</span> = <a href="#38910" title="javax.net.SocketFactory">socketFactory</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>.<span title="java.lang.String">description</span> = <a href="#38911" title="String">description</a>
+    <a href="#38912" title="com.mongodb.MongoOptions">options</a>
   <span class="delimiter">}</span>
 
 <span class="delimiter">}</span>
