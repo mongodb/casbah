@@ -114,7 +114,7 @@ declare -r sbt_opts_file=".sbtopts"
 declare -r jvm_opts_file=".jvmopts"
 declare -r latest_28="2.8.2"
 declare -r latest_29="2.9.3"
-declare -r latest_210="2.10.0"
+declare -r latest_210="2.10.1"
 
 declare -r script_path=$(get_script_path "$BASH_SOURCE")
 declare -r script_dir="$(dirname $script_path)"
