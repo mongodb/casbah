@@ -4,6 +4,7 @@ Changelog
 Changes in Version 2.5.1
 ------------------------
 
+- Added 2.10.1 support
 - Removed reference to scala-tools (SCALA-78)
 - Added 2.9.3 support (SCALA-94)
 - Removed Specs2 and Scalaz dependencies outside test (SCALA-93)
