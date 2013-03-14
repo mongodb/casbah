@@ -52,7 +52,7 @@ Please substitute $SCALA_VERSION$ with your Scala version (we support 2.9.x+)
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>casbah_$SCALA_VERSION$</artifactId>
-            <version>|release|</version>
+            <version> |release| </version>
             <type>pom</type>
         <dependency>
 
