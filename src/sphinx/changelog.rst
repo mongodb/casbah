@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Changes in Version 2.6.0
+------------------------
+
+- Added suport for GSSAPI SASL mechanism and MongoDB Challenge Response protocol
+- Updated support for latest Java driver 2.11.0
+
 Changes in Version 2.5.1
 ------------------------
 

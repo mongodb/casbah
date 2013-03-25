@@ -95,6 +95,37 @@ object MongoClient {
   def apply(addr: ServerAddress, options: MongoClientOptions) =
     new MongoClient(new JavaMongoClient(addr, options))
 
+
+  /**
+   * Creates a Mongo instance based on a (single) mongodb node and a list of credentials
+   *
+   * @param addr (ServerAddress) the DatabaseAddress
+   * @param credentials (List[MongoCredential]) used to authenticate all connections
+   * @throws MongoException
+   * @see ServerAddress
+   * @see MongoDBAddress
+   * @see credentialsList
+   * @since 2.6
+   */
+   def apply(addr: ServerAddress, credentialsList: List[MongoCredential]) =
+    new MongoClient(new JavaMongoClient(addr, credentialsList.asJava))
+
+  /**
+   * Creates a Mongo instance based on a (single) mongo node using a given ServerAddress and options.
+   *
+   * @param addr (ServerAddress) the DatabaseAddress
+   * @param credentials (List[MongoCredential]) used to authenticate all connections
+   * @param options (MongoClientOptions) DB Options
+   * @throws MongoException
+   * @see ServerAddress
+   * @see MongoDBAddress
+   * @see MongoClientOptions
+   * @see CredentialsList
+   * @since 2.6
+   */
+  def apply(addr: ServerAddress, credentials: List[MongoCredential], options: MongoClientOptions) =
+    new MongoClient(new JavaMongoClient(addr, credentials.asJava, options))
+
   /**
    * Replica Set connection
    * This works for a replica set or pair,
@@ -105,7 +136,8 @@ object MongoClient {
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava))
+  def apply(replicaSetSeeds: List[ServerAddress]) =
+    new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava))
 
   /**
    * Replica Set connection
@@ -114,12 +146,50 @@ object MongoClient {
    * Takes a MongoClientOptions object
    *
    * @param replicaSetSeeds (List[ServerAddress]) The servers to connect to
+   * @param options (MongoClientOptions) DB Options
    * @throws MongoException
    * @see ServerAddress
    * @see MongoDBAddress
+   * @see MongoClientOptions
    */
   def apply(replicaSetSeeds: List[ServerAddress], options: MongoClientOptions) =
     new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava, options))
+
+  /**
+   * Replica Set connection
+   * This works for a replica set or pair,
+   * and finds all the members (the master is used by default)
+   * Takes a MongoClientOptions object
+   *
+   * @param replicaSetSeeds (List[ServerAddress]) The servers to connect to
+   * @param credentials (List[MongoCredential]) used to authenticate all connections
+   * @throws MongoException
+   * @see ServerAddress
+   * @see MongoDBAddress
+   * @see CredentialsList
+   * @since 2.6
+   */
+  def apply(replicaSetSeeds: List[ServerAddress], credentials: List[MongoCredential]) =
+    new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava, credentials.asJava))
+
+  /**
+   * Replica Set connection
+   * This works for a replica set or pair,
+   * and finds all the members (the master is used by default)
+   * Takes a MongoClientOptions object
+   *
+   * @param replicaSetSeeds (List[ServerAddress]) The servers to connect to
+   * @param credentials (List[MongoCredential]) used to authenticate all connections
+   * @param options (MongoClientOptions) DB Options
+   * @throws MongoException
+   * @see ServerAddress
+   * @see MongoDBAddress
+   * @see MongoClientOptions
+   * @see CredentialsList
+   * @since 2.6
+   */
+  def apply(replicaSetSeeds: List[ServerAddress], credentials: List[MongoCredential], options: MongoClientOptions) =
+    new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava, credentials.asJava, options))
 
   /**
    * Connect via a MongoClientURI
@@ -144,6 +214,7 @@ object MongoClient {
 class MongoClient(val underlying: JavaMongoClient) {
 
   def apply(dbName: String) = underlying.getDB(dbName).asScala
+
   def getDB(dbName: String) = apply(dbName)
 
   /**
@@ -313,4 +384,20 @@ class MongoClient(val underlying: JavaMongoClient) {
    * @param preference Read Preference to use
    */
   def getReadPreference = underlying.getReadPreference
+
+  /**
+   * Gets the list of credentials that this client authenticates all connections with
+   *
+   * @return the list of credentials
+   * @since 2.6.0
+   */
+  def credentialsList = getCredentialsList
+
+  /**
+   * Gets the list of credentials that this client authenticates all connections with
+   *
+   * @return the list of credentials
+   * @since 2.6.0
+   */
+  def getCredentialsList = underlying.getCredentialsList
 }
