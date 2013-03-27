@@ -42,40 +42,40 @@
  * @since 2.0
  * @see com.mongodb.WriteConcern
  */</span>
-<span class="keyword">object</span> <a title="object com.mongodb.casbah.WriteConcern" id="9987">WriteConcern</a> <span title="ScalaObject" class="delimiter">{</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.WriteConcern" id="10046">WriteConcern</a> <span title="ScalaObject" class="delimiter">{</span>
   <span class="comment">/**
    * No exceptions are raised, even for network issues
    */</span>
-  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18648">None</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">NONE</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18742">None</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">NONE</span>
   <span class="comment">/**
    * Exceptions are raised for network issues but not server errors.
    */</span>
-  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18650">Normal</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">NORMAL</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18744">Normal</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">NORMAL</span>
   <span class="comment">/**
    * Exceptions are raised for network issues and server errors;
    * waits on a server for the write operation
    */</span>
-  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18652">Safe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">SAFE</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18746">Safe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">SAFE</span>
   <span class="comment">/**
    * Exceptions are raised for network issues and server errors;
    * waits on a majority of servers for the write operation
    */</span>
-  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18654">Majority</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">MAJORITY</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18748">Majority</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">MAJORITY</span>
   <span class="comment">/**
    * Exceptions are raised for network issues and server errors;
    * Write operations wait for the server to flush data to disk
    */</span>
-  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18656">FsyncSafe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">FSYNC_SAFE</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18750">FsyncSafe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">FSYNC_SAFE</span>
   <span class="comment">/**
    * Exceptions are raised for network issues, and server errors;
    * the write operation waits for the server to group commit to the journal file on disk
    */</span>
-  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18658">JournalSafe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">JOURNAL_SAFE</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18752">JournalSafe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">JOURNAL_SAFE</span>
   <span class="comment">/**
    * Exceptions are raised for network issues and server errors;
    * waits for at least 2 servers for the write operation.
    */</span>
-  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18660">ReplicasSafe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">REPLICAS_SAFE</span>
+  <span class="keyword">val</span> <a title="com.mongodb.WriteConcern" id="18754">ReplicasSafe</a> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="com.mongodb.WriteConcern">REPLICAS_SAFE</span>
 
   <span class="comment">/**
    * Create a new WriteConcern object.
@@ -94,12 +94,12 @@
    * @param j whether writes should wait for a journaling group commit
    * @param contineInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
    */</span>
-  <span class="keyword">def</span> <a title="(w: Int, wTimeout: Int, fsync: Boolean, j: Boolean, continueInsertOnError: Boolean)com.mongodb.WriteConcern" id="18662">apply</a><span class="delimiter">(</span><a title="Int" id="31565">w</a>: <span title="Int">Int</span>,
-            <a title="Int" id="31572">wTimeout</a>: <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>,
-            <a title="Boolean" id="31573">fsync</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
-            <a title="Boolean" id="31574">j</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
-            <a title="Boolean" id="31575">continueInsertOnError</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span> =
-    <span title="(x$1: Int, x$2: Int, x$3: Boolean, x$4: Boolean, x$5: Boolean)com.mongodb.WriteConcern" class="keyword">new</span> com.mongodb.<span title="com.mongodb.WriteConcern">WriteConcern</span><span class="delimiter">(</span><a href="#31565" title="Int">w</a>, <a href="#31572" title="Int">wTimeout</a>, <a href="#31573" title="Boolean">fsync</a>, <a href="#31574" title="Boolean">j</a>, <a href="#31575" title="Boolean">continueInsertOnError</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(w: Int, wTimeout: Int, fsync: Boolean, j: Boolean, continueInsertOnError: Boolean)com.mongodb.WriteConcern" id="18756">apply</a><span class="delimiter">(</span><a title="Int" id="31960">w</a>: <span title="Int">Int</span>,
+            <a title="Int" id="31967">wTimeout</a>: <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>,
+            <a title="Boolean" id="31968">fsync</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
+            <a title="Boolean" id="31969">j</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
+            <a title="Boolean" id="31970">continueInsertOnError</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span> =
+    <span title="(x$1: Int, x$2: Int, x$3: Boolean, x$4: Boolean, x$5: Boolean)com.mongodb.WriteConcern" class="keyword">new</span> com.mongodb.<span title="com.mongodb.WriteConcern">WriteConcern</span><span class="delimiter">(</span><a href="#31960" title="Int">w</a>, <a href="#31967" title="Int">wTimeout</a>, <a href="#31968" title="Boolean">fsync</a>, <a href="#31969" title="Boolean">j</a>, <a href="#31970" title="Boolean">continueInsertOnError</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * Create a new WriteConcern object.
@@ -111,12 +111,12 @@
    * @param j whether writes should wait for a journaling group commit
    * @param contineInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
    */</span>
-  <span class="keyword">def</span> <a title="(w: String, wTimeout: Int, fsync: Boolean, j: Boolean, continueInsertOnError: Boolean)com.mongodb.WriteConcern" id="18663">withRule</a><span class="delimiter">(</span><a title="String" id="39377">w</a>: <span title="String">String</span>,
-               <a title="Int" id="39384">wTimeout</a>: <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>,
-               <a title="Boolean" id="39385">fsync</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
-               <a title="Boolean" id="39386">j</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
-               <a title="Boolean" id="39387">continueInsertOnError</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span> =
-    <span title="(x$1: java.lang.String, x$2: Int, x$3: Boolean, x$4: Boolean, x$5: Boolean)com.mongodb.WriteConcern" class="keyword">new</span> com.mongodb.<span title="com.mongodb.WriteConcern">WriteConcern</span><span class="delimiter">(</span><a href="#39377" title="String">w</a>, <a href="#39384" title="Int">wTimeout</a>, <a href="#39385" title="Boolean">fsync</a>, <a href="#39386" title="Boolean">j</a>, <a href="#39387" title="Boolean">continueInsertOnError</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(w: String, wTimeout: Int, fsync: Boolean, j: Boolean, continueInsertOnError: Boolean)com.mongodb.WriteConcern" id="18757">withRule</a><span class="delimiter">(</span><a title="String" id="39785">w</a>: <span title="String">String</span>,
+               <a title="Int" id="39792">wTimeout</a>: <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>,
+               <a title="Boolean" id="39793">fsync</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
+               <a title="Boolean" id="39794">j</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>,
+               <a title="Boolean" id="39795">continueInsertOnError</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span> =
+    <span title="(x$1: java.lang.String, x$2: Int, x$3: Boolean, x$4: Boolean, x$5: Boolean)com.mongodb.WriteConcern" class="keyword">new</span> com.mongodb.<span title="com.mongodb.WriteConcern">WriteConcern</span><span class="delimiter">(</span><a href="#39785" title="String">w</a>, <a href="#39792" title="Int">wTimeout</a>, <a href="#39793" title="Boolean">fsync</a>, <a href="#39794" title="Boolean">j</a>, <a href="#39795" title="Boolean">continueInsertOnError</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * Get the WriteConcern constants by name: NONE, NORMAL, SAFE, MAJORITY, FSYNC_SAFE,
@@ -124,7 +124,7 @@
    *
    * NOTE: This only supports the java versions, no support for the local scala aliases.
    */</span>
-  <span class="keyword">def</span> <a title="(name: String)com.mongodb.WriteConcern" id="18664">valueOf</a><span class="delimiter">(</span><a title="String" id="39392">name</a>: <span title="String">String</span><span class="delimiter">)</span> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="(x$1: java.lang.String)com.mongodb.WriteConcern">valueOf</span><span class="delimiter">(</span><a href="#39392" title="String">name</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(name: String)com.mongodb.WriteConcern" id="18758">valueOf</a><span class="delimiter">(</span><a title="String" id="39800">name</a>: <span title="String">String</span><span class="delimiter">)</span> = com.mongodb.<span title="object com.mongodb.WriteConcern">WriteConcern</span>.<span title="(x$1: java.lang.String)com.mongodb.WriteConcern">valueOf</span><span class="delimiter">(</span><a href="#39800" title="String">name</a><span class="delimiter">)</span>
 <span class="delimiter">}</span>
 
 

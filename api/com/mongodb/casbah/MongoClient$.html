@@ -31,7 +31,7 @@
       
       <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Wrapper object for MongoClient connections, providing the static methods the
 Java driver gives. Apply methods are called as MongoClient(&lt;params&gt;)
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://api.mongodb.org/scala/casbah/current/api.sxr/casbah-core/MongoClient.scala.html">MongoClient.scala</a></dd><dt>Since</dt><dd><p>2.5
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://mongodb.github.com/casbah/api.sxr/casbah-core/MongoClient.scala.html">MongoClient.scala</a></dd><dt>Since</dt><dd><p>2.5
 </p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent">AnyRef, <span name="scala.Any" class="extype">Any</span></div>
@@ -156,6 +156,48 @@ Java driver gives. Apply methods are called as MongoClient(&lt;params&gt;)
 </p></div><dl class="paramcmts block"><dt class="param">uri</dt><dd class="cmt"><p>(MongoClientURI)
 </p></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoClient#apply" data-isabs="false">
+      <a id="apply(List[ServerAddress],List[MongoCredential],MongoClientOptions):MongoClient"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="params">(<span name="replicaSetSeeds">replicaSetSeeds: List[ServerAddress]</span>, <span name="credentials">credentials: List[MongoCredential]</span>, <span name="options">options: MongoClientOptions</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoClient" class="extype" href="MongoClient.html">MongoClient</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Replica Set connection
+This works for a replica set or pair,
+and finds all the members (the master is used by default)
+Takes a MongoClientOptions object
+</p><div class="fullcomment"><div class="comment cmt"><p>Replica Set connection
+This works for a replica set or pair,
+and finds all the members (the master is used by default)
+Takes a MongoClientOptions object
+</p></div><dl class="paramcmts block"><dt class="param">replicaSetSeeds</dt><dd class="cmt"><p>(List[ServerAddress]) The servers to connect to</p></dd><dt class="param">credentials</dt><dd class="cmt"><p>(List[MongoCredential]) used to authenticate all connections</p></dd><dt class="param">options</dt><dd class="cmt"><p>(MongoClientOptions) DB Options</p></dd></dl><dl class="attributes block"> <dt>Since</dt><dd><p>2.6
+</p></dd><dt>Exceptions thrown</dt><dd><span class="cmt">MongoException</span></dd><dt>See also</dt><dd><span class="cmt"><p>CredentialsList</p></span>, <span class="cmt"><p>MongoClientOptions</p></span>, <span class="cmt"><p>MongoDBAddress</p></span>, <span class="cmt"><p>ServerAddress</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoClient#apply" data-isabs="false">
+      <a id="apply(List[ServerAddress],List[MongoCredential]):MongoClient"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="params">(<span name="replicaSetSeeds">replicaSetSeeds: List[ServerAddress]</span>, <span name="credentials">credentials: List[MongoCredential]</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoClient" class="extype" href="MongoClient.html">MongoClient</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Replica Set connection
+This works for a replica set or pair,
+and finds all the members (the master is used by default)
+Takes a MongoClientOptions object
+</p><div class="fullcomment"><div class="comment cmt"><p>Replica Set connection
+This works for a replica set or pair,
+and finds all the members (the master is used by default)
+Takes a MongoClientOptions object
+</p></div><dl class="paramcmts block"><dt class="param">replicaSetSeeds</dt><dd class="cmt"><p>(List[ServerAddress]) The servers to connect to</p></dd><dt class="param">credentials</dt><dd class="cmt"><p>(List[MongoCredential]) used to authenticate all connections</p></dd></dl><dl class="attributes block"> <dt>Since</dt><dd><p>2.6
+</p></dd><dt>Exceptions thrown</dt><dd><span class="cmt">MongoException</span></dd><dt>See also</dt><dd><span class="cmt"><p>CredentialsList</p></span>, <span class="cmt"><p>MongoDBAddress</p></span>, <span class="cmt"><p>ServerAddress</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoClient#apply" data-isabs="false">
       <a id="apply(List[ServerAddress],MongoClientOptions):MongoClient"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -174,8 +216,8 @@ Takes a MongoClientOptions object
 This works for a replica set or pair,
 and finds all the members (the master is used by default)
 Takes a MongoClientOptions object
-</p></div><dl class="paramcmts block"><dt class="param">replicaSetSeeds</dt><dd class="cmt"><p>(List[ServerAddress]) The servers to connect to</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt">MongoException</span></dd><dt>See also</dt><dd><span class="cmt"><p>MongoDBAddress
-</p></span>, <span class="cmt"><p>ServerAddress</p></span></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">replicaSetSeeds</dt><dd class="cmt"><p>(List[ServerAddress]) The servers to connect to</p></dd><dt class="param">options</dt><dd class="cmt"><p>(MongoClientOptions) DB Options</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt">MongoException</span></dd><dt>See also</dt><dd><span class="cmt"><p>MongoClientOptions
+</p></span>, <span class="cmt"><p>MongoDBAddress</p></span>, <span class="cmt"><p>ServerAddress</p></span></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoClient#apply" data-isabs="false">
       <a id="apply(List[ServerAddress]):MongoClient"></a>
       <h4 class="signature">
@@ -195,6 +237,35 @@ This works for a replica set or pair,
 and finds all the members (the master is used by default)
 </p></div><dl class="paramcmts block"><dt class="param">replicaSetSeeds</dt><dd class="cmt"><p>(List[ServerAddress]) The servers to connect to</p></dd></dl><dl class="attributes block"> <dt>Exceptions thrown</dt><dd><span class="cmt">MongoException</span></dd><dt>See also</dt><dd><span class="cmt"><p>MongoDBAddress
 </p></span>, <span class="cmt"><p>ServerAddress</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoClient#apply" data-isabs="false">
+      <a id="apply(ServerAddress,List[MongoCredential],MongoClientOptions):MongoClient"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="params">(<span name="addr">addr: ServerAddress</span>, <span name="credentials">credentials: List[MongoCredential]</span>, <span name="options">options: MongoClientOptions</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoClient" class="extype" href="MongoClient.html">MongoClient</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Creates a Mongo instance based on a (single) mongo node using a given ServerAddress and options.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a Mongo instance based on a (single) mongo node using a given ServerAddress and options.
+</p></div><dl class="paramcmts block"><dt class="param">addr</dt><dd class="cmt"><p>(ServerAddress) the DatabaseAddress</p></dd><dt class="param">credentials</dt><dd class="cmt"><p>(List[MongoCredential]) used to authenticate all connections</p></dd><dt class="param">options</dt><dd class="cmt"><p>(MongoClientOptions) DB Options</p></dd></dl><dl class="attributes block"> <dt>Since</dt><dd><p>2.6
+</p></dd><dt>Exceptions thrown</dt><dd><span class="cmt">MongoException</span></dd><dt>See also</dt><dd><span class="cmt"><p>CredentialsList</p></span>, <span class="cmt"><p>MongoClientOptions</p></span>, <span class="cmt"><p>MongoDBAddress</p></span>, <span class="cmt"><p>ServerAddress</p></span></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.MongoClient#apply" data-isabs="false">
+      <a id="apply(ServerAddress,List[MongoCredential]):MongoClient"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="params">(<span name="addr">addr: ServerAddress</span>, <span name="credentialsList">credentialsList: List[MongoCredential]</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoClient" class="extype" href="MongoClient.html">MongoClient</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Creates a Mongo instance based on a (single) mongodb node and a list of credentials
+</p><div class="fullcomment"><div class="comment cmt"><p>Creates a Mongo instance based on a (single) mongodb node and a list of credentials
+</p></div><dl class="paramcmts block"><dt class="param">addr</dt><dd class="cmt"><p>(ServerAddress) the DatabaseAddress</p></dd></dl><dl class="attributes block"> <dt>Since</dt><dd><p>2.6
+</p></dd><dt>Exceptions thrown</dt><dd><span class="cmt">MongoException</span></dd><dt>See also</dt><dd><span class="cmt"><p>credentialsList</p></span>, <span class="cmt"><p>MongoDBAddress</p></span>, <span class="cmt"><p>ServerAddress</p></span></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.MongoClient#apply" data-isabs="false">
       <a id="apply(ServerAddress,MongoClientOptions):MongoClient"></a>
       <h4 class="signature">

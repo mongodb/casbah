@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Changes in Version 2.6.0
+------------------------
+
+- Added suport for GSSAPI SASL mechanism and MongoDB Challenge Response protocol
+- Updated support for latest Java driver 2.11.0
+
 Changes in Version 2.5.1
 ------------------------
 
@@ -254,10 +260,10 @@ Notable Changes since Casbah 1.0.8.1:
    -  Package Change: Casbah is now ``com.mongodb.casbah`` (See
       migration guide)
    -  Documentation (ScalaDocs, Migration Guide & Tutorial) is available
-      at http://api.mongodb.org/scala/casbah
+      at http://mongodb.github.com/casbah
 
 -  Casbah is now broken into several submodules - see
-   http://api.mongodb.org/scala/casbah/migrating.html
+   http://mongodb.github.com/casbah/migrating.html
 -  Casbah releases are now published to http://scala-tools.org
 -  SBT Build now publishes -sources and -javadoc artifacts
 -  Added heavy test coverage

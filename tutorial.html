@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>2. Tutorial: Using Casbah &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation</title>
+    <title>3. Tutorial: Using Casbah &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.0 documentation</title>
 
     <link rel="shortcut icon" href="http://media.mongodb.org/favicon.ico" />
     <meta name="robots" content="index" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '#',
-        VERSION:     '2.5.0',
+        VERSION:     '2.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
       <link rel="search" type="application/opensearchdescription+xml" href="http://docs.mongodb.org/osd.xml" title="MongoDB Help"/>
-<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
-<link rel="next" title="3. Changelog" href="changelog.html" />
-<link rel="prev" title="1. Getting Started" href="setting_up.html" />
+<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.6.0 documentation" href="index.html" />
+<link rel="next" title="4. Casbah Modules" href="modules.html" />
+<link rel="prev" title="2. Alternative installation methods for Casbah" href="alternative_install.html" />
 <!-- Put the following javascript before the closing </head> tag. -->
 <script>
   (function() {
@@ -76,17 +76,17 @@
             <div id="cse-results"><gcse:searchresults></gcse:searchresults></div>
             
   <div class="section" id="tutorial-using-casbah">
-<h1>2. Tutorial: Using Casbah<a class="headerlink" href="#tutorial-using-casbah" title="Permalink to this headline">¶</a></h1>
+<h1>3. Tutorial: Using Casbah<a class="headerlink" href="#tutorial-using-casbah" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="import-the-driver">
-<h2>2.1. Import the Driver<a class="headerlink" href="#import-the-driver" title="Permalink to this headline">¶</a></h2>
-<p>Now that you've added Casbah to your project, it should be available for import.  For this tutorial, we're going to import the <a class="reference internal" href="setting_up.html#casbah-core"><em>Core</em></a> module which brings in all of Casbah's functionality (except <a class="reference internal" href="setting_up.html#casbah-gridfs"><em>GridFS</em></a>)  As of this writing, <a class="reference internal" href="setting_up.html#casbah-core"><em>Core</em></a> lives in the package namespace <tt class="docutils literal"><span class="pre">com.mongodb.casbah</span></tt>.  Casbah uses a few tricks to act as self contained as possible - it provides an <tt class="docutils literal"><span class="pre">Imports</span></tt> object which automatically imports everything you need including Implicit conversions and type aliases to a few common MongoDB types.  This means you should only need to use our <tt class="docutils literal"><span class="pre">Imports</span></tt> package for the majority of your work.  The <tt class="docutils literal"><span class="pre">Imports</span></tt> call will make common types such as <tt class="docutils literal"><span class="pre">DBObject</span></tt>, <tt class="docutils literal"><span class="pre">MongoClient</span></tt> and <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> available.  <a class="reference internal" href="setting_up.html#casbah-core"><em>Core</em></a>'s <tt class="docutils literal"><span class="pre">Imports</span></tt> also run the imports from <a class="reference internal" href="setting_up.html#casbah-commons"><em>Commons</em></a> and the <a class="reference internal" href="setting_up.html#casbah-query"><em>Query DSL</em></a>. Let's start out bringing it into your code; at the appropriate place (Be it inside a class/def/object or at the top of your file), add our import:</p>
+<h2>3.1. Import the Driver<a class="headerlink" href="#import-the-driver" title="Permalink to this headline">¶</a></h2>
+<p>Now that you've added Casbah to your project, it should be available for import.  For this tutorial, we're going to import the <a class="reference internal" href="modules.html#casbah-core"><em>Core</em></a> module which brings in all of Casbah's functionality (except <a class="reference internal" href="modules.html#casbah-gridfs"><em>GridFS</em></a>)  As of this writing, <a class="reference internal" href="modules.html#casbah-core"><em>Core</em></a> lives in the package namespace <tt class="docutils literal"><span class="pre">com.mongodb.casbah</span></tt>.  Casbah uses a few tricks to act as self contained as possible - it provides an <tt class="docutils literal"><span class="pre">Imports</span></tt> object which automatically imports everything you need including Implicit conversions and type aliases to a few common MongoDB types.  This means you should only need to use our <tt class="docutils literal"><span class="pre">Imports</span></tt> package for the majority of your work.  The <tt class="docutils literal"><span class="pre">Imports</span></tt> call will make common types such as <tt class="docutils literal"><span class="pre">DBObject</span></tt>, <tt class="docutils literal"><span class="pre">MongoClient</span></tt> and <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> available.  <a class="reference internal" href="modules.html#casbah-core"><em>Core</em></a>'s <tt class="docutils literal"><span class="pre">Imports</span></tt> also run the imports from <a class="reference internal" href="modules.html#casbah-commons"><em>Commons</em></a> and the <a class="reference internal" href="modules.html#casbah-query"><em>Query DSL</em></a>. Let's start out bringing it into your code; at the appropriate place (Be it inside a class/def/object or at the top of your file), add our import:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.Imports._</span>
 </pre></div>
 </div>
-<p>That's it.  Most of what you need to work with Casbah is now at hand.  .. If you want to know what's going on inside the <tt class="docutils literal"><span class="pre">Imports._</span></tt> take a look at <a class="reference external" href="http://api.mongodb.org/scala/casbah/2.1.5.0/scaladoc/casbah-core/sxr/Implicits.scala.html">Implicits.scala</a> which defines it.</p>
+<p>That's it.  Most of what you need to work with Casbah is now at hand.  .. If you want to know what's going on inside the <tt class="docutils literal"><span class="pre">Imports._</span></tt> take a look at <a class="reference external" href="http://mongodb.github.com/casbah/2.1.5.0/scaladoc/casbah-core/sxr/Implicits.scala.html">Implicits.scala</a> which defines it.</p>
 </div>
 <div class="section" id="briefly-automatic-type-conversions">
-<h2>2.2. Briefly: Automatic Type Conversions<a class="headerlink" href="#briefly-automatic-type-conversions" title="Permalink to this headline">¶</a></h2>
+<h2>3.2. Briefly: Automatic Type Conversions<a class="headerlink" href="#briefly-automatic-type-conversions" title="Permalink to this headline">¶</a></h2>
 <p>As we mentioned, as soon as you construct a <tt class="docutils literal"><span class="pre">MongoClient</span></tt> object, a few type conversions will be loaded automatically for you - Scala's builtin regular expressions (e.g. <tt class="docutils literal"><span class="pre">&quot;\\d{4}-\\d{2}-\\d{2}&quot;.r</span></tt> will now serialize to MongoDB automatically with no work from you), as well as a few other things.  The general idea is that common Java types (such as ArrayList) will be returned as the equivalent Scala type.</p>
 <p>As many Scala developers tend to prefer <a class="reference external" href="http://joda-time.sourceforge.net/">Joda time</a> over JDK Dates, you can also explicitly enable serialization and deserialization of them (w/ full support for the <a class="reference external" href="http://github.com/jorgeortiz85/scala-time">Scala-Time wrappers</a>) by an explicit call:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.common.conversions.scala._</span>
@@ -105,11 +105,11 @@
 </pre></div>
 </div>
 <div class="section" id="wrappers">
-<h3>2.2.1. Wrappers<a class="headerlink" href="#wrappers" title="Permalink to this headline">¶</a></h3>
+<h3>3.2.1. Wrappers<a class="headerlink" href="#wrappers" title="Permalink to this headline">¶</a></h3>
 <p>Casbah provides a series of wrapper classes (and in some cases, companion objects) which proxy the &quot;core&quot; Java driver classes to provide scala functionality.  In general, we've provided a &quot;Scala-esque&quot; wrapper to the MongoDB Java objects whereever possible.  These make sure to make iterable things <tt class="docutils literal"><span class="pre">Iterable</span></tt>, Cursors implement <tt class="docutils literal"><span class="pre">Iterator</span></tt>, DBObjects act like Scala Maps, etc.</p>
 </div>
 <div class="section" id="connecting-to-mongodb">
-<h3>2.2.2. Connecting to MongoDB<a class="headerlink" href="#connecting-to-mongodb" title="Permalink to this headline">¶</a></h3>
+<h3>3.2.2. Connecting to MongoDB<a class="headerlink" href="#connecting-to-mongodb" title="Permalink to this headline">¶</a></h3>
 <p>The core Connection class as you may have noted above is <tt class="docutils literal"><span class="pre">com.mongodb.casbah.MongoClient</span></tt>.  There are two ways to create an instance of it. First, you can invoke <tt class="docutils literal"><span class="pre">.asScala</span></tt> from a MongoDB builtin Connection (<tt class="docutils literal"><span class="pre">com.mongodb.MongoClient</span></tt>).  This method is provided via implicits.  The pure Scala way to do it is to invoke one of the <tt class="docutils literal"><span class="pre">apply</span></tt> methods on the companion object:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="c1">// Connect to default - localhost, 27017</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">mongoClient</span> <span class="k">=</span>  <span class="nc">MongoClient</span><span class="o">()</span>
@@ -121,6 +121,16 @@
 
 <span class="c1">// connect to &quot;mongodb02&quot; host, port 42017</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">mongoClient</span> <span class="k">=</span>  <span class="nc">MongoClient</span><span class="o">(</span><span class="s">&quot;mongodb02&quot;</span><span class="o">,</span> <span class="mi">42017</span><span class="o">)</span>
+<span class="n">mongoClient</span><span class="k">:</span> <span class="kt">com.mongodb.casbah.MongoClient</span> <span class="kt">...</span>
+
+<span class="c1">// connect using mongdb&#39;s challenge response authentication</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MongoClientURI</span><span class="o">(</span><span class="s">&quot;mongodb://username:pwd@localhost/?authMechanism=MONGODB-CR&quot;</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">mongoClient</span> <span class="k">=</span>  <span class="nc">MongoClient</span><span class="o">(</span><span class="n">uri</span><span class="o">)</span>
+<span class="n">mongoClient</span><span class="k">:</span> <span class="kt">com.mongodb.casbah.MongoClient</span> <span class="kt">...</span>
+
+<span class="c1">// connect using mongdb&#39;s GSSAPI authentication</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MongoClientURI</span><span class="o">(</span><span class="s">&quot;mongodb://username%40domain@kdc.example.com/?authMechanism=MONGODB-GSSAPI&quot;</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">mongoClient</span> <span class="k">=</span>  <span class="nc">MongoClient</span><span class="o">(</span><span class="n">uri</span><span class="o">)</span>
 <span class="n">mongoClient</span><span class="k">:</span> <span class="kt">com.mongodb.casbah.MongoClient</span> <span class="kt">...</span>
 </pre></div>
 </div>
@@ -142,12 +152,12 @@ which should be updated to use <tt class="docutils literal"><span class="pre">Mo
 </div>
 </div>
 <div class="section" id="working-with-collections">
-<h3>2.2.3. Working with Collections<a class="headerlink" href="#working-with-collections" title="Permalink to this headline">¶</a></h3>
+<h3>3.2.3. Working with Collections<a class="headerlink" href="#working-with-collections" title="Permalink to this headline">¶</a></h3>
 <p>Feel free to explore Casbah's <tt class="docutils literal"><span class="pre">MongoDB</span></tt> object on your own; for now let's focus on <tt class="docutils literal"><span class="pre">MongoCollection</span></tt>.</p>
 <p>It should be noted that Casbah's <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> object implements Scala's <a class="reference external" href="http://www.scala-lang.org/docu/files/api/scala/collection/Iterable.html">Iterable[A]</a> interface (specifically <tt class="docutils literal"><span class="pre">Iterable[DBObject]</span></tt>), which provides a full monadic interface to your MongoDB collection.  Beginning iteration on the <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> instance is fundamentally equivalent to invoking <tt class="docutils literal"><span class="pre">find</span></tt> on the <tt class="docutils literal"><span class="pre">MongoCollection</span></tt> (without a query).  We'll return to this after we discuss working with <tt class="docutils literal"><span class="pre">MongoDBObjects</span></tt> and inserting data...</p>
 </div>
 <div class="section" id="mongodbobject-a-scala-ble-dbobject-implementation">
-<h3>2.2.4. MongoDBObject - A Scala-ble DBObject Implementation<a class="headerlink" href="#mongodbobject-a-scala-ble-dbobject-implementation" title="Permalink to this headline">¶</a></h3>
+<h3>3.2.4. MongoDBObject - A Scala-ble DBObject Implementation<a class="headerlink" href="#mongodbobject-a-scala-ble-dbobject-implementation" title="Permalink to this headline">¶</a></h3>
 <p>As a Scala developer, I find it important to be given the opportunity to work consistently with my data and objects - and in proper Scala fashion.  To that end, I've tried where possible to ensure Casbah provides Scala-ble (my phrasing for the Scala equivalent of &quot;Pythonic&quot;) interfaces to MongoDB without disabling or hiding the Java equivalents.  A big part of this is extending and enhancing Mongo's <tt class="docutils literal"><span class="pre">DBObject</span></tt> and related classes to work in a Scala-ble fashion.</p>
 <p>That is to say - <tt class="docutils literal"><span class="pre">DBObject</span></tt>, <tt class="docutils literal"><span class="pre">BasicDBOBject</span></tt>, <tt class="docutils literal"><span class="pre">BasicDBObjectBuilder</span></tt>, etc are still available - but there's a better way.  <cite>MongoDBObject</cite> and its companion trait (tacked in a few places implicitly via Pimp-My-Library) provide a series of ways to work with Mongo's DBObjects which closely match the Collection interface Scala 2.8 provides.  Further, <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt> can be implicitly converted to a <tt class="docutils literal"><span class="pre">DBObject</span></tt> - so any existing Mongo Java code will accept it without complaint.  There are two easy ways to create a new <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt>.  In an additive manner</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">newObj</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;foo&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bar&quot;</span><span class="o">,</span>
@@ -225,7 +235,7 @@ These functions are available on ANY <tt class="docutils literal"><span class="p
 </pre></div>
 </div>
 <div class="section" id="combining-multiple-dbobjects">
-<h4>2.2.4.1. Combining Multiple DBObjects<a class="headerlink" href="#combining-multiple-dbobjects" title="Permalink to this headline">¶</a></h4>
+<h4>3.2.4.1. Combining Multiple DBObjects<a class="headerlink" href="#combining-multiple-dbobjects" title="Permalink to this headline">¶</a></h4>
 <p>It's possible additionally to join multiple <tt class="docutils literal"><span class="pre">DBObjects</span></tt> together</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">obj2</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;n&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;212&quot;</span><span class="o">)</span>
 </pre></div>
@@ -270,7 +280,7 @@ These functions are available on ANY <tt class="docutils literal"><span class="p
 </div>
 </div>
 <div class="section" id="mongodblist-mongo-friendly-list-implementation">
-<h3>2.2.5. MongoDBList - Mongo-friendly List implementation<a class="headerlink" href="#mongodblist-mongo-friendly-list-implementation" title="Permalink to this headline">¶</a></h3>
+<h3>3.2.5. MongoDBList - Mongo-friendly List implementation<a class="headerlink" href="#mongodblist-mongo-friendly-list-implementation" title="Permalink to this headline">¶</a></h3>
 <p>While Scala's builtin list and sequence types can be serialized to MongoDB, in some cases (especially with Casbah's DSL) it is easier to
 work with <tt class="docutils literal"><span class="pre">MongoDBList</span></tt>, which is built for creating valid Mongo lists.  <tt class="docutils literal"><span class="pre">MongoDBList</span></tt>, like <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt>, follows the Scala 2.8 collections pattern.  It provides an object constructor as well as a builder</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">builder</span> <span class="k">=</span> <span class="nc">MongoDBList</span><span class="o">.</span><span class="n">newBuilder</span>
@@ -289,7 +299,7 @@ work with <tt class="docutils literal"><span class="pre">MongoDBList</span></tt>
 <p>Apart from that it's a pretty standard Scala list.</p>
 </div>
 <div class="section" id="querying-with-casbah">
-<h3>2.2.6. Querying with Casbah<a class="headerlink" href="#querying-with-casbah" title="Permalink to this headline">¶</a></h3>
+<h3>3.2.6. Querying with Casbah<a class="headerlink" href="#querying-with-casbah" title="Permalink to this headline">¶</a></h3>
 <p>I'm not going to wax lengthily and philosophically on the insertion of data; if you need a bit more guidance you should take a look at the <a class="reference external" href="http://www.mongodb.org/display/DOCS/Tutorial">MongoDB Tutorial</a>. We'll cover updates and such in a bit, but let's insert a few items just to get started with.  It should be pretty straightforward</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">mongoColl</span> <span class="k">=</span> <span class="nc">MongoClient</span><span class="o">()(</span><span class="s">&quot;casbah_test&quot;</span><span class="o">)(</span><span class="s">&quot;test_data&quot;</span><span class="o">)</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">user1</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;user&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;bwmcadams&quot;</span><span class="o">,</span>
@@ -353,7 +363,7 @@ retrieving just the username</p>
 </div>
 <p>As is standard with MongoDB, you always get back the <tt class="docutils literal"><span class="pre">_id</span></tt> field, whether you want it or not.  You may also note one other &quot;Scala 2.8&quot; collection feature above - <tt class="docutils literal"><span class="pre">empty</span></tt>.  <tt class="docutils literal"><span class="pre">MongoDBObject.empty</span></tt> will always give you back a... (you guessed it!) empty <tt class="docutils literal"><span class="pre">DBObject</span></tt>.  This tends to be useful working with MongoDB with certain tasks such as an empty query (all entries) with limited fields.</p>
 <div class="section" id="fluid-querying-with-casbah-s-dsl">
-<h4>2.2.6.1. Fluid Querying with Casbah's DSL<a class="headerlink" href="#fluid-querying-with-casbah-s-dsl" title="Permalink to this headline">¶</a></h4>
+<h4>3.2.6.1. Fluid Querying with Casbah's DSL<a class="headerlink" href="#fluid-querying-with-casbah-s-dsl" title="Permalink to this headline">¶</a></h4>
 <p>There's one last big feature you should be familiar with to get the most out of Casbah: fluid query syntax.  Casbah allows you in many cases to construct DBObjects on the fly using MongoDB query operators.  If we wanted to find all of the entries which had an email address defined we can use <tt class="docutils literal"><span class="pre">$exists</span></tt></p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">q</span> <span class="k">=</span> <span class="s">&quot;email&quot;</span> <span class="nc">$exists</span> <span class="kc">true</span>
 </pre></div>
@@ -486,7 +496,7 @@ retrieving just the username</p>
 </div>
 </div>
 <div class="section" id="gridfs-with-casbah">
-<h3>2.2.7. GridFS with Casbah<a class="headerlink" href="#gridfs-with-casbah" title="Permalink to this headline">¶</a></h3>
+<h3>3.2.7. GridFS with Casbah<a class="headerlink" href="#gridfs-with-casbah" title="Permalink to this headline">¶</a></h3>
 <p>Casbah contains a few wrappers to <a class="reference external" href="http://www.mongodb.org/display/DOCS/GridFS">GridFS</a> to make it act more like Scala, and favor a <strong>Loan</strong> style pattern which automatically saves for you once you're done (Given a curried function).</p>
 <p>MongoDB's GridFS system allows you to store files within MongoDB - MongoDB chunks the file in a way that allows massive scalability (I've been told the maximum file size is 16 <strong>Exabytes</strong>). Casbah's Scala version of GridFS supports creating files using <tt class="docutils literal"><span class="pre">Array[Byte]</span></tt>, <tt class="docutils literal"><span class="pre">java.io.File</span></tt> and <tt class="docutils literal"><span class="pre">java.io.InputStream</span></tt> (I had some problems with <tt class="docutils literal"><span class="pre">scala.io.Source</span></tt> and it's currently disabled).  GridFS works in terms of <em>buckets</em>.  A bucket is a base collection name, and creates two actual collections: <em>&lt;bucket&gt;.files</em> and <em>&lt;bucket&gt;.chunks</em>.  <em>files</em> contains the object metadata, while <em>chunks</em> contains the actual binary chunks of the files.  If you're interested, you can learn more in the <a class="reference external" href="http://www.mongodb.org/display/DOCS/GridFS+Specification">GridFS Specification</a>.  To work with GridFS you need to provide a connection object, and define the <em>bucket</em> name (without <em>.chunks</em>/<em>.files</em>); however, by default (AKA if you don't specify a bucket) MongoDB uses a bucket called &quot;fs&quot;.</p>
 <p>Because many projects don't use GridFS at all, we don't import it by default.  If you want to use GridFS you'll need to import our GridFS objects:</p>
@@ -519,8 +529,8 @@ retrieving just the username</p>
 
 <div id="btnv">
 <ul id="btnvl">
-<li id="btnvpr"><a href="setting_up.html" title="Previous Section: 1. Getting Started">&lt; &nbsp; 1. Getting Started</a></li>
-<li id="btnvnx"><a href="changelog.html" title="Next Section: 3. Changelog">3. Changelog &nbsp;&gt;</a></li>
+<li id="btnvpr"><a href="alternative_install.html" title="Previous Section: 2. Alternative installation methods for Casbah">&lt; &nbsp; 2. Alternative installation methods for Casbah</a></li>
+<li id="btnvnx"><a href="modules.html" title="Next Section: 4. Casbah Modules">4. Casbah Modules &nbsp;&gt;</a></li>
 </ul>
 </div>
 </div>
@@ -534,36 +544,38 @@ retrieving just the username</p>
 </h3>
 
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Getting Started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">2. Tutorial: Using Casbah</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#import-the-driver">2.1. Import the Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#briefly-automatic-type-conversions">2.2. Briefly: Automatic Type Conversions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#wrappers">2.2.1. Wrappers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#connecting-to-mongodb">2.2.2. Connecting to MongoDB</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#working-with-collections">2.2.3. Working with Collections</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#mongodbobject-a-scala-ble-dbobject-implementation">2.2.4. MongoDBObject - A Scala-ble DBObject Implementation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#combining-multiple-dbobjects">2.2.4.1. Combining Multiple DBObjects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alternative_install.html">2. Alternative installation methods for Casbah</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">3. Tutorial: Using Casbah</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#import-the-driver">3.1. Import the Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#briefly-automatic-type-conversions">3.2. Briefly: Automatic Type Conversions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wrappers">3.2.1. Wrappers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connecting-to-mongodb">3.2.2. Connecting to MongoDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-collections">3.2.3. Working with Collections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mongodbobject-a-scala-ble-dbobject-implementation">3.2.4. MongoDBObject - A Scala-ble DBObject Implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#combining-multiple-dbobjects">3.2.4.1. Combining Multiple DBObjects</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#mongodblist-mongo-friendly-list-implementation">2.2.5. MongoDBList - Mongo-friendly List implementation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#querying-with-casbah">2.2.6. Querying with Casbah</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#fluid-querying-with-casbah-s-dsl">2.2.6.1. Fluid Querying with Casbah's DSL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mongodblist-mongo-friendly-list-implementation">3.2.5. MongoDBList - Mongo-friendly List implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#querying-with-casbah">3.2.6. Querying with Casbah</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fluid-querying-with-casbah-s-dsl">3.2.6.1. Fluid Querying with Casbah's DSL</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#gridfs-with-casbah">2.2.7. GridFS with Casbah</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gridfs-with-casbah">3.2.7. GridFS with Casbah</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">3. Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="upgrade.html">4. Upgrade</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">4. Casbah Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">5. Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrade.html">6. Upgrade</a></li>
 </ul>
-<h3 style="padding-bottom: 1em;"><a href="http://api.mongodb.org/scala/casbah/current/api/#com.mongodb.casbah.package">API Documentation</a></h3>
+<h3 style="padding-bottom: 1em;"><a href="http://mongodb.github.com/casbah/current/api/#com.mongodb.casbah.package">API Documentation</a></h3>
 
 <h3>Formats</h3>
 <ul class="this-page-menu">
-<li><a href="http://api.mongodb.org/scala/casbah/current/CasbahDocumentation.epub">ePub</a></li>
-<li><a href="http://api.mongodb.org/scala/casbah/current/CasbahDocumentation.pdf">PDF</a></li>
+<li><a href="http://mongodb.github.com/casbah/current/CasbahDocumentation.epub">ePub</a></li>
+<li><a href="http://mongodb.github.com/casbah/current/CasbahDocumentation.pdf">PDF</a></li>
 </ul>
 <h3 style="padding-bottom: 1em;"><a href="http://www.mongodb.org/about/">MongoDB.org</a></h3>
 <h3 style="padding-bottom: 1em;"><a href="http://docs.mongodb.org/manual/">MongoDB Manual</a></h3>

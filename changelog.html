@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>3. Changelog &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation</title>
+    <title>5. Changelog &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.0 documentation</title>
 
     <link rel="shortcut icon" href="http://media.mongodb.org/favicon.ico" />
     <meta name="robots" content="index" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '#',
-        VERSION:     '2.5.0',
+        VERSION:     '2.6.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
       <link rel="search" type="application/opensearchdescription+xml" href="http://docs.mongodb.org/osd.xml" title="MongoDB Help"/>
-<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.5.0 documentation" href="index.html" />
-<link rel="next" title="4. Upgrade" href="upgrade.html" />
-<link rel="prev" title="2. Tutorial: Using Casbah" href="tutorial.html" />
+<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.6.0 documentation" href="index.html" />
+<link rel="next" title="6. Upgrade" href="upgrade.html" />
+<link rel="prev" title="4. Casbah Modules" href="modules.html" />
 <!-- Put the following javascript before the closing </head> tag. -->
 <script>
   (function() {
@@ -76,9 +76,16 @@
             <div id="cse-results"><gcse:searchresults></gcse:searchresults></div>
             
   <div class="section" id="changelog">
-<h1>3. Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<h1>5. Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="changes-in-version-2-6-0">
+<h2>5.1. Changes in Version 2.6.0<a class="headerlink" href="#changes-in-version-2-6-0" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added suport for GSSAPI SASL mechanism and MongoDB Challenge Response protocol</li>
+<li>Updated support for latest Java driver 2.11.0</li>
+</ul>
+</div>
 <div class="section" id="changes-in-version-2-5-1">
-<h2>3.1. Changes in Version 2.5.1<a class="headerlink" href="#changes-in-version-2-5-1" title="Permalink to this headline">¶</a></h2>
+<h2>5.2. Changes in Version 2.5.1<a class="headerlink" href="#changes-in-version-2-5-1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Added 2.10.1 support</li>
 <li>Removed reference to scala-tools (SCALA-78)</li>
@@ -90,7 +97,7 @@
 </ul>
 </div>
 <div class="section" id="changes-in-version-2-5-0">
-<h2>3.2. Changes in Version 2.5.0<a class="headerlink" href="#changes-in-version-2-5-0" title="Permalink to this headline">¶</a></h2>
+<h2>5.3. Changes in Version 2.5.0<a class="headerlink" href="#changes-in-version-2-5-0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Added support for Scala 2.10.0</li>
 <li>Dropped support for Scala 2.9.0</li>
@@ -108,14 +115,14 @@
 </ul>
 </div>
 <div class="section" id="changes-in-version-2-4-1">
-<h2>3.3. Changes in Version 2.4.1<a class="headerlink" href="#changes-in-version-2-4-1" title="Permalink to this headline">¶</a></h2>
+<h2>5.4. Changes in Version 2.4.1<a class="headerlink" href="#changes-in-version-2-4-1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Fixed QueryDSL imports for &quot;default&quot; (com.mongodb.casbah.Imports)
 import so that bareword ops like $set and $inc are available.</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-2-4-0">
-<h2>3.4. Changes in Version 2.4.0<a class="headerlink" href="#changes-in-version-2-4-0" title="Permalink to this headline">¶</a></h2>
+<h2>5.5. Changes in Version 2.4.0<a class="headerlink" href="#changes-in-version-2-4-0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Hide BasicDBList; now, getAs and As and related will always return a
 MongoDBList which is a Seq[_]. Enjoy!</li>
@@ -126,7 +133,7 @@ APIs</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-2-3-0">
-<h2>3.5. Changes in Version 2.3.0<a class="headerlink" href="#changes-in-version-2-3-0" title="Permalink to this headline">¶</a></h2>
+<h2>5.6. Changes in Version 2.3.0<a class="headerlink" href="#changes-in-version-2-3-0" title="Permalink to this headline">¶</a></h2>
 <p>BT/Maven Package change. Casbah is now available in: &quot;org.mongodb&quot; %%
 &quot;casbah&quot; % &quot;2.3.0&quot;</p>
 <ul class="simple">
@@ -236,7 +243,7 @@ Bill Venners for the latter)</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-2-1-5-0">
-<h2>3.6. Changes in Version 2.1.5.0<a class="headerlink" href="#changes-in-version-2-1-5-0" title="Permalink to this headline">¶</a></h2>
+<h2>5.7. Changes in Version 2.1.5.0<a class="headerlink" href="#changes-in-version-2-1-5-0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Added support for Scala 2.9.0-1 … As this is a critical fix release
 against 2.9.0.final, 2.9.0.final is not supported. (Note that SBT,
@@ -261,7 +268,7 @@ are test bugs rather than Casbah bugs.</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-2-1-0">
-<h2>3.7. Changes in Version 2.1.0<a class="headerlink" href="#changes-in-version-2-1-0" title="Permalink to this headline">¶</a></h2>
+<h2>5.8. Changes in Version 2.1.0<a class="headerlink" href="#changes-in-version-2-1-0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>SCALA-22 Added a dropTarget boolean option to rename collection,
 which specifies behavior if named target collection already exists,
@@ -313,14 +320,14 @@ MapReduce logic</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-2-0-2">
-<h2>3.8. Changes in Version 2.0.2<a class="headerlink" href="#changes-in-version-2-0-2" title="Permalink to this headline">¶</a></h2>
+<h2>5.9. Changes in Version 2.0.2<a class="headerlink" href="#changes-in-version-2-0-2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Fixed the MongoDBOBject ‘as’ operator to return the proper type,
 instead of Any. (philwills)</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-2-0-1">
-<h2>3.9. Changes in Version 2.0.1<a class="headerlink" href="#changes-in-version-2-0-1" title="Permalink to this headline">¶</a></h2>
+<h2>5.10. Changes in Version 2.0.1<a class="headerlink" href="#changes-in-version-2-0-1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>SCALA-16: Added a few additional validation tests against getAs and
 as on MongoDBObject</li>
@@ -329,7 +336,7 @@ test passes</li>
 </ul>
 </div>
 <div class="section" id="version-2-0-2011-01-03">
-<h2>3.10. Version 2.0 / 2011-01-03<a class="headerlink" href="#version-2-0-2011-01-03" title="Permalink to this headline">¶</a></h2>
+<h2>5.11. Version 2.0 / 2011-01-03<a class="headerlink" href="#version-2-0-2011-01-03" title="Permalink to this headline">¶</a></h2>
 <p>Notable Changes since Casbah 1.0.8.1:</p>
 <ul class="simple">
 <li>Ownership Change: Casbah is now an officially supported MongoDB
@@ -339,11 +346,11 @@ Driver<ul>
 <li>Package Change: Casbah is now <tt class="docutils literal"><span class="pre">com.mongodb.casbah</span></tt> (See
 migration guide)</li>
 <li>Documentation (ScalaDocs, Migration Guide &amp; Tutorial) is available
-at <a class="reference external" href="http://api.mongodb.org/scala/casbah">http://api.mongodb.org/scala/casbah</a></li>
+at <a class="reference external" href="http://mongodb.github.com/casbah">http://mongodb.github.com/casbah</a></li>
 </ul>
 </li>
 <li>Casbah is now broken into several submodules - see
-<a class="reference external" href="http://api.mongodb.org/scala/casbah/migrating.html">http://api.mongodb.org/scala/casbah/migrating.html</a></li>
+<a class="reference external" href="http://mongodb.github.com/casbah/migrating.html">http://mongodb.github.com/casbah/migrating.html</a></li>
 <li>Casbah releases are now published to <a class="reference external" href="http://scala-tools.org">http://scala-tools.org</a></li>
 <li>SBT Build now publishes -sources and -javadoc artifacts</li>
 <li>Added heavy test coverage</li>
@@ -418,7 +425,7 @@ MongoDBObjectBuilder$anon1 which was FUBAR</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-1-0-7-4">
-<h2>3.11. Changes in Version 1.0.7.4<a class="headerlink" href="#changes-in-version-1-0-7-4" title="Permalink to this headline">¶</a></h2>
+<h2>5.12. Changes in Version 1.0.7.4<a class="headerlink" href="#changes-in-version-1-0-7-4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Fixed some issues w/ GridFS libraries attempting to call toMap in
 iteration, which isn’t implemented on the Java side; added custom
@@ -431,7 +438,7 @@ AnyRef for good Scala coding practices [BWM]</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-1-0-7">
-<h2>3.12. Changes in Version 1.0.7<a class="headerlink" href="#changes-in-version-1-0-7" title="Permalink to this headline">¶</a></h2>
+<h2>5.13. Changes in Version 1.0.7<a class="headerlink" href="#changes-in-version-1-0-7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Updated reference to Configgy to have a Scala version attached; this
 was causing issues on some mixed-version users’ systems.</li>
@@ -442,7 +449,7 @@ were just plain a bad idea.</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-1-0-5">
-<h2>3.13. Changes in Version 1.0.5<a class="headerlink" href="#changes-in-version-1-0-5" title="Permalink to this headline">¶</a></h2>
+<h2>5.14. Changes in Version 1.0.5<a class="headerlink" href="#changes-in-version-1-0-5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Due to oddities and ambiguities, stripped the type parameter apply[A]
 method from MongoDBObject. If you want a cast return, please use
@@ -468,7 +475,7 @@ linked from Github page.</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-1-0-2">
-<h2>3.14. Changes in Version 1.0.2<a class="headerlink" href="#changes-in-version-1-0-2" title="Permalink to this headline">¶</a></h2>
+<h2>5.15. Changes in Version 1.0.2<a class="headerlink" href="#changes-in-version-1-0-2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Changed $in, $notin, $all to always generate an array in Any* mode</li>
 <li>Added default type alias import for com.mongodb.DBRef &amp; Casbah’s
@@ -476,7 +483,7 @@ MongoDB class</li>
 </ul>
 </div>
 <div class="section" id="changes-in-version-1-0-1">
-<h2>3.15. Changes in Version 1.0.1<a class="headerlink" href="#changes-in-version-1-0-1" title="Permalink to this headline">¶</a></h2>
+<h2>5.16. Changes in Version 1.0.1<a class="headerlink" href="#changes-in-version-1-0-1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Updated externals to link against 2.8.0 final - 1.0 release had some
 RC/Beta built externals. (scalaj-collection is still linked against
@@ -489,7 +496,7 @@ objects - please report any odd behavior this causes.</li>
 </ul>
 </div>
 <div class="section" id="version-1-0">
-<h2>3.16. Version 1.0<a class="headerlink" href="#version-1-0" title="Permalink to this headline">¶</a></h2>
+<h2>5.17. Version 1.0<a class="headerlink" href="#version-1-0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>GridFS enhanced via Loan Pattern</li>
 <li>Full support for MongoDB Query operators via fluid syntax (now with
@@ -504,8 +511,8 @@ Builder pattern, +=, etc.</li>
 
 <div id="btnv">
 <ul id="btnvl">
-<li id="btnvpr"><a href="tutorial.html" title="Previous Section: 2. Tutorial: Using Casbah">&lt; &nbsp; 2. Tutorial: Using Casbah</a></li>
-<li id="btnvnx"><a href="upgrade.html" title="Next Section: 4. Upgrade">4. Upgrade &nbsp;&gt;</a></li>
+<li id="btnvpr"><a href="modules.html" title="Previous Section: 4. Casbah Modules">&lt; &nbsp; 4. Casbah Modules</a></li>
+<li id="btnvnx"><a href="upgrade.html" title="Next Section: 6. Upgrade">6. Upgrade &nbsp;&gt;</a></li>
 </ul>
 </div>
 </div>
@@ -519,35 +526,38 @@ Builder pattern, +=, etc.</li>
 </h3>
 
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">2. Tutorial: Using Casbah</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">3. Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-5-1">3.1. Changes in Version 2.5.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-5-0">3.2. Changes in Version 2.5.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-4-1">3.3. Changes in Version 2.4.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-4-0">3.4. Changes in Version 2.4.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-3-0">3.5. Changes in Version 2.3.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-1-5-0">3.6. Changes in Version 2.1.5.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-1-0">3.7. Changes in Version 2.1.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-0-2">3.8. Changes in Version 2.0.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-0-1">3.9. Changes in Version 2.0.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#version-2-0-2011-01-03">3.10. Version 2.0 / 2011-01-03</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-7-4">3.11. Changes in Version 1.0.7.4</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-7">3.12. Changes in Version 1.0.7</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-5">3.13. Changes in Version 1.0.5</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-2">3.14. Changes in Version 1.0.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-1">3.15. Changes in Version 1.0.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#version-1-0">3.16. Version 1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alternative_install.html">2. Alternative installation methods for Casbah</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">3. Tutorial: Using Casbah</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">4. Casbah Modules</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">5. Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-6-0">5.1. Changes in Version 2.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-5-1">5.2. Changes in Version 2.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-5-0">5.3. Changes in Version 2.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-4-1">5.4. Changes in Version 2.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-4-0">5.5. Changes in Version 2.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-3-0">5.6. Changes in Version 2.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-1-5-0">5.7. Changes in Version 2.1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-1-0">5.8. Changes in Version 2.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-0-2">5.9. Changes in Version 2.0.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-2-0-1">5.10. Changes in Version 2.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-2-0-2011-01-03">5.11. Version 2.0 / 2011-01-03</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-7-4">5.12. Changes in Version 1.0.7.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-7">5.13. Changes in Version 1.0.7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-5">5.14. Changes in Version 1.0.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-2">5.15. Changes in Version 1.0.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-in-version-1-0-1">5.16. Changes in Version 1.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-1-0">5.17. Version 1.0</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="upgrade.html">4. Upgrade</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrade.html">6. Upgrade</a></li>
 </ul>
-<h3 style="padding-bottom: 1em;"><a href="http://api.mongodb.org/scala/casbah/current/api/#com.mongodb.casbah.package">API Documentation</a></h3>
+<h3 style="padding-bottom: 1em;"><a href="http://mongodb.github.com/casbah/current/api/#com.mongodb.casbah.package">API Documentation</a></h3>
 
 <h3>Formats</h3>
 <ul class="this-page-menu">
-<li><a href="http://api.mongodb.org/scala/casbah/current/CasbahDocumentation.epub">ePub</a></li>
-<li><a href="http://api.mongodb.org/scala/casbah/current/CasbahDocumentation.pdf">PDF</a></li>
+<li><a href="http://mongodb.github.com/casbah/current/CasbahDocumentation.epub">ePub</a></li>
+<li><a href="http://mongodb.github.com/casbah/current/CasbahDocumentation.pdf">PDF</a></li>
 </ul>
 <h3 style="padding-bottom: 1em;"><a href="http://www.mongodb.org/about/">MongoDB.org</a></h3>
 <h3 style="padding-bottom: 1em;"><a href="http://docs.mongodb.org/manual/">MongoDB Manual</a></h3>
