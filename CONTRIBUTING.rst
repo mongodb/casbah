@@ -41,7 +41,7 @@ General Guidelines
 Documentation
 -------------
 
-To contribute to the `API documentation <http://api.mongodb.org/scala/casbah/current/>`_
+To contribute to the `API documentation <http://mongodb.github.com/casbah/>`_
 just make your changes to the inline documentation of the appropriate
 `source code <https://github.com/mongodb/casbah>`_ or `rst file
 <https://github.com/mongodb/casbah/tree/master/tutorial_src>`_ in a

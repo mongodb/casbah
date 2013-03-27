@@ -1,5 +1,3 @@
-
-
 *************************
 Tutorial: Using Casbah
 *************************
@@ -12,7 +10,7 @@ Now that you've added Casbah to your project, it should be available for import.
 
     import com.mongodb.casbah.Imports._
 
-That's it.  Most of what you need to work with Casbah is now at hand.  .. If you want to know what's going on inside the ``Imports._`` take a look at `Implicits.scala <http://api.mongodb.org/scala/casbah/2.1.5.0/scaladoc/casbah-core/sxr/Implicits.scala.html>`_ which defines it.
+That's it.  Most of what you need to work with Casbah is now at hand.  .. If you want to know what's going on inside the ``Imports._`` take a look at `Implicits.scala <http://mongodb.github.com/casbah/2.1.5.0/scaladoc/casbah-core/sxr/Implicits.scala.html>`_ which defines it.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Briefly: Automatic Type Conversions
@@ -60,6 +58,16 @@ The core Connection class as you may have noted above is ``com.mongodb.casbah.Mo
 
     // connect to "mongodb02" host, port 42017
     scala> val mongoClient =  MongoClient("mongodb02", 42017)
+    mongoClient: com.mongodb.casbah.MongoClient ...
+
+    // connect using mongdb's challenge response authentication
+    scala> val uri = new MongoClientURI("mongodb://username:pwd@localhost/?authMechanism=MONGODB-CR")
+    scala> val mongoClient =  MongoClient(uri)
+    mongoClient: com.mongodb.casbah.MongoClient ...
+
+    // connect using mongdb's GSSAPI authentication
+    scala> val uri = new MongoClientURI("mongodb://username%40domain@kdc.example.com/?authMechanism=MONGODB-GSSAPI")
+    scala> val mongoClient =  MongoClient(uri)
     mongoClient: com.mongodb.casbah.MongoClient ...
 
 If you imported ``Imports._``, you already have ``MongoClient`` in scope and won't require additional importing.  These all return an instance of the ``MongoClient`` class, which provides all the methods as the Java ``Mongo`` class it proxies (which is available from the ``underlying`` attribute, incidentally) with the addition of having an apply method for getting a DB instead of calling ``getDB()``::

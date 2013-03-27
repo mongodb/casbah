@@ -20,21 +20,13 @@ You may also download this documentation in other formats.
   * `PDF <CasbahDocumentation.pdf>`_
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 1
     :numbered:
 
     `API Docs <api/#com.mongodb.casbah.package>`_
     setting_up
+    alternative_install
     tutorial
+    modules
     changelog
     upgrade
-
-
-
-.. Indices and tables
-.. ==================
-
-.. * `API Docs <api/#com.mongodb.casbah.package>`_
-.. * :ref:`genindex`
-.. * :ref:`modindex`
-.. * :ref:`search`

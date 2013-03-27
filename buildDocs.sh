@@ -31,7 +31,7 @@ do
 done
 
 SCALA=2.9.2
-WEBSITE_ROOT=api.mongodb.org/scala/casbah/current/
+WEBSITE_ROOT=mongodb.github.com/casbah/
 SPHINX_DIR=./src/sphinx
 SITE_DIR=./target/site/
 

@@ -22,15 +22,15 @@ functionality on top of it. This has been tested with MongoDB 1.2.x+ and 2.x of
 the Mongo java driver.
 
 We are constantly adding new functionality, and maintain a detailed
-`Casbah Tutorial <http://api.mongodb.org/scala/casbah/tutorial.html>`_.
+`Casbah Tutorial <http://mongodb.github.com/casbah/tutorial.html>`_.
 
 Please address any questions or problems to the
 `Casbah Mailing List <http://groups.google.com/group/mongodb-casbah-users>`_ on
 Google Groups.
 
 For more information about Casbah see the
-`API Docs <http://api.mongodb.org/scala/casbah/scaladoc/>`_ or
-`Tutorial <http://api.mongodb.org/scala/casbah/tutorial.html>`_.
+`API Docs <http://mongodb.github.com/casbah/scaladoc/>`_ or
+`Tutorial <http://mongodb.github.com/casbah/tutorial.html>`_.
 
 Project Artifacts
 -----------------
