@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>4. Casbah Modules &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.0 documentation</title>
+
+    <link rel="shortcut icon" href="http://media.mongodb.org/favicon.ico" />
+    <meta name="robots" content="index" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="canonical" href="http://docs.mongodb.org/scala/modules" />
+
+    
+    
+    <link rel="stylesheet" href="_static/mongodb-docs.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '2.6.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+      <link rel="search" type="application/opensearchdescription+xml" href="http://docs.mongodb.org/osd.xml" title="MongoDB Help"/>
+<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.6.0 documentation" href="index.html" />
+<link rel="next" title="5. Changelog" href="changelog.html" />
+<link rel="prev" title="3. Tutorial: Using Casbah" href="tutorial.html" />
+<!-- Put the following javascript before the closing </head> tag. -->
+<script>
+  (function() {
+    var cx = '017213726194841070573:WMX6838984';
+    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+  </head>
+  <body>
+<div id="top-right">
+        <div class="user-right">
+                <ul id="header-menu-bar" class="ajs-menu-bar">
+                <li class="normal"><a target="_blank" href="http://groups.google.com/group/mongodb-user">Forums</a></li>
+                <li class="normal"><a target="_blank" href="http://blog.mongodb.org/">Blog</a></li>
+                <li class="normal"><a href="http://www.mongodb.org/downloads">Download</a></li>
+                <li class="normal"><a href="http://docs.mongodb.org/ecosystem/drivers/">Drivers</a></li>
+                <li class="normal"><a href="http://www.10gen.com/events">Events</a></li>
+                <li class="normal last"><a class="last" href="http://docs.mongodb.org/manual/meta/translation">Translations</a></li>
+                </ul>
+        </div>
+</div>
+<div id="header-db" class="spread">
+        <div class="split">
+                <div id="logo">
+                        <div><a href="index.html"><img class="logo" src="http://media.mongodb.org/logo-mongodb.png" alt="MongoDB Logo"/></a></div>
+                </div>
+        </div>
+
+<div class="search-db"><gcse:searchbox></gcse:searchbox></div>
+<div id="etp">
+<ul>
+<li><a href="https://github.com/mongodb/casbah/blob/BRANCH/source/modules.txt" target="_blank" title="Edit modules.txt on github">Edit this Page</a></li>
+<li><a href="http://github.com/mongodb/casbah" target="_blank" title="Fork the documentation on GitHub and contribute.">GitHub</a></li>
+<li><a href="https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&issuetype=4&priority=4&summary=Comment+on%3a+%22modules%2Etxt%22" target="_blank" title="Report a problem with modules.txt on Jira">Report a problem</a></li>
+</ul>
+</div>
+</div>  
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            <div id="cse-results"><gcse:searchresults></gcse:searchresults></div>
+            
+  <div class="section" id="casbah-modules">
+<h1>4. Casbah Modules<a class="headerlink" href="#casbah-modules" title="Permalink to this headline">¶</a></h1>
+<p>While Casbah has many stable of features, some users (such as those using a
+framework like Lift which already provides MongoDB wrappers) wanted access to
+certain parts of Casbah without importing the whole system.  As a result,
+Casbah has been broken out into several modules which make it easier to pick
+and choose the features you want.</p>
+<p>If you use the individual modules you'll need to use the import statement from
+each of these.  If you use the import statement from the <cite>casbah-core</cite> module,
+everything except GridFS will be imported (not everyone uses GridFS so we don't
+load it into memory &amp; scope unless it is needed).</p>
+<p>The module names can be used to select which dependencies you want from
+maven/ivy/sbt, as we publish individual artifacts.
+If you import just <cite>casbah</cite>, this is a master pom which includes the whole
+system and will install all its dependencies, as such there is no single jar
+file for Casbah.</p>
+<p>This is the breakdown of dependencies and packages:</p>
+<blockquote id="casbah-gridfs">
+<span id="casbah-query"></span><span id="casbah-commons"></span><span id="casbah-core"></span><div><table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="25%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Module</th>
+<th class="head">Package</th>
+<th class="head">Dependencies</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first"><a class="reference external" href="http://mongodb.github.com/casbah/api/#com.mongodb.casbah.package?Casbah Core">Casbah Core</a></p>
+<p><strong>NOTES</strong></p>
+<p class="last">Provides Scala-friendly
+wrappers to the Java Driver for
+connections, collections and
+MapReduce jobs</p>
+</td>
+<td>com.mongodb.casbah</td>
+<td>casbah-commons and casbah-query
+along with their
+dependencies
+transitively</td>
+</tr>
+<tr class="row-odd"><td><p class="first"><a class="reference external" href="http://mongodb.github.com/casbah/api/#com.mongodb.casbah.commons.package?Casbah Commons">Casbah Commons</a></p>
+<p><strong>NOTES</strong></p>
+<p class="last">Provides Scala-friendly
+<a class="reference external" href="http://docs.mongodb.org/manual/?q=DBObject">DBObject</a> &amp;
+<a class="reference external" href="http://docs.mongodb.org/manual/?q=DBList">DBList</a>
+implementations as well as Implicit
+conversions for Scala types</p>
+</td>
+<td>com.mongodb.casbah.commons</td>
+<td><ul class="first last simple">
+<li>mongo-java-driver,</li>
+<li>nscala-time,</li>
+<li>slf4j-api,</li>
+<li>slf4j-jcl</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first"><a class="reference external" href="http://mongodb.github.com/casbah/api/#com.mongodb.casbah.query.package?Query DSL">Query DSL</a></p>
+<p><strong>NOTES</strong></p>
+<p class="last">Provides a Scala syntax enhancement
+mode for creating MongoDB query
+objects using an Internal DSL
+supporting Mongo <cite>$ Operators</cite></p>
+</td>
+<td>com.mongodb.casbah.query</td>
+<td>casbah-commons
+along with their
+dependencies
+transitively</td>
+</tr>
+<tr class="row-odd"><td><p class="first"><a class="reference external" href="http://mongodb.github.com/casbah/api#com.mongodb.casbah.gridfs.package?Gridfs">Gridfs</a></p>
+<p><strong>NOTES</strong></p>
+<p class="last">Provides Scala enhanced wrappers
+to MongoDB's GridFS filesystem</p>
+</td>
+<td>com.mongodb.casbah.gridfs</td>
+<td>casbah-commons and casbah-query
+along with their
+dependencies
+transitively</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>We cover the import of each module in their appropriate tutorials, but each
+module has its own <cite>Imports</cite> object which loads all of its necessary code.
+By way of example both of these statements would import the Query DSL:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="c1">// Imports core, which grabs everything including Query DSL</span>
+<span class="k">import</span> <span class="nn">com.mongodb.casbah.Imports._</span>
+<span class="c1">// Imports just the Query DSL along with Commons and its dependencies</span>
+<span class="k">import</span> <span class="nn">com.mongodb.casbah.query.Imports._</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="btnv">
+<ul id="btnvl">
+<li id="btnvpr"><a href="tutorial.html" title="Previous Section: 3. Tutorial: Using Casbah">&lt; &nbsp; 3. Tutorial: Using Casbah</a></li>
+<li id="btnvnx"><a href="changelog.html" title="Next Section: 5. Changelog">5. Changelog &nbsp;&gt;</a></li>
+</ul>
+</div>
+</div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3><a href="index.html">Casbah, Scala Driver</a>
+
+<small><a href="genindex.html">(Index)</a></small>
+
+</h3>
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alternative_install.html">2. Alternative installation methods for Casbah</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">3. Tutorial: Using Casbah</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">4. Casbah Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">5. Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrade.html">6. Upgrade</a></li>
+</ul>
+<h3 style="padding-bottom: 1em;"><a href="http://mongodb.github.com/casbah/current/api/#com.mongodb.casbah.package">API Documentation</a></h3>
+
+<h3>Formats</h3>
+<ul class="this-page-menu">
+<li><a href="http://mongodb.github.com/casbah/current/CasbahDocumentation.epub">ePub</a></li>
+<li><a href="http://mongodb.github.com/casbah/current/CasbahDocumentation.pdf">PDF</a></li>
+</ul>
+<h3 style="padding-bottom: 1em;"><a href="http://www.mongodb.org/about/">MongoDB.org</a></h3>
+<h3 style="padding-bottom: 1em;"><a href="http://docs.mongodb.org/manual/">MongoDB Manual</a></h3>
+<h3 style="padding-bottom: 1em;"><a href="http://docs.mongodb.org/ecosystem/">MongoDB Ecosystem</a></h3>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    <p>
+       &copy; <a href="">Copyright</a> 2010-2013 10gen, Inc. 
+       MongoDB&reg;, Mongo&reg;, and the leaf logo are registered trademarks of 10gen, Inc.
+    </p>
+  </div><script type="text/javascript">
+var _gaq = _gaq || [];
+var pluginUrl = (('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.') + 'google-analytics.com/plugins/ga/inpage_linkid.js';
+_gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+_gaq.push(['_setAccount', 'UA-7301842-13']);
+_gaq.push(['_setDomainName', 'docs.mongodb.org']);
+_gaq.push(['_trackPageview']);
+(function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+        })();
+</script>
+
+<script type="text/javascript">
+document.write(unescape("%3Cscript src='" + document.location.protocol + "//munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script>try { mktoMunchkin("017-HGS-593"); } catch(e) {}</script><script type="text/javascript">
+jQuery.ajax({
+    url: "https://jira.mongodb.org/s/en_US-bxctp1/782/6/1.2.4/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?collectorId=298ba4e7",
+    type: "get",
+    cache: true,
+    dataType: "script"
+});
+window.ATL_JQ_PAGE_PROPS =  {
+"triggerFunction": function(showCollectorDialog) {
+jQuery("#jirafeedback").click(function(e) {e.preventDefault();showCollectorDialog();});
+jQuery("#jirafooter").click(function(e) {e.preventDefault();showCollectorDialog();});
+}};
+</script>
+</body>
+</html>

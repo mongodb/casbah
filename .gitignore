@@ -1,4 +1,5 @@
 .lib
+.idea*
 /casbah-commons
 /casbah-core
 /casbah-query
