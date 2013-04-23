@@ -1,6 +1,11 @@
 Upgrade
 =======
 
+Version 2.6.0
+-------------
+
+No upgrade needed.
+
 Version 2.5.1
 -------------
 

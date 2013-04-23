@@ -51,4 +51,4 @@ Alternative installation methods
 You can install Casbah with maven, ivy or from source - see the
 `alternative install <alternative_install>`_ documentation.
 
-.. |scala_versions| replace:: 2.9.1, 2.9.2 and 2.10.0
+.. |scala_versions| replace:: 2.9.1, 2.9.2, 2.10.0 and 2.10.1
