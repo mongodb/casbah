@@ -11,7 +11,7 @@ Casbah provides improved interfaces to GridFS, Map/Reduce and the core Mongo API
 With version 2.0, Casbah has become an official MongoDB project and will continue to improve the interaction of Scala + MongoDB. Casbah aims to remain fully compatible with the existing Java driver---it does not talk to MongoDB directly, preferring to wrap the Java code.  This means you shouldn't see any wildly unexpected behavior from the underlying Mongo interfaces when a data bug is fixed.
 
 
-The `ScalaDocs for Casbah <api/#com.mongodb.casbah.package>`_ along with SXR cross referenced source are available at the `MongoDB API site <http://api.mongodb.org>`_.
+The ScalaDocs for Casbah along with SXR cross referenced source are available in the API section of the site: `http://mongodb.github.io/casbah/api`_.
 
 
 You may also download this documentation in other formats.
