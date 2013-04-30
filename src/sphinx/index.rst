@@ -23,7 +23,6 @@ You may also download this documentation in other formats.
     :maxdepth: 1
     :numbered:
 
-    `API Docs <http://mongodb.github.io/casbah/api/#com.mongodb.casbah.package>`_
     setting_up
     alternative_install
     tutorial
