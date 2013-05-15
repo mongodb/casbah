@@ -527,7 +527,7 @@ trait MongoCollectionBase extends Logging { self =>
     sort: Option[DBObject] = None,
     limit: Option[Int] = None,
     finalizeFunction: Option[JSFunction] = None,
-    jsScope: Option[String] = None,
+    jsScope: Option[DBObject] = None,
     verbose: Boolean = false): map_reduce.MapReduceResult =
       map_reduce.MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction, output, query, sort, limit, finalizeFunction, jsScope, verbose).toDBObject))
 

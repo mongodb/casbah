@@ -63,7 +63,8 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
     val mapJS = """
       function m() {
-          emit( typeof(this._id) == "number" ? this._id : this._id.getYear(), { count: 1, sum: this.bc10Year })
+          var key = typeof(this._id) == "number" ? this._id : this._id.getYear();
+          emit(key, { count: 1, sum: this.bc10Year })
       }
     """
 
@@ -94,9 +95,6 @@ class MapReduceSpec extends CasbahMutableSpecification {
         "yield_historical.all",
         finalizeFunction = Some(finalizeJS))
 
-      /*log.warn("M/R Result: %s", result)*/
-
-
       result.isError must beFalse
       result.size must beEqualTo(result.raw.expand[Int]("counts.output").getOrElse(-1))
     }
@@ -110,8 +108,6 @@ class MapReduceSpec extends CasbahMutableSpecification {
         finalizeFunction = Some(finalizeJS),
         verbose = true)
 
-      // log.warn("M/R Result: %s", result)
-
       result.isError must beFalse
       result.raw.getAs[String]("result") must beNone
       result.size must beGreaterThan(0)
@@ -120,6 +116,33 @@ class MapReduceSpec extends CasbahMutableSpecification {
       val item = result.next
       item must beDBObject
       item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
+    }
+
+    "Produce results with variable from jsScope" in {
+      val mapJSScoped = """
+        function m() {
+          var key = typeof(this._id) == "number" ? this._id : this._id.getYear()
+          emit(key, { count: 1, sum: this.bc10Year * scopedBoost })
+        }
+      """
+
+      val coll = mongoDB("yield_historical.in")
+      val result = coll.mapReduce(
+        mapJSScoped,
+        reduceJS,
+        MapReduceInlineOutput,
+        finalizeFunction = Some(finalizeJS),
+        jsScope = Some(MongoDBObject("scopedBoost" -> 2)),
+        verbose = true)
+
+      result.isError must beFalse
+      result.raw.getAs[String]("result") must beNone
+      result.size must beGreaterThan(0)
+      result.size must beEqualTo(result.raw.expand[Int]("counts.output").getOrElse(-1))
+
+      val item = result.next
+      item must beDBObject
+      item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 17.104800000000004))
     }
 
     "Produce results for merged output" in new testData {
@@ -143,7 +166,6 @@ class MapReduceSpec extends CasbahMutableSpecification {
       result90s.isError must beFalse
       result90s.raw.getAs[String]("result") must beSome("yield_historical.nineties")
       result90s.size must beGreaterThan(0)
-      // log.warn("Results: %s", result90s.size)
       result90s.size must beEqualTo(result90s.raw.expand[Int]("counts.output").getOrElse(-1))
 
       val cmd00s = MapReduceCommand(
