@@ -35,6 +35,12 @@ class QueryIntegrationSpec extends CasbahMutableSpecification {
 
   implicit val coll = MongoClient()("casbahIntegration")("bareword")
 
+  "Casbah's collection string representation" should {
+    "not read the collection" in {
+      coll.toString must beEqualTo("bareword")
+    }
+  }
+
   "Casbah's DSL Operators" should {
     "Allow handle $set as" in {
       "A single pair" in {

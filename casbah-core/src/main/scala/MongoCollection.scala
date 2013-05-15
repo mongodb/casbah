@@ -883,6 +883,7 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase 
   override def tail = find.skip(1).toIterable
   override def iterator = find
   override def size = count().toInt
+  override def toString = name
 
 }
 
