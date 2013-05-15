@@ -87,7 +87,8 @@ object CasbahBuild extends Build {
     id       = "casbah-commons",
     base     = file("casbah-commons"),
     settings = defaultSettings ++ Seq(
-      libraryDependencies ++= Seq(mongoJavaDriver, slf4j, slf4jJCL)
+      libraryDependencies ++= Seq(mongoJavaDriver, slf4j, slf4jJCL),
+      publishArtifact in (Test, packageBin) := true
     )
   )
 
