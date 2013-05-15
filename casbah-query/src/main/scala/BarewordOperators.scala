@@ -80,6 +80,7 @@ class NestedBarewordListOperator(oper: String) {
  * @see com.mongodb.casbah.Implicits
  */
 trait FluidQueryBarewordOps extends SetOp
+  with SetOnInsertOp
   with UnsetOp
   with IncOp
   with OrOp
@@ -107,6 +108,20 @@ trait ArrayOps extends PushOp
  */
 trait SetOp extends BarewordQueryOperator {
   def $set[A](fields: (String, A)*): DBObject = apply[A]("$set")(fields)
+}
+
+/**
+ * Trait to provide the \$setOnInsert (SetOnInsert) SetOnInsert method as a
+ * bareword operator.
+ *
+ * {{{ \$setOnInsert ("Foo" -> "bar") }}}
+ *
+ * Targets an RValue of (String, Any)* to be converted to a DBObject
+ *
+ * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24set
+ */
+trait SetOnInsertOp extends BarewordQueryOperator {
+  def $setOnInsert[A](fields: (String, A)*): DBObject = apply[A]("$setOnInsert")(fields)
 }
 
 /**

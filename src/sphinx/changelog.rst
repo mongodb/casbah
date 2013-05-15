@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Changes in Version 2.6.X
+------------------------
+
+- Added suport $setOnInsert to the query dsl
+
 Changes in Version 2.6.0
 ------------------------
 

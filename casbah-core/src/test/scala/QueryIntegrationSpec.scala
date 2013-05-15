@@ -53,6 +53,27 @@ class QueryIntegrationSpec extends CasbahMutableSpecification {
       }
     }
 
+    "Allow handle $setOnInsert as" in {
+      "A single pair" in {
+        coll.drop
+        coll.update(MongoDBObject(), $setOnInsert("foo" -> "baz"), true)
+        coll.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
+      }
+      "Multiple pairs" in {
+        val set = $setOnInsert("foo" -> "baz", "x" -> 5.2,
+                               "y" -> 9, "a" -> ("b", "c", "d", "e"))
+        coll.drop
+        coll.update(MongoDBObject(), set, true)
+        coll.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
+      }
+      "Combined with set" in {
+        coll.drop
+        coll.update(MongoDBObject(), $setOnInsert("x" -> 1) ++ $set ("a" -> "b"), true)
+        coll.find(MongoDBObject("x" -> 1)).count must beEqualTo(1)
+        coll.find(MongoDBObject("a" -> "b")).count must beEqualTo(1)
+      }
+    }
+
     "Accept one or many values" in {
       "A single item" in {
         coll.drop

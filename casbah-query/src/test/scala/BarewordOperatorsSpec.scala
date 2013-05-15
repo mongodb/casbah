@@ -50,6 +50,22 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
     }
   }
 
+  "Casbah's DSL $setOnInsert Operator" should {
+    "Accept one or many pairs of values" in {
+      "A single pair" in {
+        val set = $setOnInsert("foo" -> "bar")
+        set must haveEntry("$setOnInsert.foo" -> "bar")
+      }
+      "Multiple pairs" in {
+        val set = $setOnInsert("foo" -> "bar", "x" -> 5.2, "y" -> 9, "a" -> ("b", "c", "d", "e"))
+        set must haveEntry("$setOnInsert.foo" -> "bar")
+        set must haveEntry("$setOnInsert.x" -> 5.2)
+        set must haveEntry("$setOnInsert.y" -> 9)
+        set must haveEntry("$setOnInsert.a" -> ("b", "c", "d", "e"))
+      }
+    }
+  }
+
   "Casbah's DSL $unset Operator" should {
     "Accept one or many values" in {
       "A single item" in {
