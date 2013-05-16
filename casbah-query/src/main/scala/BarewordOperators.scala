@@ -183,8 +183,8 @@ trait PushOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pushAll
  */
 trait PushAllOp extends BarewordQueryOperator {
-  def $pushAll[A : AsIterable](args: (String, A)*): DBObject =
-    apply("$pushAll")(Seq(args.map(z => z._1 -> AsIterable[A].asIterable(z._2)) :_*))
+  def $pushAll[A : AsQueryParam](args: (String, A)*): DBObject =
+    apply("$pushAll")(Seq(args.map(z => z._1 -> AsQueryParam[A].asQueryParam(z._2)) :_*))
 }
 
 /*
@@ -272,8 +272,8 @@ trait PullOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pullAll
  */
 trait PullAllOp extends BarewordQueryOperator {
-  def $pullAll[A : AsIterable](args: (String, A)*): DBObject =
-    apply("$pullAll")(Seq(args.map(z => z._1 -> AsIterable[A].asIterable(z._2)): _*))
+  def $pullAll[A : AsQueryParam](args: (String, A)*): DBObject =
+    apply("$pullAll")(Seq(args.map(z => z._1 -> AsQueryParam[A].asQueryParam(z._2)): _*))
 }
 
 /**

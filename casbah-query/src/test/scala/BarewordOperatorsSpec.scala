@@ -174,10 +174,32 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         push must haveListEntry("$pushAll.foo", List("bar", "baz", "x", "y"))
       }
 
+      "Handle iterable types" in {
+        val tuple = $pushAll("seq" -> (4, 5, 6))
+        val seq   = $pushAll("seq" -> Seq(4,5,6))
+        val list  = $pushAll("seq" -> List(4, 5, 6))
+        val array = $pushAll("seq" -> Array(4, 5, 6))
+
+        tuple must beEqualTo(seq)
+        seq must beEqualTo(list)
+        list must beEqualTo(array)
+      }
+
       "Accept multiple value lists" in {
         val push = $pushAll("foo" -> ("bar", "baz", "x", "y"), "n" -> (5, 10, 12, 238))
         push must haveListEntry("$pushAll.foo", List("bar", "baz", "x", "y"))
         push must haveListEntry("$pushAll.n", List(5, 10, 12, 238))
+      }
+
+      "Handle multiple iterable types" in {
+        val tuple = $pushAll("1" -> (4, 5, 6), "2" -> (7, 8, 9))
+        val seq   = $pushAll("1" -> Seq(4,5,6), "2" -> Seq(7, 8, 9))
+        val list  = $pushAll("1" -> List(4, 5, 6), "2" -> List(7, 8, 9))
+        val array = $pushAll("1" -> Array(4, 5, 6), "2" -> Array(7, 8, 9))
+
+        tuple must beEqualTo(seq)
+        seq must beEqualTo(list)
+        list must beEqualTo(array)
       }
     }
 
@@ -250,10 +272,31 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         pull must haveEntry("$pullAll.foo" -> Seq("bar", "baz", "x", "y"))
       }
 
+      "Handle iterable types" in {
+        val tuple = $pullAll("seq" -> (4, 5, 6))
+        val seq   = $pullAll("seq" -> Seq(4,5,6))
+        val list  = $pullAll("seq" -> List(4, 5, 6))
+        val array = $pullAll("seq" -> Array(4, 5, 6))
+
+        tuple must beEqualTo(seq)
+        seq must beEqualTo(list)
+        list must beEqualTo(array)
+      }
+
       "Accept multiple value lists" in {
         val pull = $pullAll("foo" -> ("bar", "baz", "x", "y"), "n" -> (5, 10, 12, 238))
         pull must haveEntry("$pullAll.foo" -> Seq("bar", "baz", "x", "y"))
         pull must haveEntry("$pullAll.n" -> Seq(5, 10, 12, 238))
+      }
+      "Handle multiple iterable types" in {
+        val tuple = $pullAll("1" -> (4, 5, 6), "2" -> (7, 8, 9))
+        val seq   = $pullAll("1" -> Seq(4,5,6), "2" -> Seq(7, 8, 9))
+        val list  = $pullAll("1" -> List(4, 5, 6), "2" -> List(7, 8, 9))
+        val array = $pullAll("1" -> Array(4, 5, 6), "2" -> Array(7, 8, 9))
+
+        tuple must beEqualTo(seq)
+        seq must beEqualTo(list)
+        list must beEqualTo(array)
       }
     }
 

@@ -112,7 +112,6 @@ trait Imports extends query.BaseImports
 
 trait BaseImports {
   val GeoCoords = com.mongodb.casbah.query.dsl.GeoCoords
-  val AsIterable = query.AsIterable
   val AsQueryParam = query.AsQueryParam
 }
 
@@ -122,7 +121,6 @@ trait TypeImports {
   type ValidDateType[T] = query.ValidDateType[T]
   type ValidDateOrNumericType[T] = query.ValidDateOrNumericType[T]
   type ValidBarewordExpressionArgType[T] = query.ValidBarewordExpressionArgType[T]
-  type AsIterable[T] = query.AsIterable[T]
   type AsQueryParam[T] = query.AsQueryParam[T]
   // type AggregationPipeline = dsl.aggregation.AggregationPipeline
 }
@@ -179,26 +177,6 @@ trait ValidBarewordExpressionArgTypeHolder {
   implicit object ConcreteDBObjectOk extends ConcreteDBObject
   implicit object CoreOperatorResultObjOk extends CoreOperatorResultObj
 }
-
-
-@annotation.implicitNotFound("${A} is not iterable.")
-trait AsIterable[A]{
-  def asIterable(a:A):Iterable[_]
-}
-
-
-object AsIterable {
-  def apply[A](implicit asIterable:AsIterable[A]) = asIterable
-
-  implicit def iterable[A <: Iterable[_]]:AsIterable[A] = new AsIterable[A]{
-    def asIterable(a: A) = a
-  }
-
-  implicit def product[A <: Product]:AsIterable[A] = new AsIterable[A]{
-    def asIterable(a: A) = a.productIterator.toIterable
-  }
-}
-
 
 @annotation.implicitNotFound("${A} is not a valid query parameter.")
 trait AsQueryParam[A]{
