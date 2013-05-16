@@ -3,6 +3,7 @@ Changelog
 
 Changes in Version 2.6.X
 ------------------------
+- Fixed MongoCollection string representation (SCALA-96)
 - Fixed support for jsScope (SCALA-43) (#44)
 - Publish casbah.commons test helpers
 - Added suport $setOnInsert to the query dsl
