@@ -3,7 +3,7 @@ Changelog
 
 Changes in Version 2.6.X
 ------------------------
-- Improved $pushAll and $pullAll casting of iterables (SCALA-54)
+- Fixed $pushAll and $pullAll casting of iterables (SCALA-54)
 - Fixed MongoCollection string representation (SCALA-96)
 - Fixed support for jsScope (SCALA-43) (#44)
 - Publish casbah.commons test helpers
