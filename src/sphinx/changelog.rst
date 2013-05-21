@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Changes in Version 2.6.X
+Changes in Version 2.6.0
 ------------------------
 - Fixed $pushAll and $pullAll casting of iterables (SCALA-54)
 - Fixed MongoCollection string representation (SCALA-96)
