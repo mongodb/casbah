@@ -1,332 +1,322 @@
 [BarewordOperators.scala]
- 10286 term com.mongodb.casbah.query.dsl.PushAllOp.$pushAll(2d249f1210709a4e09b44affec8da6bad66aec92)
  26698 term com.mongodb.casbah.query.dsl.NestedBarewordListOperator.apply(33cc6cd0145f9a4f69483e085efa8997f2f7677e)
- 29002 term com.mongodb.casbah.query.dsl.AddToSetOp.$anon.$each(3327ebe8151b1e462786d0c8a17710ed20962cb7)
+ 29536 term com.mongodb.casbah.query.dsl.AddToSetOp.$anon.$each(3327ebe8151b1e462786d0c8a17710ed20962cb7)
+ 10286 term com.mongodb.casbah.query.dsl.PushAllOp.$pushAll(ac6cc218514fe142d27f069576f14369a0cc3daf)
  10270 term com.mongodb.casbah.query.dsl.IncOp.$inc(a313c17781562d9b0b5fb0c4281ad9c3263dd548)
- 10264 term com.mongodb.casbah.query.dsl.SetOp.$set(71a47525b2fdc83e2a7cd21f6df0404a2c61c5e6)
+ 10260 term com.mongodb.casbah.query.dsl.SetOp.$set(71a47525b2fdc83e2a7cd21f6df0404a2c61c5e6)
  10306 term com.mongodb.casbah.query.dsl.PullOp.$pull(45e802c3dd3376f551d2a5a6c48a1803abe2448d)
  10276 term com.mongodb.casbah.query.dsl.AndOp.$and(fd8fb3afeef9d549b12cfc7042f67f9c8cfc3630)
- 29001 term com.mongodb.casbah.query.dsl.AddToSetOp.$anon.$each(43880d1d9900b7b51a8764ff1d6732d85cc0f5d5)
- 9931 type com.mongodb.casbah.query.dsl.PushAllOp
- 9939 type com.mongodb.casbah.query.dsl.NorOp
+ 9935 type com.mongodb.casbah.query.dsl.PushAllOp
+ 29535 term com.mongodb.casbah.query.dsl.AddToSetOp.$anon.$each(43880d1d9900b7b51a8764ff1d6732d85cc0f5d5)
+ 9943 type com.mongodb.casbah.query.dsl.NorOp
  10302 term com.mongodb.casbah.query.dsl.PullOp.$pull(71a47525b2fdc83e2a7cd21f6df0404a2c61c5e6)
  10278 term com.mongodb.casbah.query.dsl.RenameOp.$rename(71a47525b2fdc83e2a7cd21f6df0404a2c61c5e6)
- 9940 type com.mongodb.casbah.query.dsl.BitOp
+ 9944 type com.mongodb.casbah.query.dsl.BitOp
  10290 term com.mongodb.casbah.query.dsl.AddToSetOp.$addToSet(fde5344dc8c8959a42bbe73e45f9292a6057dfc3)
  10296 term com.mongodb.casbah.query.dsl.AddToSetOp.$addToSet(436bf2d9aac61c0ae75ed8404b18af0f109f26fb)
- 9934 type com.mongodb.casbah.query.dsl.PullOp
- 9933 type com.mongodb.casbah.query.dsl.PopOp
+ 9938 type com.mongodb.casbah.query.dsl.PullOp
+ 9937 type com.mongodb.casbah.query.dsl.PopOp
+ 10264 term com.mongodb.casbah.query.dsl.SetOnInsertOp.$setOnInsert(71a47525b2fdc83e2a7cd21f6df0404a2c61c5e6)
  10268 term com.mongodb.casbah.query.dsl.UnsetOp.$unset(a65cabbd16d0e2ac05f5c94995251f2ce2a570ac)
- 9935 type com.mongodb.casbah.query.dsl.PullAllOp
- 9930 type com.mongodb.casbah.query.dsl.PushOp
- 30480 term com.mongodb.casbah.query.dsl.BitOp.$anon.or(8eebc361e0ff8b6262a71a3f6ff7607a3f541541)
+ 9939 type com.mongodb.casbah.query.dsl.PullAllOp
+ 9934 type com.mongodb.casbah.query.dsl.PushOp
+ 31006 term com.mongodb.casbah.query.dsl.BitOp.$anon.or(8eebc361e0ff8b6262a71a3f6ff7607a3f541541)
  10312 term com.mongodb.casbah.query.dsl.NorOp.$nor(fd8fb3afeef9d549b12cfc7042f67f9c8cfc3630)
- 9927 type com.mongodb.casbah.query.dsl.SetOp
+ 9930 type com.mongodb.casbah.query.dsl.SetOp
  10274 term com.mongodb.casbah.query.dsl.OrOp.$or(fd8fb3afeef9d549b12cfc7042f67f9c8cfc3630)
- 10308 term com.mongodb.casbah.query.dsl.PullAllOp.$pullAll(2b09b640ae3fc8e4d1acb696f6d79f33a87d686f)
- 30476 term com.mongodb.casbah.query.dsl.BitOp.$anon.op(1202f38fdf03d1e887bc487d65133044c3ddc325)
- 9923 type com.mongodb.casbah.query.dsl.BarewordQueryOperator
+ 10308 term com.mongodb.casbah.query.dsl.PullAllOp.$pullAll(d8ec4bfeb9ef977ddccd320623d3c7ad943a0745)
+ 31002 term com.mongodb.casbah.query.dsl.BitOp.$anon.op(1202f38fdf03d1e887bc487d65133044c3ddc325)
+ 9926 type com.mongodb.casbah.query.dsl.BarewordQueryOperator
  10293 term com.mongodb.casbah.query.dsl.AddToSetOp.$addToSet(71a47525b2fdc83e2a7cd21f6df0404a2c61c5e6)
  10298 term com.mongodb.casbah.query.dsl.PopOp.$pop(1f4c28072a4fa1805bdec05adae54bbbc6720bc7)
  10314 term com.mongodb.casbah.query.dsl.BitOp.$bit(8b73a3a051e39c66dec08d509a26aed58e615ef6)
  26696 term com.mongodb.casbah.query.dsl.NestedBarewordListOperator.oper
- 9924 type com.mongodb.casbah.query.dsl.NestedBarewordListOperator
- 9929 type com.mongodb.casbah.query.dsl.IncOp
+ 9933 type com.mongodb.casbah.query.dsl.IncOp
+ 9927 type com.mongodb.casbah.query.dsl.NestedBarewordListOperator
  10305 term com.mongodb.casbah.query.dsl.PullOp.$pull(84553885c06b26f5d282ec837a85614859ed3b16)
- 30477 term com.mongodb.casbah.query.dsl.BitOp.$anon.and(872ca7e8e2cf55c5d8ace66beb7bb21174ad5ccc)
- 9938 type com.mongodb.casbah.query.dsl.RenameOp
- 9932 type com.mongodb.casbah.query.dsl.AddToSetOp
- 9926 type com.mongodb.casbah.query.dsl.ArrayOps
- 10260 term com.mongodb.casbah.query.dsl.BarewordQueryOperator.apply(b451aadef291fa161e0df0da4e30958cfd78f0b6)
+ 31003 term com.mongodb.casbah.query.dsl.BitOp.$anon.and(872ca7e8e2cf55c5d8ace66beb7bb21174ad5ccc)
+ 9942 type com.mongodb.casbah.query.dsl.RenameOp
+ 9936 type com.mongodb.casbah.query.dsl.AddToSetOp
+ 9929 type com.mongodb.casbah.query.dsl.ArrayOps
+ 10256 term com.mongodb.casbah.query.dsl.BarewordQueryOperator.apply(b451aadef291fa161e0df0da4e30958cfd78f0b6)
  26701 term com.mongodb.casbah.query.dsl.NestedBarewordListOperator.apply(a4cbb1e24700d26d4be51d862ef737910028a5ef)
- 9925 type com.mongodb.casbah.query.dsl.FluidQueryBarewordOps
- 9928 type com.mongodb.casbah.query.dsl.UnsetOp
- 9936 type com.mongodb.casbah.query.dsl.AndOp
+ 9928 type com.mongodb.casbah.query.dsl.FluidQueryBarewordOps
+ 9932 type com.mongodb.casbah.query.dsl.UnsetOp
+ 9940 type com.mongodb.casbah.query.dsl.AndOp
+ 9931 type com.mongodb.casbah.query.dsl.SetOnInsertOp
  10282 term com.mongodb.casbah.query.dsl.PushOp.$push(71a47525b2fdc83e2a7cd21f6df0404a2c61c5e6)
- 9937 type com.mongodb.casbah.query.dsl.OrOp
- 29000 term com.mongodb.casbah.query.dsl.AddToSetOp.$anon.op(4612846a6da60719e3f6c2fd0c334699af2a6ecc)
+ 9941 type com.mongodb.casbah.query.dsl.OrOp
+ 29534 term com.mongodb.casbah.query.dsl.AddToSetOp.$anon.op(4612846a6da60719e3f6c2fd0c334699af2a6ecc)
 [CoreOperators.scala]
- 32451 term com.mongodb.casbah.query.dsl.BSONType.operator
+ 32416 term com.mongodb.casbah.query.dsl.BSONType.operator
  23184 term com.mongodb.casbah.query.dsl.WhereOp.$where(932f169cdf332daf3f66c69156c410ad8b26cf95)
- 9960 type com.mongodb.casbah.query.dsl.LessThanEqualOp
+ 9964 type com.mongodb.casbah.query.dsl.LessThanEqualOp
  23210 term com.mongodb.casbah.query.dsl.GeoNearOp.oper
  23172 term com.mongodb.casbah.query.dsl.ExistsOp.oper
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.apply(4ab172eda77bf268db311cfc243b38066803b184)
- 32000 term com.mongodb.casbah.query.dsl.NotOp.$anon.field
- 32463 term com.mongodb.casbah.query.dsl.BSONType.BSONDBList
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.productArity(f94e34279774a33b0e784d726d315f41bbfccb90)
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.hashCode(c663c7b3bae9762feb0455bde7533db4239310c8)
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.apply(4ab172eda77bf268db311cfc243b38066803b184)
+ 31965 term com.mongodb.casbah.query.dsl.NotOp.$anon.field
+ 32428 term com.mongodb.casbah.query.dsl.BSONType.BSONDBList
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.productArity(f94e34279774a33b0e784d726d315f41bbfccb90)
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.hashCode(c663c7b3bae9762feb0455bde7533db4239310c8)
  23220 term com.mongodb.casbah.query.dsl.GeoWithinOps.oper
  23159 term com.mongodb.casbah.query.dsl.ModuloOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
- 9984 type com.mongodb.casbah.query.dsl.GeoNearOp
+ 9988 type com.mongodb.casbah.query.dsl.GeoNearOp
  23167 term com.mongodb.casbah.query.dsl.SizeOp.oper
- 9985 type com.mongodb.casbah.query.dsl.GeoNearSphereOp
+ 9989 type com.mongodb.casbah.query.dsl.GeoNearSphereOp
  23123 term com.mongodb.casbah.query.dsl.LessThanOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.copy(4ab172eda77bf268db311cfc243b38066803b184)
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.copy(4ab172eda77bf268db311cfc243b38066803b184)
  23182 term com.mongodb.casbah.query.dsl.WhereOp.oper
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords
  23170 term com.mongodb.casbah.query.dsl.SizeOp.$size(7d445f897397da5bd9641aa1f41655aea4cd65b4)
  22647 term com.mongodb.casbah.query.dsl.GeoCoords.toList(2ee234cd40e2bc6bd8c339139c74786d084ea254)
  23222 term com.mongodb.casbah.query.dsl.GeoWithinOps.$within(5f324a80dff8324db91e9cb52ad95fbde259abd0)
- 9970 type com.mongodb.casbah.query.dsl.NotOp
- 9963 type com.mongodb.casbah.query.dsl.InOp
+ 9974 type com.mongodb.casbah.query.dsl.NotOp
+ 9967 type com.mongodb.casbah.query.dsl.InOp
  23135 term com.mongodb.casbah.query.dsl.GreaterThanOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
- 32471 term com.mongodb.casbah.query.dsl.BSONType.BSONJDKDate
- 9977 type com.mongodb.casbah.query.dsl.TypeOp
+ 32436 term com.mongodb.casbah.query.dsl.BSONType.BSONJDKDate
+ 9981 type com.mongodb.casbah.query.dsl.TypeOp
  23199 term com.mongodb.casbah.query.dsl.TypeOp.$type(0a9b4d5d3ffa33eafd6cc27a915f3b5f340d8ab6)
  22659 term com.mongodb.casbah.query.dsl.GeoCoords.copy$default$1(00fc53e30a1ab5e5101cdbfcd999835af36e44bb)
  22648 term com.mongodb.casbah.query.dsl.GeoCoords.toString(612e55791800ba754104ae1f138b554bae5d18c7)
- 32473 term com.mongodb.casbah.query.dsl.BSONType.BSONJodaDateTime
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.readResolve(4bd7809a6ae8a67ae4d3e011f542aec660ffea74)
- 9971 type com.mongodb.casbah.query.dsl.SliceOp
- 32000 term com.mongodb.casbah.query.dsl.NotOp.$anon.field(e30a80d2b4700276248ce5925d94ebb97783d05d)
- 9959 type com.mongodb.casbah.query.dsl.LessThanOp
+ 32438 term com.mongodb.casbah.query.dsl.BSONType.BSONJodaDateTime
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.readResolve(4bd7809a6ae8a67ae4d3e011f542aec660ffea74)
+ 9975 type com.mongodb.casbah.query.dsl.SliceOp
+ 31965 term com.mongodb.casbah.query.dsl.NotOp.$anon.field(e30a80d2b4700276248ce5925d94ebb97783d05d)
+ 9963 type com.mongodb.casbah.query.dsl.LessThanOp
  23153 term com.mongodb.casbah.query.dsl.NotInOp.oper
- 9961 type com.mongodb.casbah.query.dsl.GreaterThanOp
- 9969 type com.mongodb.casbah.query.dsl.WhereOp
- 33630 term com.mongodb.casbah.query.dsl.GeoWithinOps.$anon.$center(ba60786da4657ae32d7d9df44df7c7b7c8f4ad93)
- 33633 term com.mongodb.casbah.query.dsl.GeoWithinOps.$anon.$centerSphere(fa6a425e7d01fa5b27c7de8b032f3055c4dc0340)
+ 9965 type com.mongodb.casbah.query.dsl.GreaterThanOp
+ 9973 type com.mongodb.casbah.query.dsl.WhereOp
+ 33595 term com.mongodb.casbah.query.dsl.GeoWithinOps.$anon.$center(ba60786da4657ae32d7d9df44df7c7b7c8f4ad93)
+ 33598 term com.mongodb.casbah.query.dsl.GeoWithinOps.$anon.$centerSphere(fa6a425e7d01fa5b27c7de8b032f3055c4dc0340)
  23194 term com.mongodb.casbah.query.dsl.SliceOp.$slice(662b67d7829e704bffd3a334476e111c64d2e4c5)
- 32481 term com.mongodb.casbah.query.dsl.BSONType.BSON32BitInt
+ 32446 term com.mongodb.casbah.query.dsl.BSONType.BSON32BitInt
  23176 term com.mongodb.casbah.query.dsl.AllOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23197 term com.mongodb.casbah.query.dsl.TypeOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23217 term com.mongodb.casbah.query.dsl.GeoNearSphereOp.$nearSphere(c9acfe66a8c6791f4844a2e66536e5474e3ded6f)
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.unapply(9488a892dc5613e96071270463283b36c2059d92)
- 9981 type com.mongodb.casbah.query.dsl.GeoCoords.B
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.productPrefix(e30a80d2b4700276248ce5925d94ebb97783d05d)
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.unapply(9488a892dc5613e96071270463283b36c2059d92)
+ 9985 type com.mongodb.casbah.query.dsl.GeoCoords.B
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.productPrefix(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23147 term com.mongodb.casbah.query.dsl.InOp.oper
  23113 term com.mongodb.casbah.query.dsl.NotEqualsOp.oper
- 9953 type com.mongodb.casbah.query.dsl.ValueTestFluidQueryOperators
+ 9957 type com.mongodb.casbah.query.dsl.ValueTestFluidQueryOperators
  23195 term com.mongodb.casbah.query.dsl.SliceOp.$slice(76d7f37e25778a7178eeb1e585374054fb2de2e3)
- 33629 term com.mongodb.casbah.query.dsl.GeoWithinOps.$anon.$box(8b0c1f48c86e512e7b06b55ab35704b1c4aa0818)
+ 33594 term com.mongodb.casbah.query.dsl.GeoWithinOps.$anon.$box(8b0c1f48c86e512e7b06b55ab35704b1c4aa0818)
  23176 term com.mongodb.casbah.query.dsl.AllOp.oper
  23131 term com.mongodb.casbah.query.dsl.LessThanEqualOp.$lte(2c9cf91cf2f8fd7b9ce66b8ca27aa96df877ddaa)
  23213 type com.mongodb.casbah.query.dsl.GeoNearOp.NearOpWrapper
  23188 term com.mongodb.casbah.query.dsl.NotOp.$not(f3c3f804355d3c34dfc308afc83e897e9cd0f8e1)
- 9952 type com.mongodb.casbah.query.dsl.FluidQueryOperators
- 34000 type com.mongodb.casbah.query.dsl.GeoCoords
+ 9956 type com.mongodb.casbah.query.dsl.FluidQueryOperators
+ 33965 type com.mongodb.casbah.query.dsl.GeoCoords
  23206 term com.mongodb.casbah.query.dsl.ElemMatchOp.$elemMatch(7754cf0498de8dfe469b883799e76c4c10b2b558)
  23111 term com.mongodb.casbah.query.dsl.QueryOperator.queryOp(cf66e7909b23aef027abe5606ead2a159c7a8401)
- 30696 term com.mongodb.casbah.query.dsl.QueryExpressionObject.apply(0ddd985d59627f8f85bc2aa60d2c0351de542866)
- 9967 type com.mongodb.casbah.query.dsl.SizeOp
- 32469 term com.mongodb.casbah.query.dsl.BSONType.BSONBoolean
+ 31222 term com.mongodb.casbah.query.dsl.QueryExpressionObject.apply(0ddd985d59627f8f85bc2aa60d2c0351de542866)
+ 9971 type com.mongodb.casbah.query.dsl.SizeOp
+ 32434 term com.mongodb.casbah.query.dsl.BSONType.BSONBoolean
  23149 term com.mongodb.casbah.query.dsl.InOp.$in(6d78fcd8e404a7da9d678bd78c00b72225a303df)
- 9964 type com.mongodb.casbah.query.dsl.NotInOp
- 33627 term com.mongodb.casbah.query.dsl.GeoWithinOps.$anon.field
+ 9968 type com.mongodb.casbah.query.dsl.NotInOp
+ 33592 term com.mongodb.casbah.query.dsl.GeoWithinOps.$anon.field
  23169 term com.mongodb.casbah.query.dsl.SizeOp.$size(662b67d7829e704bffd3a334476e111c64d2e4c5)
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.productElement(5b2b4cddffd76808b0bace3aae3e212e44a7e4d8)
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.productElement(5b2b4cddffd76808b0bace3aae3e212e44a7e4d8)
  23159 term com.mongodb.casbah.query.dsl.ModuloOp.oper
- 32461 term com.mongodb.casbah.query.dsl.BSONType.DBList
+ 32426 term com.mongodb.casbah.query.dsl.BSONType.DBList
  23153 term com.mongodb.casbah.query.dsl.NotInOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23197 term com.mongodb.casbah.query.dsl.TypeOp.oper
- 9968 type com.mongodb.casbah.query.dsl.ExistsOp
+ 9972 type com.mongodb.casbah.query.dsl.ExistsOp
  23189 term com.mongodb.casbah.query.dsl.NotOp.$not(1c5a6b86329f510fe007bf905f4429c0cdc47d01)
- 9958 type com.mongodb.casbah.query.dsl.NotEqualsOp
+ 9962 type com.mongodb.casbah.query.dsl.NotEqualsOp
  23267 term com.mongodb.casbah.query.dsl.QueryExpressionObject.field(3bf7c90be758f5b946ae171b872e4a2ff5affba6)
  23215 term com.mongodb.casbah.query.dsl.GeoNearSphereOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23210 term com.mongodb.casbah.query.dsl.GeoNearOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
- 32485 term com.mongodb.casbah.query.dsl.BSONType.BSONSQLTimestamp
+ 32450 term com.mongodb.casbah.query.dsl.BSONType.BSONSQLTimestamp
  22659 term com.mongodb.casbah.query.dsl.GeoCoords.lat
  22659 term com.mongodb.casbah.query.dsl.GeoCoords.lat(8817d771030983eb2759f83f0c889a16497efa7f)
  23135 term com.mongodb.casbah.query.dsl.GreaterThanOp.oper
  23182 term com.mongodb.casbah.query.dsl.WhereOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
- 32453 term com.mongodb.casbah.query.dsl.BSONType.BSONDouble
+ 32418 term com.mongodb.casbah.query.dsl.BSONType.BSONDouble
  23161 term com.mongodb.casbah.query.dsl.ModuloOp.$mod(79c5dfe4ba03960c615d6055fecbc8c201805011)
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.canEqual(65b13bc174ccce50a3050720fb1f6f6ecc7a67db)
- 30729 term com.mongodb.casbah.query.dsl.QueryExpressionObject.$anon.field(8817d771030983eb2759f83f0c889a16497efa7f)
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.canEqual(65b13bc174ccce50a3050720fb1f6f6ecc7a67db)
+ 31255 term com.mongodb.casbah.query.dsl.QueryExpressionObject.$anon.field(8817d771030983eb2759f83f0c889a16497efa7f)
  23123 term com.mongodb.casbah.query.dsl.LessThanOp.oper
- 32455 term com.mongodb.casbah.query.dsl.BSONType.BSONString
+ 32420 term com.mongodb.casbah.query.dsl.BSONType.BSONString
  23186 term com.mongodb.casbah.query.dsl.NotOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23141 term com.mongodb.casbah.query.dsl.GreaterThanEqualOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  22660 term com.mongodb.casbah.query.dsl.GeoCoords.lon
- 32457 term com.mongodb.casbah.query.dsl.BSONType.BSONObject
+ 32422 term com.mongodb.casbah.query.dsl.BSONType.BSONObject
  23137 term com.mongodb.casbah.query.dsl.GreaterThanOp.$gt(13fff8d386072ea5d3042bc30dee80e50e9cafca)
- 9974 type com.mongodb.casbah.query.dsl.BSONType.A
- 32477 term com.mongodb.casbah.query.dsl.BSONType.BSONRegex
- 9965 type com.mongodb.casbah.query.dsl.AllOp
- 9980 type com.mongodb.casbah.query.dsl.GeoCoords.A
+ 9978 type com.mongodb.casbah.query.dsl.BSONType.A
+ 32442 term com.mongodb.casbah.query.dsl.BSONType.BSONRegex
+ 9969 type com.mongodb.casbah.query.dsl.AllOp
+ 9984 type com.mongodb.casbah.query.dsl.GeoCoords.A
  23192 term com.mongodb.casbah.query.dsl.SliceOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23113 term com.mongodb.casbah.query.dsl.NotEqualsOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23200 term com.mongodb.casbah.query.dsl.TypeOp.$type(f35f90ba7af0bad2e282268e10553769781bfb24)
  23143 term com.mongodb.casbah.query.dsl.GreaterThanEqualOp.$gte(cc621dc25d48118c81790a5e5940367b45e1b5b8)
- 9978 type com.mongodb.casbah.query.dsl.GeospatialOps
- 9966 type com.mongodb.casbah.query.dsl.ModuloOp
- 32465 term com.mongodb.casbah.query.dsl.BSONType.BSONBinary
- 33364 term com.mongodb.casbah.query.dsl.GeoNearOp.NearOpWrapper.$maxDistance(3aef31f61aba1e790d0f30ffffe002221eb0bf54)
+ 9982 type com.mongodb.casbah.query.dsl.GeospatialOps
+ 9970 type com.mongodb.casbah.query.dsl.ModuloOp
+ 32430 term com.mongodb.casbah.query.dsl.BSONType.BSONBinary
+ 33329 term com.mongodb.casbah.query.dsl.GeoNearOp.NearOpWrapper.$maxDistance(3aef31f61aba1e790d0f30ffffe002221eb0bf54)
  23172 term com.mongodb.casbah.query.dsl.ExistsOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
- 9973 type com.mongodb.casbah.query.dsl.BSONType
+ 9977 type com.mongodb.casbah.query.dsl.BSONType
  23190 term com.mongodb.casbah.query.dsl.NotOp.$not(a278a9332d14d5e0f200448d9408c5e218b8c1af)
  22660 term com.mongodb.casbah.query.dsl.GeoCoords.lon(07895a10593cb0056635193c05cd337a296e578d)
- 33362 term com.mongodb.casbah.query.dsl.GeoNearOp.NearOpWrapper.coords
- 9972 type com.mongodb.casbah.query.dsl.ElemMatchOp
+ 33327 term com.mongodb.casbah.query.dsl.GeoNearOp.NearOpWrapper.coords
+ 9976 type com.mongodb.casbah.query.dsl.ElemMatchOp
  23167 term com.mongodb.casbah.query.dsl.SizeOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23215 term com.mongodb.casbah.query.dsl.GeoNearSphereOp.oper
- 9957 type com.mongodb.casbah.query.dsl.QueryOperator
- 9962 type com.mongodb.casbah.query.dsl.GreaterThanEqualOp
- 9954 type com.mongodb.casbah.query.dsl.QueryExpressionObject
- 32479 term com.mongodb.casbah.query.dsl.BSONType.BSONSymbol
+ 9961 type com.mongodb.casbah.query.dsl.QueryOperator
+ 9966 type com.mongodb.casbah.query.dsl.GreaterThanEqualOp
+ 9958 type com.mongodb.casbah.query.dsl.QueryExpressionObject
+ 32444 term com.mongodb.casbah.query.dsl.BSONType.BSONSymbol
  23212 term com.mongodb.casbah.query.dsl.GeoNearOp.$near(247d7e0914fd876e9584703cd450912159f3e982)
  23204 term com.mongodb.casbah.query.dsl.ElemMatchOp.oper
  23141 term com.mongodb.casbah.query.dsl.GreaterThanEqualOp.oper
- 32475 term com.mongodb.casbah.query.dsl.BSONType.BSONNull
- 9975 term com.mongodb.casbah.query.dsl.BSONType
+ 32440 term com.mongodb.casbah.query.dsl.BSONType.BSONNull
+ 9979 term com.mongodb.casbah.query.dsl.BSONType
  23125 term com.mongodb.casbah.query.dsl.LessThanOp.$lt(41ccdbeb4d855f913cc3f9f1f1eca3a33e91ec96)
- 32467 term com.mongodb.casbah.query.dsl.BSONType.BSONObjectId
- 32459 term com.mongodb.casbah.query.dsl.BSONType.DBObject
+ 32432 term com.mongodb.casbah.query.dsl.BSONType.BSONObjectId
+ 32424 term com.mongodb.casbah.query.dsl.BSONType.DBObject
  23192 term com.mongodb.casbah.query.dsl.SliceOp.oper
  22660 term com.mongodb.casbah.query.dsl.GeoCoords.copy$default$2(3ccb5386f8bd9f9e23209d20b19e9331277d2f74)
  23115 term com.mongodb.casbah.query.dsl.NotEqualsOp.$ne(9dd04a7dc8e09d2b75c37171850e8be21271aca8)
  23147 term com.mongodb.casbah.query.dsl.InOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23204 term com.mongodb.casbah.query.dsl.ElemMatchOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
- 33627 term com.mongodb.casbah.query.dsl.GeoWithinOps.$anon.field(e30a80d2b4700276248ce5925d94ebb97783d05d)
+ 33592 term com.mongodb.casbah.query.dsl.GeoWithinOps.$anon.field(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23220 term com.mongodb.casbah.query.dsl.GeoWithinOps.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23174 term com.mongodb.casbah.query.dsl.ExistsOp.$exists(6bf6886f469fc51d530c4185a5291435385f9106)
- 30729 term com.mongodb.casbah.query.dsl.QueryExpressionObject.$anon.field
+ 31255 term com.mongodb.casbah.query.dsl.QueryExpressionObject.$anon.field
  23129 term com.mongodb.casbah.query.dsl.LessThanEqualOp.oper(e30a80d2b4700276248ce5925d94ebb97783d05d)
  23186 term com.mongodb.casbah.query.dsl.NotOp.oper
  23155 term com.mongodb.casbah.query.dsl.NotInOp.$nin(26be2bc7b76b2c8a2690546c494e8550e2f3a353)
- 32483 term com.mongodb.casbah.query.dsl.BSONType.BSON64BitInt
+ 32448 term com.mongodb.casbah.query.dsl.BSONType.BSON64BitInt
  23178 term com.mongodb.casbah.query.dsl.AllOp.$all(4cfe848ea5c89bcb4ebf140d469856018ab74978)
- 9955 term com.mongodb.casbah.query.dsl.QueryExpressionObject
- 9986 type com.mongodb.casbah.query.dsl.GeoWithinOps
+ 9959 term com.mongodb.casbah.query.dsl.QueryExpressionObject
+ 9990 type com.mongodb.casbah.query.dsl.GeoWithinOps
  23129 term com.mongodb.casbah.query.dsl.LessThanEqualOp.oper
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.equals(65b13bc174ccce50a3050720fb1f6f6ecc7a67db)
- 34000 term com.mongodb.casbah.query.dsl.GeoCoords.toString(539469ac734089a39f5bb97705d0b9459fb6b087)
- 32451 term com.mongodb.casbah.query.dsl.BSONType.operator(dfd3bd64bd4a59db7a9e09bfabb933f2dee5032b)
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.equals(65b13bc174ccce50a3050720fb1f6f6ecc7a67db)
+ 33965 term com.mongodb.casbah.query.dsl.GeoCoords.toString(539469ac734089a39f5bb97705d0b9459fb6b087)
+ 32416 term com.mongodb.casbah.query.dsl.BSONType.operator(dfd3bd64bd4a59db7a9e09bfabb933f2dee5032b)
 [Implicits.scala]
  21775 type com.mongodb.casbah.query.ValidTypes.ConcreteDBObject
  21776 type com.mongodb.casbah.query.ValidTypes.BigIntOk
- 10015 type com.mongodb.casbah.query.ValidBarewordExpressionArgTypeHolder
- 10254 term com.mongodb.casbah.query.Implicits.tupleToGeoCoords(64144757573af60cf146b1ab95bb4c588f4ae823)
+ 10019 type com.mongodb.casbah.query.ValidBarewordExpressionArgTypeHolder
+ 10250 term com.mongodb.casbah.query.Implicits.tupleToGeoCoords(64144757573af60cf146b1ab95bb4c588f4ae823)
  10326 term com.mongodb.casbah.query.ValidDateTypeHolder.JDKDateOk
  22595 term com.mongodb.casbah.query.ValidBarewordExpressionArgType.toDBObject(c49dc25e77cb33156448c8c01961d459e908e514)
  10364 term com.mongodb.casbah.query.ValidDateOrNumericTypeHolder.FloatDoNOk
- 28865 term com.mongodb.casbah.query.AsIterable.apply(032ccb17fbbacaa15763b74845fbaecc57cb99a0)
- 10253 term com.mongodb.casbah.query.Implicits.mongoNestedDBObjectQueryStatements(979fc42ae216029f01e4951f54c90c5e156a2918)
- 10233 term com.mongodb.casbah.query.BaseImports.AsIterable(3d517d8c8747db88f4a1a8fcf40d4fde74ac349b)
- 10013 type com.mongodb.casbah.query.ValidBarewordExpressionArgType
- 10249 type com.mongodb.casbah.query.TypeImports.AsQueryParam
+ 10249 term com.mongodb.casbah.query.Implicits.mongoNestedDBObjectQueryStatements(979fc42ae216029f01e4951f54c90c5e156a2918)
+ 10017 type com.mongodb.casbah.query.ValidBarewordExpressionArgType
+ 10245 type com.mongodb.casbah.query.TypeImports.AsQueryParam
  10338 term com.mongodb.casbah.query.ValidNumericTypeHolder.ByteOk
  10317 term com.mongodb.casbah.query.ValidBarewordExpressionArgTypeHolder.kvPairOk(96f94f59378f0e02f2e985198d3256237a8304f4)
  10344 term com.mongodb.casbah.query.ValidNumericTypeHolder.BigDecimalOk
  10022 term com.mongodb.casbah.query.AsQueryParam
- 31315 term com.mongodb.casbah.query.AsQueryParam.string(c55e2a9daa1d7299601b0691a20fb735212bbf87)
- 31309 term com.mongodb.casbah.query.AsQueryParam.apply(fdb16477199f5da31b1b78dfa1569ec01e57f66d)
- 31559 term com.mongodb.casbah.query.AsQueryParam.tuple15(2259bf0ff79790bfc6d78e6fb709c3efd55a1a47)
+ 28877 term com.mongodb.casbah.query.AsQueryParam.string(c55e2a9daa1d7299601b0691a20fb735212bbf87)
+ 28871 term com.mongodb.casbah.query.AsQueryParam.apply(fdb16477199f5da31b1b78dfa1569ec01e57f66d)
+ 29121 term com.mongodb.casbah.query.AsQueryParam.tuple15(2259bf0ff79790bfc6d78e6fb709c3efd55a1a47)
  10021 type com.mongodb.casbah.query.AsQueryParam.A
- 31415 term com.mongodb.casbah.query.AsQueryParam.tuple9(3b547b99977f73b616addc985402d1814383fe99)
+ 28977 term com.mongodb.casbah.query.AsQueryParam.tuple9(3b547b99977f73b616addc985402d1814383fe99)
  10342 term com.mongodb.casbah.query.ValidNumericTypeHolder.FloatOk
- 10001 type com.mongodb.casbah.query.Imports
- 31530 term com.mongodb.casbah.query.AsQueryParam.tuple14(fd0a0a0e671b98445a47aa720c1664bf08c888c1)
- 9991 type com.mongodb.casbah.query.Implicits
- 10017 type com.mongodb.casbah.query.AsIterable.A
+ 10005 type com.mongodb.casbah.query.Imports
+ 9995 type com.mongodb.casbah.query.Implicits
+ 29092 term com.mongodb.casbah.query.AsQueryParam.tuple14(fd0a0a0e671b98445a47aa720c1664bf08c888c1)
  10360 term com.mongodb.casbah.query.ValidDateOrNumericTypeHolder.ByteDoNOk
- 31350 term com.mongodb.casbah.query.AsQueryParam.tuple4(fe80e638dfb1397e021ac7b14023c66b1da4378c)
- 31383 term com.mongodb.casbah.query.AsQueryParam.tuple7(9e37a28be978d6b1926cc50d8db65000a6313b3e)
+ 28912 term com.mongodb.casbah.query.AsQueryParam.tuple4(fe80e638dfb1397e021ac7b14023c66b1da4378c)
+ 28945 term com.mongodb.casbah.query.AsQueryParam.tuple7(9e37a28be978d6b1926cc50d8db65000a6313b3e)
  10356 term com.mongodb.casbah.query.ValidDateOrNumericTypeHolder.IntDoNOk
- 10004 type com.mongodb.casbah.query.ValidNumericType
- 10241 type com.mongodb.casbah.query.TypeImports.ValidDateType
- 10003 type com.mongodb.casbah.query.TypeImports
+ 10008 type com.mongodb.casbah.query.ValidNumericType
+ 10239 type com.mongodb.casbah.query.TypeImports.ValidDateType
+ 10007 type com.mongodb.casbah.query.TypeImports
  21780 type com.mongodb.casbah.query.ValidTypes.LongOk
- 31332 term com.mongodb.casbah.query.AsQueryParam.dateOrNumeric(e1c6c4176e9ba41f749da42090ac6d24108e62e3)
- 31503 term com.mongodb.casbah.query.AsQueryParam.tuple13(1299c44449aaf669a8ba84236f646698cdc69510)
- 9992 type com.mongodb.casbah.query.ChainedOperator
+ 28894 term com.mongodb.casbah.query.AsQueryParam.dateOrNumeric(e1c6c4176e9ba41f749da42090ac6d24108e62e3)
+ 29065 term com.mongodb.casbah.query.AsQueryParam.tuple13(1299c44449aaf669a8ba84236f646698cdc69510)
+ 9996 type com.mongodb.casbah.query.ChainedOperator
  10024 type com.mongodb.casbah.query.ValidNumericTypeHolder
  21771 type com.mongodb.casbah.query.ValidTypes.JodaDateTimeOk
  21774 type com.mongodb.casbah.query.ValidTypes.CoreOperatorResultObj
- 10250 type com.mongodb.casbah.query.TypeImports.T
- 31370 term com.mongodb.casbah.query.AsQueryParam.tuple6(ac3df97fec60fc27fbdfc4364ac800bd47735229)
- 31324 term com.mongodb.casbah.query.AsQueryParam.boolean(b0202434138c58b4f9a37db2c39b073c50989836)
+ 10246 type com.mongodb.casbah.query.TypeImports.T
+ 28932 term com.mongodb.casbah.query.AsQueryParam.tuple6(ac3df97fec60fc27fbdfc4364ac800bd47735229)
+ 28886 term com.mongodb.casbah.query.AsQueryParam.boolean(b0202434138c58b4f9a37db2c39b073c50989836)
  10352 term com.mongodb.casbah.query.ValidDateOrNumericTypeHolder.JodaDateTimeDoNOk
  10322 term com.mongodb.casbah.query.ValidBarewordExpressionArgTypeHolder.CoreOperatorResultObjOk
  21779 type com.mongodb.casbah.query.ValidTypes.ByteOk
- 31338 term com.mongodb.casbah.query.AsQueryParam.tuple2(332fd6faf32f98495ee57e12c2089837299c2406)
- 28868 term com.mongodb.casbah.query.AsIterable.iterable(faf5af05b110c55c9021fb1a0ddab56596e8be39)
- 31324 term com.mongodb.casbah.query.AsQueryParam.boolean
- 10235 term com.mongodb.casbah.query.BaseImports.AsQueryParam(ef81e74a91aeb9caf4cc6bf889fd52fa9ff67d84)
- 31315 term com.mongodb.casbah.query.AsQueryParam.string
- 22605 term com.mongodb.casbah.query.ValidTypes.KVPair.toDBObject(9382f8453e7c5ca5a385262546b993c809d1ce69)
+ 28900 term com.mongodb.casbah.query.AsQueryParam.tuple2(332fd6faf32f98495ee57e12c2089837299c2406)
+ 28886 term com.mongodb.casbah.query.AsQueryParam.boolean
+ 28877 term com.mongodb.casbah.query.AsQueryParam.string
+ 10233 term com.mongodb.casbah.query.BaseImports.AsQueryParam(ef81e74a91aeb9caf4cc6bf889fd52fa9ff67d84)
  10328 term com.mongodb.casbah.query.ValidDateTypeHolder.JodaDateTimeOk
- 10243 type com.mongodb.casbah.query.TypeImports.ValidDateOrNumericType
+ 22605 term com.mongodb.casbah.query.ValidTypes.KVPair.toDBObject(9382f8453e7c5ca5a385262546b993c809d1ce69)
+ 10241 type com.mongodb.casbah.query.TypeImports.ValidDateOrNumericType
  10366 term com.mongodb.casbah.query.ValidDateOrNumericTypeHolder.BigDecimalDoNOk
  21777 type com.mongodb.casbah.query.ValidTypes.IntOk
  23108 term com.mongodb.casbah.query.ChainedOperator.dbObj
- 31359 term com.mongodb.casbah.query.AsQueryParam.tuple5(34159c9cd85967e787c95053ff6c7591b52b0860)
- 10233 term com.mongodb.casbah.query.BaseImports.AsIterable
- 9999 term com.mongodb.casbah.query.TypeImports
+ 28921 term com.mongodb.casbah.query.AsQueryParam.tuple5(34159c9cd85967e787c95053ff6c7591b52b0860)
+ 10003 term com.mongodb.casbah.query.TypeImports
  10354 term com.mongodb.casbah.query.ValidDateOrNumericTypeHolder.BigIntDoNOk
- 34214 term com.mongodb.casbah.query.AsQueryParam.$anon.asQueryParam(f6f53880fe2db09f8704418c8baa3ec0ae1a5dca)
+ 34142 term com.mongodb.casbah.query.AsQueryParam.$anon.asQueryParam(f6f53880fe2db09f8704418c8baa3ec0ae1a5dca)
  21778 type com.mongodb.casbah.query.ValidTypes.ShortOk
- 31871 term com.mongodb.casbah.query.AsQueryParam.asQueryParam(f6f53880fe2db09f8704418c8baa3ec0ae1a5dca)
- 34136 term com.mongodb.casbah.query.AsIterable.$anon.asIterable(887b38f70ea4cdd0f2e412a520350915f089894d)
+ 28831 term com.mongodb.casbah.query.AsQueryParam.asQueryParam(f6f53880fe2db09f8704418c8baa3ec0ae1a5dca)
  10334 term com.mongodb.casbah.query.ValidNumericTypeHolder.IntOk
- 28871 term com.mongodb.casbah.query.AsIterable.product(8a5313c7e8ec0e64dce3594cbe386b18a7fc5bcc)
- 10247 type com.mongodb.casbah.query.TypeImports.AsIterable
  10025 type com.mongodb.casbah.query.ValidDateOrNumericTypeHolder
- 9997 term com.mongodb.casbah.query.BaseImports
- 31322 term com.mongodb.casbah.query.AsQueryParam.objectId
+ 10001 term com.mongodb.casbah.query.BaseImports
+ 28884 term com.mongodb.casbah.query.AsQueryParam.objectId
  10350 term com.mongodb.casbah.query.ValidDateOrNumericTypeHolder.JDKDateDoNOk
- 34121 term com.mongodb.casbah.query.AsIterable.$anon.asIterable(8b251a2bd004ae545247ce98a6ec24add24df1bb)
- 10245 type com.mongodb.casbah.query.TypeImports.ValidBarewordExpressionArgType
- 10002 type com.mongodb.casbah.query.BaseImports
- 9995 term com.mongodb.casbah.query.Imports
- 31312 term com.mongodb.casbah.query.AsQueryParam.as(21e4b0259e39b99a0dfa544defd330cc5e99782e)
+ 10243 type com.mongodb.casbah.query.TypeImports.ValidBarewordExpressionArgType
+ 10006 type com.mongodb.casbah.query.BaseImports
+ 9999 term com.mongodb.casbah.query.Imports
+ 28874 term com.mongodb.casbah.query.AsQueryParam.as(21e4b0259e39b99a0dfa544defd330cc5e99782e)
  10346 term com.mongodb.casbah.query.ValidNumericTypeHolder.DoubleOk
- 10005 type com.mongodb.casbah.query.ValidNumericType.T
- 31478 term com.mongodb.casbah.query.AsQueryParam.tuple12(02233d19f03e9b23b3635ecc766373c0eeca83bb)
- 10014 type com.mongodb.casbah.query.ValidBarewordExpressionArgType.T
- 31398 term com.mongodb.casbah.query.AsQueryParam.tuple8(67952474f0688d861b032714b017e88c1ddc5405)
- 10235 term com.mongodb.casbah.query.BaseImports.AsQueryParam
- 10238 type com.mongodb.casbah.query.TypeImports.GeoCoords
- 31326 term com.mongodb.casbah.query.AsQueryParam.array(6079442d4c287c6fb0d244edde60034ae0e58759)
- 31322 term com.mongodb.casbah.query.AsQueryParam.objectId(12fdcd0ec95465769903e3a899b53f348d214974)
- 31317 term com.mongodb.casbah.query.AsQueryParam.dbObject(c1a06979c1c5079256db3fb7562f7e541a9a8a0f)
- 31775 term com.mongodb.casbah.query.AsQueryParam.tuple21(ebc2f190b1a710da883b63c2a3ce19f96a1bafce)
- 10007 type com.mongodb.casbah.query.ValidDateType.T
+ 10009 type com.mongodb.casbah.query.ValidNumericType.T
+ 29040 term com.mongodb.casbah.query.AsQueryParam.tuple12(02233d19f03e9b23b3635ecc766373c0eeca83bb)
+ 10018 type com.mongodb.casbah.query.ValidBarewordExpressionArgType.T
+ 28960 term com.mongodb.casbah.query.AsQueryParam.tuple8(67952474f0688d861b032714b017e88c1ddc5405)
+ 10233 term com.mongodb.casbah.query.BaseImports.AsQueryParam
+ 10236 type com.mongodb.casbah.query.TypeImports.GeoCoords
+ 28888 term com.mongodb.casbah.query.AsQueryParam.array(6079442d4c287c6fb0d244edde60034ae0e58759)
+ 28884 term com.mongodb.casbah.query.AsQueryParam.objectId(12fdcd0ec95465769903e3a899b53f348d214974)
+ 28879 term com.mongodb.casbah.query.AsQueryParam.dbObject(c1a06979c1c5079256db3fb7562f7e541a9a8a0f)
+ 29337 term com.mongodb.casbah.query.AsQueryParam.tuple21(ebc2f190b1a710da883b63c2a3ce19f96a1bafce)
+ 10011 type com.mongodb.casbah.query.ValidDateType.T
  23108 term com.mongodb.casbah.query.ChainedOperator.dbObj(7ddfb8b4254e7821ab8c289ffe115992a21ae951)
- 10009 type com.mongodb.casbah.query.ValidDateOrNumericType.T
- 10252 term com.mongodb.casbah.query.Implicits.mongoQueryStatements(ff114cc8da5180fe9a72d59c626f9188d7210ffe)
+ 10013 type com.mongodb.casbah.query.ValidDateOrNumericType.T
+ 10248 term com.mongodb.casbah.query.Implicits.mongoQueryStatements(ff114cc8da5180fe9a72d59c626f9188d7210ffe)
  10358 term com.mongodb.casbah.query.ValidDateOrNumericTypeHolder.ShortDoNOk
  22600 term com.mongodb.casbah.query.ValidTypes.ConcreteDBObject.toDBObject(8855b71027d0af180114a870780fc66749c88da4)
- 31434 term com.mongodb.casbah.query.AsQueryParam.tuple10(07e44b6c7cd1b72b8de9a02e9b7f95f8c683ccfd)
- 31329 term com.mongodb.casbah.query.AsQueryParam.iterable(62907b9a9b6f053e0704a5e92f158ee0a30ee7a9)
- 10011 term com.mongodb.casbah.query.ValidTypes
+ 28996 term com.mongodb.casbah.query.AsQueryParam.tuple10(07e44b6c7cd1b72b8de9a02e9b7f95f8c683ccfd)
+ 28891 term com.mongodb.casbah.query.AsQueryParam.iterable(62907b9a9b6f053e0704a5e92f158ee0a30ee7a9)
+ 10015 term com.mongodb.casbah.query.ValidTypes
  23108 term com.mongodb.casbah.query.ChainedOperator.dbObj_$eq(cabfd80ea5d1397c3da47844047e2c8375be8b68)
- 10016 type com.mongodb.casbah.query.AsIterable
- 10332 term com.mongodb.casbah.query.ValidNumericTypeHolder.BigIntOk
  10340 term com.mongodb.casbah.query.ValidNumericTypeHolder.LongOk
- 10018 term com.mongodb.casbah.query.AsIterable
- 31343 term com.mongodb.casbah.query.AsQueryParam.tuple3(93d25fcdadc40f6171f67011b90c1c48640762ca)
+ 10332 term com.mongodb.casbah.query.ValidNumericTypeHolder.BigIntOk
+ 28905 term com.mongodb.casbah.query.AsQueryParam.tuple3(93d25fcdadc40f6171f67011b90c1c48640762ca)
  10368 term com.mongodb.casbah.query.ValidDateOrNumericTypeHolder.DoubleDoNOk
- 31623 term com.mongodb.casbah.query.AsQueryParam.tuple17(7f5727ca44a781b62a802bad1918ac1a8d0c6a81)
- 31734 term com.mongodb.casbah.query.AsQueryParam.tuple20(807991ca329a45e25a35762d4011fcc972cae142)
- 10008 type com.mongodb.casbah.query.ValidDateOrNumericType
- 10239 type com.mongodb.casbah.query.TypeImports.ValidNumericType
+ 29296 term com.mongodb.casbah.query.AsQueryParam.tuple20(807991ca329a45e25a35762d4011fcc972cae142)
+ 29185 term com.mongodb.casbah.query.AsQueryParam.tuple17(7f5727ca44a781b62a802bad1918ac1a8d0c6a81)
+ 10012 type com.mongodb.casbah.query.ValidDateOrNumericType
+ 10237 type com.mongodb.casbah.query.TypeImports.ValidNumericType
  10020 type com.mongodb.casbah.query.AsQueryParam
+ 29017 term com.mongodb.casbah.query.AsQueryParam.tuple11(0b6c784592faa87a0c30ac88a6152a1de8f52b57)
  10231 term com.mongodb.casbah.query.BaseImports.GeoCoords(24712790d997748ef135ee9c055dc63a6815435a)
- 31455 term com.mongodb.casbah.query.AsQueryParam.tuple11(0b6c784592faa87a0c30ac88a6152a1de8f52b57)
  21783 type com.mongodb.casbah.query.ValidTypes.DoubleOk
  10362 term com.mongodb.casbah.query.ValidDateOrNumericTypeHolder.LongDoNOk
- 31335 term com.mongodb.casbah.query.AsQueryParam.tuple1(93f92fb7cae925d74cae902cbc17fc33337fab47)
+ 28897 term com.mongodb.casbah.query.AsQueryParam.tuple1(93f92fb7cae925d74cae902cbc17fc33337fab47)
  21772 type com.mongodb.casbah.query.ValidTypes.KVPair
  21773 type com.mongodb.casbah.query.ValidTypes.KVPair.A
- 31590 term com.mongodb.casbah.query.AsQueryParam.tuple16(f8825c68f3b6fc92c8acc26f347e90a394be02f4)
- 28825 term com.mongodb.casbah.query.AsIterable.asIterable(b68cc5da4e1a6c73b0d2c6aa041ed5f9268c2ce2)
- 31818 term com.mongodb.casbah.query.AsQueryParam.tuple22(7031fe36ddd345c52a1a958788da24476fdc5d18)
- 31320 term com.mongodb.casbah.query.AsQueryParam.dbRef(c74eb8c4a3eefdbb95dad518291087679160730f)
+ 29152 term com.mongodb.casbah.query.AsQueryParam.tuple16(f8825c68f3b6fc92c8acc26f347e90a394be02f4)
+ 29380 term com.mongodb.casbah.query.AsQueryParam.tuple22(7031fe36ddd345c52a1a958788da24476fdc5d18)
+ 28882 term com.mongodb.casbah.query.AsQueryParam.dbRef(c74eb8c4a3eefdbb95dad518291087679160730f)
  10320 term com.mongodb.casbah.query.ValidBarewordExpressionArgTypeHolder.ConcreteDBObjectOk
  21781 type com.mongodb.casbah.query.ValidTypes.FloatOk
  10231 term com.mongodb.casbah.query.BaseImports.GeoCoords
  21770 type com.mongodb.casbah.query.ValidTypes.JDKDateOk
- 10010 type com.mongodb.casbah.query.ValidDateTypeHolder
+ 10014 type com.mongodb.casbah.query.ValidDateTypeHolder
  10336 term com.mongodb.casbah.query.ValidNumericTypeHolder.ShortOk
- 9993 term com.mongodb.casbah.query.Implicits
- 31658 term com.mongodb.casbah.query.AsQueryParam.tuple18(58e94e0803390695e05a7ab0d5347b10b7c93016)
+ 9997 term com.mongodb.casbah.query.Implicits
+ 29220 term com.mongodb.casbah.query.AsQueryParam.tuple18(58e94e0803390695e05a7ab0d5347b10b7c93016)
  23275 term com.mongodb.casbah.query.Implicits.$anon.field
  23106 term com.mongodb.casbah.query.ChainedOperator.field(3bf7c90be758f5b946ae171b872e4a2ff5affba6)
- 10006 type com.mongodb.casbah.query.ValidDateType
+ 10010 type com.mongodb.casbah.query.ValidDateType
  22597 term com.mongodb.casbah.query.ValidTypes.CoreOperatorResultObj.toDBObject(b4a514548840d5fe5da40ac8bad9e723a0e923af)
  21782 type com.mongodb.casbah.query.ValidTypes.BigDecimalOk
  23275 term com.mongodb.casbah.query.Implicits.$anon.field(3bf7c90be758f5b946ae171b872e4a2ff5affba6)
- 31320 term com.mongodb.casbah.query.AsQueryParam.dbRef
- 31695 term com.mongodb.casbah.query.AsQueryParam.tuple19(336db0d7010d2e2e9448d4ebb4f0482c09e533a6)
+ 28882 term com.mongodb.casbah.query.AsQueryParam.dbRef
+ 29257 term com.mongodb.casbah.query.AsQueryParam.tuple19(336db0d7010d2e2e9448d4ebb4f0482c09e533a6)

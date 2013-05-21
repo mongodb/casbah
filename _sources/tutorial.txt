@@ -19,17 +19,17 @@ As we mentioned, as soon as you construct a ``MongoClient`` object, a few type c
 
 As many Scala developers tend to prefer `Joda time <http://joda-time.sourceforge.net/>`_ over JDK Dates, you can also explicitly enable serialization and deserialization of them (w/ full support for the `Scala-Time wrappers <http://github.com/jorgeortiz85/scala-time>`_) by an explicit call::
 
-    import com.mongodb.casbah.common.conversions.scala._
+    import com.mongodb.casbah.commons.conversions.scala._
     RegisterJodaTimeConversionHelpers()
 
 Once these are loaded, Joda Time (and Scala Time wrappers) will be saved to MongoDB as proper BSON Dates, and on retrieval/deserialization all BSON Dates will be returned as Joda ``DateTime`` instead of a JDK Date (aka `java.util.Date`).  Because this can cause problems in some instances, you can explicitly unload the Joda Time helpers::
 
-    import com.mongodb.casbah.common.conversions.scala._
+    import com.mongodb.casbah.commons.conversions.scala._
     DeregisterJodaTimeConversionHelpers()
 
 And reload them later as needed.  If you find you need to unload the other helpers as well, you can load and unload them just as easily::
 
-    import com.mongodb.casbah.common.conversions.scala._
+    import com.mongodb.casbah.commons.conversions.scala._
     DeregisterConversionHelpers()
     RegisterConversionHelpers()
 

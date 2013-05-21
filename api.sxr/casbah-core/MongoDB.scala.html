@@ -34,7 +34,7 @@
 
 <span class="keyword">package</span> com.mongodb.casbah
 
-<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#9923" title="object com.mongodb.casbah.Imports">Imports</a>._
+<span class="keyword">import</span> com.mongodb.casbah.<a href="Implicits.scala.html#9926" title="object com.mongodb.casbah.Imports">Imports</a>._
 <span class="keyword">import</span> com.mongodb.casbah.commons.Logging
 <span class="keyword">import</span> com.mongodb.casbah.map_reduce.<span class="delimiter">{</span> MapReduceResult, MapReduceCommand <span class="delimiter">}</span>
 
@@ -46,12 +46,12 @@
  * @since 2.0
  * @see com.mongodb.DB
  */</span>
-<span class="keyword">object</span> <a title="object com.mongodb.casbah.MongoDB" id="10015">MongoDB</a> <span title="ScalaObject" class="delimiter">{</span>
+<span class="keyword">object</span> <a title="object com.mongodb.casbah.MongoDB" id="10018">MongoDB</a> <span title="ScalaObject" class="delimiter">{</span>
   <span class="keyword">def</span> <a title="(connection: com.mongodb.Mongo, dbName: String)com.mongodb.casbah.MongoDB" id="37970">apply</a><span class="delimiter">(</span><a title="com.mongodb.Mongo" id="37973">connection</a>: com.mongodb.<span title="com.mongodb.Mongo">Mongo</span>, <a title="String" id="37974">dbName</a>: <span title="String">String</span><span class="delimiter">)</span> =
-    <a href="Implicits.scala.html#10489" title="implicit com.mongodb.casbah.Implicits.mongoConnAsScala : (conn: com.mongodb.Mongo)java.lang.Object{def asScala: com.mongodb.casbah.MongoConnection}">connection</a>.<a href="Implicits.scala.html#14604" title="=&gt; com.mongodb.casbah.MongoConnection">asScala</a>.<a href="MongoConnection.scala.html#10514" title="(dbName: String)com.mongodb.casbah.MongoDB">apply</a><span class="delimiter">(</span><a href="#37974" title="String">dbName</a><span class="delimiter">)</span>
+    <a href="Implicits.scala.html#10492" title="implicit com.mongodb.casbah.Implicits.mongoConnAsScala : (conn: com.mongodb.Mongo)java.lang.Object{def asScala: com.mongodb.casbah.MongoConnection}">connection</a>.<a href="Implicits.scala.html#14598" title="=&gt; com.mongodb.casbah.MongoConnection">asScala</a>.<a href="MongoConnection.scala.html#10517" title="(dbName: String)com.mongodb.casbah.MongoDB">apply</a><span class="delimiter">(</span><a href="#37974" title="String">dbName</a><span class="delimiter">)</span>
 
-  <span class="keyword">def</span> <a title="(connection: com.mongodb.casbah.MongoConnection, dbName: String)com.mongodb.casbah.MongoDB" id="37971">apply</a><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoConnection" id="37977">connection</a>: <a href="MongoConnection.scala.html#9983" title="com.mongodb.casbah.MongoConnection">MongoConnection</a>, <a title="String" id="37978">dbName</a>: <span title="String">String</span><span class="delimiter">)</span> =
-    <a href="MongoConnection.scala.html#10514" title="(dbName: String)com.mongodb.casbah.MongoDB">connection</a><span class="delimiter">(</span><a href="#37978" title="String">dbName</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(connection: com.mongodb.casbah.MongoConnection, dbName: String)com.mongodb.casbah.MongoDB" id="37971">apply</a><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoConnection" id="37977">connection</a>: <a href="MongoConnection.scala.html#9986" title="com.mongodb.casbah.MongoConnection">MongoConnection</a>, <a title="String" id="37978">dbName</a>: <span title="String">String</span><span class="delimiter">)</span> =
+    <a href="MongoConnection.scala.html#10517" title="(dbName: String)com.mongodb.casbah.MongoDB">connection</a><span class="delimiter">(</span><a href="#37978" title="String">dbName</a><span class="delimiter">)</span>
 <span class="delimiter">}</span>
 
 <span class="comment">/**
@@ -60,7 +60,7 @@
  * @since 1.0
  * @see com.mongodb.DB
  */</span>
-<span class="keyword">class</span> <a title="class MongoDB extends java.lang.Object with ScalaObject" id="10017">MongoDB</a><a href="#10017" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="com.mongodb.DB" id="14669">underlying</a>: com.mongodb.<span title="com.mongodb.DB">DB</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+<span class="keyword">class</span> <a title="class MongoDB extends java.lang.Object with ScalaObject" id="10020">MongoDB</a><a href="#10020" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="com.mongodb.DB" id="14663">underlying</a>: com.mongodb.<span title="com.mongodb.DB">DB</span><span class="delimiter">)</span> <span class="delimiter">{</span>
   <span class="comment">/**
    * Apply method to proxy  getCollection, to allow invocation of
    * &lt;code&gt;dbInstance(&quot;collectionName&quot;)&lt;/code&gt;
@@ -69,7 +69,7 @@
    * @param collection a  string for the collection name
    * @return MongoCollection A wrapped instance of a Mongo DBCollection Class returning generic DBObjects
    */</span>
-  <span class="keyword">def</span> <a title="(collection: String)com.mongodb.casbah.MongoCollection" id="14615">apply</a><span class="delimiter">(</span><a title="String" id="37983">collection</a>: <span title="String">String</span><span class="delimiter">)</span>: <a href="MongoCollection.scala.html#9969" title="com.mongodb.casbah.MongoCollection">MongoCollection</a> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCollection">getCollection</span><a href="Implicits.scala.html#10491" title="implicit com.mongodb.casbah.Implicits.mongoCollAsScala : (coll: com.mongodb.DBCollection)java.lang.Object{def asScala: com.mongodb.casbah.MongoCollection; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit m: scala.reflect.Manifest[A]): com.mongodb.casbah.MongoGenericTypedCollection[A]}" class="delimiter">(</a><a href="#37983" title="String">collection</a><span class="delimiter">)</span>.<a href="Implicits.scala.html#18216" title="=&gt; com.mongodb.casbah.MongoCollection">asScala</a>
+  <span class="keyword">def</span> <a title="(collection: String)com.mongodb.casbah.MongoCollection" id="14609">apply</a><span class="delimiter">(</span><a title="String" id="37983">collection</a>: <span title="String">String</span><span class="delimiter">)</span>: <a href="MongoCollection.scala.html#9972" title="com.mongodb.casbah.MongoCollection">MongoCollection</a> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCollection">getCollection</span><a href="Implicits.scala.html#10494" title="implicit com.mongodb.casbah.Implicits.mongoCollAsScala : (coll: com.mongodb.DBCollection)java.lang.Object{def asScala: com.mongodb.casbah.MongoCollection; def asScalaTyped[A &lt;: com.mongodb.DBObject](implicit m: scala.reflect.Manifest[A]): com.mongodb.casbah.MongoGenericTypedCollection[A]}" class="delimiter">(</a><a href="#37983" title="String">collection</a><span class="delimiter">)</span>.<a href="Implicits.scala.html#18211" title="=&gt; com.mongodb.casbah.MongoCollection">asScala</a>
 
   <span class="comment">// TODO - write tests and make so!</span>
   <span class="comment">// /**</span>
@@ -81,7 +81,7 @@
   <span class="comment">//  */</span>
   <span class="comment">// def apply(collection: String, objectClass: Class[DBObject]) = underlying.getCollection(collection).asScala.setObjectClass(objectClass)</span>
 
-  <span class="keyword">def</span> <a title="(username: String, passwd: String)com.mongodb.WriteResult" id="14616">addUser</a><span class="delimiter">(</span><a title="String" id="37988">username</a>: <span title="String">String</span>, <a title="String" id="37989">passwd</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: Array[Char])com.mongodb.WriteResult">addUser</span><span class="delimiter">(</span><a href="#37988" title="String">username</a>, <a href="#37989" title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">passwd</a>.<span title="(implicit evidence$1: ClassManifest[Char])Array[Char]">toArray</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(username: String, passwd: String)com.mongodb.WriteResult" id="14610">addUser</a><span class="delimiter">(</span><a title="String" id="37988">username</a>: <span title="String">String</span>, <a title="String" id="37989">passwd</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: Array[Char])com.mongodb.WriteResult">addUser</span><span class="delimiter">(</span><a href="#37988" title="String">username</a>, <a href="#37989" title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">passwd</a>.<span title="(implicit evidence$1: ClassManifest[Char])Array[Char]">toArray</span><span class="delimiter">)</span>
 
   <span class="comment">/**
    *  Authenticates connection/db with given name and password
@@ -90,23 +90,23 @@
    * @param passwd password of user for this database
    * @return true if authenticated, false otherwise
    */</span>
-  <span class="keyword">def</span> <a title="(username: String, passwd: String)Boolean" id="14617">authenticate</a><span class="delimiter">(</span><a title="String" id="38687">username</a>: <span title="String">String</span>, <a title="String" id="38688">passwd</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: Array[Char])Boolean">authenticate</span><span class="delimiter">(</span><a href="#38687" title="String">username</a>, <a href="#38688" title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">passwd</a>.<span title="(implicit evidence$1: ClassManifest[Char])Array[Char]">toArray</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(username: String, passwd: String)Boolean" id="14611">authenticate</a><span class="delimiter">(</span><a title="String" id="38687">username</a>: <span title="String">String</span>, <a title="String" id="38688">passwd</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: Array[Char])Boolean">authenticate</span><span class="delimiter">(</span><a href="#38687" title="String">username</a>, <a href="#38688" title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">passwd</a>.<span title="(implicit evidence$1: ClassManifest[Char])Array[Char]">toArray</span><span class="delimiter">)</span>
 
   <span class="comment">/** Execute a database command directly.
    * @see &lt;a href=&quot;http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands&quot;&gt;List of Commands&lt;/a&gt;
    * @return the result of the command from the database
    */</span>
-  <span class="keyword">def</span> <a title="(cmd: com.mongodb.casbah.Imports.DBObject)com.mongodb.CommandResult" id="14618">command</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="34966">cmd</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.CommandResult">command</span><span class="delimiter">(</span><a href="#34966" title="com.mongodb.casbah.Imports.DBObject">cmd</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(cmd: com.mongodb.casbah.Imports.DBObject)com.mongodb.CommandResult" id="14612">command</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="34961">cmd</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.DBObject)com.mongodb.CommandResult">command</span><span class="delimiter">(</span><a href="#34961" title="com.mongodb.casbah.Imports.DBObject">cmd</a><span class="delimiter">)</span>
   <span class="comment">/** Execute a database command directly.
    * @see &lt;a href=&quot;http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands&quot;&gt;List of Commands&lt;/a&gt;
    * @return the result of the command from the database
    */</span>
-  <span class="keyword">def</span> <a title="(cmd: String)com.mongodb.CommandResult" id="14619">command</a><span class="delimiter">(</span><a title="String" id="34959">cmd</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.CommandResult">command</span><span class="delimiter">(</span><a href="#34959" title="String">cmd</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(cmd: String)com.mongodb.CommandResult" id="14613">command</a><span class="delimiter">(</span><a title="String" id="34954">cmd</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.CommandResult">command</span><span class="delimiter">(</span><a href="#34954" title="String">cmd</a><span class="delimiter">)</span>
   <span class="comment">/** Execute a database command directly.
    * @see &lt;a href=&quot;http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands&quot;&gt;List of Commands&lt;/a&gt;
    * @return the result of the command from the database
    */</span>
-  <span class="keyword">def</span> <a title="(cmd: com.mongodb.casbah.Imports.DBObject, options: Int)com.mongodb.CommandResult" id="14620">command</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="34948">cmd</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="Int" id="34949">options</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.DBObject, x$2: Int)com.mongodb.CommandResult">command</span><span class="delimiter">(</span><a href="#34948" title="com.mongodb.casbah.Imports.DBObject">cmd</a>, <a href="#34949" title="Int">options</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(cmd: com.mongodb.casbah.Imports.DBObject, options: Int)com.mongodb.CommandResult" id="14614">command</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.DBObject" id="34943">cmd</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span>, <a title="Int" id="34944">options</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.DBObject, x$2: Int)com.mongodb.CommandResult">command</span><span class="delimiter">(</span><a href="#34943" title="com.mongodb.casbah.Imports.DBObject">cmd</a>, <a href="#34944" title="Int">options</a><span class="delimiter">)</span>
   <span class="comment">/** Creates a collection with a given name and options.
    * If the collection does not exist, a new collection is created.
    * Possible options:
@@ -119,37 +119,37 @@
    * @param o options
    * @return the collection
    */</span>
-  <span class="keyword">def</span> <a title="(name: String, o: com.mongodb.casbah.Imports.DBObject)com.mongodb.DBCollection" id="14621">createCollection</a><span class="delimiter">(</span><a title="String" id="39084">name</a>: <span title="String">String</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="39085">o</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: com.mongodb.DBObject)com.mongodb.DBCollection">createCollection</span><span class="delimiter">(</span><a href="#39084" title="String">name</a>, <a href="#39085" title="com.mongodb.casbah.Imports.DBObject">o</a><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="(code: String, args: AnyRef*)com.mongodb.CommandResult" id="14622">doEval</a><span class="delimiter">(</span><a title="String" id="39088">code</a>: <span title="String">String</span>, <a title="AnyRef*" id="39089">args</a>: <span title="AnyRef*">AnyRef</span>*<span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: &lt;repeated...&gt;[java.lang.Object])com.mongodb.CommandResult">doEval</span><span class="delimiter">(</span><a href="#39088" title="String">code</a>, <a href="#39089" title="AnyRef*">args</a>: _*<span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(name: String, o: com.mongodb.casbah.Imports.DBObject)com.mongodb.DBCollection" id="14615">createCollection</a><span class="delimiter">(</span><a title="String" id="39084">name</a>: <span title="String">String</span>, <a title="com.mongodb.casbah.Imports.DBObject" id="39085">o</a>: <span title="com.mongodb.casbah.Imports.DBObject">DBObject</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: com.mongodb.DBObject)com.mongodb.DBCollection">createCollection</span><span class="delimiter">(</span><a href="#39084" title="String">name</a>, <a href="#39085" title="com.mongodb.casbah.Imports.DBObject">o</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(code: String, args: AnyRef*)com.mongodb.CommandResult" id="14616">doEval</a><span class="delimiter">(</span><a title="String" id="39088">code</a>: <span title="String">String</span>, <a title="AnyRef*" id="39089">args</a>: <span title="AnyRef*">AnyRef</span>*<span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: &lt;repeated...&gt;[java.lang.Object])com.mongodb.CommandResult">doEval</span><span class="delimiter">(</span><a href="#39088" title="String">code</a>, <a href="#39089" title="AnyRef*">args</a>: _*<span class="delimiter">)</span>
   <span class="comment">/**
    *  Drops this database.  Removes all data on disk.  Use with caution.
    */</span>
-  <span class="keyword">def</span> <a title="()Unit" id="14623">dropDatabase</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">dropDatabase</span><span class="delimiter">(</span><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="(code: String, args: AnyRef*)java.lang.Object" id="14624">eval</a><span class="delimiter">(</span><a title="String" id="39094">code</a>: <span title="String">String</span>, <a title="AnyRef*" id="39095">args</a>: <span title="AnyRef*">AnyRef</span>*<span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: &lt;repeated...&gt;[java.lang.Object])java.lang.Object">eval</span><span class="delimiter">(</span><a href="#39094" title="String">code</a>, <a href="#39095" title="AnyRef*">args</a>: _*<span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="()Unit" id="14617">dropDatabase</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">dropDatabase</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(code: String, args: AnyRef*)java.lang.Object" id="14618">eval</a><span class="delimiter">(</span><a title="String" id="39094">code</a>: <span title="String">String</span>, <a title="AnyRef*" id="39095">args</a>: <span title="AnyRef*">AnyRef</span>*<span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String, x$2: &lt;repeated...&gt;[java.lang.Object])java.lang.Object">eval</span><span class="delimiter">(</span><a href="#39094" title="String">code</a>, <a href="#39095" title="AnyRef*">args</a>: _*<span class="delimiter">)</span>
   <span class="comment">/**
    *  For testing purposes only - this method forces an error to help test error handling
    */</span>
-  <span class="keyword">def</span> <a title="()Unit" id="14625">forceError</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">forceError</span>
+  <span class="keyword">def</span> <a title="()Unit" id="14619">forceError</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">forceError</span>
 
   <span class="comment">/** Gets a collection with a given name.
    * If the collection does not exist, a new collection is created.
    * @param name (String) the name of the collection to return
    * @return the collection
    */</span>
-  <span class="keyword">def</span> <a title="(name: String)com.mongodb.DBCollection" id="14626">getCollection</a><span class="delimiter">(</span><a title="String" id="39100">name</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCollection">getCollection</span><span class="delimiter">(</span><a href="#39100" title="String">name</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(name: String)com.mongodb.DBCollection" id="14620">getCollection</a><span class="delimiter">(</span><a title="String" id="39100">name</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCollection">getCollection</span><span class="delimiter">(</span><a href="#39100" title="String">name</a><span class="delimiter">)</span>
   <span class="comment">/** Returns a collection matching a given string.
    * @param s the name of the collection
    * @return the collection
    */</span>
-  <span class="keyword">def</span> <a title="(s: String)com.mongodb.DBCollection" id="14627">getCollectionFromString</a><span class="delimiter">(</span><a title="String" id="39103">s</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCollection">getCollectionFromString</span><span class="delimiter">(</span><a href="#39103" title="String">s</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(s: String)com.mongodb.DBCollection" id="14621">getCollectionFromString</a><span class="delimiter">(</span><a title="String" id="39103">s</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DBCollection">getCollectionFromString</span><span class="delimiter">(</span><a href="#39103" title="String">s</a><span class="delimiter">)</span>
   <span class="comment">/** Returns a set of the names of collections in this database.
    * @return the names of collections in this database
    */</span>
-  <span class="keyword">def</span> <a title="()scala.collection.mutable.Set[java.lang.String]" id="14628">getCollectionNames</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()java.util.Set[java.lang.String]">getCollectionNames</span><span title="(s: java.util.Set[java.lang.String])collection.JavaConverters.AsScala[scala.collection.mutable.Set[java.lang.String]]" class="delimiter">(</span><span class="delimiter">)</span>.<span title="=&gt; scala.collection.mutable.Set[java.lang.String]">asScala</span>
+  <span class="keyword">def</span> <a title="()scala.collection.mutable.Set[java.lang.String]" id="14622">getCollectionNames</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()java.util.Set[java.lang.String]">getCollectionNames</span><span title="(s: java.util.Set[java.lang.String])collection.JavaConverters.AsScala[scala.collection.mutable.Set[java.lang.String]]" class="delimiter">(</span><span class="delimiter">)</span>.<span title="=&gt; scala.collection.mutable.Set[java.lang.String]">asScala</span>
   <span class="comment">/** Returns a set of the names of collections in this database.
    * @return the names of collections in this database
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; scala.collection.mutable.Set[java.lang.String]" id="14629">collectionNames</a> = <a href="#14628" title="()scala.collection.mutable.Set[java.lang.String]">getCollectionNames</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; scala.collection.mutable.Set[java.lang.String]" id="14623">collectionNames</a> = <a href="#14622" title="()scala.collection.mutable.Set[java.lang.String]">getCollectionNames</a><span class="delimiter">(</span><span class="delimiter">)</span>
   <span class="comment">/**
    *  Gets the the error (if there is one) from the previous operation.  The result of
    *  this command will look like
@@ -165,19 +165,19 @@
    *
    *  @return DBObject with error and status information
    */</span>
-  <span class="keyword">def</span> <a title="()com.mongodb.CommandResult" id="14630">getLastError</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()com.mongodb.CommandResult">getLastError</span>
-  <span class="keyword">def</span> <a title="()com.mongodb.CommandResult" id="14631">lastError</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14630" title="()com.mongodb.CommandResult">getLastError</a><span class="delimiter">(</span><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="(writeConcern: com.mongodb.casbah.Imports.WriteConcern)com.mongodb.CommandResult" id="14632">getLastError</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="35897">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> =
-    <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.WriteConcern)com.mongodb.CommandResult">getLastError</span><span class="delimiter">(</span><a href="#35897" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="(writeConcern: com.mongodb.casbah.Imports.WriteConcern)com.mongodb.CommandResult" id="14633">lastError</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="39142">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> =
-    <a href="#14632" title="(writeConcern: com.mongodb.casbah.Imports.WriteConcern)com.mongodb.CommandResult">getLastError</a><span class="delimiter">(</span><a href="#39142" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="(w: Int, wTimeout: Int, fsync: Boolean)com.mongodb.CommandResult" id="14634">getLastError</a><span class="delimiter">(</span><a title="Int" id="35890">w</a>: <span title="Int">Int</span>, <a title="Int" id="35891">wTimeout</a>: <span title="Int">Int</span>, <a title="Boolean" id="35892">fsync</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> =
-    <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: Int, x$2: Int, x$3: Boolean)com.mongodb.CommandResult">getLastError</span><span class="delimiter">(</span><a href="#35890" title="Int">w</a>, <a href="#35891" title="Int">wTimeout</a>, <a href="#35892" title="Boolean">fsync</a><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="(w: Int, wTimeout: Int, fsync: Boolean)com.mongodb.CommandResult" id="14635">lastError</a><span class="delimiter">(</span><a title="Int" id="39149">w</a>: <span title="Int">Int</span>, <a title="Int" id="39150">wTimeout</a>: <span title="Int">Int</span>, <a title="Boolean" id="39151">fsync</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> =
-    <a href="#14634" title="(w: Int, wTimeout: Int, fsync: Boolean)com.mongodb.CommandResult">getLastError</a><span class="delimiter">(</span><a href="#39149" title="Int">w</a>, <a href="#39150" title="Int">wTimeout</a>, <a href="#39151" title="Boolean">fsync</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.CommandResult" id="14624">getLastError</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()com.mongodb.CommandResult">getLastError</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.CommandResult" id="14625">lastError</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14624" title="()com.mongodb.CommandResult">getLastError</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(writeConcern: com.mongodb.casbah.Imports.WriteConcern)com.mongodb.CommandResult" id="14626">getLastError</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="35892">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> =
+    <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.WriteConcern)com.mongodb.CommandResult">getLastError</span><span class="delimiter">(</span><a href="#35892" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(writeConcern: com.mongodb.casbah.Imports.WriteConcern)com.mongodb.CommandResult" id="14627">lastError</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="39142">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> =
+    <a href="#14626" title="(writeConcern: com.mongodb.casbah.Imports.WriteConcern)com.mongodb.CommandResult">getLastError</a><span class="delimiter">(</span><a href="#39142" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(w: Int, wTimeout: Int, fsync: Boolean)com.mongodb.CommandResult" id="14628">getLastError</a><span class="delimiter">(</span><a title="Int" id="35885">w</a>: <span title="Int">Int</span>, <a title="Int" id="35886">wTimeout</a>: <span title="Int">Int</span>, <a title="Boolean" id="35887">fsync</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> =
+    <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: Int, x$2: Int, x$3: Boolean)com.mongodb.CommandResult">getLastError</span><span class="delimiter">(</span><a href="#35885" title="Int">w</a>, <a href="#35886" title="Int">wTimeout</a>, <a href="#35887" title="Boolean">fsync</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(w: Int, wTimeout: Int, fsync: Boolean)com.mongodb.CommandResult" id="14629">lastError</a><span class="delimiter">(</span><a title="Int" id="39149">w</a>: <span title="Int">Int</span>, <a title="Int" id="39150">wTimeout</a>: <span title="Int">Int</span>, <a title="Boolean" id="39151">fsync</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> =
+    <a href="#14628" title="(w: Int, wTimeout: Int, fsync: Boolean)com.mongodb.CommandResult">getLastError</a><span class="delimiter">(</span><a href="#39149" title="Int">w</a>, <a href="#39150" title="Int">wTimeout</a>, <a href="#39151" title="Boolean">fsync</a><span class="delimiter">)</span>
 
-  <span class="keyword">def</span> <a title="=&gt; java.lang.String" id="14636">name</a> = <a href="#14637" title="()java.lang.String">getName</a>
-  <span class="keyword">def</span> <a title="()java.lang.String" id="14637">getName</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()java.lang.String">getName</span>
+  <span class="keyword">def</span> <a title="=&gt; java.lang.String" id="14630">name</a> = <a href="#14631" title="()java.lang.String">getName</a>
+  <span class="keyword">def</span> <a title="()java.lang.String" id="14631">getName</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()java.lang.String">getName</span>
 
   <span class="comment">/**
    *  Returns the last error that occurred since start of database or a call to &lt;code&gt;resetError()&lt;/code&gt;
@@ -197,49 +197,49 @@
    * @deprecated The getPreviousError() and resetError() commands are deprecated and may be removed in future versions of MongoDB
    * @return DBObject with error and status information
    */</span>
-  <span class="keyword">def</span> <a title="()com.mongodb.CommandResult" id="14638">getPreviousError</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()com.mongodb.CommandResult">getPreviousError</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.CommandResult" id="14632">getPreviousError</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()com.mongodb.CommandResult">getPreviousError</span>
   <span class="comment">/**
    *  Resets the error memory for this database.  Used to clear all errors such that getPreviousError()
    *  will return no error.
    *
    * @deprecated The getPreviousError() and resetError() commands are deprecated and may be removed in future versions of MongoDB
    */</span>
-  <span class="keyword">def</span> <a title="()Unit" id="14639">resetError</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">resetError</span>
+  <span class="keyword">def</span> <a title="()Unit" id="14633">resetError</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">resetError</span>
 
-  <span class="keyword">def</span> <a title="(name: String)com.mongodb.casbah.MongoDB" id="14640">getSisterDB</a><span class="delimiter">(</span><a title="String" id="39167">name</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DB">getSisterDB</span><a href="Implicits.scala.html#10490" title="implicit com.mongodb.casbah.Implicits.mongoDBAsScala : (db: com.mongodb.DB)java.lang.Object{def asScala: com.mongodb.casbah.MongoDB}" class="delimiter">(</a><a href="#39167" title="String">name</a><span class="delimiter">)</span>.<a href="Implicits.scala.html#14798" title="=&gt; com.mongodb.casbah.MongoDB">asScala</a>
+  <span class="keyword">def</span> <a title="(name: String)com.mongodb.casbah.MongoDB" id="14634">getSisterDB</a><span class="delimiter">(</span><a title="String" id="39167">name</a>: <span title="String">String</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)com.mongodb.DB">getSisterDB</span><a href="Implicits.scala.html#10493" title="implicit com.mongodb.casbah.Implicits.mongoDBAsScala : (db: com.mongodb.DB)java.lang.Object{def asScala: com.mongodb.casbah.MongoDB}" class="delimiter">(</a><a href="#39167" title="String">name</a><span class="delimiter">)</span>.<a href="Implicits.scala.html#14792" title="=&gt; com.mongodb.casbah.MongoDB">asScala</a>
 
   <span class="comment">/**
    * Returns true if this DB is authenticated
    *
    * @return true if authenticated, false otherwise
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Boolean" id="14641">isAuthenticated</a> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Boolean">isAuthenticated</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="14635">isAuthenticated</a> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Boolean">isAuthenticated</span><span class="delimiter">(</span><span class="delimiter">)</span>
 
-  <span class="keyword">def</span> <a title="=&gt; com.mongodb.CommandResult" id="14642">stats</a> = <a href="#14643" title="()com.mongodb.CommandResult">getStats</a><span class="delimiter">(</span><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="()com.mongodb.CommandResult" id="14643">getStats</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()com.mongodb.CommandResult">getStats</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.CommandResult" id="14636">stats</a> = <a href="#14637" title="()com.mongodb.CommandResult">getStats</a><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="()com.mongodb.CommandResult" id="14637">getStats</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()com.mongodb.CommandResult">getStats</span><span class="delimiter">(</span><span class="delimiter">)</span>
 
-  <span class="keyword">def</span> <a title="()Unit" id="14644">requestDone</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">requestDone</span>
-  <span class="keyword">def</span> <a title="()Unit" id="14645">requestEnsureConnection</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">requestEnsureConnection</span>
-  <span class="keyword">def</span> <a title="()Unit" id="14646">requestStart</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">requestStart</span>
-
-  <span class="comment">/** Makes this database read-only
-   *
-   * @param b if the database should be read-only
-   */</span>
-  <span class="keyword">def</span> <a title="(b: Boolean)Unit" id="14647">setReadOnly</a><span class="delimiter">(</span><a title="Boolean" id="39184">b</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.Boolean)Unit">setReadOnly</span><span class="delimiter">(</span><a href="#39184" title="implicit scala.Predef.boolean2Boolean : (x: Boolean)java.lang.Boolean">b</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="()Unit" id="14638">requestDone</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">requestDone</span>
+  <span class="keyword">def</span> <a title="()Unit" id="14639">requestEnsureConnection</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">requestEnsureConnection</span>
+  <span class="keyword">def</span> <a title="()Unit" id="14640">requestStart</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">requestStart</span>
 
   <span class="comment">/** Makes this database read-only
    *
    * @param b if the database should be read-only
    */</span>
-  <span class="keyword">def</span> <a title="(b: Boolean)Unit" id="14648">readOnly_=</a><span class="delimiter">(</span><a title="Boolean" id="39187">b</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> = <a href="#14647" title="(b: Boolean)Unit">setReadOnly</a><span class="delimiter">(</span><a href="#39187" title="Boolean">b</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(b: Boolean)Unit" id="14641">setReadOnly</a><span class="delimiter">(</span><a title="Boolean" id="39184">b</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.Boolean)Unit">setReadOnly</span><span class="delimiter">(</span><a href="#39184" title="implicit scala.Predef.boolean2Boolean : (x: Boolean)java.lang.Boolean">b</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Makes this database read-only
+   *
+   * @param b if the database should be read-only
+   */</span>
+  <span class="keyword">def</span> <a title="(b: Boolean)Unit" id="14642">readOnly_=</a><span class="delimiter">(</span><a title="Boolean" id="39187">b</a>: <span title="Boolean">Boolean</span><span class="delimiter">)</span> = <a href="#14641" title="(b: Boolean)Unit">setReadOnly</a><span class="delimiter">(</span><a href="#39187" title="Boolean">b</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * Sets queries to be OK to run on slave nodes.
    * @deprecated Replaced with ReadPreference.SECONDARY
    */</span>
   @deprecated<span class="delimiter">(</span><span class="string">&quot;Replaced with ReadPreference.SECONDARY&quot;</span>, <span class="string">&quot;2.3.0&quot;</span><span class="delimiter">)</span>
-  <span class="keyword">def</span> <a title="()Unit" id="14649">slaveOk</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">slaveOk</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// use parens because this side-effects</span>
+  <span class="keyword">def</span> <a title="()Unit" id="14643">slaveOk</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">slaveOk</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// use parens because this side-effects</span>
 
   <span class="comment">/**
    *
@@ -251,7 +251,7 @@
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */</span>
-  <span class="keyword">def</span> <a title="(concern: com.mongodb.casbah.Imports.WriteConcern)Unit" id="14650">setWriteConcern</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="39192">concern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.WriteConcern)Unit">setWriteConcern</span><span class="delimiter">(</span><a href="#39192" title="com.mongodb.casbah.Imports.WriteConcern">concern</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(concern: com.mongodb.casbah.Imports.WriteConcern)Unit" id="14644">setWriteConcern</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="39192">concern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.WriteConcern)Unit">setWriteConcern</span><span class="delimiter">(</span><a href="#39192" title="com.mongodb.casbah.Imports.WriteConcern">concern</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    *
@@ -263,7 +263,7 @@
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */</span>
-  <span class="keyword">def</span> <a title="(concern: com.mongodb.casbah.Imports.WriteConcern)Unit" id="14651">writeConcern_=</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="39195">concern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> = <a href="#14650" title="(concern: com.mongodb.casbah.Imports.WriteConcern)Unit">setWriteConcern</a><span class="delimiter">(</span><a href="#39195" title="com.mongodb.casbah.Imports.WriteConcern">concern</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(concern: com.mongodb.casbah.Imports.WriteConcern)Unit" id="14645">writeConcern_=</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="39195">concern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span> = <a href="#14644" title="(concern: com.mongodb.casbah.Imports.WriteConcern)Unit">setWriteConcern</a><span class="delimiter">(</span><a href="#39195" title="com.mongodb.casbah.Imports.WriteConcern">concern</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    *
@@ -274,7 +274,7 @@
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; com.mongodb.WriteConcern" id="14652">getWriteConcern</a> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()com.mongodb.WriteConcern">getWriteConcern</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.WriteConcern" id="14646">getWriteConcern</a> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()com.mongodb.WriteConcern">getWriteConcern</span><span class="delimiter">(</span><span class="delimiter">)</span>
 
   <span class="comment">/**
    *
@@ -285,7 +285,7 @@
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; com.mongodb.WriteConcern" id="14653">writeConcern</a> = <a href="#14652" title="=&gt; com.mongodb.WriteConcern">getWriteConcern</a>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.WriteConcern" id="14647">writeConcern</a> = <a href="#14646" title="=&gt; com.mongodb.WriteConcern">getWriteConcern</a>
 
   <span class="comment">/*
    * Sets the read preference for this database. Will be used as default for
@@ -294,7 +294,7 @@
    *
    * @param preference Read Preference to use
    */</span>
-  <span class="keyword">def</span> <a title="(pref: com.mongodb.casbah.Imports.ReadPreference)Unit" id="14654">readPreference_=</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.ReadPreference" id="39204">pref</a>: <span title="com.mongodb.casbah.Imports.ReadPreference">ReadPreference</span><span class="delimiter">)</span> = <a href="#14655" title="(pref: com.mongodb.casbah.Imports.ReadPreference)Unit">setReadPreference</a><span class="delimiter">(</span><a href="#39204" title="com.mongodb.casbah.Imports.ReadPreference">pref</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(pref: com.mongodb.casbah.Imports.ReadPreference)Unit" id="14648">readPreference_=</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.ReadPreference" id="39204">pref</a>: <span title="com.mongodb.casbah.Imports.ReadPreference">ReadPreference</span><span class="delimiter">)</span> = <a href="#14649" title="(pref: com.mongodb.casbah.Imports.ReadPreference)Unit">setReadPreference</a><span class="delimiter">(</span><a href="#39204" title="com.mongodb.casbah.Imports.ReadPreference">pref</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * Sets the read preference for this database. Will be used as default for
@@ -303,7 +303,7 @@
    *
    * @param preference Read Preference to use
    */</span>
-  <span class="keyword">def</span> <a title="(pref: com.mongodb.casbah.Imports.ReadPreference)Unit" id="14655">setReadPreference</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.ReadPreference" id="39207">pref</a>: <span title="com.mongodb.casbah.Imports.ReadPreference">ReadPreference</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.ReadPreference)Unit">setReadPreference</span><span class="delimiter">(</span><a href="#39207" title="com.mongodb.casbah.Imports.ReadPreference">pref</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(pref: com.mongodb.casbah.Imports.ReadPreference)Unit" id="14649">setReadPreference</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.ReadPreference" id="39207">pref</a>: <span title="com.mongodb.casbah.Imports.ReadPreference">ReadPreference</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: com.mongodb.ReadPreference)Unit">setReadPreference</span><span class="delimiter">(</span><a href="#39207" title="com.mongodb.casbah.Imports.ReadPreference">pref</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * Gets the read preference for this database. Will be used as default for
@@ -312,7 +312,7 @@
    *
    * @param preference Read Preference to use
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; com.mongodb.ReadPreference" id="14656">readPreference</a> = <a href="#14657" title="=&gt; com.mongodb.ReadPreference">getReadPreference</a>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.ReadPreference" id="14650">readPreference</a> = <a href="#14651" title="=&gt; com.mongodb.ReadPreference">getReadPreference</a>
 
   <span class="comment">/**
    * Gets the read preference for this database. Will be used as default for
@@ -321,15 +321,15 @@
    *
    * @param preference Read Preference to use
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; com.mongodb.ReadPreference" id="14657">getReadPreference</a> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()com.mongodb.ReadPreference">getReadPreference</span>
+  <span class="keyword">def</span> <a title="=&gt; com.mongodb.ReadPreference" id="14651">getReadPreference</a> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()com.mongodb.ReadPreference">getReadPreference</span>
 
   <span class="comment">/**
    * Checks to see if a collection by name %lt;name&amp;gt; exists.
    * @param collectionName The collection to test for existence
    * @return false if no collection by that name exists, true if a match to an existing collection was found
    */</span>
-  <span class="keyword">def</span> <a title="(collectionName: String)Boolean" id="14658">collectionExists</a><span class="delimiter">(</span><a title="String" id="39216">collectionName</a>: <span title="String">String</span><span class="delimiter">)</span> =
-    <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)Boolean">collectionExists</span><span class="delimiter">(</span><a href="#39216" title="String">collectionName</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(collectionName: String)Boolean" id="14652">collectionExists</a><span class="delimiter">(</span><a title="String" id="39216">collectionName</a>: <span title="String">String</span><span class="delimiter">)</span> =
+    <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: java.lang.String)Boolean">collectionExists</span><span class="delimiter">(</span><a href="#39216" title="String">collectionName</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * The Java Driver is a bit outdated and is missing the finalize option.
@@ -340,8 +340,8 @@
    * @param command An instance of MapReduceCommand representing the required MapReduce
    * @return MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly
    */</span>
-  <span class="keyword">def</span> <a title="(cmd: com.mongodb.casbah.map_reduce.MapReduceCommand)com.mongodb.casbah.map_reduce.MapReduceResult" id="14659">mapReduce</a><span class="delimiter">(</span><a title="com.mongodb.casbah.map_reduce.MapReduceCommand" id="39219">cmd</a>: <a href="MapReduceCommand.scala.html#10071" title="com.mongodb.casbah.map_reduce.MapReduceCommand">MapReduceCommand</a><span class="delimiter">)</span>: <a href="MapReduceResult.scala.html#10080" title="com.mongodb.casbah.map_reduce.MapReduceResult">MapReduceResult</a> =
-    <a href="MapReduceResult.scala.html#34942" title="(resultObj: com.mongodb.casbah.Imports.DBObject)(implicit db: com.mongodb.casbah.Imports.MongoDB)com.mongodb.casbah.map_reduce.MapReduceResult">MapReduceResult</a><span class="delimiter">(</span><a href="#14618" title="(cmd: com.mongodb.casbah.Imports.DBObject)com.mongodb.CommandResult">command</a><span class="delimiter">(</span><a href="#39219" title="com.mongodb.casbah.map_reduce.MapReduceCommand">cmd</a>.<a href="MapReduceCommand.scala.html#19210" title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">toDBObject</a><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#10017" title="com.mongodb.casbah.MongoDB" class="keyword">this</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(cmd: com.mongodb.casbah.map_reduce.MapReduceCommand)com.mongodb.casbah.map_reduce.MapReduceResult" id="14653">mapReduce</a><span class="delimiter">(</span><a title="com.mongodb.casbah.map_reduce.MapReduceCommand" id="39219">cmd</a>: <a href="MapReduceCommand.scala.html#10074" title="com.mongodb.casbah.map_reduce.MapReduceCommand">MapReduceCommand</a><span class="delimiter">)</span>: <a href="MapReduceResult.scala.html#10083" title="com.mongodb.casbah.map_reduce.MapReduceResult">MapReduceResult</a> =
+    <a href="MapReduceResult.scala.html#34937" title="(resultObj: com.mongodb.casbah.Imports.DBObject)(implicit db: com.mongodb.casbah.Imports.MongoDB)com.mongodb.casbah.map_reduce.MapReduceResult">MapReduceResult</a><span class="delimiter">(</span><a href="#14612" title="(cmd: com.mongodb.casbah.Imports.DBObject)com.mongodb.CommandResult">command</a><span class="delimiter">(</span><a href="#39219" title="com.mongodb.casbah.map_reduce.MapReduceCommand">cmd</a>.<a href="MapReduceCommand.scala.html#19205" title="=&gt; com.mongodb.casbah.commons.Imports.DBObject">toDBObject</a><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#10020" title="com.mongodb.casbah.MongoDB" class="keyword">this</a><span class="delimiter">)</span>
 
   <span class="comment">/**
    * write concern aware write op block.
@@ -362,8 +362,8 @@
    *
    * @throws MongoException
    */</span>
-  <span class="keyword">def</span> <a title="(op: com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult)Unit" id="14660">request</a><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult" id="39227">op</a>: MongoDB =&gt; WriteResult<span class="delimiter">)</span> =
-    <a href="#39227" title="(v1: com.mongodb.casbah.MongoDB)com.mongodb.casbah.Imports.WriteResult">op</a><span class="delimiter">(</span><a href="#10017" title="com.mongodb.casbah.MongoDB" class="keyword">this</a><span class="delimiter">)</span>.<span title="(x$1: com.mongodb.WriteConcern)com.mongodb.CommandResult">getLastError</span><span class="delimiter">(</span><a href="#14653" title="=&gt; com.mongodb.WriteConcern">writeConcern</a><span class="delimiter">)</span>.<span title="()Unit">throwOnError</span>
+  <span class="keyword">def</span> <a title="(op: com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult)Unit" id="14654">request</a><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult" id="39227">op</a>: MongoDB =&gt; WriteResult<span class="delimiter">)</span> =
+    <a href="#39227" title="(v1: com.mongodb.casbah.MongoDB)com.mongodb.casbah.Imports.WriteResult">op</a><span class="delimiter">(</span><a href="#10020" title="com.mongodb.casbah.MongoDB" class="keyword">this</a><span class="delimiter">)</span>.<span title="(x$1: com.mongodb.WriteConcern)com.mongodb.CommandResult">getLastError</span><span class="delimiter">(</span><a href="#14647" title="=&gt; com.mongodb.WriteConcern">writeConcern</a><span class="delimiter">)</span>.<span title="()Unit">throwOnError</span>
 
   <span class="comment">/**
    * write concern aware write op block.
@@ -381,8 +381,8 @@
    *
    * @throws MongoException
    */</span>
-  <span class="keyword">def</span> <a title="(w: Int, wTimeout: Int, fsync: Boolean)(op: com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult)Unit" id="14661">request</a><span class="delimiter">(</span><a title="Int" id="39233">w</a>: <span title="Int">Int</span>, <a title="Int" id="39239">wTimeout</a>: <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>, <a title="Boolean" id="39240">fsync</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult" id="39236">op</a>: MongoDB =&gt; WriteResult<span class="delimiter">)</span> =
-    <a href="#39236" title="(v1: com.mongodb.casbah.MongoDB)com.mongodb.casbah.Imports.WriteResult">op</a><span class="delimiter">(</span><a href="#10017" title="com.mongodb.casbah.MongoDB" class="keyword">this</a><span class="delimiter">)</span>.<span title="(x$1: com.mongodb.WriteConcern)com.mongodb.CommandResult">getLastError</span><span class="delimiter">(</span><a href="WriteConcern.scala.html#18756" title="(w: Int, wTimeout: Int, fsync: Boolean, j: Boolean, continueInsertOnError: Boolean)com.mongodb.WriteConcern">WriteConcern</a><span class="delimiter">(</span><a href="#39233" title="Int">w</a>, <a href="#39239" title="Int">wTimeout</a>, <a href="#39240" title="Boolean">fsync</a><span class="delimiter">)</span><span class="delimiter">)</span>.<span title="()Unit">throwOnError</span>
+  <span class="keyword">def</span> <a title="(w: Int, wTimeout: Int, fsync: Boolean)(op: com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult)Unit" id="14655">request</a><span class="delimiter">(</span><a title="Int" id="39233">w</a>: <span title="Int">Int</span>, <a title="Int" id="39239">wTimeout</a>: <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>, <a title="Boolean" id="39240">fsync</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult" id="39236">op</a>: MongoDB =&gt; WriteResult<span class="delimiter">)</span> =
+    <a href="#39236" title="(v1: com.mongodb.casbah.MongoDB)com.mongodb.casbah.Imports.WriteResult">op</a><span class="delimiter">(</span><a href="#10020" title="com.mongodb.casbah.MongoDB" class="keyword">this</a><span class="delimiter">)</span>.<span title="(x$1: com.mongodb.WriteConcern)com.mongodb.CommandResult">getLastError</span><span class="delimiter">(</span><a href="WriteConcern.scala.html#18751" title="(w: Int, wTimeout: Int, fsync: Boolean, j: Boolean, continueInsertOnError: Boolean)com.mongodb.WriteConcern">WriteConcern</a><span class="delimiter">(</span><a href="#39233" title="Int">w</a>, <a href="#39239" title="Int">wTimeout</a>, <a href="#39240" title="Boolean">fsync</a><span class="delimiter">)</span><span class="delimiter">)</span>.<span title="()Unit">throwOnError</span>
 
   <span class="comment">/**
    * write concern aware write op block.
@@ -400,11 +400,11 @@
    *
    * @throws MongoException
    */</span>
-  <span class="keyword">def</span> <a title="(writeConcern: com.mongodb.casbah.Imports.WriteConcern)(op: com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult)Unit" id="14662">request</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="39244">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult" id="39245">op</a>: MongoDB =&gt; WriteResult<span class="delimiter">)</span> =
-    <a href="#39245" title="(v1: com.mongodb.casbah.MongoDB)com.mongodb.casbah.Imports.WriteResult">op</a><span class="delimiter">(</span><a href="#10017" title="com.mongodb.casbah.MongoDB" class="keyword">this</a><span class="delimiter">)</span>.<span title="(x$1: com.mongodb.WriteConcern)com.mongodb.CommandResult">getLastError</span><span class="delimiter">(</span><a href="#39244" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>.<span title="()Unit">throwOnError</span>
+  <span class="keyword">def</span> <a title="(writeConcern: com.mongodb.casbah.Imports.WriteConcern)(op: com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult)Unit" id="14656">request</a><span class="delimiter">(</span><a title="com.mongodb.casbah.Imports.WriteConcern" id="39244">writeConcern</a>: <span title="com.mongodb.casbah.Imports.WriteConcern">WriteConcern</span><span class="delimiter">)</span><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult" id="39245">op</a>: MongoDB =&gt; WriteResult<span class="delimiter">)</span> =
+    <a href="#39245" title="(v1: com.mongodb.casbah.MongoDB)com.mongodb.casbah.Imports.WriteResult">op</a><span class="delimiter">(</span><a href="#10020" title="com.mongodb.casbah.MongoDB" class="keyword">this</a><span class="delimiter">)</span>.<span title="(x$1: com.mongodb.WriteConcern)com.mongodb.CommandResult">getLastError</span><span class="delimiter">(</span><a href="#39244" title="com.mongodb.casbah.Imports.WriteConcern">writeConcern</a><span class="delimiter">)</span>.<span title="()Unit">throwOnError</span>
 
-  <span class="keyword">def</span> <a title="(op: com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult)Unit" id="14663">checkedWrite</a><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult" id="39251">op</a>: MongoDB =&gt; WriteResult<span class="delimiter">)</span> =
-    <a href="#39251" title="(v1: com.mongodb.casbah.MongoDB)com.mongodb.casbah.Imports.WriteResult">op</a><span class="delimiter">(</span><a href="#10017" title="com.mongodb.casbah.MongoDB" class="keyword">this</a><span class="delimiter">)</span>.<span title="()com.mongodb.CommandResult">getLastError</span>.<span title="()Unit">throwOnError</span>
+  <span class="keyword">def</span> <a title="(op: com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult)Unit" id="14657">checkedWrite</a><span class="delimiter">(</span><a title="com.mongodb.casbah.MongoDB =&gt; com.mongodb.casbah.Imports.WriteResult" id="39251">op</a>: MongoDB =&gt; WriteResult<span class="delimiter">)</span> =
+    <a href="#39251" title="(v1: com.mongodb.casbah.MongoDB)com.mongodb.casbah.Imports.WriteResult">op</a><span class="delimiter">(</span><a href="#10020" title="com.mongodb.casbah.MongoDB" class="keyword">this</a><span class="delimiter">)</span>.<span title="()com.mongodb.CommandResult">getLastError</span>.<span title="()Unit">throwOnError</span>
 
   <span class="comment">/**
    * Manipulate Network Options
@@ -412,14 +412,14 @@
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */</span>
-  <span class="keyword">def</span> <a title="(option: Int)Unit" id="14664">addOption</a><span class="delimiter">(</span><a title="Int" id="39257">option</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: Int)Unit">addOption</span><span class="delimiter">(</span><a href="#39257" title="Int">option</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="(option: Int)Unit" id="14658">addOption</a><span class="delimiter">(</span><a title="Int" id="39257">option</a>: <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="(x$1: Int)Unit">addOption</span><span class="delimiter">(</span><a href="#39257" title="Int">option</a><span class="delimiter">)</span>
   <span class="comment">/**
    * Manipulate Network Options
    *
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */</span>
-  <span class="keyword">def</span> <a title="()Unit" id="14665">resetOptions</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">resetOptions</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// use parens because this side-effects</span>
+  <span class="keyword">def</span> <a title="()Unit" id="14659">resetOptions</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Unit">resetOptions</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// use parens because this side-effects</span>
 
   <span class="comment">/**
    * Manipulate Network Options
@@ -427,7 +427,7 @@
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */</span>
-  <span class="keyword">def</span> <a title="()Int" id="14666">getOptions</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Int">getOptions</span>
+  <span class="keyword">def</span> <a title="()Int" id="14660">getOptions</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()Int">getOptions</span>
 
   <span class="comment">/**
    * Manipulate Network Options
@@ -435,9 +435,9 @@
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */</span>
-  <span class="keyword">def</span> <a title="=&gt; Int" id="14667">options</a> = <a href="#14666" title="()Int">getOptions</a>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="14661">options</a> = <a href="#14660" title="()Int">getOptions</a>
 
-  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="14668">toString</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14669" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()java.lang.String">toString</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="14662">toString</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#14663" title="=&gt; com.mongodb.DB">underlying</a>.<span title="()java.lang.String">toString</span>
 
 <span class="delimiter">}</span>
 

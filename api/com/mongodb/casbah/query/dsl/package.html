@@ -164,7 +164,7 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="FluidQueryBarewordOps.html"><span class="name">FluidQueryBarewordOps</span></a><span class="result"> extends SetOp with UnsetOp with IncOp with OrOp with AndOp with RenameOp with ArrayOps with NorOp with BitOp</span>
+        <a href="FluidQueryBarewordOps.html"><span class="name">FluidQueryBarewordOps</span></a><span class="result"> extends SetOp with SetOnInsertOp with UnsetOp with IncOp with OrOp with AndOp with RenameOp with ArrayOps with NorOp with BitOp</span>
       </span>
       </h4>
       <p class="comment cmt">Aggregation object for Bareword Operators.</p>
@@ -495,6 +495,19 @@ and refers to the left-hand of the Query (e.</p>
       </span>
       </h4>
       <p class="comment cmt">Trait to provide the $rename (Rename field) as a bareword operator</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.SetOnInsertOp" data-isabs="true">
+      <a id="SetOnInsertOp:SetOnInsertOp"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="SetOnInsertOp.html"><span class="name">SetOnInsertOp</span></a><span class="result"> extends BarewordQueryOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Trait to provide the $setOnInsert (SetOnInsert) SetOnInsert method as a
+bareword operator.</p>
     </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.SetOp" data-isabs="true">
       <a id="SetOp:SetOp"></a>
       <h4 class="signature">
