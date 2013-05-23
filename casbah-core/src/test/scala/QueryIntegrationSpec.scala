@@ -100,6 +100,12 @@ class QueryIntegrationSpec extends CasbahMutableSpecification {
         coll.findOne().get.keySet.asScala must beEqualTo(Set("_id", "hello"))
       }
     }
+
+    "Handle $where as expected" in {
+      coll.drop
+      coll += MongoDBObject("foo" -> "baz")
+      coll.find($where("this.foo == 'baz'")).count must beEqualTo(1)
+    }
   }
 
   "Casbah's DSL $inc Operator" should {

@@ -89,6 +89,7 @@ trait FluidQueryBarewordOps extends SetOp
   with ArrayOps
   with NorOp
   with BitOp
+  with WhereOp
 
 trait ArrayOps extends PushOp
                   with PushAllOp
@@ -353,4 +354,15 @@ trait BitOp extends BarewordQueryOperator {
       def or[T: ValidNumericType](target: T) = op("or", target)
     }
   }
+}
+
+/**
+ * Trait to provide the \$where (Where) method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) JSFunction [which is currently just as string containing a javascript function]
+ *
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-JavascriptExpressionsand%7B%7B%24where%7D%7D
+ */
+trait WhereOp extends BarewordQueryOperator {
+  def $where(target: JSFunction) = MongoDBObject("$where" -> target)
 }

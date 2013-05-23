@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Changes in Version 2.6.X
+------------------------
+- Fixed $where dsl operator (SCALA-97)
+
 Changes in Version 2.6.1
 ------------------------
 - Fixed $pushAll and $pullAll casting of iterables (SCALA-54)

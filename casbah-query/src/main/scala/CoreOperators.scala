@@ -52,7 +52,6 @@ trait FluidQueryOperators extends NotEqualsOp
   with SizeOp
   with ExistsOp
   with AllOp
-  with WhereOp
   with NotOp
   with SliceOp
   with TypeOp
@@ -66,7 +65,6 @@ trait ValueTestFluidQueryOperators extends LessThanOp
   with ModuloOp
   with SizeOp
   with AllOp
-  with WhereOp
   with NotEqualsOp
   with TypeOp
 
@@ -296,19 +294,6 @@ trait ExistsOp extends QueryOperator {
   private val oper = "$exists"
 
   def $exists(target: Boolean) = queryOp(oper, target)
-}
-
-/**
- * Trait to provide the \$where (Where) method on appropriate callers.
- *
- * Targets (takes a right-hand value of) JSFunction [which is currently just as string containing a javascript function]
- *
- * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-JavascriptExpressionsand%7B%7B%24where%7D%7D
- */
-trait WhereOp extends QueryOperator {
-  private val oper = "$where"
-
-  def $where(target: JSFunction) = queryOp(oper, target)
 }
 
 /**

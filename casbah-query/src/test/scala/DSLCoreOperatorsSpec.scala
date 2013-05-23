@@ -718,13 +718,6 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
     }
   }
 
-  "Casbah's $where operator" should {
-    "Function as expected" in {
-      val where = "x" $where "function () { this.foo }"
-      where must haveField("x.$where")
-    }
-  }
-
   "Casbah's $not operator" should {
     "Function in a normal passing" in {
       val not = "foo" $not { _ $lt 5.1 }

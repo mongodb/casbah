@@ -231,6 +231,14 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         }
       }
     }
+
+    "$where" should {
+      "be a top level operator" in {
+        val where = $where("function () { this.foo }")
+        where must haveField("$where")
+      }
+    }
+
     "$pop" in {
       "Accept a single value" in {
         val pop = $pop("foo" -> 1)
