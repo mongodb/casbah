@@ -3,7 +3,7 @@ Installation
 .. highlight:: bash
 
 **Casbah** is released to the `Sonatype <http://sonatype.org/>`_ repository,
-the latest Casbah build as is |release| and supports the follwoing scala
+the latest Casbah build as is |release| and supports the following scala
 versions: |scala_versions|.
 
 The easiest way to install the latest Casbah driver (|release|) is by using

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>2. Alternative installation methods for Casbah &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.1 documentation</title>
+    <title>2. Alternative installation methods &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.1 documentation</title>
 
     <link rel="shortcut icon" href="http://media.mongodb.org/favicon.ico" />
     <meta name="robots" content="index" />
@@ -74,13 +74,11 @@
           <div class="body">
             <div id="cse-results"><gcse:searchresults></gcse:searchresults></div>
             
-  <div class="section" id="alternative-installation-methods-for-casbah">
-<h1>2. Alternative installation methods for Casbah<a class="headerlink" href="#alternative-installation-methods-for-casbah" title="Permalink to this headline">¶</a></h1>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">There is no single jar as Casbah is split into multiple modules.
-See the <a class="reference external" href="modules">casbah modules</a> documentation for more information.</p>
-</div>
+  <div class="section" id="alternative-installation-methods">
+<h1>2. Alternative installation methods<a class="headerlink" href="#alternative-installation-methods" title="Permalink to this headline">¶</a></h1>
+<p><strong>Casbah</strong> is released to the <a class="reference external" href="http://sonatype.org/">Sonatype</a> repository,
+the latest Casbah build as is 2.6.1 and supports the following scala
+versions: 2.9.1, 2.9.2, 2.10.0 and 2.10.1.</p>
 <div class="section" id="using-dependency-build-managers">
 <h2>2.1. Using Dependency/Build Managers<a class="headerlink" href="#using-dependency-build-managers" title="Permalink to this headline">¶</a></h2>
 <p>First, you should add the package repository to your Dependency/Build Manager.
@@ -116,10 +114,20 @@ Casbah as well as any specific dependencies you may require.</p>
 </div>
 <div class="section" id="setting-up-without-a-dependency-build-manager-source-binary">
 <h2>2.4. Setting up without a Dependency/Build Manager (Source + Binary)<a class="headerlink" href="#setting-up-without-a-dependency-build-manager-source-binary" title="Permalink to this headline">¶</a></h2>
-<p>The builds are published to the
-<a class="reference external" href="https://oss.sonatype.org/content/repositories/releases/">Sonatype.org</a>
-Maven repositories and should be easily available to add to an existing Scala
-project.</p>
+<div class="section" id="all-dependencies-jar">
+<h3>2.4.1. All Dependencies Jar<a class="headerlink" href="#all-dependencies-jar" title="Permalink to this headline">¶</a></h3>
+<p>As Casbah is published in multiple modules installing it manually can take time,
+especially as the dependencies change depending on the Scala version you are
+using. To simplfy this you can download a single all inclusive jar for your
+scala version:</p>
+<blockquote>
+<div><a class="reference external" href="http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/2.6.1/casbah-alldep_2.10-2.6.1.jar">http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/2.6.1/casbah-alldep_2.10-2.6.1.jar</a>
+<a class="reference external" href="http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.2/2.6.1/casbah-alldep_2.9.2-2.6.1.jar">http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.2/2.6.1/casbah-alldep_2.9.2-2.6.1.jar</a>
+<a class="reference external" href="http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.1/2.6.1/casbah-alldep_2.9.1-2.6.1.jar">http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.1/2.6.1/casbah-alldep_2.9.1-2.6.1.jar</a></div></blockquote>
+<p>Once the jar is on your class path you will be able to use Casbah.</p>
+</div>
+<div class="section" id="building-from-source">
+<h3>2.4.2. Building from source<a class="headerlink" href="#building-from-source" title="Permalink to this headline">¶</a></h3>
 <p>You can always get the latest source for Casbah from
 <a class="reference external" href="https://github.com/mongodb/casbah">the github repository</a>:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">$</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="o">://</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">mongodb</span><span class="o">/</span><span class="n">casbah</span>
@@ -127,6 +135,7 @@ project.</p>
 </div>
 <p>The <cite>master</cite> branch is once again the leading branch suitable for snapshots and
 releases and should be considered (and kept) stable.</p>
+</div>
 </div>
 </div>
 
@@ -149,11 +158,15 @@ releases and should be considered (and kept) stable.</p>
 
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">2. Alternative installation methods for Casbah</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">2. Alternative installation methods</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#using-dependency-build-managers">2.1. Using Dependency/Build Managers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-maven">2.2. Setting Up Maven</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-ivy-w-ant">2.3. Setting Up Ivy (w/ Ant)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#setting-up-without-a-dependency-build-manager-source-binary">2.4. Setting up without a Dependency/Build Manager (Source + Binary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setting-up-without-a-dependency-build-manager-source-binary">2.4. Setting up without a Dependency/Build Manager (Source + Binary)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#all-dependencies-jar">2.4.1. All Dependencies Jar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-from-source">2.4.2. Building from source</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">3. Tutorial: Using Casbah</a></li>

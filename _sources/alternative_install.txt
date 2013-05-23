@@ -1,8 +1,9 @@
-Alternative installation methods for Casbah
-===========================================
+Alternative installation methods
+================================
 
-.. note:: There is no single jar as Casbah is split into multiple modules.
-    See the `casbah modules <modules>`_ documentation for more information.
+**Casbah** is released to the `Sonatype <http://sonatype.org/>`_ repository,
+the latest Casbah build as is |release| and supports the following scala
+versions: |scala_versions|.
 
 Using Dependency/Build Managers
 -------------------------------
@@ -45,10 +46,21 @@ Please substitute $SCALA_VERSION$ with your Scala version (we support 2.9.x+)
 
 Setting up without a Dependency/Build Manager (Source + Binary)
 ----------------------------------------------------------------
-The builds are published to the
-`Sonatype.org <https://oss.sonatype.org/content/repositories/releases/>`_
-Maven repositories and should be easily available to add to an existing Scala
-project.
+
+All Dependencies Jar
+''''''''''''''''''''
+
+As Casbah is published in multiple modules installing it manually can take time,
+especially as the dependencies change depending on the Scala version you are
+using. To simplfy this you can download a single all inclusive jar for your
+scala version:
+
+    |all_dep_urls|
+
+Once the jar is on your class path you will be able to use Casbah.
+
+Building from source
+''''''''''''''''''''
 
 You can always get the latest source for Casbah from
 `the github repository <https://github.com/mongodb/casbah>`_::
@@ -57,3 +69,10 @@ You can always get the latest source for Casbah from
 
 The `master` branch is once again the leading branch suitable for snapshots and
 releases and should be considered (and kept) stable.
+
+.. |scala_versions| replace:: 2.9.1, 2.9.2, 2.10.0 and 2.10.1
+.. |all_dep_urls| replace::
+    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/2.6.1/casbah-alldep_2.10-2.6.1.jar
+    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.2/2.6.1/casbah-alldep_2.9.2-2.6.1.jar
+    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.1/2.6.1/casbah-alldep_2.9.1-2.6.1.jar
+
