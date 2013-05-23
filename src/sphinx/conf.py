@@ -290,7 +290,6 @@ epub_copyright = '2010-2012 10gen, Inc.'
 # Allow duplicate toc entries.
 #epub_tocdup = True
 
-
 extlinks = {
     'dochub': ('http://docs.mongodb.org/manual/?q=%s', ''),
     'casbah-core': ('http://mongodb.github.com/casbah/api/#com.mongodb.casbah.package?%s', ''),
