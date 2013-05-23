@@ -2,6 +2,12 @@ import sbt._
 import Keys._
 import Project.Initialize
 
+import com.typesafe.sbt.SbtSite._
+import org.scalastyle.sbt.ScalastylePlugin
+import sbtassembly.Plugin._
+import AssemblyKeys._
+
+
 object CasbahBuild extends Build {
   import Dependencies._
   import Resolvers._
@@ -79,7 +85,10 @@ object CasbahBuild extends Build {
   lazy val casbah = Project(
     id        = "casbah",
     base      = file("."),
-    settings  = parentSettings ++ Unidoc.settings,
+    settings  = parentSettings ++ Unidoc.settings ++ site.settings ++
+                site.sphinxSupport() ++ ScalastylePlugin.settings ++
+                assemblySettings ++
+                addArtifact(Artifact("casbah-alldep", "pom", "jar"), assembly),
     aggregate = Seq(commons, core, query, gridfs)
   ) dependsOn(commons, core, query, gridfs)
 
