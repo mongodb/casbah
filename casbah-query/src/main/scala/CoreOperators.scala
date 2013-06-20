@@ -41,7 +41,8 @@ import org.bson.types.BasicBSONList
  * operators.  See Implicits for examples of usage.
  *
  */
-trait FluidQueryOperators extends NotEqualsOp
+trait FluidQueryOperators extends EqualsOp
+  with NotEqualsOp
   with LessThanOp
   with LessThanEqualOp
   with GreaterThanOp
@@ -93,7 +94,7 @@ object QueryExpressionObject {
 trait QueryOperator extends ChainedOperator {
   /**
    * Base method for children to call to convert an operator call
-   * into a Mongo DBObject.
+   * into a nested Mongo DBObject.
    *
    * e.g. <code>"foo" \$ne "bar"</code> will convert to
    * <code>{"foo": {"\$ne": "bar"}}</code>
@@ -117,6 +118,29 @@ trait QueryOperator extends ChainedOperator {
     }
   })
 
+  /**
+   * Base method for children to call to convert an operator call
+   * into a Mongo DBObject.
+   *
+   * e.g. <code>"foo" \$eq "bar"</code> will convert to
+   * <code>{"foo": "bar"}</code>
+   *
+   * WARNING: This does NOT check that target is a serializable type.
+   * That is, for the moment, your own problem.
+   */
+  protected def queryEq(target: Any): DBObject with QueryExpressionObject = QueryExpressionObject((field -> target))
+
+}
+
+/**
+ * Trait to provide an equals method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) String, Numeric,
+ * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.
+ *
+ */
+trait EqualsOp extends QueryOperator {
+  def $eq[A : AsQueryParam](a:A) = queryEq(AsQueryParam[A].asQueryParam(a))
 }
 
 /**

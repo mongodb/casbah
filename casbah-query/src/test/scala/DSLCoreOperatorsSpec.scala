@@ -35,6 +35,108 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
 
   def nonDSL(key: String, oper: String, value: Any) = MongoDBObject(key -> MongoDBObject(oper -> value))
 
+  "Casbah's DSL $eq operator" should {
+    DeregisterJodaTimeConversionHelpers()
+
+    val testDate = new java.util.Date(109, 01, 02, 0, 0, 0)
+
+    "Accept a right hand value of String" in {
+      val eqStr = "foo" $eq "ISBN-123456789"
+      eqStr must beEqualTo(MongoDBObject("foo" -> "ISBN-123456789"))
+    }
+
+    "Accept a right hand value of DBObject" in {
+      "A BasicDBObject created value" in {
+        val eqObj = "foo" $eq new BasicDBObject("bar", "baz")
+        eqObj must beEqualTo(MongoDBObject("foo" -> new BasicDBObject("bar", "baz")))
+      }
+      "A MongoDBObject created value" in {
+        val eqObj = "foo" $eq MongoDBObject("bar" -> "baz")
+        eqObj must beEqualTo(MongoDBObject("foo" -> MongoDBObject("bar" -> "baz")))
+      }
+      "A DBList should work also" in {
+        val eqLst = "foo" $eq MongoDBList("x", "y", "z")
+        eqLst must beEqualTo(MongoDBObject("foo" -> MongoDBList("x", "y", "z")))
+
+      }
+    }
+
+    "Accept List-like values descended from Iterable" in {
+      "An immutable List works" in {
+        import scala.collection.immutable.List
+        val eqLst = "foo" $eq List("x", "y", 5)
+        eqLst must beEqualTo(MongoDBObject("foo" -> List("x", "y", 5)))
+      }
+
+      "An immutable Seq works" in {
+        import scala.collection.immutable.Seq
+        val eqSeq = "foo" $eq Seq("x", "y", 5)
+        eqSeq must beEqualTo(MongoDBObject("foo" -> Seq("x", "y", 5)))
+      }
+
+      "An immutable Set works" in {
+        import scala.collection.immutable.Set
+        val eqSet = "foo" $eq Set("x", "y", 5)
+        eqSet must haveListEntry("foo", Set("x", "y", 5))
+      }
+
+      "An mutable HashSet works" in {
+        import scala.collection.mutable.HashSet
+        val eqHashSet = "foo" $eq HashSet("x", "y", 5)
+        eqHashSet must haveListEntry("foo", HashSet("x", "y", 5))
+      }
+
+      "Also, Arrays function" in {
+        val eqArray = "foo" $eq Array("x", "y", 5)
+        eqArray must haveListEntry("foo", Array("x", "y", 5))
+      }
+    }
+
+    "Accept a right hand value of ValidDateOrNumericType" in {
+      "with Int" in {
+        val eqInt = "foo" $eq 10
+        eqInt must beEqualTo(MongoDBObject("foo" -> 10))
+      }
+      "with BigDecimal" in {
+        val eqBD = "foo" $eq BigDecimal("5.8233232")
+        eqBD must beEqualTo(MongoDBObject("foo" -> BigDecimal("5.8233232")))
+      }
+      "with BigInt" in {
+        val eqBI = "foo" $eq BigInt("1000000000000000000425425245252")
+        eqBI must beEqualTo(MongoDBObject("foo" -> BigInt("1000000000000000000425425245252")))
+      }
+      "with Byte" in {
+        val eqByte = "foo" $eq java.lang.Byte.parseByte("51")
+        eqByte must beEqualTo(MongoDBObject("foo" -> java.lang.Byte.parseByte("51")))
+      }
+      "with Double" in {
+        val eqDouble = "foo" $eq 5.232352
+        eqDouble must beEqualTo(MongoDBObject("foo" -> 5.232352))
+      }
+      "with Float" in {
+        val eqFloat = "foo" $eq java.lang.Float.parseFloat("5.232352")
+        eqFloat must beEqualTo(MongoDBObject("foo" -> java.lang.Float.parseFloat("5.232352")))
+      }
+      "with Long" in {
+        val eqLong = "foo" $eq 10L
+        eqLong must beEqualTo(MongoDBObject("foo" -> 10L))
+      }
+      "with Short" in {
+        val eqShort = "foo" $eq java.lang.Short.parseShort("10")
+        eqShort must beEqualTo(MongoDBObject("foo" -> java.lang.Short.parseShort("10")))
+      }
+      "with JDKDate" in {
+        val eqJDKDate = "foo" $eq testDate
+        eqJDKDate must beEqualTo(MongoDBObject("foo" -> testDate))
+      }
+      "with JodaDT" in {
+        RegisterJodaTimeConversionHelpers()
+        val eqJodaDT = "foo" $eq new org.joda.time.DateTime(testDate.getTime)
+        eqJodaDT must beEqualTo(MongoDBObject("foo" -> new org.joda.time.DateTime(testDate.getTime)))
+      }
+    }
+  }
+
   "Casbah's DSL $ne operator" should {
     DeregisterJodaTimeConversionHelpers()
 

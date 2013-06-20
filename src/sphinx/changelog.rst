@@ -4,6 +4,7 @@ Changelog
 Changes in Version 2.6.X
 ------------------------
 - Fixed $where dsl operator (SCALA-97)
+- Added $eq operator (SCALA-105)
 
 Changes in Version 2.6.1
 ------------------------
