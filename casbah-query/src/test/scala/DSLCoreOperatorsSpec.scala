@@ -831,12 +831,10 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
       not must haveEntry("foo.$not" -> MongoDBObject("$mod" -> MongoDBList(5, 10)))
     }
 
-    // TODO - Fix me.  Some kind of value match failure internally with the regex.
-    /*    "Function with a regular expression" in {
+    "Function with a regular expression" in {
       val not = "foo" $not "^foo.*bar".r
-//      not must haveEntry("foo.$not" -> "^foo.*bar".r) // TODO - RegEx matcher!!!!
-      not must not beNull
-    }*/
+      not.toString() must beEqualTo("""{ "foo" : { "$not" : { "$regex" : "^foo.*bar"}}}""")
+    }
   }
 
   "Casbah's $slice operator" should {
@@ -1003,6 +1001,89 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
           MongoDBObject(
             "foo" -> MongoDBObject(
               "$nearSphere" -> MongoDBList(74.2332, -75.23452))))
+      }
+    }
+    "Support.$geoWithin ..." in {
+
+      "... geometries" in {
+        var geo = MongoDBObject("$geometry" ->
+                    MongoDBObject("$type" -> "polygon",
+                      "coordinates" -> (((GeoCoords(74.2332, -75.23452),
+                                          GeoCoords(123, 456),
+                                          GeoCoords(74.2332, -75.23452))))))
+        val near = "foo".$geoWithin(MongoDBObject("$geometry" -> geo))
+          near must beEqualTo(
+            MongoDBObject(
+              "foo" -> MongoDBObject(
+                "$geoWithin" -> geo)
+      }
+      "... $box" in {
+        "With an explicit GeoCoords instance" in {
+          val near = "foo".$geoWithin $box (GeoCoords(74.2332, -75.23452), GeoCoords(123, 456))
+          near must beEqualTo(
+            MongoDBObject(
+              "foo" -> MongoDBObject(
+                "$geoWithin" -> MongoDBObject(
+                  "$box" -> MongoDBList(
+                    MongoDBList(74.2332, -75.23452),
+                    MongoDBList(123, 456))))))
+        }
+        "With a tuple converted coordinate set" in {
+          val near = "foo".$geoWithin $box ((74.2332, -75.23452), (123, 456))
+          near must beEqualTo(
+            MongoDBObject(
+              "foo" -> MongoDBObject(
+                "$geoWithin" -> MongoDBObject(
+                  "$box" -> MongoDBList(
+                    MongoDBList(74.2332, -75.23452),
+                    MongoDBList(123, 456))))))
+        }
+      }
+      "... $center" in {
+        "With an explicit GeoCoords instance" in {
+          val near = "foo".$geoWithin $center (GeoCoords(50, 50), 10)
+          log.error("Near: %s", near.getClass)
+          val x = MongoDBObject(
+            "foo" -> MongoDBObject(
+              "$geoWithin" -> MongoDBObject(
+                "$center" -> MongoDBList(
+                  MongoDBList(50, 50),
+                  10))))
+          log.error("Match X: %s", x.getClass)
+          near must beEqualTo(x)
+        }
+        "With a tuple converted coordinate set" in {
+          val near = "foo".$geoWithin $center ((50, 50), 10)
+          near must beEqualTo(
+            MongoDBObject(
+              "foo" -> MongoDBObject(
+                "$geoWithin" -> MongoDBObject(
+                  "$center" -> MongoDBList(
+                    MongoDBList(50, 50),
+                    10)))))
+        }
+      }
+      "... $centerSphere" in {
+        "With an explicit GeoCoords instance" in {
+          val near = "foo".$geoWithin $centerSphere (GeoCoords(50, 50), 10)
+          near must beEqualTo(
+            MongoDBObject(
+              "foo" -> MongoDBObject(
+                "$geoWithin" -> MongoDBObject(
+                  "$centerSphere" -> MongoDBList(
+                    MongoDBList(50, 50),
+                    10)))))
+        }
+        "With a tuple converted coordinate set" in {
+          val near = "foo".$geoWithin $centerSphere ((50, 50), 10)
+          near must beEqualTo(
+            MongoDBObject(
+              "foo" -> MongoDBObject(
+                "$geoWithin" -> MongoDBObject(
+                  "$centerSphere" -> MongoDBList(
+                    MongoDBList(50, 50),
+                    10)))))
+        }
       }
     }
     "Support.$within ..." in {

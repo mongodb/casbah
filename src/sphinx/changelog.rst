@@ -3,8 +3,9 @@ Changelog
 
 Changes in Version 2.6.X
 ------------------------
-- Fixed $where dsl operator (SCALA-97)
+- Updated to the latest Java driver 2.11.2 (SCALA-106)
 - Added $eq operator (SCALA-105)
+- Fixed $where dsl operator (SCALA-97)
 
 Changes in Version 2.6.1
 ------------------------

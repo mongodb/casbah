@@ -196,6 +196,7 @@ object AsQueryParam {
   implicit val dbRef = as[DBRef](identity)
   implicit val objectId = as[ObjectId](identity)
   implicit val boolean = as[Boolean](identity)
+  implicit val regex = as[scala.util.matching.Regex](identity)
   implicit def array[A] = as[Array[A]](_.toList)
   implicit def iterable[A <: Iterable[_]] = as[A](_.toList)
   implicit def dateOrNumeric[A : ValidDateOrNumericType] = as[A](identity)

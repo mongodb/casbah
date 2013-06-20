@@ -1,4 +1,3 @@
-======
 Casbah
 ======
 :Info: Scala toolkit for MongoDB (com.mongodb.casbah). See `the mongo site <http://www.mongodb.org>`_ for more information. See `github <http://github.com/mongodb/casbah/tree>`_ for the latest source.
@@ -11,9 +10,8 @@ Casbah
 About
 =====
 Casbah is an interface for `MongoDB <http://www.mongodb.org>`_ designed to
-provide more flexible access from both Java and Scala.  While the current core
-focus is on providing a Scala oriented wrapper interface around the Java mongo
-driver, support for other JVM languages may come in the future.
+provide more flexible access from both Java and Scala.  The core focus is on
+providing a Scala oriented wrapper interface around the Java mongo driver.
 
 For the Scala side, contains series of wrappers and DSL-like functionality for
 utilizing MongoDB from within Scala. This currently utilises the very
@@ -29,8 +27,8 @@ Please address any questions or problems to the
 Google Groups.
 
 For more information about Casbah see the
-`API Docs <http://mongodb.github.com/casbah/scaladoc/>`_ or
-`Tutorial <http://mongodb.github.com/casbah/tutorial.html>`_.
+`API Docs <http://mongodb.github.io/casbah/api/>`_ or
+`Tutorial <http://mongodb.github.io/casbah/guide/>`_.
 
 Project Artifacts
 -----------------
@@ -68,10 +66,3 @@ Please report all issues on the
 We also maintain a
 `Casbah Mailing List <http://groups.google.com/group/mongodb-casbah-users>`_
 on Google Groups, where you can address questions and problems.
-
-Notice for users of old, Pre-2.0 versions of Casbah
----------------------------------------------------
-
-The package has changed as of version 2.0 to `com.mongodb.casbah`; version 1.1
-of Casbah used the package `com.novus.casbah` and versions 1.0 and below were
-packaged as `com.novus.casbah.mongodb`.

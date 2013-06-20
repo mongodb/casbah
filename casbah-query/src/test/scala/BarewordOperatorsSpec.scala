@@ -167,6 +167,10 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         push must haveEntry("$push.foo" -> "bar")
         push must haveEntry("$push.x" -> 5.2)
       }
+      "Accept $each" in {
+        val push = $push("foo") $each ("x", "y", "foo", "bar", "baz")
+        push must haveListEntry("$addToSet.foo.$each", Seq("x", "y", "foo", "bar", "baz"))
+      }
     }
     "$pushAll" in {
       "Accept a single value list" in {

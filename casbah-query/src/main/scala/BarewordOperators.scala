@@ -171,6 +171,22 @@ trait IncOp extends BarewordQueryOperator {
  */
 trait PushOp extends BarewordQueryOperator {
   def $push[A](fields: (String, A)*): DBObject = apply[A]("$push")(fields)
+  def $push(field: String) = {
+    /**
+     * Special query operator only available on the right-hand side of an
+     * \$push which takes a list of values.
+     *
+     * Slightly hacky to prevent it from returning unless completed with a \$each
+     *
+     * @since 2.6.2
+     * @see http://www.mongodb.org/display/DOCS/Updating
+     */
+    new {
+      protected def eachOp(target: Any) =
+        MongoDBObject("$push" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
+      def $each(target: Iterable[Any]) = eachOp(target.toList)
+    }
+  }
 }
 
 /*
@@ -211,8 +227,6 @@ trait AddToSetOp extends BarewordQueryOperator {
      * \$addToSet which takes a list of values.
      *
      * Slightly hacky to prevent it from returning unless completed with a \$each
-     *
-     * THIS WILL NOT WORK IN MONGOD ANYWHERE BUT INSIDE AN ADDTOSET
      *
      * @since 2.0
      * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
