@@ -185,6 +185,7 @@ trait PushOp extends BarewordQueryOperator {
       protected def eachOp(target: Any) =
         MongoDBObject("$push" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
       def $each(target: Iterable[Any]) = eachOp(target.toList)
+      def $each[A: AsQueryParam](target: A*) = eachOp(target)
     }
   }
 }
@@ -235,14 +236,8 @@ trait AddToSetOp extends BarewordQueryOperator {
       protected def op(target: Any) =
         MongoDBObject("$addToSet" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
 
-      def $each(target: Array[Any]) = op(target.toList)
-      def $each(target: Any*) =
-        if (target.size > 1)
-          op(target.toList)
-        else if (!target(0).isInstanceOf[Iterable[_]] &&
-          !target(0).isInstanceOf[Array[_]])
-          op(List(target(0)))
-        else op(target(0))
+      def $each(target: Iterable[Any]) = op(target.toList)
+      def $each[A: AsQueryParam](target: A*) = op(target)
     }
   }
 

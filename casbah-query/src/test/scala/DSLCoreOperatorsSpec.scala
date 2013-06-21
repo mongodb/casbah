@@ -1015,7 +1015,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
-                "$geoWithin" -> geo)
+                "$geoWithin" -> geo)))
       }
       "... $box" in {
         "With an explicit GeoCoords instance" in {
