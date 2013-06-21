@@ -28,7 +28,6 @@ import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 import com.github.nscala_time.time.Imports._
-
 import com.mongodb.casbah.Imports._
 
 
@@ -210,6 +209,33 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       "except key, query and readPref" in {
         val l = coll.distinct( "x" , "_id" $gt 95, ReadPreference.Primary )
         l.size must beEqualTo(4)
+      }
+
+  }
+
+  "Aggregation operations" should {
+      val db = MongoClient()("casbahTest")
+      val coll = db("aggregate")
+      coll.drop()
+
+      for (i <- 1 to 99)
+        coll += MongoDBObject("_id" -> i, "score" -> i % 10)
+
+      "except just a single op" in {
+        val l = coll.aggregate( MongoDBObject("$match" -> ("score" $gte 7)) )
+        l.results.size must beEqualTo(30)
+      }
+
+      "except multiple ops" in {
+        val l = coll.aggregate( MongoDBObject("$match" -> ("score" $gte 7)),
+                                MongoDBObject("$project" -> MongoDBObject("score" -> 1)) )
+        l.results.size must beEqualTo(30)
+      }
+
+      "except list of ops" in {
+        val l = coll.aggregate( List(MongoDBObject("$match" -> ("score" $gte 7)),
+                                     MongoDBObject("$project" -> MongoDBObject("score" -> 1))) )
+        l.results.size must beEqualTo(30)
       }
 
   }

@@ -508,8 +508,27 @@ trait MongoCollectionBase extends Logging { self =>
     underlying.insert(b.result, concern, encoder)
   }
 
-
   def isCapped = underlying.isCapped()
+
+  /**
+   * performs an aggregation operation
+   *
+   * @param args the aggregation pipeline
+   *
+   * @return The aggregation operation's result set
+   *
+   */
+  def aggregate(args: DBObject*) = underlying.aggregate(args.head, args.tail.map(_.asInstanceOf[DBObject]): _*).asScala
+
+  /**
+   * performs an aggregation operation
+   *
+   * @param args the aggregation pipeline
+   *
+   * @return The aggregation operation's result set
+   *
+   */
+  def aggregate[A <% DBObject](args: Iterable[A]) = underlying.aggregate(args.head, args.tail.toSeq.map(_.asInstanceOf[DBObject]): _*).asScala
 
   /**
    * mapReduce

@@ -111,6 +111,14 @@ trait Implicits {
 
   implicit def stringAsNamedCollectionMROutput(name: String) = map_reduce.MapReduceStandardOutput(name)
 
+  implicit def aggregationOutputAsScala(output: com.mongodb.AggregationOutput) = new {
+    /**
+     * Return a type-neutral Scala Wrapper object for the DB
+     * @return MongoDB An instance of a scala wrapper containing the DB object
+     */
+    def asScala = new AggregationOutput(output)
+  }
+
 }
 
 object Implicits extends Implicits with commons.Implicits with query.Implicits
@@ -138,6 +146,7 @@ trait BaseImports {
 trait TypeImports {
   type MongoConnection = com.mongodb.casbah.MongoConnection
   type MongoCollection = com.mongodb.casbah.MongoCollection
+  type AggregationOutput = com.mongodb.casbah.AggregationOutput
   type MongoDB = com.mongodb.casbah.MongoDB
   type MongoCursor = com.mongodb.casbah.MongoCursor
   type MongoURI = com.mongodb.casbah.MongoURI

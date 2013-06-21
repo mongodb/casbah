@@ -3,7 +3,6 @@ Connecting to MongoDB
 =====================
 .. highlight:: scala
 
-
 The core connection class is `MongoClient
 <http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoClient>`_.  The
 casbah ``MongoClient`` class simple wraps the `MongoClient Java class
