@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>1. Tutorial: Using Casbah &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.1 documentation</title>
+    <title>1. Tutorial: Using Casbah &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.2 documentation</title>
 
     <link rel="shortcut icon" href="http://media.mongodb.org/favicon.ico" />
     <meta name="robots" content="index" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '#',
-        VERSION:     '2.6.1',
+        VERSION:     '2.6.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
       <link rel="search" type="application/opensearchdescription+xml" href="http://docs.mongodb.org/osd.xml" title="MongoDB Help"/>
-<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.6.1 documentation" href="index.html" />
+<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.6.2 documentation" href="index.html" />
 <link rel="next" title="2. User Guide" href="guide/index.html" />
 <link rel="prev" title="Casbah User Documentation" href="index.html" />
 <!-- Put the following javascript before the closing </head> tag. -->
@@ -107,7 +107,7 @@ version := &quot;0.1&quot;
 
 scalaVersion := &quot;2.10.2&quot;
 
-libraryDependencies += &quot;org.mongodb&quot; %% &quot;casbah&quot; % &quot;2.6.1&quot;
+libraryDependencies += &quot;org.mongodb&quot; %% &quot;casbah&quot; % &quot;2.6.2&quot;
 </pre>
 <ol class="arabic" start="3">
 <li><p class="first">Run the console and test (sbt will automatically install the dependencies):</p>
@@ -240,7 +240,7 @@ a simple document it will replace the existing one with the new document.</p>
 </div>
 <p>MongoDB comes with a host of
 <a class="reference external" href="http://docs.mongodb.org/manual/core/update/#crud-update-operators">update operators</a>
-to modify documents.  Casbah has a powerful <a class="reference external" href="guide/query">DSL</a> for creating
+to modify documents.  Casbah has a powerful <a class="reference external" href="guide/querying">DSL</a> for creating
 these update documents. Lets set the language to scala for the JVM document:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">query</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;platform&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;JVM&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">update</span> <span class="k">=</span> <span class="nc">$set</span><span class="o">(</span><span class="s">&quot;language&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;Scala&quot;</span><span class="o">)</span>

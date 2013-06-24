@@ -52,7 +52,7 @@ All Dependencies Jar
 
 As Casbah is published in multiple modules installing it manually can take time,
 especially as the dependencies change depending on the Scala version you are
-using. To simplfy this you can download a single all inclusive jar for your
+using. To simplify this you can download a single all inclusive jar for your
 scala version:
 
     |all_dep_urls|
@@ -72,7 +72,7 @@ releases and should be considered (and kept) stable.
 
 .. |scala_versions| replace:: 2.9.1, 2.9.2, 2.10.0 and 2.10.1
 .. |all_dep_urls| replace::
-    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/2.6.1/casbah-alldep_2.10-2.6.1.jar
-    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.2/2.6.1/casbah-alldep_2.9.2-2.6.1.jar
-    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.1/2.6.1/casbah-alldep_2.9.1-2.6.1.jar
+    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/2.6.2/casbah-alldep_2.10-2.6.1.jar
+    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.2/2.6.2/casbah-alldep_2.9.2-2.6.1.jar
+    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.1/2.6.2/casbah-alldep_2.9.1-2.6.1.jar
 

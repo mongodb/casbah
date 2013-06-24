@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>2.5. Connecting to MongoDB &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.1 documentation</title>
+    <title>2.5. Connecting to MongoDB &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.2 documentation</title>
 
     <link rel="shortcut icon" href="http://media.mongodb.org/favicon.ico" />
     <meta name="robots" content="index" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.6.1',
+        VERSION:     '2.6.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,10 +25,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
       <link rel="search" type="application/opensearchdescription+xml" href="http://docs.mongodb.org/osd.xml" title="MongoDB Help"/>
-<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.6.1 documentation" href="../index.html" />
+<link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.6.2 documentation" href="../index.html" />
 <link rel="up" title="2. User Guide" href="index.html" />
 <link rel="next" title="2.6. Querying" href="querying.html" />
-<link rel="prev" title="2.4. Alternative installation methods" href="installation_alt.html" />
+<link rel="prev" title="2.4. Casbah Modules" href="modules.html" />
 <!-- Put the following javascript before the closing </head> tag. -->
 <script>
   (function() {
@@ -78,7 +78,7 @@
   <div class="section" id="connecting-to-mongodb">
 <h1>2.5. Connecting to MongoDB<a class="headerlink" href="#connecting-to-mongodb" title="Permalink to this headline">¶</a></h1>
 <p>The core connection class is <a class="reference external" href="http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoClient">MongoClient</a>.  The
-casbah <tt class="docutils literal"><span class="pre">MongoClient</span></tt> class simple wraps the <a class="reference external" href="http://api.mongodb.org/java/current/?com/mongodb/MongoClient.html">MongoClient Java class</a> and
+casbah <tt class="docutils literal"><span class="pre">MongoClient</span></tt> class simply wraps the <a class="reference external" href="http://api.mongodb.org/java/current/?com/mongodb/MongoClient.html">MongoClient Java class</a> and
 provides a couple of scala helpers as well.</p>
 <p><tt class="docutils literal"><span class="pre">MongoClient</span></tt> is available in the global imports class:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.Imports._</span>
@@ -108,18 +108,20 @@ format defines connections between applications and MongoDB.  In Casbah the
 <span class="k">val</span> <span class="n">mongoClient</span> <span class="k">=</span>  <span class="nc">MongoClient</span><span class="o">(</span><span class="n">uri</span><span class="o">)</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>..note:: URI style strings supports all the various connection scenarios, such</dt>
-<dd>as connecting to replicasets or using authentication and as such its often
-considered easier to use.  The following examples show both the long hand
-way of connecting purely in code and the URI style.</dd>
-</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>URI style strings supports all the various connection scenarios, such
+as connecting to replicasets or using authentication and as such its often
+considered easier to use.</p>
+<p class="last">The following examples show both the long hand
+way of connecting purely in code and the URI style.</p>
+</div>
 </div>
 <div class="section" id="connecting-to-replicasets-mongos">
 <h2>2.5.3. Connecting to ReplicaSets / mongos<a class="headerlink" href="#connecting-to-replicasets-mongos" title="Permalink to this headline">¶</a></h2>
 <p>The java driver automatically determines if it is speaking to a
 <a class="reference external" href="http://docs.mongodb.org/manual/replication/">replicaset</a> or
-a <a class="reference external" href="http://docs.mongodb.org/manual/sharding/">mongos</a> and acts according.</p>
+a <a class="reference external" href="http://docs.mongodb.org/manual/sharding/">mongos</a> and acts accordingly.</p>
 <div class="section" id="list-of-serveraddress-instances">
 <h3>2.5.3.1. List of ServerAddress instances<a class="headerlink" href="#list-of-serveraddress-instances" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">rs1</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ServerAddress</span><span class="o">(</span><span class="s">&quot;localhost&quot;</span><span class="o">,</span> <span class="mi">27017</span><span class="o">)</span>
@@ -131,7 +133,7 @@ a <a class="reference external" href="http://docs.mongodb.org/manual/sharding/">
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The <a class="reference external" href="http://api.mongodb.org/java/current/?com/mongodb/ServerAddress.html">ServerAddress</a>
-class isn't wrapped by casbah - so you have to call <strong>new</strong>: <tt class="docutils literal"><span class="pre">new</span> <span class="pre">ServerAddress()</span></tt>.</p>
+class isn't wrapped by casbah - so you have to call <em>new</em> eg: <tt class="docutils literal"><span class="pre">new</span> <span class="pre">ServerAddress()</span></tt>.</p>
 </div>
 </div>
 <div class="section" id="uri-style-connections">
@@ -145,8 +147,8 @@ class isn't wrapped by casbah - so you have to call <strong>new</strong>: <tt cl
 <div class="section" id="authentication">
 <h2>2.5.4. Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h2>
 <p>MongoDB currently provides two different authentication mechanisms.
-Challenge response authentication and GSSAPI authentication (available in the
-subscriber edition).</p>
+Challenge response and GSSAPI authentication (available in the subscriber
+edition).</p>
 <div class="section" id="mongodbcredentials">
 <h3>2.5.4.1. MongoDBCredentials<a class="headerlink" href="#mongodbcredentials" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala"><div class="highlight"><pre><span class="c1">// Challenge Response</span>
@@ -190,8 +192,7 @@ Either via flags when running scala:</p>
 </div>
 <div class="section" id="ssl-connections">
 <h2>2.5.5. SSL connections<a class="headerlink" href="#ssl-connections" title="Permalink to this headline">¶</a></h2>
-<p>By default ssl is off for mongodb, but you can <cite>configure mongodb to enable ssl
-&lt;http://docs.mongodb.org/manual/tutorial/configure-ssl/&gt;</cite>.  Subscribers to the
+<p>By default ssl is off for mongodb, but you can <a class="reference external" href="http://docs.mongodb.org/manual/tutorial/configure-ssl/">configure mongodb to enable ssl</a>.  Subscribers to the
 enterprise edition of mongodb have ssl support baked in.</p>
 <div class="section" id="mongoclientoptions">
 <h3>2.5.5.1. MongoClientOptions<a class="headerlink" href="#mongoclientoptions" title="Permalink to this headline">¶</a></h3>
@@ -218,8 +219,7 @@ enterprise edition of mongodb have ssl support baked in.</p>
 default <a class="reference external" href="http://docs.mongodb.org/manual/core/write-concern/">write concern</a>
 and <a class="reference external" href="http://docs.mongodb.org/manual/core/read-preference/">read preferences</a>
 to configuring socket timeouts.</p>
-<p>See the <a class="reference external" href="http://docs.mongodb.org/manual/reference/connection-string/#connection-string-options">mongodb manual</a>
-for the more connection options.</p>
+<p>For the more connection options see the <a class="reference external" href="http://docs.mongodb.org/manual/reference/connection-string/#connection-string-options">mongodb connection reference</a>.</p>
 </div>
 <div class="section" id="databases-and-collections">
 <h2>2.5.7. Databases and Collections<a class="headerlink" href="#databases-and-collections" title="Permalink to this headline">¶</a></h2>
@@ -237,7 +237,7 @@ the collection:</p>
 
 <div id="btnv">
 <ul id="btnvl">
-<li id="btnvpr"><a href="installation_alt.html" title="Previous Section: 2.4. Alternative installation methods">&lt; &nbsp; 2.4. Alternative installation methods</a></li>
+<li id="btnvpr"><a href="modules.html" title="Previous Section: 2.4. Casbah Modules">&lt; &nbsp; 2.4. Casbah Modules</a></li>
 <li id="btnvup"><a href="index.html" title="Parent Section: 2. User Guide" >&#47;&#92;&nbsp; 2. User Guide</a></li>
 <li id="btnvnx"><a href="querying.html" title="Next Section: 2.6. Querying">2.6. Querying &nbsp;&gt;</a></li>
 </ul>
@@ -256,9 +256,9 @@ the collection:</p>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">1. Tutorial: Using Casbah</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">2. User Guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="philosophy.html">2.1. Philosophy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules.html">2.2. Casbah Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html">2.3. Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation_alt.html">2.4. Alternative installation methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html">2.2. Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation_alt.html">2.3. Alternative installation methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html">2.4. Casbah Modules</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">2.5. Connecting to MongoDB</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#simple-connections">2.5.1. Simple connections</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mongodb-uri">2.5.2. MongoDB URI</a></li>
