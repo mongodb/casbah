@@ -21,18 +21,15 @@ returned data. Using the projections in the aggregation framework, you
 can add computed fields, create new virtual sub-objects, and extract
 sub-fields into the top-level of results.
 
-.. seealso:: Consider the `aggregation tutorial
-<http://docs.mongodb.org/manual/tutorial/aggregation-examples/>`_ and
-`aggregation reference <http://docs.mongodb.org/manual/reference/aggregation/>`_
-for more documentation.
-
 Aggregation Syntax
 ------------------
 
 Conceptually, documents from a collection pass through an aggregation pipeline,
 which transforms these objects as they pass through. For those familiar with
 UNIX-like shells (e.g. bash,) the concept is analogous to the pipe (i.e. |)
-used to string text filters together::
+used to string text filters together:
+
+..code-block:: bash
 
     db.people.aggregate( <pipeline> )
     db.people.aggregate( [<pipeline>] )
@@ -47,6 +44,7 @@ Aggregation By Example
 First, consider a collection of documents named articles using the following
 format::
 
+    import com.mongodb.casbah.Imports._
     val db = MongoClient()("test")
     val coll = db("aggregate")
     coll.drop()
@@ -73,7 +71,6 @@ The following example aggregation operation pivots data to create a set of
 author names grouped by tags applied to an article. Call the aggregation
 framework by issuing the following command::
 
-    import com.mongodb.casbah.Imports._
     val db = MongoClient()("test")
     val coll = db("aggregate")
 
@@ -89,13 +86,8 @@ framework by issuing the following command::
       )
     );
 
-.. code-block:: scala
-
-    val db = MongoClient()("test")
-    val coll = db("aggregate")
-    coll.drop()
-
-    "except just a single op" in {
-    val l = coll.aggregate( MongoDBObject("$match" -> ("score" $gte 7)) )
-    l.results.asScala.size must beEqualTo(30)
-    }
+The results of the aggregation themselves can be accessed in via ``results``.
+To learn more about aggregation see the `aggregation tutorial
+<http://docs.mongodb.org/manual/tutorial/aggregation-examples/>`_ and the
+`aggregation reference <http://docs.mongodb.org/manual/reference/aggregation/>`_
+documentation.

@@ -18,7 +18,7 @@ Getting started
 
 The next step is to get and install sbt, create an sbt project and install
 casbah.  I recommend using `sbt-extras <https://github.com/paulp/sbt-extras>`_
-a special sbt script for installing and running sbt.
+- a special sbt script for installing and running sbt.
 
 1. Create a project directory: ``mkdir casbah_tutorial && cd casbah_tutorial``
 2. Install sbt-extras script::
@@ -28,7 +28,9 @@ a special sbt script for installing and running sbt.
     curl https://raw.github.com/paulp/sbt-extras/master/sbt > sbt
     chmod +ux sbt
 
-2. Run create an sbt build file: ``build.sbt`` ::
+2. Create an sbt build file: ``build.sbt``:
+
+.. parsed-literal::
 
     name := "Casbah Tutorial"
 
@@ -38,7 +40,7 @@ a special sbt script for installing and running sbt.
 
     libraryDependencies += "org.mongodb" %% "casbah" % "|release|"
 
-3. Run the console and test (sbt automatically install the dependencies)::
+3. Run the console and test (sbt will automatically install the dependencies)::
 
     $ ./sbt console
     scala> import com.mongodb.casbah.Imports._
@@ -54,7 +56,10 @@ Connecting to MongoDB
 The first step of using Casbah is to connect to MongoDB.  Remember, this
 tutorial expects MongoDB to be running on localhost on port 27017.
 `MongoClient <http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoClient>`_
-is the connection class.  Load the scala shell ``./sbt console``
+is the connection class.
+
+
+Load the scala shell ``./sbt console``
 
 .. code-block:: scala
 
@@ -64,7 +69,7 @@ is the connection class.  Load the scala shell ``./sbt console``
 There are various connection configuration options see the
 `connection guide <guide/connecting>`_ for more information.
 
-.. note:: The scala repl has tab completion type: ``mongoClient.⇥``
+.. note:: The scala repl has tab completion type: ``mongoClient.<tab>``
     for a list of all the operations you can run on a connection.
 
 Getting databases and collections
@@ -78,16 +83,20 @@ Try connecting to the "test" database and getting a list all the collections ::
     val db = mongoClient("test")
     db.collectionNames
 
-If your database is new then ``db.collectionNames`` will return an empty ``Set``.
+If your database is new then ``db.collectionNames`` will return an empty ``Set``,
+otherwise it will list the collections in the database.
+
+
 The next step before starting to add, update and remove documents is to get a
 collection ::
 
     val coll = db("test")
 
-``coll`` is the "test" collection in the "test" database and you are ready to
+``coll`` is the "test" collection in the "test" database. You are now ready to
 begin adding documents.
 
-.. note:: If you had an existing "test" collection drop it first
+.. note:: If you had an existing "test" collection drop it first:
+    ``coll.drop()``
 
 Doing CRUD operations
 ---------------------
@@ -103,7 +112,7 @@ Create two documents ``a`` and ``b``::
     val a = MongoDBObject("hello" -> "world")
     val b = MongoDBObject("language" -> "scala")
 
-Insert the documents ::
+Insert the documents::
 
     coll.insert( a )
     coll.insert( b )
@@ -115,16 +124,16 @@ Count the number of documents in the "test" collection::
 
     coll.count()
 
-Use the ``find`` to query the database and return an iterable cursor, then print
+Use ``find`` to query the database and return an iterable cursor, then print
 out the string representation of each document::
 
     val allDocs = coll.find()
     println( allDocs )
     for(doc <- allDocs) println( doc )
 
-.. note:: You may notice an extra field in the document: ``_id`` This is
-    the primary key for a document, if you don't supply an ``_id`` an
-    ``objectId`` will be created for you.
+.. note:: You may notice an extra field in the document: ``_id``.
+    This is the primary key for a document, if you don't supply an ``_id`` an
+    ``ObjectId`` will be created for you.
 
 By providing a ``MongoDBObject`` to the ``find`` method you can filter the
 results::
@@ -132,7 +141,7 @@ results::
     val hello = MongoDBObject("hello" -> "world")
     val helloWorld coll.findOne( hello )
 
-    // Find an none existing document
+    // Find a document that doesn't exist
     val goodbye = MongoDBObject("goodbye" -> "world")
     val goodbyeWorld coll.findOne( goodbye )
 
@@ -144,7 +153,9 @@ Update
 
 Now you have some data in MongoDB, how do you change it?  MongoDB provides a
 powerful ``update`` method that allows you to change single or multiple
-documents. First, add the platform to the scala document::
+documents.
+
+First, find the scala document and add its platform::
 
     val query = MongoDBObject("language" -> "scala")
     val update = MongoDBObject("platform" -> "JVM")
@@ -153,15 +164,16 @@ documents. First, add the platform to the scala document::
     println("Number updated: " + result.getN)
     for (c <- coll.find) println(c)
 
-You will notice that the document is now missing ``"langauge" -> "scala"``! This
-is because when using update if you provide a simple document it will replace
-the existing one with the new document. This is the most common gotcha for
-newcomers to MongoDB.
+.. warning:: You will notice that the document is now missing
+    ``"langauge" -> "scala"``! This is because when using update if you provide
+    a simple document it will replace the existing one with the new document.
+
+    This is the most common gotcha for newcomers to MongoDB.
 
 MongoDB comes with a host of
 `update operators <http://docs.mongodb.org/manual/core/update/#crud-update-operators>`_
-to modify documents.  Casbah has a powerful DSL for creating these update
-documents. Lets set the language to scala for the JVM document::
+to modify documents.  Casbah has a powerful `DSL <guide/query>`_ for creating
+these update documents. Lets set the language to scala for the JVM document::
 
     val query = MongoDBObject("platform" -> "JVM")
     val update = $set("language" -> "Scala")
@@ -171,10 +183,11 @@ documents. Lets set the language to scala for the JVM document::
     for ( c <- coll.find ) println( c )
 
 .. note:: By default ``update`` will only update a single document - to update
-    all the documents set: `.update( query, update, multi=true)`.
+    *all* the documents set the multi flag: ``.update( query, update, multi=true)``.
 
 Another useful feature of the ``update`` command is it also allows you to
-upsert documents on the fly (add if doesn't exist, otherwise update) ::
+``upsert`` documents on the fly.  Setting ``upsert=True`` will insert the
+document if doesn't exist, otherwise update it::
 
     val query = MongoDBObject("language" -> "clojure")
     val update = $set("platform" -> "JVM")
@@ -187,8 +200,8 @@ upsert documents on the fly (add if doesn't exist, otherwise update) ::
 Removing
 ^^^^^^^^
 
-The final part of the tutorial is removing documents.  Remove is the same as
-``find``::
+The final part of the tutorial is removing documents.  Remove is the similar to
+``find``, in that you provide a query of documents to match against::
 
     val query = MongoDBObject("language" -> "clojure")
     val result = coll.remove( query )

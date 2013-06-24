@@ -16,7 +16,7 @@ Once you have your sbt project setup - see the
 `sbt setup guide <http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html>`_
 for help there.
 
-Add Casbah to sbt to your `./build.sbt` file:
+Add Casbah to sbt to your ``./build.sbt`` file:
 
 .. parsed-literal::
 
