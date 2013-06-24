@@ -59,12 +59,12 @@ is the connection class.  Load the scala shell ``./sbt console``
 .. code-block:: scala
 
     import com.mongodb.casbah.Imports._
-    val conn = MongoClient("localhost", 27017)
+    val mongoClient = MongoClient("localhost", 27017)
 
 There are various connection configuration options see the
 `connection guide <guide/connecting>`_ for more information.
 
-.. note:: The scala repl has tab completion type: ``conn.⇥``
+.. note:: The scala repl has tab completion type: ``mongoClient.⇥``
     for a list of all the operations you can run on a connection.
 
 Getting databases and collections
@@ -75,7 +75,7 @@ adding  documents to a collection is enough to create the database.
 
 Try connecting to the "test" database and getting a list all the collections ::
 
-    val db = conn("test")
+    val db = mongoClient("test")
     db.collectionNames
 
 If your database is new then ``db.collectionNames`` will return an empty ``Set``.
