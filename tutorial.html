@@ -88,7 +88,7 @@ its default host  (localhost) and port (27107).</p>
 <h2>1.2. Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
 <p>The next step is to get and install sbt, create an sbt project and install
 casbah.  I recommend using <a class="reference external" href="https://github.com/paulp/sbt-extras">sbt-extras</a>
-a special sbt script for installing and running sbt.</p>
+- a special sbt script for installing and running sbt.</p>
 <ol class="arabic simple">
 <li>Create a project directory: <tt class="docutils literal"><span class="pre">mkdir</span> <span class="pre">casbah_tutorial</span> <span class="pre">&amp;&amp;</span> <span class="pre">cd</span> <span class="pre">casbah_tutorial</span></tt></li>
 <li>Install sbt-extras script:</li>
@@ -97,19 +97,20 @@ a special sbt script for installing and running sbt.</p>
 chmod +ux sbt
 </pre></div>
 </div>
-<ol class="arabic" start="2">
-<li><p class="first">Run create an sbt build file: <tt class="docutils literal"><span class="pre">build.sbt</span></tt></p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;Casbah Tutorial&quot;</span>
+<ol class="arabic simple" start="2">
+<li>Create an sbt build file: <tt class="docutils literal"><span class="pre">build.sbt</span></tt>:</li>
+</ol>
+<pre class="literal-block">
+name := &quot;Casbah Tutorial&quot;
 
-<span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;0.1&quot;</span>
+version := &quot;0.1&quot;
 
-<span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.10.2&quot;</span>
+scalaVersion := &quot;2.10.2&quot;
 
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&quot;org.mongodb&quot;</span> <span class="o">%%</span> <span class="s">&quot;casbah&quot;</span> <span class="o">%</span> <span class="s">&quot;|release|&quot;</span>
-</pre></div>
-</div>
-</li>
-<li><p class="first">Run the console and test (sbt automatically install the dependencies):</p>
+libraryDependencies += &quot;org.mongodb&quot; %% &quot;casbah&quot; % &quot;2.6.1&quot;
+</pre>
+<ol class="arabic" start="3">
+<li><p class="first">Run the console and test (sbt will automatically install the dependencies):</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">$</span> <span class="o">./</span><span class="n">sbt</span> <span class="n">console</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="k">import</span> <span class="nn">com.mongodb.casbah.Imports._</span>
 <span class="k">import</span> <span class="nn">com.mongodb.casbah.Imports._</span>
@@ -126,7 +127,8 @@ using casbah!</p>
 <p>The first step of using Casbah is to connect to MongoDB.  Remember, this
 tutorial expects MongoDB to be running on localhost on port 27017.
 <a class="reference external" href="http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoClient">MongoClient</a>
-is the connection class.  Load the scala shell <tt class="docutils literal"><span class="pre">./sbt</span> <span class="pre">console</span></tt></p>
+is the connection class.</p>
+<p>Load the scala shell <tt class="docutils literal"><span class="pre">./sbt</span> <span class="pre">console</span></tt></p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.Imports._</span>
 <span class="k">val</span> <span class="n">mongoClient</span> <span class="k">=</span> <span class="nc">MongoClient</span><span class="o">(</span><span class="s">&quot;localhost&quot;</span><span class="o">,</span> <span class="mi">27017</span><span class="o">)</span>
 </pre></div>
@@ -135,7 +137,7 @@ is the connection class.  Load the scala shell <tt class="docutils literal"><spa
 <a class="reference external" href="guide/connecting">connection guide</a> for more information.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The scala repl has tab completion type: <tt class="docutils literal"><span class="pre">mongoClient.⇥</span></tt>
+<p class="last">The scala repl has tab completion type: <tt class="docutils literal"><span class="pre">mongoClient.&lt;tab&gt;</span></tt>
 for a list of all the operations you can run on a connection.</p>
 </div>
 </div>
@@ -148,17 +150,19 @@ adding  documents to a collection is enough to create the database.</p>
 <span class="n">db</span><span class="o">.</span><span class="n">collectionNames</span>
 </pre></div>
 </div>
-<p>If your database is new then <tt class="docutils literal"><span class="pre">db.collectionNames</span></tt> will return an empty <tt class="docutils literal"><span class="pre">Set</span></tt>.
-The next step before starting to add, update and remove documents is to get a
+<p>If your database is new then <tt class="docutils literal"><span class="pre">db.collectionNames</span></tt> will return an empty <tt class="docutils literal"><span class="pre">Set</span></tt>,
+otherwise it will list the collections in the database.</p>
+<p>The next step before starting to add, update and remove documents is to get a
 collection</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">coll</span> <span class="k">=</span> <span class="n">db</span><span class="o">(</span><span class="s">&quot;test&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">coll</span></tt> is the &quot;test&quot; collection in the &quot;test&quot; database and you are ready to
+<p><tt class="docutils literal"><span class="pre">coll</span></tt> is the &quot;test&quot; collection in the &quot;test&quot; database. You are now ready to
 begin adding documents.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If you had an existing &quot;test&quot; collection drop it first</p>
+<p class="last">If you had an existing &quot;test&quot; collection drop it first:
+<tt class="docutils literal"><span class="pre">coll.drop()</span></tt></p>
 </div>
 </div>
 <div class="section" id="doing-crud-operations">
@@ -172,7 +176,7 @@ The <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt> is 
 <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;language&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;scala&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>Insert the documents</p>
+<p>Insert the documents:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">coll</span><span class="o">.</span><span class="n">insert</span><span class="o">(</span> <span class="n">a</span> <span class="o">)</span>
 <span class="n">coll</span><span class="o">.</span><span class="n">insert</span><span class="o">(</span> <span class="n">b</span> <span class="o">)</span>
 </pre></div>
@@ -184,7 +188,7 @@ The <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt> is 
 <div class="highlight-scala"><div class="highlight"><pre><span class="n">coll</span><span class="o">.</span><span class="n">count</span><span class="o">()</span>
 </pre></div>
 </div>
-<p>Use the <tt class="docutils literal"><span class="pre">find</span></tt> to query the database and return an iterable cursor, then print
+<p>Use <tt class="docutils literal"><span class="pre">find</span></tt> to query the database and return an iterable cursor, then print
 out the string representation of each document:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">allDocs</span> <span class="k">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">find</span><span class="o">()</span>
 <span class="n">println</span><span class="o">(</span> <span class="n">allDocs</span> <span class="o">)</span>
@@ -193,16 +197,16 @@ out the string representation of each document:</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">You may notice an extra field in the document: <tt class="docutils literal"><span class="pre">_id</span></tt> This is
-the primary key for a document, if you don't supply an <tt class="docutils literal"><span class="pre">_id</span></tt> an
-<tt class="docutils literal"><span class="pre">objectId</span></tt> will be created for you.</p>
+<p class="last">You may notice an extra field in the document: <tt class="docutils literal"><span class="pre">_id</span></tt>.
+This is the primary key for a document, if you don't supply an <tt class="docutils literal"><span class="pre">_id</span></tt> an
+<tt class="docutils literal"><span class="pre">ObjectId</span></tt> will be created for you.</p>
 </div>
 <p>By providing a <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt> to the <tt class="docutils literal"><span class="pre">find</span></tt> method you can filter the
 results:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">hello</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;hello&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;world&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">helloWorld</span> <span class="n">coll</span><span class="o">.</span><span class="n">findOne</span><span class="o">(</span> <span class="n">hello</span> <span class="o">)</span>
 
-<span class="c1">// Find an none existing document</span>
+<span class="c1">// Find a document that doesn&#39;t exist</span>
 <span class="k">val</span> <span class="n">goodbye</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;goodbye&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;world&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">goodbyeWorld</span> <span class="n">coll</span><span class="o">.</span><span class="n">findOne</span><span class="o">(</span> <span class="n">goodbye</span> <span class="o">)</span>
 </pre></div>
@@ -217,7 +221,8 @@ results:</p>
 <h3>1.5.3. Update<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h3>
 <p>Now you have some data in MongoDB, how do you change it?  MongoDB provides a
 powerful <tt class="docutils literal"><span class="pre">update</span></tt> method that allows you to change single or multiple
-documents. First, add the platform to the scala document:</p>
+documents.</p>
+<p>First, find the scala document and add its platform:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">query</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;language&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;scala&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">update</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;platform&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;JVM&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">update</span><span class="o">(</span> <span class="n">query</span><span class="o">,</span> <span class="n">update</span> <span class="o">)</span>
@@ -226,14 +231,17 @@ documents. First, add the platform to the scala document:</p>
 <span class="k">for</span> <span class="o">(</span><span class="n">c</span> <span class="k">&lt;-</span> <span class="n">coll</span><span class="o">.</span><span class="n">find</span><span class="o">)</span> <span class="n">println</span><span class="o">(</span><span class="n">c</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>You will notice that the document is now missing <tt class="docutils literal"><span class="pre">&quot;langauge&quot;</span> <span class="pre">-&gt;</span> <span class="pre">&quot;scala&quot;</span></tt>! This
-is because when using update if you provide a simple document it will replace
-the existing one with the new document. This is the most common gotcha for
-newcomers to MongoDB.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>You will notice that the document is now missing
+<tt class="docutils literal"><span class="pre">&quot;langauge&quot;</span> <span class="pre">-&gt;</span> <span class="pre">&quot;scala&quot;</span></tt>! This is because when using update if you provide
+a simple document it will replace the existing one with the new document.</p>
+<p class="last">This is the most common gotcha for newcomers to MongoDB.</p>
+</div>
 <p>MongoDB comes with a host of
 <a class="reference external" href="http://docs.mongodb.org/manual/core/update/#crud-update-operators">update operators</a>
-to modify documents.  Casbah has a powerful DSL for creating these update
-documents. Lets set the language to scala for the JVM document:</p>
+to modify documents.  Casbah has a powerful <a class="reference external" href="guide/query">DSL</a> for creating
+these update documents. Lets set the language to scala for the JVM document:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">query</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;platform&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;JVM&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">update</span> <span class="k">=</span> <span class="nc">$set</span><span class="o">(</span><span class="s">&quot;language&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;Scala&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">update</span><span class="o">(</span> <span class="n">query</span><span class="o">,</span> <span class="n">update</span> <span class="o">)</span>
@@ -245,10 +253,11 @@ documents. Lets set the language to scala for the JVM document:</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">By default <tt class="docutils literal"><span class="pre">update</span></tt> will only update a single document - to update
-all the documents set: <cite>.update( query, update, multi=true)</cite>.</p>
+<em>all</em> the documents set the multi flag: <tt class="docutils literal"><span class="pre">.update(</span> <span class="pre">query,</span> <span class="pre">update,</span> <span class="pre">multi=true)</span></tt>.</p>
 </div>
 <p>Another useful feature of the <tt class="docutils literal"><span class="pre">update</span></tt> command is it also allows you to
-upsert documents on the fly (add if doesn't exist, otherwise update)</p>
+<tt class="docutils literal"><span class="pre">upsert</span></tt> documents on the fly.  Setting <tt class="docutils literal"><span class="pre">upsert=True</span></tt> will insert the
+document if doesn't exist, otherwise update it:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">query</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;language&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;clojure&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">update</span> <span class="k">=</span> <span class="nc">$set</span><span class="o">(</span><span class="s">&quot;platform&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;JVM&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">update</span><span class="o">(</span> <span class="n">query</span><span class="o">,</span> <span class="n">update</span><span class="o">,</span> <span class="n">upsert</span><span class="k">=</span><span class="kc">true</span> <span class="o">)</span>
@@ -260,8 +269,8 @@ upsert documents on the fly (add if doesn't exist, otherwise update)</p>
 </div>
 <div class="section" id="removing">
 <h3>1.5.4. Removing<a class="headerlink" href="#removing" title="Permalink to this headline">¶</a></h3>
-<p>The final part of the tutorial is removing documents.  Remove is the same as
-<tt class="docutils literal"><span class="pre">find</span></tt>:</p>
+<p>The final part of the tutorial is removing documents.  Remove is the similar to
+<tt class="docutils literal"><span class="pre">find</span></tt>, in that you provide a query of documents to match against:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">query</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;language&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;clojure&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">remove</span><span class="o">(</span> <span class="n">query</span> <span class="o">)</span>
 

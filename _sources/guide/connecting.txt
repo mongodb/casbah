@@ -97,7 +97,7 @@ MongoDBCredentials
 .. note:: GSSAPI requires the kerberos to be configured correctly in java.
     Either via flags when running scala::
 
-        -Djava.security.krb5.realm=EXAMPLE.ME -Djava.security.krb5.kdc=kdc.example.com -Djavax.security.auth.useSubjectCredsOnly=false
+        -Djava.security.krb5.realm=EXAMPLE.COM -Djava.security.krb5.kdc=kdc.example.com -Djavax.security.auth.useSubjectCredsOnly=false
 
     or in scala::
 

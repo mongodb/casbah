@@ -2,13 +2,19 @@
 Casbah User Documentation
 =========================
 
-Welcome to the Casbah Documentation.  Casbah is a Scala toolkit for MongoDB---We use the term "toolkit" rather than "driver", as Casbah integrates a layer on top of the official `mongo-java-driver <http://github.com/mongodb/mongo-java-driver>`_ for better integration with Scala.  This is as opposed to a native implementation of the MongoDB wire protocol, which the Java driver does exceptionally well. Rather than a complete rewrite, Casbah uses implicits, and `Pimp My Library` code to enhance the existing Java code.
+Welcome to the Casbah Documentation.  Casbah is a Scala toolkit for MongoDB ---
+We use the term "toolkit" rather than "driver", as Casbah is a layer on top of
+the official `mongo-java-driver <http://github.com/mongodb/mongo-java-driver>`_
+for better integration with Scala.  This is as opposed to a native
+implementation of the MongoDB wire protocol, which the Java driver does
+exceptionally well. Rather than a complete rewrite, Casbah uses implicits, and
+`Pimp My Library` code to enhance the existing Java code.
 
 :doc:`tutorial`
   A quick tutorial to get you started using Casbah.
 
 :doc:`guide/index`
-  The Full guide to Casbah - covering installation, connectioning, the query dsl
+  The full guide to Casbah - covering installation, connecting, the query dsl
   , gridfs, and *everything* between.
 
 `ScalaDocs <http://mongodb.github.io/casbah/api/#com.mongodb.casbah.package>`_

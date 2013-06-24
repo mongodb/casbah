@@ -91,24 +91,18 @@ aggregation framework provides projection capabilities to reshape the
 returned data. Using the projections in the aggregation framework, you
 can add computed fields, create new virtual sub-objects, and extract
 sub-fields into the top-level of results.</p>
-<div class="admonition-see-also admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last">Consider the <a href="#id1"><span class="problematic" id="id2">`</span></a>aggregation tutorial</p>
-</div>
-<p>&lt;<a class="reference external" href="http://docs.mongodb.org/manual/tutorial/aggregation-examples/">http://docs.mongodb.org/manual/tutorial/aggregation-examples/</a>&gt;`_ and
-<a class="reference external" href="http://docs.mongodb.org/manual/reference/aggregation/">aggregation reference</a>
-for more documentation.</p>
 </div>
 <div class="section" id="aggregation-syntax">
 <h2>2.8.2. Aggregation Syntax<a class="headerlink" href="#aggregation-syntax" title="Permalink to this headline">¶</a></h2>
 <p>Conceptually, documents from a collection pass through an aggregation pipeline,
 which transforms these objects as they pass through. For those familiar with
-UNIX-like shells (e.g. bash,) the concept is analogous to the pipe (i.e. <a href="#id3"><span class="problematic" id="id4">|</span></a>)
+UNIX-like shells (e.g. bash,) the concept is analogous to the pipe (i.e. <a href="#id1"><span class="problematic" id="id2">|</span></a>)
 used to string text filters together:</p>
-<div class="highlight-scala"><pre>db.people.aggregate( &lt;pipeline&gt; )
+<p>..code-block:: bash</p>
+<blockquote>
+<div>db.people.aggregate( &lt;pipeline&gt; )
 db.people.aggregate( [&lt;pipeline&gt;] )
-db.runCommand( { aggregate: "people", pipeline: [&lt;pipeline&gt;] } )</pre>
-</div>
+db.runCommand( { aggregate: &quot;people&quot;, pipeline: [&lt;pipeline&gt;] } )</div></blockquote>
 <p>See the <a class="reference external" href="http://docs.mongodb.org/manual/reference/aggregation/">aggregation reference</a>
 for information about aggregation operations.</p>
 </div>
@@ -116,7 +110,8 @@ for information about aggregation operations.</p>
 <h2>2.8.3. Aggregation By Example<a class="headerlink" href="#aggregation-by-example" title="Permalink to this headline">¶</a></h2>
 <p>First, consider a collection of documents named articles using the following
 format:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">db</span> <span class="k">=</span> <span class="nc">MongoClient</span><span class="o">()(</span><span class="s">&quot;test&quot;</span><span class="o">)</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.Imports._</span>
+<span class="k">val</span> <span class="n">db</span> <span class="k">=</span> <span class="nc">MongoClient</span><span class="o">()(</span><span class="s">&quot;test&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">coll</span> <span class="k">=</span> <span class="n">db</span><span class="o">(</span><span class="s">&quot;aggregate&quot;</span><span class="o">)</span>
 <span class="n">coll</span><span class="o">.</span><span class="n">drop</span><span class="o">()</span>
 
@@ -142,8 +137,7 @@ format:</p>
 <p>The following example aggregation operation pivots data to create a set of
 author names grouped by tags applied to an article. Call the aggregation
 framework by issuing the following command:</p>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">com.mongodb.casbah.Imports._</span>
-<span class="k">val</span> <span class="n">db</span> <span class="k">=</span> <span class="nc">MongoClient</span><span class="o">()(</span><span class="s">&quot;test&quot;</span><span class="o">)</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">db</span> <span class="k">=</span> <span class="nc">MongoClient</span><span class="o">()(</span><span class="s">&quot;test&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">coll</span> <span class="k">=</span> <span class="n">db</span><span class="o">(</span><span class="s">&quot;aggregate&quot;</span><span class="o">)</span>
 
 <span class="n">coll</span><span class="o">.</span><span class="n">aggregate</span><span class="o">(</span>
@@ -159,16 +153,10 @@ framework by issuing the following command:</p>
 <span class="o">);</span>
 </pre></div>
 </div>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">db</span> <span class="k">=</span> <span class="nc">MongoClient</span><span class="o">()(</span><span class="s">&quot;test&quot;</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">coll</span> <span class="k">=</span> <span class="n">db</span><span class="o">(</span><span class="s">&quot;aggregate&quot;</span><span class="o">)</span>
-<span class="n">coll</span><span class="o">.</span><span class="n">drop</span><span class="o">()</span>
-
-<span class="s">&quot;except just a single op&quot;</span> <span class="n">in</span> <span class="o">{</span>
-<span class="k">val</span> <span class="n">l</span> <span class="k">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">aggregate</span><span class="o">(</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;$match&quot;</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="s">&quot;score&quot;</span> <span class="nc">$gte</span> <span class="mi">7</span><span class="o">))</span> <span class="o">)</span>
-<span class="n">l</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">asScala</span><span class="o">.</span><span class="n">size</span> <span class="n">must</span> <span class="n">beEqualTo</span><span class="o">(</span><span class="mi">30</span><span class="o">)</span>
-<span class="o">}</span>
-</pre></div>
-</div>
+<p>The results of the aggregation themselves can be accessed in via <tt class="docutils literal"><span class="pre">results</span></tt>.
+To learn more about aggregation see the <a class="reference external" href="http://docs.mongodb.org/manual/tutorial/aggregation-examples/">aggregation tutorial</a> and the
+<a class="reference external" href="http://docs.mongodb.org/manual/reference/aggregation/">aggregation reference</a>
+documentation.</p>
 </div>
 </div>
 
