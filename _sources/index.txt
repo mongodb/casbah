@@ -1,31 +1,65 @@
-===================================
-Welcome to the Casbah Documentation
-===================================
+=========================
+Casbah User Documentation
+=========================
 
 Welcome to the Casbah Documentation.  Casbah is a Scala toolkit for MongoDB---We use the term "toolkit" rather than "driver", as Casbah integrates a layer on top of the official `mongo-java-driver <http://github.com/mongodb/mongo-java-driver>`_ for better integration with Scala.  This is as opposed to a native implementation of the MongoDB wire protocol, which the Java driver does exceptionally well. Rather than a complete rewrite, Casbah uses implicits, and `Pimp My Library` code to enhance the existing Java code.
 
-Casbah's approach is intended to add fluid, Scala-friendly syntax on top of MongoDB and handle conversions of common types.  If you try to save a Scala List or Seq to MongoDB, we automatically convert it to a type the Java driver can serialize.  If you read a Java type,  we convert it to a comparable Scala type before it hits your code.  All of this is intended to let you focus on writing the best possible Scala code using Scala idioms.  A great deal of effort is put into providing you the functional and implicit conversion tools you've come to expect from Scala, with the power and flexibility of MongoDB.
+:doc:`tutorial`
+  A quick tutorial to get you started using Casbah.
 
-Casbah provides improved interfaces to GridFS, Map/Reduce and the core Mongo APIs.  It also provides a fluid query syntax which emulates an internal DSL and allows you to write code which looks like what you might write in the JS Shell.  There is also support for easily adding new serialization/deserialization mechanisms for common data types (including Joda Time, if you so choose; with some caveats - See the GridFS Section).
+:doc:`guide/index`
+  The Full guide to Casbah - covering installation, connectioning, the query dsl
+  , gridfs, and *everything* between.
 
-With version 2.0, Casbah has become an official MongoDB project and will continue to improve the interaction of Scala + MongoDB. Casbah aims to remain fully compatible with the existing Java driver---it does not talk to MongoDB directly, preferring to wrap the Java code.  This means you shouldn't see any wildly unexpected behavior from the underlying Mongo interfaces when a data bug is fixed.
+`ScalaDocs <http://mongodb.github.io/casbah/api/#com.mongodb.casbah.package>`_
+  The complete ScalaDocs for Casbah along with SXR cross referenced source.
 
+:doc:`changelog`
+  The recent changes to Casbah
 
-The ScalaDocs for Casbah along with SXR cross referenced source are available in the API section of the site: http://mongodb.github.io/casbah/api/#com.mongodb.casbah.package
+Help and support
+----------------
 
+For help and support using casbah please send emails / questions to the
+`Casbah Mailing List <http://groups.google.com/group/mongodb-casbah-users>`_ on
+Google Groups.   Also be sure to subscribe to the usergroup to get the latest
+news and information about Casbah.
 
-You may also download this documentation in other formats.
+Stackoverflow is also a great resource for getting answers to your casbah
+questions - just be sure to tag any questions with
+"`casbah <http://stackoverflow.com/questions/tagged/casbah>`_".  Just don't
+forget to mark any answered questions as answered!
 
-  * `ePub <CasbahDocumentation.epub>`_
-  * `PDF <CasbahDocumentation.pdf>`_
+Contributing
+------------
+
+The source is available on `GitHub <http://github.com/mongodb/casbah>`_
+and contributions are always encouraged. Contributions can be as simple as
+minor tweaks to the documentation, feature improments or updates to the core.
+
+To contribute, fork the project on `GitHub <http://github.com/mongodb/casbah>`_
+and send a pull request.
+
+Offline Reading
+---------------
+
+Download the docs in either `PDF <CasbahDocumentation.pdf>`_ or
+`ePub <CasbahDocumentation.epub>`_ formats fot offline reading.
+
 
 .. toctree::
     :maxdepth: 1
     :numbered:
+    :hidden:
 
-    setting_up
-    alternative_install
     tutorial
-    modules
+    guide/index
     changelog
     upgrade
+
+Indices and tables
+------------------
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

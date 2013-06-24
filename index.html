@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>Welcome to the Casbah Documentation &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.1 documentation</title>
+    <title>Casbah User Documentation &mdash; Casbah (MongoDB + Scala Toolkit) Documentation 2.6.1 documentation</title>
 
     <link rel="shortcut icon" href="http://media.mongodb.org/favicon.ico" />
     <meta name="robots" content="index" />
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
       <link rel="search" type="application/opensearchdescription+xml" href="http://docs.mongodb.org/osd.xml" title="MongoDB Help"/>
 <link rel="top" title="Casbah (MongoDB + Scala Toolkit) Documentation 2.6.1 documentation" href="#" />
-<link rel="next" title="1. Installation" href="setting_up.html" />
+<link rel="next" title="1. Tutorial: Using Casbah" href="tutorial.html" />
 <!-- Put the following javascript before the closing </head> tag. -->
 <script>
   (function() {
@@ -61,7 +61,7 @@
 <div class="search-db"><gcse:searchbox></gcse:searchbox></div>
 <div id="etp">
 <ul>
-<li><a href="https://github.com/mongodb/casbah/blob/BRANCH/source/index.txt" target="_blank" title="Edit index.txt on github">Edit this Page</a></li>
+<li><a href="https://github.com/mongodb/casbah/blob/master/src/sphinx/index.rst" target="_blank" title="Edit index.rst on github">Edit this Page</a></li>
 <li><a href="http://github.com/mongodb/casbah" target="_blank" title="Fork the documentation on GitHub and contribute.">GitHub</a></li>
 <li><a href="https://jira.mongodb.org/secure/CreateIssueDetails!init.jspa?pid=10380&issuetype=4&priority=4&summary=Comment+on%3a+%22index%2Etxt%22" target="_blank" title="Report a problem with index.txt on Jira">Report a problem</a></li>
 </ul>
@@ -73,28 +73,52 @@
           <div class="body">
             <div id="cse-results"><gcse:searchresults></gcse:searchresults></div>
             
-  <div class="section" id="welcome-to-the-casbah-documentation">
-<h1>Welcome to the Casbah Documentation<a class="headerlink" href="#welcome-to-the-casbah-documentation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="casbah-user-documentation">
+<h1>Casbah User Documentation<a class="headerlink" href="#casbah-user-documentation" title="Permalink to this headline">¶</a></h1>
 <p>Welcome to the Casbah Documentation.  Casbah is a Scala toolkit for MongoDB---We use the term &quot;toolkit&quot; rather than &quot;driver&quot;, as Casbah integrates a layer on top of the official <a class="reference external" href="http://github.com/mongodb/mongo-java-driver">mongo-java-driver</a> for better integration with Scala.  This is as opposed to a native implementation of the MongoDB wire protocol, which the Java driver does exceptionally well. Rather than a complete rewrite, Casbah uses implicits, and <cite>Pimp My Library</cite> code to enhance the existing Java code.</p>
-<p>Casbah's approach is intended to add fluid, Scala-friendly syntax on top of MongoDB and handle conversions of common types.  If you try to save a Scala List or Seq to MongoDB, we automatically convert it to a type the Java driver can serialize.  If you read a Java type,  we convert it to a comparable Scala type before it hits your code.  All of this is intended to let you focus on writing the best possible Scala code using Scala idioms.  A great deal of effort is put into providing you the functional and implicit conversion tools you've come to expect from Scala, with the power and flexibility of MongoDB.</p>
-<p>Casbah provides improved interfaces to GridFS, Map/Reduce and the core Mongo APIs.  It also provides a fluid query syntax which emulates an internal DSL and allows you to write code which looks like what you might write in the JS Shell.  There is also support for easily adding new serialization/deserialization mechanisms for common data types (including Joda Time, if you so choose; with some caveats - See the GridFS Section).</p>
-<p>With version 2.0, Casbah has become an official MongoDB project and will continue to improve the interaction of Scala + MongoDB. Casbah aims to remain fully compatible with the existing Java driver---it does not talk to MongoDB directly, preferring to wrap the Java code.  This means you shouldn't see any wildly unexpected behavior from the underlying Mongo interfaces when a data bug is fixed.</p>
-<p>The ScalaDocs for Casbah along with SXR cross referenced source are available in the API section of the site: <a class="reference external" href="http://mongodb.github.io/casbah/api/#com.mongodb.casbah.package">http://mongodb.github.io/casbah/api/#com.mongodb.casbah.package</a></p>
-<p>You may also download this documentation in other formats.</p>
-<blockquote>
-<div><ul class="simple">
-<li><a class="reference external" href="CasbahDocumentation.epub">ePub</a></li>
-<li><a class="reference external" href="CasbahDocumentation.pdf">PDF</a></li>
-</ul>
-</div></blockquote>
+<dl class="docutils">
+<dt><a class="reference internal" href="tutorial.html"><em>Tutorial: Using Casbah</em></a></dt>
+<dd>A quick tutorial to get you started using Casbah.</dd>
+<dt><a class="reference internal" href="guide/index.html"><em>User Guide</em></a></dt>
+<dd>The Full guide to Casbah - covering installation, connectioning, the query dsl
+, gridfs, and <em>everything</em> between.</dd>
+<dt><a class="reference external" href="http://mongodb.github.io/casbah/api/#com.mongodb.casbah.package">ScalaDocs</a></dt>
+<dd>The complete ScalaDocs for Casbah along with SXR cross referenced source.</dd>
+<dt><a class="reference internal" href="changelog.html"><em>Changelog</em></a></dt>
+<dd>The recent changes to Casbah</dd>
+</dl>
+<div class="section" id="help-and-support">
+<h2>Help and support<a class="headerlink" href="#help-and-support" title="Permalink to this headline">¶</a></h2>
+<p>For help and support using casbah please send emails / questions to the
+<a class="reference external" href="http://groups.google.com/group/mongodb-casbah-users">Casbah Mailing List</a> on
+Google Groups.   Also be sure to subscribe to the usergroup to get the latest
+news and information about Casbah.</p>
+<p>Stackoverflow is also a great resource for getting answers to your casbah
+questions - just be sure to tag any questions with
+&quot;<a class="reference external" href="http://stackoverflow.com/questions/tagged/casbah">casbah</a>&quot;.  Just don't
+forget to mark any answered questions as answered!</p>
+</div>
+<div class="section" id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
+<p>The source is available on <a class="reference external" href="http://github.com/mongodb/casbah">GitHub</a>
+and contributions are always encouraged. Contributions can be as simple as
+minor tweaks to the documentation, feature improments or updates to the core.</p>
+<p>To contribute, fork the project on <a class="reference external" href="http://github.com/mongodb/casbah">GitHub</a>
+and send a pull request.</p>
+</div>
+<div class="section" id="offline-reading">
+<h2>Offline Reading<a class="headerlink" href="#offline-reading" title="Permalink to this headline">¶</a></h2>
+<p>Download the docs in either <a class="reference external" href="CasbahDocumentation.pdf">PDF</a> or
+<a class="reference external" href="CasbahDocumentation.epub">ePub</a> formats fot offline reading.</p>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="alternative_install.html">2. Alternative installation methods</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">3. Tutorial: Using Casbah</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">4. Casbah Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">5. Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="upgrade.html">6. Upgrade</a></li>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
 </ul>
 </div>
 </div>
@@ -102,7 +126,7 @@
 
 <div id="btnv">
 <ul id="btnvl">
-<li id="btnvnx"><a href="setting_up.html" title="Next Section: 1. Installation">1. Installation &nbsp;&gt;</a></li>
+<li id="btnvnx"><a href="tutorial.html" title="Next Section: 1. Tutorial: Using Casbah">1. Tutorial: Using Casbah &nbsp;&gt;</a></li>
 </ul>
 </div>
 </div>
@@ -116,12 +140,10 @@
 </h3>
 
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="setting_up.html">1. Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="alternative_install.html">2. Alternative installation methods</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">3. Tutorial: Using Casbah</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">4. Casbah Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">5. Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="upgrade.html">6. Upgrade</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">1. Tutorial: Using Casbah</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/index.html">2. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">3. Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrade.html">4. Upgrade</a></li>
 </ul>
 <h3 style="padding-bottom: 1em;"><a href="http://mongodb.github.io/casbah/api/#com.mongodb.casbah.package">API Documentation</a></h3>
 

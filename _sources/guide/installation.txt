@@ -1,6 +1,6 @@
 Installation
 ============
-.. highlight:: bash
+.. highlight:: scala
 
 **Casbah** is released to the `Sonatype <http://sonatype.org/>`_ repository,
 the latest Casbah build as is |release| and supports the following scala
@@ -8,7 +8,6 @@ versions: |scala_versions|.
 
 The easiest way to install the latest Casbah driver (|release|) is by using
 `sbt - the Scala Build Tool <http://www.scala-sbt.org/>`_.
-
 
 Setting up via sbt
 ------------------
@@ -33,9 +32,6 @@ To test your installation load the sbt console and try importing casbah::
     scala> import com.mongodb.casbah.Imports._
     import com.mongodb.casbah.Imports._
 
-Once you have installed correctly got to the `tutorial <tutorial>`_ or
-`casbah modules <modules>`_
-
 Problem solving
 ---------------
 If sbt can't find casbah then you may have an older version of sbt and will
@@ -49,6 +45,6 @@ need to add the sonatype resolvers to your `./build.sbt` file::
 Alternative installation methods
 --------------------------------
 You can install Casbah with maven, ivy or from source - see the
-`alternative install <alternative_install>`_ documentation.
+`alternative install <guide/installation_alt>`_ documentation.
 
 .. |scala_versions| replace:: 2.9.1, 2.9.2, 2.10.0 and 2.10.1

@@ -29,10 +29,10 @@
       </span>
       </h4>
       
-      <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Trait to provide the $within geospatial search method on appropriate callers</p><p>Note that  the args aren't TECHNICALLY latitude and longitude as they depend on:
+      <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Trait to provide the nested $geoWithin geospatial search method on appropriate callers</p><p>Note that  the args aren't TECHNICALLY latitude and longitude as they depend on:
   a) the order you specified your actual index in
   b) if you're using actual world maps or something else
-</p></div><dl class="attributes block"> <dt>Self Type</dt><dd><a name="com.mongodb.casbah.query.dsl.GeoWithinOps" class="extype" href="">GeoWithinOps</a></dd><dt>Source</dt><dd><a target="_blank" href="http://mongodb.github.com/casbah/api.sxr/casbah-query/CoreOperators.scala.html">CoreOperators.scala</a></dd><dt>Since</dt><dd><p>2.0</p></dd><dt>See also</dt><dd><span class="cmt"><p>http://www.mongodb.org/display/DOCS/Geospatial+Indexing
+</p></div><dl class="attributes block"> <dt>Self Type</dt><dd><a name="com.mongodb.casbah.query.dsl.GeoWithinOps" class="extype" href="">GeoWithinOps</a></dd><dt>Source</dt><dd><a target="_blank" href="http://mongodb.github.com/casbah/api.sxr/casbah-query/CoreOperators.scala.html">CoreOperators.scala</a></dd><dt>Since</dt><dd><p>2.6.2</p></dd><dt>See also</dt><dd><span class="cmt"><p>http://www.mongodb.org/display/DOCS/Geospatial+Indexing
 </p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.query.dsl.QueryOperator" class="extype" href="QueryOperator.html">QueryOperator</a>, <a name="com.mongodb.casbah.query.ChainedOperator" class="extype" href="../ChainedOperator.html">ChainedOperator</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
@@ -121,15 +121,27 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.GeoWithinOps#$within" data-isabs="false">
-      <a id="$within:QueryOperator { ... /* 3 definitions in type refinement */ }"></a>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.GeoWithinOps#$geoWithin" data-isabs="false">
+      <a id="$geoWithin:QueryOperator { ... /* 5 definitions in type refinement */ }"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">$within</span><span class="result">: <a name="com.mongodb.casbah.query.dsl.QueryOperator" class="extype" href="QueryOperator.html">QueryOperator</a> { ... /* 3 definitions in type refinement */ }</span>
+        <span class="name">$geoWithin</span><span class="result">: <a name="com.mongodb.casbah.query.dsl.QueryOperator" class="extype" href="QueryOperator.html">QueryOperator</a> { ... /* 5 definitions in type refinement */ }</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.GeoWithinOps#$geoWithin" data-isabs="false">
+      <a id="$geoWithin[A](A)((A) ⇒ DBObject):DBObject with QueryExpressionObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$geoWithin</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="geometry">geometry: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: DBObject with <a name="com.mongodb.casbah.query.dsl.QueryExpressionObject" class="extype" href="QueryExpressionObject.html">QueryExpressionObject</a></span>
       </span>
       </h4>
       
@@ -307,6 +319,23 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="prt" name="com.mongodb.casbah.query.dsl.QueryOperator#queryEq" data-isabs="false">
+      <a id="queryEq(Any):DBObject with QueryExpressionObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">queryEq</span><span class="params">(<span name="target">target: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: DBObject with <a name="com.mongodb.casbah.query.dsl.QueryExpressionObject" class="extype" href="QueryExpressionObject.html">QueryExpressionObject</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Base method for children to call to convert an operator call
+into a Mongo DBObject.</p><div class="fullcomment"><div class="comment cmt"><p>Base method for children to call to convert an operator call
+into a Mongo DBObject.</p><p>e.g. <code>"foo" $eq "bar"</code> will convert to
+<code>{"foo": "bar"}</code></p><p>WARNING: This does NOT check that target is a serializable type.
+That is, for the moment, your own problem.
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.query.dsl.QueryOperator" class="extype" href="QueryOperator.html">QueryOperator</a></dd></dl></div>
     </li><li visbl="prt" name="com.mongodb.casbah.query.dsl.QueryOperator#queryOp" data-isabs="false">
       <a id="queryOp(String,Any):DBObject with QueryExpressionObject"></a>
       <h4 class="signature">
@@ -319,8 +348,8 @@
       </span>
       </h4>
       <p class="shortcomment cmt">Base method for children to call to convert an operator call
-into a Mongo DBObject.</p><div class="fullcomment"><div class="comment cmt"><p>Base method for children to call to convert an operator call
-into a Mongo DBObject.</p><p>e.g. <code>"foo" $ne "bar"</code> will convert to
+into a nested Mongo DBObject.</p><div class="fullcomment"><div class="comment cmt"><p>Base method for children to call to convert an operator call
+into a nested Mongo DBObject.</p><p>e.g. <code>"foo" $ne "bar"</code> will convert to
 <code>{"foo": {"$ne": "bar"}}</code></p><p>Optionally, if dbObj, being <code>Some(DBObject)<code> is defined,
 the <code>op(oper, )</code> method will nest the target value and operator
 inside the existing dbObj - this is useful for things like mixing

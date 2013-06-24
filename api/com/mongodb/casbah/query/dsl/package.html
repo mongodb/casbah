@@ -132,6 +132,18 @@
       </span>
       </h4>
       <p class="comment cmt">Trait to provide the $bit (bit) update method as a bareword Operator</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.DeprecatedGeoWithinOps" data-isabs="true">
+      <a id="DeprecatedGeoWithinOps:DeprecatedGeoWithinOps"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DeprecatedGeoWithinOps.html"><span class="name">DeprecatedGeoWithinOps</span></a><span class="result"> extends QueryOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Trait to provide the $within geospatial search method on appropriate callers</p>
     </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.ElemMatchOp" data-isabs="true">
       <a id="ElemMatchOp:ElemMatchOp"></a>
       <h4 class="signature">
@@ -144,6 +156,18 @@
       </span>
       </h4>
       <p class="comment cmt">Trait to provide the $elemMatch method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.EqualsOp" data-isabs="true">
+      <a id="EqualsOp:EqualsOp"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="EqualsOp.html"><span class="name">EqualsOp</span></a><span class="result"> extends QueryOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Trait to provide an equals method on appropriate callers.</p>
     </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.ExistsOp" data-isabs="true">
       <a id="ExistsOp:ExistsOp"></a>
       <h4 class="signature">
@@ -164,7 +188,7 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="FluidQueryBarewordOps.html"><span class="name">FluidQueryBarewordOps</span></a><span class="result"> extends SetOp with SetOnInsertOp with UnsetOp with IncOp with OrOp with AndOp with RenameOp with ArrayOps with NorOp with BitOp</span>
+        <a href="FluidQueryBarewordOps.html"><span class="name">FluidQueryBarewordOps</span></a><span class="result"> extends SetOp with SetOnInsertOp with UnsetOp with IncOp with OrOp with AndOp with RenameOp with ArrayOps with NorOp with BitOp with WhereOp</span>
       </span>
       </h4>
       <p class="comment cmt">Aggregation object for Bareword Operators.</p>
@@ -176,7 +200,7 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="FluidQueryOperators.html"><span class="name">FluidQueryOperators</span></a><span class="result"> extends NotEqualsOp with LessThanOp with LessThanEqualOp with GreaterThanOp with GreaterThanEqualOp with InOp with NotInOp with ModuloOp with SizeOp with ExistsOp with AllOp with WhereOp with NotOp with SliceOp with TypeOp with ElemMatchOp with GeospatialOps</span>
+        <a href="FluidQueryOperators.html"><span class="name">FluidQueryOperators</span></a><span class="result"> extends EqualsOp with NotEqualsOp with LessThanOp with LessThanEqualOp with GreaterThanOp with GreaterThanEqualOp with InOp with NotInOp with ModuloOp with SizeOp with ExistsOp with AllOp with NotOp with SliceOp with TypeOp with ElemMatchOp with GeospatialOps</span>
       </span>
       </h4>
       <p class="comment cmt">Mixed trait which provides all possible
@@ -189,10 +213,23 @@ operators.</p>
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="GeoCoords.html"><span class="name">GeoCoords</span></a><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="lat">lat: A</span>, <span name="lon">lon: B</span>, <span name="evidence$12">evidence$12: ValidNumericType[A]</span>, <span name="evidence$13">evidence$13: Manifest[A]</span>, <span name="evidence$14">evidence$14: ValidNumericType[B]</span>, <span name="evidence$15">evidence$15: Manifest[B]</span>)</span><span class="result"> extends Product with Serializable</span>
+        <a href="GeoCoords.html"><span class="name">GeoCoords</span></a><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="lat">lat: A</span>, <span name="lon">lon: B</span>, <span name="evidence$13">evidence$13: ValidNumericType[A]</span>, <span name="evidence$14">evidence$14: Manifest[A]</span>, <span name="evidence$15">evidence$15: ValidNumericType[B]</span>, <span name="evidence$16">evidence$16: Manifest[B]</span>)</span><span class="result"> extends Product with Serializable</span>
       </span>
       </h4>
       
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.GeoIntersectsOp" data-isabs="true">
+      <a id="GeoIntersectsOp:GeoIntersectsOp"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="GeoIntersectsOp.html"><span class="name">GeoIntersectsOp</span></a><span class="result"> extends QueryOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Trait to provide the $intersects geospatial search method on appropriate callers
+</p>
     </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.GeoNearOp" data-isabs="true">
       <a id="GeoNearOp:GeoNearOp"></a>
       <h4 class="signature">
@@ -228,7 +265,7 @@ operators.</p>
         <a href="GeoWithinOps.html"><span class="name">GeoWithinOps</span></a><span class="result"> extends QueryOperator</span>
       </span>
       </h4>
-      <p class="comment cmt">Trait to provide the $within geospatial search method on appropriate callers</p>
+      <p class="comment cmt">Trait to provide the nested $geoWithin geospatial search method on appropriate callers</p>
     </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.GeospatialOps" data-isabs="true">
       <a id="GeospatialOps:GeospatialOps"></a>
       <h4 class="signature">
@@ -237,7 +274,7 @@ operators.</p>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="GeospatialOps.html"><span class="name">GeospatialOps</span></a><span class="result"> extends GeoNearOp with GeoNearSphereOp with GeoWithinOps</span>
+        <a href="GeospatialOps.html"><span class="name">GeospatialOps</span></a><span class="result"> extends GeoNearOp with GeoNearSphereOp with GeoWithinOps with GeoIntersectsOp with DeprecatedGeoWithinOps</span>
       </span>
       </h4>
       
@@ -576,7 +613,7 @@ bareword operator.</p>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="ValueTestFluidQueryOperators.html"><span class="name">ValueTestFluidQueryOperators</span></a><span class="result"> extends LessThanOp with LessThanEqualOp with GreaterThanOp with GreaterThanEqualOp with ModuloOp with SizeOp with AllOp with WhereOp with NotEqualsOp with TypeOp</span>
+        <a href="ValueTestFluidQueryOperators.html"><span class="name">ValueTestFluidQueryOperators</span></a><span class="result"> extends LessThanOp with LessThanEqualOp with GreaterThanOp with GreaterThanEqualOp with ModuloOp with SizeOp with AllOp with NotEqualsOp with TypeOp</span>
       </span>
       </h4>
       
@@ -588,10 +625,22 @@ bareword operator.</p>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="WhereOp.html"><span class="name">WhereOp</span></a><span class="result"> extends QueryOperator</span>
+        <a href="WhereOp.html"><span class="name">WhereOp</span></a><span class="result"> extends BarewordQueryOperator</span>
       </span>
       </h4>
       <p class="comment cmt">Trait to provide the $where (Where) method on appropriate callers.</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.query.dsl.regexOp" data-isabs="true">
+      <a id="regexOp:regexOp"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="regexOp.html"><span class="name">regexOp</span></a><span class="result"> extends QueryOperator</span>
+      </span>
+      </h4>
+      <p class="comment cmt">$regex operator to query by type.</p>
     </li></ol>
             </div>
 

@@ -306,6 +306,23 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="prt" name="com.mongodb.casbah.query.dsl.QueryOperator#queryEq" data-isabs="false">
+      <a id="queryEq(Any):DBObject with QueryExpressionObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">queryEq</span><span class="params">(<span name="target">target: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: DBObject with <a name="com.mongodb.casbah.query.dsl.QueryExpressionObject" class="extype" href="QueryExpressionObject.html">QueryExpressionObject</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Base method for children to call to convert an operator call
+into a Mongo DBObject.</p><div class="fullcomment"><div class="comment cmt"><p>Base method for children to call to convert an operator call
+into a Mongo DBObject.</p><p>e.g. <code>"foo" $eq "bar"</code> will convert to
+<code>{"foo": "bar"}</code></p><p>WARNING: This does NOT check that target is a serializable type.
+That is, for the moment, your own problem.
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.query.dsl.QueryOperator" class="extype" href="QueryOperator.html">QueryOperator</a></dd></dl></div>
     </li><li visbl="prt" name="com.mongodb.casbah.query.dsl.QueryOperator#queryOp" data-isabs="false">
       <a id="queryOp(String,Any):DBObject with QueryExpressionObject"></a>
       <h4 class="signature">
@@ -318,8 +335,8 @@
       </span>
       </h4>
       <p class="shortcomment cmt">Base method for children to call to convert an operator call
-into a Mongo DBObject.</p><div class="fullcomment"><div class="comment cmt"><p>Base method for children to call to convert an operator call
-into a Mongo DBObject.</p><p>e.g. <code>"foo" $ne "bar"</code> will convert to
+into a nested Mongo DBObject.</p><div class="fullcomment"><div class="comment cmt"><p>Base method for children to call to convert an operator call
+into a nested Mongo DBObject.</p><p>e.g. <code>"foo" $ne "bar"</code> will convert to
 <code>{"foo": {"$ne": "bar"}}</code></p><p>Optionally, if dbObj, being <code>Some(DBObject)<code> is defined,
 the <code>op(oper, )</code> method will nest the target value and operator
 inside the existing dbObj - this is useful for things like mixing
