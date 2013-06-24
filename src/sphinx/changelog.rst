@@ -3,6 +3,7 @@ Changelog
 
 Changes in Version 2.6.X
 ------------------------
+- Added support for Joda-Time LocalDate serialisation (SCALA-111, #59)
 - Added aggregate collection helper (SCALA-110)
 - Added $each support to $pull (SCALA-109)
 - Updated to the latest Java driver 2.11.2 (SCALA-106)
