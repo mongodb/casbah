@@ -14,9 +14,9 @@ existing Java code.
    :maxdepth: 2
 
    philosophy
-   modules
    installation
    installation_alt
+   modules
    connecting
    querying
    query_dsl

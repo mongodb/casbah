@@ -52,7 +52,7 @@ All Dependencies Jar
 
 As Casbah is published in multiple modules installing it manually can take time,
 especially as the dependencies change depending on the Scala version you are
-using. To simplfy this you can download a single all inclusive jar for your
+using. To simplify this you can download a single all inclusive jar for your
 scala version:
 
     |all_dep_urls|

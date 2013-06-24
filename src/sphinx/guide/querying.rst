@@ -48,4 +48,4 @@ DBObjects have a builder and as such you can also build MongoDBObjects that way:
     builder += "baz" -> "qux"
     val query = builder.result
 
-.. note:: Remember to import casbah ``import com.mongodb.casbah.Imports._``
+.. note:: Remember to import casbah: ``import com.mongodb.casbah.Imports._``

@@ -5,7 +5,7 @@ Connecting to MongoDB
 
 The core connection class is `MongoClient
 <http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoClient>`_.  The
-casbah ``MongoClient`` class simple wraps the `MongoClient Java class
+casbah ``MongoClient`` class simply wraps the `MongoClient Java class
 <http://api.mongodb.org/java/current/?com/mongodb/MongoClient.html>`_ and
 provides a couple of scala helpers as well.
 
@@ -38,9 +38,11 @@ format defines connections between applications and MongoDB.  In Casbah the
     val uri = MongoClientURI("mongodb://localhost:27017/")
     val mongoClient =  MongoClient(uri)
 
-..note:: URI style strings supports all the various connection scenarios, such
+.. note:: URI style strings supports all the various connection scenarios, such
     as connecting to replicasets or using authentication and as such its often
-    considered easier to use.  The following examples show both the long hand
+    considered easier to use.
+
+    The following examples show both the long hand
     way of connecting purely in code and the URI style.
 
 Connecting to ReplicaSets / mongos
@@ -48,7 +50,7 @@ Connecting to ReplicaSets / mongos
 
 The java driver automatically determines if it is speaking to a
 `replicaset <http://docs.mongodb.org/manual/replication/>`_ or
-a `mongos <http://docs.mongodb.org/manual/sharding/>`_ and acts according.
+a `mongos <http://docs.mongodb.org/manual/sharding/>`_ and acts accordingly.
 
 List of ServerAddress instances
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -61,7 +63,7 @@ List of ServerAddress instances
     val mongoClient = MongoClient(List(rs1, rs2, rs3))
 
 .. note:: The `ServerAddress <http://api.mongodb.org/java/current/?com/mongodb/ServerAddress.html>`_
-    class isn't wrapped by casbah - so you have to call **new**: ``new ServerAddress()``.
+    class isn't wrapped by casbah - so you have to call *new* eg: ``new ServerAddress()``.
 
 URI style connections
 ^^^^^^^^^^^^^^^^^^^^^
@@ -76,8 +78,8 @@ Authentication
 --------------
 
 MongoDB currently provides two different authentication mechanisms.
-Challenge response authentication and GSSAPI authentication (available in the
-subscriber edition).
+Challenge response and GSSAPI authentication (available in the subscriber
+edition).
 
 MongoDBCredentials
 ^^^^^^^^^^^^^^^^^^
@@ -122,7 +124,7 @@ SSL connections
 ---------------
 
 By default ssl is off for mongodb, but you can `configure mongodb to enable ssl
-<http://docs.mongodb.org/manual/tutorial/configure-ssl/>`.  Subscribers to the
+<http://docs.mongodb.org/manual/tutorial/configure-ssl/>`_.  Subscribers to the
 enterprise edition of mongodb have ssl support baked in.
 
 MongoClientOptions
@@ -152,9 +154,8 @@ default `write concern <http://docs.mongodb.org/manual/core/write-concern/>`_
 and `read preferences <http://docs.mongodb.org/manual/core/read-preference/>`_
 to configuring socket timeouts.
 
-See the `mongodb manual
-<http://docs.mongodb.org/manual/reference/connection-string/#connection-string-options>`_
-for the more connection options.
+For the more connection options see the `mongodb connection reference
+<http://docs.mongodb.org/manual/reference/connection-string/#connection-string-options>`_.
 
 
 Databases and Collections

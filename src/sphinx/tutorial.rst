@@ -172,7 +172,7 @@ First, find the scala document and add its platform::
 
 MongoDB comes with a host of
 `update operators <http://docs.mongodb.org/manual/core/update/#crud-update-operators>`_
-to modify documents.  Casbah has a powerful `DSL <guide/query>`_ for creating
+to modify documents.  Casbah has a powerful `DSL <guide/querying>`_ for creating
 these update documents. Lets set the language to scala for the JVM document::
 
     val query = MongoDBObject("platform" -> "JVM")

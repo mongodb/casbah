@@ -3,8 +3,8 @@ Query DSL
 =========
 .. highlight:: scala
 
-Casbah provides a rich fluid query syntax that allows you in many cases to
-construct DBObjects on the fly using MongoDB query operators.
+Casbah provides a rich fluid query syntax, that allows you to
+construct ``DBObjects`` on the fly using MongoDB query operators.
 
 Query Selectors
 ---------------
@@ -16,7 +16,7 @@ Comparison Operators
 
     "size" $all ("S", "M", "L")
 
-* ``$eq`` Matches values that are eqaual to the value specified::
+* ``$eq`` Matches values that are equal to the value specified::
 
     "price" $eq 10
 
@@ -30,7 +30,7 @@ Comparison Operators
 
     "size" $in ("S", "M", "L")
 
-* ``$lt`` Matches vales that are less than the value specified in the query
+* ``$lt`` Matches values that are less than the value specified in the query
 * ``$lte`` Matches values that are less than or equal to the value specified::
 
     "price" $lt 100
