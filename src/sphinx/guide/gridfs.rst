@@ -66,4 +66,15 @@ Example use case::
     // Print all filenames stored in GridFS
     for (f <- gridfs) println(f.filename)
 
-
+Joda DateTime
+-------------
+Due to hardcoding in the Java GridFS driver the Joda Time
+serialization hooks break with GridFS.  It tries to explicitly cast
+certain date fields as a ``java.util.Date``.  To that
+end, on all find ops we explicitly unload the Joda Time deserializers and
+reload them when we're done (if they were loaded before we started).  This
+allows GridFS to always work but *MAY* cause thread safety issues - e.g.
+if you have another non-GridFS read happening at the same time in another
+thread at the same time, it may fail to deserialize BSON Dates as Joda
+DateTime - and blow up.  Be careful --- generally we don't recommend mixing
+Joda Time and GridFS in the same JVM at the moment.

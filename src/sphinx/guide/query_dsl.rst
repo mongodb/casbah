@@ -125,10 +125,10 @@ Geospatial Operators
 
     // Create a GeoJson geometry document
     var geo = MongoDBObject("$geometry" ->
-            MongoDBObject("$type" -> "polygon",
-              "coordinates" -> (((GeoCoords(74.2332, -75.23452),
-                                  GeoCoords(123, 456),
-                                  GeoCoords(74.2332, -75.23452))))))
+                MongoDBObject("$type" -> "polygon",
+                  "coordinates" -> (((GeoCoords(74.2332, -75.23452),
+                                      GeoCoords(123, 456),
+                                      GeoCoords(74.2332, -75.23452))))))
     val near = "location" $geoIntersects geo
 
 * ``$near`` Returns geospatial objects in proximity to a point::

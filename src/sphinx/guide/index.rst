@@ -20,5 +20,6 @@ enhance the existing Java code.
    connecting
    querying
    query_dsl
+   aggregation
    gridfs
    serialisation
