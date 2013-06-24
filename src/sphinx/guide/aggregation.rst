@@ -26,10 +26,10 @@ Aggregation Syntax
 
 Conceptually, documents from a collection pass through an aggregation pipeline,
 which transforms these objects as they pass through. For those familiar with
-UNIX-like shells (e.g. bash,) the concept is analogous to the pipe (i.e. |)
+UNIX-like shells (e.g. bash,) the concept is analogous to the pipe (i.e. \|)
 used to string text filters together:
 
-..code-block:: bash
+.. code-block:: bash
 
     db.people.aggregate( <pipeline> )
     db.people.aggregate( [<pipeline>] )
@@ -87,6 +87,8 @@ framework by issuing the following command::
     );
 
 The results of the aggregation themselves can be accessed in via ``results``.
+
+
 To learn more about aggregation see the `aggregation tutorial
 <http://docs.mongodb.org/manual/tutorial/aggregation-examples/>`_ and the
 `aggregation reference <http://docs.mongodb.org/manual/reference/aggregation/>`_

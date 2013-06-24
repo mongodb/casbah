@@ -51,5 +51,7 @@ Custom Conversion Helpers
 
 Writing your own conversion helper is relatively easy, simply provide a
 ``BSON.addEncodingHook(encodeType, transformer)`` and a
-``BSON.removeEncodingHooks(encodeType)``.  See the `casbah conversions <https://github.com/mongodb/casbah/blob/master/casbah-commons/src/main/scala/conversions/ScalaConversions.scala>`_
+``BSON.removeEncodingHooks(encodeType)``.
+
+See the `casbah conversions <https://github.com/mongodb/casbah/blob/master/casbah-commons/src/main/scala/conversions/ScalaConversions.scala>`_
 for an example of creating your own.

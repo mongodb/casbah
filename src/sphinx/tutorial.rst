@@ -21,7 +21,7 @@ casbah.  I recommend using `sbt-extras <https://github.com/paulp/sbt-extras>`_
 - a special sbt script for installing and running sbt.
 
 1. Create a project directory: ``mkdir casbah_tutorial && cd casbah_tutorial``
-2. Install sbt-extras script::
+2. Install sbt-extras script:
 
 .. code-block:: bash
 
