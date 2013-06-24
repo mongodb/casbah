@@ -15,9 +15,9 @@ object CasbahBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
-    version      := "2.6.2-SNAPSHOT",
+    version      := "2.6.2",
     scalaVersion := "2.10.1",
-    crossScalaVersions := Seq("2.10.1", "2.10.0", "2.9.3", "2.9.2", "2.9.1")
+    crossScalaVersions := Seq("2.10.2", "2.10.1", "2.10.0", "2.9.3", "2.9.2", "2.9.1")
   )
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
@@ -45,15 +45,13 @@ object CasbahBuild extends Build {
       autoCompilerPlugins := true,
       libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
         sv match {
-          case "2.10.1" => deps
-          case "2.10.0" => deps
+          case sv if sv.startsWith("2.10") => deps
           case _ => deps :+ compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7")
         }
       },
       scalacOptions <++= scalaVersion map { sv =>
         sv match {
-          case "2.10.1" => scalac210Options
-          case "2.10.0" => scalac210Options
+          case sv if sv.startsWith("2.10") => scalac210Options
           case _ => Seq()
         }
       },
@@ -144,8 +142,7 @@ object Dependencies {
           case "2.9.1"   => "org.specs2" %% "specs2" % "1.12.2"
           case "2.9.2"   => "org.specs2" %% "specs2" % "1.12.3"
           case "2.9.3"   => "org.specs2" % "specs2_2.9.2" % "1.12.3"
-          case "2.10.0"   => "org.specs2" %% "specs2" % "1.14"
-          case "2.10.1" => "org.specs2" %% "specs2" % "1.14"
+          case scalaVersion if scalaVersion.startsWith("2.10") => "org.specs2" %% "specs2" % "1.14"
       }) % "test"
 }
 
