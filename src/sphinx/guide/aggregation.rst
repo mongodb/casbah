@@ -13,7 +13,7 @@ map-reduce is powerful, it is often more difficult than
 necessary for many simple aggregation tasks, such as totaling or
 averaging field values.
 
-If you're familiar with :term:`SQL`, the aggregation framework
+If you're familiar with SQL, the aggregation framework
 provides similar functionality to ``GROUP BY`` and related SQL
 operators as well as simple forms of "self joins." Additionally, the
 aggregation framework provides projection capabilities to reshape the
