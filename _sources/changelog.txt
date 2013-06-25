@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Changes in Version 2.6.X
+Changes in Version 2.6.2
 ------------------------
 - Fixed MongoClientURI Implicit
 - Added support for Joda-Time LocalDate serialisation (SCALA-111, #59)

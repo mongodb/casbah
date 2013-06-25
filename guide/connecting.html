@@ -138,7 +138,7 @@ class isn't wrapped by casbah - so you have to call <em>new</em> eg: <tt class="
 </div>
 <div class="section" id="uri-style-connections">
 <h3>2.5.3.2. URI style connections<a class="headerlink" href="#uri-style-connections" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MongoClientURI</span><span class="o">(</span><span class="s">&quot;mongodb://localhost:27017,localhost:27018,localhost:27019/&quot;</span><span class="o">)</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="nc">MongoClientURI</span><span class="o">(</span><span class="s">&quot;mongodb://localhost:27017,localhost:27018,localhost:27019/&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">mongoClient</span> <span class="k">=</span> <span class="nc">MongoClient</span><span class="o">(</span><span class="nc">List</span><span class="o">(</span><span class="n">rs1</span><span class="o">,</span> <span class="n">rs2</span><span class="o">,</span> <span class="n">rs3</span><span class="o">))</span>
 </pre></div>
 </div>
@@ -180,11 +180,11 @@ Either via flags when running scala:</p>
 <div class="section" id="id2">
 <h3>2.5.4.2. URI style connections<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-scala"><div class="highlight"><pre><span class="c1">// Challenge Response</span>
-<span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MongoClientURI</span><span class="o">(</span><span class="s">&quot;mongodb://username:pwd@localhost/?authMechanism=MONGODB-CR&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="nc">MongoClientURI</span><span class="o">(</span><span class="s">&quot;mongodb://username:pwd@localhost/?authMechanism=MONGODB-CR&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">mongoClient</span> <span class="k">=</span>  <span class="nc">MongoClient</span><span class="o">(</span><span class="n">uri</span><span class="o">)</span>
 
 <span class="c1">// GSSAPI</span>
-<span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MongoClientURI</span><span class="o">(</span><span class="s">&quot;mongodb://username%40domain@kdc.example.com/?authMechanism=MONGODB-GSSAPI&quot;</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="nc">MongoClientURI</span><span class="o">(</span><span class="s">&quot;mongodb://username%40domain@kdc.example.com/?authMechanism=MONGODB-GSSAPI&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">mongoClient</span> <span class="k">=</span>  <span class="nc">MongoClient</span><span class="o">(</span><span class="n">uri</span><span class="o">)</span>
 </pre></div>
 </div>
@@ -203,7 +203,7 @@ enterprise edition of mongodb have ssl support baked in.</p>
 </div>
 <div class="section" id="id3">
 <h3>2.5.5.2. URI style connections<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MongoClientURI</span><span class="o">(</span><span class="s">&quot;mongodb://localhost:27017/?ssl=true&quot;</span><span class="o">)</span>
+<div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">uri</span> <span class="k">=</span> <span class="nc">MongoClientURI</span><span class="o">(</span><span class="s">&quot;mongodb://localhost:27017/?ssl=true&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">mongoClient</span> <span class="k">=</span> <span class="nc">MongoClient</span><span class="o">(</span><span class="n">uri</span><span class="o">)</span>
 </pre></div>
 </div>
