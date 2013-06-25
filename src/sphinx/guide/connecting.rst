@@ -70,7 +70,7 @@ URI style connections
 
 .. code-block:: scala
 
-    val uri = new MongoClientURI("mongodb://localhost:27017,localhost:27018,localhost:27019/")
+    val uri = MongoClientURI("mongodb://localhost:27017,localhost:27018,localhost:27019/")
     val mongoClient = MongoClient(List(rs1, rs2, rs3))
 
 
@@ -113,11 +113,11 @@ URI style connections
 .. code-block:: scala
 
     // Challenge Response
-    val uri = new MongoClientURI("mongodb://username:pwd@localhost/?authMechanism=MONGODB-CR")
+    val uri = MongoClientURI("mongodb://username:pwd@localhost/?authMechanism=MONGODB-CR")
     val mongoClient =  MongoClient(uri)
 
     // GSSAPI
-    val uri = new MongoClientURI("mongodb://username%40domain@kdc.example.com/?authMechanism=MONGODB-GSSAPI")
+    val uri = MongoClientURI("mongodb://username%40domain@kdc.example.com/?authMechanism=MONGODB-GSSAPI")
     val mongoClient =  MongoClient(uri)
 
 SSL connections
@@ -140,7 +140,7 @@ URI style connections
 
 .. code-block:: scala
 
-    val uri = new MongoClientURI("mongodb://localhost:27017/?ssl=true")
+    val uri = MongoClientURI("mongodb://localhost:27017/?ssl=true")
     val mongoClient = MongoClient(uri)
 
 .. note:: Ensure your keystore is configured correctly to validate ssl certificates
