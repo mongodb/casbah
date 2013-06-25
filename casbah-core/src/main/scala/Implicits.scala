@@ -134,6 +134,7 @@ trait BaseImports {
   val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
   val MongoOptions = com.mongodb.casbah.MongoOptions
   val MongoClientOptions = com.mongodb.casbah.MongoClientOptions
+  val MongoClientURI = com.mongodb.casbah.MongoClientURI
   val MongoCredential = com.mongodb.casbah.MongoCredential
   val WriteConcern = com.mongodb.casbah.WriteConcern
   val ReadPreference = com.mongodb.casbah.ReadPreference
