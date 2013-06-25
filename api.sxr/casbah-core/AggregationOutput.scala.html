@@ -24,54 +24,54 @@
  *
  * @since 2.5
  */</span>
-<span class="keyword">class</span> <a title="class AggregationOutput extends java.lang.Object with ScalaObject" id="10193">AggregationOutput</a><a href="#10193" title="ScalaObject" class="delimiter">(</a><a title="com.mongodb.AggregationOutput" id="11556">underlying</a>: <span title="com.mongodb.AggregationOutput">JavaAggregationOutput</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+<span class="keyword">class</span> <a title="class AggregationOutput extends java.lang.Object with ScalaObject" id="10193">AggregationOutput</a><a href="#10193" title="ScalaObject" class="delimiter">(</a><a title="com.mongodb.AggregationOutput" id="11554">underlying</a>: <span title="com.mongodb.AggregationOutput">JavaAggregationOutput</span><span class="delimiter">)</span> <span class="delimiter">{</span>
 
     <span class="comment">/**
      * returns an iterator to the results of the aggregation
      * @return
      */</span>
-    <span class="keyword">def</span> <a title="=&gt; Iterable[com.mongodb.DBObject]" id="11534">results</a> = <a href="#11556" title="com.mongodb.AggregationOutput">underlying</a>.<span title="(i: java.lang.Iterable[com.mongodb.DBObject])collection.JavaConverters.AsScala[Iterable[com.mongodb.DBObject]]">results</span>.<span title="=&gt; Iterable[com.mongodb.DBObject]">asScala</span>
+    <span class="keyword">def</span> <a title="=&gt; Iterable[com.mongodb.DBObject]" id="11532">results</a> = <a href="#11554" title="com.mongodb.AggregationOutput">underlying</a>.<span title="(i: java.lang.Iterable[com.mongodb.DBObject])collection.JavaConverters.AsScala[Iterable[com.mongodb.DBObject]]">results</span>.<span title="=&gt; Iterable[com.mongodb.DBObject]">asScala</span>
 
     <span class="comment">/**
      * returns the command result of the aggregation
      * @return
      */</span>
-    <span class="keyword">def</span> <a title="=&gt; scala.collection.mutable.Map[java.lang.String,java.lang.Object]" id="11535">getCommandResult</a> = <a href="#11556" title="com.mongodb.AggregationOutput">underlying</a>.<span title="(m: java.util.Map[java.lang.String,java.lang.Object])collection.JavaConverters.AsScala[scala.collection.mutable.Map[java.lang.String,java.lang.Object]]">getCommandResult</span>.<span title="=&gt; scala.collection.mutable.Map[java.lang.String,java.lang.Object]">asScala</span>
+    <span class="keyword">def</span> <a title="=&gt; scala.collection.mutable.Map[java.lang.String,java.lang.Object]" id="11533">getCommandResult</a> = <a href="#11554" title="com.mongodb.AggregationOutput">underlying</a>.<span title="(m: java.util.Map[java.lang.String,java.lang.Object])collection.JavaConverters.AsScala[scala.collection.mutable.Map[java.lang.String,java.lang.Object]]">getCommandResult</span>.<span title="=&gt; scala.collection.mutable.Map[java.lang.String,java.lang.Object]">asScala</span>
 
     <span class="comment">/**
      * returns the command result of the aggregation
      * @return
      */</span>
-    <span class="keyword">def</span> <a title="=&gt; scala.collection.mutable.Map[java.lang.String,java.lang.Object]" id="11536">commandResult</a> = <a href="#11556" title="com.mongodb.AggregationOutput">underlying</a>.<span title="(m: java.util.Map[java.lang.String,java.lang.Object])collection.JavaConverters.AsScala[scala.collection.mutable.Map[java.lang.String,java.lang.Object]]">getCommandResult</span>.<span title="=&gt; scala.collection.mutable.Map[java.lang.String,java.lang.Object]">asScala</span>
+    <span class="keyword">def</span> <a title="=&gt; scala.collection.mutable.Map[java.lang.String,java.lang.Object]" id="11534">commandResult</a> = <a href="#11554" title="com.mongodb.AggregationOutput">underlying</a>.<span title="(m: java.util.Map[java.lang.String,java.lang.Object])collection.JavaConverters.AsScala[scala.collection.mutable.Map[java.lang.String,java.lang.Object]]">getCommandResult</span>.<span title="=&gt; scala.collection.mutable.Map[java.lang.String,java.lang.Object]">asScala</span>
 
     <span class="comment">/**
      * returns the original aggregation command
      * @return
      */</span>
-    <span class="keyword">def</span> <a title="=&gt; com.mongodb.DBObject" id="11537">getCommand</a> = <a href="#11556" title="com.mongodb.AggregationOutput">underlying</a>.<span title="()com.mongodb.DBObject">getCommand</span>
+    <span class="keyword">def</span> <a title="=&gt; com.mongodb.DBObject" id="11535">getCommand</a> = <a href="#11554" title="com.mongodb.AggregationOutput">underlying</a>.<span title="()com.mongodb.DBObject">getCommand</span>
 
     <span class="comment">/**
      * returns the original aggregation command
      * @return
      */</span>
-    <span class="keyword">def</span> <a title="=&gt; com.mongodb.DBObject" id="11538">command</a> = <a href="#11556" title="com.mongodb.AggregationOutput">underlying</a>.<span title="()com.mongodb.DBObject">getCommand</span>
+    <span class="keyword">def</span> <a title="=&gt; com.mongodb.DBObject" id="11536">command</a> = <a href="#11554" title="com.mongodb.AggregationOutput">underlying</a>.<span title="()com.mongodb.DBObject">getCommand</span>
 
     <span class="comment">/**
      * returns the address of the server used to execute the aggregation
      * @return
      */</span>
-    <span class="keyword">def</span> <a title="()com.mongodb.ServerAddress" id="11539">getServerUsed</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#11556" title="com.mongodb.AggregationOutput">underlying</a>.<span title="()com.mongodb.ServerAddress">getServerUsed</span>
+    <span class="keyword">def</span> <a title="()com.mongodb.ServerAddress" id="11537">getServerUsed</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#11554" title="com.mongodb.AggregationOutput">underlying</a>.<span title="()com.mongodb.ServerAddress">getServerUsed</span>
 
     <span class="comment">/**
      * returns the address of the server used to execute the aggregation
      * @return
      */</span>
-    <span class="keyword">def</span> <a title="()com.mongodb.ServerAddress" id="11540">serverUsed</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#11556" title="com.mongodb.AggregationOutput">underlying</a>.<span title="()com.mongodb.ServerAddress">getServerUsed</span>
+    <span class="keyword">def</span> <a title="()com.mongodb.ServerAddress" id="11538">serverUsed</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#11554" title="com.mongodb.AggregationOutput">underlying</a>.<span title="()com.mongodb.ServerAddress">getServerUsed</span>
 
     <span class="comment">/**
      * string representation of the aggregation command
      */</span>
-    <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="11541">toString</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#11556" title="com.mongodb.AggregationOutput">underlying</a>.<span title="()java.lang.String">toString</span>
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="11539">toString</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#11554" title="com.mongodb.AggregationOutput">underlying</a>.<span title="()java.lang.String">toString</span>
 
 <span class="delimiter">}</span>
         </pre>
