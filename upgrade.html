@@ -75,21 +75,29 @@
             
   <div class="section" id="upgrade">
 <h1>4. Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-2-6-1">
+<h2>4.1. Version 2.6.1<a class="headerlink" href="#version-2-6-1" title="Permalink to this headline">¶</a></h2>
+<p>The com.mongodb.casbah.commons.test dependencies are now marked in the test
+classpath, so to install:</p>
+<div class="highlight-scala"><div class="highlight"><pre><span class="s">&quot;org.mongodb&quot;</span> <span class="o">%%</span> <span class="s">&quot;casbah-commons&quot;</span> <span class="o">%</span> <span class="s">&quot;2.6.2&quot;</span> <span class="o">%</span> <span class="s">&quot;test&quot;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="version-2-6-0">
-<h2>4.1. Version 2.6.0<a class="headerlink" href="#version-2-6-0" title="Permalink to this headline">¶</a></h2>
+<h2>4.2. Version 2.6.0<a class="headerlink" href="#version-2-6-0" title="Permalink to this headline">¶</a></h2>
 <p>No upgrade needed.</p>
 </div>
 <div class="section" id="version-2-5-1">
-<h2>4.2. Version 2.5.1<a class="headerlink" href="#version-2-5-1" title="Permalink to this headline">¶</a></h2>
+<h2>4.3. Version 2.5.1<a class="headerlink" href="#version-2-5-1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="scala-2-10">
-<h3>4.2.1. Scala 2.10<a class="headerlink" href="#scala-2-10" title="Permalink to this headline">¶</a></h3>
+<h3>4.3.1. Scala 2.10<a class="headerlink" href="#scala-2-10" title="Permalink to this headline">¶</a></h3>
 <p>The <cite>-Yeta-expand-keeps-star</cite> compiler flag is no longer required.</p>
 </div>
 </div>
 <div class="section" id="version-2-5-0">
-<h2>4.3. Version 2.5.0<a class="headerlink" href="#version-2-5-0" title="Permalink to this headline">¶</a></h2>
+<h2>4.4. Version 2.5.0<a class="headerlink" href="#version-2-5-0" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3>4.3.1. Scala 2.10<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>4.4.1. Scala 2.10<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>Because of how scala 2.10 handles repeated parameters you may
 need to build with the <cite>-Yeta-expand-keeps-star</cite> flag to upgrade your codebase.</p>
 </div>
@@ -117,13 +125,14 @@ need to build with the <cite>-Yeta-expand-keeps-star</cite> flag to upgrade your
 <li class="toctree-l1"><a class="reference internal" href="guide/index.html">2. User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">3. Changelog</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">4. Upgrade</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#version-2-6-0">4.1. Version 2.6.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#version-2-5-1">4.2. Version 2.5.1</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#scala-2-10">4.2.1. Scala 2.10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-2-6-1">4.1. Version 2.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-2-6-0">4.2. Version 2.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-2-5-1">4.3. Version 2.5.1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scala-2-10">4.3.1. Scala 2.10</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#version-2-5-0">4.3. Version 2.5.0</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">4.3.1. Scala 2.10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-2-5-0">4.4. Version 2.5.0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">4.4.1. Scala 2.10</a></li>
 </ul>
 </li>
 </ul>
