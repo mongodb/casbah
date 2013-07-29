@@ -23,7 +23,7 @@ package com.mongodb.casbah
 package gridfs
 
 import java.io.{File, InputStream}
-import scala.beans.BeanInfo
+import scala.reflect._
 
 import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile,
                            GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
