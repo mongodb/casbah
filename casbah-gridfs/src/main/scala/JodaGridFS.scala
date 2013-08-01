@@ -71,11 +71,15 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
 
     def numSeen() = fileSet.numSeen
 
-    def curr() = new JodaGridFSDBFile(fileSet.next().asInstanceOf[MongoGridFSDBFile])
+    def curr = next()
 
     def explain() = fileSet.explain
 
-    def next() = new JodaGridFSDBFile(fileSet.next().asInstanceOf[MongoGridFSDBFile])
+    def next() = {
+        val gridfsfile = fileSet.next().asInstanceOf[GridFSDBFileSafeJoda]
+        gridfsfile.setGridFS(underlying)
+        new JodaGridFSDBFile(gridfsfile)
+    }
 
     def hasNext: Boolean = fileSet.hasNext
   }
