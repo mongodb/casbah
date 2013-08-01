@@ -210,13 +210,18 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
   def findOne[A <% DBObject](query: A): Option[JodaGridFSDBFile] = {
     filesCollection.findOne(query) match {
       case None => None
-      case x => Some(new JodaGridFSDBFile(x.get.asInstanceOf[MongoGridFSDBFile]))
+      case x => {
+        val gridfsFile = x.get
+        gridfsFile.setGridFS(underlying)
+        Some(new JodaGridFSDBFile(gridfsFile))
+      }
     }
   }
 
   def findOne(id: ObjectId): Option[JodaGridFSDBFile] = findOne(MongoDBObject("_id" -> id))
 
   def findOne(filename: String): Option[JodaGridFSDBFile] = findOne(MongoDBObject("filename" -> filename))
+
 
 }
 

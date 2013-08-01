@@ -143,6 +143,17 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
       x must beTrue
     }
 
+    "read back as expected" in {
+
+      gridfs("hello world".getBytes()) {
+        fh =>
+          fh.filename = "hello_world.txt"
+          fh.contentType = "text/plain"
+      }
+
+      val file = gridfs.findOne("hello_world.txt")
+      file.get.source.mkString must beEqualTo("hello worlds")
+    }
   }
 
   "Casbah's Joda GridFS Implementations with no registered JodaTime helpers" should {

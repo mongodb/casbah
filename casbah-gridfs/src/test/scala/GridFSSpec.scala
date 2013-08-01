@@ -109,6 +109,18 @@ class GridFSSpec extends CasbahMutableSpecification {
       uploadDate must beAnInstanceOf[java.util.Date]
     }
 
+    "read back as expected" in {
+
+      gridfs("hello world".getBytes()) {
+        fh =>
+          fh.filename = "hello_world.txt"
+          fh.contentType = "text/plain"
+      }
+
+      val file = gridfs.findOne("hello_world.txt")
+      file.get.source.mkString must beEqualTo("hello worlds")
+    }
+
     "Handle DateTime" in {
       val id = gridfs(logo_bytes) {
         fh =>
