@@ -76,6 +76,15 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
     }
   }
 
+  /** nested as.
+   * @param  firstKey the key of the root object
+   * @param  secondKey the key of the nested object
+   * @tparam A
+   * @return (A)
+   */
+  def as[A](firstKey: String, secondKey: String) : A =
+    as[DBObject](firstKey).as[A](secondKey)
+
   override def get(key: String): Option[AnyRef] = underlying.get(key) match {
     case null => None
     case value => Some(value)
