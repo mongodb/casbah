@@ -35,7 +35,7 @@ import scala.Some
 
 class GridFSSpec extends CasbahMutableSpecification {
 
-  def deregister {
+  def deregister() {
     DeregisterJodaTimeConversionHelpers()
     DeregisterJodaLocalDateTimeConversionHelpers()
   }
@@ -78,7 +78,7 @@ class GridFSSpec extends CasbahMutableSpecification {
   }
 
   "Casbah's GridFS Implementations" should {
-    deregister
+    deregister()
 
     "Find the file in GridFS later" in {
       val id = gridfs(logo_bytes) {
@@ -109,8 +109,24 @@ class GridFSSpec extends CasbahMutableSpecification {
       uploadDate must beAnInstanceOf[java.util.Date]
     }
 
+    "read back as expected" in {
+      gridfs("hello world".getBytes) {
+        fh =>
+          fh.filename = "hello_world.txt"
+          fh.contentType = "text/plain"
+      }
+
+      val file = gridfs.findOne("hello_world.txt")
+      file.get.source.mkString must beEqualTo("hello world")
+
+      // Ensure the iterator also works
+      gridfs.iterator.filter(f => f.filename == "hello_world.txt").foreach(f =>
+        f.source.mkString must beEqualTo("hello world")
+      )
+    }
+
     "Handle DateTime" in {
-      val id = gridfs(logo_bytes) {
+      gridfs(logo_bytes) {
         fh =>
           fh.put("uploadDate", new DateTime())
           fh.filename = "powered_by_mongo_find_date.png"
@@ -129,7 +145,7 @@ class GridFSSpec extends CasbahMutableSpecification {
     }
 
     "Handle LocalTime" in {
-      val id = gridfs(logo_bytes) {
+      gridfs(logo_bytes) {
         fh =>
           fh.put("uploadDate", new LocalDateTime())
           fh.filename = "powered_by_mongo_find_local.png"
@@ -169,7 +185,7 @@ class GridFSSpec extends CasbahMutableSpecification {
   }
 
   "Return the created file's ID from the loan pattern methods." should {
-    deregister
+    deregister()
 
     "Using a InputStream" in {
       val id = gridfs(logo) {

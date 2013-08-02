@@ -143,6 +143,21 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
       x must beTrue
     }
 
+    "read back as expected" in {
+      gridfs("hello world".getBytes) {
+        fh =>
+          fh.filename = "hello_world.txt"
+          fh.contentType = "text/plain"
+      }
+
+      val file = gridfs.findOne("hello_world.txt")
+      file.get.source.mkString must beEqualTo("hello world")
+
+      // Ensure the iterator also works
+      gridfs.iterator.filter(f => f.filename == "hello_world.txt").foreach(f =>
+        f.source.mkString must beEqualTo("hello world")
+      )
+    }
   }
 
   "Casbah's Joda GridFS Implementations with no registered JodaTime helpers" should {
@@ -179,7 +194,7 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
     }
 
     "Handle LocalTime" in {
-      val id = gridfs(logo_bytes) {
+      gridfs(logo_bytes) {
         fh =>
           fh.put("uploadDate", new LocalDateTime())
           fh.filename = "powered_by_mongo_find_local.png"
@@ -198,7 +213,7 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
     }
 
     "Handle Date" in {
-      val id = gridfs(logo_bytes) {
+      gridfs(logo_bytes) {
         fh =>
           fh.put("uploadDate", new java.util.Date())
           fh.filename = "powered_by_mongo_find_date.png"
