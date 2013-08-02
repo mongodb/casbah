@@ -161,24 +161,10 @@ trait JodaDateTimeSerializer extends MongoConversionHelper {
 
   }
 
-  private val encodeType2 = classOf[LocalDate]
-  /** Encoding hook for MongoDB To be able to persist JodaDateTime LocalDate to MongoDB */
-  private val transformer2 = new Transformer {
-    log.trace("Encoding a JodaDateTime LocalDate.")
-
-    def transform(o: AnyRef): AnyRef = o match {
-      case d: LocalDate => d.toDate // Return a JDK Date object which BSON can encode
-      case _ => o
-    }
-
-  }
-
   override def register() = {
     log.debug("Hooking up Joda DateTime serializer.")
     /** Encoding hook for MongoDB To be able to persist JodaDateTime DateTime to MongoDB */
     BSON.addEncodingHook(encodeType, transformer)
-    /** Encoding hook for MongoDB To be able to persist JodaDateTime LocalDate to MongoDB */
-    BSON.addEncodingHook(encodeType2, transformer2)
     super.register()
   }
 
