@@ -278,6 +278,14 @@ trait MongoCollectionBase extends Logging { self =>
   def findAndRemove[A <% DBObject](query: A) =
     _typedValue(underlying.findAndRemove(query))
 
+  /** Finds the last document.
+   * @param query the query object
+   * @param sortClause the clause object to sort result
+   * @return the last document
+   */
+  def last(query: MongoDBObject, sortClause: MongoDBObject) =
+    find(query).sort(sortClause).limit(1).next()
+
   /**
    * write concern aware write op block.
    *
