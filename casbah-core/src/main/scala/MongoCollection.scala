@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -508,8 +508,27 @@ trait MongoCollectionBase extends Logging { self =>
     underlying.insert(b.result, concern, encoder)
   }
 
-
   def isCapped = underlying.isCapped()
+
+  /**
+   * performs an aggregation operation
+   *
+   * @param args the aggregation pipeline
+   *
+   * @return The aggregation operation's result set
+   *
+   */
+  def aggregate(args: DBObject*) = underlying.aggregate(args.head, args.tail.map(_.asInstanceOf[DBObject]): _*).asScala
+
+  /**
+   * performs an aggregation operation
+   *
+   * @param args the aggregation pipeline
+   *
+   * @return The aggregation operation's result set
+   *
+   */
+  def aggregate[A <% DBObject](args: Iterable[A]) = underlying.aggregate(args.head, args.tail.toSeq.map(_.asInstanceOf[DBObject]): _*).asScala
 
   /**
    * mapReduce

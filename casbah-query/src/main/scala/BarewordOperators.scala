@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -171,6 +171,22 @@ trait IncOp extends BarewordQueryOperator {
  */
 trait PushOp extends BarewordQueryOperator {
   def $push[A](fields: (String, A)*): DBObject = apply[A]("$push")(fields)
+  def $push(field: String) = {
+    /**
+     * Special query operator only available on the right-hand side of an
+     * \$push which takes a list of values.
+     *
+     * Slightly hacky to prevent it from returning unless completed with a \$each
+     *
+     * @since 2.6.2
+     * @see http://www.mongodb.org/display/DOCS/Updating
+     */
+    new {
+      protected def eachOp(target: Any) =
+        MongoDBObject("$push" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
+      def $each[A: AsQueryParam](target: A*) = eachOp(target)
+    }
+  }
 }
 
 /*
@@ -212,8 +228,6 @@ trait AddToSetOp extends BarewordQueryOperator {
      *
      * Slightly hacky to prevent it from returning unless completed with a \$each
      *
-     * THIS WILL NOT WORK IN MONGOD ANYWHERE BUT INSIDE AN ADDTOSET
-     *
      * @since 2.0
      * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
      */
@@ -221,14 +235,7 @@ trait AddToSetOp extends BarewordQueryOperator {
       protected def op(target: Any) =
         MongoDBObject("$addToSet" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
 
-      def $each(target: Array[Any]) = op(target.toList)
-      def $each(target: Any*) =
-        if (target.size > 1)
-          op(target.toList)
-        else if (!target(0).isInstanceOf[Iterable[_]] &&
-          !target(0).isInstanceOf[Array[_]])
-          op(List(target(0)))
-        else op(target(0))
+      def $each[A: AsQueryParam](target: A*) = op(target)
     }
   }
 

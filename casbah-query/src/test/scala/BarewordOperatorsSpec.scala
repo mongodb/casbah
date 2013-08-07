@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -166,6 +166,10 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         val push = $push("foo" -> "bar", "x" -> 5.2)
         push must haveEntry("$push.foo" -> "bar")
         push must haveEntry("$push.x" -> 5.2)
+      }
+      "Accept $each" in {
+        val push = $push("foo") $each ("x", "y", "foo", "bar", "baz")
+        push must haveListEntry("$push.foo.$each", Seq("x", "y", "foo", "bar", "baz"))
       }
     }
     "$pushAll" in {

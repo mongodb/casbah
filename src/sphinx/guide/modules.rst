@@ -70,6 +70,10 @@ By way of example both of these statements would import the Query DSL::
 
     // Imports core, which grabs everything including Query DSL
     import com.mongodb.casbah.Imports._
+
     // Imports just the Query DSL along with Commons and its dependencies
     import com.mongodb.casbah.query.Imports._
+
+    // Import GridFS modules
+    import com.mongodb.casbah.gridfs.Imports._
 

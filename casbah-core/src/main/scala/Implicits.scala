@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -111,6 +111,14 @@ trait Implicits {
 
   implicit def stringAsNamedCollectionMROutput(name: String) = map_reduce.MapReduceStandardOutput(name)
 
+  implicit def aggregationOutputAsScala(output: com.mongodb.AggregationOutput) = new {
+    /**
+     * Return a type-neutral Scala Wrapper object for the DB
+     * @return MongoDB An instance of a scala wrapper containing the DB object
+     */
+    def asScala = new AggregationOutput(output)
+  }
+
 }
 
 object Implicits extends Implicits with commons.Implicits with query.Implicits
@@ -126,6 +134,7 @@ trait BaseImports {
   val MongoDBAddress = com.mongodb.casbah.MongoDBAddress
   val MongoOptions = com.mongodb.casbah.MongoOptions
   val MongoClientOptions = com.mongodb.casbah.MongoClientOptions
+  val MongoClientURI = com.mongodb.casbah.MongoClientURI
   val MongoCredential = com.mongodb.casbah.MongoCredential
   val WriteConcern = com.mongodb.casbah.WriteConcern
   val ReadPreference = com.mongodb.casbah.ReadPreference
@@ -138,6 +147,7 @@ trait BaseImports {
 trait TypeImports {
   type MongoConnection = com.mongodb.casbah.MongoConnection
   type MongoCollection = com.mongodb.casbah.MongoCollection
+  type AggregationOutput = com.mongodb.casbah.AggregationOutput
   type MongoDB = com.mongodb.casbah.MongoDB
   type MongoCursor = com.mongodb.casbah.MongoCursor
   type MongoURI = com.mongodb.casbah.MongoURI

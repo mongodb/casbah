@@ -1,6 +1,16 @@
 Upgrade
 =======
 
+
+Version 2.6.1
+-------------
+
+The com.mongodb.casbah.commons.test dependencies are now marked in the test
+classpath, so to install::
+
+    "org.mongodb" %% "casbah-commons" % "2.6.2" % "test"
+
+
 Version 2.6.0
 -------------
 

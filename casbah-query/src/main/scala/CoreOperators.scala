@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,7 +41,8 @@ import org.bson.types.BasicBSONList
  * operators.  See Implicits for examples of usage.
  *
  */
-trait FluidQueryOperators extends NotEqualsOp
+trait FluidQueryOperators extends EqualsOp
+  with NotEqualsOp
   with LessThanOp
   with LessThanEqualOp
   with GreaterThanOp
@@ -93,7 +94,7 @@ object QueryExpressionObject {
 trait QueryOperator extends ChainedOperator {
   /**
    * Base method for children to call to convert an operator call
-   * into a Mongo DBObject.
+   * into a nested Mongo DBObject.
    *
    * e.g. <code>"foo" \$ne "bar"</code> will convert to
    * <code>{"foo": {"\$ne": "bar"}}</code>
@@ -117,6 +118,29 @@ trait QueryOperator extends ChainedOperator {
     }
   })
 
+  /**
+   * Base method for children to call to convert an operator call
+   * into a Mongo DBObject.
+   *
+   * e.g. <code>"foo" \$eq "bar"</code> will convert to
+   * <code>{"foo": "bar"}</code>
+   *
+   * WARNING: This does NOT check that target is a serializable type.
+   * That is, for the moment, your own problem.
+   */
+  protected def queryEq(target: Any): DBObject with QueryExpressionObject = QueryExpressionObject(field -> target)
+
+}
+
+/**
+ * Trait to provide an equals method on appropriate callers.
+ *
+ * Targets (takes a right-hand value of) String, Numeric,
+ * Array, DBObject (and DBList), Iterable[_] and Tuple1->22.
+ *
+ */
+trait EqualsOp extends QueryOperator {
+  def $eq[A : AsQueryParam](a:A) = queryEq(AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -411,9 +435,29 @@ trait TypeOp extends QueryOperator {
   def $type[A](implicit bsonType: BSONType[A]) = queryOp(oper, bsonType.operator)
 }
 
+/**
+ * \$regex operator to query by type.
+ *
+ * Takes a string for use in the $regex query
+ *
+ * "foo" $regex "^bar$"
+ *
+ * @since 2.6.2
+ * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24type%7D%7D
+ */
+trait regexOp extends QueryOperator {
+  private val oper = "$regex"
+
+  def $regex(arg: String) = queryOp(oper, arg)
+}
+
+// Geo Spatial Ops
+
 trait GeospatialOps extends GeoNearOp
   with GeoNearSphereOp
   with GeoWithinOps
+  with GeoIntersectsOp
+  with DeprecatedGeoWithinOps
 
 case class GeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](val lat: A, val lon: B) {
   def toList = MongoDBList(lat, lon)
@@ -470,6 +514,67 @@ trait GeoNearSphereOp extends QueryOperator {
 
 /**
  *
+ * Trait to provide the nested \$geoWithin geospatial search method on appropriate callers
+ *
+ *
+ * Note that  the args aren't TECHNICALLY latitude and longitude as they depend on:
+ *   a) the order you specified your actual index in
+ *   b) if you're using actual world maps or something else
+ *
+ * @since 2.6.2
+ * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
+ */
+trait GeoWithinOps extends QueryOperator {
+  self =>
+  private val oper = "$geoWithin"
+
+  def $geoWithin[A <% DBObject](geometry: A) = queryOp(oper, geometry)
+  def $geoWithin = new QueryOperator {
+    val field = "$geoWithin"
+
+    def $polygon(coords: Iterable[GeoCoords[_, _]]) =
+      MongoDBObject(
+        self.field ->
+        queryOp("$polygon", coords.toList)
+      )
+    def $polygon(coords: GeoCoords[_, _]*) =
+      MongoDBObject(
+        self.field ->
+        queryOp("$polygon", coords.toList)
+      )
+
+    def $box(lowerLeft: GeoCoords[_, _], upperRight: GeoCoords[_, _]) =
+      MongoDBObject(
+        self.field ->
+        queryOp("$box", MongoDBList(lowerLeft.toList, upperRight.toList)))
+
+    def $center[T: Numeric](center: GeoCoords[_, _], radius: T) =
+      MongoDBObject(
+        self.field ->
+        queryOp("$center", MongoDBList(center.toList, radius)))
+
+    def $centerSphere[T: Numeric](center: GeoCoords[_, _], radius: T) =
+      MongoDBObject(
+        self.field ->
+        queryOp("$centerSphere", MongoDBList(center.toList, radius)))
+  }
+
+}
+
+/**
+ *
+ * Trait to provide the \$intersects geospatial search method on appropriate callers
+ *
+ * @since 2.6.2
+ * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
+ */
+trait GeoIntersectsOp extends QueryOperator {
+  private val oper = "$geoIntersects"
+  def $geoIntersects(geometry: DBObject) = queryOp(oper, geometry)
+}
+
+/**
+ *
  * Trait to provide the \$within geospatial search method on appropriate callers
  *
  *
@@ -477,10 +582,12 @@ trait GeoNearSphereOp extends QueryOperator {
  *   a) the order you specified your actual index in
  *   b) if you're using actual world maps or something else
  *
+ * Depreciated in MongoDB 2.4 use $geoWithin instead
+ *
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
  */
-trait GeoWithinOps extends QueryOperator {
+trait DeprecatedGeoWithinOps extends QueryOperator {
   self =>
   private val oper = "$within"
 

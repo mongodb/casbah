@@ -1,8 +1,14 @@
 Changelog
 =========
 
-Changes in Version 2.6.X
+Changes in Version 2.6.2
 ------------------------
+- Fixed MongoClientURI Implicit
+- Added support for Joda-Time LocalDate serialisation (SCALA-111, #59)
+- Added aggregate collection helper (SCALA-110)
+- Added $each support to $pull (SCALA-109)
+- Updated to the latest Java driver 2.11.2 (SCALA-106)
+- Added $eq operator (SCALA-105)
 - Fixed $where dsl operator (SCALA-97)
 
 Changes in Version 2.6.1

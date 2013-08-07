@@ -17,6 +17,7 @@
   {{ super() }}
 {% endblock %}
 {% block body %}
+  <div class="section">
   <h1 id="search-documentation">{{ _('Search') }}</h1>
   <div id="fallback" class="admonition warning">
   <script type="text/javascript">$('#fallback').hide();</script>
@@ -55,4 +56,5 @@
     </ul>
   {% endif %}
   </div>
+</div>
 {% endblock %}

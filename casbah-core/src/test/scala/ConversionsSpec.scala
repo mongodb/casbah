@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 - 2012 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,6 +37,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
   def before = {
     DeregisterConversionHelpers()
     DeregisterJodaTimeConversionHelpers()
+    DeregisterJodaLocalDateTimeConversionHelpers()
   }
 
   "Casbah's Conversion Helpers" should {
@@ -58,6 +59,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
     }
 
     val jodaDate: DateTime = DateTime.now
+    val localJodaDate: LocalDateTime = jodaDate.toLocalDateTime
     val jdkDate: JDKDate = new JDKDate(jodaDate.getMillis)
 
     jodaDate.getMillis must beEqualTo(jdkDate.getTime)
@@ -80,7 +82,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
     }
 
-    "Successfully serialize & deserialize Joda DateTime Objects when convertors are loaded." in {
+    "Successfully serialize & deserialize Joda DateTime Objects when DateTime convertors are loaded." in {
       val mongo = mongoDB("jodaSerDeser")
       mongo.dropCollection()
       RegisterConversionHelpers()
@@ -101,13 +103,79 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       getDate.get must throwA[ClassCastException]
     }
 
+    "Successfully serialize & deserialize Joda Local/DateTime Objects when DateTime convertors are loaded." in {
+      val mongo = mongoDB("jodaSerDeser")
+      mongo.dropCollection()
+      RegisterConversionHelpers()
+      RegisterJodaTimeConversionHelpers()
+      // TODO - Matcher verification of these being loaded
+
+      mongo += MongoDBObject("date" -> localJodaDate, "type" -> "joda")
+
+      val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
+        MongoDBObject("date" -> 1))
+
+      jodaEntry must beSome
+      //jodaEntry.get.get("date") must beSome[DateTime]
+      jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
+
+      // Casting it as something it isn't will fail
+      lazy val getDate = { jodaEntry.get.getAs[JDKDate]("date") }
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
+      getDate.get must throwA[ClassCastException]
+    }
+
+    "Successfully serialize & deserialize Joda LocalDateTime Objects when LocalDateTime convertors are loaded." in {
+      val mongo = mongoDB("jodaSerDeser")
+      mongo.dropCollection()
+      RegisterConversionHelpers()
+      RegisterJodaLocalDateTimeConversionHelpers()
+      // TODO - Matcher verification of these being loaded
+
+      mongo += MongoDBObject("date" -> localJodaDate, "type" -> "joda")
+
+      val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
+        MongoDBObject("date" -> 1))
+
+      jodaEntry must beSome
+      //jodaEntry.get.get("date") must beSome[DateTime]
+      jodaEntry.get.getAs[LocalDateTime]("date") must beSome(localJodaDate)
+      // Casting it as something it isn't will fail
+      lazy val getDate = { jodaEntry.get.getAs[JDKDate]("date") }
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
+      getDate.get must throwA[ClassCastException]
+    }
+
+    "Successfully serialize & deserialize Joda Local/DateTime Objects when LocalDateTime convertors are loaded." in {
+      val mongo = mongoDB("jodaSerDeser")
+      mongo.dropCollection()
+      RegisterConversionHelpers()
+      RegisterJodaLocalDateTimeConversionHelpers()
+      // TODO - Matcher verification of these being loaded
+
+      mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda")
+
+      val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
+        MongoDBObject("date" -> 1))
+
+      jodaEntry must beSome
+      //jodaEntry.get.get("date") must beSome[DateTime]
+      jodaEntry.get.getAs[LocalDateTime]("date") must beSome(localJodaDate)
+      // Casting it as something it isn't will fail
+      lazy val getDate = { jodaEntry.get.getAs[JDKDate]("date") }
+      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
+      getDate.get must throwA[ClassCastException]
+    }
+
     "Be successfully deregistered." in {
       val mongo = mongoDB("conversionDeReg")
       mongo.dropCollection()
       RegisterConversionHelpers()
       RegisterJodaTimeConversionHelpers()
+      RegisterJodaLocalDateTimeConversionHelpers()
       DeregisterConversionHelpers()
       DeregisterJodaTimeConversionHelpers()
+      DeregisterJodaLocalDateTimeConversionHelpers()
       lazy val testJodaInsert = { mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda") }
 
       testJodaInsert must throwA[IllegalArgumentException]

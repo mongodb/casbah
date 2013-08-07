@@ -149,13 +149,16 @@ trait JodaDateTimeHelpers extends JodaDateTimeSerializer with JodaDateTimeDeseri
 
 trait JodaDateTimeSerializer extends MongoConversionHelper {
 
-  private val encodeType = classOf[DateTime]
+  private val encodeTypeDateTime = classOf[DateTime]
+  private val encodeTypeLocalDateTime = classOf[LocalDateTime]
+
   /** Encoding hook for MongoDB To be able to persist JodaDateTime DateTime to MongoDB */
   private val transformer = new Transformer {
     log.trace("Encoding a JodaDateTime DateTime.")
 
     def transform(o: AnyRef): AnyRef = o match {
       case d: DateTime => d.toDate // Return a JDK Date object which BSON can encode
+      case l: LocalDateTime => l.toDateTime.toDate
       case _ => o
     }
 
@@ -164,13 +167,15 @@ trait JodaDateTimeSerializer extends MongoConversionHelper {
   override def register() = {
     log.debug("Hooking up Joda DateTime serializer.")
     /** Encoding hook for MongoDB To be able to persist JodaDateTime DateTime to MongoDB */
-    BSON.addEncodingHook(encodeType, transformer)
+    BSON.addEncodingHook(encodeTypeDateTime, transformer)
+    BSON.addEncodingHook(encodeTypeLocalDateTime, transformer)
     super.register()
   }
 
   override def unregister() = {
     log.debug("De-registering Joda DateTime serializer.")
-    BSON.removeEncodingHooks(encodeType)
+    BSON.removeEncodingHooks(encodeTypeDateTime)
+    BSON.removeEncodingHooks(encodeTypeLocalDateTime)
     super.unregister()
   }
 }
@@ -184,6 +189,71 @@ trait JodaDateTimeDeserializer extends MongoConversionHelper {
     def transform(o: AnyRef): AnyRef = o match {
       case jdkDate: java.util.Date => new DateTime(jdkDate)
       case d: DateTime => d
+      case l: LocalDateTime => l.toDateTime
+      case _ => o
+    }
+  }
+
+  override def register() = {
+    log.debug("Hooking up Joda DateTime deserializer")
+    /** Encoding hook for MongoDB To be able to read JodaDateTime DateTime from MongoDB's BSON Date */
+    BSON.addDecodingHook(encodeType, transformer)
+    super.register()
+  }
+
+  override def unregister() = {
+    log.debug("De-registering Joda DateTime deserializer.")
+    BSON.removeDecodingHooks(encodeType)
+    super.unregister()
+  }
+}
+
+
+trait JodaLocalDateTimeHelpers extends JodaLocalDateTimeSerializer with JodaLocalDateTimeDeserializer
+
+trait JodaLocalDateTimeSerializer extends MongoConversionHelper {
+
+  private val encodeTypeDateTime = classOf[DateTime]
+  private val encodeTypeLocalDateTime = classOf[LocalDateTime]
+
+  /** Encoding hook for MongoDB To be able to persist JodaDateTime DateTime to MongoDB */
+  private val transformer = new Transformer {
+    log.trace("Encoding a JodaLocalDateTime DateTime.")
+
+    def transform(o: AnyRef): AnyRef = o match {
+      case d: DateTime => d.toLocalDateTime.toDate  // Return a JDK Date object which BSON can encode
+      case l: LocalDateTime => l.toDate
+      case _ => o
+    }
+
+  }
+
+  override def register() = {
+    log.debug("Hooking up Joda LocalDateTime serializer.")
+    /** Encoding hook for MongoDB To be able to persist JodaLocalDateTime DateTime to MongoDB */
+    BSON.addEncodingHook(encodeTypeDateTime, transformer)
+    BSON.addEncodingHook(encodeTypeLocalDateTime, transformer)
+    super.register()
+  }
+
+  override def unregister() = {
+    log.debug("De-registering Joda LocalDateTime serializer.")
+    BSON.removeEncodingHooks(encodeTypeDateTime)
+    BSON.removeEncodingHooks(encodeTypeLocalDateTime)
+    super.unregister()
+  }
+}
+
+trait JodaLocalDateTimeDeserializer extends MongoConversionHelper {
+
+  private val encodeType = classOf[java.util.Date]
+  private val transformer = new Transformer {
+    log.trace("Decoding JDK Dates .")
+
+    def transform(o: AnyRef): AnyRef = o match {
+      case jdkDate: java.util.Date => new LocalDateTime(jdkDate)
+      case d: DateTime => d.toLocalDateTime
+      case l: LocalDateTime => l
       case _ => o
     }
   }
@@ -221,6 +291,20 @@ trait ScalaRegexSerializer extends MongoConversionHelper {
     BSON.addEncodingHook(classOf[_root_.scala.util.matching.Regex], transformer)
 
     super.register()
+  }
+}
+
+object RegisterJodaLocalDateTimeConversionHelpers extends JodaLocalDateTimeHelpers {
+  def apply() = {
+    log.debug("Registering  Joda Time Scala Conversions.")
+    super.register()
+  }
+}
+
+object DeregisterJodaLocalDateTimeConversionHelpers extends JodaLocalDateTimeHelpers {
+  def apply() = {
+    log.debug("Unregistering Joda Time Scala Conversions.")
+    super.unregister()
   }
 }
 
