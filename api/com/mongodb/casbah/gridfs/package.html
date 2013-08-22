@@ -60,6 +60,42 @@
       </span>
       </h4>
       
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.ConvertToDate" data-isabs="true">
+      <a id="ConvertToDate:ConvertToDate"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ConvertToDate.html"><span class="name">ConvertToDate</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.ConvertToDateTime" data-isabs="true">
+      <a id="ConvertToDateTime:ConvertToDateTime"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ConvertToDateTime.html"><span class="name">ConvertToDateTime</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS" data-isabs="true">
+      <a id="GenericGridFS:GenericGridFS"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="GenericGridFS.html"><span class="name">GenericGridFS</span></a><span class="result"> extends Logging</span>
+      </span>
+      </h4>
+      
     </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFSDBFile" data-isabs="true">
       <a id="GenericGridFSDBFile:GenericGridFSDBFile"></a>
       <h4 class="signature">
@@ -113,7 +149,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="GridFS.html"><span class="name">GridFS</span></a><span class="result"> extends Iterable[GridFSDBFile] with Logging</span>
+        <a href="GridFS.html"><span class="name">GridFS</span></a><span class="result"> extends GenericGridFS with Iterable[GridFSDBFile]</span>
       </span>
       </h4>
       
@@ -125,13 +161,25 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="GridFSDBFile.html"><span class="name">GridFSDBFile</span></a><span class="result"> extends GenericGridFSDBFile</span>
+        <a href="GridFSDBFile.html"><span class="name">GridFSDBFile</span></a><span class="result"> extends GenericGridFSDBFile with ConvertToDate</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
                 <span class="name">@BeanInfo</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFSDBFileSafeJoda" data-isabs="false">
+      <a id="GridFSDBFileSafeJoda:GridFSDBFileSafeJoda"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="GridFSDBFileSafeJoda.html"><span class="name">GridFSDBFileSafeJoda</span></a><span class="result"> extends GridFSDBFile</span>
+      </span>
+      </h4>
+      
     </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFSFile" data-isabs="false">
       <a id="GridFSFile:GridFSFile"></a>
       <h4 class="signature">
@@ -140,7 +188,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="GridFSFile.html"><span class="name">GridFSFile</span></a><span class="result"> extends GenericGridFSFile</span>
+        <a href="GridFSFile.html"><span class="name">GridFSFile</span></a><span class="result"> extends GenericGridFSFile with ConvertToDate</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
@@ -155,7 +203,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="GridFSInputFile.html"><span class="name">GridFSInputFile</span></a><span class="result"> extends GenericGridFSInputFile</span>
+        <a href="GridFSInputFile.html"><span class="name">GridFSInputFile</span></a><span class="result"> extends GenericGridFSInputFile with ConvertToDate</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
@@ -194,7 +242,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="JodaGridFS.html"><span class="name">JodaGridFS</span></a><span class="result"> extends Iterable[JodaGridFSDBFile] with Logging</span>
+        <a href="JodaGridFS.html"><span class="name">JodaGridFS</span></a><span class="result"> extends GenericGridFS with Iterable[JodaGridFSDBFile]</span>
       </span>
       </h4>
       
@@ -206,7 +254,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="JodaGridFSDBFile.html"><span class="name">JodaGridFSDBFile</span></a><span class="result"> extends GenericGridFSDBFile</span>
+        <a href="JodaGridFSDBFile.html"><span class="name">JodaGridFSDBFile</span></a><span class="result"> extends GenericGridFSDBFile with ConvertToDateTime</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
@@ -221,7 +269,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="JodaGridFSFile.html"><span class="name">JodaGridFSFile</span></a><span class="result"> extends GenericGridFSFile</span>
+        <a href="JodaGridFSFile.html"><span class="name">JodaGridFSFile</span></a><span class="result"> extends GenericGridFSFile with ConvertToDateTime</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
@@ -236,7 +284,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="JodaGridFSInputFile.html"><span class="name">JodaGridFSInputFile</span></a><span class="result"> extends GenericGridFSInputFile</span>
+        <a href="JodaGridFSInputFile.html"><span class="name">JodaGridFSInputFile</span></a><span class="result"> extends GenericGridFSInputFile with ConvertToDateTime</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>

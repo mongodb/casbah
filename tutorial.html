@@ -204,11 +204,11 @@ This is the primary key for a document, if you don't supply an <tt class="docuti
 <p>By providing a <tt class="docutils literal"><span class="pre">MongoDBObject</span></tt> to the <tt class="docutils literal"><span class="pre">find</span></tt> method you can filter the
 results:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">hello</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;hello&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;world&quot;</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">helloWorld</span> <span class="n">coll</span><span class="o">.</span><span class="n">findOne</span><span class="o">(</span> <span class="n">hello</span> <span class="o">)</span>
+<span class="k">val</span> <span class="n">helloWorld</span> <span class="k">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">findOne</span><span class="o">(</span> <span class="n">hello</span> <span class="o">)</span>
 
 <span class="c1">// Find a document that doesn&#39;t exist</span>
 <span class="k">val</span> <span class="n">goodbye</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;goodbye&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;world&quot;</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">goodbyeWorld</span> <span class="n">coll</span><span class="o">.</span><span class="n">findOne</span><span class="o">(</span> <span class="n">goodbye</span> <span class="o">)</span>
+<span class="k">val</span> <span class="n">goodbyeWorld</span> <span class="k">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">findOne</span><span class="o">(</span> <span class="n">goodbye</span> <span class="o">)</span>
 </pre></div>
 </div>
 <div class="admonition note">

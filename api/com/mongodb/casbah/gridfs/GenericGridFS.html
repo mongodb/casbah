@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>com.mongodb.casbah.commons.Logging</title>
+          <title>com.mongodb.casbah.gridfs.GenericGridFS</title>
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link type="text/css" media="screen" rel="stylesheet" href="../../../../lib/template.css" />
@@ -14,27 +14,27 @@
         </head>
         <body onload="sh_highlightDocument('../lib/', '.min.js');" class="type">
       <div id="definition">
-        <img src="../../../../lib/trait_big.png" />
-        <p id="owner"><a name="com" class="extype" href="../../../package.html">com</a>.<a name="com.mongodb" class="extype" href="../../package.html">mongodb</a>.<a name="com.mongodb.casbah" class="extype" href="../package.html">casbah</a>.<a name="com.mongodb.casbah.commons" class="extype" href="package.html">commons</a></p>
-        <h1>Logging</h1>
+        <img src="../../../../lib/class_big.png" />
+        <p id="owner"><a name="com" class="extype" href="../../../package.html">com</a>.<a name="com.mongodb" class="extype" href="../../package.html">mongodb</a>.<a name="com.mongodb.casbah" class="extype" href="../package.html">casbah</a>.<a name="com.mongodb.casbah.gridfs" class="extype" href="package.html">gridfs</a></p>
+        <h1>GenericGridFS</h1>
       </div>
 
       <h4 class="signature" id="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">Logging</span><span class="result"> extends AnyRef</span>
+        <span class="name">GenericGridFS</span><span class="result"> extends <a name="com.mongodb.casbah.commons.Logging" class="extype" href="../commons/Logging.html">Logging</a></span>
       </span>
       </h4>
       
-      <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Base trait for all classes that wants to be able use the logging infrastructure.</p></div><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://mongodb.github.com/casbah/api.sxr/casbah-commons/Logger.scala.html">Logger.scala</a></dd></dl><div class="toggleContainer block">
+      <div class="fullcommenttop" id="comment"><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://mongodb.github.com/casbah/api.sxr/casbah-gridfs/GenericGridFS.scala.html">GenericGridFS.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent">AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+          <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.commons.Logging" class="extype" href="../commons/Logging.html">Logging</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
         </div><div class="toggleContainer block">
           <span class="toggle">Known Subclasses</span>
-          <div class="subClasses hiddenContent"><a name="com.mongodb.casbah.CursorExplanation" class="extype" href="../CursorExplanation.html">CursorExplanation</a>, <a name="com.mongodb.casbah.commons.conversions.scala.DeregisterConversionHelpers" class="extype" href="conversions/scala/DeregisterConversionHelpers$.html">DeregisterConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.DeregisterJodaLocalDateTimeConversionHelpers" class="extype" href="conversions/scala/DeregisterJodaLocalDateTimeConversionHelpers$.html">DeregisterJodaLocalDateTimeConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.DeregisterJodaTimeConversionHelpers" class="extype" href="conversions/scala/DeregisterJodaTimeConversionHelpers$.html">DeregisterJodaTimeConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.Deserializers" class="extype" href="conversions/scala/Deserializers.html">Deserializers</a>, <a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="../gridfs/GenericGridFS.html">GenericGridFS</a>, <a name="com.mongodb.casbah.gridfs.GenericGridFSDBFile" class="extype" href="../gridfs/GenericGridFSDBFile.html">GenericGridFSDBFile</a>, <a name="com.mongodb.casbah.gridfs.GenericGridFSFile" class="extype" href="../gridfs/GenericGridFSFile.html">GenericGridFSFile</a>, <a name="com.mongodb.casbah.gridfs.GenericGridFSInputFile" class="extype" href="../gridfs/GenericGridFSInputFile.html">GenericGridFSInputFile</a>, <a name="com.mongodb.casbah.gridfs.GridFS" class="extype" href="../gridfs/GridFS.html">GridFS</a>, <a name="com.mongodb.casbah.gridfs.GridFS" class="extype" href="../gridfs/GridFS$.html">GridFS</a>, <a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="../gridfs/GridFSDBFile.html">GridFSDBFile</a>, <a name="com.mongodb.casbah.gridfs.GridFSFile" class="extype" href="../gridfs/GridFSFile.html">GridFSFile</a>, <a name="com.mongodb.casbah.gridfs.GridFSInputFile" class="extype" href="../gridfs/GridFSInputFile.html">GridFSInputFile</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeDeserializer" class="extype" href="conversions/scala/JodaDateTimeDeserializer.html">JodaDateTimeDeserializer</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeHelpers" class="extype" href="conversions/scala/JodaDateTimeHelpers.html">JodaDateTimeHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeSerializer" class="extype" href="conversions/scala/JodaDateTimeSerializer.html">JodaDateTimeSerializer</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFS" class="extype" href="../gridfs/JodaGridFS.html">JodaGridFS</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFS" class="extype" href="../gridfs/JodaGridFS$.html">JodaGridFS</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFSDBFile" class="extype" href="../gridfs/JodaGridFSDBFile.html">JodaGridFSDBFile</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFSFile" class="extype" href="../gridfs/JodaGridFSFile.html">JodaGridFSFile</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFSInputFile" class="extype" href="../gridfs/JodaGridFSInputFile.html">JodaGridFSInputFile</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeDeserializer" class="extype" href="conversions/scala/JodaLocalDateTimeDeserializer.html">JodaLocalDateTimeDeserializer</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeHelpers" class="extype" href="conversions/scala/JodaLocalDateTimeHelpers.html">JodaLocalDateTimeHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeSerializer" class="extype" href="conversions/scala/JodaLocalDateTimeSerializer.html">JodaLocalDateTimeSerializer</a>, <a name="com.mongodb.casbah.map_reduce.MapReduceCollectionBasedResult" class="extype" href="../map_reduce/MapReduceCollectionBasedResult.html">MapReduceCollectionBasedResult</a>, <a name="com.mongodb.casbah.map_reduce.MapReduceError" class="extype" href="../map_reduce/MapReduceError.html">MapReduceError</a>, <a name="com.mongodb.casbah.map_reduce.MapReduceInlineResult" class="extype" href="../map_reduce/MapReduceInlineResult.html">MapReduceInlineResult</a>, <a name="com.mongodb.casbah.map_reduce.MapReduceResult" class="extype" href="../map_reduce/MapReduceResult$.html">MapReduceResult</a>, <a name="com.mongodb.casbah.map_reduce.MapReduceResult" class="extype" href="../map_reduce/MapReduceResult.html">MapReduceResult</a>, <a name="com.mongodb.casbah.MongoCollection" class="extype" href="../MongoCollection$.html">MongoCollection</a>, <a name="com.mongodb.casbah.MongoCollection" class="extype" href="../MongoCollection.html">MongoCollection</a>, <a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="../MongoCollectionBase.html">MongoCollectionBase</a>, <a name="com.mongodb.casbah.commons.conversions.MongoConversionHelper" class="extype" href="conversions/MongoConversionHelper.html">MongoConversionHelper</a>, <a name="com.mongodb.casbah.MongoCursor" class="extype" href="../MongoCursor$.html">MongoCursor</a>, <a name="com.mongodb.casbah.MongoCursor" class="extype" href="../MongoCursor.html">MongoCursor</a>, <a name="com.mongodb.casbah.MongoCursorBase" class="extype" href="../MongoCursorBase.html">MongoCursorBase</a>, <a name="com.mongodb.casbah.commons.MongoDBObject" class="extype" href="MongoDBObject.html">MongoDBObject</a>, <a name="com.mongodb.casbah.MongoGenericTypedCollection" class="extype" href="../MongoGenericTypedCollection.html">MongoGenericTypedCollection</a>, <a name="com.mongodb.casbah.MongoGenericTypedCursor" class="extype" href="../MongoGenericTypedCursor.html">MongoGenericTypedCursor</a>, <a name="com.mongodb.casbah.util.MongoOpLog" class="extype" href="../util/MongoOpLog.html">MongoOpLog</a>, <a name="com.mongodb.casbah.MongoTypedCollection" class="extype" href="../MongoTypedCollection.html">MongoTypedCollection</a>, <a name="com.mongodb.casbah.commons.conversions.scala.OptionSerializer" class="extype" href="conversions/scala/OptionSerializer.html">OptionSerializer</a>, <a name="com.mongodb.casbah.commons.conversions.scala.RegisterConversionHelpers" class="extype" href="conversions/scala/RegisterConversionHelpers$.html">RegisterConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.RegisterJodaLocalDateTimeConversionHelpers" class="extype" href="conversions/scala/RegisterJodaLocalDateTimeConversionHelpers$.html">RegisterJodaLocalDateTimeConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.RegisterJodaTimeConversionHelpers" class="extype" href="conversions/scala/RegisterJodaTimeConversionHelpers$.html">RegisterJodaTimeConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.ScalaCollectionSerializer" class="extype" href="conversions/scala/ScalaCollectionSerializer.html">ScalaCollectionSerializer</a>, <a name="com.mongodb.casbah.commons.conversions.scala.ScalaRegexSerializer" class="extype" href="conversions/scala/ScalaRegexSerializer.html">ScalaRegexSerializer</a>, <a name="com.mongodb.casbah.commons.conversions.scala.Serializers" class="extype" href="conversions/scala/Serializers.html">Serializers</a></div>
+          <div class="subClasses hiddenContent"><a name="com.mongodb.casbah.gridfs.GridFS" class="extype" href="GridFS.html">GridFS</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFS" class="extype" href="JodaGridFS.html">JodaGridFS</a></div>
         </div></div>
     
 
@@ -48,7 +48,7 @@
               <span class="filtertype">Inherited</span>
               <ol><li class="hideall out"><span>Hide All</span></li>
               <li class="showall in"><span>Show all</span></li></ol>
-              <ol id="linearization"><li name="com.mongodb.casbah.commons.Logging" class="in"><span>Logging</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+              <ol id="linearization"><li name="com.mongodb.casbah.gridfs.GenericGridFS" class="in"><span>GenericGridFS</span></li><li name="com.mongodb.casbah.commons.Logging" class="in"><span>Logging</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
             </div>
         <div id="visbl">
             <span class="filtertype">Visibility</span>
@@ -58,14 +58,44 @@
 
       <div id="template">
         <div id="allMembers">
-        
-
-        
+        <div class="members" id="constructors">
+              <h3>Instance Constructors</h3>
+              <ol><li visbl="prt" name="com.mongodb.casbah.gridfs.GenericGridFS#this" data-isabs="false">
+      <a id="this:GenericGridFS"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">GenericGridFS</span><span class="params">()</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="com.mongodb.casbah.gridfs" class="extype" href="package.html">gridfs</a>] </dd></dl></div>
+    </li></ol>
+            </div>
 
         
 
         <div class="values members" id="values">
-              <h3>Value Members</h3>
+              <h3>Abstract Value Members</h3>
+              <ol><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#underlying" data-isabs="true">
+      <a id="underlying:GridFS"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">underlying</span><span class="result">: <span name="com.mongodb.gridfs.GridFS" class="extype">GridFS</span></span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        <div class="values members" id="values">
+              <h3>Concrete Value Members</h3>
               <ol><li visbl="pub" name="scala.AnyRef#!=" data-isabs="false">
       <a id="!=(AnyRef):Boolean"></a>
       <h4 class="signature">
@@ -138,6 +168,18 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#bucketName" data-isabs="false">
+      <a id="bucketName:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">bucketName</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      
     </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
       <a id="clone():AnyRef"></a>
       <h4 class="signature">
@@ -153,6 +195,18 @@
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#db" data-isabs="false">
+      <a id="db:MongoDB"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">db</span><span class="result">: <a name="com.mongodb.casbah.MongoDB" class="extype" href="../MongoDB.html">MongoDB</a></span>
+      </span>
+      </h4>
+      
     </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
       <a id="eq(AnyRef):Boolean"></a>
       <h4 class="signature">
@@ -177,6 +231,45 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#files" data-isabs="false">
+      <a id="files[A](A)((A) ⇒ DBObject):MongoCursor"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">files</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoCursor" class="extype" href="../MongoCursor.html">MongoCursor</a></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#files" data-isabs="false">
+      <a id="files:MongoCursor"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">files</span><span class="result">: <a name="com.mongodb.casbah.MongoCursor" class="extype" href="../MongoCursor.html">MongoCursor</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Returns a cursor for this filestore
+of all of the files.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a cursor for this filestore
+of all of the files...
+</p></div></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#filesCollection" data-isabs="false">
+      <a id="filesCollection:MongoGenericTypedCollection[GridFSDBFileSafeJoda]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">filesCollection</span><span class="result">: <a name="com.mongodb.casbah.MongoGenericTypedCollection" class="extype" href="../MongoGenericTypedCollection.html">MongoGenericTypedCollection</a>[<a name="com.mongodb.casbah.gridfs.GridFSDBFileSafeJoda" class="extype" href="GridFSDBFileSafeJoda.html">GridFSDBFileSafeJoda</a>]</span>
+      </span>
+      </h4>
+      
     </li><li visbl="prt" name="scala.AnyRef#finalize" data-isabs="false">
       <a id="finalize():Unit"></a>
       <h4 class="signature">
@@ -192,6 +285,42 @@
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#find" data-isabs="false">
+      <a id="find(String):Buffer[GridFSDBFile]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="params">(<span name="filename">filename: String</span>)</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="com.mongodb.gridfs.GridFSDBFile" class="extype">GridFSDBFile</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Find by query - returns a list</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#find" data-isabs="false">
+      <a id="find(ObjectId):GridFSDBFile"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="params">(<span name="id">id: ObjectId</span>)</span><span class="result">: <span name="com.mongodb.gridfs.GridFSDBFile" class="extype">GridFSDBFile</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Find by query - returns a single item</p>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#find" data-isabs="false">
+      <a id="find[A](A)((A) ⇒ DBObject):Buffer[GridFSDBFile]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="com.mongodb.gridfs.GridFSDBFile" class="extype">GridFSDBFile</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Find by query - returns a list</p>
     </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
       <a id="getClass():java.lang.Class[_]"></a>
       <h4 class="signature">
@@ -228,6 +357,21 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="prt" name="com.mongodb.casbah.gridfs.GenericGridFS#loan" data-isabs="false">
+      <a id="loan[T&lt;:GenericGridFSFile](T)((T) ⇒ Option[AnyRef]):Option[AnyRef]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">loan</span><span class="tparams">[<span name="T">T &lt;: <a name="com.mongodb.casbah.gridfs.GenericGridFSFile" class="extype" href="GenericGridFSFile.html">GenericGridFSFile</a></span>]</span><span class="params">(<span name="file">file: T</span>)</span><span class="params">(<span name="op">op: (T) ⇒ <span name="scala.Option" class="extype">Option</span>[AnyRef]</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[AnyRef]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">loan</p><div class="fullcomment"><div class="comment cmt"><p>loan</p><p>Basic implementation of the Loan pattern -
+the idea is to pass a Unit returning function
+and a Mongo file handle, and work on it within
+a code block.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="com.mongodb.casbah.gridfs" class="extype" href="package.html">gridfs</a>] </dd></dl></div>
     </li><li visbl="prt" name="com.mongodb.casbah.commons.Logging#log" data-isabs="false">
       <a id="log:Logger"></a>
       <h4 class="signature">
@@ -236,10 +380,10 @@
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">log</span><span class="result">: <a name="com.mongodb.casbah.commons.Logger" class="extype" href="Logger.html">Logger</a></span>
+        <span class="name">log</span><span class="result">: <a name="com.mongodb.casbah.commons.Logger" class="extype" href="../commons/Logger.html">Logger</a></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="com.mongodb.casbah" class="extype" href="../package.html">casbah</a>] </dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="com.mongodb.casbah" class="extype" href="../package.html">casbah</a>] </dd><dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.commons.Logging" class="extype" href="../commons/Logging.html">Logging</a></dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
       <a id="ne(AnyRef):Boolean"></a>
       <h4 class="signature">
@@ -276,6 +420,42 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#remove" data-isabs="false">
+      <a id="remove(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">remove</span><span class="params">(<span name="filename">filename: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#remove" data-isabs="false">
+      <a id="remove(ObjectId):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">remove</span><span class="params">(<span name="id">id: ObjectId</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#remove" data-isabs="false">
+      <a id="remove[A](A)((A) ⇒ DBObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">remove</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
     </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
       <a id="synchronized[T0](⇒ T0):T0"></a>
       <h4 class="signature">
@@ -352,7 +532,9 @@
         </div>
 
         <div id="inheritedMembers">
-        <div name="scala.AnyRef" class="parent">
+        <div name="com.mongodb.casbah.commons.Logging" class="parent">
+              <h3>Inherited from <a name="com.mongodb.casbah.commons.Logging" class="extype" href="../commons/Logging.html">Logging</a></h3>
+            </div><div name="scala.AnyRef" class="parent">
               <h3>Inherited from AnyRef</h3>
             </div><div name="scala.Any" class="parent">
               <h3>Inherited from <span name="scala.Any" class="extype">Any</span></h3>

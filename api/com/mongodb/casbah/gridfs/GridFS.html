@@ -25,13 +25,13 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">GridFS</span><span class="result"> extends Iterable[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>] with <a name="com.mongodb.casbah.commons.Logging" class="extype" href="../commons/Logging.html">Logging</a></span>
+        <span class="name">GridFS</span><span class="result"> extends <a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a> with Iterable[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]</span>
       </span>
       </h4>
       
       <div class="fullcommenttop" id="comment"><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://mongodb.github.com/casbah/api.sxr/casbah-gridfs/GridFS.scala.html">GridFS.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a name="com.mongodb.casbah.commons.Logging" class="extype" href="../commons/Logging.html">Logging</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.IterableLike" class="extype">IterableLike</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.Equals" class="extype">Equals</span>, <span name="scala.collection.GenIterable" class="extype">GenIterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.GenIterableLike" class="extype">GenIterableLike</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.collection.Traversable" class="extype">Traversable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.GenTraversable" class="extype">GenTraversable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.generic.GenericTraversableTemplate" class="extype">GenericTraversableTemplate</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>], <span name="scala.collection.TraversableLike" class="extype">TraversableLike</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.collection.GenTraversableLike" class="extype">GenTraversableLike</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.collection.Parallelizable" class="extype">Parallelizable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.parallel.ParIterable" class="extype">ParIterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.collection.TraversableOnce" class="extype">TraversableOnce</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.GenTraversableOnce" class="extype">GenTraversableOnce</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.generic.FilterMonadic" class="extype">FilterMonadic</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.collection.generic.HasNewBuilder" class="extype">HasNewBuilder</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+          <div class="superTypes hiddenContent"><span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.IterableLike" class="extype">IterableLike</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.Equals" class="extype">Equals</span>, <span name="scala.collection.GenIterable" class="extype">GenIterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.GenIterableLike" class="extype">GenIterableLike</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.collection.Traversable" class="extype">Traversable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.GenTraversable" class="extype">GenTraversable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.generic.GenericTraversableTemplate" class="extype">GenericTraversableTemplate</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>], <span name="scala.collection.TraversableLike" class="extype">TraversableLike</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.collection.GenTraversableLike" class="extype">GenTraversableLike</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.collection.Parallelizable" class="extype">Parallelizable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.parallel.ParIterable" class="extype">ParIterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.collection.TraversableOnce" class="extype">TraversableOnce</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.GenTraversableOnce" class="extype">GenTraversableOnce</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>], <span name="scala.collection.generic.FilterMonadic" class="extype">FilterMonadic</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <span name="scala.collection.generic.HasNewBuilder" class="extype">HasNewBuilder</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]], <a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a>, <a name="com.mongodb.casbah.commons.Logging" class="extype" href="../commons/Logging.html">Logging</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
         </div></div>
     
 
@@ -45,7 +45,7 @@
               <span class="filtertype">Inherited</span>
               <ol><li class="hideall out"><span>Hide All</span></li>
               <li class="showall in"><span>Show all</span></li></ol>
-              <ol id="linearization"><li name="com.mongodb.casbah.gridfs.GridFS" class="in"><span>GridFS</span></li><li name="com.mongodb.casbah.commons.Logging" class="in"><span>Logging</span></li><li name="scala.collection.Iterable" class="in"><span>Iterable</span></li><li name="scala.collection.IterableLike" class="in"><span>IterableLike</span></li><li name="scala.Equals" class="in"><span>Equals</span></li><li name="scala.collection.GenIterable" class="in"><span>GenIterable</span></li><li name="scala.collection.GenIterableLike" class="in"><span>GenIterableLike</span></li><li name="scala.collection.Traversable" class="in"><span>Traversable</span></li><li name="scala.collection.GenTraversable" class="in"><span>GenTraversable</span></li><li name="scala.collection.generic.GenericTraversableTemplate" class="in"><span>GenericTraversableTemplate</span></li><li name="scala.collection.TraversableLike" class="in"><span>TraversableLike</span></li><li name="scala.collection.GenTraversableLike" class="in"><span>GenTraversableLike</span></li><li name="scala.collection.Parallelizable" class="in"><span>Parallelizable</span></li><li name="scala.collection.TraversableOnce" class="in"><span>TraversableOnce</span></li><li name="scala.collection.GenTraversableOnce" class="in"><span>GenTraversableOnce</span></li><li name="scala.collection.generic.FilterMonadic" class="in"><span>FilterMonadic</span></li><li name="scala.collection.generic.HasNewBuilder" class="in"><span>HasNewBuilder</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+              <ol id="linearization"><li name="com.mongodb.casbah.gridfs.GridFS" class="in"><span>GridFS</span></li><li name="scala.collection.Iterable" class="in"><span>Iterable</span></li><li name="scala.collection.IterableLike" class="in"><span>IterableLike</span></li><li name="scala.Equals" class="in"><span>Equals</span></li><li name="scala.collection.GenIterable" class="in"><span>GenIterable</span></li><li name="scala.collection.GenIterableLike" class="in"><span>GenIterableLike</span></li><li name="scala.collection.Traversable" class="in"><span>Traversable</span></li><li name="scala.collection.GenTraversable" class="in"><span>GenTraversable</span></li><li name="scala.collection.generic.GenericTraversableTemplate" class="in"><span>GenericTraversableTemplate</span></li><li name="scala.collection.TraversableLike" class="in"><span>TraversableLike</span></li><li name="scala.collection.GenTraversableLike" class="in"><span>GenTraversableLike</span></li><li name="scala.collection.Parallelizable" class="in"><span>Parallelizable</span></li><li name="scala.collection.TraversableOnce" class="in"><span>TraversableOnce</span></li><li name="scala.collection.GenTraversableOnce" class="in"><span>GenTraversableOnce</span></li><li name="scala.collection.generic.FilterMonadic" class="in"><span>FilterMonadic</span></li><li name="scala.collection.generic.HasNewBuilder" class="in"><span>HasNewBuilder</span></li><li name="com.mongodb.casbah.gridfs.GenericGridFS" class="in"><span>GenericGridFS</span></li><li name="com.mongodb.casbah.commons.Logging" class="in"><span>Logging</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
             </div>
         <div id="visbl">
             <span class="filtertype">Visibility</span>
@@ -74,31 +74,7 @@
 
         <div class="types members" id="types">
               <h3>Type Members</h3>
-              <ol><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#FileOp" data-isabs="false">
-      <a id="FileOp:(GridFSFile) ⇒ Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">FileOp</span><span class="result"> = (<a name="com.mongodb.casbah.gridfs.GridFSFile" class="extype" href="GridFSFile.html">GridFSFile</a>) ⇒ <span name="scala.Unit" class="extype">Unit</span></span>
-      </span>
-      </h4>
-      
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#FileReadOp" data-isabs="false">
-      <a id="FileReadOp:(GridFSDBFile) ⇒ Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">FileReadOp</span><span class="result"> = (<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>) ⇒ <span name="scala.Unit" class="extype">Unit</span></span>
-      </span>
-      </h4>
-      
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#FileWriteOp" data-isabs="false">
+              <ol><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#FileWriteOp" data-isabs="false">
       <a id="FileWriteOp:(GridFSInputFile) ⇒ Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -401,7 +377,7 @@ If you don't want automatic saving/loaning please see the createFile method inst
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#bucketName" data-isabs="false">
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#bucketName" data-isabs="false">
       <a id="bucketName:String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -412,7 +388,7 @@ If you don't want automatic saving/loaning please see the createFile method inst
         <span class="name">bucketName</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
     </li><li visbl="pub" name="scala.collection.IterableLike#canEqual" data-isabs="false">
       <a id="canEqual(Any):Boolean"></a>
       <h4 class="signature">
@@ -597,7 +573,7 @@ If you don't want automatic saving/loaning please see the createFile method inst
       </h4>
       <p class="shortcomment cmt">createFile</p><div class="fullcomment"><div class="comment cmt"><p>createFile</p><p>Creates a new file in GridFS</p><p>TODO - Should the curried versions give the option to not automatically save?
 </p></div></div>
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#db" data-isabs="false">
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#db" data-isabs="false">
       <a id="db:MongoDB"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -608,7 +584,7 @@ If you don't want automatic saving/loaning please see the createFile method inst
         <span class="name">db</span><span class="result">: <a name="com.mongodb.casbah.MongoDB" class="extype" href="../MongoDB.html">MongoDB</a></span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
     </li><li visbl="pub" name="scala.collection.IterableLike#drop" data-isabs="false">
       <a id="drop(Int):Iterable[GridFSDBFile]"></a>
       <h4 class="signature">
@@ -681,7 +657,7 @@ If you don't want automatic saving/loaning please see the createFile method inst
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>IterableLike → TraversableLike → TraversableOnce → GenTraversableOnce</dd></dl></div>
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#files" data-isabs="false">
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#files" data-isabs="false">
       <a id="files[A](A)((A) ⇒ DBObject):MongoCursor"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -689,11 +665,11 @@ If you don't want automatic saving/loaning please see the createFile method inst
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">files</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ <span name="com.mongodb.DBObject" class="extype">DBObject</span></span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoCursor" class="extype" href="../MongoCursor.html">MongoCursor</a></span>
+        <span class="name">files</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <a name="com.mongodb.casbah.MongoCursor" class="extype" href="../MongoCursor.html">MongoCursor</a></span>
       </span>
       </h4>
-      
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#files" data-isabs="false">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#files" data-isabs="false">
       <a id="files:MongoCursor"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -707,7 +683,19 @@ If you don't want automatic saving/loaning please see the createFile method inst
       <p class="shortcomment cmt">Returns a cursor for this filestore
 of all of the files.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a cursor for this filestore
 of all of the files...
-</p></div></div>
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#filesCollection" data-isabs="false">
+      <a id="filesCollection:MongoGenericTypedCollection[GridFSDBFileSafeJoda]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">filesCollection</span><span class="result">: <a name="com.mongodb.casbah.MongoGenericTypedCollection" class="extype" href="../MongoGenericTypedCollection.html">MongoGenericTypedCollection</a>[<a name="com.mongodb.casbah.gridfs.GridFSDBFileSafeJoda" class="extype" href="GridFSDBFileSafeJoda.html">GridFSDBFileSafeJoda</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
     </li><li visbl="pub" name="scala.collection.TraversableLike#filter" data-isabs="false">
       <a id="filter((GridFSDBFile) ⇒ Boolean):Iterable[GridFSDBFile]"></a>
       <h4 class="signature">
@@ -747,42 +735,6 @@ of all of the files...
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#find" data-isabs="false">
-      <a id="find(String):Buffer[GridFSDBFile]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">find</span><span class="params">(<span name="filename">filename: String</span>)</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="com.mongodb.gridfs.GridFSDBFile" class="extype">GridFSDBFile</span>]</span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Find by query - returns a list</p>
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#find" data-isabs="false">
-      <a id="find(ObjectId):GridFSDBFile"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">find</span><span class="params">(<span name="id">id: ObjectId</span>)</span><span class="result">: <a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a></span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Find by query - returns a single item</p>
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#find" data-isabs="false">
-      <a id="find[A](A)((A) ⇒ DBObject):Buffer[GridFSDBFile]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">find</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ <span name="com.mongodb.DBObject" class="extype">DBObject</span></span>)</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="com.mongodb.gridfs.GridFSDBFile" class="extype">GridFSDBFile</span>]</span>
-      </span>
-      </h4>
-      <p class="shortcomment cmt">Find by query - returns a list</p>
     </li><li visbl="pub" name="scala.collection.IterableLike#find" data-isabs="false">
       <a id="find((GridFSDBFile) ⇒ Boolean):Option[GridFSDBFile]"></a>
       <h4 class="signature">
@@ -795,6 +747,42 @@ of all of the files...
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>IterableLike → TraversableLike → TraversableOnce → GenTraversableOnce</dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#find" data-isabs="false">
+      <a id="find(String):Buffer[GridFSDBFile]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="params">(<span name="filename">filename: String</span>)</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="com.mongodb.gridfs.GridFSDBFile" class="extype">GridFSDBFile</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Find by query - returns a list</p><div class="fullcomment"><div class="comment cmt"><p>Find by query - returns a list</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#find" data-isabs="false">
+      <a id="find(ObjectId):GridFSDBFile"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="params">(<span name="id">id: ObjectId</span>)</span><span class="result">: <span name="com.mongodb.gridfs.GridFSDBFile" class="extype">GridFSDBFile</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Find by query - returns a single item</p><div class="fullcomment"><div class="comment cmt"><p>Find by query - returns a single item</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#find" data-isabs="false">
+      <a id="find[A](A)((A) ⇒ DBObject):Buffer[GridFSDBFile]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.collection.mutable.Buffer" class="extype">Buffer</span>[<span name="com.mongodb.gridfs.GridFSDBFile" class="extype">GridFSDBFile</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Find by query - returns a list</p><div class="fullcomment"><div class="comment cmt"><p>Find by query - returns a list</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#findOne" data-isabs="false">
       <a id="findOne(String):Option[GridFSDBFile]"></a>
       <h4 class="signature">
@@ -827,7 +815,7 @@ of all of the files...
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">findOne</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ <span name="com.mongodb.DBObject" class="extype">DBObject</span></span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]</span>
+        <span class="name">findOne</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]</span>
       </span>
       </h4>
       
@@ -1060,14 +1048,14 @@ of all of the files...
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenTraversableLike → GenTraversableOnce</dd></dl></div>
     </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#iterator" data-isabs="false">
-      <a id="iterator:Iterator[GridFSDBFile] { def length(): Int }"></a>
+      <a id="iterator:Iterator[GridFSDBFile]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">iterator</span><span class="result">: Iterator[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>] { def length(): Int }</span>
+        <span class="name">iterator</span><span class="result">: Iterator[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]</span>
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GridFS" class="extype" href="">GridFS</a> → IterableLike → GenIterableLike</dd></dl></div>
@@ -1095,7 +1083,7 @@ of all of the files...
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>TraversableLike</dd></dl></div>
-    </li><li visbl="prt" name="com.mongodb.casbah.gridfs.GridFS#loan" data-isabs="false">
+    </li><li visbl="prt" name="com.mongodb.casbah.gridfs.GenericGridFS#loan" data-isabs="false">
       <a id="loan[T&lt;:GenericGridFSFile](T)((T) ⇒ Option[AnyRef]):Option[AnyRef]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1109,7 +1097,7 @@ of all of the files...
       <p class="shortcomment cmt">loan</p><div class="fullcomment"><div class="comment cmt"><p>loan</p><p>Basic implementation of the Loan pattern -
 the idea is to pass a Unit returning function
 and a Mongo file handle, and work on it within
-a code block.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="com.mongodb.casbah.gridfs" class="extype" href="package.html">gridfs</a>] </dd></dl></div>
+a code block.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="com.mongodb.casbah.gridfs" class="extype" href="package.html">gridfs</a>] </dd><dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
     </li><li visbl="prt" name="com.mongodb.casbah.commons.Logging#log" data-isabs="false">
       <a id="log:Logger"></a>
       <h4 class="signature">
@@ -1398,7 +1386,7 @@ a code block.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>prot
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>TraversableOnce → GenTraversableOnce</dd></dl></div>
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#remove" data-isabs="false">
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#remove" data-isabs="false">
       <a id="remove(String):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1409,8 +1397,8 @@ a code block.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>prot
         <span class="name">remove</span><span class="params">(<span name="filename">filename: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#remove" data-isabs="false">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#remove" data-isabs="false">
       <a id="remove(ObjectId):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1421,8 +1409,8 @@ a code block.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>prot
         <span class="name">remove</span><span class="params">(<span name="id">id: ObjectId</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      
-    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GridFS#remove" data-isabs="false">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.GenericGridFS#remove" data-isabs="false">
       <a id="remove[A](A)((A) ⇒ DBObject):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1430,10 +1418,10 @@ a code block.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>prot
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">remove</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ <span name="com.mongodb.DBObject" class="extype">DBObject</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="name">remove</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="query">query: A</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (A) ⇒ DBObject</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
     </li><li visbl="pub" name="scala.collection.TraversableLike#repr" data-isabs="false">
       <a id="repr:Iterable[GridFSDBFile]"></a>
       <h4 class="signature">
@@ -1883,7 +1871,7 @@ a code block.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>prot
         <span class="name">underlying</span><span class="result">: <span name="com.mongodb.gridfs.GridFS" class="extype">GridFS</span></span>
       </span>
       </h4>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="com.mongodb.casbah.gridfs.GridFS" class="extype" href="">GridFS</a> → <a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></dd></dl></div>
     </li><li visbl="pub" name="scala.collection.generic.GenericTraversableTemplate#unzip" data-isabs="false">
       <a id="unzip[A1, A2]((GridFSDBFile) ⇒ (A1, A2)):(Iterable[A1], Iterable[A2])"></a>
       <h4 class="signature">
@@ -2159,9 +2147,7 @@ a code block.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>prot
         </div>
 
         <div id="inheritedMembers">
-        <div name="com.mongodb.casbah.commons.Logging" class="parent">
-              <h3>Inherited from <a name="com.mongodb.casbah.commons.Logging" class="extype" href="../commons/Logging.html">Logging</a></h3>
-            </div><div name="scala.collection.Iterable" class="parent">
+        <div name="scala.collection.Iterable" class="parent">
               <h3>Inherited from <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]</h3>
             </div><div name="scala.collection.IterableLike" class="parent">
               <h3>Inherited from <span name="scala.collection.IterableLike" class="extype">IterableLike</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]]</h3>
@@ -2191,6 +2177,10 @@ a code block.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>prot
               <h3>Inherited from <span name="scala.collection.generic.FilterMonadic" class="extype">FilterMonadic</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]]</h3>
             </div><div name="scala.collection.generic.HasNewBuilder" class="parent">
               <h3>Inherited from <span name="scala.collection.generic.HasNewBuilder" class="extype">HasNewBuilder</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>, <span name="scala.collection.Iterable" class="extype">Iterable</span>[<a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="GridFSDBFile.html">GridFSDBFile</a>]]</h3>
+            </div><div name="com.mongodb.casbah.gridfs.GenericGridFS" class="parent">
+              <h3>Inherited from <a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="GenericGridFS.html">GenericGridFS</a></h3>
+            </div><div name="com.mongodb.casbah.commons.Logging" class="parent">
+              <h3>Inherited from <a name="com.mongodb.casbah.commons.Logging" class="extype" href="../commons/Logging.html">Logging</a></h3>
             </div><div name="scala.AnyRef" class="parent">
               <h3>Inherited from AnyRef</h3>
             </div><div name="scala.Any" class="parent">

@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>com.mongodb.casbah.commons.Logging</title>
+          <title>com.mongodb.casbah.gridfs.ConvertToDateTime</title>
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link type="text/css" media="screen" rel="stylesheet" href="../../../../lib/template.css" />
@@ -15,8 +15,8 @@
         <body onload="sh_highlightDocument('../lib/', '.min.js');" class="type">
       <div id="definition">
         <img src="../../../../lib/trait_big.png" />
-        <p id="owner"><a name="com" class="extype" href="../../../package.html">com</a>.<a name="com.mongodb" class="extype" href="../../package.html">mongodb</a>.<a name="com.mongodb.casbah" class="extype" href="../package.html">casbah</a>.<a name="com.mongodb.casbah.commons" class="extype" href="package.html">commons</a></p>
-        <h1>Logging</h1>
+        <p id="owner"><a name="com" class="extype" href="../../../package.html">com</a>.<a name="com.mongodb" class="extype" href="../../package.html">mongodb</a>.<a name="com.mongodb.casbah" class="extype" href="../package.html">casbah</a>.<a name="com.mongodb.casbah.gridfs" class="extype" href="package.html">gridfs</a></p>
+        <h1>ConvertToDateTime</h1>
       </div>
 
       <h4 class="signature" id="signature">
@@ -25,16 +25,16 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">Logging</span><span class="result"> extends AnyRef</span>
+        <span class="name">ConvertToDateTime</span><span class="result"> extends AnyRef</span>
       </span>
       </h4>
       
-      <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Base trait for all classes that wants to be able use the logging infrastructure.</p></div><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://mongodb.github.com/casbah/api.sxr/casbah-commons/Logger.scala.html">Logger.scala</a></dd></dl><div class="toggleContainer block">
+      <div class="fullcommenttop" id="comment"><dl class="attributes block"> <dt>Source</dt><dd><a target="_blank" href="http://mongodb.github.com/casbah/api.sxr/casbah-gridfs/JodaGridFS.scala.html">JodaGridFS.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent">AnyRef, <span name="scala.Any" class="extype">Any</span></div>
         </div><div class="toggleContainer block">
           <span class="toggle">Known Subclasses</span>
-          <div class="subClasses hiddenContent"><a name="com.mongodb.casbah.CursorExplanation" class="extype" href="../CursorExplanation.html">CursorExplanation</a>, <a name="com.mongodb.casbah.commons.conversions.scala.DeregisterConversionHelpers" class="extype" href="conversions/scala/DeregisterConversionHelpers$.html">DeregisterConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.DeregisterJodaLocalDateTimeConversionHelpers" class="extype" href="conversions/scala/DeregisterJodaLocalDateTimeConversionHelpers$.html">DeregisterJodaLocalDateTimeConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.DeregisterJodaTimeConversionHelpers" class="extype" href="conversions/scala/DeregisterJodaTimeConversionHelpers$.html">DeregisterJodaTimeConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.Deserializers" class="extype" href="conversions/scala/Deserializers.html">Deserializers</a>, <a name="com.mongodb.casbah.gridfs.GenericGridFS" class="extype" href="../gridfs/GenericGridFS.html">GenericGridFS</a>, <a name="com.mongodb.casbah.gridfs.GenericGridFSDBFile" class="extype" href="../gridfs/GenericGridFSDBFile.html">GenericGridFSDBFile</a>, <a name="com.mongodb.casbah.gridfs.GenericGridFSFile" class="extype" href="../gridfs/GenericGridFSFile.html">GenericGridFSFile</a>, <a name="com.mongodb.casbah.gridfs.GenericGridFSInputFile" class="extype" href="../gridfs/GenericGridFSInputFile.html">GenericGridFSInputFile</a>, <a name="com.mongodb.casbah.gridfs.GridFS" class="extype" href="../gridfs/GridFS.html">GridFS</a>, <a name="com.mongodb.casbah.gridfs.GridFS" class="extype" href="../gridfs/GridFS$.html">GridFS</a>, <a name="com.mongodb.casbah.gridfs.GridFSDBFile" class="extype" href="../gridfs/GridFSDBFile.html">GridFSDBFile</a>, <a name="com.mongodb.casbah.gridfs.GridFSFile" class="extype" href="../gridfs/GridFSFile.html">GridFSFile</a>, <a name="com.mongodb.casbah.gridfs.GridFSInputFile" class="extype" href="../gridfs/GridFSInputFile.html">GridFSInputFile</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeDeserializer" class="extype" href="conversions/scala/JodaDateTimeDeserializer.html">JodaDateTimeDeserializer</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeHelpers" class="extype" href="conversions/scala/JodaDateTimeHelpers.html">JodaDateTimeHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeSerializer" class="extype" href="conversions/scala/JodaDateTimeSerializer.html">JodaDateTimeSerializer</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFS" class="extype" href="../gridfs/JodaGridFS.html">JodaGridFS</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFS" class="extype" href="../gridfs/JodaGridFS$.html">JodaGridFS</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFSDBFile" class="extype" href="../gridfs/JodaGridFSDBFile.html">JodaGridFSDBFile</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFSFile" class="extype" href="../gridfs/JodaGridFSFile.html">JodaGridFSFile</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFSInputFile" class="extype" href="../gridfs/JodaGridFSInputFile.html">JodaGridFSInputFile</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeDeserializer" class="extype" href="conversions/scala/JodaLocalDateTimeDeserializer.html">JodaLocalDateTimeDeserializer</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeHelpers" class="extype" href="conversions/scala/JodaLocalDateTimeHelpers.html">JodaLocalDateTimeHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeSerializer" class="extype" href="conversions/scala/JodaLocalDateTimeSerializer.html">JodaLocalDateTimeSerializer</a>, <a name="com.mongodb.casbah.map_reduce.MapReduceCollectionBasedResult" class="extype" href="../map_reduce/MapReduceCollectionBasedResult.html">MapReduceCollectionBasedResult</a>, <a name="com.mongodb.casbah.map_reduce.MapReduceError" class="extype" href="../map_reduce/MapReduceError.html">MapReduceError</a>, <a name="com.mongodb.casbah.map_reduce.MapReduceInlineResult" class="extype" href="../map_reduce/MapReduceInlineResult.html">MapReduceInlineResult</a>, <a name="com.mongodb.casbah.map_reduce.MapReduceResult" class="extype" href="../map_reduce/MapReduceResult$.html">MapReduceResult</a>, <a name="com.mongodb.casbah.map_reduce.MapReduceResult" class="extype" href="../map_reduce/MapReduceResult.html">MapReduceResult</a>, <a name="com.mongodb.casbah.MongoCollection" class="extype" href="../MongoCollection$.html">MongoCollection</a>, <a name="com.mongodb.casbah.MongoCollection" class="extype" href="../MongoCollection.html">MongoCollection</a>, <a name="com.mongodb.casbah.MongoCollectionBase" class="extype" href="../MongoCollectionBase.html">MongoCollectionBase</a>, <a name="com.mongodb.casbah.commons.conversions.MongoConversionHelper" class="extype" href="conversions/MongoConversionHelper.html">MongoConversionHelper</a>, <a name="com.mongodb.casbah.MongoCursor" class="extype" href="../MongoCursor$.html">MongoCursor</a>, <a name="com.mongodb.casbah.MongoCursor" class="extype" href="../MongoCursor.html">MongoCursor</a>, <a name="com.mongodb.casbah.MongoCursorBase" class="extype" href="../MongoCursorBase.html">MongoCursorBase</a>, <a name="com.mongodb.casbah.commons.MongoDBObject" class="extype" href="MongoDBObject.html">MongoDBObject</a>, <a name="com.mongodb.casbah.MongoGenericTypedCollection" class="extype" href="../MongoGenericTypedCollection.html">MongoGenericTypedCollection</a>, <a name="com.mongodb.casbah.MongoGenericTypedCursor" class="extype" href="../MongoGenericTypedCursor.html">MongoGenericTypedCursor</a>, <a name="com.mongodb.casbah.util.MongoOpLog" class="extype" href="../util/MongoOpLog.html">MongoOpLog</a>, <a name="com.mongodb.casbah.MongoTypedCollection" class="extype" href="../MongoTypedCollection.html">MongoTypedCollection</a>, <a name="com.mongodb.casbah.commons.conversions.scala.OptionSerializer" class="extype" href="conversions/scala/OptionSerializer.html">OptionSerializer</a>, <a name="com.mongodb.casbah.commons.conversions.scala.RegisterConversionHelpers" class="extype" href="conversions/scala/RegisterConversionHelpers$.html">RegisterConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.RegisterJodaLocalDateTimeConversionHelpers" class="extype" href="conversions/scala/RegisterJodaLocalDateTimeConversionHelpers$.html">RegisterJodaLocalDateTimeConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.RegisterJodaTimeConversionHelpers" class="extype" href="conversions/scala/RegisterJodaTimeConversionHelpers$.html">RegisterJodaTimeConversionHelpers</a>, <a name="com.mongodb.casbah.commons.conversions.scala.ScalaCollectionSerializer" class="extype" href="conversions/scala/ScalaCollectionSerializer.html">ScalaCollectionSerializer</a>, <a name="com.mongodb.casbah.commons.conversions.scala.ScalaRegexSerializer" class="extype" href="conversions/scala/ScalaRegexSerializer.html">ScalaRegexSerializer</a>, <a name="com.mongodb.casbah.commons.conversions.scala.Serializers" class="extype" href="conversions/scala/Serializers.html">Serializers</a></div>
+          <div class="subClasses hiddenContent"><a name="com.mongodb.casbah.gridfs.JodaGridFSDBFile" class="extype" href="JodaGridFSDBFile.html">JodaGridFSDBFile</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFSFile" class="extype" href="JodaGridFSFile.html">JodaGridFSFile</a>, <a name="com.mongodb.casbah.gridfs.JodaGridFSInputFile" class="extype" href="JodaGridFSInputFile.html">JodaGridFSInputFile</a></div>
         </div></div>
     
 
@@ -48,7 +48,7 @@
               <span class="filtertype">Inherited</span>
               <ol><li class="hideall out"><span>Hide All</span></li>
               <li class="showall in"><span>Show all</span></li></ol>
-              <ol id="linearization"><li name="com.mongodb.casbah.commons.Logging" class="in"><span>Logging</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+              <ol id="linearization"><li name="com.mongodb.casbah.gridfs.ConvertToDateTime" class="in"><span>ConvertToDateTime</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
             </div>
         <div id="visbl">
             <span class="filtertype">Visibility</span>
@@ -60,7 +60,22 @@
         <div id="allMembers">
         
 
-        
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="com.mongodb.casbah.gridfs.ConvertToDateTime#DateType" data-isabs="false">
+      <a id="DateType:DateType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DateType</span><span class="result"> = <span name="org.joda.time.DateTime" class="extype">DateTime</span></span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
 
         
 
@@ -153,6 +168,18 @@
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li visbl="pub" name="com.mongodb.casbah.gridfs.ConvertToDateTime#convertDate" data-isabs="false">
+      <a id="convertDate(AnyRef):DateType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">convertDate</span><span class="params">(<span name="in">in: AnyRef</span>)</span><span class="result">: DateType</span>
+      </span>
+      </h4>
+      
     </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
       <a id="eq(AnyRef):Boolean"></a>
       <h4 class="signature">
@@ -228,18 +255,6 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li visbl="prt" name="com.mongodb.casbah.commons.Logging#log" data-isabs="false">
-      <a id="log:Logger"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">var</span>
-      </span>
-      <span class="symbol">
-        <span class="name">log</span><span class="result">: <a name="com.mongodb.casbah.commons.Logger" class="extype" href="Logger.html">Logger</a></span>
-      </span>
-      </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="com.mongodb.casbah" class="extype" href="../package.html">casbah</a>] </dd></dl></div>
     </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
       <a id="ne(AnyRef):Boolean"></a>
       <h4 class="signature">
