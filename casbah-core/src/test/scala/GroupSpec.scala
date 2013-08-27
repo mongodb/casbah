@@ -22,6 +22,7 @@
 
 package com.mongodb.casbah
 
+import java.io.IOException
 import scala.sys.process._
 import org.specs2.specification.Scope
 import com.github.nscala_time.time.Imports._
@@ -68,7 +69,11 @@ class GroupSpec extends CasbahMutableSpecification {
     }
 
     trait testData extends Scope {
-      Seq("mongoimport", "-d", "casbahIntegration", "-c", "books", "--drop", "./casbah-core/src/test/resources/bookstore.json").!!
+      try {
+         Seq("mongoimport", "-d", "casbahIntegration", "-c", "books", "--drop", "./casbah-core/src/test/resources/bookstore.json").!!
+      } catch {
+        case ex: IOException => skipped("mongoimport not on path")
+      }
       // Verify the treasury data is loaded or skip the test for now
       mongoDB("books").size must beGreaterThan(0)
     }

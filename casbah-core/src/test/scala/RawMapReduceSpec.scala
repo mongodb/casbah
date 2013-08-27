@@ -22,6 +22,7 @@
 
 package com.mongodb.casbah.test.core
 
+import java.io.IOException
 import scala.sys.process._
 import org.specs2.specification.Scope
 import com.mongodb.casbah.Imports._
@@ -332,8 +333,11 @@ class RawMapReduceSpec extends com.mongodb.casbah.commons.test.CasbahMutableSpec
     mongoDB("yield_historical.out.nineties").drop
     mongoDB("yield_historical.out.aughts").drop
 
-    Seq("mongoimport", "-d", "casbahIntegration", "-c", "yield_historical.in", "--drop", "./casbah-core/src/test/resources/yield_historical_in.json").!!
-
+    try {
+      Seq("mongoimport", "-d", "casbahIntegration", "-c", "yield_historical.in", "--drop", "./casbah-core/src/test/resources/yield_historical_in.json").!!
+    } catch {
+      case ex: IOException => skipped("mongoimport not on path")
+    }
     // Verify the treasury data is loaded or skip the test for now
     mongoDB("yield_historical.in").size must beGreaterThan(0)
   }

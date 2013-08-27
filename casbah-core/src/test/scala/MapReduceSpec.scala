@@ -22,6 +22,7 @@
 
 package com.mongodb.casbah.test.core
 
+import java.io.IOException
 import scala.sys.process._
 import org.specs2.specification.Scope
 import com.github.nscala_time.time.Imports._
@@ -118,7 +119,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
       item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
     }
 
-    "Produce results with variable from jsScope" in {
+    "Produce results with variable from jsScope" in new testData {
       val mapJSScoped = """
         function m() {
           var key = typeof(this._id) == "number" ? this._id : this._id.getYear()
@@ -309,8 +310,11 @@ class MapReduceSpec extends CasbahMutableSpecification {
     mongoDB("yield_historical.nineties").drop
     mongoDB("yield_historical.aughts").drop
 
-    Seq("mongoimport", "-d", "casbahIntegration", "-c", "yield_historical.in", "--drop", "./casbah-core/src/test/resources/yield_historical_in.json").!!
-
+    try {
+      Seq("mongoimport", "-d", "casbahIntegration", "-c", "yield_historical.in", "--drop", "./casbah-core/src/test/resources/yield_historical_in.json").!!
+    } catch {
+      case ex: IOException => skipped("mongoimport not on path")
+    }
     // Verify the treasury data is loaded or skip the test for now
     mongoDB("yield_historical.in").size must beGreaterThan(0)
   }
