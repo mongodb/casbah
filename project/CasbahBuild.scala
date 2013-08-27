@@ -15,7 +15,7 @@ object CasbahBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
-    version      := "2.6.3-SNAPSHOT",
+    version      := "2.7.0-SNAPSHOT",
     scalaVersion := "2.10.2",
     crossScalaVersions := Seq("2.10.2", "2.10.1", "2.10.0", "2.9.3", "2.9.2", "2.9.1")
   )
@@ -39,7 +39,7 @@ object CasbahBuild extends Build {
                                "-language:postfixOps")
 
   lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
-      resolvers ++= Seq(sonatypeRels, sonatypeSnaps, sonatypeSTArch, mavenOrgRepo),
+      resolvers ++= Seq(mavenLocalRepo, sonatypeRels, sonatypeSnaps, sonatypeSTArch, mavenOrgRepo),
       testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml"),
       crossPaths := true,
       autoCompilerPlugins := true,
@@ -121,7 +121,8 @@ object CasbahBuild extends Build {
 
 object Dependencies {
 
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.11.2"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "3.0.0-SNAPSHOT"
+  //val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.11.2"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
   val junit            = "junit" % "junit" % "4.10" % "test"
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
@@ -151,4 +152,5 @@ object Resolvers {
   val sonatypeRels = "Sonatype releases" at "https://oss.sonatype.org/content/repositories/releases"
   val sonatypeSTArch = "scalaTools Archive" at "https://oss.sonatype.org/content/groups/scala-tools/"
   val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
+  val mavenLocalRepo = "Local Maven" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
 }
