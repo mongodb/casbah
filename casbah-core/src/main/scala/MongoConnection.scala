@@ -33,6 +33,7 @@ import com.mongodb.{ Mongo, ServerAddress }
  * Apply methods are called as MongoConnection(<params>)
  *
  */
+@deprecated("Please use MongoClient and MongoClientOptions", "2.6.3")
 object MongoConnection {
 
   /**
@@ -163,6 +164,7 @@ object MongoConnection {
  * Wrapper class for the Mongo Connection object.
  *
  */
+@deprecated("Please use MongoClient and MongoClientOptions", "2.6.3")
 class MongoConnection(val underlying: com.mongodb.Mongo) {
   /**
    * Apply method which proxies getDB, allowing you to call

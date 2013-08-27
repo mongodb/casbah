@@ -35,10 +35,10 @@ import scala.collection.JavaConverters._
  * @see com.mongodb.DB
  */
 object MongoDB {
-  def apply(connection: com.mongodb.Mongo, dbName: String) =
+  def apply(connection: com.mongodb.MongoClient, dbName: String) =
     connection.asScala.apply(dbName)
 
-  def apply(connection: MongoConnection, dbName: String) =
+  def apply(connection: MongoClient, dbName: String) =
     connection(dbName)
 }
 

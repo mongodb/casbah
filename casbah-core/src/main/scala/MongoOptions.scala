@@ -36,6 +36,7 @@ import javax.net.SocketFactory
  * @since 2.0
  * @see com.mongodb.MongoOptions
  */
+@deprecated("Please use MongoClient and MongoClientOptions", "2.6.3")
 object MongoOptions {
 
   val Defaults = new MongoOptions()
