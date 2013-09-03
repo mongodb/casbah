@@ -3,7 +3,7 @@ import Keys._
 import Project.Initialize
 
 import com.typesafe.sbt.SbtSite._
-// import org.scalastyle.sbt.ScalastylePlugin
+import org.scalastyle.sbt.ScalastylePlugin
 import sbtassembly.Plugin._
 import AssemblyKeys._
 
@@ -34,9 +34,9 @@ object CasbahBuild extends Build {
   override lazy val settings = super.settings ++ buildSettings
 
   val scalac210Options = Seq("-feature",
-                               "-language:reflectiveCalls",
-                               "-language:implicitConversions",
-                               "-language:postfixOps")
+                             "-language:reflectiveCalls",
+                             "-language:implicitConversions",
+                             "-language:postfixOps") // ++ Seq("-unchecked", "-deprecation")
 
   lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
       resolvers ++= Seq(mavenLocalRepo, sonatypeRels, sonatypeSnaps, sonatypeSTArch, mavenOrgRepo),
@@ -84,7 +84,7 @@ object CasbahBuild extends Build {
     id        = "casbah",
     base      = file("."),
     settings  = parentSettings ++ Unidoc.settings ++ site.settings ++
-                site.sphinxSupport() /* ++ ScalastylePlugin.settings */ ++
+                site.sphinxSupport() ++ ScalastylePlugin.settings ++
                 assemblySettings ++
                 addArtifact(Artifact("casbah-alldep", "pom", "jar"), assembly),
     aggregate = Seq(commons, core, query, gridfs)
@@ -122,7 +122,7 @@ object CasbahBuild extends Build {
 object Dependencies {
 
   //val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "3.0.0-SNAPSHOT"
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.11.2"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.12.0-SNAPSHOT"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
   val junit            = "junit" % "junit" % "4.10" % "test"
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
