@@ -36,7 +36,6 @@ import javax.net.SocketFactory
  * @since 2.0
  * @see com.mongodb.MongoOptions
  *
- * @deprecated Replaced by {@link MongoClientOptions#MongoClientOptions}
  */
 @deprecated("Please use MongoClient and MongoClientOptions", "2.7")
 object MongoOptions {
