@@ -100,7 +100,7 @@ object MongoClient {
    * Creates a Mongo instance based on a (single) mongodb node and a list of credentials
    *
    * @param addr (ServerAddress) the DatabaseAddress
-   * @param credentials (List[MongoCredential]) used to authenticate all connections
+   * @param credentialsList (List[MongoCredential]) used to authenticate all connections
    * @throws MongoException
    * @see ServerAddress
    * @see MongoDBAddress
