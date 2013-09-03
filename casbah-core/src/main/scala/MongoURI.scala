@@ -30,7 +30,10 @@ import scala.collection.JavaConverters._
  *
  *
  * @since 2.0
+ *
+ * @deprecated Replaced by {@link MongoClientURI#MongoClientURI}
  */
+@deprecated("Please use MongoClient and MongoClientURI", "2.7")
 object MongoURI {
 
   /**

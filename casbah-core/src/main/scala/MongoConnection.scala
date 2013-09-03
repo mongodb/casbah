@@ -32,8 +32,9 @@ import com.mongodb.{ Mongo, ServerAddress }
  * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
  * Apply methods are called as MongoConnection(<params>)
  *
+ * @deprecated Replaced by {@link MongoClient#MongoClient}
  */
-@deprecated("Please use MongoClient and MongoClientOptions", "2.6.3")
+@deprecated("Please use MongoClient", "2.7")
 object MongoConnection {
 
   /**
@@ -163,8 +164,9 @@ object MongoConnection {
 /**
  * Wrapper class for the Mongo Connection object.
  *
+ * @deprecated Replaced by {@link MongoClient#MongoClient}
  */
-@deprecated("Please use MongoClient and MongoClientOptions", "2.6.3")
+@deprecated("Please use MongoClient", "2.7")
 class MongoConnection(val underlying: com.mongodb.Mongo) {
   /**
    * Apply method which proxies getDB, allowing you to call
