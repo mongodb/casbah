@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Changes in Version 2.6.3
+------------------------
+- Fixed JodaGridFS when registered helpers are on (SCALA-113)
+- Updated Mongo Java Driver to 2.11.3
+
 Changes in Version 2.6.2
 ------------------------
 - Fixed MongoClientURI Implicit
