@@ -62,8 +62,12 @@ trait Implicits {
 
   implicit def unwrapDBList(in: MongoDBList): BasicDBList = in.underlying
 
-  // Register the core Serialization helpers.
-  conversions.scala.RegisterConversionHelpers()
+  // Ensure that the core Serialization helpers are registered.
+  EnsureConversionHelpersRegistration.ensure
+}
+
+object EnsureConversionHelpersRegistration {
+  lazy val ensure = conversions.scala.RegisterConversionHelpers()
 }
 
 object Implicits extends Implicits
