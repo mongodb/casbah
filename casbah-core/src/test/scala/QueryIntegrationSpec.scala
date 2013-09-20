@@ -25,6 +25,7 @@ package com.mongodb.casbah.test.core
 import scala.collection.JavaConverters._
 import org.specs2.specification.Scope
 
+import com.mongodb.WriteConcernException
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
@@ -62,21 +63,47 @@ class QueryIntegrationSpec extends CasbahMutableSpecification {
     "Allow handle $setOnInsert as" in {
       "A single pair" in {
         coll.drop
-        coll.update(MongoDBObject(), $setOnInsert("foo" -> "baz"), true)
-        coll.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
+        try {
+          coll.update(MongoDBObject(), $setOnInsert("foo" -> "baz"), true)
+          coll.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
+        } catch {
+          case ex: WriteConcernException => {
+            if (ex.getCommandResult.get("err") != "Invalid modifier specified $setOnInsert")
+              throw ex
+          }
+        }
+        true
       }
       "Multiple pairs" in {
         val set = $setOnInsert("foo" -> "baz", "x" -> 5.2,
                                "y" -> 9, "a" -> ("b", "c", "d", "e"))
         coll.drop
-        coll.update(MongoDBObject(), set, true)
-        coll.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
+        try {
+          coll.update(MongoDBObject(), set, true)
+          coll.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
+        } catch {
+          case ex: WriteConcernException => {
+            if (ex.getCommandResult.get("err") != "Invalid modifier specified $setOnInsert")
+              throw ex
+          }
+        }
+        true
       }
       "Combined with set" in {
         coll.drop
-        coll.update(MongoDBObject(), $setOnInsert("x" -> 1) ++ $set ("a" -> "b"), true)
-        coll.find(MongoDBObject("x" -> 1)).count must beEqualTo(1)
-        coll.find(MongoDBObject("a" -> "b")).count must beEqualTo(1)
+        println("-" * 100)
+        println("*" * 100)
+        try {
+          coll.update(MongoDBObject(), $setOnInsert("x" -> 1) ++ $set ("a" -> "b"), true)
+          coll.find(MongoDBObject("x" -> 1)).count must beEqualTo(1)
+          coll.find(MongoDBObject("a" -> "b")).count must beEqualTo(1)
+        } catch {
+          case ex: WriteConcernException => {
+            if (ex.getCommandResult.get("err") != "Invalid modifier specified $setOnInsert")
+              throw ex
+          }
+        }
+        true
       }
     }
 
