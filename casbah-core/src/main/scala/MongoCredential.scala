@@ -85,7 +85,7 @@ object MongoCredential {
      * @return the credential
      */
     def createMongoX509Credential(userName: String) =
-        JavaMongoCredential.createMongoX509Credential(userName)
+      JavaMongoCredential.createMongoX509Credential(userName)
 
     /**
      * Creates a MongoCredential instance for the PLAIN SASL mechanism.
@@ -94,7 +94,7 @@ object MongoCredential {
      * @param password the non-null user password
      * @return the credential
      */
-    def createPlainCredential(userName: String, password: Array[Char]) =
-      JavaMongoCredential.createPlainCredential(final String userName, final char[] password)
+    def createPlainCredential(userName: String, source: String, password: Array[Char]) =
+      JavaMongoCredential.createPlainCredential(userName, source, password)
 
 }
