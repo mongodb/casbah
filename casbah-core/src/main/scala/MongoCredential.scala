@@ -55,4 +55,13 @@ object MongoCredential {
      */
     def apply(userName: String, database: String, password: Array[Char]) =
       JavaMongoCredential.createMongoCRCredential(userName, database, password)
+
+    /**
+     * Creates a MongoCredential instance for the MongoDB X.509 protocol.
+     *
+     * @param userName the non-null user name
+     * @return the credential
+     */
+    def apply(userName: String) =
+        JavaMongoCredential.createMongoX509Credential(userName)
 }
