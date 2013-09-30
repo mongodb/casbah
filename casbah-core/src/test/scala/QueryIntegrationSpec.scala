@@ -91,8 +91,6 @@ class QueryIntegrationSpec extends CasbahMutableSpecification {
       }
       "Combined with set" in {
         coll.drop
-        println("-" * 100)
-        println("*" * 100)
         try {
           coll.update(MongoDBObject(), $setOnInsert("x" -> 1) ++ $set ("a" -> "b"), true)
           coll.find(MongoDBObject("x" -> 1)).count must beEqualTo(1)
