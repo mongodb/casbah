@@ -42,6 +42,7 @@ object MongoCredential {
      *
      * @param userName the user name
      */
+    @deprecated("Please use MongoCredential.createGSSAPICredential", "2.7")
     def apply(userName: String) =
       JavaMongoCredential.createGSSAPICredential(userName)
 
@@ -53,7 +54,28 @@ object MongoCredential {
      * @param database the source of the user name, typically a database name
      * @param password the password
      */
+    @deprecated("Please use MongoCredential.createMongoCRCredential", "2.7")
     def apply(userName: String, database: String, password: Array[Char]) =
+      JavaMongoCredential.createMongoCRCredential(userName, database, password)
+
+    /**
+     *
+     * Creates a MongoCredential instance for the GSSAPI SASL mechanism
+     *
+     * @param userName the user name
+     */
+    def createGSSAPICredential(userName: String) =
+      JavaMongoCredential.createGSSAPICredential(userName)
+
+    /**
+     *
+     * Creates a MongoCredential instance for the MongoDB Challenge Response protocol
+     *
+     * @param userName the user name
+     * @param database the source of the user name, typically a database name
+     * @param password the password
+     */
+    def createMongoCRCredential(userName: String, database: String, password: Array[Char]) =
       JavaMongoCredential.createMongoCRCredential(userName, database, password)
 
     /**
@@ -62,6 +84,17 @@ object MongoCredential {
      * @param userName the non-null user name
      * @return the credential
      */
-    def apply(userName: String) =
+    def createMongoX509Credential(userName: String) =
         JavaMongoCredential.createMongoX509Credential(userName)
+
+    /**
+     * Creates a MongoCredential instance for the PLAIN SASL mechanism.
+     *
+     * @param userName the non-null user name
+     * @param password the non-null user password
+     * @return the credential
+     */
+    def createPlainCredential(userName: String, password: Array[Char]) =
+      JavaMongoCredential.createPlainCredential(final String userName, final char[] password)
+
 }
