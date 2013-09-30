@@ -24,9 +24,11 @@ package com.mongodb.casbah.test.core
 
 import java.io.IOException
 import scala.sys.process._
+import scala.collection.JavaConverters._
 import org.specs2.specification.Scope
 import com.github.nscala_time.time.Imports._
 
+import com.mongodb.util.JSON
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.conversions.scala._
@@ -304,19 +306,29 @@ class MapReduceSpec extends CasbahMutableSpecification {
   }
 
   trait testData extends Scope {
-    mongoDB("yield_historical.all").drop
-    mongoDB("yield_historical.merged").drop
-    mongoDB("yield_historical.merged_fresh").drop
-    mongoDB("yield_historical.nineties").drop
-    mongoDB("yield_historical.aughts").drop
+    val database = "casbahIntegration"
+    val collection = "yield_historical.in"
+    val jsonFile = "./casbah-core/src/test/resources/yield_historical_in.json"
+
+    mongoDB.dropDatabase()
 
     try {
-      Seq("mongoimport", "-d", "casbahIntegration", "-c", "yield_historical.in", "--drop", "./casbah-core/src/test/resources/yield_historical_in.json").!!
+       Seq("mongoimport", "-d", database, "-c", collection, "--drop", "--jsonArray", jsonFile).!!
     } catch {
-      case ex: IOException => skipped("mongoimport not on path")
+      case ex: IOException => {
+        val source = scala.io.Source.fromFile(jsonFile)
+        val lines = source.mkString
+        source.close()
+
+        val rawDoc = JSON.parse(lines).asInstanceOf[BasicDBList]
+        val docs = (for (doc <- rawDoc) yield doc.asInstanceOf[DBObject]).asJava
+        val coll = mongoDB(collection)
+        coll.underlying.insert(docs)
+      }
     }
+
     // Verify the treasury data is loaded or skip the test for now
-    mongoDB("yield_historical.in").size must beGreaterThan(0)
+    mongoDB(collection).size must beGreaterThan(0)
   }
 
   def distinctKeySet(keys: String*)(implicit mongo: MongoCollection): MapReduceResult = {
