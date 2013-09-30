@@ -88,12 +88,22 @@ MongoDBCredentials
 
     // Challenge Response
     val server = new ServerAddress("localhost", 27017)
-    val credential = MongoCredential.createMongoCRCredential(userName, password)
+    val credentials = MongoCredential.createMongoCRCredential(userName, database, password)
+    val mongoClient = MongoClient(server, List(credentials))
+
+    // X.509 Protocol
+    val server = new ServerAddress("localhost", 27017)
+    val credentials = MongoCredential.createMongoX509Credential(userName)
+    val mongoClient = MongoClient(server, List(credentials))
+
+    // SASL PLAIN
+    val server = new ServerAddress("localhost", 27017)
+    val credentials = MongoCredential.createPlainCredential(userName, source, password)
     val mongoClient = MongoClient(server, List(credentials))
 
     // GSSAPI
     val server = new ServerAddress("localhost", 27017)
-    val credential = MongoCredential.createGSSAPICredential(userName)
+    val credentials = MongoCredential.createGSSAPICredential(userName)
     val mongoClient = MongoClient(server, List(credentials))
 
 .. note:: GSSAPI requires the kerberos to be configured correctly in java.
