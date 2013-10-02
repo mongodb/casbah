@@ -79,20 +79,20 @@
 <h1>2.1. Philosophy<a class="headerlink" href="#philosophy" title="Permalink to this headline">¶</a></h1>
 <p>Casbah's approach is intended to add fluid, Scala-friendly syntax on top of
 MongoDB and handle conversions of common types.</p>
-<p>If you try to save a Scala List or Seq to MongoDB, we <a class="reference external" href="guide/serialisation">automatically convert it</a> to a type the Java driver can serialise.  If you read a
+<p>If you try to save a Scala List or Seq to MongoDB, we <a class="reference internal" href="serialisation.html"><em>automatically convert it</em></a> to a type the Java driver can serialise.  If you read a
 Java type,  we convert it to a comparable Scala type before it hits your code.</p>
 <p>All of this is intended to let you focus on writing the best possible Scala
 code using Scala idioms.  A great deal of effort is put into providing you the
 functional and implicit conversion tools you've come to expect from Scala, with
 the power and flexibility of MongoDB.</p>
-<p>Casbah provides improved interfaces to <a class="reference external" href="guide/gridfs">GridFS</a>, Map/Reduce and
-the core Mongo APIs.  It also provides a <a class="reference external" href="guide/querying">fluid query syntax</a>
+<p>Casbah provides improved interfaces to <a class="reference internal" href="gridfs.html"><em>GridFS</em></a>, Map/Reduce and
+the core Mongo APIs.  It also provides a <a class="reference internal" href="querying.html"><em>fluid query syntax</em></a>
 which emulates an internal DSL and allows you to write code which is more akin
 to what you would write in the JS Shell.</p>
 <p>There is also support for easily adding new
-<a class="reference external" href="guide/serialisation">serialisation/deserialisation</a> mechanisms for common
+<a class="reference internal" href="serialisation.html"><em>serialisation/deserialisation</em></a> mechanisms for common
 data types (including Joda Time, if you so choose; with some caveats - See
-the <a class="reference external" href="guide/gridfs">GridFS Section</a>).</p>
+the <a class="reference internal" href="gridfs.html"><em>GridFS Section</em></a>).</p>
 </div>
 
 

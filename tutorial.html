@@ -119,7 +119,7 @@ libraryDependencies += &quot;org.mongodb&quot; %% &quot;casbah&quot; % &quot;2.6
 </li>
 </ol>
 <p>If you had any errors installing casbah please refer to the
-<a class="reference external" href="guide/installation">installation guide</a>, otherwise you are ready to start
+<a class="reference internal" href="guide/installation.html"><em>installation guide</em></a>, otherwise you are ready to start
 using casbah!</p>
 </div>
 <div class="section" id="connecting-to-mongodb">
@@ -134,7 +134,7 @@ is the connection class.</p>
 </pre></div>
 </div>
 <p>There are various connection configuration options see the
-<a class="reference external" href="guide/connecting">connection guide</a> for more information.</p>
+<a class="reference internal" href="guide/connecting.html"><em>connection guide</em></a> for more information.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The scala repl has tab completion type: <tt class="docutils literal"><span class="pre">mongoClient.&lt;tab&gt;</span></tt>
@@ -240,7 +240,7 @@ a simple document it will replace the existing one with the new document.</p>
 </div>
 <p>MongoDB comes with a host of
 <a class="reference external" href="http://docs.mongodb.org/manual/core/update/#crud-update-operators">update operators</a>
-to modify documents.  Casbah has a powerful <a class="reference external" href="guide/querying">DSL</a> for creating
+to modify documents.  Casbah has a powerful <a class="reference internal" href="guide/querying.html"><em>DSL</em></a> for creating
 these update documents. Lets set the language to scala for the JVM document:</p>
 <div class="highlight-scala"><div class="highlight"><pre><span class="k">val</span> <span class="n">query</span> <span class="k">=</span> <span class="nc">MongoDBObject</span><span class="o">(</span><span class="s">&quot;platform&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;JVM&quot;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">update</span> <span class="k">=</span> <span class="nc">$set</span><span class="o">(</span><span class="s">&quot;language&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;Scala&quot;</span><span class="o">)</span>
@@ -297,7 +297,7 @@ efficient to drop the collection:</p>
 <div class="section" id="learning-more-about-casbah">
 <h2>1.6. Learning more about Casbah<a class="headerlink" href="#learning-more-about-casbah" title="Permalink to this headline">¶</a></h2>
 <p>If you got this far you've made a great start, so well done!  The next step on
-your Casbah journey is the <a class="reference external" href="guide/index.html">full user guide</a>, where you
+your Casbah journey is the <a class="reference internal" href="guide/index.html"><em>full user guide</em></a>, where you
 can learn indepth about how to use casbah and mongodb.</p>
 </div>
 </div>
