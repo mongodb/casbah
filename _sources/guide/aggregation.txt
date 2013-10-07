@@ -74,7 +74,7 @@ framework by issuing the following command::
     val db = MongoClient()("test")
     val coll = db("aggregate")
 
-    coll.aggregate(
+    val results = coll.aggregate(
       MongoDBObject("$project" ->
         MongoDBObject("author" -> 1, "tags" -> 1)
       ),
@@ -86,7 +86,7 @@ framework by issuing the following command::
       )
     );
 
-The results of the aggregation themselves can be accessed in via ``results``.
+The results of the aggregation themselves can be accessed via ``results``.
 
 
 To learn more about aggregation see the `aggregation tutorial
