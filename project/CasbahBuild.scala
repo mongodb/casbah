@@ -16,8 +16,9 @@ object CasbahBuild extends Build {
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
     version      := "2.6.3",
-    scalaVersion := "2.10.2",
-    crossScalaVersions := Seq("2.10.2", "2.10.1", "2.10.0", "2.9.3", "2.9.2", "2.9.1")
+    scalaVersion := "2.10.3",
+    crossScalaVersions := Seq("2.10.3", "2.10.2", "2.10.1", "2.10.0",
+                              "2.9.3", "2.9.2", "2.9.1")
   )
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
