@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Changes in Version 2.6.4
+------------------------
+- Updated Scala 2.10 series to 2.10.3
+
 Changes in Version 2.6.3
 ------------------------
 - Fixed JodaGridFS when registered helpers are on (SCALA-113)

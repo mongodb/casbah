@@ -19,7 +19,7 @@ that might not be of interest or that has already been addressed.
 Supported Versions
 ------------------
 
-Casbah currently supports Scala 2.9.X.
+Casbah currently supports Scala 2.10.X & 2.9.X.
 
 Style Guide
 -----------
