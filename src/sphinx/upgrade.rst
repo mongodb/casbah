@@ -1,6 +1,12 @@
 Upgrade
 =======
 
+Version 2.7.0
+-------------
+
+`com.mongodb.casbah.WriteConcern.valueOf` now returns an Option as an invalid name
+would return a `null`.  Any code relying on it should be updated.
+
 
 Version 2.6.1
 -------------
