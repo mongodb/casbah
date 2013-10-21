@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Changes in Version 2.7
+----------------------
+- Support SASL PLAIN authentication (SCALA-101)
+- Support MONGODB-X509 authentication (SCALA-112)
+- Updated Mongo Java Driver to 2.12
+
 Changes in Version 2.6.4
 ------------------------
 - Updated Scala 2.10 series to 2.10.3
