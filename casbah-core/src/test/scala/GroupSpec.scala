@@ -22,10 +22,13 @@
 
 package com.mongodb.casbah
 
+import java.io.IOException
 import scala.sys.process._
+import scala.collection.JavaConverters._
 import org.specs2.specification.Scope
 import com.github.nscala_time.time.Imports._
 
+import com.mongodb.util.JSON
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.conversions.scala._
@@ -68,9 +71,28 @@ class GroupSpec extends CasbahMutableSpecification {
     }
 
     trait testData extends Scope {
-      Seq("mongoimport", "-d", "casbahIntegration", "-c", "books", "--drop", "./casbah-core/src/test/resources/bookstore.json").!!
+      val database = "casbahIntegration"
+      val collection = "books"
+      val jsonFile = "./casbah-core/src/test/resources/bookstore.json"
+
+      mongoDB.dropDatabase()
+      try {
+         Seq("mongoimport", "-d", database, "-c", collection, "--drop", "--jsonArray", jsonFile).!!
+      } catch {
+        case ex: IOException => {
+          val source = scala.io.Source.fromFile(jsonFile)
+          val lines = source.mkString
+          source.close()
+
+          val rawDoc = JSON.parse(lines).asInstanceOf[BasicDBList]
+          val docs = (for (doc <- rawDoc) yield doc.asInstanceOf[DBObject]).asJava
+          val coll = mongoDB(collection)
+          coll.underlying.insert(docs)
+        }
+      }
+
       // Verify the treasury data is loaded or skip the test for now
-      mongoDB("books").size must beGreaterThan(0)
+      mongoDB(collection).size must beGreaterThan(0)
     }
   }
 

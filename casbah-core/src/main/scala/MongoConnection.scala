@@ -31,8 +31,8 @@ import com.mongodb.{ Mongo, ServerAddress }
 /**
  * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
  * Apply methods are called as MongoConnection(<params>)
- *
  */
+@deprecated("Please use MongoClient", "2.7")
 object MongoConnection {
 
   /**
@@ -161,8 +161,8 @@ object MongoConnection {
 
 /**
  * Wrapper class for the Mongo Connection object.
- *
  */
+@deprecated("Please use MongoClient", "2.7")
 class MongoConnection(val underlying: com.mongodb.Mongo) {
   /**
    * Apply method which proxies getDB, allowing you to call
@@ -226,9 +226,8 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
 
   /**
    * Sets queries to be OK to run on slave nodes.
-   * @deprecated Replaced with ReadPreference.SECONDARY
    */
-  @deprecated("Replaced with ReadPreference.SECONDARY", "2.3.0")
+  @deprecated("Replaced with `ReadPreference.SECONDARY`", "2.3.0")
   def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**
@@ -342,74 +341,3 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    */
   def getReadPreference = underlying.getReadPreference
 }
-
-/**
- *
- * @since   1.0.1
- */
-object MongoDBAddress {
-
-  /**
-   * Connects to a given database using the host/port info from an existing
-   * DBAddress instance.
-   *
-   * @param  other  DBAddress the existing DBAddress
-   * @param  dbName String the database to which to connect
-   * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
-   */
-  def apply(other: DBAddress, dbName: String) = new DBAddress(other, dbName)
-
-  /**
-   * Creates a new DBAddress... acceptable formats:
-   *
-   * <pre>
-   *   name ("myDB")
-   *   <host>/name ("127.0.0.1/myDB")
-   *   <host>:<port>/name ("127.0.0.1:8080/myDB")
-   * </pre>
-   *
-   * @param  urlFormat String
-   * @return com.mongodb.DBAddress
-   *
-   * @throws java.net.UnknownHostException
-   *
-   */
-  def apply(urlFormat: String) = new DBAddress(urlFormat)
-
-  /**
-   * Connects to a database with a given name at a given host.
-   *
-   * @param  host   String
-   * @param  dbName String
-   * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
-   */
-  def apply(host: String, dbName: String) = new DBAddress(host, dbName)
-
-  /**
-   * Connects to a database with a given host, port &amp; name at a given host.
-   *
-   * @param  host   String
-   * @param  port   Int
-   * @param  dbName String
-   * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
-   */
-  def apply(host: String, port: Int, dbName: String) =
-    new DBAddress(host, port, dbName)
-
-  /**
-   * Connects to a database with a given InetAddress, port &amp; name at a given host.
-   *
-   * @param  addr   java.net.InetAddress
-   * @param  port   Int
-   * @param  dbName String
-   * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
-   * @see java.net.InetAddress
-   */
-  def apply(addr: java.net.InetAddress, port: Int, dbName: String) =
-    new DBAddress(addr, port, dbName)
-}
-

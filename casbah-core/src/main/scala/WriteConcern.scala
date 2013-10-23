@@ -22,72 +22,72 @@
 
 package com.mongodb.casbah
 
-import scala.collection.JavaConverters._
+import com.mongodb.{WriteConcern => JWriteConcern}
 
 /**
  * Helper class for creating WriteConcern instances
  *
  * @since 2.0
- * @see com.mongodb.WriteConcern
+ * @see JWriteConcern
  */
 object WriteConcern {
   /**
    * No exceptions are raised, even for network issues
    */
-  val None = com.mongodb.WriteConcern.NONE
+  val None = JWriteConcern.NONE
   /**
    * Exceptions are raised for network issues but not server errors.
    */
-  val Normal = com.mongodb.WriteConcern.NORMAL
+  val Normal = JWriteConcern.NORMAL
   /**
    * Exceptions are raised for network issues and server errors;
    * waits on a server for the write operation
    */
-  val Safe = com.mongodb.WriteConcern.SAFE
+  val Safe = JWriteConcern.SAFE
   /**
    * Exceptions are raised for network issues and server errors;
    * waits on a majority of servers for the write operation
    */
-  val Majority = com.mongodb.WriteConcern.MAJORITY
+  val Majority = JWriteConcern.MAJORITY
   /**
    * Exceptions are raised for network issues and server errors;
    * Write operations wait for the server to flush data to disk
    */
-  val FsyncSafe = com.mongodb.WriteConcern.FSYNC_SAFE
+  val FsyncSafe = JWriteConcern.FSYNC_SAFE
   /**
    * Exceptions are raised for network issues, and server errors;
    * the write operation waits for the server to group commit to the journal file on disk
    */
-  val JournalSafe = com.mongodb.WriteConcern.JOURNAL_SAFE
+  val JournalSafe = JWriteConcern.JOURNAL_SAFE
   /**
    * Exceptions are raised for network issues and server errors;
    * waits for at least 2 servers for the write operation.
    */
-  val ReplicasSafe = com.mongodb.WriteConcern.REPLICAS_SAFE
+  val ReplicasSafe = JWriteConcern.REPLICAS_SAFE
 
   /**
    * Create a new WriteConcern object.
    *
    *	<p> w represents # of servers:
    * 		<ul>
-   * 			<li>{@code w=-1} None, no checking is done</li>
-   * 			<li>{@code w=0} None, network socket errors raised</li>
-   * 			<li>{@code w=1} Checks server for errors as well as network socket errors raised</li>
-   * 			<li>{@code w>1} Checks servers (w) for errors as well as network socket errors raised</li>
+   * 			<li><code>w=-1</code> None, no checking is done</li>
+   * 			<li><code>w=0</code> None, network socket errors raised</li>
+   * 			<li><code>w=1</code> Checks server for errors as well as network socket errors raised</li>
+   * 			<li><code>w>1</code> Checks servers (w) for errors as well as network socket errors raised</li>
    * 		</ul>
    * 	</p>
-   * @param w (Int) Specifies the number of servers to wait for on the write operation, and exception raising behavior. Defaults to {@code 0}
+   * @param w (Int) Specifies the number of servers to wait for on the write operation, and exception raising behavior. Defaults to <code>0</code>
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
    * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
    * @param j whether writes should wait for a journaling group commit
-   * @param contineInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
+   * @param continueInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
    */
   def apply(w: Int,
             wTimeout: Int = 0,
             fsync: Boolean = false,
             j: Boolean = false,
             continueInsertOnError: Boolean = false) =
-    new com.mongodb.WriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
+    new JWriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
 
   /**
    * Create a new WriteConcern object.
@@ -97,14 +97,14 @@ object WriteConcern {
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
    * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
    * @param j whether writes should wait for a journaling group commit
-   * @param contineInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
+   * @param continueInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
    */
   def withRule(w: String,
                wTimeout: Int = 0,
                fsync: Boolean = false,
                j: Boolean = false,
                continueInsertOnError: Boolean = false) =
-    new com.mongodb.WriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
+    new JWriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
 
   /**
    * Get the WriteConcern constants by name: NONE, NORMAL, SAFE, MAJORITY, FSYNC_SAFE,
@@ -112,6 +112,6 @@ object WriteConcern {
    *
    * NOTE: This only supports the java versions, no support for the local scala aliases.
    */
-  def valueOf(name: String) = com.mongodb.WriteConcern.valueOf(name)
+  def valueOf(name: String): Option[JWriteConcern] = Option(JWriteConcern.valueOf(name))
 }
 

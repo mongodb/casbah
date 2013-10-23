@@ -70,7 +70,7 @@ You can always get the latest source for Casbah from
 The `master` branch is once again the leading branch suitable for snapshots and
 releases and should be considered (and kept) stable.
 
-.. |scala_versions| replace:: 2.9.1, 2.9.2, 2.10.0 and 2.10.1
+.. |scala_versions| replace:: 2.9.1, 2.9.2, 2.10.x
 .. |all_dep_urls| replace::
     http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/2.6.2/casbah-alldep_2.10-2.6.1.jar
     http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.2/2.6.2/casbah-alldep_2.9.2-2.6.1.jar

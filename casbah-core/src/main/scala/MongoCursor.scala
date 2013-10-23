@@ -281,9 +281,8 @@ trait MongoCursorBase extends Logging {
    * slaveOk
    *
    * Makes this query OK to run on a non-master node.
-   * @deprecated Replaced with ReadPreference.SECONDARY
    */
-  @deprecated("Replaced with ReadPreference.SECONDARY", "2.3.0")
+  @deprecated("Replaced with `ReadPreference.SECONDARY`", "2.3.0")
   def slaveOk() = underlying.slaveOk() // parens for side-effect
 
   def numGetMores = underlying.numGetMores

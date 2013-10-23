@@ -25,24 +25,27 @@ package com.mongodb.casbah.test.gridfs
 import java.security.MessageDigest
 import java.io._
 
+import com.github.nscala_time.time.Imports._
+
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._
+import com.mongodb.gridfs.{GridFSDBFile => MongoGridFSDBFile}
+
 import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
-import com.github.nscala_time.time.Imports._
-import scala.Some
+import org.specs2.specification.BeforeExample
 
 
-class GridFSSpec extends CasbahMutableSpecification {
+class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
 
-  def deregister() {
-    DeregisterJodaTimeConversionHelpers()
+  def before = {
     DeregisterJodaLocalDateTimeConversionHelpers()
+    RegisterJodaTimeConversionHelpers()
   }
 
   implicit val db = MongoClient()("casbah_test")
   db.dropDatabase()
-  implicit val gridfs = GridFS(db)
+  implicit val gridfs = JodaGridFS(db)
 
   def logo_fh = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
 
@@ -59,12 +62,10 @@ class GridFSSpec extends CasbahMutableSpecification {
   lazy val logo_md5 = digest.digest().map("%02X" format _).mkString.toLowerCase
 
   def findItem(id: ObjectId, filename: Option[String] = None, contentType: Option[String] = None) = {
-    gridfs.findOne(id) must beSome[GridFSDBFile]
-
+    gridfs.findOne(id) must beSome[JodaGridFSDBFile]
     var md5 = ""
     var fn: Option[String] = None
     var ct: Option[String] = None
-
     gridfs.findOne(id) foreach {
       file =>
         md5 = file.md5
@@ -77,19 +78,19 @@ class GridFSSpec extends CasbahMutableSpecification {
     ct must beEqualTo(contentType)
   }
 
-  "Casbah's GridFS Implementations" should {
-    deregister()
+  "Casbah's Joda GridFS Implementations with Registered JodaTime Helpers" should {
+
+    implicit val id = gridfs(logo_bytes) {
+      fh =>
+        fh.put("uploadDate", new DateTime())
+        fh.filename = "powered_by_mongo_find.png"
+        fh.contentType = "image/png"
+    }
 
     "Find the file in GridFS later" in {
-      val id = gridfs(logo_bytes) {
-        fh =>
-          fh.filename = "powered_by_mongo_find.png"
-          fh.contentType = "image/png"
-      }
-
-      gridfs.findOne("powered_by_mongo_find.png") must beSome[GridFSDBFile]
+      gridfs.findOne("powered_by_mongo_find.png") must beSome[JodaGridFSDBFile]
       var md5 = ""
-      var uploadDate: java.util.Date = null
+      var uploadDate: DateTime = null
       gridfs.findOne("powered_by_mongo_find.png") foreach {
         file =>
           md5 = file.md5
@@ -97,7 +98,7 @@ class GridFSSpec extends CasbahMutableSpecification {
       }
       md5 must beEqualTo(logo_md5)
       require(uploadDate != null)
-      uploadDate must beAnInstanceOf[java.util.Date]
+      uploadDate must beAnInstanceOf[DateTime]
 
       gridfs.findOne(id.get.asInstanceOf[ObjectId]) foreach {
         file =>
@@ -106,7 +107,40 @@ class GridFSSpec extends CasbahMutableSpecification {
       }
       md5 must beEqualTo(logo_md5)
       require(uploadDate != null)
-      uploadDate must beAnInstanceOf[java.util.Date]
+      uploadDate must beAnInstanceOf[DateTime]
+
+    }
+
+    "Find files in GridFS shouldn't break either" in {
+      gridfs(logo_bytes) {
+        fh =>
+          fh.put("uploadDate", new DateTime())
+          fh.filename = "powered_by_mongo_find.png"
+          fh.contentType = "image/png"
+      }
+      gridfs.find("powered_by_mongo_find.png") foreach {
+        file => file must beAnInstanceOf[MongoGridFSDBFile]
+      }
+    }
+
+    "Correctly catch the non-existence of a file and fail gracefully" in {
+      gridfs.findOne("powered_by_mongoFOOBAR235254252.png") must beNone
+    }
+
+    "Return a wrapped MongoCursor if you call files,  as reported by Gregg Carrier" in {
+      val files = gridfs.files
+      files must beAnInstanceOf[MongoCursor]
+    }
+
+    "Be properly iterable" in {
+      val id = gridfs(logo) {
+        fh =>
+          fh.filename = "powered_by_mongo_iter.png"
+          fh.contentType = "image/png"
+      }
+      var x = false
+      for (f <- gridfs) x = true
+      x must beTrue
     }
 
     "read back as expected" in {
@@ -124,23 +158,38 @@ class GridFSSpec extends CasbahMutableSpecification {
         f.source.mkString must beEqualTo("hello world")
       )
     }
+  }
 
-    "Handle DateTime" in {
-      gridfs(logo_bytes) {
+  "Casbah's Joda GridFS Implementations with no registered JodaTime helpers" should {
+
+    "Still find the file in GridFS later and contain DateTime objects" in {
+      val id = gridfs(logo_bytes) {
         fh =>
           fh.put("uploadDate", new DateTime())
-          fh.filename = "powered_by_mongo_find_date.png"
+          fh.filename = "powered_by_mongo_find_datetime.png"
           fh.contentType = "image/png"
       }
 
+      gridfs.findOne("powered_by_mongo_find_datetime.png") must beSome[JodaGridFSDBFile]
       var md5 = ""
-      var uploadDate: java.util.Date = null
-      gridfs.findOne("powered_by_mongo_find_date.png") foreach {
+      var uploadDate: DateTime = null
+      gridfs.findOne("powered_by_mongo_find_datetime.png") foreach {
         file =>
           md5 = file.md5
           uploadDate = file.uploadDate
       }
-      uploadDate must beAnInstanceOf[java.util.Date]
+      md5 must beEqualTo(logo_md5)
+      require(uploadDate != null)
+      uploadDate must beAnInstanceOf[DateTime]
+
+      gridfs.findOne(id.get.asInstanceOf[ObjectId]) foreach {
+        file =>
+          md5 = file.md5
+          uploadDate = file.uploadDate
+      }
+      md5 must beEqualTo(logo_md5)
+      require(uploadDate != null)
+      uploadDate must beAnInstanceOf[DateTime]
 
     }
 
@@ -153,85 +202,33 @@ class GridFSSpec extends CasbahMutableSpecification {
       }
 
       var md5 = ""
-      var uploadDate: java.util.Date = null
+      var uploadDate: DateTime = null
       gridfs.findOne("powered_by_mongo_find_local.png") foreach {
         file =>
           md5 = file.md5
           uploadDate = file.uploadDate
       }
-      uploadDate must beAnInstanceOf[java.util.Date]
+      uploadDate must beAnInstanceOf[DateTime]
 
     }
 
-    "Correctly catch the non-existence of a file and fail gracefully" in {
-      gridfs.findOne("powered_by_mongoFOOBAR235254252.png") must beNone
-    }
-
-    "Return a wrapped MongoCursor if you call files,  as reported by Gregg Carrier" in {
-      val files = gridfs.files
-      files must beAnInstanceOf[MongoCursor]
-    }
-
-    "Be properly iterable" in {
-      gridfs(logo) {
+    "Handle Date" in {
+      gridfs(logo_bytes) {
         fh =>
-          fh.filename = "powered_by_mongo_iter.png"
+          fh.put("uploadDate", new java.util.Date())
+          fh.filename = "powered_by_mongo_find_date.png"
           fh.contentType = "image/png"
       }
-      var x = false
-      for (f <- gridfs) x = true
-      x must beTrue
-    }
-  }
 
-  "Return the created file's ID from the loan pattern methods." should {
-    deregister()
+      var md5 = ""
+      var uploadDate: DateTime = null
+      gridfs.findOne("powered_by_mongo_find_date.png") foreach {
+        file =>
+          md5 = file.md5
+          uploadDate = file.uploadDate
+      }
+      uploadDate must beAnInstanceOf[DateTime]
 
-    "Using a InputStream" in {
-      val id = gridfs(logo) {
-        fh =>
-          fh.filename = "powered_by_mongo_inputstream.png"
-          fh.contentType = "image/png"
-      }
-      id must beSome[AnyRef]
-      id.get must beAnInstanceOf[ObjectId]
-      findItem(id.get.asInstanceOf[ObjectId], Some("powered_by_mongo_inputstream.png"), Some("image/png"))
-    }
-
-    "Using a Byte Array" in {
-      val id = gridfs(logo_bytes) {
-        fh =>
-          fh.filename = "powered_by_mongo_bytes.png"
-          fh.contentType = "image/png"
-      }
-      id must beSome
-      id.get must beAnInstanceOf[ObjectId]
-      findItem(id.get.asInstanceOf[ObjectId], Some("powered_by_mongo_bytes.png"), Some("image/png"))
-    }
-  }
-  "Allow filename and contentType to be nullable, returning 'None' appropriately." in {
-    "Filename may be null" in {
-      val id = gridfs(logo) {
-        fh =>
-          fh.contentType = "image/png"
-      }
-      id.get must beAnInstanceOf[ObjectId]
-      findItem(id.get.asInstanceOf[ObjectId], None, Some("image/png"))
-    }
-    "content Type may be null" in {
-      val id = gridfs(logo) {
-        fh =>
-          fh.filename = "null_content_type.png"
-      }
-      id.get must beAnInstanceOf[ObjectId]
-      findItem(id.get.asInstanceOf[ObjectId], Some("null_content_type.png"), None)
-    }
-    "both may be null" in {
-      val id = gridfs(logo) {
-        fh =>
-      }
-      id.get must beAnInstanceOf[ObjectId]
-      findItem(id.get.asInstanceOf[ObjectId])
     }
   }
 

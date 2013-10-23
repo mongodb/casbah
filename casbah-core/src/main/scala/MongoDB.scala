@@ -35,10 +35,10 @@ import scala.collection.JavaConverters._
  * @see com.mongodb.DB
  */
 object MongoDB {
-  def apply(connection: com.mongodb.Mongo, dbName: String) =
+  def apply(connection: com.mongodb.MongoClient, dbName: String) =
     connection.asScala.apply(dbName)
 
-  def apply(connection: MongoConnection, dbName: String) =
+  def apply(connection: MongoClient, dbName: String) =
     connection(dbName)
 }
 
@@ -78,6 +78,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @param passwd password of user for this database
    * @return true if authenticated, false otherwise
    */
+  @deprecated("Please use MongoClient to create a client, which will authenticate all connections to server.", "2.7")
   def authenticate(username: String, passwd: String) = underlying.authenticate(username, passwd.toArray)
 
   /** Execute a database command directly.
@@ -182,15 +183,16 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * Care must be taken to ensure that calls to getPreviousError go to the same connection as that
    * of the previous operation. See com.mongodb.Mongo.requestStart for more information.
    *
-   * @deprecated The getPreviousError() and resetError() commands are deprecated and may be removed in future versions of MongoDB
+   * @deprecated The `getPreviousError()` and `resetError()` commands are deprecated and may be removed in future versions of MongoDB
    * @return DBObject with error and status information
    */
   def getPreviousError() = underlying.getPreviousError
+
   /**
    *  Resets the error memory for this database.  Used to clear all errors such that getPreviousError()
    *  will return no error.
    *
-   * @deprecated The getPreviousError() and resetError() commands are deprecated and may be removed in future versions of MongoDB
+   * @deprecated The `getPreviousError()` and `resetError()` commands are deprecated and may be removed in future versions of MongoDB
    */
   def resetError() = underlying.resetError
 
@@ -201,6 +203,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    *
    * @return true if authenticated, false otherwise
    */
+  @deprecated("Use MongoClient to create an authenticated connection.", "2.7")
   def isAuthenticated = underlying.isAuthenticated()
 
   def stats = getStats()
@@ -214,19 +217,20 @@ class MongoDB(val underlying: com.mongodb.DB) {
    *
    * @param b if the database should be read-only
    */
+  @deprecated("Avoid making database read-only via this method. Use a read-only user with MongoClient instead.", "2.7")
   def setReadOnly(b: Boolean) = underlying.setReadOnly(b)
 
   /** Makes this database read-only
    *
    * @param b if the database should be read-only
    */
+  @deprecated("Avoid making database read-only via this method. Use a read-only user with MongoClient instead.", "2.7")
   def readOnly_=(b: Boolean) = setReadOnly(b)
 
   /**
    * Sets queries to be OK to run on slave nodes.
-   * @deprecated Replaced with ReadPreference.SECONDARY
    */
-  @deprecated("Replaced with ReadPreference.SECONDARY", "2.3.0")
+  @deprecated("Replaced with ReadPreference.SECONDARY.", "2.3.0")
   def slaveOk() = underlying.slaveOk() // use parens because this side-effects
 
   /**

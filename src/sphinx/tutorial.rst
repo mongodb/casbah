@@ -47,7 +47,7 @@ casbah.  I recommend using `sbt-extras <https://github.com/paulp/sbt-extras>`_
     import com.mongodb.casbah.Imports._
 
 If you had any errors installing casbah please refer to the
-`installation guide <guide/installation>`_, otherwise you are ready to start
+:doc:`installation guide <guide/installation>`, otherwise you are ready to start
 using casbah!
 
 Connecting to MongoDB
@@ -67,7 +67,7 @@ Load the scala shell ``./sbt console``
     val mongoClient = MongoClient("localhost", 27017)
 
 There are various connection configuration options see the
-`connection guide <guide/connecting>`_ for more information.
+:doc:`connection guide <guide/connecting>` for more information.
 
 .. note:: The scala repl has tab completion type: ``mongoClient.<tab>``
     for a list of all the operations you can run on a connection.
@@ -172,7 +172,7 @@ First, find the scala document and add its platform::
 
 MongoDB comes with a host of
 `update operators <http://docs.mongodb.org/manual/core/update/#crud-update-operators>`_
-to modify documents.  Casbah has a powerful `DSL <guide/querying>`_ for creating
+to modify documents.  Casbah has a powerful :doc:`DSL <guide/querying>` for creating
 these update documents. Lets set the language to scala for the JVM document::
 
     val query = MongoDBObject("platform" -> "JVM")
@@ -227,5 +227,5 @@ Learning more about Casbah
 --------------------------
 
 If you got this far you've made a great start, so well done!  The next step on
-your Casbah journey is the `full user guide <guide/index.html>`_, where you
+your Casbah journey is the :doc:`full user guide <guide/index>`, where you
 can learn indepth about how to use casbah and mongodb.

@@ -88,12 +88,22 @@ MongoDBCredentials
 
     // Challenge Response
     val server = new ServerAddress("localhost", 27017)
-    val credential = MongoCredential(userName, password)
+    val credentials = MongoCredential.createMongoCRCredential(userName, database, password)
+    val mongoClient = MongoClient(server, List(credentials))
+
+    // X.509 Protocol
+    val server = new ServerAddress("localhost", 27017)
+    val credentials = MongoCredential.createMongoX509Credential(userName)
+    val mongoClient = MongoClient(server, List(credentials))
+
+    // SASL PLAIN
+    val server = new ServerAddress("localhost", 27017)
+    val credentials = MongoCredential.createPlainCredential(userName, source, password)
     val mongoClient = MongoClient(server, List(credentials))
 
     // GSSAPI
     val server = new ServerAddress("localhost", 27017)
-    val credential = MongoCredential(userName)
+    val credentials = MongoCredential.createGSSAPICredential(userName)
     val mongoClient = MongoClient(server, List(credentials))
 
 .. note:: GSSAPI requires the kerberos to be configured correctly in java.
@@ -106,6 +116,13 @@ MongoDBCredentials
         System.setProperty("java.security.krb5.realm", "EXAMPLE.COM")
         System.setProperty("java.security.krb5.kdc", "kdc.example.com")
         System.setProperty("javax.security.auth.useSubjectCredsOnly", "false")
+
+
+    To change Service Name (SPN) with kerberos set the `mechanism property` on
+    the credential eg::
+
+        val credential = MongoCredential.createGSSAPICredential(userName)
+        credential.withMechanismProperty(key, value)
 
 URI style connections
 ^^^^^^^^^^^^^^^^^^^^^

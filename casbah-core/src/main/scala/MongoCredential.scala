@@ -42,6 +42,7 @@ object MongoCredential {
      *
      * @param userName the user name
      */
+    @deprecated("Please use MongoCredential.createGSSAPICredential", "2.7")
     def apply(userName: String) =
       JavaMongoCredential.createGSSAPICredential(userName)
 
@@ -53,6 +54,47 @@ object MongoCredential {
      * @param database the source of the user name, typically a database name
      * @param password the password
      */
+    @deprecated("Please use MongoCredential.createMongoCRCredential", "2.7")
     def apply(userName: String, database: String, password: Array[Char]) =
       JavaMongoCredential.createMongoCRCredential(userName, database, password)
+
+    /**
+     *
+     * Creates a MongoCredential instance for the GSSAPI SASL mechanism
+     *
+     * @param userName the user name
+     */
+    def createGSSAPICredential(userName: String) =
+      JavaMongoCredential.createGSSAPICredential(userName)
+
+    /**
+     *
+     * Creates a MongoCredential instance for the MongoDB Challenge Response protocol
+     *
+     * @param userName the user name
+     * @param database the source of the user name, typically a database name
+     * @param password the password
+     */
+    def createMongoCRCredential(userName: String, database: String, password: Array[Char]) =
+      JavaMongoCredential.createMongoCRCredential(userName, database, password)
+
+    /**
+     * Creates a MongoCredential instance for the MongoDB X.509 protocol.
+     *
+     * @param userName the non-null user name
+     * @return the credential
+     */
+    def createMongoX509Credential(userName: String) =
+      JavaMongoCredential.createMongoX509Credential(userName)
+
+    /**
+     * Creates a MongoCredential instance for the PLAIN SASL mechanism.
+     *
+     * @param userName the non-null user name
+     * @param source the source where the user is defined.  This can be either `"$external"` or the name of a database.
+     * @return the credential
+     */
+    def createPlainCredential(userName: String, source: String, password: Array[Char]) =
+      JavaMongoCredential.createPlainCredential(userName, source, password)
+
 }

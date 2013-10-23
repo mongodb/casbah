@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Changes in Version 2.7
+----------------------
+- Casbah WriteConcern's `valueOf` now returns an Option (SCALA-127)
+- Support the use of a different SPN for Kerberos Authentication (SCALA-103)
+- Support SASL PLAIN authentication (SCALA-101)
+- Support MONGODB-X509 authentication (SCALA-112)
+- Updated Mongo Java Driver to 2.12
+
+Changes in Version 2.6.4
+------------------------
+- Updated Scala 2.10 series to 2.10.3
+
+Changes in Version 2.6.3
+------------------------
+- Fixed JodaGridFS when registered helpers are on (SCALA-113)
+- Updated Mongo Java Driver to 2.11.3
+
 Changes in Version 2.6.2
 ------------------------
 - Fixed MongoClientURI Implicit

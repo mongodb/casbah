@@ -135,6 +135,11 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
 
     }
 
+    "WriteConcern valueOf should return an Option" in {
+      WriteConcern.valueOf("None") must beEqualTo(Option(WriteConcern.None))
+      WriteConcern.valueOf("MadeUp") must beEqualTo(None)
+    }
+
   }
 }
 
