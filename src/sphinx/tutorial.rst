@@ -165,7 +165,7 @@ First, find the scala document and add its platform::
     for (c <- coll.find) println(c)
 
 .. warning:: You will notice that the document is now missing
-    ``"langauge" -> "scala"``! This is because when using update if you provide
+    ``"language" -> "scala"``! This is because when using update if you provide
     a simple document it will replace the existing one with the new document.
 
     This is the most common gotcha for newcomers to MongoDB.
