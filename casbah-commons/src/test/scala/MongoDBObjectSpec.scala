@@ -358,8 +358,9 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
 
     }
     "nested as functions as expected" in {
-      val dbObj = MongoDBObject("A" -> "B", "C" -> MongoDBObject("D" -> "E"))
+      val dbObj = MongoDBObject("A" -> "B", "C" -> MongoDBObject("D" -> "E"), "F" -> MongoDBObject("G" -> MongoDBObject("H" -> "I")))
       dbObj.as[String]("C", "D") must beEqualTo("E")
+      dbObj.as[String]("F", "G", "H") must beEqualTo("I")
       dbObj.as[String]("A", "X") must throwA[ClassCastException]
       dbObj.as[String]("C", "X") must throwA[NoSuchElementException]
       dbObj.as[String]("X", "X") must throwA[NoSuchElementException]

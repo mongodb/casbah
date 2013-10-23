@@ -82,8 +82,16 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
    * @tparam A
    * @return (A)
    */
-  def as[A](firstKey: String, secondKey: String) : A =
-    as[DBObject](firstKey).as[A](secondKey)
+  def as[A](firstKey: String, secondKey: String, otherKeys: String*) : A = {
+    @tailrec
+    def rec(o: DBObject, otherKeys: Seq[String]) : A = {
+      otherKeys match {
+        case Seq(key) => o.as[A](key)
+        case k +: ks => rec(o.as[DBObject](k), ks)
+      }
+    }
+    rec(this, firstKey +: secondKey +: otherKeys)
+  }
 
   override def get(key: String): Option[AnyRef] = underlying.get(key) match {
     case null => None
