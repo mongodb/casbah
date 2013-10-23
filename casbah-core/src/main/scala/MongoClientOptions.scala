@@ -23,8 +23,6 @@ package com.mongodb.casbah
 
 import com.mongodb.casbah.Imports._
 
-import scala.collection.JavaConverters._
-
 import com.mongodb.{DBDecoderFactory, DBEncoderFactory, MongoClientOptions => JavaMongoClientOptions}
 
 import javax.net.SocketFactory
@@ -60,7 +58,7 @@ object MongoClientOptions {
    * @param socketTimeout socket timeout in milliseconds passed to Socket.setSoTimeout, default 0
    * @param threadsAllowedToBlockForConnectionMultiplier the multiplier for number of threads allowed to block waiting for a connection, default 5
    * @param writeConcern the write concern to use
-   * @throws MongoException
+   * @throws MongoException()
    * @see ServerAddress
    * @see MongoDBAddress
    */
@@ -81,22 +79,22 @@ object MongoClientOptions {
     threadsAllowedToBlockForConnectionMultiplier: Int = Defaults.getThreadsAllowedToBlockForConnectionMultiplier,
     writeConcern: WriteConcern = Defaults.getWriteConcern
     ) = {
-    val builder = new JavaMongoClientOptions.Builder();
-    builder.autoConnectRetry(autoConnectRetry);
-    builder.connectionsPerHost(connectionsPerHost);
-    builder.connectTimeout(connectTimeout);
-    builder.cursorFinalizerEnabled(cursorFinalizerEnabled);
-    builder.dbDecoderFactory(dbDecoderFactory);
-    builder.dbEncoderFactory(dbEncoderFactory);
-    builder.description(description);
-    builder.maxAutoConnectRetryTime(maxAutoConnectRetryTime);
-    builder.maxWaitTime(maxWaitTime);
-    builder.readPreference(readPreference);
-    builder.socketFactory(socketFactory);
-    builder.socketKeepAlive(socketKeepAlive);
-    builder.socketTimeout(socketTimeout);
-    builder.threadsAllowedToBlockForConnectionMultiplier(threadsAllowedToBlockForConnectionMultiplier);
-    builder.writeConcern(writeConcern);
+    val builder = new JavaMongoClientOptions.Builder()
+    builder.autoConnectRetry(autoConnectRetry)
+    builder.connectionsPerHost(connectionsPerHost)
+    builder.connectTimeout(connectTimeout)
+    builder.cursorFinalizerEnabled(cursorFinalizerEnabled)
+    builder.dbDecoderFactory(dbDecoderFactory)
+    builder.dbEncoderFactory(dbEncoderFactory)
+    builder.description(description)
+    builder.maxAutoConnectRetryTime(maxAutoConnectRetryTime)
+    builder.maxWaitTime(maxWaitTime)
+    builder.readPreference(readPreference)
+    builder.socketFactory(socketFactory)
+    builder.socketKeepAlive(socketKeepAlive)
+    builder.socketTimeout(socketTimeout)
+    builder.threadsAllowedToBlockForConnectionMultiplier(threadsAllowedToBlockForConnectionMultiplier)
+    builder.writeConcern(writeConcern)
     builder.build()
   }
 

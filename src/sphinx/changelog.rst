@@ -3,6 +3,11 @@ Changelog
 
 Changes in Version 2.7
 ----------------------
+
+- Added support for Aggregation returning a cursor `AggregationCursor` (SCALA-117)
+- Added support for `allowDiskUsage: true` to the top-level of an aggregate
+  command with the AggregationOptions helper
+- Added support `$out` aggregation pipeline operator (SCALA-130)
 - Casbah WriteConcern's `valueOf` now returns an Option (SCALA-127)
 - Support the use of a different SPN for Kerberos Authentication (SCALA-103)
 - Support SASL PLAIN authentication (SCALA-101)

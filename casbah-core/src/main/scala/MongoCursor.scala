@@ -102,7 +102,7 @@ trait MongoCursorBase extends Logging {
    * @see size()
    *
    * @return Int indicating the number of elements returned by the query
-   * @throws MongoException
+   * @throws MongoException()
    */
   def count = underlying.count
 
@@ -487,7 +487,7 @@ trait MongoCursorBase extends Logging {
  * @version 2.0, 12/23/10
  * @since 1.0
  *
- * @param  val underlying (com.mongodb.DBCollection)
+ * @param  underlying (com.mongodb.DBCursor)
  * @tparam DBObject
  */
 class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterator[DBObject] {
@@ -605,13 +605,32 @@ class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends M
    */
   override def copy(): MongoGenericTypedCursor[T] = _newInstance(underlying.copy()) // parens for side-effects
 }
+
+/**
+ * A wrapper for the new com.mongodb.MongoCursor - which is used when returning a
+ * cursor from the aggregation framework.
+ *
+ * @version 2.7
+ *
+ * @param  underlying (com.mongodb.MongoCursor)
+ * @tparam T DBObject
+ */
+case class AggregationCursor(underlying: com.mongodb.MongoCursor) extends Iterator[DBObject] {
+
+  type T = DBObject
+
+  def hasNext: Boolean = underlying.hasNext()
+
+  def next(): Imports.DBObject = underlying.next()
+}
+
 /**
  *
  *
  * @version 1.0, 12/15/10
  * @since 2.0
  *
- * @param  val underlying (DBObject)
+ * @param  underlying (DBObject)
  * @see http://dochub.mongodb.org/core/explain
  */
 sealed class CursorExplanation(override val underlying: DBObject) extends MongoDBObject {

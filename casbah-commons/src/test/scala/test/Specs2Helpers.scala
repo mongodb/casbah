@@ -48,6 +48,16 @@ trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
   implicit val sizedDBList = new Sized[MongoDBList] {
     def size(t: MongoDBList) = t.size
   }
+
+  /**
+   *
+   * @param version  must be a major version, e.g. 1.8, 2,0, 2.2
+   * @return true if server is at least specified version
+   */
+  def serverIsAtLeastVersion(version: Double): Boolean = {
+    val serverVersion: String = new com.mongodb.MongoClient().getDB("admin").command("serverStatus").getString("version")
+    serverVersion.substring(0, 3).toDouble >= version
+  }
 }
 
 trait SpecsDBObjectMatchers extends SpecsDBObjectBaseMatchers

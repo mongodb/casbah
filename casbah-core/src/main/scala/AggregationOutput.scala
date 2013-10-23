@@ -12,7 +12,7 @@ import com.mongodb.{ AggregationOutput => JavaAggregationOutput }
  *
  * @since 2.5
  */
-class AggregationOutput(underlying: JavaAggregationOutput) {
+case class AggregationOutput(underlying: JavaAggregationOutput) {
 
     /**
      * returns an iterator to the results of the aggregation

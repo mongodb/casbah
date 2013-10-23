@@ -31,7 +31,6 @@ used to string text filters together:
 
 .. code-block:: bash
 
-    db.people.aggregate( <pipeline> )
     db.people.aggregate( [<pipeline>] )
     db.runCommand( { aggregate: "people", pipeline: [<pipeline>] } )
 
@@ -75,19 +74,49 @@ framework by issuing the following command::
     val coll = db("aggregate")
 
     val results = coll.aggregate(
-      MongoDBObject("$project" ->
-        MongoDBObject("author" -> 1, "tags" -> 1)
-      ),
-      MongoDBObject("$unwind" -> "$tags"),
-      MongoDBObject("$group" ->
-        MongoDBObject("_id" -> "$tags",
-                      "authors" -> MongoDBObject("$addToSet" -> "$author")
+      List(
+        MongoDBObject("$project" ->
+          MongoDBObject("author" -> 1, "tags" -> 1)
+        ),
+        MongoDBObject("$unwind" -> "$tags"),
+        MongoDBObject("$group" ->
+          MongoDBObject("_id" -> "$tags",
+                        "authors" -> MongoDBObject("$addToSet" -> "$author")
+          )
         )
       )
     );
 
 The results of the aggregation themselves can be accessed via ``results``.
 
+Aggregation Cursor Interface - new in casbah 2.7
+=================================================
+
+MongoDB 2.6 adds the ability to return a cursor from the aggregation framework.
+To do that simply use `AggregationOptions` with the aggregation command::
+
+    val db = MongoClient()("test")
+    val coll = db("aggregate")
+
+    val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
+    val results = coll.aggregate(
+      List(
+        MongoDBObject("$project" ->
+          MongoDBObject("author" -> 1, "tags" -> 1)
+        ),
+        MongoDBObject("$unwind" -> "$tags"),
+        MongoDBObject("$group" ->
+          MongoDBObject("_id" -> "$tags",
+                        "authors" -> MongoDBObject("$addToSet" -> "$author")
+          )
+        )
+      ),
+      aggregationOptions
+    );
+
+Then the you can iterate the results of the aggregation as a normal cursor::
+
+   for (result <- results) println(result)
 
 To learn more about aggregation see the `aggregation tutorial
 <http://docs.mongodb.org/manual/tutorial/aggregation-examples/>`_ and the

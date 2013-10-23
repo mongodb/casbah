@@ -109,6 +109,19 @@ trait Implicits {
     def asScalaTyped[A <: com.mongodb.DBObject: Manifest] = new MongoGenericTypedCursor[A](cursor)
   }
 
+  /**
+   * Implicit extension methods for Mongo's Aggregation MongoCursor object.
+   * Capable of returning a Scala optimized wrapper object.
+   * @param cursor A <code>AggregationCursor</code> object to wrap
+   */
+  implicit def mongoAggregationCursorAsScala(cursor: com.mongodb.MongoCursor) = new {
+    /**
+     * Return a type-neutral Scala wrapper object for the MongoCursor
+     * @return AggregationCursor An instance of the scala wrapper containing the cursor object.
+     */
+    def asScala: AggregationCursor = AggregationCursor(cursor)
+  }
+
   implicit def stringAsNamedCollectionMROutput(name: String) = map_reduce.MapReduceStandardOutput(name)
 
   implicit def aggregationOutputAsScala(output: com.mongodb.AggregationOutput) = new {
@@ -136,6 +149,9 @@ trait BaseImports {
   val MongoClientOptions = com.mongodb.casbah.MongoClientOptions
   val MongoClientURI = com.mongodb.casbah.MongoClientURI
   val MongoCredential = com.mongodb.casbah.MongoCredential
+  val AggregationOptions = com.mongodb.casbah.AggregationOptions
+  val AggregationOutput = com.mongodb.casbah.AggregationOutput
+  val AggregationCursor = com.mongodb.casbah.AggregationCursor
   val WriteConcern = com.mongodb.casbah.WriteConcern
   val ReadPreference = com.mongodb.casbah.ReadPreference
   val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
@@ -147,7 +163,6 @@ trait BaseImports {
 trait TypeImports {
   type MongoConnection = com.mongodb.casbah.MongoConnection
   type MongoCollection = com.mongodb.casbah.MongoCollection
-  type AggregationOutput = com.mongodb.casbah.AggregationOutput
   type MongoDB = com.mongodb.casbah.MongoDB
   type MongoCursor = com.mongodb.casbah.MongoCursor
   type MongoURI = com.mongodb.casbah.MongoURI
@@ -156,6 +171,8 @@ trait TypeImports {
   type MongoClientOptions = com.mongodb.MongoClientOptions
   type MongoCredential = com.mongodb.MongoCredential
   type MongoClientURI = com.mongodb.MongoClientURI
+  type AggregationOutput = com.mongodb.casbah.AggregationOutput
+  type AggregationCursor = com.mongodb.casbah.AggregationCursor
   type WriteConcern = com.mongodb.WriteConcern
   type WriteResult = com.mongodb.WriteResult
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
