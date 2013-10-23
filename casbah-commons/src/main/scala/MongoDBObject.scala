@@ -87,7 +87,9 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
     def rec(o: DBObject, otherKeys: Seq[String]) : A = {
       otherKeys match {
         case Seq(key) => o.as[A](key)
-        case k +: ks => rec(o.as[DBObject](k), ks)
+        // only works in 2.10
+        // case k +: ks => rec(o.as[DBObject](k), ks)
+        case sq : Seq[String] => rec(o.as[DBObject](sq.head), sq.tail)
       }
     }
     rec(this, firstKey +: secondKey +: otherKeys)
