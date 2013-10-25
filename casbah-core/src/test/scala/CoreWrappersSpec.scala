@@ -27,6 +27,7 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 
 class CoreWrappersSpec extends CasbahMutableSpecification {
+  sequential
 
   "Casbah behavior between Scala and Java versions of Objects" should {
 
