@@ -268,7 +268,7 @@ trait MongoCursorBase extends Logging {
    * @return A long representing the cursorID on the server; 0 = no cursor
    *
    */
-  def cursorId = underlying.getCursorId()
+  def cursorId = underlying.getCursorId
 
   /**
    * close
@@ -554,7 +554,7 @@ object MongoCursor extends Logging {
    * @param  collection (MongoCollection)  collection to use
    * @param  query (Q) Query to perform
    * @param  keys (K) Keys to return from the query
-   * @param  readPreference
+   * @param  readPref
    * @return (instance) A new MongoCursor
    */
   def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject, readPref: ReadPreference) = {

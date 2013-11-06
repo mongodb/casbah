@@ -569,6 +569,17 @@ trait MongoCollectionBase extends Logging { self =>
     underlying.aggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava, options, readPreference).asScala
 
   /**
+   * Return the explain plan for the aggregation pipeline.
+   *
+   * @param pipeline the aggregation pipeline to explain
+   * @param options the options to apply to the aggregation
+   * @return the command result.  The explain output may change from release to
+   *         release, so best to simply log this.
+   */
+  def explainAggregate[A <% DBObject](pipeline: Iterable[A], options: AggregationOptions) =
+    underlying.explainAggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava, options).asScala
+
+  /**
    * mapReduce
    * Execute a mapReduce against this collection.
    * NOTE: JSFunction is just a type alias for String

@@ -249,6 +249,18 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
         cursor.toList.size must beEqualTo(30)
       }
 
+      "test explainAggregate" in {
+        serverIsAtLeastVersion(2.5) must beTrue.orSkip("Needs server >= 2.6")
+        val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
+        val explaination = coll.explainAggregate(
+          List(MongoDBObject("$match" -> ("score" $gte 7)),
+            MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
+          aggregationOptions
+        )
+        explaination("ok") must beEqualTo(1.0)
+        explaination.keys must contain("stages")
+      }
+
       "return a cursor when options are supplied even if inline" in {
         serverIsAtLeastVersion(2.5) must beTrue.orSkip("Needs server >= 2.5")
         val aggregationOptions = AggregationOptions(AggregationOptions.INLINE)
