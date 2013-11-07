@@ -25,7 +25,6 @@ package com.mongodb.casbah.test.core
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
-
 class CoreWrappersSpec extends CasbahMutableSpecification {
   sequential
 
@@ -88,7 +87,6 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
 
     "allow indexes to work as expected" in {
       val db = MongoClient()("casbahTest")
-
       val coll = db("indexTest")
       coll.drop()
 
@@ -99,6 +97,16 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       coll.indexInfo.length must beEqualTo(2)
 
       coll.indexInfo(1)("key") == MongoDBObject("uid" -> 1)
+    }
+
+    "check query failure exception" in {
+      val db = MongoClient()("casbahTest")
+      val coll = db("indexTest")
+      coll.drop()
+
+      coll += MongoDBObject("loc" -> List(0, 0))
+      val near = "loc" $near (0, 0)
+      coll.findOne(near) must throwAn[MongoException]
     }
 
     "Renaming a collection successfully tracks the rename in MongoCollection" in {
