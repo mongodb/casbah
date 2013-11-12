@@ -27,10 +27,11 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
 import scala.collection.JavaConverters._
+import com.mongodb.MongoExecutionTimeoutException
 
 object MapReduceResult extends Logging {
 
-  protected[mongodb] def apply(resultObj: DBObject)(implicit db: MongoDB): MapReduceResult =
+  protected[mongodb] def apply(resultObj: DBObject)(implicit db: MongoDB): MapReduceResult = {
     if (resultObj.get("ok") == 1) {
       if (resultObj containsField "results")
         new MapReduceInlineResult(resultObj)
@@ -39,6 +40,7 @@ object MapReduceResult extends Logging {
       else
         throw new MapReduceException("Invalid Response; no 'results' or 'result' field found, but 'ok' is 1. Result Object Error: '%s'".format(resultObj.getAs[String]("err")))
     } else new MapReduceError(resultObj)
+  }
 }
 
 /**

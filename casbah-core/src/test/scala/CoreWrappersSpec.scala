@@ -25,6 +25,7 @@ package com.mongodb.casbah.test.core
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
+
 class CoreWrappersSpec extends CasbahMutableSpecification {
   sequential
 
@@ -62,9 +63,9 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     }
 
     "be directly instantiable, with working apply methods" in {
-      var conn: MongoClient = MongoClient()
-      var db: MongoDB = conn("test")
-      var coll: MongoCollection = db("collection.in")
+      lazy val conn: MongoClient = MongoClient()
+      lazy val db: MongoDB = conn("test")
+      lazy val coll: MongoCollection = db("collection.in")
 
       "MongoClient" in {
         "direct instantiation" in {
@@ -93,7 +94,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       coll.insert(MongoDBObject("foo" -> "bar"))
       coll.indexInfo.length must beEqualTo(1)
 
-      coll.ensureIndex(MongoDBObject("uid"->1), "user_index", true)
+      coll.ensureIndex(MongoDBObject("uid"->1), "user_index", unique=true)
       coll.indexInfo.length must beEqualTo(2)
 
       coll.indexInfo(1)("key") == MongoDBObject("uid" -> 1)
@@ -161,7 +162,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     for (i <- 1 to 100)
       coll += MongoDBObject("foo" -> "bar", "x" -> Random.nextDouble())
 
-    val first5 = coll.find(MongoDBObject("foo" -> "bar")) limit 5
+    // val first5 = coll.find(MongoDBObject("foo" -> "bar")) limit 5
 
     "Behave in chains" in {
 /*
@@ -353,4 +354,3 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
   }
 
 }
-

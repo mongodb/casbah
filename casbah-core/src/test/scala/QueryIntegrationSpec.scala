@@ -87,7 +87,7 @@ class QueryIntegrationSpec extends CasbahMutableSpecification {
               throw ex
           }
         }
-        true
+        success
       }
       "Combined with set" in {
         coll.drop
@@ -101,7 +101,7 @@ class QueryIntegrationSpec extends CasbahMutableSpecification {
               throw ex
           }
         }
-        true
+        success
       }
     }
 

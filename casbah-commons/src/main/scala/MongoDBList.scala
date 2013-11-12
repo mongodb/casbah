@@ -88,7 +88,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
     case None => default
   }
 
-  def clear = underlying.clear
+  def clear() = underlying.clear()
 
   def result = this
 
@@ -148,5 +148,5 @@ sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Se
 
   def clear() { elems = empty }
 
-  def result: MongoDBList = elems
+  def result(): MongoDBList = elems
 }
