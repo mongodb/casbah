@@ -28,6 +28,7 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
 import scala.collection.JavaConverters._
+import scala.concurrent.duration.Duration
 
 /**
  * Scala wrapper for Mongo DBCursors,
@@ -509,9 +510,9 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    * @see count()
    *
    * @return Int indicating the number of elements returned by the query after skip/limit
-   * @throws MongoException
+   * @throws MongoException if errors
    */
-  override def size = underlying.size
+  override def size = underlying.size()
   /**
    * _newInstance
    *
@@ -535,6 +536,24 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    * @return The new cursor
    */
   override def copy(): MongoCursor = _newInstance(underlying.copy()) // parens for side-effects
+
+  /**
+   * Set the maximum execution time for operations on this cursor.
+   *
+   * @param maxTime  the maximum time that the server will allow the query to run, before killing the operation. A non-zero value
+   *                  requires a server version >= 2.6
+   * @return the new cursor
+   *
+   * @since 2.7
+   */
+  def maxTime(maxTime: Duration) = _newInstance(underlying.maxTime(maxTime.length.toInt, maxTime.unit))
+
+  /**
+   * @return the first matching document
+   *
+   * @since 2.7
+   */
+  def one() = underlying.one()
 }
 
 object MongoCursor extends Logging {
@@ -554,7 +573,7 @@ object MongoCursor extends Logging {
    * @param  collection (MongoCollection)  collection to use
    * @param  query (Q) Query to perform
    * @param  keys (K) Keys to return from the query
-   * @param  readPref
+   * @param  readPref the read preference for the cursor
    * @return (instance) A new MongoCursor
    */
   def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject, readPref: ReadPreference) = {
@@ -575,7 +594,7 @@ object MongoCursor extends Logging {
  * @version 2.0, 12/23/10
  * @since 1.0
  *
- * @param  val underlying (com.mongodb.DBCollection)
+ * @param  underlying (com.mongodb.DBCollection)
  * @tparam A A Subclass of DBObject
  */
 class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends MongoCursorBase {

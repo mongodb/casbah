@@ -4,6 +4,8 @@ Changelog
 Changes in Version 2.7
 ----------------------
 
+- Added support for Server automatically abort queries/commands after
+  user-specified time limit (SCALA-118)
 - Added support for Aggregation returning a cursor `AggregationCursor` (SCALA-117)
 - Added support for `allowDiskUsage: true` to the top-level of an aggregate
   command with the AggregationOptions helper

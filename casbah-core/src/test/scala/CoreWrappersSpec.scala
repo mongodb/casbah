@@ -248,7 +248,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       }
 
       "return a cursor when options are supplied" in {
-        serverIsAtLeastVersion(2.5) must beTrue.orSkip("Needs server >= 2.6")
+        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.6")
         val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
         val cursor: AggregationCursor = coll.aggregate(
           List(MongoDBObject("$match" -> ("score" $gte 7)),
@@ -259,7 +259,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       }
 
       "test explainAggregate" in {
-        serverIsAtLeastVersion(2.5) must beTrue.orSkip("Needs server >= 2.6")
+        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.6")
         val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
         val explaination = coll.explainAggregate(
           List(MongoDBObject("$match" -> ("score" $gte 7)),
@@ -271,7 +271,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       }
 
       "return a cursor when options are supplied even if inline" in {
-        serverIsAtLeastVersion(2.5) must beTrue.orSkip("Needs server >= 2.5")
+        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
         val aggregationOptions = AggregationOptions(AggregationOptions.INLINE)
 
         val cursor: AggregationCursor = coll.aggregate(
@@ -284,7 +284,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       }
 
       "handle $out in multiple ops" in {
-        serverIsAtLeastVersion(2.5) must beTrue.orSkip("Needs server >= 2.5")
+        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
 
         val outCollection = db("outCollection")
         outCollection.drop()
@@ -299,7 +299,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       }
 
       "handle $out in list of ops" in {
-        serverIsAtLeastVersion(2.5) must beTrue.orSkip("Needs server >= 2.5")
+        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
 
         val outCollection = db("outCollection")
         outCollection.drop()
@@ -314,7 +314,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       }
 
       "handle $out with options INLINE" in {
-        serverIsAtLeastVersion(2.5) must beTrue.orSkip("Needs server >= 2.5")
+        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
 
         val outCollection = db("outCollection")
         outCollection.drop()
@@ -333,7 +333,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       }
 
       "handle $out with options CURSOR" in {
-        serverIsAtLeastVersion(2.5) must beTrue.orSkip("Needs server >= 2.5")
+        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
 
         val outCollection = db("outCollection")
         outCollection.drop()

@@ -23,10 +23,9 @@
 package com.mongodb.casbah
 package map_reduce
 
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
+import scala.concurrent.duration.Duration
 
-import scala.collection.JavaConverters._
+import com.mongodb.casbah.Imports._
 
 class MapReduceException(msg: String) extends MongoException("MongoDB Map/Reduce Error: " + msg)
 
@@ -38,59 +37,31 @@ case class MapReduceReduceOutput(collection: String) extends MapReduceOutputTarg
 case object MapReduceInlineOutput extends MapReduceOutputTarget
 
 /**
- * Wrapper Object to provide apply methods for the MapReduceCommand class.
+ * Case class for invoking MongoDB mapReduces.
+ *
+ * This wrapper class is used in it's place, and passed directly to a db.runCommand call.
  *
  * @see <a href="http://www.mongodb.org/display/DOCS/MapReduce">The MongoDB Map/Reduce Documentation</a>
  *
+ * @param input             the collection name to run the map reduce on
+ * @param map               the map function (JSFunction is just a type alias for String)
+ * @param reduce            the reduce function (JSFunction is just a type alias for String)
+ * @param output            (optional) the location of the result of the map-reduce operation, defaults to inline.
+ *                                     You can output to a collection, output to a collection with an action, or output inline.
+ * @param query             (optional) the selection criteria for the documents input to the map function.
+ * @param sort              (optional) the input documents, useful for optimization.
+ * @param limit             (optional) the maximum number of documents to return from the collection before map reduce
+ * @param finalizeFunction  (optional) the finalize function (JSFunction is just a type alias for String)
+ * @param jsScope           (optional) global variables that are accessible in the map, reduce and finalize functions
+ * @param verbose           (optional) include the timing information in the result information
+ * @param maxTime       (optional) the maximum duration that the server will allow this operation to execute before killing it
  */
-object MapReduceCommand {
-  def apply(input: String, map: JSFunction,
-    reduce: JSFunction,
-    output: MapReduceOutputTarget,
-    query: Option[DBObject] = None,
-    sort: Option[DBObject] = None,
-    limit: Option[Int] = None,
-    finalizeFunction: Option[JSFunction] = None,
-    jsScope: Option[DBObject] = None,
-    verbose: Boolean = false) = {
-    val mrc = new MapReduceCommand()
-    mrc.input = input
-    mrc.map = map
-    mrc.reduce = reduce
-    mrc.output = output
-    mrc.query = query
-    mrc.sort = sort
-    mrc.limit = limit
-    mrc.finalizeFunction = finalizeFunction
-    mrc.jsScope = jsScope
-    mrc.verbose = verbose
-    mrc
-  }
-}
-
-/**
- * Wrapper class for invoking MongoDB mapReduces.
- *
- * The Java driver doesn't provide support for many of the possible options in the latest
- * versions of MongoDB, so this wrapper class is used in it's place, and passed directly to
- * a db.runCommand call.
- *
- * @todo Integrate support for Lift's JavaScript DSL
- *
- * @see http://www.mongodb.org/display/DOCS/MapReduce
- *
- */
-class MapReduceCommand protected[mongodb] () {
-  var input: String = ""
-  var map: JSFunction = ""
-  var reduce: JSFunction = ""
-  var verbose = false // if true, provides statistics on job execution
-  var output: MapReduceOutputTarget = MapReduceInlineOutput
-  var query: Option[DBObject] = None
-  var sort: Option[DBObject] = None
-  var limit: Option[Int] = None
-  var finalizeFunction: Option[JSFunction] = None
-  var jsScope: Option[DBObject] = None
+case class MapReduceCommand protected[mongodb] (input: String = "", map: JSFunction = "", reduce: JSFunction = "",
+                                                output: MapReduceOutputTarget = MapReduceInlineOutput,
+                                                query: Option[DBObject] = None, sort: Option[DBObject] = None,
+                                                limit: Option[Int] = None, finalizeFunction: Option[JSFunction] = None,
+                                                jsScope: Option[DBObject] = None, verbose: Boolean = false,
+                                                maxTime: Option[Duration] = None) {
 
   def toDBObject = {
     val dataObj = MongoDBObject.newBuilder
@@ -147,7 +118,12 @@ class MapReduceCommand protected[mongodb] () {
       case None => {}
     }
 
-    dataObj.result
+    maxTime match {
+      case Some(mD) => dataObj += "maxTimeMS" -> mD.toMillis
+      case None => {}
+    }
+
+    dataObj.result()
 
   }
 

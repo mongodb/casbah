@@ -20,10 +20,13 @@ package test
 
 import org.specs2._
 import org.specs2.data.Sized
-import org.specs2.matcher.{ Expectable, Matcher, MapMatchers }
+import org.specs2.matcher.{ Expectable, Matcher }
 import org.specs2.matcher.Matchers._
+
+import scala.collection.JavaConverters._
 import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.Imports._
+import com.mongodb.{ReadPreference, MongoClient}
 
 trait CasbahMutableSpecification extends mutable.Specification with CasbahSpecificationBase
 
@@ -49,15 +52,38 @@ trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
     def size(t: MongoDBList) = t.size
   }
 
+  def client: MongoClient = new MongoClient()
+
+  lazy val versionArray = client.getDB("admin")
+                                .command("buildInfo")
+                                .getAs[MongoDBList]("versionArray")
+                                .get
+
   /**
    *
-   * @param version  must be a major version, e.g. 1.8, 2,0, 2.2
+   * @param minVersion version Array
    * @return true if server is at least specified version
    */
-  def serverIsAtLeastVersion(version: Double): Boolean = {
-    val serverVersion: String = new com.mongodb.MongoClient().getDB("admin").command("serverStatus").getString("version")
-    serverVersion.substring(0, 3).toDouble >= version
+  def serverIsAtLeastVersion(minVersion: Int*): Boolean =
+    versionArray.take(minVersion.length).corresponds(minVersion){_.asInstanceOf[Int] <= _}
+
+  def enableMaxTimeFailPoint() {
+    if (serverIsAtLeastVersion(2,5)) {
+      client.getDB("admin").command(new BasicDBObject("configureFailPoint", "maxTimeAlwaysTimeOut").append("mode", "alwaysOn"),
+                                          0, ReadPreference.primary())
+    }
   }
+
+  def disableMaxTimeFailPoint() {
+    if (serverIsAtLeastVersion(2,5)) {
+      client.getDB("admin").command(new BasicDBObject("configureFailPoint", "maxTimeAlwaysTimeOut").append("mode", "off"),
+                                          0, ReadPreference.primary())
+    }
+  }
+
+  def getCommandLine = client.getDB("admin").command("getCmdLineOpts").asScala
+
+  lazy val hasTestCommand: Boolean = getCommandLine("argv").asInstanceOf[BasicDBList] contains "enableTestCommands=1"
 }
 
 trait SpecsDBObjectMatchers extends SpecsDBObjectBaseMatchers

@@ -22,13 +22,17 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.{ DBCursor , DBCollection , DBDecoderFactory, DBEncoderFactory, AggregationOptions}
+import scala.collection.JavaConverters._
+import scala.concurrent.duration.{Duration, MILLISECONDS}
+
+import com.mongodb._
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
 import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
-
-import scala.collection.JavaConverters._
+import com.mongodb.casbah.TypeImports.WriteResult
+import com.mongodb.casbah.commons.TypeImports.DBObject
+import com.mongodb.casbah.TypeImports.DBEncoder
 
 /**
  * Scala wrapper for Mongo DBCollections,
@@ -198,21 +202,27 @@ trait MongoCollectionBase extends Logging { self =>
 
   /**
    * Returns a single object from this collection matching the query.
-   * @param o the query object
-   * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
+   *
+   * @param o           the query object
+   * @param fields      (optional) fields to return
+   * @param orderBy     (optional) a document whose fields specify the attributes on which to sort the result set.
+   * @param readPrefs   (optional)
+   * @param maxTime (optional) the maximum duration that the server will allow this operation to execute before killing it
+   *
+   * @return            (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
-  def findOne[A <% DBObject](o: A) =
-    _typedValue(underlying.findOne(o: DBObject))
-
-
-  /**
-   * Returns a single object from this collection matching the query.
-   * @param o the query object
-   * @param fields fields to return
-   * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
-   */
-  def findOne[A <% DBObject, B <% DBObject](o: A, fields: B, readPrefs: ReadPreference = getReadPreference) =
-    _typedValue(underlying.findOne(o: DBObject, fields, readPrefs))
+  def findOne[A <% DBObject, B <% DBObject, C <% DBObject](o: A = MongoDBObject.empty,
+                                                           fields: B = MongoDBObject.empty,
+                                                           orderBy: C = MongoDBObject.empty,
+                                                           readPrefs: ReadPreference = getReadPreference,
+                                                           maxTime: Duration = Duration(0, MILLISECONDS)) = {
+    val document = underlying.find(o, fields)
+                             .sort(orderBy)
+                             .setReadPreference(readPrefs)
+                             .maxTime(maxTime.length, maxTime.unit)
+                             .one()
+    _typedValue(document)
+  }
 
   /**
    * Find an object by its ID.
@@ -244,6 +254,10 @@ trait MongoCollectionBase extends Logging { self =>
    * If remove is specified it will be removed. If new is specified then the updated
    * document will be returned, otherwise the old document is returned (or it would be lost forever).
    * You can also specify the fields to return in the document, optionally.
+   *
+   * @param query query to match
+   * @param update update to apply
+   *
    * @return (Option[T]) of the the found document (before, or after the update)
    */
   def findAndModify[A <% DBObject, B <% DBObject](query: A, update: B) =
@@ -251,6 +265,11 @@ trait MongoCollectionBase extends Logging { self =>
 
   /**
    * Finds the first document in the query (sorted) and updates it.
+   *
+   * @param query query to match
+   * @param sort sort to apply before picking first document
+   * @param update update to apply
+   *
    * @return the old document
    */
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject](query: A, sort: B, update: C) =
@@ -258,12 +277,39 @@ trait MongoCollectionBase extends Logging { self =>
 
   /**
    * Finds the first document in the query and updates it.
+   *
+   * @param query query to match
+   * @param fields fields to be returned
+   * @param sort sort to apply before picking first document
+   * @param remove if true, document found will be removed
+   * @param update update to apply
+   * @param returnNew if true, the updated document is returned, otherwise the old document is returned (or it would be lost forever)
+   * @param upsert do upsert (insert if document not present)
+   *
    * @return the old document
    */
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
-    remove: Boolean, update: D,
-    returnNew: Boolean, upsert: Boolean) =
-    _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
+    remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean) =
+      _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
+
+  /**
+   * Finds the first document in the query and updates it.
+   *
+   * @param query       query to match
+   * @param fields      fields to be returned
+   * @param sort        sort to apply before picking first document
+   * @param remove      if true, document found will be removed
+   * @param update      update to apply
+   * @param returnNew   if true, the updated document is returned, otherwise the old document is returned (or it would be lost forever)
+   * @param upsert      do upsert (insert if document not present)
+   * @param maxTime the maximum duration that the server will allow this operation to execute before killing it
+   *
+   * @return the old document
+   */
+  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+    remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean, maxTime: Duration) =
+      _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert,
+                                           maxTime.length, maxTime.unit))
 
   /**
    * Finds the first document in the query and removes it.
@@ -373,15 +419,25 @@ trait MongoCollectionBase extends Logging { self =>
    *  Returns the number of documents in the collection
    *  that match the specified query
    *
-   *  @param query query to select documents to count
-   *  @param fields fields to return
-   *  @param limit Max # of fields
-   *  @param skip # of fields to skip
-   *  @return number of documents that match query and fields
+   * @param query          specifies the selection criteria
+   * @param fields         this is ignored
+   * @param limit          limit the count to this value
+   * @param skip           number of documents to skip
+   * @param readPrefs      The [ReadPreference] to be used for this operation
+   * @param maxTime    the maximum duration that the server will allow this operation to execute before killing it
+   *
+   * @return the number of documents that matches selection criteria
    */
-  def getCount[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
-                                             limit: Long = 0,  skip: Long = 0, readPrefs: ReadPreference = getReadPreference) =
-    underlying.getCount(query, fields, limit, skip, readPrefs)
+  def getCount[A <% DBObject, B <% DBObject](query: A=MongoDBObject.empty, fields: B=MongoDBObject.empty,
+                                             limit: Long=0,  skip: Long=0, readPrefs: ReadPreference=getReadPreference,
+                                             maxTime: Duration = Duration(0, MILLISECONDS)) = {
+    underlying.find(query, fields)
+              .skip(skip.toInt)
+              .limit(limit.toInt)
+              .setReadPreference(readPrefs)
+              .maxTime(maxTime.length, maxTime.unit)
+              .count()
+  }
 
   /** Returns the database this collection is a member of.
    * @return this collection's database
@@ -580,27 +636,55 @@ trait MongoCollectionBase extends Logging { self =>
     underlying.explainAggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava, options).asScala
 
   /**
-   * mapReduce
-   * Execute a mapReduce against this collection.
-   * NOTE: JSFunction is just a type alias for String
+   * mapReduce execute a mapReduce against this collection.
    *
-   * @param  mapFunction (JSFunction) The JavaScript to execute for the map function
-   * @param  reduceFunction (JSFunction) The JavaScript to execute for the reduce function
-   *
+   * @param mapFunction       the map function (JSFunction is just a type alias for String)
+   * @param reduceFunction    the reduce function (JSFunction is just a type alias for String)
+   * @param output            the location of the result of the map-reduce operation, defaults to inline.
+   *                          You can output to a collection, output to a collection with an action, or output inline.
+   * @param query             (optional) the selection criteria for the documents input to the map function.
+   * @param sort              (optional) the input documents, useful for optimization.
+   * @param limit             (optional) the maximum number of documents to return from the collection before map reduce
+   * @param finalizeFunction  (optional) the finalize function (JSFunction is just a type alias for String)
+   * @param jsScope           (optional) global variables that are accessible in the map, reduce and finalize functions
+   * @param verbose           (optional) include the timing information in the result information
+   * @param maxTime       (optional) the maximum duration that the server will allow this operation to execute before killing it
    */
   def mapReduce(mapFunction: JSFunction,
-    reduceFunction: JSFunction,
-    output: MapReduceOutputTarget,
-    query: Option[DBObject] = None,
-    sort: Option[DBObject] = None,
-    limit: Option[Int] = None,
-    finalizeFunction: Option[JSFunction] = None,
-    jsScope: Option[DBObject] = None,
-    verbose: Boolean = false): MapReduceResult =
-      MapReduceResult(getDB.command(MapReduceCommand(name, mapFunction, reduceFunction, output, query, sort, limit, finalizeFunction, jsScope, verbose).toDBObject))
+                reduceFunction: JSFunction,
+                output: MapReduceOutputTarget,
+                query: Option[DBObject] = None,
+                sort: Option[DBObject] = None,
+                limit: Option[Int] = None,
+                finalizeFunction: Option[JSFunction] = None,
+                jsScope: Option[DBObject] = None,
+                verbose: Boolean = false,
+                maxTime: Option[Duration] = None): MapReduceResult = {
+    val cmd = MapReduceCommand(name, mapFunction, reduceFunction, output, query, sort, limit,
+                               finalizeFunction, jsScope, verbose, maxTime)
+    mapReduce(cmd)
+  }
 
-  def mapReduce(cmd: MapReduceCommand) = MapReduceResult(getDB.command(cmd.toDBObject))
+  /**
+   * mapReduce execute a mapReduce against this collection.
+   *
+   * Throws a MongoExecutionTimeoutException if exceeds max duration limit otherwise returns a MapReduceResult
+   *
+   * @param cmd the MapReduceCommand
+   */
+  def mapReduce(cmd: MapReduceCommand) = {
+    val result = getDB.command(cmd.toDBObject)
 
+    // Normally we catch MapReduce Errors and return them into a MapReduceResult
+    // However, we we now preserve a MongoExecutionTimeoutException to keep in line with other methods
+    try {
+      result.throwOnError()
+    } catch {
+      case e: MongoExecutionTimeoutException => throw e
+      case t: Throwable => true
+    }
+    MapReduceResult(result)
+  }
 
   /** Removes objects from the database collection.
    * @param o the object that documents to be removed must match
@@ -671,8 +755,9 @@ trait MongoCollectionBase extends Logging { self =>
   }
 
   def count[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
-                                          limit: Long = 0, skip: Long = 0, readPrefs: ReadPreference = getReadPreference) =
-    getCount(query, fields, limit, skip, readPrefs)
+                                          limit: Long = 0, skip: Long = 0, readPrefs: ReadPreference = getReadPreference,
+                                          maxTime: Duration = Duration(0, MILLISECONDS)) =
+     getCount(query, fields, limit, skip, readPrefs, maxTime)
 
   /**
    *  Gets the the error (if there is one) from the previous operation.  The result of
@@ -843,11 +928,6 @@ trait MongoCollectionBase extends Logging { self =>
    */
   def rename(newName: String): MongoCollection =
     new MongoCollection(self.underlying.rename(newName))
-
-/*
-  def command(cmd: DBObject, options: Int, readPrefs: ReadPreference = getReadPreference) =
-    underlying.command(cmd, options, readPrefs)
-*/
 
   /**
    *
