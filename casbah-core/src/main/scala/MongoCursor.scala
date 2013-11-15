@@ -546,7 +546,7 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    *
    * @since 2.7
    */
-  def maxTime(maxTime: Duration) = _newInstance(underlying.maxTime(maxTime.length.toInt, maxTime.unit))
+  def maxTime(maxTime: Duration) = _newInstance(underlying.maxTime(maxTime.length, maxTime.unit))
 
   /**
    * @return the first matching document
