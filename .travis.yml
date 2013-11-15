@@ -12,7 +12,7 @@ branches:
 notifications:
   email:
     recipients:
-      - ross@10gen.com
+      - ross@mongodb.com
 jdk:
   - openjdk6
   - openjdk7

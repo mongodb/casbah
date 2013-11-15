@@ -40,7 +40,6 @@ class MaxTimeSpec extends CasbahMutableSpecification {
   val oneSecond = Duration(1, SECONDS)
 
   def setup(): Unit = {
-    serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
     collection.drop()
     enableMaxTimeFailPoint()
   }
@@ -49,6 +48,7 @@ class MaxTimeSpec extends CasbahMutableSpecification {
 
   "MaxTime" should {
     "be supported by aggregation" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       val aggregationOptions = AggregationOptions(oneSecond)
       lazy val aggregation = collection.aggregate(
         List(MongoDBObject("$match" -> ("score" $gte 7)),
@@ -59,6 +59,7 @@ class MaxTimeSpec extends CasbahMutableSpecification {
     }
 
     "be supported by findAndModify" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       lazy val findAndModify = collection.findAndModify(query=MongoDBObject("_id" -> 1), fields=MongoDBObject(),
         sort=MongoDBObject(), remove=false, update=MongoDBObject("a" -> 1),
         returnNew=true, upsert=false, oneSecond)
@@ -67,12 +68,14 @@ class MaxTimeSpec extends CasbahMutableSpecification {
     }
 
     "be supported by cursors" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       val cursor = collection.find().maxTime(oneSecond)
       cursor.next() should throwA[MongoExecutionTimeoutException]
       cursor.toList should throwA[MongoExecutionTimeoutException]
     }
 
     "be supported when calling findOne" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       lazy val op = collection.findOne(MongoDBObject.empty, MongoDBObject.empty,
                                        MongoDBObject.empty, ReadPreference.Primary,
                                        oneSecond)
@@ -80,36 +83,43 @@ class MaxTimeSpec extends CasbahMutableSpecification {
     }
 
     "be supported when calling one" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       lazy val op = collection.find().maxTime(oneSecond).one()
       op should throwA[MongoExecutionTimeoutException]
     }
 
     "be supported when calling getCount" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       lazy val op = collection.getCount(maxTime=oneSecond)
       op should throwA[MongoExecutionTimeoutException]
     }
 
     "be supported when calling count" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       lazy val op = collection.count(maxTime=oneSecond)
       op should throwA[MongoExecutionTimeoutException]
     }
 
     "be supported when calling a chained count" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       lazy val op = collection.find().maxTime(oneSecond).count
       op should throwA[MongoExecutionTimeoutException]
     }
 
     "be supported when calling size" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       lazy val op = collection.find().maxTime(oneSecond).size
       op should throwA[MongoExecutionTimeoutException]
     }
 
     "be supported when calling commands" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       lazy val op = db.command(MongoDBObject("isMaster" -> 1, "maxTimeMS" -> 1)).throwOnError()
       op should throwA[MongoExecutionTimeoutException]
     }
 
     "be supported when calling mapReduce" in {
+      serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       collection += MongoDBObject("x" -> List(1,2,3))
       collection += MongoDBObject("x" -> List(1,2,3))
       val mapJS = "function(){ for ( var i=0; i<this.x.length; i++ ){ emit( this.x[i] , 1 ); } }";
