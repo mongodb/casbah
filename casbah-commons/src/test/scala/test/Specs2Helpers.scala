@@ -65,7 +65,7 @@ trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
    * @return true if server is at least specified version
    */
   def serverIsAtLeastVersion(minVersion: Int*): Boolean =
-    versionArray.take(minVersion.length).corresponds(minVersion){_.asInstanceOf[Int] <= _}
+    versionArray.take(minVersion.length).corresponds(minVersion){_.asInstanceOf[Int] >= _}
 
   def enableMaxTimeFailPoint() {
     if (serverIsAtLeastVersion(2,5)) {
