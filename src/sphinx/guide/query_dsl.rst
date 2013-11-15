@@ -42,7 +42,7 @@ Comparison Operators
 
 * ``$nin`` Matches values that **do not** exist in an array specified::
 
-    "size" $in ("S", "XXL")
+    "size" $nin ("S", "XXL")
 
 Logical Operators
 ~~~~~~~~~~~~~~~~~
