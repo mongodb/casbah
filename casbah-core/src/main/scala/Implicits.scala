@@ -173,6 +173,7 @@ trait TypeImports {
   type MongoClientURI = com.mongodb.MongoClientURI
   type AggregationOutput = com.mongodb.casbah.AggregationOutput
   type AggregationCursor = com.mongodb.casbah.AggregationCursor
+  type AggregationOptions = com.mongodb.AggregationOptions
   type WriteConcern = com.mongodb.WriteConcern
   type WriteResult = com.mongodb.WriteResult
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand

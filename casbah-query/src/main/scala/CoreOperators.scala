@@ -582,7 +582,7 @@ trait GeoIntersectsOp extends QueryOperator {
  *   a) the order you specified your actual index in
  *   b) if you're using actual world maps or something else
  *
- * Depreciated in MongoDB 2.4 use $geoWithin instead
+ * Deprecated in MongoDB 2.4 use $geoWithin instead
  *
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing

@@ -62,7 +62,7 @@ class MaxTimeSpec extends CasbahMutableSpecification {
       serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
       lazy val findAndModify = collection.findAndModify(query=MongoDBObject("_id" -> 1), fields=MongoDBObject(),
         sort=MongoDBObject(), remove=false, update=MongoDBObject("a" -> 1),
-        returnNew=true, upsert=false, oneSecond)
+        returnNew=true, upsert=false, maxTime=oneSecond)
 
       findAndModify should throwA[MongoExecutionTimeoutException]
     }

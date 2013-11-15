@@ -52,7 +52,7 @@ class MongoDBListSpec extends CasbahMutableSpecification {
       jLst.add("eggs")
       jLst must not beEmpty
 
-      dbLst must haveTheSameElementsAs(jLst)
+      dbLst must containTheSameElementsAs(jLst)
     }
     "Support a 2.8 builder interface which returns a BasicDBList" in {
       val builder = MongoDBList.newBuilder
@@ -67,27 +67,27 @@ class MongoDBListSpec extends CasbahMutableSpecification {
 
       dbLst must haveSize(10)
       // Note we flattened that list above when we added it
-      dbLst must haveTheSameElementsAs(List("foo", "bar", "x", "y", 5, 212.8, "spam", "eggs", "type erasure" -> "sucks", "omg" -> "ponies!"))
+      dbLst must containTheSameElementsAs(List("foo", "bar", "x", "y", 5, 212.8, "spam", "eggs", "type erasure" -> "sucks", "omg" -> "ponies!"))
     }
 
     "Support a mix of other lists and flat items and create a single BasicDBList" in {
       val dbLst = MongoDBList(x, y, "omg" -> "ponies", 5, 212.8)
       dbLst must haveSize(5)
-      dbLst must haveTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5, 212.8))
+      dbLst must containTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5, 212.8))
     }
     "Support A list/tuple of dbobject declarations" in {
       val dbLst = MongoDBList(x, y, "omg" -> "ponies", 5,
         MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"),
         212.8)
       dbLst must haveSize(6)
-      dbLst must haveTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5,
+      dbLst must containTheSameElementsAs(Seq(x, y, MongoDBObject("omg" -> "ponies"), 5,
         MongoDBObject("x" -> "y", "foo" -> "bar", "bar" -> "baz"), 212.8))
     }
 
     "Convert tuple pairs correctly" in {
       val dbList = MongoDBList("omg" -> "ponies")
       dbList must haveSize(1)
-      dbList must haveTheSameElementsAs(List(MongoDBObject("omg" -> "ponies")))
+      dbList must containTheSameElementsAs(List(MongoDBObject("omg" -> "ponies")))
     }
 
     "Concat immutable traversable" in {

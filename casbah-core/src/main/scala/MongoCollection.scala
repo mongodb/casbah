@@ -25,7 +25,7 @@ package com.mongodb.casbah
 import scala.collection.JavaConverters._
 import scala.concurrent.duration.{Duration, MILLISECONDS}
 
-import com.mongodb._
+import com.mongodb.{MongoExecutionTimeoutException, DBCursor, DBDecoderFactory, DBEncoderFactory, DBCollection}
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 

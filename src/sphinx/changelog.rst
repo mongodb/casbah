@@ -1,9 +1,12 @@
 Changelog
 =========
 
-Changes in Version 2.7
-----------------------
+Changes in Version 2.7.0
+------------------------
 
+- Removed scala 2.9.1 and 2.9.2 support, casbah utilises
+  `scala.concurrent.duration` which was added in scala 2.9.3
+- Updated nscala-time to 0.6.0 and specs
 - Added support for Server automatically abort queries/commands after
   user-specified time limit (SCALA-118)
 - Added support for Aggregation returning a cursor `AggregationCursor` (SCALA-117)

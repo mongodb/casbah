@@ -17,7 +17,7 @@ object CasbahBuild extends Build {
     organizationHomepage := Some(url("http://www.mongodb.org")),
     version      := "2.7.0-SNAPSHOT",
     scalaVersion := "2.10.3",
-    crossScalaVersions := Seq("2.10.3", "2.9.3", "2.9.2", "2.9.1")
+    crossScalaVersions := Seq("2.10.3", "2.9.3")
   )
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
@@ -129,21 +129,16 @@ object Dependencies {
 
   def scalatest(scalaVersion: String) =
     (scalaVersion match {
-      case _ => "org.scalatest" %% "scalatest" % "1.9.1"
+      case "2.9.3"   => "org.scalatest" %% "scalatest" % "1.9.1"
+      case _ => "org.scalatest" %% "scalatest" % "2.0"
     }) % "test"
 
-  def scalatime(scalaVersion: String) =
-      scalaVersion match {
-        case "2.9.3" => "com.github.nscala-time" % "nscala-time_2.9.2" % "0.2.0"
-        case _ => "com.github.nscala-time" %% "nscala-time" % "0.2.0"
-      }
+  def scalatime(scalaVersion: String) = "com.github.nscala-time" %% "nscala-time" % "0.6.0"
 
   def specs2(scalaVersion: String) =
       (scalaVersion match {
-          case "2.9.1"   => "org.specs2" %% "specs2" % "1.12.2"
-          case "2.9.2"   => "org.specs2" %% "specs2" % "1.12.3"
-          case "2.9.3"   => "org.specs2" % "specs2_2.9.2" % "1.12.3"
-          case scalaVersion if scalaVersion.startsWith("2.10") => "org.specs2" %% "specs2" % "1.14"
+          case "2.9.3"   => "org.specs2" % "specs2_2.9.2" % "1.12.4.1"
+          case _ => "org.specs2" %% "specs2" % "1.14"
       }) % "test"
 }
 

@@ -56,7 +56,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
     "And you can go further and even get a list" in {
       // TODO - This is way broken as far as casting to int
       val c = z.expand[List[_]]("A.B.C")
-      c must beSome(List(5, 4, 3, 2, 1))
+      c must beEqualTo(Some(List(5, 4, 3, 2, 1)))
     }
   }
 
@@ -252,7 +252,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
 
       dbObj.as[Double]("x") must beEqualTo(5.2)
       dbObj.as[Int]("y") must beEqualTo(9)
-      dbObj.as[MongoDBList]("foo") must haveTheSameElementsAs(List("a", "b", "c"))
+      dbObj.as[MongoDBList]("foo") must containTheSameElementsAs(List("a", "b", "c"))
       dbObj.as[DBObject]("bar") must haveEntry("baz" -> "foo")
       dbObj.as[String]("nullValue") must throwA[NoSuchElementException]
 
