@@ -76,6 +76,25 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
     }
   }
 
+  /** nested as.
+   * @param  firstKey the key of the root object
+   * @param  secondKey the key of the nested object
+   * @tparam A
+   * @return (A)
+   */
+  def as[A](firstKey: String, secondKey: String, otherKeys: String*) : A = {
+    @tailrec
+    def rec(o: DBObject, otherKeys: Seq[String]) : A = {
+      otherKeys match {
+        case Seq(key) => o.as[A](key)
+        // only works in 2.10
+        // case k +: ks => rec(o.as[DBObject](k), ks)
+        case sq : Seq[String] => rec(o.as[DBObject](sq.head), sq.tail)
+      }
+    }
+    rec(this, firstKey +: secondKey +: otherKeys)
+  }
+
   override def get(key: String): Option[AnyRef] = underlying.get(key) match {
     case null => None
     case value => Some(value)
