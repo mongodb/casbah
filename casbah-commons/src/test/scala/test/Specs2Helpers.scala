@@ -33,6 +33,7 @@ trait CasbahMutableSpecification extends mutable.Specification with CasbahSpecif
 trait CasbahSpecification extends Specification with CasbahSpecificationBase
 
 trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
+
   implicit val sizedOptDBObj = new Sized[Option[DBObject]] {
     def size(t: Option[DBObject]) = t.getOrElse(MongoDBObject.empty).size
   }
@@ -52,7 +53,16 @@ trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
     def size(t: MongoDBList) = t.size
   }
 
-  def client: MongoClient = new MongoClient()
+
+  lazy val MongoDBOnline = {
+    try {
+      client.getDatabaseNames
+      true
+    } catch {
+      case t: Throwable => false
+    }
+  }
+  lazy val client: MongoClient = new MongoClient()
 
   lazy val versionArray = client.getDB("admin")
                                 .command("buildInfo")

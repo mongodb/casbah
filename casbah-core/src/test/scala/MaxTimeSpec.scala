@@ -34,6 +34,7 @@ import com.mongodb.casbah.map_reduce.MapReduceCommand
 class MaxTimeSpec extends CasbahMutableSpecification {
 
   sequential
+  skipAllUnless(MongoDBOnline)
 
   lazy val db = MongoClient()("casbahTest")
   lazy val collection = db("maxTime")

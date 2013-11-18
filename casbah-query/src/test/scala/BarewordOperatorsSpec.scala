@@ -29,11 +29,6 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 @SuppressWarnings(Array("deprecation"))
 class BarewordOperatorsSpec extends CasbahMutableSpecification {
 
-  // var conn: MongoClient = MongoClient()
-  // var db: MongoDB = conn("test")
-  // var coll: MongoCollection = db("barewordoperator")
-  // coll.drop()
-
   "Casbah's DSL $set Operator" should {
     "Accept one or many pairs of values" in {
       "A single pair" in {

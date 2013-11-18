@@ -31,11 +31,13 @@ import com.github.nscala_time.time.Imports._
 
 class MongoClientSpec extends CasbahMutableSpecification {
 
+  skipAllUnless(MongoDBOnline)
+
   "MongoClient connections should be the same as Java MongoClient" should {
 
     "provide working .asScala methods on the Java version of the objects" in {
 
-      val javaConn = new com.mongodb.MongoClient() // Java connection
+      lazy val javaConn = new com.mongodb.MongoClient() // Java connection
 
       "Connection objects" in {
 
@@ -61,9 +63,9 @@ class MongoClientSpec extends CasbahMutableSpecification {
     }
 
     "And be directly instantiable, with working apply methods" in {
-      var conn: MongoClient = MongoClient()
-      var db: MongoDB = conn("test")
-      var coll: MongoCollection = db("collection.in")
+      lazy val conn: MongoClient = MongoClient()
+      lazy val db: MongoDB = conn("test")
+      lazy val coll: MongoCollection = db("collection.in")
 
       "MongoClient" in {
         "direct instantiation" in {
@@ -90,7 +92,7 @@ class MongoClientSpec extends CasbahMutableSpecification {
 
     "provide working .asScala methods on the Java version of the objects" in {
 
-      val javaConn = new com.mongodb.Mongo() // Java connection
+      lazy val javaConn = new com.mongodb.Mongo() // Java connection
 
       "Connection objects" in {
 
@@ -117,9 +119,9 @@ class MongoClientSpec extends CasbahMutableSpecification {
     }
 
     "And be directly instantiable, with working apply methods" in {
-      var conn: MongoConnection = MongoConnection()
-      var db: MongoDB = conn("test")
-      var coll: MongoCollection = db("collection.in")
+      lazy val conn: MongoConnection = MongoConnection()
+      lazy val db: MongoDB = conn("test")
+      lazy val coll: MongoCollection = db("collection.in")
 
       "MongoConnection" in {
         "direct instantiation" in {

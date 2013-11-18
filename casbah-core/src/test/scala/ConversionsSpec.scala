@@ -33,6 +33,7 @@ import org.bson.BSON
 class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
   sequential
   type JDKDate = java.util.Date
+  skipAllUnless(MongoDBOnline)
 
   def before = {
     DeregisterConversionHelpers()
@@ -42,8 +43,10 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
 
   "Casbah's Conversion Helpers" should {
 
-    implicit val mongoDB = MongoClient()("casbahTest")
-    mongoDB.dropDatabase()
+    implicit lazy val mongoDB = MongoClient()("casbahTest")
+    if (MongoDBOnline) {
+      mongoDB.dropDatabase()
+    }
 
     "Properly save Option[_] to MongoDB" in {
       val mongo = mongoDB("optionSerialization")

@@ -39,7 +39,9 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 @SuppressWarnings(Array("deprecation"))
 class RawMapReduceSpec extends CasbahMutableSpecification {
   sequential
-  implicit val mongoDB = MongoClient()("casbahIntegration")
+
+  skipAllUnless(MongoDBOnline)
+  implicit lazy val mongoDB = MongoClient()("casbahIntegration")
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
 

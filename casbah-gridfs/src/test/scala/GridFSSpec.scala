@@ -39,10 +39,11 @@ class GridFSSpec extends CasbahMutableSpecification {
     DeregisterJodaTimeConversionHelpers()
     DeregisterJodaLocalDateTimeConversionHelpers()
   }
+  skipAllUnless(MongoDBOnline)
 
-  implicit val db = MongoClient()("casbah_test")
-  db.dropDatabase()
-  implicit val gridfs = GridFS(db)
+  implicit lazy val db = MongoClient()("casbah_test")
+  if (MongoDBOnline) db.dropDatabase()
+  implicit lazy val gridfs = GridFS(db)
 
   def logo_fh = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
 

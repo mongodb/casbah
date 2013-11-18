@@ -42,10 +42,10 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
     DeregisterJodaLocalDateTimeConversionHelpers()
     RegisterJodaTimeConversionHelpers()
   }
-
-  implicit val db = MongoClient()("casbah_test")
-  db.dropDatabase()
-  implicit val gridfs = JodaGridFS(db)
+  skipAllUnless(MongoDBOnline)
+  implicit lazy val db = MongoClient()("casbah_test")
+  if (MongoDBOnline) db.dropDatabase()
+  implicit lazy val gridfs = JodaGridFS(db)
 
   def logo_fh = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
 
@@ -80,14 +80,13 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
 
   "Casbah's Joda GridFS Implementations with Registered JodaTime Helpers" should {
 
-    implicit val id = gridfs(logo_bytes) {
-      fh =>
-        fh.put("uploadDate", new DateTime())
-        fh.filename = "powered_by_mongo_find.png"
-        fh.contentType = "image/png"
-    }
-
     "Find the file in GridFS later" in {
+      val id = gridfs(logo_bytes) {
+        fh =>
+          fh.put("uploadDate", new DateTime())
+          fh.filename = "powered_by_mongo_find.png"
+          fh.contentType = "image/png"
+      }
       gridfs.findOne("powered_by_mongo_find.png") must beSome[JodaGridFSDBFile]
       var md5 = ""
       var uploadDate: DateTime = null
@@ -133,6 +132,7 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
     }
 
     "Be properly iterable" in {
+
       val id = gridfs(logo) {
         fh =>
           fh.filename = "powered_by_mongo_iter.png"

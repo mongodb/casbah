@@ -34,7 +34,9 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 class QueryIntegrationSpec extends CasbahMutableSpecification {
   sequential
 
-  implicit val coll = MongoClient()("casbahIntegration")("bareword")
+  skipAllUnless(MongoDBOnline)
+
+  implicit lazy val coll = MongoClient()("casbahIntegration")("bareword")
 
   "Casbah's collection string representation" should {
     "not read the collection" in {
