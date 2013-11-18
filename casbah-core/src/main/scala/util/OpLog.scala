@@ -31,6 +31,11 @@ import com.mongodb.casbah.commons.Logging
 
 import scala.util.control.Exception._
 
+/**
+ * For a more detailed understanding of how the MongoDB Oplog works, see Kristina Chodorow's blogpost:
+ *
+ *  http://www.kchodorow.com/blog/2010/10/12/replication-internals/
+ */
 class MongoOpLog(mongoClient: MongoClient = MongoClient(),
   startTimestamp: Option[BSONTimestamp] = None,
   namespace: Option[String] = None,
@@ -86,23 +91,23 @@ class MongoOpLog(mongoClient: MongoClient = MongoClient(),
 
 object MongoOpLogEntry {
   def apply(entry: MongoDBObject) = entry("op") match {
-    case InsertOp =>
+    case InsertOp.typeCode =>
       MongoInsertOperation(
         entry.as[BSONTimestamp]("ts"),
-        entry.as[Long]("h"),
+        entry.getAs[Long]("h"),/** TODO - It won't be there for Master/Slave, but should we check it for RS? */
         entry.as[String]("ns"),
         entry.as[DBObject]("o"))
-    case UpdateOp =>
+    case UpdateOp.typeCode =>
       MongoUpdateOperation(
         entry.as[BSONTimestamp]("ts"),
-        entry.as[Long]("h"),
+        entry.getAs[Long]("h"),/** TODO - It won't be there for Master/Slave, but should we check it for RS? */
         entry.as[String]("ns"),
         entry.as[DBObject]("o"),
         entry.as[DBObject]("o2"))
-    case DeleteOp =>
+    case DeleteOp.typeCode =>
       MongoInsertOperation(
         entry.as[BSONTimestamp]("ts"),
-        entry.as[Long]("h"),
+        entry.getAs[Long]("h"), /** TODO - It won't be there for Master/Slave, but should we check it for RS? */
         entry.as[String]("ns"),
         entry.as[DBObject]("o"))
   }
@@ -117,7 +122,8 @@ sealed trait MongoOpLogEntry {
   val timestamp: BSONTimestamp
   lazy val ts = timestamp
 
-  val opID: Long
+  /** Master/Slave does *not* include the opID, so make it Option. */
+  val opID: Option[Long]
   lazy val h = opID
 
   val opType: MongoOpType
@@ -131,16 +137,17 @@ sealed trait MongoOpLogEntry {
 
 }
 
-case class MongoInsertOperation(timestamp: BSONTimestamp, opID: Long, namespace: String, document: MongoDBObject) extends MongoOpLogEntry {
+case class MongoInsertOperation(timestamp: BSONTimestamp, opID: Option[Long], namespace: String, document: MongoDBObject) extends MongoOpLogEntry {
   val opType = InsertOp
 }
 
-case class MongoUpdateOperation(timestamp: BSONTimestamp, opID: Long, namespace: String, document: MongoDBObject, documentID: MongoDBObject) extends MongoOpLogEntry {
+case class MongoUpdateOperation(timestamp: BSONTimestamp, opID: Option[Long], namespace: String, document: MongoDBObject, documentID: MongoDBObject) extends MongoOpLogEntry {
   val opType = UpdateOp
+  /** In updates, 'o' gives the modifications, and 'o2' includes the 'update criteria' (the query to run) */
   lazy val o2 = documentID
 }
 
-case class MongoDeleteOperation(timestamp: BSONTimestamp, opID: Long, namespace: String, document: MongoDBObject) extends MongoOpLogEntry {
+case class MongoDeleteOperation(timestamp: BSONTimestamp, opID: Option[Long], namespace: String, document: MongoDBObject) extends MongoOpLogEntry {
   val opType = DeleteOp
 }
 
