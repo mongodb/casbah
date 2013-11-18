@@ -76,6 +76,25 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
     }
   }
 
+  /**
+   * Nested as[Type]
+   *
+   * A helper to recursively fetch and then finally cast items from a
+   * DBObject.
+   *
+   * @param  key (String)
+   * @tparam A
+   * @return (A)
+   * @throws NoSuchElementException
+   */
+  def as[A: NotNothing](keys: String*): A = {
+    val path = keys.mkString(".")
+    expand(path) match {
+      case None => throw new java.util.NoSuchElementException()
+      case Some(value) => value
+    }
+  }
+
   override def get(key: String): Option[AnyRef] = underlying.get(key) match {
     case null => None
     case value => Some(value)
@@ -121,6 +140,8 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
       } else Some(value.asInstanceOf[A])
     }
   }
+
+
 
   def getAsOrElse[A : NotNothing : Manifest](key: String, default: => A): A = getAs[A](key) match {
     case Some(v) => v

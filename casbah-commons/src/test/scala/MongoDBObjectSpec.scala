@@ -54,8 +54,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
     }
 
     "And you can go further and even get a list" in {
-      // TODO - This is way broken as far as casting to int
-      val c = z.expand[List[_]]("A.B.C")
+      val c = z.expand[List[Int]]("A.B.C")
       c must beEqualTo(Some(List(5, 4, 3, 2, 1)))
     }
   }
@@ -256,8 +255,6 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       dbObj.as[DBObject]("bar") must haveEntry("baz" -> "foo")
       dbObj.as[String]("nullValue") must throwA[NoSuchElementException]
 
-//    DOES NOT COMPILE ANYMORE
-//    (dbObj.as("x"):Any) must throwA[IllegalArgumentException]
     }
 
     "Support 'as' methods for casting by type" in {
@@ -270,8 +267,6 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
         dbObj.getAs[Float]("omgponies") must beNone
         dbObj.getAs[Double]("x").get must throwA[ClassCastException]
 
-//      DOES NOT COMPILE ANYMORE
-//      (dbObj.getAs("x"):Any) must throwA[IllegalArgumentException]
       }
 
       "as functions as expected" in {
@@ -287,6 +282,41 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
           val y: Double = dbObj.as[Double]("y")
           y must beEqualTo(212.8)
         }
+      }
+    }
+
+    "Support the nested as[<type>] method" should {
+
+      val x: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> "C"))
+      val y: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> 5)))
+      val z: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> List(5, 4, 3, 2, 1))))
+
+      "Expanding a simple layering should work" in {
+        val b = x.as[String]("A", "B")
+        b must beEqualTo("C")
+
+        "While overexpanding should probably fail" in {
+          lazy val bFail = x.as[String]("A", "B", "C")
+          bFail must throwA[ClassCastException]
+        }
+      }
+
+      "Expanding a further layering should work" in {
+        val c = y.as[Int]("A", "B", "C")
+        c must beEqualTo(5)
+        "While overexpanding should fail" in {
+          lazy val cFail = y.as[String]("A", "B", "C", "D")
+          cFail must throwA[ClassCastException]
+        }
+      }
+
+      "And you can go further and even get a list" in {
+        val c = z.as[List[Int]]("A", "B", "C")
+        c must beEqualTo(List(5, 4, 3, 2, 1))
+      }
+
+      "Invalid missing elements should also fail" in {
+        z.as[Float]("C", "X") must throwA[NoSuchElementException]
       }
     }
 

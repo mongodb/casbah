@@ -4,6 +4,7 @@ Changelog
 Changes in Version 2.7.0
 ------------------------
 
+- Support vargs for as[Type]("Keys"*) (SCALA-134) (pr/#61)
 - Fixed issue with OpLog matching (pr/#63)
 - Register the core Serialization helpers only once (SCALA-129)
 - Removed scala 2.9.1 and 2.9.2 support, casbah utilises
