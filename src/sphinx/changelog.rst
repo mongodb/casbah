@@ -4,6 +4,7 @@ Changelog
 Changes in Version 2.7.0
 ------------------------
 
+- Register the core Serialization helpers only once (SCALA-129)
 - Removed scala 2.9.1 and 2.9.2 support, casbah utilises
   `scala.concurrent.duration` which was added in scala 2.9.3
 - Updated nscala-time to 0.6.0 and specs
