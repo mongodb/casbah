@@ -4,6 +4,7 @@ Upgrade
 Version 2.7.0
 -------------
 
+* OpLog util fixes - Opid is now an option.
 * Scala 2.9.1 and 2.9.2 are no longer supported
 * Updated nscala-time to 0.6.0
 * `com.mongodb.casbah.MongoCollection.findOne` signatures have to changed to a main defaulted method
