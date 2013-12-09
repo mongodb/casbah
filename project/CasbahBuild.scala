@@ -3,8 +3,8 @@ import Keys._
 import Project.Initialize
 
 import com.typesafe.sbt.SbtSite._
-import org.scalastyle.sbt.ScalastylePlugin
 import sbtassembly.Plugin._
+import org.scalastyle.sbt.ScalastylePlugin
 import AssemblyKeys._
 
 
@@ -71,21 +71,21 @@ object CasbahBuild extends Build {
     publishArtifact in (Compile, packageSrc) := false
   )
 
-  lazy val defaultSettings = baseSettings ++ Seq(
+  lazy val defaultSettings = baseSettings ++ ScalastylePlugin.Settings ++ styleCheckSetting ++ Seq(
     libraryDependencies <++= (scalaVersion)(sv => Seq(
-      scalatest(sv), scalatime(sv), specs2(sv),
+      scalatest(sv), scalatime(sv), specs2(sv), scalaStyle,
       slf4j, slf4jJCL, junit
     )),
     parallelExecution in Test := true,
-    testFrameworks += TestFrameworks.Specs2
+    testFrameworks += TestFrameworks.Specs2,
+    org.scalastyle.sbt.PluginKeys.config := file("project/scalastyle-config.xml")
   )
 
   lazy val casbah = Project(
     id        = "casbah",
     base      = file("."),
     settings  = parentSettings ++ Unidoc.settings ++ site.settings ++
-                site.sphinxSupport() ++ ScalastylePlugin.settings ++
-                assemblySettings ++
+                site.sphinxSupport() ++ assemblySettings ++
                 addArtifact(Artifact("casbah-alldep", "pom", "jar"), assembly),
     aggregate = Seq(commons, core, query, gridfs)
   ) dependsOn(commons, core, query, gridfs)
@@ -117,6 +117,23 @@ object CasbahBuild extends Build {
     settings = defaultSettings
   ) dependsOn(commons % "test->test", core)
 
+  /*
+   * Coursera styleCheck command
+   */
+
+  val styleCheck = TaskKey[Unit]("styleCheck")
+
+  /**
+   * depend on compile to make sure the sources pass the compiler
+   */
+  val styleCheckSetting = styleCheck <<= (compile in Compile, sources in Compile, streams) map { (_, sourceFiles, s) =>
+    val logger = s.log
+    val (feedback, score) = StyleChecker.assess(sourceFiles)
+    logger.info(feedback)
+    logger.info("Style Score: "+ score +" out of "+ StyleChecker.maxResult)
+  }
+
+
 }
 
 object Dependencies {
@@ -140,6 +157,8 @@ object Dependencies {
           case "2.9.3"   => "org.specs2" % "specs2_2.9.2" % "1.12.4.1"
           case _ => "org.specs2" %% "specs2" % "1.14"
       }) % "test"
+
+  def scalaStyle = "org.scalastyle" %% "scalastyle" % "0.3.2"  % "test"
 }
 
 object Resolvers {
