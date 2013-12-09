@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -56,30 +56,38 @@ object MongoURI {
  * <li> mongodb://fred:foobar@localhost/
  * <li> mongodb://server1,server2,server3
  *
- *  See [[http://www.mongodb.org/display/DOCS/Connections]]
+ * See [[http://www.mongodb.org/display/DOCS/Connections]]
  *
  * @since 2.0
  */
 class MongoURI(val underlying: com.mongodb.MongoURI) {
   def username: Option[String] = Option(underlying.getUsername)
+
   def password: Option[Array[Char]] = Option(underlying.getPassword)
+
   def hosts: Seq[String] = underlying.getHosts.asScala
+
   def database: Option[String] = Option(underlying.getDatabase)
+
   def collection: Option[String] = Option(underlying.getCollection)
+
   def options: MongoOptions = underlying.getOptions
+
   def connect: Either[Throwable, MongoConnection] = try {
     Right(underlying.connect.asScala)
   } catch {
-    case t : Throwable => Left(t)
+    case t: Throwable => Left(t)
   }
+
   def connectDB: Either[Throwable, MongoDB] = {
     try {
       require(database.isDefined, "Cannot connect to Database as none is defined.")
       Right(underlying.connectDB.asScala)
     } catch {
-      case t : Throwable => Left(t)
+      case t: Throwable => Left(t)
     }
   }
+
   def connectCollection: Either[Throwable, MongoCollection] = {
     try {
       require(collection.isDefined, "Cannot connect to Collection as none is defined.")
@@ -89,7 +97,7 @@ class MongoURI(val underlying: com.mongodb.MongoURI) {
         case Left(t) => Left(t)
       }
     } catch {
-      case t : Throwable => Left(t)
+      case t: Throwable => Left(t)
     }
   }
 

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -26,7 +26,7 @@ import com.mongodb.casbah.Imports._
 
 import scala.collection.JavaConverters._
 
-import com.mongodb.{ Mongo, ServerAddress }
+import com.mongodb.{Mongo, ServerAddress}
 
 /**
  * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
@@ -134,7 +134,7 @@ object MongoConnection {
    * @see MongoOptions
    */
   def apply(left: ServerAddress, right: ServerAddress,
-    options: com.mongodb.MongoOptions) =
+            options: com.mongodb.MongoOptions) =
     new MongoConnection(new com.mongodb.Mongo(left, right, options))
 
   /**
@@ -145,6 +145,7 @@ object MongoConnection {
    * @throws MongoException
    */
   def apply(host: String) = new MongoConnection(new com.mongodb.Mongo(host))
+
   /**
    * Connects to a (single) mongodb node
    *
@@ -172,20 +173,24 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @return MongoDB A wrapped instance of a Mongo 'DB Class.
    */
   def apply(dbName: String) = underlying.getDB(dbName).asScala
+
   def getDB(dbName: String) = apply(dbName)
 
   /**
    * @throws MongoException
    */
   def dbNames = getDatabaseNames()
+
   /**
    * @throws MongoException
    */
   def databaseNames = getDatabaseNames()
+
   /**
    * @throws MongoException
    */
   def getDatabaseNames() = underlying.getDatabaseNames.asScala
+
   /**
    * Drops the database if it exists.
    *
@@ -195,11 +200,13 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
   def dropDatabase(dbName: String) = underlying.dropDatabase(dbName)
 
   def version = getVersion()
+
   def getVersion() = underlying.getVersion
 
   def debugString = underlying.debugString
 
   def connectPoint = getConnectPoint()
+
   def getConnectPoint() = underlying.getConnectPoint
 
   /**
@@ -208,6 +215,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @return (ServerAddress) The address of the DB
    */
   def address = getAddress()
+
   /**
    * Gets the address of this database.
    *
@@ -216,6 +224,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
   def getAddress() = underlying.getAddress()
 
   def allAddress = getAllAddress()
+
   def getAllAddress() = underlying.getAllAddress()
 
   /**
@@ -237,6 +246,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @see com.mongodb.Bytes
    */
   def addOption(option: Int) = underlying.addOption(option)
+
   /**
    * Manipulate Network Options
    *
@@ -251,6 +261,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @see com.mognodb.Bytes
    */
   def getOptions() = underlying.getOptions
+
   /**
    * Manipulate Network Options
    *
@@ -305,7 +316,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    */
   def writeConcern = getWriteConcern
 
- /**
+  /**
    * Sets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
    * documentation for {@link ReadPreference} for more information.

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -70,7 +70,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
           var key = typeof(this._id) == "number" ? this._id : this._id.getYear();
           emit(key, { count: 1, sum: this.bc10Year })
       }
-    """
+                """
 
     val reduceJS = """
       function r( year, values ) {
@@ -82,14 +82,14 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
           return n;
       }
-    """
+                   """
 
     val finalizeJS = """
       function f( year, value ){
           value.avg = value.sum / value.count;
           return value.avg;
       }
-    """
+                     """
 
     "Produce results in a named collection for all data" in new testData {
       val coll = mongoDB("yield_historical.in")
@@ -128,7 +128,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
           var key = typeof(this._id) == "number" ? this._id : this._id.getYear()
           emit(key, { count: 1, sum: this.bc10Year * scopedBoost })
         }
-      """
+                        """
 
       val coll = mongoDB("yield_historical.in")
       val result = coll.mapReduce(
@@ -201,8 +201,8 @@ class MapReduceSpec extends CasbahMutableSpecification {
           result90s.raw.getAs[String]("result") must beSome("yield_historical.merged")
 
           val cmd00sMerged = cmd00s.copy(
-            query=None,
-            input="yield_historical.aughts",
+            query = None,
+            input = "yield_historical.aughts",
             output = MapReduceMergeOutput("yield_historical.merged"))
 
           val result00s = mongoDB.mapReduce(cmd00sMerged)
@@ -223,8 +223,8 @@ class MapReduceSpec extends CasbahMutableSpecification {
           result90s.raw.getAs[String]("result") must beSome("yield_historical.merged_fresh")
 
           val cmd00sMerged = cmd00s.copy(
-            query=None,
-            input="yield_historical.aughts",
+            query = None,
+            input = "yield_historical.aughts",
             output = MapReduceMergeOutput("yield_historical.merged_fresh"))
 
           val result00s = mongoDB.mapReduce(cmd00sMerged)
@@ -238,6 +238,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
     }
 
     "Produce results for reduced output (multiples into a single final collection)" in new testData {
+
       import java.util.Date
 
       val cmd90s = MapReduceCommand(
@@ -314,7 +315,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
     mongoDB.dropDatabase()
 
     try {
-       Seq("mongoimport", "-d", database, "-c", collection, "--drop", "--jsonArray", jsonFile).!!
+      Seq("mongoimport", "-d", database, "-c", collection, "--drop", "--jsonArray", jsonFile).!!
     } catch {
       case ex: IOException => {
         val source = scala.io.Source.fromFile(jsonFile)

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -29,7 +29,7 @@ import com.mongodb.{MongoExecutionTimeoutException, DBCursor, DBDecoderFactory, 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
-import com.mongodb.casbah.map_reduce.{ MapReduceResult, MapReduceCommand }
+import com.mongodb.casbah.map_reduce.{MapReduceResult, MapReduceCommand}
 import com.mongodb.casbah.TypeImports.WriteResult
 import com.mongodb.casbah.commons.TypeImports.DBObject
 import com.mongodb.casbah.TypeImports.DBEncoder
@@ -47,9 +47,11 @@ import com.mongodb.casbah.TypeImports.DBEncoder
  * @version 2.0, 12/23/10
  * @since 1.0
  */
-trait MongoCollectionBase extends Logging { self =>
+trait MongoCollectionBase extends Logging {
+  self =>
   type T <: DBObject
   type CursorType
+
   /**
    * The underlying Java Mongo Driver Collection object we proxy.
    */
@@ -58,9 +60,10 @@ trait MongoCollectionBase extends Logging { self =>
   /**
    * If defined, load the customDecoderFactory.
    */
-  customDecoderFactory.foreach { decoder =>
-    log.debug("Loading Custom DBDecoderFactory '%s' into collection (%s)", decoder, this)
-    underlying.setDBDecoderFactory(decoder)
+  customDecoderFactory.foreach {
+    decoder =>
+      log.debug("Loading Custom DBDecoderFactory '%s' into collection (%s)", decoder, this)
+      underlying.setDBDecoderFactory(decoder)
   }
 
   def customDecoderFactory: Option[DBDecoderFactory] = None
@@ -70,26 +73,26 @@ trait MongoCollectionBase extends Logging { self =>
   def iterator = find()
 
   /** Returns the database this collection is a member of.
-   * @return this collection's database
-   */
+    * @return this collection's database
+    */
   implicit val db = underlying.getDB.asScala
 
   /** Adds the "private" fields _id to an object.
-   * @param o <code>DBObject</code> to which to add fields
-   * @return the modified parameter object
-   */
+    * @param o <code>DBObject</code> to which to add fields
+    * @return the modified parameter object
+    */
   def apply[A <% DBObject](o: A) = underlying.apply(o)
 
   /** Adds the "private" fields _id to an object.
-   * @param jo object to which to add fields
-   * @param ensureID whether to add an <code>_id</code> field or not
-   * @return the modified object <code>o</code>
-   */
+    * @param jo object to which to add fields
+    * @param ensureID whether to add an <code>_id</code> field or not
+    * @return the modified object <code>o</code>
+    */
   def apply[A <% DBObject](jo: A, ensureID: Boolean) = underlying.apply(jo, ensureID)
 
   /** Forces creation of an index on a set of fields, if one does not already exist.
-   * @param keys an object with a key set of the fields desired for the index
-   */
+    * @param keys an object with a key set of the fields desired for the index
+    */
   def createIndex[A <% DBObject](keys: A) = underlying.createIndex(keys)
 
   def createIndex[A <% DBObject, B <% DBObject](keys: A, options: B) =
@@ -102,94 +105,97 @@ trait MongoCollectionBase extends Logging { self =>
   def distinct[A <% DBObject](key: String, query: A = MongoDBObject.empty, readPrefs: ReadPreference = getReadPreference) = underlying.distinct(key, query, readPrefs).asScala
 
   /** Drops (deletes) this collection
-   */
+    */
   def drop() = underlying.drop()
 
   /** Drops (deletes) this collection
-   */
+    */
   def dropCollection() = underlying.drop()
 
   def dropIndex[A <% DBObject](keys: A) = underlying.dropIndex(keys)
 
   def dropIndex(name: String) = underlying.dropIndex(name)
+
   /** Drops all indices from this collection
-   */
+    */
   def dropIndexes() = underlying.dropIndexes()
+
   def dropIndexes(name: String) = underlying.dropIndexes()
 
   /** Creates an index on a set of fields, if one does not already exist.
-   * @param keys an object with a key set of the fields desired for the index
-   */
+    * @param keys an object with a key set of the fields desired for the index
+    */
   def ensureIndex[A <% DBObject](keys: A) = underlying.ensureIndex(keys)
+
   /** Ensures an index on this collection (that is, the index will be created if it does not exist).
-   * ensureIndex is optimized and is inexpensive if the index already exists.
-   * @param keys fields to use for index
-   * @param options options for the index (name, unique, etc)
-   */
+    * ensureIndex is optimized and is inexpensive if the index already exists.
+    * @param keys fields to use for index
+    * @param options options for the index (name, unique, etc)
+    */
   def ensureIndex[A <% DBObject, B <% DBObject](keys: A, options: B) = underlying.ensureIndex(keys, options)
 
   /** Ensures an index on this collection (that is, the index will be created if it does not exist).
-   * ensureIndex is optimized and is inexpensive if the index already exists.
-   * @param keys fields to use for index
-   * @param name an identifier for the index
-   */
+    * ensureIndex is optimized and is inexpensive if the index already exists.
+    * @param keys fields to use for index
+    * @param name an identifier for the index
+    */
   def ensureIndex[A <% DBObject](keys: A, name: String) = underlying.ensureIndex(keys, name)
 
   /** Ensures an optionally unique index on this collection.
-   * @param keys fields to use for index
-   * @param name an identifier for the index
-   * @param unique if the index should be unique
-   */
+    * @param keys fields to use for index
+    * @param name an identifier for the index
+    * @param unique if the index should be unique
+    */
   def ensureIndex[A <% DBObject](keys: A, name: String, unique: Boolean) = underlying.ensureIndex(keys, name, unique)
 
   /** Ensures an index on this collection (that is, the index will be created if it does not exist).
-   * ensureIndex is optimized and is inexpensive if the index already exists.
-   * This creates an ascending index on a particular field.
-   * @param fieldName an identifier for the index
-   */
+    * ensureIndex is optimized and is inexpensive if the index already exists.
+    * This creates an ascending index on a particular field.
+    * @param fieldName an identifier for the index
+    */
   def ensureIndex(fieldName: String) = underlying.ensureIndex(fieldName)
 
   /** Queries for all objects in this collection.
-   * @return a cursor which will iterate over every object
-   */
+    * @return a cursor which will iterate over every object
+    */
   def find() = _newCursor(underlying.find)
 
   /** Queries for an object in this collection.
-   * @param ref object for which to search
-   * @return an iterator over the results
-   */
+    * @param ref object for which to search
+    * @return an iterator over the results
+    */
   def find[A <% DBObject](ref: A) = _newCursor(underlying.find(ref))
 
   /** Queries for an object in this collection.
-   *
-   * <p>
-   * An empty DBObject will match every document in the collection.
-   * Regardless of fields specified, the _id fields are always returned.
-   * </p>
-   * <p>
-   * An example that returns the "x" and "_id" fields for every document
-   * in the collection that has an "x" field:
-   * </p>
-   * <blockquote><pre>
-   * BasicDBObject keys = new BasicDBObject();
-   * keys.put("x", 1);
-   *
-   * DBCursor cursor = collection.find(new BasicDBObject(), keys);
-   * </pre></blockquote>
-   *
-   * @param ref object for which to search
-   * @param keys fields to return
-   * @return a cursor to iterate over results
-   */
+    *
+    * <p>
+    * An empty DBObject will match every document in the collection.
+    * Regardless of fields specified, the _id fields are always returned.
+    * </p>
+    * <p>
+    * An example that returns the "x" and "_id" fields for every document
+    * in the collection that has an "x" field:
+    * </p>
+    * <blockquote><pre>
+    * BasicDBObject keys = new BasicDBObject();
+    * keys.put("x", 1);
+    *
+    * DBCursor cursor = collection.find(new BasicDBObject(), keys);
+    * </pre></blockquote>
+    *
+    * @param ref object for which to search
+    * @param keys fields to return
+    * @return a cursor to iterate over results
+    */
   def find[A <% DBObject, B <% DBObject](ref: A, keys: B) = _newCursor(underlying.find(ref, keys))
 
   /** Finds an object.
-   * @param ref query used to search
-   * @param fields the fields of matching objects to return
-   * @param numToSkip will not return the first <tt>numToSkip</tt> matches
-   * @param batchSize if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch
-   * @return the objects, if found
-   */
+    * @param ref query used to search
+    * @param fields the fields of matching objects to return
+    * @param numToSkip will not return the first <tt>numToSkip</tt> matches
+    * @param batchSize if positive, is the # of objects per batch sent back from the db.  all objects that match will be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or the # that fit in a batch
+    * @return the objects, if found
+    */
   @deprecated("Use `find().skip().batchSize()`.", "2.7")
   def find[A <% DBObject, B <% DBObject](ref: A, fields: B, numToSkip: Int, batchSize: Int) =
     _newCursor(underlying.find(ref, fields).skip(numToSkip).batchSize(batchSize))
@@ -217,10 +223,10 @@ trait MongoCollectionBase extends Logging { self =>
                                                            readPrefs: ReadPreference = getReadPreference,
                                                            maxTime: Duration = Duration(0, MILLISECONDS)) = {
     val document = underlying.find(o, fields)
-                             .sort(orderBy)
-                             .setReadPreference(readPrefs)
-                             .maxTime(maxTime.length, maxTime.unit)
-                             .one()
+      .sort(orderBy)
+      .setReadPreference(readPrefs)
+      .maxTime(maxTime.length, maxTime.unit)
+      .one()
     _typedValue(document)
   }
 
@@ -289,8 +295,8 @@ trait MongoCollectionBase extends Logging { self =>
    * @return the old document
    */
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
-    remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean) =
-      _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
+                                                                                remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean) =
+    _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
 
   /**
    * Finds the first document in the query and updates it.
@@ -307,9 +313,9 @@ trait MongoCollectionBase extends Logging { self =>
    * @return the old document
    */
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
-    remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean, maxTime: Duration) =
-      _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert,
-                                           maxTime.length, maxTime.unit))
+                                                                                remove: Boolean, update: D, returnNew: Boolean, upsert: Boolean, maxTime: Duration) =
+    _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert,
+      maxTime.length, maxTime.unit))
 
   /**
    * Finds the first document in the query and removes it.
@@ -384,40 +390,40 @@ trait MongoCollectionBase extends Logging { self =>
   }
 
   /** Find a collection that is prefixed with this collection's name.
-   * A typical use of this might be
-   * <blockquote><pre>
-   *    DBCollection users = mongo.getCollection( "wiki" ).getCollection( "users" );
-   * </pre></blockquote>
-   * Which is equilalent to
-   * <pre><blockquote>
-   *   DBCollection users = mongo.getCollection( "wiki.users" );
-   * </pre></blockquote>
-   * @param n the name of the collection to find
-   * @return the matching collection
-   *
-   * TODO - Make this support type construction
-   */
+    * A typical use of this might be
+    * <blockquote><pre>
+    * DBCollection users = mongo.getCollection( "wiki" ).getCollection( "users" );
+    * </pre></blockquote>
+    * Which is equilalent to
+    * <pre><blockquote>
+    * DBCollection users = mongo.getCollection( "wiki.users" );
+    * </pre></blockquote>
+    * @param n the name of the collection to find
+    * @return the matching collection
+    *
+    *         TODO - Make this support type construction
+    */
   def getCollection(n: String) = underlying.getCollection(n).asScala
 
   /** Find a collection that is prefixed with this collection's name.
-   * A typical use of this might be
-   * <blockquote><pre>
-   *    DBCollection users = mongo.getCollection( "wiki" ).getCollection( "users" );
-   * </pre></blockquote>
-   * Which is equilalent to
-   * <pre><blockquote>
-   *   DBCollection users = mongo.getCollection( "wiki.users" );
-   * </pre></blockquote>
-   * @param n the name of the collection to find
-   * @return the matching collection
-   *
-   * TODO - Make this support type construction
-   */
+    * A typical use of this might be
+    * <blockquote><pre>
+    * DBCollection users = mongo.getCollection( "wiki" ).getCollection( "users" );
+    * </pre></blockquote>
+    * Which is equilalent to
+    * <pre><blockquote>
+    * DBCollection users = mongo.getCollection( "wiki.users" );
+    * </pre></blockquote>
+    * @param n the name of the collection to find
+    * @return the matching collection
+    *
+    *         TODO - Make this support type construction
+    */
   def collection(n: String) = underlying.getCollection(n).asScala
 
   /**
-   *  Returns the number of documents in the collection
-   *  that match the specified query
+   * Returns the number of documents in the collection
+   * that match the specified query
    *
    * @param query          specifies the selection criteria
    * @param fields         this is ignored
@@ -428,45 +434,45 @@ trait MongoCollectionBase extends Logging { self =>
    *
    * @return the number of documents that matches selection criteria
    */
-  def getCount[A <% DBObject, B <% DBObject](query: A=MongoDBObject.empty, fields: B=MongoDBObject.empty,
-                                             limit: Long=0,  skip: Long=0, readPrefs: ReadPreference=getReadPreference,
+  def getCount[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
+                                             limit: Long = 0, skip: Long = 0, readPrefs: ReadPreference = getReadPreference,
                                              maxTime: Duration = Duration(0, MILLISECONDS)) = {
     underlying.find(query, fields)
-              .skip(skip.toInt)
-              .limit(limit.toInt)
-              .setReadPreference(readPrefs)
-              .maxTime(maxTime.length, maxTime.unit)
-              .count()
+      .skip(skip.toInt)
+      .limit(limit.toInt)
+      .setReadPreference(readPrefs)
+      .maxTime(maxTime.length, maxTime.unit)
+      .count()
   }
 
   /** Returns the database this collection is a member of.
-   * @return this collection's database
-   */
+    * @return this collection's database
+    */
   def getDB = underlying.getDB.asScala
 
   /** Returns the full name of this collection, with the database name as a prefix.
-   * @return  the name of this collection
-   */
+    * @return  the name of this collection
+    */
   def getFullName = underlying.getFullName
 
   /** Returns the full name of this collection, with the database name as a prefix.
-   * @return  the name of this collection
-   */
+    * @return  the name of this collection
+    */
   def fullName = getFullName
 
   /**
-   *   Return a list of the indexes for this collection.  Each object
-   *   in the list is the "info document" from MongoDB
+   * Return a list of the indexes for this collection.  Each object
+   * in the list is the "info document" from MongoDB
    *
-   *   @return list of index documents
+   * @return list of index documents
    */
   def getIndexInfo = underlying.getIndexInfo.asScala
 
   /**
-   *   Return a list of the indexes for this collection.  Each object
-   *   in the list is the "info document" from MongoDB
+   * Return a list of the indexes for this collection.  Each object
+   * in the list is the "info document" from MongoDB
    *
-   *   @return list of index documents
+   * @return list of index documents
    */
   def indexInfo = getIndexInfo
 
@@ -475,13 +481,13 @@ trait MongoCollectionBase extends Logging { self =>
   def name = getName
 
   /** Gets the default class for objects in the collection
-   * @return the class
-   */
+    * @return the class
+    */
   def getObjectClass = underlying.getObjectClass
 
   /** Gets the default class for objects in the collection
-   * @return the class
-   */
+    * @return the class
+    */
   def objectClass = getObjectClass
 
   /**
@@ -498,9 +504,9 @@ trait MongoCollectionBase extends Logging { self =>
    * @param  c (Class[A])
    * @tparam A A Subtype of DBObject
    *
-   * TODO - Ensure proper subtype return
+   *           TODO - Ensure proper subtype return
    */
-  def setObjectClass[A <: DBObject: Manifest](c: Class[A]) = {
+  def setObjectClass[A <: DBObject : Manifest](c: Class[A]) = {
     underlying.setObjectClass(c)
     new MongoGenericTypedCollection[A](underlying = self.underlying)
   }
@@ -520,7 +526,7 @@ trait MongoCollectionBase extends Logging { self =>
    * @tparam A A Subtype of DBObject
    *
    */
-  def objectClass_=[A <: DBObject: Manifest](c: Class[A]) = setObjectClass(c)
+  def objectClass_=[A <: DBObject : Manifest](c: Class[A]) = setObjectClass(c)
 
   def stats = getStats
 
@@ -535,7 +541,7 @@ trait MongoCollectionBase extends Logging { self =>
   def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C,
                                                          reduce: String, finalize: String = null,
                                                          readPrefs: ReadPreference = getReadPreference): Iterable[T] = {
-    underlying.group(key,cond, initial, reduce, finalize, readPrefs).map(_._2.asInstanceOf[T])
+    underlying.group(key, cond, initial, reduce, finalize, readPrefs).map(_._2.asInstanceOf[T])
   }
 
   /**
@@ -546,16 +552,17 @@ trait MongoCollectionBase extends Logging { self =>
    * @param doc  array of documents (<% DBObject) to save
    * @param concern the WriteConcern for the insert
    */
-   def insert[A](doc: A, concern: com.mongodb.WriteConcern )(implicit dbObjView: A => DBObject): WriteResult = insert(doc)(dbObjView, concern = concern)
+  def insert[A](doc: A, concern: com.mongodb.WriteConcern)(implicit dbObjView: A => DBObject): WriteResult = insert(doc)(dbObjView, concern = concern)
+
   /**
    * Saves document(s) to the database.
    * if doc doesn't have an _id, one will be added
    * you can get the _id that was added from doc after the insert
    *
    * @param docs  array of documents (<% DBObject) to save
-   * TODO - Wrapper for WriteResult?
+   *              TODO - Wrapper for WriteResult?
    */
-  def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: com.mongodb.WriteConcern = writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ): WriteResult = {
+  def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: com.mongodb.WriteConcern = writeConcern, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull): WriteResult = {
     val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
     b.sizeHint(docs.size)
     for (x <- docs) b += dbObjView(x)
@@ -599,16 +606,16 @@ trait MongoCollectionBase extends Logging { self =>
   def aggregate[A <% DBObject](pipeline: Iterable[A], options: AggregationOptions): AggregationCursor =
     aggregate(pipeline, options, getReadPreference)
 
- /**
-  * performs an aggregation operation
-  *
-  * @param pipeline the aggregation pipeline
-  * @param readPreference The readPreference for the aggregation
-  *
-  * @return The aggregation operation's result set
-  *
-  */
- def aggregate[A <% DBObject](pipeline: Iterable[A], readPreference: ReadPreference): AggregationOutput =
+  /**
+   * performs an aggregation operation
+   *
+   * @param pipeline the aggregation pipeline
+   * @param readPreference The readPreference for the aggregation
+   *
+   * @return The aggregation operation's result set
+   *
+   */
+  def aggregate[A <% DBObject](pipeline: Iterable[A], readPreference: ReadPreference): AggregationOutput =
     underlying.aggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava, readPreference).asScala
 
   /**
@@ -661,7 +668,7 @@ trait MongoCollectionBase extends Logging { self =>
                 verbose: Boolean = false,
                 maxTime: Option[Duration] = None): MapReduceResult = {
     val cmd = MapReduceCommand(name, mapFunction, reduceFunction, output, query, sort, limit,
-                               finalizeFunction, jsScope, verbose, maxTime)
+      finalizeFunction, jsScope, verbose, maxTime)
     mapReduce(cmd)
   }
 
@@ -687,27 +694,27 @@ trait MongoCollectionBase extends Logging { self =>
   }
 
   /** Removes objects from the database collection.
-   * @param o the object that documents to be removed must match
-   * @param concern WriteConcern for this operation
-   * TODO - Wrapper for WriteResult?
-   */
-  def remove[A](o: A, concern: com.mongodb.WriteConcern = getWriteConcern)(implicit dbObjView: A => DBObject, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) =
+    * @param o the object that documents to be removed must match
+    * @param concern WriteConcern for this operation
+    *                TODO - Wrapper for WriteResult?
+    */
+  def remove[A](o: A, concern: com.mongodb.WriteConcern = getWriteConcern)(implicit dbObjView: A => DBObject, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull) =
     underlying.remove(dbObjView(o), concern, encoder)
 
   /** Clears all indices that have not yet been applied to this collection. */
   def resetIndexCache() = underlying.resetIndexCache()
 
   /** Saves an object to this collection.
-   * @param o the <code>DBObject</code> to save
-   *        will add <code>_id</code> field to o if needed
-   * TODO - Wrapper for WriteResult?
-   */
+    * @param o the <code>DBObject</code> to save
+    *          will add <code>_id</code> field to o if needed
+    *          TODO - Wrapper for WriteResult?
+    */
   def save[A](o: A, concern: com.mongodb.WriteConcern = getWriteConcern)(implicit dbObjView: A => DBObject) = underlying.save(dbObjView(o), concern)
 
 
   /** Set hint fields for this collection.
-   * @param docs a list of <code>DBObject</code>s to be used as hints
-   */
+    * @param docs a list of <code>DBObject</code>s to be used as hints
+    */
   def setHintFields[A <% DBObject](docs: List[A]) = {
     val b = List.newBuilder[DBObject]
     for (x <- docs) b += x
@@ -715,8 +722,8 @@ trait MongoCollectionBase extends Logging { self =>
   }
 
   /** Set hint fields for this collection.
-   * @param docs a list of <code>DBObject</code>s to be used as hints
-   */
+    * @param docs a list of <code>DBObject</code>s to be used as hints
+    */
   def hintFields_=[A <% DBObject](docs: List[A]) = setHintFields(docs)
 
   def setInternalClass(path: String, c: Class[_]) = underlying.setInternalClass(path, c)
@@ -729,9 +736,9 @@ trait MongoCollectionBase extends Logging { self =>
    * Performs an update operation.
    * @param q search query for old object to update
    * @param o object with which to update <tt>q</tt>
-   * TODO - Wrapper for WriteResult?
+   *          TODO - Wrapper for WriteResult?
    */
-  def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false,  concern: com.mongodb.WriteConcern = this.writeConcern)(implicit queryView: A => DBObject, objView: B => DBObject, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull ) =
+  def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false, concern: com.mongodb.WriteConcern = this.writeConcern)(implicit queryView: A => DBObject, objView: B => DBObject, encoder: DBEncoder = customEncoderFactory.map(_.create).orNull) =
     underlying.update(queryView(q), objView(o), upsert, multi, concern, encoder)
 
 
@@ -746,9 +753,9 @@ trait MongoCollectionBase extends Logging { self =>
   override def hashCode() = underlying.hashCode
 
   /** Checks if this collection is equal to another object.
-   * @param obj object with which to compare this collection
-   * @return if the two collections are the same object
-   */
+    * @param obj object with which to compare this collection
+    * @return if the two collections are the same object
+    */
   override def equals(obj: Any) = obj match {
     case other: MongoCollectionBase => underlying.equals(other.underlying)
     case _ => false
@@ -757,11 +764,11 @@ trait MongoCollectionBase extends Logging { self =>
   def count[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
                                           limit: Long = 0, skip: Long = 0, readPrefs: ReadPreference = getReadPreference,
                                           maxTime: Duration = Duration(0, MILLISECONDS)) =
-     getCount(query, fields, limit, skip, readPrefs, maxTime)
+    getCount(query, fields, limit, skip, readPrefs, maxTime)
 
   /**
-   *  Gets the the error (if there is one) from the previous operation.  The result of
-   *  this command will look like
+   * Gets the the error (if there is one) from the previous operation.  The result of
+   * this command will look like
    *
    * <pre>
    * { "err" :  errorMessage  , "ok" : 1.0 }
@@ -772,16 +779,21 @@ trait MongoCollectionBase extends Logging { self =>
    * Care must be taken to ensure that calls to getLastError go to the same connection as that
    * of the previous operation. See com.mongodb.Mongo.requestStart for more information.
    *
-   *  @return DBObject with error and status information
+   * @return DBObject with error and status information
    */
   def getLastError = getDB.getLastError()
+
   def lastError = getLastError
+
   def getLastError(concern: WriteConcern) =
     getDB.getLastError(concern)
+
   def lastError(concern: WriteConcern) =
     getLastError(concern)
+
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean) =
     getDB.getLastError(w, wTimeout, fsync)
+
   def lastError(w: Int, wTimeout: Int, fsync: Boolean) =
     getLastError(w, wTimeout, fsync)
 
@@ -844,6 +856,7 @@ trait MongoCollectionBase extends Logging { self =>
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
   def writeConcern = getWriteConcern
+
   /**
    * Sets the read preference for this collection. Will be used as default for
    * reads from any collection in this collection. See the
@@ -1020,10 +1033,15 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase 
   override protected def _typedValue(dbObj: DBObject): Option[DBObject] = Option(dbObj)
 
   override def head = headOption.get
+
   override def headOption = findOne()
+
   override def tail = find().skip(1).toIterable
+
   override def iterator = find()
+
   override def size = count().toInt
+
   override def toString() = name
 
 }
@@ -1073,7 +1091,7 @@ class MongoGenericTypedCollection[A <: DBObject](val underlying: DBCollection) e
 }
 
 /** Helper object for some static methods
- */
+  */
 object MongoCollection extends Logging {
 
   /**

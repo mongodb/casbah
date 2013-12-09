@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -56,7 +56,7 @@ trait BarewordQueryOperator {
 
 class NestedBarewordListOperator(oper: String) {
 
-  def apply[A : ValidBarewordExpressionArgType](fields: A*): DBObject = {
+  def apply[A: ValidBarewordExpressionArgType](fields: A*): DBObject = {
     val b = Seq.newBuilder[DBObject]
     fields.foreach(x => b += implicitly[ValidBarewordExpressionArgType[A]].toDBObject(x))
     apply(b.result(): Seq[DBObject])
@@ -80,23 +80,23 @@ class NestedBarewordListOperator(oper: String) {
  * @see com.mongodb.casbah.Implicits
  */
 trait FluidQueryBarewordOps extends SetOp
-  with SetOnInsertOp
-  with UnsetOp
-  with IncOp
-  with OrOp
-  with AndOp
-  with RenameOp
-  with ArrayOps
-  with NorOp
-  with BitOp
-  with WhereOp
+with SetOnInsertOp
+with UnsetOp
+with IncOp
+with OrOp
+with AndOp
+with RenameOp
+with ArrayOps
+with NorOp
+with BitOp
+with WhereOp
 
 trait ArrayOps extends PushOp
-                  with PushAllOp
-                  with AddToSetOp
-                  with PopOp
-                  with PullOp
-                  with PullAllOp
+with PushAllOp
+with AddToSetOp
+with PopOp
+with PullOp
+with PullAllOp
 
 /**
  * Trait to provide the \$set (Set) Set method as a bareword operator.
@@ -142,7 +142,7 @@ trait UnsetOp extends BarewordQueryOperator {
 /**
  * Trait to provide the \$inc (inc) method as a bareword operator..
  *
- *   {{{ \$inc ("foo" -> 5) }}}
+ * {{{ \$inc ("foo" -> 5) }}}
  *
  * Targets an RValue of (String, ValidNumericType)* to be converted to a DBObject
  *
@@ -150,13 +150,13 @@ trait UnsetOp extends BarewordQueryOperator {
  * E.g. floats work, but not mixing floats and ints. This can be easily circumvented
  * if you want 'ints' with floats by making your ints floats with .0:
  *
- *   {{{ \$inc ("foo" -> 5.0, "bar" -> 1.6) }}}
+ * {{{ \$inc ("foo" -> 5.0, "bar" -> 1.6) }}}
  *
  * @since 1.0
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24inc
  */
 trait IncOp extends BarewordQueryOperator {
-  def $inc[T: ValidNumericType](args: (String,  T)*): DBObject = apply[T]("$inc")(args)
+  def $inc[T: ValidNumericType](args: (String, T)*): DBObject = apply[T]("$inc")(args)
 }
 
 /*
@@ -171,6 +171,7 @@ trait IncOp extends BarewordQueryOperator {
  */
 trait PushOp extends BarewordQueryOperator {
   def $push[A](fields: (String, A)*): DBObject = apply[A]("$push")(fields)
+
   def $push(field: String) = {
     /**
      * Special query operator only available on the right-hand side of an
@@ -184,6 +185,7 @@ trait PushOp extends BarewordQueryOperator {
     new {
       protected def eachOp(target: Any) =
         MongoDBObject("$push" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
+
       def $each[A: AsQueryParam](target: A*) = eachOp(target)
     }
   }
@@ -200,8 +202,8 @@ trait PushOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pushAll
  */
 trait PushAllOp extends BarewordQueryOperator {
-  def $pushAll[A : AsQueryParam](args: (String, A)*): DBObject =
-    apply("$pushAll")(Seq(args.map(z => z._1 -> AsQueryParam[A].asQueryParam(z._2)) :_*))
+  def $pushAll[A: AsQueryParam](args: (String, A)*): DBObject =
+    apply("$pushAll")(Seq(args.map(z => z._1 -> AsQueryParam[A].asQueryParam(z._2)): _*))
 }
 
 /*
@@ -220,7 +222,9 @@ trait PushAllOp extends BarewordQueryOperator {
  */
 trait AddToSetOp extends BarewordQueryOperator {
   def $addToSet[T <% DBObject](arg: T): DBObject = MongoDBObject("$addToSet" -> arg)
+
   def $addToSet[A](fields: (String, A)*): DBObject = apply[A]("$addToSet")(fields)
+
   def $addToSet(field: String) = {
     /**
      * Special query operator only available on the right-hand side of an
@@ -265,7 +269,9 @@ trait PopOp extends BarewordQueryOperator {
  */
 trait PullOp extends BarewordQueryOperator {
   def $pull[A](fields: (String, A)*) = apply[Any]("$pull")(fields)
+
   def $pull(inner: => DBObject): DBObject = MongoDBObject("$pull" -> inner)
+
   def $pull(inner: DBObject): DBObject = MongoDBObject("$pull" -> inner)
 }
 
@@ -280,7 +286,7 @@ trait PullOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pullAll
  */
 trait PullAllOp extends BarewordQueryOperator {
-  def $pullAll[A : AsQueryParam](args: (String, A)*): DBObject =
+  def $pullAll[A: AsQueryParam](args: (String, A)*): DBObject =
     apply("$pullAll")(Seq(args.map(z => z._1 -> AsQueryParam[A].asQueryParam(z._2)): _*))
 }
 
@@ -358,6 +364,7 @@ trait BitOp extends BarewordQueryOperator {
         MongoDBObject("$bit" -> MongoDBObject(field -> MongoDBObject(oper -> target)))
 
       def and[T: ValidNumericType](target: T) = op("and", target)
+
       def or[T: ValidNumericType](target: T) = op("or", target)
     }
   }

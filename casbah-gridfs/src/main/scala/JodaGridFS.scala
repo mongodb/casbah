@@ -27,7 +27,7 @@ import java.io.{File, InputStream}
 import scala.reflect._
 
 import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile,
-                           GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
+GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._
@@ -76,9 +76,9 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
     def explain() = fileSet.explain
 
     def next() = {
-        val gridfsfile = fileSet.next().asInstanceOf[GridFSDBFileSafeJoda]
-        gridfsfile.setGridFS(underlying)
-        new JodaGridFSDBFile(gridfsfile)
+      val gridfsfile = fileSet.next().asInstanceOf[GridFSDBFileSafeJoda]
+      gridfsfile.setGridFS(underlying)
+      new JodaGridFSDBFile(gridfsfile)
     }
 
     def hasNext: Boolean = fileSet.hasNext

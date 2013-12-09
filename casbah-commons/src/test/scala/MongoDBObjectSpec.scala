@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -203,7 +203,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
         newObj must haveEntries("x" -> "y", "a" -> "b", "foo" -> "bar")
       }
       "A list of Tuple Entrys with ++ " in {
-        val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++ ("foo" -> "bar", "n" -> 5)
+        val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++("foo" -> "bar", "n" -> 5)
         newObj must beDBObject
 
         newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5))
@@ -225,7 +225,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
         dbObj must beDBObject
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b"))
 
-        dbObj += ("foo" -> "bar", "n" -> 5.asInstanceOf[AnyRef], "fbc" -> 542542.2.asInstanceOf[AnyRef])
+        dbObj +=("foo" -> "bar", "n" -> 5.asInstanceOf[AnyRef], "fbc" -> 542542.2.asInstanceOf[AnyRef])
 
         dbObj must beDBObject
 
@@ -355,7 +355,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       "Map values saved as DBObject values should convert" in {
         "From the MongoDBObject constructor" in {
           val dbObj = MongoDBObject("foo" -> "bar", "x" -> 5,
-                                    "map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
+            "map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
           val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
           map.orNull must beDBObject
           /*

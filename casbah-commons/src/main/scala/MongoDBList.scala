@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -68,7 +68,7 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
    * @throws NoSuchElementException
    */
 
-  def as[A : NotNothing](idx: Int): A = {
+  def as[A: NotNothing](idx: Int): A = {
     underlying.get(idx) match {
       case null => throw new NoSuchElementException
       case value => value.asInstanceOf[A]
@@ -76,14 +76,14 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
   }
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A : NotNothing](idx: Int): Option[A] = {
+  def getAs[A: NotNothing](idx: Int): Option[A] = {
     underlying.get(idx) match {
       case null => None
       case value => Some(value.asInstanceOf[A])
     }
   }
 
-  def getAsOrElse[A : NotNothing](idx: Int, default: => A): A = getAs[A](idx) match {
+  def getAsOrElse[A: NotNothing](idx: Int, default: => A): A = getAs[A](idx) match {
     case Some(v) => v
     case None => default
   }
@@ -95,10 +95,13 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
   def length = underlying.size
 
   override def isEmpty = underlying.isEmpty
+
   override def iterator = underlying.iterator.asScala
 
   override def toString() = underlying.toString
+
   override def hashCode() = underlying.hashCode
+
   override def equals(that: Any) = that match {
     case o: MongoDBObject => underlying.equals(o.underlying)
     case o: MongoDBList => underlying.equals(o.underlying)
@@ -136,7 +139,7 @@ sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Se
 
   protected val empty: MongoDBList = new MongoDBList
 
-  protected var elems: MongoDBList  = empty
+  protected var elems: MongoDBList = empty
 
   override def +=(x: Any) = {
     val v = x match {
@@ -146,7 +149,9 @@ sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Se
     this
   }
 
-  def clear() { elems = empty }
+  def clear() {
+    elems = empty
+  }
 
   def result(): MongoDBList = elems
 }

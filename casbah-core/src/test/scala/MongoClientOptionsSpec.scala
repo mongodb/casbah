@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,13 +15,13 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
 package com.mongodb.casbah.test.core
 
-import com.mongodb.{ DBDecoderFactory, DBEncoderFactory, MongoClientOptions => JavaMongoClientOptions}
+import com.mongodb.{DBDecoderFactory, DBEncoderFactory, MongoClientOptions => JavaMongoClientOptions}
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
@@ -77,12 +77,12 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
       builder.socketFactory(socketFactory)
 
       val encoderFactory = new DBEncoderFactory() {
-          def create = null
+        def create = null
       }
       builder.dbEncoderFactory(encoderFactory)
 
       val decoderFactory = new DBDecoderFactory() {
-          def create = null
+        def create = null
       }
       builder.dbDecoderFactory(decoderFactory)
 

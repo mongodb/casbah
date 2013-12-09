@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -32,8 +32,8 @@ import scala.collection.mutable.{Builder, Map, MapLike}
 import scala.reflect._
 
 /**
- *  MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
- *  Cannot act as a DBObject or implement it's interface
+ * MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
+ * Cannot act as a DBObject or implement it's interface
  * due to conflicts between the java methods and scala methods.
  * Implicits and explicit methods allow you to convert to java though.
  *
@@ -45,7 +45,7 @@ import scala.reflect._
  */
 @BeanInfo
 class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[String, AnyRef]
-    with MapLike[String, AnyRef, MongoDBObject] with Logging {
+with MapLike[String, AnyRef, MongoDBObject] with Logging {
 
   override def empty: MongoDBObject = MongoDBObject.empty
 
@@ -66,7 +66,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
    * @return (A)
    * @throws NoSuchElementException
    */
-  def as[A : NotNothing](key: String): A = {
+  def as[A: NotNothing](key: String): A = {
     underlying.get(key) match {
       case null => default(key).asInstanceOf[A]
       case value => if (value.isInstanceOf[BasicDBList]) {
@@ -131,7 +131,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
   def ::(elem: (String, Any)): Seq[DBObject] = Seq(MongoDBObject(elem), this)
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A : NotNothing : Manifest](key: String): Option[A] = {
+  def getAs[A: NotNothing : Manifest](key: String): Option[A] = {
     underlying.get(key) match {
       case null => None
       case value => if (value.isInstanceOf[BasicDBList]) {
@@ -142,8 +142,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
   }
 
 
-
-  def getAsOrElse[A : NotNothing : Manifest](key: String, default: => A): A = getAs[A](key) match {
+  def getAsOrElse[A: NotNothing : Manifest](key: String, default: => A): A = getAs[A](key) match {
     case Some(v) => v
     case None => default
   }
@@ -154,7 +153,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
    * Your type parameter must be that of the item at the bottom of the tree you specify...
    * If cast fails - it's your own fault.
    */
-  def expand[A : NotNothing](key: String): Option[A] = {
+  def expand[A: NotNothing](key: String): Option[A] = {
     @tailrec
     def _dot(dbObj: MongoDBObject, key: String): Option[_] =
       if (key.indexOf('.') < 0) {
@@ -185,10 +184,15 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
 
   /* Methods needed in order to be a proper DBObject */
   def containsField(s: String) = underlying.containsField(s)
+
   @deprecated("containsKey is deprecated in the MongoDB Driver. You should use containsField instead.", "2.0")
-  def containsKey(s: String) = underlying.containsField(s) // method kept for backwards compatibility
+  def containsKey(s: String) = underlying.containsField(s)
+
+  // method kept for backwards compatibility
   def isPartialObject = underlying.isPartialObject
+
   def markAsPartialObject = underlying.markAsPartialObject
+
   def partialObject = isPartialObject
 
   override def put(k: String, v: AnyRef) = {
@@ -204,13 +208,15 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
           case null => None
           case value => Some(value)
         }
-      }
+    }
   }
 
   def putAll(o: DBObject) = underlying.putAll(o)
 
   override def toString() = underlying.toString
+
   override def hashCode() = underlying.hashCode
+
   override def equals(that: Any) = that match {
     case o: MongoDBObject => underlying.equals(o.underlying)
     case o: MongoDBList => underlying.equals(o.underlying)
@@ -218,7 +224,9 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[St
   }
 
   def removeField(key: String) = underlying.removeField(key)
+
   def toMap = underlying.toMap
+
   def asDBObject = underlying
 
   // convenience method to get _id as ObjectId
@@ -233,12 +241,14 @@ object MongoDBObject {
   implicit val canBuildFrom: CanBuildFrom[Map[String, Any], (String, Any), DBObject] =
     new CanBuildFrom[Map[String, Any], (String, Any), DBObject] {
       def apply(from: Map[String, Any]) = apply()
+
       def apply() = newBuilder[String, Any]
     }
 
   def empty: DBObject = new MongoDBObject()
 
   def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result
+
   def apply[A <: String, B <: Any](elems: List[(A, B)]): DBObject = apply(elems: _*)
 
   def newBuilder[A <: String, B <: Any]: Builder[(String, Any), DBObject] = new MongoDBObjectBuilder
@@ -260,6 +270,7 @@ object MongoDBObject {
 }
 
 sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
+
   import com.mongodb.BasicDBObjectBuilder
 
   protected val empty = BasicDBObjectBuilder.start
@@ -274,7 +285,10 @@ sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
     this
   }
 
-  def clear() { elems = empty }
+  def clear() {
+    elems = empty
+  }
+
   def result(): DBObject = new MongoDBObject(elems.get)
 }
 

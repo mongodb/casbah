@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -36,11 +36,11 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         set must haveEntry("$set.foo" -> "bar")
       }
       "Multiple pairs" in {
-        val set = $set("foo" -> "bar", "x" -> 5.2, "y" -> 9, "a" -> ("b", "c", "d", "e"))
+        val set = $set("foo" -> "bar", "x" -> 5.2, "y" -> 9, "a" ->("b", "c", "d", "e"))
         set must haveEntry("$set.foo" -> "bar")
         set must haveEntry("$set.x" -> 5.2)
         set must haveEntry("$set.y" -> 9)
-        set must haveEntry("$set.a" -> ("b", "c", "d", "e"))
+        set must haveEntry("$set.a" ->("b", "c", "d", "e"))
       }
     }
   }
@@ -52,11 +52,11 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         set must haveEntry("$setOnInsert.foo" -> "bar")
       }
       "Multiple pairs" in {
-        val set = $setOnInsert("foo" -> "bar", "x" -> 5.2, "y" -> 9, "a" -> ("b", "c", "d", "e"))
+        val set = $setOnInsert("foo" -> "bar", "x" -> 5.2, "y" -> 9, "a" ->("b", "c", "d", "e"))
         set must haveEntry("$setOnInsert.foo" -> "bar")
         set must haveEntry("$setOnInsert.x" -> 5.2)
         set must haveEntry("$setOnInsert.y" -> 9)
-        set must haveEntry("$setOnInsert.a" -> ("b", "c", "d", "e"))
+        set must haveEntry("$setOnInsert.a" ->("b", "c", "d", "e"))
       }
     }
   }
@@ -93,21 +93,23 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
 
   "Casbah's DSL $or Operator" >> {
     "Accept multiple values" in {
-      val or = $or ( "foo" -> "bar", "x" -> "y" )
+      val or = $or("foo" -> "bar", "x" -> "y")
       or must haveListEntry("$or", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
     }
     "Accept a mix" in {
-      val or = $or { "foo" -> "bar" :: ("foo" $gt 5 $lt 10) }
+      val or = $or {
+        "foo" -> "bar" :: ("foo" $gt 5 $lt 10)
+      }
       or must haveListEntry("$or", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("foo" -> MongoDBObject("$gt" -> 5, "$lt" -> 10))))
     }
     "Work with nested operators" in {
       "As a simple list (comma separated)" in {
-        val or = $or( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
+        val or = $or("foo" $lt 5 $gt 1, "x" $gte 10 $lte 152)
         or must haveListEntry("$or", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
           MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
       }
       "As a cons (::  constructed) cell" in {
-        val or = $or( ("foo" $lt 5 $gt 1) :: ("x" $gte 10 $lte 152) )
+        val or = $or(("foo" $lt 5 $gt 1) :: ("x" $gte 10 $lte 152))
         or must haveListEntry("$or", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
           MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
       }
@@ -116,21 +118,23 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
 
   "Casbah's DSL $and Operator" >> {
     "Accept multiple values" in {
-      val and = $and ( "foo" -> "bar", "x" -> "y" )
+      val and = $and("foo" -> "bar", "x" -> "y")
       and must haveListEntry("$and", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
     }
     "Accept a mix" in {
-      val and = $and { "foo" -> "bar" :: ("foo" $gt 5 $lt 10) }
+      val and = $and {
+        "foo" -> "bar" :: ("foo" $gt 5 $lt 10)
+      }
       and must haveListEntry("$and", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("foo" -> MongoDBObject("$gt" -> 5, "$lt" -> 10))))
     }
     "Work with nested operators" in {
       "As a simple list (comma separated)" in {
-        val and = $and( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
+        val and = $and("foo" $lt 5 $gt 1, "x" $gte 10 $lte 152)
         and must haveListEntry("$and", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
           MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
       }
       "As a cons (::  constructed) cell" in {
-        val and = $and( ("foo" $lt 5 $gt 1) :: ("x" $gte 10 $lte 152) )
+        val and = $and(("foo" $lt 5 $gt 1) :: ("x" $gte 10 $lte 152))
         and must haveListEntry("$and", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
           MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
       }
@@ -163,20 +167,20 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         push must haveEntry("$push.x" -> 5.2)
       }
       "Accept $each" in {
-        val push = $push("foo") $each ("x", "y", "foo", "bar", "baz")
+        val push = $push("foo") $each("x", "y", "foo", "bar", "baz")
         push must haveListEntry("$push.foo.$each", Seq("x", "y", "foo", "bar", "baz"))
       }
     }
     "$pushAll" in {
       "Accept a single value list" in {
-        val push = $pushAll("foo" -> ("bar", "baz", "x", "y"))
+        val push = $pushAll("foo" ->("bar", "baz", "x", "y"))
         push must haveListEntry("$pushAll.foo", List("bar", "baz", "x", "y"))
       }
 
       "Handle iterable types" in {
-        val tuple = $pushAll("seq" -> (4, 5, 6))
-        val seq   = $pushAll("seq" -> Seq(4,5,6))
-        val list  = $pushAll("seq" -> List(4, 5, 6))
+        val tuple = $pushAll("seq" ->(4, 5, 6))
+        val seq = $pushAll("seq" -> Seq(4, 5, 6))
+        val list = $pushAll("seq" -> List(4, 5, 6))
         val array = $pushAll("seq" -> Array(4, 5, 6))
 
         tuple must beEqualTo(seq)
@@ -185,15 +189,15 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
       }
 
       "Accept multiple value lists" in {
-        val push = $pushAll("foo" -> ("bar", "baz", "x", "y"), "n" -> (5, 10, 12, 238))
+        val push = $pushAll("foo" ->("bar", "baz", "x", "y"), "n" ->(5, 10, 12, 238))
         push must haveListEntry("$pushAll.foo", List("bar", "baz", "x", "y"))
         push must haveListEntry("$pushAll.n", List(5, 10, 12, 238))
       }
 
       "Handle multiple iterable types" in {
-        val tuple = $pushAll("1" -> (4, 5, 6), "2" -> (7, 8, 9))
-        val seq   = $pushAll("1" -> Seq(4,5,6), "2" -> Seq(7, 8, 9))
-        val list  = $pushAll("1" -> List(4, 5, 6), "2" -> List(7, 8, 9))
+        val tuple = $pushAll("1" ->(4, 5, 6), "2" ->(7, 8, 9))
+        val seq = $pushAll("1" -> Seq(4, 5, 6), "2" -> Seq(7, 8, 9))
+        val list = $pushAll("1" -> List(4, 5, 6), "2" -> List(7, 8, 9))
         val array = $pushAll("1" -> Array(4, 5, 6), "2" -> Array(7, 8, 9))
 
         tuple must beEqualTo(seq)
@@ -213,7 +217,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
         addToSet must haveEntry("$addToSet.x" -> 5.2)
       }
       "Function with the $each operator for multi-value updates" in {
-        val addToSet = $addToSet("foo") $each ("x", "y", "foo", "bar", "baz")
+        val addToSet = $addToSet("foo") $each("x", "y", "foo", "bar", "baz")
         addToSet must haveListEntry("$addToSet.foo.$each", Seq("x", "y", "foo", "bar", "baz"))
       }
     }
@@ -257,12 +261,16 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
       "Allow Value Test Operators" in {
         "A simple $gt test" in {
           // Syntax oddity due to compiler confusion
-          val pull = $pull { "foo" $gt 5 }
+          val pull = $pull {
+            "foo" $gt 5
+          }
           pull must haveEntry("$pull.foo.$gt" -> 5)
         }
         "A deeper chain test" in {
           // Syntax oddity due to compiler confusion
-          val pull = $pull { "foo" $gt 5 $lte 52 }
+          val pull = $pull {
+            "foo" $gt 5 $lte 52
+          }
           pull must haveEntry("$pull.foo.$gt" -> 5)
           pull must haveEntry("$pull.foo.$lte" -> 52)
         }
@@ -275,14 +283,14 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
     }
     "$pullAll" in {
       "Accept a single value list" in {
-        val pull = $pullAll("foo" -> ("bar", "baz", "x", "y"))
+        val pull = $pullAll("foo" ->("bar", "baz", "x", "y"))
         pull must haveEntry("$pullAll.foo" -> Seq("bar", "baz", "x", "y"))
       }
 
       "Handle iterable types" in {
-        val tuple = $pullAll("seq" -> (4, 5, 6))
-        val seq   = $pullAll("seq" -> Seq(4,5,6))
-        val list  = $pullAll("seq" -> List(4, 5, 6))
+        val tuple = $pullAll("seq" ->(4, 5, 6))
+        val seq = $pullAll("seq" -> Seq(4, 5, 6))
+        val list = $pullAll("seq" -> List(4, 5, 6))
         val array = $pullAll("seq" -> Array(4, 5, 6))
 
         tuple must beEqualTo(seq)
@@ -291,14 +299,14 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
       }
 
       "Accept multiple value lists" in {
-        val pull = $pullAll("foo" -> ("bar", "baz", "x", "y"), "n" -> (5, 10, 12, 238))
+        val pull = $pullAll("foo" ->("bar", "baz", "x", "y"), "n" ->(5, 10, 12, 238))
         pull must haveEntry("$pullAll.foo" -> Seq("bar", "baz", "x", "y"))
         pull must haveEntry("$pullAll.n" -> Seq(5, 10, 12, 238))
       }
       "Handle multiple iterable types" in {
-        val tuple = $pullAll("1" -> (4, 5, 6), "2" -> (7, 8, 9))
-        val seq   = $pullAll("1" -> Seq(4,5,6), "2" -> Seq(7, 8, 9))
-        val list  = $pullAll("1" -> List(4, 5, 6), "2" -> List(7, 8, 9))
+        val tuple = $pullAll("1" ->(4, 5, 6), "2" ->(7, 8, 9))
+        val seq = $pullAll("1" -> Seq(4, 5, 6), "2" -> Seq(7, 8, 9))
+        val list = $pullAll("1" -> List(4, 5, 6), "2" -> List(7, 8, 9))
         val array = $pullAll("1" -> Array(4, 5, 6), "2" -> Array(7, 8, 9))
 
         tuple must beEqualTo(seq)
@@ -311,21 +319,23 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
 
   "Casbah's DSL $nor operator" >> {
     "Accept multiple values" in {
-      val nor = $nor ( "foo" -> "bar", "x" -> "y" )
+      val nor = $nor("foo" -> "bar", "x" -> "y")
       nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
     }
-   "Accept a mix" in {
-      val nor = $nor { "foo" -> "bar" :: ("foo" $gt 5 $lt 10) }
+    "Accept a mix" in {
+      val nor = $nor {
+        "foo" -> "bar" :: ("foo" $gt 5 $lt 10)
+      }
       nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("foo" -> MongoDBObject("$gt" -> 5, "$lt" -> 10))))
     }
     "Work with nested operators" in {
       "As a simple list (comma separated)" in {
-        val nor = $nor( "foo" $lt 5 $gt 1, "x" $gte 10 $lte 152 )
+        val nor = $nor("foo" $lt 5 $gt 1, "x" $gte 10 $lte 152)
         nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
           MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
       }
       "As a cons (::  constructed) cell" in {
-        val nor = $nor( ("foo" $lt 5 $gt 1) :: ("x" $gte 10 $lte 152) )
+        val nor = $nor(("foo" $lt 5 $gt 1) :: ("x" $gte 10 $lte 152))
         nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> MongoDBObject("$lt" -> 5, "$gt" -> 1)),
           MongoDBObject("x" -> MongoDBObject("$gte" -> 10, "$lte" -> 152))))
       }

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -84,6 +84,7 @@ trait Implicits {
      * @return MongoCollection An instance of the scala wrapper containing the collection object.
      */
     def asScala: MongoCollection = new MongoCollection(coll)
+
     /**
      * Return a GENERIC Scala wrapper object for the DBCollection specific to a given Parameter type.
      * @return MongoCollection[A<:DBObject] An instance of the scala wrapper containing the collection object.
@@ -102,11 +103,12 @@ trait Implicits {
      * @return MongoCursor An instance of the scala wrapper containing the cursor object.
      */
     def asScala: MongoCursor = new MongoCursor(cursor)
+
     /**
      * Return a GENERIC Scala wrapper object for the DBCursor specific to a given Parameter type.
      * @return MongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
      */
-    def asScalaTyped[A <: com.mongodb.DBObject: Manifest] = new MongoGenericTypedCursor[A](cursor)
+    def asScalaTyped[A <: com.mongodb.DBObject : Manifest] = new MongoGenericTypedCursor[A](cursor)
   }
 
   /**
@@ -135,8 +137,11 @@ trait Implicits {
 }
 
 object Implicits extends Implicits with commons.Implicits with query.Implicits
+
 object Imports extends Imports with commons.Imports with query.Imports with query.dsl.FluidQueryBarewordOps
+
 object BaseImports extends BaseImports with commons.BaseImports with query.BaseImports
+
 object TypeImports extends TypeImports with commons.TypeImports with query.TypeImports
 
 trait Imports extends BaseImports with TypeImports with Implicits

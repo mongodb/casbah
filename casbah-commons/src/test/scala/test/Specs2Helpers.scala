@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,7 @@ package test
 
 import org.specs2._
 import org.specs2.data.Sized
-import org.specs2.matcher.{ Expectable, Matcher }
+import org.specs2.matcher.{Expectable, Matcher}
 import org.specs2.matcher.Matchers._
 
 import scala.collection.JavaConverters._
@@ -44,7 +44,7 @@ trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
 
   implicit val sizedOptDBList = new Sized[Option[MongoDBList]] {
     def size(t: Option[MongoDBList]) = {
-      val item: MongoDBList =  t.getOrElse(MongoDBList.empty)
+      val item: MongoDBList = t.getOrElse(MongoDBList.empty)
       item.size
     }
   }
@@ -65,9 +65,9 @@ trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
   lazy val client: MongoClient = new MongoClient()
 
   lazy val versionArray = client.getDB("admin")
-                                .command("buildInfo")
-                                .getAs[MongoDBList]("versionArray")
-                                .get
+    .command("buildInfo")
+    .getAs[MongoDBList]("versionArray")
+    .get
 
   /**
    *
@@ -75,19 +75,21 @@ trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
    * @return true if server is at least specified version
    */
   def serverIsAtLeastVersion(minVersion: Int*): Boolean =
-    versionArray.take(minVersion.length).corresponds(minVersion){_.asInstanceOf[Int] >= _}
+    versionArray.take(minVersion.length).corresponds(minVersion) {
+      _.asInstanceOf[Int] >= _
+    }
 
   def enableMaxTimeFailPoint() {
-    if (serverIsAtLeastVersion(2,5)) {
+    if (serverIsAtLeastVersion(2, 5)) {
       client.getDB("admin").command(new BasicDBObject("configureFailPoint", "maxTimeAlwaysTimeOut").append("mode", "alwaysOn"),
-                                          0, ReadPreference.primary())
+        0, ReadPreference.primary())
     }
   }
 
   def disableMaxTimeFailPoint() {
-    if (serverIsAtLeastVersion(2,5)) {
+    if (serverIsAtLeastVersion(2, 5)) {
       client.getDB("admin").command(new BasicDBObject("configureFailPoint", "maxTimeAlwaysTimeOut").append("mode", "off"),
-                                          0, ReadPreference.primary())
+        0, ReadPreference.primary())
     }
   }
 
@@ -138,8 +140,8 @@ trait SpecsDBObjectBaseMatchers extends Logging {
   }
 
   /** matches if a Some(map) contains a pair (key, value) == (k, v)
-   * Will expand out dot notation for matching.
-   **/
+    * Will expand out dot notation for matching.
+    * */
   def haveSomeEntry[V](p: (String, V)) = new Matcher[Option[DBObject]] {
     def apply[S <: Option[DBObject]](map: Expectable[S]) = {
       result(someField(map, p._1).exists(_ == p._2), // match only the value
@@ -148,8 +150,8 @@ trait SpecsDBObjectBaseMatchers extends Logging {
   }
 
   /** Special version of "HaveEntry" that expects a list and then uses
-   * "hasSameElements" on it.
-   */
+    * "hasSameElements" on it.
+    */
   def haveListEntry(k: String, l: => Traversable[Any]) = new Matcher[DBObject] {
     def apply[S <: DBObject](map: Expectable[S]) = {
       val objL = listField(map, k).getOrElse(Seq.empty[Any]).toSeq
@@ -162,8 +164,8 @@ trait SpecsDBObjectBaseMatchers extends Logging {
   }
 
   /** matches if map contains a pair (key, value) == (k, v)
-   * Will expand out dot notation for matching.
-   **/
+    * Will expand out dot notation for matching.
+    * */
   def haveEntry[V](p: (String, V)) = new Matcher[DBObject] {
     def apply[S <: DBObject](map: Expectable[S]) = {
       result(field(map, p._1).exists(_.equals(p._2)), // match only the value
@@ -174,19 +176,19 @@ trait SpecsDBObjectBaseMatchers extends Logging {
   }
 
   /** matches if Some(map) contains all the specified pairs
-   * can expand dot notation to match specific sub-keys */
+    * can expand dot notation to match specific sub-keys */
   def haveSomeEntries[V](pairs: (String, V)*) = new Matcher[Option[DBObject]] {
     def apply[S <: Option[DBObject]](map: Expectable[S]) = {
-      result(pairs.forall(pair => someField(map, pair._1).exists(_ == pair._2) /* match only the value */ ),
+      result(pairs.forall(pair => someField(map, pair._1).exists(_ == pair._2) /* match only the value */),
         map.description + " has the pairs " + pairs.mkString(", "), map.description + " doesn't have the pairs " + pairs.mkString(", "), map)
     }
   }
 
   /** matches if map contains all the specified pairs
-   * can expand dot notation to match specific sub-keys */
+    * can expand dot notation to match specific sub-keys */
   def haveEntries[V](pairs: (String, V)*) = new Matcher[DBObject] {
     def apply[S <: DBObject](map: Expectable[S]) = {
-      result(pairs.forall(pair => field(map, pair._1).exists(_ == pair._2) /* match only the value */ ),
+      result(pairs.forall(pair => field(map, pair._1).exists(_ == pair._2) /* match only the value */),
         map.description + " has the pairs " + pairs.mkString(", "),
         map.description + " doesn't have the pairs " + pairs.mkString(", "),
         map)

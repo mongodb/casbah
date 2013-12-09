@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -71,7 +71,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       val mongo = mongoDB("dateFail")
       mongo.dropCollection()
 
-      lazy val saveDate = { mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda") }
+      lazy val saveDate = {
+        mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda")
+      }
 
       saveDate must throwA[IllegalArgumentException]
 
@@ -101,7 +103,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       //jodaEntry.get.get("date") must beSome[DateTime]
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = { jodaEntry.get.getAs[JDKDate]("date") }
+      lazy val getDate = {
+        jodaEntry.get.getAs[JDKDate]("date")
+      }
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException]
     }
@@ -123,7 +127,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
 
       // Casting it as something it isn't will fail
-      lazy val getDate = { jodaEntry.get.getAs[JDKDate]("date") }
+      lazy val getDate = {
+        jodaEntry.get.getAs[JDKDate]("date")
+      }
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException]
     }
@@ -144,7 +150,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       //jodaEntry.get.get("date") must beSome[DateTime]
       jodaEntry.get.getAs[LocalDateTime]("date") must beSome(localJodaDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = { jodaEntry.get.getAs[JDKDate]("date") }
+      lazy val getDate = {
+        jodaEntry.get.getAs[JDKDate]("date")
+      }
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException]
     }
@@ -165,7 +173,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       //jodaEntry.get.get("date") must beSome[DateTime]
       jodaEntry.get.getAs[LocalDateTime]("date") must beSome(localJodaDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = { jodaEntry.get.getAs[JDKDate]("date") }
+      lazy val getDate = {
+        jodaEntry.get.getAs[JDKDate]("date")
+      }
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException]
     }
@@ -179,7 +189,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       DeregisterConversionHelpers()
       DeregisterJodaTimeConversionHelpers()
       DeregisterJodaLocalDateTimeConversionHelpers()
-      lazy val testJodaInsert = { mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda") }
+      lazy val testJodaInsert = {
+        mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda")
+      }
 
       testJodaInsert must throwA[IllegalArgumentException]
 
@@ -193,7 +205,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
 
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = { jdkEntry.get.getAs[DateTime]("date") }
+      lazy val getDate = {
+        jdkEntry.get.getAs[DateTime]("date")
+      }
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException]
     }
@@ -212,7 +226,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
 
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = { jdkEntry.get.getAs[DateTime]("date") }
+      lazy val getDate = {
+        jdkEntry.get.getAs[DateTime]("date")
+      }
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getDate.get must throwA[ClassCastException]
 
@@ -225,7 +241,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
 
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
       // Casting it as something it isn't will fail
-      lazy val getConvertedDate = { jodaEntry.get.getAs[JDKDate]("date") }
+      lazy val getConvertedDate = {
+        jodaEntry.get.getAs[JDKDate]("date")
+      }
       // Note - exceptions are wrapped by Some() and won't be thrown until you .get
       getConvertedDate.get must throwA[ClassCastException]
     }

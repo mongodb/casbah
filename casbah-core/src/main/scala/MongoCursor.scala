@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -214,13 +214,13 @@ trait MongoCursorBase extends Logging {
    * of the query that created this cursor.
    * This creates an instance of CursorExplanation which is a custom
    * dbObject with the key/value pairs:
-   *     - cursor = Cursor Type
-   *     - nscanned = Number of items examined by Mongo for this query
-   *     - nscannedObjects = Number of objects examined by Mongo
-   *     - n = the number of records which Mongo returned
-   *     - millis = how long it took Mongo to execute the query
-   *     - nYields = number of times this query yielded the read lock to let writes in
-   *     - indexBounds = the index boundaries used.
+   * - cursor = Cursor Type
+   * - nscanned = Number of items examined by Mongo for this query
+   * - nscannedObjects = Number of objects examined by Mongo
+   * - n = the number of records which Mongo returned
+   * - millis = how long it took Mongo to execute the query
+   * - nYields = number of times this query yielded the read lock to let writes in
+   * - indexBounds = the index boundaries used.
    *
    * CursorExplanation provides utility methods to access these fields.
    *
@@ -322,7 +322,7 @@ trait MongoCursorBase extends Logging {
    *
    * adds a special operator like \$maxScan or \$returnKey
    * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-Specialoperators
-   * {@inheritDoc}
+   *      { @inheritDoc}
    * @return the same DBCursor, useful for chaining operations
    */
   def addSpecial(name: String, o: Any): this.type = {
@@ -513,6 +513,7 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    * @throws MongoException if errors
    */
   override def size = underlying.size()
+
   /**
    * _newInstance
    *
@@ -541,7 +542,7 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    * Set the maximum execution time for operations on this cursor.
    *
    * @param maxTime  the maximum time that the server will allow the query to run, before killing the operation. A non-zero value
-   *                  requires a server version >= 2.6
+   *                 requires a server version >= 2.6
    * @return the new cursor
    *
    * @since 2.7
@@ -565,7 +566,7 @@ object MongoCursor extends Logging {
    * @param  keys (K) Keys to return from the query
    * @return (instance) A new MongoCursor
    */
-   def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject): MongoCursorBase = apply(collection, query, keys, collection.readPreference)
+  def apply[T <: DBObject : Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject): MongoCursorBase = apply(collection, query, keys, collection.readPreference)
 
   /**
    * Initialize a new cursor with your own custom settings
@@ -576,7 +577,7 @@ object MongoCursor extends Logging {
    * @param  readPref the read preference for the cursor
    * @return (instance) A new MongoCursor
    */
-  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject, readPref: ReadPreference) = {
+  def apply[T <: DBObject : Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject, readPref: ReadPreference) = {
     val cursor = new DBCursor(collection.underlying, query, keys, readPref)
 
     if (manifest[T] == manifest[DBObject])
@@ -665,9 +666,9 @@ sealed class CursorExplanation(override val underlying: DBObject) extends MongoD
   /**
    * nscanned
    *
-   *  Number of items examined by Mongo for this query.
-   *  Items could be objects or index keys---if a "covered" index
-   *  is involved, nscanned may be higher than nscannedObjects
+   * Number of items examined by Mongo for this query.
+   * Items could be objects or index keys---if a "covered" index
+   * is involved, nscanned may be higher than nscannedObjects
    *
    * @return a Long value indicating 'nscanned'
    */

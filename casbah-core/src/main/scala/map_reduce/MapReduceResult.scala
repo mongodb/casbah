@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -58,7 +58,8 @@ trait MapReduceResult extends Iterator[DBObject] with Logging {
   def raw: DBObject
 
   val isError = false
-  lazy val ok = !isError // This may be deprecated in a future release
+  lazy val ok = !isError
+  // This may be deprecated in a future release
   val errorMessage: Option[String] = None
   lazy val err = errorMessage
 
@@ -87,26 +88,30 @@ trait MapReduceResult extends Iterator[DBObject] with Logging {
 
 }
 
-class MapReduceCollectionBasedResult protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
+class MapReduceCollectionBasedResult protected[mongodb](override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
   override lazy val cursor: Iterator[DBObject] = db(raw.as[String]("result")).find
 
   override def size = cursor.size
+
   override def toString() = "{MapReduceResult Proxying Result stored in collection [%s] against raw response [%s]}".format(raw.as[String]("result"), raw.toString)
 }
 
-class MapReduceInlineResult protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceCollectionBasedResult(raw) {
+class MapReduceInlineResult protected[mongodb](override val raw: DBObject)(implicit db: MongoDB) extends MapReduceCollectionBasedResult(raw) {
   private val results = raw.as[MongoDBList]("results")
   override lazy val cursor = new Iterator[DBObject] {
     private val iter = results.iterator
+
     def next() = iter.next.asInstanceOf[DBObject]
+
     def hasNext = iter.hasNext
   }
 
   override def size = results.size
+
   override def toString = "{MapReduceResult Proxying Result returned Inline against raw response [%s]}".format(raw.toString)
 }
 
-class MapReduceError protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
+class MapReduceError protected[mongodb](override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
   val cursor = Iterator.empty
 
   override val isError = true

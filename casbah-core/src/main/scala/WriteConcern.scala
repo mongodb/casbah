@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -68,14 +68,14 @@ object WriteConcern {
   /**
    * Create a new WriteConcern object.
    *
-   *	<p> w represents # of servers:
-   * 		<ul>
-   * 			<li><code>w=-1</code> None, no checking is done</li>
-   * 			<li><code>w=0</code> None, network socket errors raised</li>
-   * 			<li><code>w=1</code> Checks server for errors as well as network socket errors raised</li>
-   * 			<li><code>w>1</code> Checks servers (w) for errors as well as network socket errors raised</li>
-   * 		</ul>
-   * 	</p>
+   * <p> w represents # of servers:
+   * <ul>
+   * <li><code>w=-1</code> None, no checking is done</li>
+   * <li><code>w=0</code> None, network socket errors raised</li>
+   * <li><code>w=1</code> Checks server for errors as well as network socket errors raised</li>
+   * <li><code>w>1</code> Checks servers (w) for errors as well as network socket errors raised</li>
+   * </ul>
+   * </p>
    * @param w (Int) Specifies the number of servers to wait for on the write operation, and exception raising behavior. Defaults to <code>0</code>
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
    * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
@@ -92,7 +92,7 @@ object WriteConcern {
   /**
    * Create a new WriteConcern object.
    *
-   *	<p> w is a String representing a valid getLastErrorMode rule (or "majority")
+   * <p> w is a String representing a valid getLastErrorMode rule (or "majority")
    * @param w (Int) Specifies the getLastErrorMode to apply to the write
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
    * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False

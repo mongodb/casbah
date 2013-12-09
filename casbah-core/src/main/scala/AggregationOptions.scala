@@ -1,6 +1,6 @@
 package com.mongodb.casbah
 
-import com.mongodb.{ AggregationOptions => JAggregationOptions }
+import com.mongodb.{AggregationOptions => JAggregationOptions}
 import scala.concurrent.duration.Duration
 
 /**
@@ -13,7 +13,7 @@ object AggregationOptions {
   val INLINE = JAggregationOptions.OutputMode.INLINE
   val CURSOR = JAggregationOptions.OutputMode.CURSOR
 
-  val default =  JAggregationOptions.builder().build()
+  val default = JAggregationOptions.builder().build()
 
   /**
    * Instantiate a new AggregationOptions instance

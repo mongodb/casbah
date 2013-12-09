@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -96,7 +96,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       coll.insert(MongoDBObject("foo" -> "bar"))
       coll.indexInfo.length must beEqualTo(1)
 
-      coll.ensureIndex(MongoDBObject("uid"->1), "user_index", unique=true)
+      coll.ensureIndex(MongoDBObject("uid" -> 1), "user_index", unique = true)
       coll.indexInfo.length must beEqualTo(2)
 
       coll.indexInfo(1)("key") == MongoDBObject("uid" -> 1)
@@ -107,7 +107,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       coll.drop()
 
       coll += MongoDBObject("loc" -> List(0, 0))
-      val near = "loc" $near (0, 0)
+      val near = "loc" $near(0, 0)
       coll.findOne(near) must throwAn[MongoException]
     }
 
@@ -164,17 +164,17 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     // val first5 = coll.find(MongoDBObject("foo" -> "bar")) limit 5
 
     "Behave in chains" in {
-/*
- *      "For loops for idiomatic cleanness" in {
- *
- *        // todo - add limit, skip etc on COLLECTION for cleaner chains like this?
- *        val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5 limit 20) yield x
- *
- *        items must haveSize(20)
- *        // TODO - Matchers that support freaking cursors, etc
- *        [>items must haveSameElementsAs(first5).not<]
- *      }
- */
+      /*
+       *      "For loops for idiomatic cleanness" in {
+       *
+       *        // todo - add limit, skip etc on COLLECTION for cleaner chains like this?
+       *        val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5 limit 20) yield x
+       *
+       *        items must haveSize(20)
+       *        // TODO - Matchers that support freaking cursors, etc
+       *        [>items must haveSameElementsAs(first5).not<]
+       *      }
+       */
 
       "Chain operations must return the proper *subtype*" in {
         val cur = coll.find(MongoDBObject("foo" -> "bar")) skip 5
@@ -188,165 +188,165 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
   }
 
   "Distinct operations" should {
-      lazy val coll = db("distinct")
-      if (MongoDBOnline) {
-        coll.drop()
-        for (i <- 1 to 99)
-          coll += MongoDBObject("_id" -> i, "x" -> i % 10)
-      }
-      "except just a key" in {
-        val l = coll.distinct( "x" )
-        l.size must beEqualTo(10)
-      }
+    lazy val coll = db("distinct")
+    if (MongoDBOnline) {
+      coll.drop()
+      for (i <- 1 to 99)
+        coll += MongoDBObject("_id" -> i, "x" -> i % 10)
+    }
+    "except just a key" in {
+      val l = coll.distinct("x")
+      l.size must beEqualTo(10)
+    }
 
-      "except key and query" in {
-        val l = coll.distinct( "x" , "_id" $gt 95 )
-        l.size must beEqualTo(4)
-      }
+    "except key and query" in {
+      val l = coll.distinct("x", "_id" $gt 95)
+      l.size must beEqualTo(4)
+    }
 
-      "except key and readPref" in {
-        val l = coll.distinct( "x", readPrefs=ReadPreference.Primary )
-        l.size must beEqualTo(10)
-      }
+    "except key and readPref" in {
+      val l = coll.distinct("x", readPrefs = ReadPreference.Primary)
+      l.size must beEqualTo(10)
+    }
 
-      "except key, query and readPref" in {
-        val l = coll.distinct( "x" , "_id" $gt 95, ReadPreference.Primary )
-        l.size must beEqualTo(4)
-      }
+    "except key, query and readPref" in {
+      val l = coll.distinct("x", "_id" $gt 95, ReadPreference.Primary)
+      l.size must beEqualTo(4)
+    }
 
   }
 
   "Aggregation operations" should {
-      lazy val coll = db("aggregate")
-      if (MongoDBOnline) {
-        coll.drop()
-        for (i <- 1 to 99)
-          coll += MongoDBObject("_id" -> i, "score" -> i % 10)
-      }
-      "except just a single op" in {
-        val cursor: AggregationOutput = coll.aggregate( MongoDBObject("$match" -> ("score" $gte 7)) )
-        cursor.results.size must beEqualTo(30)
-      }
+    lazy val coll = db("aggregate")
+    if (MongoDBOnline) {
+      coll.drop()
+      for (i <- 1 to 99)
+        coll += MongoDBObject("_id" -> i, "score" -> i % 10)
+    }
+    "except just a single op" in {
+      val cursor: AggregationOutput = coll.aggregate(MongoDBObject("$match" -> ("score" $gte 7)))
+      cursor.results.size must beEqualTo(30)
+    }
 
-      "except multiple ops" in {
-        val cursor: AggregationOutput = coll.aggregate(
-          MongoDBObject("$match" -> ("score" $gte 7)),
-          MongoDBObject("$project" -> MongoDBObject("score" -> 1))
-        )
-        cursor.results.size must beEqualTo(30)
-      }
+    "except multiple ops" in {
+      val cursor: AggregationOutput = coll.aggregate(
+        MongoDBObject("$match" -> ("score" $gte 7)),
+        MongoDBObject("$project" -> MongoDBObject("score" -> 1))
+      )
+      cursor.results.size must beEqualTo(30)
+    }
 
-      "except list of ops" in {
-        val cursor: AggregationOutput = coll.aggregate(
-          List(MongoDBObject("$match" -> ("score" $gte 7)),
-               MongoDBObject("$project" -> MongoDBObject("score" -> 1)))
-        )
-        cursor.results.size must beEqualTo(30)
-      }
+    "except list of ops" in {
+      val cursor: AggregationOutput = coll.aggregate(
+        List(MongoDBObject("$match" -> ("score" $gte 7)),
+          MongoDBObject("$project" -> MongoDBObject("score" -> 1)))
+      )
+      cursor.results.size must beEqualTo(30)
+    }
 
-      "return a cursor when options are supplied" in {
-        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.6")
-        val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
-        val cursor: AggregationCursor = coll.aggregate(
-          List(MongoDBObject("$match" -> ("score" $gte 7)),
-               MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
-          aggregationOptions
-        )
-        cursor.toList.size must beEqualTo(30)
-      }
+    "return a cursor when options are supplied" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.6")
+      val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
+      val cursor: AggregationCursor = coll.aggregate(
+        List(MongoDBObject("$match" -> ("score" $gte 7)),
+          MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
+        aggregationOptions
+      )
+      cursor.toList.size must beEqualTo(30)
+    }
 
-      "test explainAggregate" in {
-        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.6")
-        val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
-        val explaination = coll.explainAggregate(
-          List(MongoDBObject("$match" -> ("score" $gte 7)),
-            MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
-          aggregationOptions
-        )
-        explaination("ok") must beEqualTo(1.0)
-        explaination.keys must contain("stages")
-      }
+    "test explainAggregate" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.6")
+      val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
+      val explaination = coll.explainAggregate(
+        List(MongoDBObject("$match" -> ("score" $gte 7)),
+          MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
+        aggregationOptions
+      )
+      explaination("ok") must beEqualTo(1.0)
+      explaination.keys must contain("stages")
+    }
 
-      "return a cursor when options are supplied even if inline" in {
-        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
-        val aggregationOptions = AggregationOptions(AggregationOptions.INLINE)
+    "return a cursor when options are supplied even if inline" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+      val aggregationOptions = AggregationOptions(AggregationOptions.INLINE)
 
-        val cursor: AggregationCursor = coll.aggregate(
-          List(MongoDBObject("$match" -> ("score" $gte 7)),
-               MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
-          aggregationOptions
-        )
+      val cursor: AggregationCursor = coll.aggregate(
+        List(MongoDBObject("$match" -> ("score" $gte 7)),
+          MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
+        aggregationOptions
+      )
 
-        cursor.size must beEqualTo(30)
-      }
+      cursor.size must beEqualTo(30)
+    }
 
-      "handle $out in multiple ops" in {
-        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
+    "handle $out in multiple ops" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
 
-        val outCollection = db("outCollection")
-        outCollection.drop()
+      val outCollection = db("outCollection")
+      outCollection.drop()
 
-        val cursor: AggregationOutput = coll.aggregate(
+      val cursor: AggregationOutput = coll.aggregate(
+        MongoDBObject("$match" -> ("score" $gte 7)),
+        MongoDBObject("$project" -> MongoDBObject("score" -> 1)),
+        MongoDBObject("$out" -> outCollection.name)
+      )
+      cursor.results.iterator.hasNext must beFalse
+      outCollection.count() must beEqualTo(30)
+    }
+
+    "handle $out in list of ops" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+
+      val outCollection = db("outCollection")
+      outCollection.drop()
+
+      val cursor: AggregationOutput = coll.aggregate(List(
+        MongoDBObject("$match" -> ("score" $gte 7)),
+        MongoDBObject("$project" -> MongoDBObject("score" -> 1)),
+        MongoDBObject("$out" -> outCollection.name)
+      ))
+      cursor.results.iterator.hasNext must beFalse
+      outCollection.count() must beEqualTo(30)
+    }
+
+    "handle $out with options INLINE" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+
+      val outCollection = db("outCollection")
+      outCollection.drop()
+
+      val aggregationOptions = AggregationOptions(AggregationOptions.INLINE)
+      val cursor: AggregationCursor = coll.aggregate(
+        List(
           MongoDBObject("$match" -> ("score" $gte 7)),
           MongoDBObject("$project" -> MongoDBObject("score" -> 1)),
           MongoDBObject("$out" -> outCollection.name)
-        )
-        cursor.results.iterator.hasNext must beFalse
-        outCollection.count() must beEqualTo(30)
-      }
+        ),
+        aggregationOptions
+      )
+      cursor.size must beEqualTo(30)
+      outCollection.count() must beEqualTo(30)
+    }
 
-      "handle $out in list of ops" in {
-        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
+    "handle $out with options CURSOR" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
 
-        val outCollection = db("outCollection")
-        outCollection.drop()
+      lazy val outCollection = db("outCollection")
+      outCollection.drop()
 
-        val cursor: AggregationOutput = coll.aggregate(List(
+      val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
+      val cursor: AggregationCursor = coll.aggregate(
+        List(
           MongoDBObject("$match" -> ("score" $gte 7)),
           MongoDBObject("$project" -> MongoDBObject("score" -> 1)),
           MongoDBObject("$out" -> outCollection.name)
-        ))
-        cursor.results.iterator.hasNext must beFalse
-        outCollection.count() must beEqualTo(30)
-      }
-
-      "handle $out with options INLINE" in {
-        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
-
-        val outCollection = db("outCollection")
-        outCollection.drop()
-
-        val aggregationOptions = AggregationOptions(AggregationOptions.INLINE)
-        val cursor: AggregationCursor = coll.aggregate(
-          List(
-            MongoDBObject("$match" -> ("score" $gte 7)),
-            MongoDBObject("$project" -> MongoDBObject("score" -> 1)),
-            MongoDBObject("$out" -> outCollection.name)
-          ),
-          aggregationOptions
-        )
-        cursor.size must beEqualTo(30)
-        outCollection.count() must beEqualTo(30)
-      }
-
-      "handle $out with options CURSOR" in {
-        serverIsAtLeastVersion(2,5) must beTrue.orSkip("Needs server >= 2.5")
-
-        lazy val outCollection = db("outCollection")
-        outCollection.drop()
-
-        val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
-        val cursor: AggregationCursor = coll.aggregate(
-          List(
-            MongoDBObject("$match" -> ("score" $gte 7)),
-            MongoDBObject("$project" -> MongoDBObject("score" -> 1)),
-            MongoDBObject("$out" -> outCollection.name)
-          ),
-          aggregationOptions
-        )
-        cursor.size must beEqualTo(30)
-        outCollection.count() must beEqualTo(30)
-      }
+        ),
+        aggregationOptions
+      )
+      cursor.size must beEqualTo(30)
+      outCollection.count() must beEqualTo(30)
+    }
 
   }
 

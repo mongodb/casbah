@@ -26,7 +26,7 @@ import java.io.{File, InputStream}
 import scala.reflect._
 
 import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile,
-                           GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
+GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._

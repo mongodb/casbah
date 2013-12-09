@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -27,7 +27,6 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import scala.collection.JavaConverters._
 
 class MongoDBListSpec extends CasbahMutableSpecification {
-
 
   val x = Seq(5, 9, 212, "x", "y", 22.98)
   val y = Seq("spam", "eggs", "foo", "bar")

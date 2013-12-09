@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -661,11 +661,11 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
 
     "Accept Tuples of varying arity for values" in {
       "A Tuple4 works" in {
-        val in = "foo" $in (1, 8, 12, "x")
+        val in = "foo" $in(1, 8, 12, "x")
         in must haveListEntry("foo.$in", Array(1, 8, 12, "x"))
       }
       "A Tuple9 works" in {
-        val in = "foo" $in (1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
+        val in = "foo" $in(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
         in must haveListEntry("foo.$in", Array(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352")))
       }
     }
@@ -705,11 +705,11 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
 
     "Accept Tuples of varying arity for values" in {
       "A Tuple4 works" in {
-        val in = "foo" $nin (1, 8, 12, "x")
+        val in = "foo" $nin(1, 8, 12, "x")
         in must haveListEntry("foo.$nin", List(1, 8, 12, "x"))
       }
       "A Tuple9 works" in {
-        val nin = "foo" $nin (1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
+        val nin = "foo" $nin(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
         nin must haveListEntry("foo.$nin", List(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352")))
       }
     }
@@ -749,11 +749,11 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
 
     "Accept Tuples of varying arity for values" in {
       "A Tuple4 works" in {
-        val in = "foo" $all (1, 8, 12, "x")
+        val in = "foo" $all(1, 8, 12, "x")
         in must haveListEntry("foo.$all", Array(1, 8, 12, "x"))
       }
       "A Tuple9 works" in {
-        val all = "foo" $all (1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
+        val all = "foo" $all(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
         all must haveListEntry("foo.$all", Array(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352")))
       }
     }
@@ -786,18 +786,18 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
 
   "Casbah's $mod modulo operator" should {
     "Function as expected" in {
-      val mod = "x" $mod (5, 2)
-      mod.toString must beEqualTo("""{ "x" : { "$mod" : [ 5 , 2]}}""")
+      val mod = "x" $mod(5, 2)
+      mod.toString must beEqualTo( """{ "x" : { "$mod" : [ 5 , 2]}}""")
     }
 
     "Take non-integer valid numeric values" in {
-      val mod = "x" $mod (5.12, 2.9)
-      mod.toString must beEqualTo("""{ "x" : { "$mod" : [ 5.12 , 2.9]}}""")
+      val mod = "x" $mod(5.12, 2.9)
+      mod.toString must beEqualTo( """{ "x" : { "$mod" : [ 5.12 , 2.9]}}""")
     }
 
     "Accept differing numeric types for left v. right" in {
-      val mod = "x" $mod (5, 2.8300000000000125)
-      mod.toString must beEqualTo("""{ "x" : { "$mod" : [ 5 , 2.8300000000000125]}}""")
+      val mod = "x" $mod(5, 2.8300000000000125)
+      mod.toString must beEqualTo( """{ "x" : { "$mod" : [ 5 , 2.8300000000000125]}}""")
     }
 
   }
@@ -805,35 +805,39 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
   "Casbah's $size operator" should {
     "Function as expected" in {
       val size = "x" $size 12
-      size.toString must beEqualTo("""{ "x" : { "$size" : 12}}""")
+      size.toString must beEqualTo( """{ "x" : { "$size" : 12}}""")
     }
     "Accept a BigInt" in {
       val size = "x" $size BigInt("555565363612")
-      size.toString must beEqualTo("""{ "x" : { "$size" : 555565363612}}""")
+      size.toString must beEqualTo( """{ "x" : { "$size" : 555565363612}}""")
     }
   }
 
   "Casbah's $exists operator" should {
     "Function as expected" in {
       val exists = "x" $exists true
-      exists.toString must beEqualTo("""{ "x" : { "$exists" : true}}""")
+      exists.toString must beEqualTo( """{ "x" : { "$exists" : true}}""")
     }
   }
 
   "Casbah's $not operator" should {
     "Function in a normal passing" in {
-      val not = "foo" $not { _ $lt 5.1 }
+      val not = "foo" $not {
+        _ $lt 5.1
+      }
       not must haveEntry("foo.$not.$lt" -> 5.1)
     }
 
     "Function with anchoring and subobjects" in {
-      val not = "foo" $not { _ $mod (5, 10) }
+      val not = "foo" $not {
+        _ $mod(5, 10)
+      }
       not must haveEntry("foo.$not" -> MongoDBObject("$mod" -> MongoDBList(5, 10)))
     }
 
     "Function with a regular expression" in {
       val not = "foo" $not "^foo.*bar".r
-      not.toString() must beEqualTo("""{ "foo" : { "$not" : { "$regex" : "^foo.*bar"}}}""")
+      not.toString() must beEqualTo( """{ "foo" : { "$not" : { "$regex" : "^foo.*bar"}}}""")
     }
   }
 
@@ -843,7 +847,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
       slice must haveEntry("foo.$slice" -> 5)
     }
     "Function with a slice and limit " in {
-      val slice = "foo" $slice (5, -1)
+      val slice = "foo" $slice(5, -1)
       slice must haveEntry("foo.$slice" -> MongoDBList(5, -1))
     }
   }
@@ -971,14 +975,14 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
               "$near" -> MongoDBList(74.2332, -75.23452))))
       }
       "With a tuple converted coordinate set" in {
-        val near = "foo" $near (74.2332, -75.23452)
+        val near = "foo" $near(74.2332, -75.23452)
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
               "$near" -> MongoDBList(74.2332, -75.23452))))
       }
       "With a $maxDistance specification" in {
-        val near = "foo" $near (74.2332, -75.23452) $maxDistance 5
+        val near = "foo" $near(74.2332, -75.23452) $maxDistance 5
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
@@ -996,7 +1000,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
               "$nearSphere" -> MongoDBList(74.2332, -75.23452))))
       }
       "With a tuple converted coordinate set" in {
-        val near = "foo" $nearSphere (74.2332, -75.23452)
+        val near = "foo" $nearSphere(74.2332, -75.23452)
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
@@ -1007,19 +1011,19 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
 
       "... geometries" in {
         var geo = MongoDBObject("$geometry" ->
-                    MongoDBObject("$type" -> "polygon",
-                      "coordinates" -> (((GeoCoords(74.2332, -75.23452),
-                                          GeoCoords(123, 456),
-                                          GeoCoords(74.2332, -75.23452))))))
+          MongoDBObject("$type" -> "polygon",
+            "coordinates" -> (((GeoCoords(74.2332, -75.23452),
+              GeoCoords(123, 456),
+              GeoCoords(74.2332, -75.23452))))))
         val near = "foo".$geoWithin(MongoDBObject("$geometry" -> geo))
-          near must beEqualTo(
-            MongoDBObject(
-              "foo" -> MongoDBObject(
-                "$geoWithin" -> geo)))
+        near must beEqualTo(
+          MongoDBObject(
+            "foo" -> MongoDBObject(
+              "$geoWithin" -> geo)))
       }
       "... $box" in {
         "With an explicit GeoCoords instance" in {
-          val near = "foo".$geoWithin $box (GeoCoords(74.2332, -75.23452), GeoCoords(123, 456))
+          val near = "foo".$geoWithin $box(GeoCoords(74.2332, -75.23452), GeoCoords(123, 456))
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
@@ -1029,7 +1033,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
                     MongoDBList(123, 456))))))
         }
         "With a tuple converted coordinate set" in {
-          val near = "foo".$geoWithin $box ((74.2332, -75.23452), (123, 456))
+          val near = "foo".$geoWithin $box((74.2332, -75.23452), (123, 456))
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
@@ -1041,7 +1045,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
       }
       "... $center" in {
         "With an explicit GeoCoords instance" in {
-          val near = "foo".$geoWithin $center (GeoCoords(50, 50), 10)
+          val near = "foo".$geoWithin $center(GeoCoords(50, 50), 10)
           log.error("Near: %s", near.getClass)
           val x = MongoDBObject(
             "foo" -> MongoDBObject(
@@ -1053,7 +1057,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
           near must beEqualTo(x)
         }
         "With a tuple converted coordinate set" in {
-          val near = "foo".$geoWithin $center ((50, 50), 10)
+          val near = "foo".$geoWithin $center((50, 50), 10)
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
@@ -1065,7 +1069,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
       }
       "... $centerSphere" in {
         "With an explicit GeoCoords instance" in {
-          val near = "foo".$geoWithin $centerSphere (GeoCoords(50, 50), 10)
+          val near = "foo".$geoWithin $centerSphere(GeoCoords(50, 50), 10)
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
@@ -1075,7 +1079,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
                     10)))))
         }
         "With a tuple converted coordinate set" in {
-          val near = "foo".$geoWithin $centerSphere ((50, 50), 10)
+          val near = "foo".$geoWithin $centerSphere((50, 50), 10)
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
@@ -1089,7 +1093,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
     "Support.$within ..." in {
       "... $box" in {
         "With an explicit GeoCoords instance" in {
-          val near = "foo".$within $box (GeoCoords(74.2332, -75.23452), GeoCoords(123, 456))
+          val near = "foo".$within $box(GeoCoords(74.2332, -75.23452), GeoCoords(123, 456))
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
@@ -1099,7 +1103,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
                     MongoDBList(123, 456))))))
         }
         "With a tuple converted coordinate set" in {
-          val near = "foo".$within $box ((74.2332, -75.23452), (123, 456))
+          val near = "foo".$within $box((74.2332, -75.23452), (123, 456))
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
@@ -1111,7 +1115,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
       }
       "... $center" in {
         "With an explicit GeoCoords instance" in {
-          val near = "foo".$within $center (GeoCoords(50, 50), 10)
+          val near = "foo".$within $center(GeoCoords(50, 50), 10)
           log.error("Near: %s", near.getClass)
           val x = MongoDBObject(
             "foo" -> MongoDBObject(
@@ -1123,7 +1127,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
           near must beEqualTo(x)
         }
         "With a tuple converted coordinate set" in {
-          val near = "foo".$within $center ((50, 50), 10)
+          val near = "foo".$within $center((50, 50), 10)
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
@@ -1135,7 +1139,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
       }
       "... $centerSphere" in {
         "With an explicit GeoCoords instance" in {
-          val near = "foo".$within $centerSphere (GeoCoords(50, 50), 10)
+          val near = "foo".$within $centerSphere(GeoCoords(50, 50), 10)
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
@@ -1145,7 +1149,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
                     10)))))
         }
         "With a tuple converted coordinate set" in {
-          val near = "foo".$within $centerSphere ((50, 50), 10)
+          val near = "foo".$within $centerSphere((50, 50), 10)
           near must beEqualTo(
             MongoDBObject(
               "foo" -> MongoDBObject(
@@ -1165,7 +1169,9 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
       ltGt must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16)))
     }
     "Function correctly with deeper nesting e.g. $not" in {
-      val ltGt = "foo" $not { _ $gte 15 $lt 35.2 $ne 16 }
+      val ltGt = "foo" $not {
+        _ $gte 15 $lt 35.2 $ne 16
+      }
       log.debug("LTGT: %s", ltGt)
       ltGt must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$not" -> MongoDBObject("$gte" -> 15, "$lt" -> 35.2, "$ne" -> 16))))
     }

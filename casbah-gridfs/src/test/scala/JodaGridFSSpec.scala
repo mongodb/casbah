@@ -42,6 +42,7 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
     DeregisterJodaLocalDateTimeConversionHelpers()
     RegisterJodaTimeConversionHelpers()
   }
+
   skipAllUnless(MongoDBOnline)
   implicit lazy val db = MongoClient()("casbah_test")
   if (MongoDBOnline) db.dropDatabase()

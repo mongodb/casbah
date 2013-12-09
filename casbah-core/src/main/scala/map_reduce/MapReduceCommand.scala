@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -32,8 +32,11 @@ class MapReduceException(msg: String) extends MongoException("MongoDB Map/Reduce
 trait MapReduceOutputTarget
 
 case class MapReduceStandardOutput(collection: String) extends MapReduceOutputTarget
+
 case class MapReduceMergeOutput(collection: String) extends MapReduceOutputTarget
+
 case class MapReduceReduceOutput(collection: String) extends MapReduceOutputTarget
+
 case object MapReduceInlineOutput extends MapReduceOutputTarget
 
 /**
@@ -47,7 +50,7 @@ case object MapReduceInlineOutput extends MapReduceOutputTarget
  * @param map               the map function (JSFunction is just a type alias for String)
  * @param reduce            the reduce function (JSFunction is just a type alias for String)
  * @param output            (optional) the location of the result of the map-reduce operation, defaults to inline.
- *                                     You can output to a collection, output to a collection with an action, or output inline.
+ *                          You can output to a collection, output to a collection with an action, or output inline.
  * @param query             (optional) the selection criteria for the documents input to the map function.
  * @param sort              (optional) the input documents, useful for optimization.
  * @param limit             (optional) the maximum number of documents to return from the collection before map reduce
@@ -56,12 +59,12 @@ case object MapReduceInlineOutput extends MapReduceOutputTarget
  * @param verbose           (optional) include the timing information in the result information
  * @param maxTime       (optional) the maximum duration that the server will allow this operation to execute before killing it
  */
-case class MapReduceCommand protected[mongodb] (input: String = "", map: JSFunction = "", reduce: JSFunction = "",
-                                                output: MapReduceOutputTarget = MapReduceInlineOutput,
-                                                query: Option[DBObject] = None, sort: Option[DBObject] = None,
-                                                limit: Option[Int] = None, finalizeFunction: Option[JSFunction] = None,
-                                                jsScope: Option[DBObject] = None, verbose: Boolean = false,
-                                                maxTime: Option[Duration] = None) {
+case class MapReduceCommand protected[mongodb](input: String = "", map: JSFunction = "", reduce: JSFunction = "",
+                                               output: MapReduceOutputTarget = MapReduceInlineOutput,
+                                               query: Option[DBObject] = None, sort: Option[DBObject] = None,
+                                               limit: Option[Int] = None, finalizeFunction: Option[JSFunction] = None,
+                                               jsScope: Option[DBObject] = None, verbose: Boolean = false,
+                                               maxTime: Option[Duration] = None) {
 
   def toDBObject = {
     val dataObj = MongoDBObject.newBuilder

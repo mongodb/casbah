@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,14 +16,14 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
 package com.mongodb.casbah
 package commons
 
-import org.slf4j.{ Logger => SLFLogger, LoggerFactory => SLFLoggerFactory }
+import org.slf4j.{Logger => SLFLogger, LoggerFactory => SLFLoggerFactory}
 
 import java.io.StringWriter;
 import java.io.PrintWriter;
@@ -46,8 +46,8 @@ trait Logging {
  * Example:
  * <pre>
  * class Foo extends Logging {
- *   log.info("My foo is %s","alive")
- *   log.error(new Exception(),"My foo is %s","broken")
+ * log.info("My foo is %s","alive")
+ * log.error(new Exception(),"My foo is %s","broken")
  * }
  * </pre>
  *
@@ -58,9 +58,13 @@ class Logger(val logger: SLFLogger) {
   def name = logger.getName
 
   def trace_? = logger.isTraceEnabled
+
   def debug_? = logger.isDebugEnabled
+
   def info_? = logger.isInfoEnabled
+
   def warning_? = logger.isWarnEnabled
+
   def error_? = logger.isErrorEnabled
 
   //Trace
@@ -185,6 +189,8 @@ object Logger {
   }*/
 
   def apply(logger: String): Logger = new Logger(SLFLoggerFactory getLogger logger)
+
   def apply(clazz: Class[_]): Logger = apply(clazz.getName)
+
   def root: Logger = apply(SLFLogger.ROOT_LOGGER_NAME)
 }

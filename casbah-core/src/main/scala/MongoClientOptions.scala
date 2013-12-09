@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -63,22 +63,22 @@ object MongoClientOptions {
    * @see MongoDBAddress
    */
   def apply(
-    autoConnectRetry: Boolean = Defaults.isAutoConnectRetry,
-    connectionsPerHost: Int = Defaults.getConnectionsPerHost,
-    connectTimeout: Int = Defaults.getConnectTimeout,
-    cursorFinalizerEnabled: Boolean = Defaults.isCursorFinalizerEnabled,
-    dbDecoderFactory: DBDecoderFactory = Defaults.getDbDecoderFactory,
-    dbEncoderFactory: DBEncoderFactory = Defaults.getDbEncoderFactory,
-    description: String = Defaults.getDescription,
-    maxAutoConnectRetryTime: Long = Defaults.getMaxAutoConnectRetryTime,
-    maxWaitTime: Int = Defaults.getMaxWaitTime,
-    readPreference: ReadPreference = Defaults.getReadPreference,
-    socketFactory: SocketFactory = Defaults.getSocketFactory,
-    socketKeepAlive: Boolean = Defaults.isSocketKeepAlive,
-    socketTimeout: Int = Defaults.getSocketTimeout,
-    threadsAllowedToBlockForConnectionMultiplier: Int = Defaults.getThreadsAllowedToBlockForConnectionMultiplier,
-    writeConcern: WriteConcern = Defaults.getWriteConcern
-    ) = {
+             autoConnectRetry: Boolean = Defaults.isAutoConnectRetry,
+             connectionsPerHost: Int = Defaults.getConnectionsPerHost,
+             connectTimeout: Int = Defaults.getConnectTimeout,
+             cursorFinalizerEnabled: Boolean = Defaults.isCursorFinalizerEnabled,
+             dbDecoderFactory: DBDecoderFactory = Defaults.getDbDecoderFactory,
+             dbEncoderFactory: DBEncoderFactory = Defaults.getDbEncoderFactory,
+             description: String = Defaults.getDescription,
+             maxAutoConnectRetryTime: Long = Defaults.getMaxAutoConnectRetryTime,
+             maxWaitTime: Int = Defaults.getMaxWaitTime,
+             readPreference: ReadPreference = Defaults.getReadPreference,
+             socketFactory: SocketFactory = Defaults.getSocketFactory,
+             socketKeepAlive: Boolean = Defaults.isSocketKeepAlive,
+             socketTimeout: Int = Defaults.getSocketTimeout,
+             threadsAllowedToBlockForConnectionMultiplier: Int = Defaults.getThreadsAllowedToBlockForConnectionMultiplier,
+             writeConcern: WriteConcern = Defaults.getWriteConcern
+             ) = {
     val builder = new JavaMongoClientOptions.Builder()
     builder.autoConnectRetry(autoConnectRetry)
     builder.connectionsPerHost(connectionsPerHost)

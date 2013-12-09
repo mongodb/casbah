@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -36,65 +36,65 @@ import com.mongodb.{MongoCredential => JavaMongoCredential}
  */
 object MongoCredential {
 
-    /**
-     *
-     * Creates a MongoCredential instance for the GSSAPI SASL mechanism
-     *
-     * @param userName the user name
-     */
-    @deprecated("Please use MongoCredential.createGSSAPICredential", "2.7")
-    def apply(userName: String) =
-      JavaMongoCredential.createGSSAPICredential(userName)
+  /**
+   *
+   * Creates a MongoCredential instance for the GSSAPI SASL mechanism
+   *
+   * @param userName the user name
+   */
+  @deprecated("Please use MongoCredential.createGSSAPICredential", "2.7")
+  def apply(userName: String) =
+    JavaMongoCredential.createGSSAPICredential(userName)
 
-    /**
-     *
-     * Creates a MongoCredential instance for the MongoDB Challenge Response protocol
-     *
-     * @param userName the user name
-     * @param database the source of the user name, typically a database name
-     * @param password the password
-     */
-    @deprecated("Please use MongoCredential.createMongoCRCredential", "2.7")
-    def apply(userName: String, database: String, password: Array[Char]) =
-      JavaMongoCredential.createMongoCRCredential(userName, database, password)
+  /**
+   *
+   * Creates a MongoCredential instance for the MongoDB Challenge Response protocol
+   *
+   * @param userName the user name
+   * @param database the source of the user name, typically a database name
+   * @param password the password
+   */
+  @deprecated("Please use MongoCredential.createMongoCRCredential", "2.7")
+  def apply(userName: String, database: String, password: Array[Char]) =
+    JavaMongoCredential.createMongoCRCredential(userName, database, password)
 
-    /**
-     *
-     * Creates a MongoCredential instance for the GSSAPI SASL mechanism
-     *
-     * @param userName the user name
-     */
-    def createGSSAPICredential(userName: String) =
-      JavaMongoCredential.createGSSAPICredential(userName)
+  /**
+   *
+   * Creates a MongoCredential instance for the GSSAPI SASL mechanism
+   *
+   * @param userName the user name
+   */
+  def createGSSAPICredential(userName: String) =
+    JavaMongoCredential.createGSSAPICredential(userName)
 
-    /**
-     *
-     * Creates a MongoCredential instance for the MongoDB Challenge Response protocol
-     *
-     * @param userName the user name
-     * @param database the source of the user name, typically a database name
-     * @param password the password
-     */
-    def createMongoCRCredential(userName: String, database: String, password: Array[Char]) =
-      JavaMongoCredential.createMongoCRCredential(userName, database, password)
+  /**
+   *
+   * Creates a MongoCredential instance for the MongoDB Challenge Response protocol
+   *
+   * @param userName the user name
+   * @param database the source of the user name, typically a database name
+   * @param password the password
+   */
+  def createMongoCRCredential(userName: String, database: String, password: Array[Char]) =
+    JavaMongoCredential.createMongoCRCredential(userName, database, password)
 
-    /**
-     * Creates a MongoCredential instance for the MongoDB X.509 protocol.
-     *
-     * @param userName the non-null user name
-     * @return the credential
-     */
-    def createMongoX509Credential(userName: String) =
-      JavaMongoCredential.createMongoX509Credential(userName)
+  /**
+   * Creates a MongoCredential instance for the MongoDB X.509 protocol.
+   *
+   * @param userName the non-null user name
+   * @return the credential
+   */
+  def createMongoX509Credential(userName: String) =
+    JavaMongoCredential.createMongoX509Credential(userName)
 
-    /**
-     * Creates a MongoCredential instance for the PLAIN SASL mechanism.
-     *
-     * @param userName the non-null user name
-     * @param source the source where the user is defined.  This can be either `"$external"` or the name of a database.
-     * @return the credential
-     */
-    def createPlainCredential(userName: String, source: String, password: Array[Char]) =
-      JavaMongoCredential.createPlainCredential(userName, source, password)
+  /**
+   * Creates a MongoCredential instance for the PLAIN SASL mechanism.
+   *
+   * @param userName the non-null user name
+   * @param source the source where the user is defined.  This can be either `"$external"` or the name of a database.
+   * @return the credential
+   */
+  def createPlainCredential(userName: String, source: String, password: Array[Char]) =
+    JavaMongoCredential.createPlainCredential(userName, source, password)
 
 }

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -35,7 +35,6 @@ import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 
-
 @SuppressWarnings(Array("deprecation"))
 class RawMapReduceSpec extends CasbahMutableSpecification {
   sequential
@@ -49,7 +48,7 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
       function m() {
           emit( typeof(this._id) == "number" ? this._id : this._id.getYear(), { count: 1, sum: this.bc10Year })
       }
-    """
+                """
 
     val reduceJS = """
       function r( year, values ) {
@@ -61,14 +60,14 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
           return n;
       }
-    """
+                   """
 
     val finalizeJS = """
       function f( year, value ){
           value.avg = value.sum / value.count;
           return value.avg;
       }
-    """
+                     """
 
     "Produce results in a named collection for all data" in new testData {
       val cmd = MongoDBObject(
@@ -122,6 +121,7 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
     "Produce results for merged output" in new testData {
 
       import java.util.Date
+
       mongoDB("yield_historical.out.merged").size must beEqualTo(0)
       mongoDB("yield_historical.out.aughts").size must beEqualTo(0)
       mongoDB("yield_historical.out.nineties").size must beEqualTo(0)
@@ -216,6 +216,7 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
     }
 
     "Produce results for reduced output (multiples into a single final collection)" in new testData {
+
       import java.util.Date
 
       mongoDB("yield_historical.out.all").size must beEqualTo(0)
@@ -334,7 +335,7 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
     mongoDB.dropDatabase()
 
     try {
-       Seq("mongoimport", "-d", database, "-c", collection, "--drop", "--jsonArray", jsonFile).!!
+      Seq("mongoimport", "-d", database, "-c", collection, "--drop", "--jsonArray", jsonFile).!!
     } catch {
       case ex: IOException => {
         val source = scala.io.Source.fromFile(jsonFile)

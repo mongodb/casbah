@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -30,14 +30,20 @@ import scala.collection.JavaConverters._
 
 trait Implicits {
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new GridFSDBFile(in)
+
   implicit def wrapInFile(in: com.mongodb.gridfs.GridFSInputFile) = new GridFSInputFile(in)
+
   implicit def wrapJodaDBFile(in: com.mongodb.gridfs.GridFSDBFile) = new JodaGridFSDBFile(in)
+
   implicit def wrapJodaInFile(in: com.mongodb.gridfs.GridFSInputFile) = new JodaGridFSInputFile(in)
 }
 
 object Implicits extends Implicits
+
 object Imports extends Imports
+
 object BaseImports extends BaseImports
+
 object TypeImports extends TypeImports
 
 trait Imports extends BaseImports with TypeImports with Implicits

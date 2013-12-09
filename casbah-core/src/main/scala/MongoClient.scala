@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,7 @@
  *
  * For questions and comments about this product, please see the project page at:
  *
- *     http://github.com/mongodb/casbah
+ * http://github.com/mongodb/casbah
  *
  */
 
@@ -25,7 +25,7 @@ import com.mongodb.casbah.Imports._
 
 import scala.collection.JavaConverters._
 
-import com.mongodb.{ MongoClient => JavaMongoClient }
+import com.mongodb.{MongoClient => JavaMongoClient}
 
 /**
  * Wrapper object for MongoClient connections, providing the static methods the
@@ -107,7 +107,7 @@ object MongoClient {
    * @see credentialsList
    * @since 2.6
    */
-   def apply(addr: ServerAddress, credentialsList: List[MongoCredential]) =
+  def apply(addr: ServerAddress, credentialsList: List[MongoCredential]) =
     new MongoClient(new JavaMongoClient(addr, credentialsList.asJava))
 
   /**
@@ -241,11 +241,13 @@ class MongoClient(val underlying: JavaMongoClient) {
   def dropDatabase(dbName: String) = underlying.dropDatabase(dbName)
 
   def version = getVersion()
+
   def getVersion() = underlying.getVersion
 
   def debugString = underlying.debugString
 
   def connectPoint = getConnectPoint()
+
   def getConnectPoint() = underlying.getConnectPoint
 
   /**
