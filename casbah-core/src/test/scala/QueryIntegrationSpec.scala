@@ -439,5 +439,56 @@ class QueryIntegrationSpec extends CasbahMutableSpecification {
     }
   }
 
+  "$text operator" should {
+
+    "Setup and load some test data first" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+
+      val enableTextCommand = MongoDBObject("setParameter" -> 1, "textSearchEnabled" -> true)
+      coll.getDB.getSisterDB("admin").command(enableTextCommand)
+      val textIndex = MongoDBObject("a" -> "text")
+      coll.drop()
+      coll.ensureIndex(textIndex)
+
+      coll += MongoDBObject("_id" -> 0, "unindexedField" -> 0, "a" -> "textual content")
+      coll += MongoDBObject("_id" -> 1, "unindexedField" -> 1, "a" -> "additional content")
+      coll += MongoDBObject("_id" -> 2, "unindexedField" -> 2, "a" -> "irrelevant content")
+
+      true
+    }
+
+    "Accept just $text" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+
+      coll.find($text("textual content -irrelevant")).count should beEqualTo(2)
+    }
+
+    "Accept $text and other operators" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+
+      coll.find(("unindexedField" $eq 0) ++ $text("textual content -irrelevant")).count should beEqualTo(1)
+    }
+
+    "Accept $text and $language" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+
+      coll.find($text("textual content -irrelevant") $language "english").count should beEqualTo(2)
+    }
+
+    "Work with $meta projection" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+
+      coll.find($text("textual content -irrelevant"), "score" $meta).count should beEqualTo(2)
+      val result = coll.findOne($text("textual content -irrelevant"), "score" $meta)
+      result must haveSomeField("score")
+    }
+
+    "Work with $meta in projection and sort" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+
+      coll.find($text("textual content -irrelevant"), "score" $meta).sort("score" $meta).count should beEqualTo(2)
+    }
+  }
+
 }
 

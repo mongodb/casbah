@@ -22,10 +22,6 @@
 
 package com.mongodb.casbah.query.dsl
 
-import com.mongodb.casbah.commons.Logging
-
-import scala.collection.JavaConverters._
-
 import com.mongodb.casbah.query.Imports._
 
 import com.mongodb.casbah.query.ChainedOperator
@@ -58,6 +54,7 @@ with SliceOp
 with TypeOp
 with ElemMatchOp
 with GeospatialOps
+with MetaProjectionOp
 
 trait ValueTestFluidQueryOperators extends LessThanOp
 with LessThanEqualOp
@@ -112,12 +109,9 @@ trait QueryOperator extends ChainedOperator {
   protected def queryOp(oper: String, target: Any): DBObject with QueryExpressionObject = QueryExpressionObject(dbObj match {
     case Some(nested) => {
       nested.put(oper, target)
-      (field -> nested)
+      field -> nested
     }
-    case None => {
-      val opMap = MongoDBObject(oper -> target)
-      (field -> opMap)
-    }
+    case None => field -> MongoDBObject(oper -> target)
   })
 
   /**
@@ -388,6 +382,28 @@ trait ElemMatchOp extends QueryOperator {
   def $elemMatch[A <% DBObject](target: A) = queryOp(oper, target)
 }
 
+
+/**
+ *
+ * Trait providing a projection / sort helper for use with text search
+ *
+ * To be used alongside \$text and a text index to project / sort via the text match score.
+ *
+ * &gt; \$text("hello")
+ * res0: { "\$text" : { "\$search" : "hello"}}
+ *
+ * &gt; \$text("hola") \$language "spanish"
+ * res1: { "\$text" : { "\$search" : "hola" , "\$language" : "spanish"}}
+ *
+ * @since 2.7
+ * @see http://docs.mongodb.org/manual/core/index-text/
+ */
+trait MetaProjectionOp extends QueryOperator {
+  private val oper = "$meta"
+
+  def $meta() = queryOp(oper, "text")
+}
+
 sealed abstract class BSONType[A](val operator: Byte)
 
 object BSONType {
@@ -444,7 +460,6 @@ trait TypeOp extends QueryOperator {
   /**
    * For those who want to pass the static byte from org.bson.BSON explicitly
    * (or with the simple BSON spec indicator)
-   * TODO: Test for a valid byte, right now we accept anything you say.
    */
   def $type(arg: Byte) = queryOp(oper, arg)
 
@@ -463,7 +478,7 @@ trait TypeOp extends QueryOperator {
  *
  * Takes a string for use in the $regex query
  *
- * "foo" $regex "^bar$"
+ * <code>"foo" $regex "^bar$"</code>
  *
  * @since 2.6.2
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24type%7D%7D
@@ -482,7 +497,7 @@ with GeoWithinOps
 with GeoIntersectsOp
 with DeprecatedGeoWithinOps
 
-case class GeoCoords[A: ValidNumericType : Manifest, B: ValidNumericType : Manifest](val lat: A, val lon: B) {
+case class GeoCoords[A: ValidNumericType : Manifest, B: ValidNumericType : Manifest](lat: A, lon: B) {
   def toList = MongoDBList(lat, lon)
 
   override def toString = "GeoCoords(%s, %s)".format(lat, lon)
@@ -505,7 +520,7 @@ trait GeoNearOp extends QueryOperator {
   def $near(coords: GeoCoords[_, _]) = new NearOpWrapper(coords)
 
   sealed class NearOpWrapper(coords: GeoCoords[_, _]) extends BasicDBObject {
-    put(field, new BasicDBObject("$near", coords.toList))
+    put(field, new BasicDBObject(oper, coords.toList))
 
     def $maxDistance[T: Numeric](radius: T): DBObject = {
       get(field).asInstanceOf[DBObject].put("$maxDistance", radius)
@@ -614,26 +629,18 @@ trait GeoIntersectsOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
  */
 trait DeprecatedGeoWithinOps extends QueryOperator {
-  self =>
-  private val oper = "$within"
 
   def $within = new QueryOperator {
     val field = "$within"
 
     def $box(lowerLeft: GeoCoords[_, _], upperRight: GeoCoords[_, _]) =
-      MongoDBObject(
-        self.field ->
-          queryOp("$box", MongoDBList(lowerLeft.toList, upperRight.toList)))
+      MongoDBObject(field -> queryOp("$box", MongoDBList(lowerLeft.toList, upperRight.toList)))
 
     def $center[T: Numeric](center: GeoCoords[_, _], radius: T) =
-      MongoDBObject(
-        self.field ->
-          queryOp("$center", MongoDBList(center.toList, radius)))
+      MongoDBObject(field -> queryOp("$center", MongoDBList(center.toList, radius)))
 
     def $centerSphere[T: Numeric](center: GeoCoords[_, _], radius: T) =
-      MongoDBObject(
-        self.field ->
-          queryOp("$centerSphere", MongoDBList(center.toList, radius)))
+      MongoDBObject(field -> queryOp("$centerSphere", MongoDBList(center.toList, radius)))
   }
 
 }

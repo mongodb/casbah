@@ -155,6 +155,21 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
     }
   }
 
+  "Casbah's $text operator" should {
+    "Accept just a searchTerm" in {
+      val textSearch = $text("hello")
+      textSearch must beEqualTo(
+        MongoDBObject("$text" -> MongoDBObject("$search" -> "hello"))
+      )
+    }
+    "Chain searchTerm and language" in {
+      val textSearch = $text("hola") $language "spanish"
+        textSearch must beEqualTo(
+        MongoDBObject("$text" -> MongoDBObject("$search" -> "hola", "$language" -> "spanish"))
+      )
+    }
+  }
+
   "Casbah's DSL Array operators" should {
     "$push" in {
       "Accept a single value" in {

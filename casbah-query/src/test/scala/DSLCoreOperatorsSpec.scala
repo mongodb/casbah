@@ -954,6 +954,13 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
 
   }
 
+  "Casbah's $meta operator" should {
+    "Function as expected" in {
+      val meta = ("foo" $meta)
+      meta must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$meta" -> "text")))
+    }
+  }
+
   "Casbah's GeoSpatial Operators" should {
     "Allow construction of GeoCoords" in {
       "With two different numeric types" in {

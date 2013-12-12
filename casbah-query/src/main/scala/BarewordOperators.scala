@@ -22,11 +22,9 @@
 
 package com.mongodb.casbah.query.dsl
 
-import com.mongodb.casbah.commons.Logging
 
 import com.mongodb.casbah.query.Imports._
 
-import scala.collection.JavaConverters._
 
 /**
  * Base Operator class for Bareword Operators.
@@ -90,6 +88,7 @@ with ArrayOps
 with NorOp
 with BitOp
 with WhereOp
+with SearchOp
 
 trait ArrayOps extends PushOp
 with PushAllOp
@@ -379,4 +378,35 @@ trait BitOp extends BarewordQueryOperator {
  */
 trait WhereOp extends BarewordQueryOperator {
   def $where(target: JSFunction) = MongoDBObject("$where" -> target)
+}
+
+
+/**
+ *
+ * Trait to provide the \$text search method on appropriate callers
+ *
+ * &gt; \$text("description")
+ * res0: { "\$text" : { "\$search" : "description"}}
+ *
+ * &gt; \$text("description") $language "english"
+ * res1: { "\$text" : { "\$search" : "description" , "\$language" : "english"}}
+ *
+ * @since 2.7
+ * @see http://docs.mongodb.org/manual/core/index-text/
+ */
+trait SearchOp extends BarewordQueryOperator {
+  private val field = "$text"
+  private val oper = "$search"
+
+  def $text(searchTerm: String) = new TextOpWrapper(searchTerm)
+
+  sealed class TextOpWrapper(searchTerm: String) extends BasicDBObject {
+    put(field, new BasicDBObject(oper, searchTerm))
+
+    def $language(language: String): DBObject = {
+      get(field).asInstanceOf[DBObject].put("$language", language)
+      this
+    }
+  }
+
 }
