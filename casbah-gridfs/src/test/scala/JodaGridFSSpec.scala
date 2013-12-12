@@ -37,7 +37,7 @@ import org.specs2.specification.BeforeExample
 
 
 class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
-
+  sequential
   def before = {
     DeregisterJodaLocalDateTimeConversionHelpers()
     RegisterJodaTimeConversionHelpers()

@@ -34,7 +34,7 @@ import scala.Some
 
 
 class GridFSSpec extends CasbahMutableSpecification {
-
+  sequential
   def deregister() {
     DeregisterJodaTimeConversionHelpers()
     DeregisterJodaLocalDateTimeConversionHelpers()
