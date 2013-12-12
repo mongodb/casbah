@@ -28,7 +28,8 @@ import com.mongodb.casbah.commons.conversions.scala._
 import com.github.nscala_time.time.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import org.specs2.specification.BeforeExample
-import org.bson.BSON
+import scala.collection.mutable
+import scala.collection.JavaConverters._
 
 class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
   sequential
@@ -263,6 +264,63 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       val json = jodaEntry.toString
 
       json must not beNull
+    }
+
+    "Handle scala collection types correctly" in {
+      val coll = mongoDB("mutableSerialization")
+
+      "Allow Maps to convert correctly" in {
+        coll.dropCollection()
+        coll += Map("a" -> "b", "c" -> "d")
+        coll.findOne().get must haveEntry("a" -> "b")
+      }
+      "Allow mutable Maps to convert correctly" in {
+        coll.dropCollection()
+        coll += mutable.Map("a" -> "b", "c" -> "d")
+        coll.findOne().get must haveEntry("a" -> "b")
+      }
+      "Allow Sets to convert correctly" in {
+        coll.dropCollection()
+        coll += MongoDBObject("a" -> Set("a", "b", "c"))
+        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+
+      }
+      "Allow mutable Sets to convert correctly" in {
+        coll.dropCollection()
+        coll += MongoDBObject("a" -> mutable.Set("a", "b", "c"))
+        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+
+      }
+      "Allow Seqs to convert correctly" in {
+        coll.dropCollection()
+        coll += MongoDBObject("a" -> mutable.Seq("a", "b", "c"))
+        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+      }
+      "Allow mutable Seqs to convert correctly" in {
+        coll.dropCollection()
+        coll += MongoDBObject("a" -> mutable.Seq("a", "b", "c"))
+        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+      }
+      "Allow mutable Buffers to convert correctly" in {
+        coll.dropCollection()
+        coll += MongoDBObject("a" -> mutable.Buffer("a", "b", "c"))
+        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+      }
+      "Allow Tuples (Products) to convert correctly" in {
+        coll.dropCollection()
+        coll += MongoDBObject("a" -> ("a", "b", "c"))
+        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+      }
+      "Allow Lists to convert correctly" in {
+        coll.dropCollection()
+        coll += MongoDBObject("a" -> List("a", "b", "c"))
+        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+      }
+      "Allow converted Lists to convert correctly" in {
+        coll.dropCollection()
+        coll += MongoDBObject("a" -> List("a", "b", "c").asJava)
+        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+      }
     }
   }
 
