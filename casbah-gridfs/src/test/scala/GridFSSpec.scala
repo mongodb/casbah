@@ -42,9 +42,9 @@ class GridFSSpec extends CasbahMutableSpecification {
 
   skipAllUnless(MongoDBOnline)
 
-  implicit lazy val db = MongoClient()("casbah_test")
+  implicit lazy val db = MongoClient()("casbah_test_gridfs")
   if (MongoDBOnline) db.dropDatabase()
-  implicit lazy val gridfs = GridFS(db)
+  implicit lazy val gridfs = GridFS(db, "gridFS")
 
   def logo_fh = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
 

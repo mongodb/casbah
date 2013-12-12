@@ -44,9 +44,10 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
   }
 
   skipAllUnless(MongoDBOnline)
-  implicit lazy val db = MongoClient()("casbah_test")
+  implicit lazy val db = MongoClient()("casbah_test_jodagridfs")
   if (MongoDBOnline) db.dropDatabase()
-  implicit lazy val gridfs = JodaGridFS(db)
+
+  implicit lazy val gridfs = JodaGridFS(db, "jodaGridFs")
 
   def logo_fh = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
 
