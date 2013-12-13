@@ -27,8 +27,10 @@ import com.mongodb.casbah.commons.Imports._
 
 import scala.collection.mutable._
 import scala.collection.JavaConverters._
+import scala.util.{Try, Success, Failure}
 
-class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any] {
+
+class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any] with Castable {
 
   def apply(i: Int) = underlying.get(i)
 
@@ -76,14 +78,14 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
   }
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A: NotNothing](idx: Int): Option[A] = {
-    underlying.get(idx) match {
-      case null => None
-      case value => Some(value.asInstanceOf[A])
+  def getAs[A: NotNothing: Manifest](idx: Int): Option[A] = {
+    Try(as[A](idx)) match {
+      case Success(v) => castToOption[A](v)
+      case Failure(e) => None
     }
   }
 
-  def getAsOrElse[A: NotNothing](idx: Int, default: => A): A = getAs[A](idx) match {
+  def getAsOrElse[A: NotNothing : Manifest](idx: Int, default: => A): A = getAs[A](idx) match {
     case Some(v) => v
     case None => default
   }

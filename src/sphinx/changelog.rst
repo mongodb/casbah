@@ -4,6 +4,8 @@ Changelog
 Changes in Version 2.7.0
 ------------------------
 
+- Fixed getAs[Type]("key") to stop invalid casts to Some(value) (SCALA-136)
+- Support vargs for getAs[Type]("keys"*) (SCALA-134)
 - Support vargs for as[Type]("Keys"*) (SCALA-134) (pr/#61)
 - Fixed issue with OpLog matching (pr/#63)
 - Register the core Serialization helpers only once (SCALA-129)

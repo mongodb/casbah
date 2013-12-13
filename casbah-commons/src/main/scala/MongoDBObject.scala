@@ -30,6 +30,7 @@ import scala.collection.JavaConversions._
 import scala.collection.generic._
 import scala.collection.mutable.{Builder, Map, MapLike}
 import scala.reflect._
+import scala.util.{Try, Success, Failure}
 
 /**
  * MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
@@ -37,7 +38,6 @@ import scala.reflect._
  * due to conflicts between the java methods and scala methods.
  * Implicits and explicit methods allow you to convert to java though.
  *
- * We will likely reimplement DBObject itself longterm as a pure base. on the wire format
  * @since 1.0
  *
  * @tparam String
@@ -45,7 +45,7 @@ import scala.reflect._
  */
 @BeanInfo
 class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[String, AnyRef]
-with MapLike[String, AnyRef, MongoDBObject] with Logging {
+with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
 
   override def empty: MongoDBObject = MongoDBObject.empty
 
@@ -69,10 +69,11 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging {
   def as[A: NotNothing](key: String): A = {
     underlying.get(key) match {
       case null => default(key).asInstanceOf[A]
-      case value => if (value.isInstanceOf[BasicDBList]) {
-        // Attempt, if it's a DBList, to wrap it
-        new MongoDBList(value.asInstanceOf[BasicDBList]).asInstanceOf[A]
-      } else value.asInstanceOf[A]
+      case value =>
+        value match {
+          case list: BasicDBList => new MongoDBList(list).asInstanceOf[A]
+          case x => x.asInstanceOf[A]
+        }
     }
   }
 
@@ -82,8 +83,8 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging {
    * A helper to recursively fetch and then finally cast items from a
    * DBObject.
    *
-   * @param  key (String)
-   * @tparam A
+   * @param  keys (String*)
+   * @tparam A the type to cast the final key to
    * @return (A)
    * @throws NoSuchElementException
    */
@@ -130,17 +131,34 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging {
    */
   def ::(elem: (String, Any)): Seq[DBObject] = Seq(MongoDBObject(elem), this)
 
-  /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A: NotNothing : Manifest](key: String): Option[A] = {
-    underlying.get(key) match {
-      case null => None
-      case value => if (value.isInstanceOf[BasicDBList]) {
-        // Attempt, if it's a DBList, to wrap it
-        Some(new MongoDBList(value.asInstanceOf[BasicDBList]).asInstanceOf[A])
-      } else Some(value.asInstanceOf[A])
+  /**
+   * Utility method to allow typing without conflicting with Map's required get() method and causing ambiguity.
+   *
+   * An invalid cast will cause the return to be None
+   *
+   * @param key String the key to lookup
+   * @tparam A the type to cast the result to
+   * @return Option[A] - None if value is None, the cast invalid or the key is missing otherwise Some(value)
+   */
+  def getAs[A: NotNothing: Manifest](key: String): Option[A] = {
+    Try(as[A](key)) match {
+      case Success(v) => castToOption[A](v)
+      case Failure(e) => None
     }
   }
 
+  /**
+   * Nested getAs[Type]
+   *
+   * A helper to recursively fetch and then finally cast items from a
+   * DBObject.
+   *
+   * @param keys Strings the keys to lookup
+   * @tparam A the type to cast the final value
+   * @return Option[A] - None if value is None, the cast invalid or the key is missing otherwise Some(value)
+   * @return
+   */
+  def getAs[A: NotNothing: Manifest](keys: String*): Option[A] = expand[A](keys.mkString("."))
 
   def getAsOrElse[A: NotNothing : Manifest](key: String, default: => A): A = getAs[A](key) match {
     case Some(v) => v
@@ -149,9 +167,11 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging {
 
   /**
    * Utility method to emulate javascript dot notation
+   *
    * Designed to simplify the occasional insanity of working with nested objects.
    * Your type parameter must be that of the item at the bottom of the tree you specify...
-   * If cast fails - it's your own fault.
+   *
+   * If the cast fails it will return None
    */
   def expand[A: NotNothing](key: String): Option[A] = {
     @tailrec
@@ -254,19 +274,11 @@ object MongoDBObject {
   def newBuilder[A <: String, B <: Any]: Builder[(String, Any), DBObject] = new MongoDBObjectBuilder
 
   protected[mongodb] def convertValue(v: Any): Any = v match {
-    case x: MongoDBObject =>
-      x.asDBObject
-    case m: scala.collection.Map[String, _] =>
-      // attempt to convert it to a DBObject
-      m.asDBObject
-    case _v: Option[_] =>
-      val n = convertValue(_v.orNull)
-      val z = Option(n)
-      z
-    case _ =>
-      v
+    case x: MongoDBObject => x.asDBObject
+    case m: Map[String, _] => m.asDBObject
+    case _v: Option[_] => Option(convertValue(_v.orNull))
+    case _ => v
   }
-
 }
 
 sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
@@ -291,4 +303,3 @@ sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
 
   def result(): DBObject = new MongoDBObject(elems.get)
 }
-

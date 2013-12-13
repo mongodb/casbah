@@ -24,8 +24,12 @@ package com.mongodb.casbah.test.commons
 
 import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+import com.github.nscala_time.time.Imports._
+import scala.Some
+import java.util.Date
 
 class MongoDBObjectSpec extends CasbahMutableSpecification {
+  type JDKDate = java.util.Date
 
   "MongoDBObject expand operations" should {
 
@@ -37,9 +41,8 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       val b = x.expand[String]("A.B")
       b must beSome("C")
 
-      "While overexpanding should probably fail" in {
-        lazy val bFail = x.expand[String]("A.B.C")
-        bFail must throwA[ClassCastException]
+      "While overexpanding returns None" in {
+        x.expand[String]("A.B.C") must beNone
       }
     }
 
@@ -48,8 +51,8 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       val c = y.expand[Int]("A.B.C")
       c must beSome(5)
       "While overexpanding should probably fail" in {
-        lazy val cFail = y.expand[String]("A.B.C.D")
-        cFail must throwA[ClassCastException]
+        val cFail = y.expand[String]("A.B.C.D")
+        cFail must beNone
       }
     }
 
@@ -83,18 +86,24 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       doc.getAs[Seq[_]]("driverAuthors") must beSome[Seq[_]]
     }
 
-    "Per SCALA-69, Nones placed to DBObject should immediately convert to null to present proper getAs behavior" in {
+    "Nones placed to DBObject should immediately convert to null to present proper getAs behavior" in {
       val obj = MongoDBObject("foo" -> None)
-
       obj.getAs[String]("foo") must beNone
     }
 
-    /*"SCALA-42, storing Java Arrays in a DBObject shouldn't break .equals and .hashcode" in {
-      val one = MongoDBObject("anArray" -> Array(MongoDBObject("one" -> "oneVal"), MongoDBObject("two" -> "twoVal")))
-      val two = MongoDBObject("anArray" -> Array(MongoDBObject("one" -> "oneVal"), MongoDBObject("two" -> "twoVal")))
-      one must beEqualTo(two)
-    }*/
+    "getAs should respect types" in {
+      val obj = MongoDBObject("foo" -> 0)
+      obj.getAs[String]("foo") must beNone
+      obj.getAs[Int]("foo") must beSome[Int]
+    }
+
   }
+
+  /* "SCALA-42, storing Java Arrays in a DBObject shouldn't break .equals and .hashcode" in {
+    val one = MongoDBObject("anArray" -> Array(MongoDBObject("one" -> "oneVal"), MongoDBObject("two" -> "twoVal")))
+    val two = MongoDBObject("anArray" -> Array(MongoDBObject("one" -> "oneVal"), MongoDBObject("two" -> "twoVal")))
+    one must beEqualTo(two)
+  } */
 
   "MongoDBObject Factory & Builder" should {
     "Support 'empty', returning a DBObject" in {
@@ -259,14 +268,28 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
 
     "Support 'as' methods for casting by type" in {
       "getAs functions as expected" in {
-        val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
-          "embedded" -> MongoDBObject("foo" -> "bar"))
-        dbObj.getAs[Int]("x") must beSome[Int].which(_ == 5)
-        dbObj.getAs[Double]("y") must beSome[Double].which(_ == 212.8)
-        dbObj.getAs[DBObject]("embedded") must beSome[DBObject] and haveSomeEntry("foo" -> "bar")
-        dbObj.getAs[Float]("omgponies") must beNone
-        dbObj.getAs[Double]("x").get must throwA[ClassCastException]
 
+        val jodaDate: DateTime = DateTime.now
+        val localJodaDate: LocalDateTime = jodaDate.toLocalDateTime
+        val jdkDate: JDKDate = new JDKDate(jodaDate.getMillis)
+
+        val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
+          "embedded" -> MongoDBObject("foo" -> "bar"), "none" -> None,
+          "jodaDate" -> jodaDate, "localJodaDate" -> localJodaDate, "jdkDate" -> jdkDate)
+
+        dbObj.getAs[Int]("") must beSome[Int](5)
+        dbObj.getAs[Double]("y") must beSome[Double](212.8)
+        dbObj.getAs[DBObject]("embedded") must beSome[DBObject] and haveSomeEntry("foo" -> "bar")
+
+        dbObj.getAs[DateTime]("jodaDate") must beSome[DateTime](jodaDate)
+        dbObj.getAs[LocalDateTime]("localJodaDate") must beSome[LocalDateTime](localJodaDate)
+        dbObj.getAs[JDKDate]("jdkDate") must beSome[JDKDate](jdkDate)
+
+        "Should return None for None, failed casts and missing items" in {
+          dbObj.getAs[Double]("none") must beNone
+          dbObj.getAs[Double]("spam") must beNone
+          dbObj.getAs[Float]("omgponies") must beNone
+        }
       }
 
       "as functions as expected" in {
@@ -285,38 +308,40 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       }
     }
 
-    "Support the nested as[<type>] method" should {
+    "Support the nested as[<type>] and getAs[<type>] methods" should {
 
       val x: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> "C"))
       val y: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> 5)))
       val z: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> List(5, 4, 3, 2, 1))))
 
       "Expanding a simple layering should work" in {
-        val b = x.as[String]("A", "B")
-        b must beEqualTo("C")
+        x.as[String]("A", "B") must beEqualTo("C")
+        x.getAs[String]("A", "B") must beSome[String]("C")
 
         "While overexpanding should probably fail" in {
-          lazy val bFail = x.as[String]("A", "B", "C")
-          bFail must throwA[ClassCastException]
+          x.as[String]("A", "B", "C") must throwA[NoSuchElementException]
+          x.getAs[String]("A", "B", "C") must beNone
         }
       }
 
       "Expanding a further layering should work" in {
-        val c = y.as[Int]("A", "B", "C")
-        c must beEqualTo(5)
+        y.as[Int]("A", "B", "C") must beEqualTo(5)
+        y.getAs[Int]("A", "B", "C") must beSome[Int](5)
+
         "While overexpanding should fail" in {
-          lazy val cFail = y.as[String]("A", "B", "C", "D")
-          cFail must throwA[ClassCastException]
+          y.as[String]("A", "B", "C", "D") must throwA[NoSuchElementException]
+          y.getAs[Int]("A", "B", "C", "D") must beNone
         }
       }
 
       "And you can go further and even get a list" in {
-        val c = z.as[List[Int]]("A", "B", "C")
-        c must beEqualTo(List(5, 4, 3, 2, 1))
+        z.as[List[Int]]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
+        z.getAs[List[Int]]("A", "B", "C") must beSome[List[Int]](List(5, 4, 3, 2, 1))
       }
 
       "Invalid missing elements should also fail" in {
         z.as[Float]("C", "X") must throwA[NoSuchElementException]
+        z.getAs[Float]("C", "X") must beNone
       }
     }
 
@@ -358,9 +383,6 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
             "map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
           val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
           map.orNull must beDBObject
-          /*
-           *map must haveEntries("spam" -> 8.2, "eggs" -> "bacon")
-           */
         }
         "From the MongoDBObjectBuilder" in {
           val b = MongoDBObject.newBuilder
@@ -370,18 +392,12 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
           val dbObj = b.result
           val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
           map.orNull must beDBObject
-          /*
-           *map must haveEntries("spam" -> 8.2, "eggs" -> "bacon")
-           */
         }
         "From the put method" in {
           val dbObj = MongoDBObject("foo" -> "bar", "x" -> 5)
           dbObj += ("map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
           val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
           map.orNull must beDBObject
-          /*
-           *map must haveEntries("spam" -> 8.2, "eggs" -> "bacon")
-           */
         }
 
       }

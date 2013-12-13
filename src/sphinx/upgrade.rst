@@ -13,6 +13,8 @@ Version 2.7.0
   signatures have changed to add `Duration` but are defaulted.
 * `com.mongodb.casbah.WriteConcern.valueOf` now returns an Option as an invalid name
   would return a `null`.  Any code relying on it should be updated.
+* `com.mongodb.casbah.commons.MongoDBList.getAs` now returns None if the type cast is invalid
+* `com.mongodb.casbah.commons.MongoDBObject.getAs` now returns None if the type cast is invalid
 
 
 Version 2.6.1

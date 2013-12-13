@@ -83,8 +83,6 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"),
         MongoDBObject("date" -> 1))
 
-      jdkEntry must beSome
-
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
     }
 
@@ -100,15 +98,10 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
         MongoDBObject("date" -> 1))
 
-      jodaEntry must beSome
-      //jodaEntry.get.get("date") must beSome[DateTime]
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = {
-        jodaEntry.get.getAs[JDKDate]("date")
-      }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
-      getDate.get must throwA[ClassCastException]
+      jodaEntry.get.getAs[JDKDate]("date") must beNone
+
     }
 
     "Successfully serialize & deserialize Joda Local/DateTime Objects when DateTime convertors are loaded." in {
@@ -123,16 +116,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
         MongoDBObject("date" -> 1))
 
-      jodaEntry must beSome
-      //jodaEntry.get.get("date") must beSome[DateTime]
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
-
       // Casting it as something it isn't will fail
-      lazy val getDate = {
-        jodaEntry.get.getAs[JDKDate]("date")
-      }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
-      getDate.get must throwA[ClassCastException]
+      jodaEntry.get.getAs[JDKDate]("date") must beNone
     }
 
     "Successfully serialize & deserialize Joda LocalDateTime Objects when LocalDateTime convertors are loaded." in {
@@ -147,15 +133,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
         MongoDBObject("date" -> 1))
 
-      jodaEntry must beSome
-      //jodaEntry.get.get("date") must beSome[DateTime]
       jodaEntry.get.getAs[LocalDateTime]("date") must beSome(localJodaDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = {
-        jodaEntry.get.getAs[JDKDate]("date")
-      }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
-      getDate.get must throwA[ClassCastException]
+      jodaEntry.get.getAs[JDKDate]("date") must beNone
     }
 
     "Successfully serialize & deserialize Joda Local/DateTime Objects when LocalDateTime convertors are loaded." in {
@@ -170,15 +150,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
         MongoDBObject("date" -> 1))
 
-      jodaEntry must beSome
-      //jodaEntry.get.get("date") must beSome[DateTime]
       jodaEntry.get.getAs[LocalDateTime]("date") must beSome(localJodaDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = {
-        jodaEntry.get.getAs[JDKDate]("date")
-      }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
-      getDate.get must throwA[ClassCastException]
+      jodaEntry.get.getAs[JDKDate]("date") must beNone
     }
 
     "Be successfully deregistered." in {
@@ -202,15 +176,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"),
         MongoDBObject("date" -> 1))
 
-      jdkEntry must beSome
-
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = {
-        jdkEntry.get.getAs[DateTime]("date")
-      }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
-      getDate.get must throwA[ClassCastException]
+      jdkEntry.get.getAs[DateTime]("date") must beNone
     }
 
     "Inserting a JDKDate should still allow retrieval as JodaTime after Conversions load" in {
@@ -224,14 +192,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
         MongoDBObject("date" -> 1))
 
       jdkEntry must beSome
-
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
-      lazy val getDate = {
-        jdkEntry.get.getAs[DateTime]("date")
-      }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
-      getDate.get must throwA[ClassCastException]
+      jdkEntry.get.getAs[DateTime]("date") must beNone
 
       RegisterJodaTimeConversionHelpers()
 
@@ -239,14 +202,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
         MongoDBObject("date" -> 1))
 
       jodaEntry must beSome
-
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
       // Casting it as something it isn't will fail
-      lazy val getConvertedDate = {
-        jodaEntry.get.getAs[JDKDate]("date")
-      }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
-      getConvertedDate.get must throwA[ClassCastException]
+      jodaEntry.get.getAs[JDKDate]("date") must beNone
     }
 
     "toString-ing a JODA Date with JODA Conversions loaded doesn't choke horribly." in {
@@ -254,15 +212,9 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
       val jodaEntry: DBObject = MongoDBObject("type" -> "jdk",
         "date" -> jdkDate)
 
-      /*jodaEntry.getAs[DateTime]("date") must beSome(jdkDate)
-      // Casting it as something it isn't will fail
-      lazy val getDate = { jodaEntry.getAs[JDKDate]("date") }
-      // Note - exceptions are wrapped by Some() and won't be thrown until you .get
-      getDate.get must throwA[ClassCastException] */
       RegisterJodaTimeConversionHelpers()
 
       val json = jodaEntry.toString
-
       json must not beNull
     }
 
