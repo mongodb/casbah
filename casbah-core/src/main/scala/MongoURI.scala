@@ -101,6 +101,5 @@ class MongoURI(val underlying: com.mongodb.MongoURI) {
     }
   }
 
-  override def toString = underlying.toString
+  override def toString: String = underlying.toString
 }
-

@@ -25,16 +25,23 @@ package commons
 
 import scala.collection.JavaConverters._
 
+
 trait Implicits {
 
-  import com.mongodb.{DBObject, BasicDBObject, BasicDBList}
+  import com.mongodb.{DBObject, BasicDBList}
 
   /*
    * Placeholder Type Alias
-   *
-   * TODO - Make me a Type Class to define boundaries
    */
   type JSFunction = String
+
+  class MapWithAsDBObject(underlying: scala.collection.Map[String, Any]) {
+    /**
+     * Return a Mongo <code>DBObject</code> containing the Map values
+     * @return DBObject
+     */
+    def asDBObject: DBObject = map2MongoDBObject(underlying)
+  }
 
   /**
    * Implicit extension methods for Scala <code>Map[String, Any]</code>
@@ -42,13 +49,7 @@ trait Implicits {
    * Does not currently convert nested values.
    * @param map A map of [String, Any]
    */
-  implicit def mapAsDBObject(map: scala.collection.Map[String, Any]) = new {
-    /**
-     * Return a Mongo <code>DBObject</code> containing the Map values
-     * @return DBObject
-     */
-    def asDBObject = map2MongoDBObject(map)
-  }
+  implicit def mapAsDBObject(map: scala.collection.Map[String, Any]): MapWithAsDBObject = new MapWithAsDBObject(map)
 
   implicit def map2MongoDBObject(map: scala.collection.Map[String, Any]): DBObject =
     MongoDBObject(map.toList)
@@ -130,6 +131,7 @@ object ValidBSONType {
 /**
  * Nice trick from Miles Sabin using ambiguity in implicit resolution to disallow Nothing
  */
+// scalastyle:off
 sealed trait NotNothing[A] {
   type B
 }

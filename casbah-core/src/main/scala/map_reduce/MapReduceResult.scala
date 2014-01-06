@@ -26,28 +26,24 @@ package map_reduce
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
-import scala.collection.JavaConverters._
-import com.mongodb.MongoExecutionTimeoutException
-
 object MapReduceResult extends Logging {
 
   protected[mongodb] def apply(resultObj: DBObject)(implicit db: MongoDB): MapReduceResult = {
     if (resultObj.get("ok") == 1) {
-      if (resultObj containsField "results")
+      if (resultObj containsField "results") {
         new MapReduceInlineResult(resultObj)
-      else if (resultObj containsField "result")
+      } else if (resultObj containsField "result") {
         new MapReduceCollectionBasedResult(resultObj)
-      else
-        throw new MapReduceException("Invalid Response; no 'results' or 'result' field found, but 'ok' is 1. Result Object Error: '%s'".format(resultObj.getAs[String]("err")))
+      } else {
+        throw new MapReduceException(("Invalid Response; no 'results' or 'result' field found, but 'ok' is 1. Result " +
+          "Object Error: '%s'").format(resultObj.getAs[String]("err")))
+      }
     } else new MapReduceError(resultObj)
   }
 }
 
 /**
  * Wrapper for MongoDB MapReduceResults, implementing iterator to allow direct iterator over the result set.
- *
- *
- * @param raw DBObject directly conforming to the mapReduce result spec as defined in the MongoDB Docs.
  *
  */
 trait MapReduceResult extends Iterator[DBObject] with Logging {
@@ -57,11 +53,11 @@ trait MapReduceResult extends Iterator[DBObject] with Logging {
    */
   def raw: DBObject
 
-  val isError = false
-  lazy val ok = !isError
+  val isError: Boolean = false
+  lazy val ok: Boolean = !isError
   // This may be deprecated in a future release
   val errorMessage: Option[String] = None
-  lazy val err = errorMessage
+  lazy val err: Option[String] = errorMessage
 
   def cursor: Iterator[DBObject]
 
@@ -89,35 +85,36 @@ trait MapReduceResult extends Iterator[DBObject] with Logging {
 }
 
 class MapReduceCollectionBasedResult protected[mongodb](override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
-  override lazy val cursor: Iterator[DBObject] = db(raw.as[String]("result")).find
+  override lazy val cursor: Iterator[DBObject] = db(raw.as[String]("result")).find()
 
-  override def size = cursor.size
+  override def size: Int = cursor.size
 
-  override def toString() = "{MapReduceResult Proxying Result stored in collection [%s] against raw response [%s]}".format(raw.as[String]("result"), raw.toString)
+  override def toString(): String = ("{MapReduceResult Proxying Result stored in collection [%s] against raw " +
+    "response [%s]}").format(raw.as[String]("result"), raw.toString)
 }
 
 class MapReduceInlineResult protected[mongodb](override val raw: DBObject)(implicit db: MongoDB) extends MapReduceCollectionBasedResult(raw) {
   private val results = raw.as[MongoDBList]("results")
   override lazy val cursor = new Iterator[DBObject] {
-    private val iter = results.iterator
+    private val iter: Iterator[AnyRef] = results.iterator
 
-    def next() = iter.next.asInstanceOf[DBObject]
+    def next(): DBObject = iter.next().asInstanceOf[DBObject]
 
-    def hasNext = iter.hasNext
+    def hasNext: Boolean = iter.hasNext
   }
 
-  override def size = results.size
+  override def size: Int = results.size
 
-  override def toString = "{MapReduceResult Proxying Result returned Inline against raw response [%s]}".format(raw.toString)
+  override def toString(): String = "{MapReduceResult Proxying Result returned Inline against raw response [%s]}".format(raw.toString)
 }
 
 class MapReduceError protected[mongodb](override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
-  val cursor = Iterator.empty
+  val cursor: Iterator[Nothing] = Iterator.empty
 
-  override val isError = true
+  override val isError: Boolean = true
 
   override val errorMessage: Option[String] = raw.getAs[String]("err")
 
-  override def toString = "{MapReduceError '%s'}".format(errorMessage)
+  override def toString(): String = "{MapReduceError '%s'}".format(errorMessage)
 }
 

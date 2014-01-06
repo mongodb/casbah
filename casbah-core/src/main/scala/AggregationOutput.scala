@@ -1,9 +1,29 @@
+/**
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For questions and comments about this product, please see the project page at:
+ *
+ * http://github.com/mongodb/casbah
+ *
+ */
 package com.mongodb.casbah
 
-import com.mongodb.casbah.Imports._
-
 import scala.collection.JavaConverters._
+import scala.collection.mutable
 
+import com.mongodb.casbah.Imports._
 import com.mongodb.{AggregationOutput => JavaAggregationOutput}
 
 
@@ -18,47 +38,47 @@ case class AggregationOutput(underlying: JavaAggregationOutput) {
    * returns an iterator to the results of the aggregation
    * @return
    */
-  def results = underlying.results.asScala
+  def results: Iterable[DBObject] = underlying.results.asScala
 
   /**
    * returns the command result of the aggregation
    * @return
    */
-  def getCommandResult = underlying.getCommandResult.asScala
+  def getCommandResult: mutable.Map[String, AnyRef] = underlying.getCommandResult.asScala
 
   /**
    * returns the command result of the aggregation
    * @return
    */
-  def commandResult = underlying.getCommandResult.asScala
+  def commandResult: mutable.Map[String, AnyRef] = underlying.getCommandResult.asScala
 
   /**
    * returns the original aggregation command
    * @return
    */
-  def getCommand = underlying.getCommand
+  def getCommand: DBObject = underlying.getCommand
 
   /**
    * returns the original aggregation command
    * @return
    */
-  def command = underlying.getCommand
+  def command: DBObject = underlying.getCommand
 
   /**
    * returns the address of the server used to execute the aggregation
    * @return
    */
-  def getServerUsed() = underlying.getServerUsed
+  def getServerUsed: ServerAddress = underlying.getServerUsed
 
   /**
    * returns the address of the server used to execute the aggregation
    * @return
    */
-  def serverUsed() = underlying.getServerUsed
+  def serverUsed(): ServerAddress = underlying.getServerUsed
 
   /**
    * string representation of the aggregation command
    */
-  override def toString() = underlying.toString
+  override def toString: String = underlying.toString
 
 }

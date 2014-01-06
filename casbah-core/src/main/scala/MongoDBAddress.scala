@@ -24,10 +24,6 @@ package com.mongodb.casbah
 
 import com.mongodb.casbah.Imports._
 
-import scala.collection.JavaConverters._
-
-import com.mongodb.{Mongo, ServerAddress}
-
 /**
  *
  * @since   1.0.1
@@ -41,9 +37,9 @@ object MongoDBAddress {
    * @param  other  DBAddress the existing DBAddress
    * @param  dbName String the database to which to connect
    * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
+   * @throws UnknownHostException if cannot connect to the host
    */
-  def apply(other: DBAddress, dbName: String) = new DBAddress(other, dbName)
+  def apply(other: DBAddress, dbName: String): DBAddress = new DBAddress(other, dbName)
 
   /**
    * Creates a new DBAddress... acceptable formats:
@@ -57,10 +53,10 @@ object MongoDBAddress {
    * @param  urlFormat String
    * @return com.mongodb.DBAddress
    *
-   * @throws java.net.UnknownHostException
+   * @throws UnknownHostException if cannot connect to the host
    *
    */
-  def apply(urlFormat: String) = new DBAddress(urlFormat)
+  def apply(urlFormat: String): DBAddress = new DBAddress(urlFormat)
 
   /**
    * Connects to a database with a given name at a given host.
@@ -68,9 +64,9 @@ object MongoDBAddress {
    * @param  host   String
    * @param  dbName String
    * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
+   * @throws UnknownHostException if cannot connect to the host
    */
-  def apply(host: String, dbName: String) = new DBAddress(host, dbName)
+  def apply(host: String, dbName: String): DBAddress = new DBAddress(host, dbName)
 
   /**
    * Connects to a database with a given host, port &amp; name at a given host.
@@ -79,9 +75,9 @@ object MongoDBAddress {
    * @param  port   Int
    * @param  dbName String
    * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
+   * @throws UnknownHostException if cannot connect to the host
    */
-  def apply(host: String, port: Int, dbName: String) =
+  def apply(host: String, port: Int, dbName: String): DBAddress =
     new DBAddress(host, port, dbName)
 
   /**
@@ -91,9 +87,9 @@ object MongoDBAddress {
    * @param  port   Int
    * @param  dbName String
    * @return com.mongodb.DBAddress
-   * @throws java.net.UnknownHostException
+   * @throws UnknownHostException if cannot connect to the host
    * @see java.net.InetAddress
    */
-  def apply(addr: java.net.InetAddress, port: Int, dbName: String) =
+  def apply(addr: java.net.InetAddress, port: Int, dbName: String): DBAddress =
     new DBAddress(addr, port, dbName)
 }

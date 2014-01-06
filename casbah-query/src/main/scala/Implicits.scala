@@ -24,7 +24,9 @@ package com.mongodb.casbah
 package query
 
 import com.mongodb.casbah.commons.Imports._
+import com.mongodb.casbah.query.dsl.{GeoCoords, ValueTestFluidQueryOperators, FluidQueryOperators}
 
+// scalastyle:off number.of.types
 
 trait Implicits {
 
@@ -42,7 +44,7 @@ trait Implicits {
    * @param left A string which should be the field name, the left hand of the query
    * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
    */
-  implicit def mongoQueryStatements(left: String) = new {
+  implicit def mongoQueryStatements(left: String): FluidQueryOperators = new {
     val field = left
   } with dsl.FluidQueryOperators // with dsl.aggregation.ProjectSubOperators
 
@@ -59,9 +61,10 @@ trait Implicits {
    * <code>{"fooDate": {"\$lte": <yesterday>, "\$gte": <tomorrow>}}</code>
    *
    * @param left A string which should be the field name, the left hand of the query
-   * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for instantiating a Map
+   * @return Tuple2[String, DBObject] A tuple containing the field name and the mapped operator value, suitable for
+   *         instantiating a Map
    */
-  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with dsl.QueryExpressionObject) = {
+  implicit def mongoNestedDBObjectQueryStatements(nested: DBObject with dsl.QueryExpressionObject): ValueTestFluidQueryOperators = {
     new {
       val field = nested.field
     } with dsl.ValueTestFluidQueryOperators {
@@ -69,20 +72,8 @@ trait Implicits {
     }
   }
 
-  implicit def tupleToGeoCoords[A: ValidNumericType : Manifest, B: ValidNumericType : Manifest](coords: (A, B)) = dsl.GeoCoords(coords._1, coords._2)
-
-  // Aggregation temporarily removed
-  // // Aggregation code
-  // implicit def mongoGroupSubStatements(left: String) = new {
-  //   val field = left
-  // } with dsl.aggregation.GroupSubOperators
-
-  // implicit def mongoProjectSubStatements(left: String) = new {
-  //   val field = left
-  // } with dsl.aggregation.ProjectSubOperators
-
-  // def | = dsl.aggregation.AggregationPipeline.empty
-
+  implicit def tupleToGeoCoords[A: ValidNumericType : Manifest, B: ValidNumericType : Manifest](coords: (A, B)): GeoCoords[A, B] =
+    dsl.GeoCoords(coords._1, coords._2)
 
 }
 
@@ -206,7 +197,8 @@ trait AsQueryParam[A] {
   def asQueryParam(a: A): Any
 }
 
-
+// scalastyle:off line.size.limit
+// scalastyle:off public.methods.have.type
 object AsQueryParam {
   def apply[A](implicit a: AsQueryParam[A]) = a
 
@@ -273,6 +265,8 @@ object AsQueryParam {
 
   implicit def tuple22[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22] = as[(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22)](_.productIterator.toList)
 }
+// scalastyle:on line.size.limit
+// scalastyle:on public.methods.have.type
 
 
 trait ValidNumericTypeHolder {

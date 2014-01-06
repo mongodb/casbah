@@ -21,12 +21,7 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.Imports._
-
-import scala.collection.JavaConverters._
-
 import com.mongodb.{MongoCredential => JavaMongoCredential}
-
 
 /**
  * Helper class for creating MongoCredential instances
@@ -43,7 +38,7 @@ object MongoCredential {
    * @param userName the user name
    */
   @deprecated("Please use MongoCredential.createGSSAPICredential", "2.7")
-  def apply(userName: String) =
+  def apply(userName: String): JavaMongoCredential =
     JavaMongoCredential.createGSSAPICredential(userName)
 
   /**
@@ -55,7 +50,7 @@ object MongoCredential {
    * @param password the password
    */
   @deprecated("Please use MongoCredential.createMongoCRCredential", "2.7")
-  def apply(userName: String, database: String, password: Array[Char]) =
+  def apply(userName: String, database: String, password: Array[Char]): JavaMongoCredential =
     JavaMongoCredential.createMongoCRCredential(userName, database, password)
 
   /**
@@ -64,7 +59,7 @@ object MongoCredential {
    *
    * @param userName the user name
    */
-  def createGSSAPICredential(userName: String) =
+  def createGSSAPICredential(userName: String): JavaMongoCredential =
     JavaMongoCredential.createGSSAPICredential(userName)
 
   /**
@@ -75,7 +70,7 @@ object MongoCredential {
    * @param database the source of the user name, typically a database name
    * @param password the password
    */
-  def createMongoCRCredential(userName: String, database: String, password: Array[Char]) =
+  def createMongoCRCredential(userName: String, database: String, password: Array[Char]): JavaMongoCredential =
     JavaMongoCredential.createMongoCRCredential(userName, database, password)
 
   /**
@@ -84,7 +79,7 @@ object MongoCredential {
    * @param userName the non-null user name
    * @return the credential
    */
-  def createMongoX509Credential(userName: String) =
+  def createMongoX509Credential(userName: String): JavaMongoCredential =
     JavaMongoCredential.createMongoX509Credential(userName)
 
   /**
@@ -94,7 +89,7 @@ object MongoCredential {
    * @param source the source where the user is defined.  This can be either `"$external"` or the name of a database.
    * @return the credential
    */
-  def createPlainCredential(userName: String, source: String, password: Array[Char]) =
+  def createPlainCredential(userName: String, source: String, password: Array[Char]): JavaMongoCredential =
     JavaMongoCredential.createPlainCredential(userName, source, password)
 
 }

@@ -26,6 +26,7 @@ import com.mongodb.casbah.Imports._
 import scala.collection.JavaConverters._
 
 import com.mongodb.{MongoClient => JavaMongoClient}
+import scala.collection.mutable
 
 /**
  * Wrapper object for MongoClient connections, providing the static methods the
@@ -38,61 +39,61 @@ object MongoClient {
   /**
    * Default connection method - connects to default host &amp; port
    *
-   * @throws UnknownHostException
-   * @throws MongoException
+   * @throws UnknownHostException if host cannot be contacted
+   * @throws MongoException if problem connecting
    */
-  def apply() = new MongoClient(new JavaMongoClient())
+  def apply(): MongoClient = new MongoClient(new JavaMongoClient())
 
   /**
    * Connects to a (single) mongodb node (default port)
    *
    * @param  host (String)  server to connect to
-   * @throws UnknownHostException
-   * @throws MongoException
+   * @throws UnknownHostException if host cannot be contacted
+   * @throws MongoException if problem connecting
    */
-  def apply(host: String) = new MongoClient(new JavaMongoClient(host))
+  def apply(host: String): MongoClient = new MongoClient(new JavaMongoClient(host))
 
   /**
    * Creates a Mongo instance based on a (single) mongodb node (default port).
    *
    * @param host server to connect to in format host[:port]
    * @param options default query options
-   * @throws UnknownHostException
-   * @throws MongoException
+   * @throws UnknownHostException if host cannot be contacted
+   * @throws MongoException if problem connecting
    */
-  def apply(host: String, options: MongoClientOptions) = new MongoClient(new JavaMongoClient(host, options))
+  def apply(host: String, options: MongoClientOptions): MongoClient = new MongoClient(new JavaMongoClient(host, options))
 
   /**
    * Connects to a (single) mongodb node
    *
    * @param  host (String)  server to connect to
    * @param  port (Int) the port on which the database is running
-   * @throws UnknownHostException
-   * @throws MongoException
+   * @throws UnknownHostException if host cannot be contacted
+   * @throws MongoException if problem connecting
    */
-  def apply(host: String, port: Int) = new MongoClient(new JavaMongoClient(host, port))
+  def apply(host: String, port: Int): MongoClient = new MongoClient(new JavaMongoClient(host, port))
 
   /**
    * Connects to a (single) mongodb node.
    *
    * @param  addr (ServerAddress) the DatabaseAddress
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(addr: ServerAddress) = new MongoClient(new JavaMongoClient(addr))
+  def apply(addr: ServerAddress): MongoClient = new MongoClient(new JavaMongoClient(addr))
 
   /**
    * Connects to a (single) mongodb node.
    *
    * @param  addr (ServerAddress) the DatabaseAddress
    * @param  options (MongoClientOptions) DB Options
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    * @see ServerAddress
    * @see MongoDBAddress
    * @see MongoClientOptions
    */
-  def apply(addr: ServerAddress, options: MongoClientOptions) =
+  def apply(addr: ServerAddress, options: MongoClientOptions): MongoClient =
     new MongoClient(new JavaMongoClient(addr, options))
 
 
@@ -101,13 +102,13 @@ object MongoClient {
    *
    * @param addr (ServerAddress) the DatabaseAddress
    * @param credentialsList (List[MongoCredential]) used to authenticate all connections
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    * @see ServerAddress
    * @see MongoDBAddress
    * @see credentialsList
    * @since 2.6
    */
-  def apply(addr: ServerAddress, credentialsList: List[MongoCredential]) =
+  def apply(addr: ServerAddress, credentialsList: List[MongoCredential]): MongoClient =
     new MongoClient(new JavaMongoClient(addr, credentialsList.asJava))
 
   /**
@@ -116,14 +117,14 @@ object MongoClient {
    * @param addr (ServerAddress) the DatabaseAddress
    * @param credentials (List[MongoCredential]) used to authenticate all connections
    * @param options (MongoClientOptions) DB Options
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    * @see ServerAddress
    * @see MongoDBAddress
    * @see MongoClientOptions
    * @see CredentialsList
    * @since 2.6
    */
-  def apply(addr: ServerAddress, credentials: List[MongoCredential], options: MongoClientOptions) =
+  def apply(addr: ServerAddress, credentials: List[MongoCredential], options: MongoClientOptions): MongoClient =
     new MongoClient(new JavaMongoClient(addr, credentials.asJava, options))
 
   /**
@@ -132,11 +133,11 @@ object MongoClient {
    * and finds all the members (the master is used by default)
    *
    * @param replicaSetSeeds (List[ServerAddress]) The servers to connect to
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress]) =
+  def apply(replicaSetSeeds: List[ServerAddress]): MongoClient =
     new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava))
 
   /**
@@ -147,12 +148,12 @@ object MongoClient {
    *
    * @param replicaSetSeeds (List[ServerAddress]) The servers to connect to
    * @param options (MongoClientOptions) DB Options
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    * @see ServerAddress
    * @see MongoDBAddress
    * @see MongoClientOptions
    */
-  def apply(replicaSetSeeds: List[ServerAddress], options: MongoClientOptions) =
+  def apply(replicaSetSeeds: List[ServerAddress], options: MongoClientOptions): MongoClient =
     new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava, options))
 
   /**
@@ -163,13 +164,13 @@ object MongoClient {
    *
    * @param replicaSetSeeds (List[ServerAddress]) The servers to connect to
    * @param credentials (List[MongoCredential]) used to authenticate all connections
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    * @see ServerAddress
    * @see MongoDBAddress
    * @see CredentialsList
    * @since 2.6
    */
-  def apply(replicaSetSeeds: List[ServerAddress], credentials: List[MongoCredential]) =
+  def apply(replicaSetSeeds: List[ServerAddress], credentials: List[MongoCredential]): MongoClient =
     new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava, credentials.asJava))
 
   /**
@@ -181,14 +182,14 @@ object MongoClient {
    * @param replicaSetSeeds (List[ServerAddress]) The servers to connect to
    * @param credentials (List[MongoCredential]) used to authenticate all connections
    * @param options (MongoClientOptions) DB Options
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    * @see ServerAddress
    * @see MongoDBAddress
    * @see MongoClientOptions
    * @see CredentialsList
    * @since 2.6
    */
-  def apply(replicaSetSeeds: List[ServerAddress], credentials: List[MongoCredential], options: MongoClientOptions) =
+  def apply(replicaSetSeeds: List[ServerAddress], credentials: List[MongoCredential], options: MongoClientOptions): MongoClient =
     new MongoClient(new JavaMongoClient(replicaSetSeeds.asJava, credentials.asJava, options))
 
   /**
@@ -196,14 +197,14 @@ object MongoClient {
    *
    * @param  uri (MongoClientURI)
    */
-  def apply(uri: MongoClientURI) = new MongoClient(new JavaMongoClient(uri.underlying))
+  def apply(uri: MongoClientURI): MongoClient = new MongoClient(new JavaMongoClient(uri.underlying))
 
   /**
    * Connect via a com.mongodb.MongoClientURI
    *
    * @param  uri (com.mongodb.MongoClientURI)
    */
-  def apply(uri: com.mongodb.MongoClientURI) = new MongoClient(new JavaMongoClient(uri))
+  def apply(uri: com.mongodb.MongoClientURI): MongoClient = new MongoClient(new JavaMongoClient(uri))
 
 }
 
@@ -213,66 +214,67 @@ object MongoClient {
  */
 class MongoClient(val underlying: JavaMongoClient) {
 
-  def apply(dbName: String) = underlying.getDB(dbName).asScala
+  def apply(dbName: String): MongoDB = underlying.getDB(dbName).asScala
 
-  def getDB(dbName: String) = apply(dbName)
-
-  /**
-   * @throws MongoException
-   */
-  def dbNames = getDatabaseNames()
+  def getDB(dbName: String): MongoDB = apply(dbName)
 
   /**
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    */
-  def databaseNames = getDatabaseNames()
+  def dbNames(): mutable.Buffer[String] = getDatabaseNames() /* calls the db */
 
   /**
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    */
-  def getDatabaseNames() = underlying.getDatabaseNames.asScala
+  def databaseNames(): mutable.Buffer[String] = getDatabaseNames() /* calls the db */
+
+  /**
+   * @throws MongoException if problem connecting
+   */
+  def getDatabaseNames(): mutable.Buffer[String] = underlying.getDatabaseNames().asScala /* calls the db */
 
   /**
    * Drops the database if it exists.
    *
    * @param dbName (String) the name of the database to drop
-   * @throws MongoException
+   * @throws MongoException if problem connecting
    */
-  def dropDatabase(dbName: String) = underlying.dropDatabase(dbName)
+  def dropDatabase(dbName: String): Unit = underlying.dropDatabase(dbName)
 
-  def version = getVersion()
+  def version: String = getVersion
 
-  def getVersion() = underlying.getVersion
+  def getVersion: String = underlying.getVersion
 
-  def debugString = underlying.debugString
+  @deprecated("Not a part of public API and will be dropped in 2.8+ versions", "2.7")
+  def debugString: String = underlying.debugString
 
-  def connectPoint = getConnectPoint()
+  def connectPoint: String = getConnectPoint
 
-  def getConnectPoint() = underlying.getConnectPoint
+  def getConnectPoint: String = underlying.getConnectPoint
 
   /**
    * Gets the address of this database.
    *
    * @return (ServerAddress) The address of the DB
    */
-  def address = getAddress()
+  def address: ServerAddress = getAddress
 
   /**
    * Gets the address of this database.
    *
    * @return (ServerAddress) The address of the DB
    */
-  def getAddress() = underlying.getAddress()
+  def getAddress: ServerAddress = underlying.getAddress
 
-  def allAddress = getAllAddress()
+  def allAddress: mutable.Buffer[ServerAddress] = getAllAddress
 
-  def getAllAddress() = underlying.getAllAddress()
+  def getAllAddress: mutable.Buffer[ServerAddress] = underlying.getAllAddress.asScala
 
   /**
    * Closes all open connections.
    * NOTE: This connection can't be reused after closing.
    */
-  def close() = underlying.close() // use parens because this side-effects
+  def close(): Unit = underlying.close() // use parens because this side-effects
 
   /**
    * Manipulate Network Options
@@ -280,7 +282,7 @@ class MongoClient(val underlying: JavaMongoClient) {
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
-  def addOption(option: Int) = underlying.addOption(option)
+  def addOption(option: Int): Unit = underlying.addOption(option)
 
   /**
    * Manipulate Network Options
@@ -288,7 +290,7 @@ class MongoClient(val underlying: JavaMongoClient) {
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
-  def resetOptions() = underlying.resetOptions() // use parens because this side-effects
+  def resetOptions(): Unit = underlying.resetOptions() // use parens because this side-effects
 
   /**
    * Manipulate Network Options
@@ -296,7 +298,7 @@ class MongoClient(val underlying: JavaMongoClient) {
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
-  def getOptions() = underlying.getOptions
+  def getOptions: Int = underlying.getOptions
 
   /**
    * Manipulate Network Options
@@ -304,88 +306,84 @@ class MongoClient(val underlying: JavaMongoClient) {
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
-  def options = getOptions
+  def options: Int = getOptions
 
   /**
    *
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for [[com.mongodb.WriteConcern]] for more info.
    *
    * @param concern (WriteConcern) The write concern to use
    * @see WriteConcern
    */
-  def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
+  def setWriteConcern(concern: WriteConcern): Unit = underlying.setWriteConcern(concern)
 
   /**
    *
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for [[com.mongodb.WriteConcern]] for more info.
    *
    * @param concern (WriteConcern) The write concern to use
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def writeConcern_=(concern: WriteConcern) = setWriteConcern(concern)
+  def writeConcern_=(concern: WriteConcern): Unit = setWriteConcern(concern)
 
   /**
    *
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for [[com.mongodb.WriteConcern]] for more info.
    *
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def getWriteConcern = underlying.getWriteConcern()
+  def getWriteConcern: WriteConcern = underlying.getWriteConcern
 
   /**
    *
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for [[com.mongodb.WriteConcern]] for more info.
    *
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def writeConcern = getWriteConcern
+  def writeConcern: WriteConcern = getWriteConcern
 
   /**
    * Sets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
-   * documentation for {@link ReadPreference} for more information.
+   * documentation for [[com.mongodb.ReadPreference]] for more information.
    *
-   * @param preference Read Preference to use
+   * @param pref Read Preference to use
    */
-  def readPreference_=(pref: ReadPreference) = setReadPreference(pref)
+  def readPreference_=(pref: ReadPreference): Unit = setReadPreference(pref)
 
   /**
    * Sets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
-   * documentation for {@link ReadPreference} for more information.
+   * documentation for [[com.mongodb.ReadPreference]] for more information.
    *
-   * @param preference Read Preference to use
+   * @param pref Read Preference to use
    */
-  def setReadPreference(pref: ReadPreference) = underlying.setReadPreference(pref)
+  def setReadPreference(pref: ReadPreference): Unit = underlying.setReadPreference(pref)
 
   /**
    * Gets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
-   * documentation for {@link ReadPreference} for more information.
-   *
-   * @param preference Read Preference to use
+   * documentation for [[com.mongodb.ReadPreference]] for more information.
    */
-  def readPreference = getReadPreference
+  def readPreference: ReadPreference = getReadPreference
 
   /**
    * Gets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
-   * documentation for {@link ReadPreference} for more information.
-   *
-   * @param preference Read Preference to use
+   * documentation for [[com.mongodb.ReadPreference]] for more information.
    */
-  def getReadPreference = underlying.getReadPreference
+  def getReadPreference: ReadPreference = underlying.getReadPreference
 
   /**
    * Gets the list of credentials that this client authenticates all connections with
@@ -393,7 +391,7 @@ class MongoClient(val underlying: JavaMongoClient) {
    * @return the list of credentials
    * @since 2.6.0
    */
-  def credentialsList = getCredentialsList
+  def credentialsList: mutable.Buffer[MongoCredential] = getCredentialsList
 
   /**
    * Gets the list of credentials that this client authenticates all connections with
@@ -401,5 +399,5 @@ class MongoClient(val underlying: JavaMongoClient) {
    * @return the list of credentials
    * @since 2.6.0
    */
-  def getCredentialsList = underlying.getCredentialsList
+  def getCredentialsList: mutable.Buffer[MongoCredential] = underlying.getCredentialsList.asScala
 }

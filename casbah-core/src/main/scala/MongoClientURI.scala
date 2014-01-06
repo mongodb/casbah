@@ -70,8 +70,8 @@ class MongoClientURI(val underlying: com.mongodb.MongoClientURI) {
 
   def options: MongoClientOptions = underlying.getOptions
 
-  def getURI = underlying.getURI
+  def getURI: String = underlying.getURI
 
-  override def toString = underlying.toString
+  override def toString: String = underlying.toString
 }
 

@@ -28,11 +28,11 @@ import com.mongodb.casbah.commons.Logging
 
 trait MongoConversionHelper extends Logging {
 
-  def register() = {
+  def register() {
     log.debug("Reached base registration method on MongoConversionHelper.")
   }
 
-  def unregister() = {
+  def unregister() {
     log.debug("Reached base de-registration method on MongoConversionHelper.")
   }
 }

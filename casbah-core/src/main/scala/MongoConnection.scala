@@ -22,11 +22,10 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.Imports._
-
+import scala.collection.mutable
 import scala.collection.JavaConverters._
 
-import com.mongodb.{Mongo, ServerAddress}
+import com.mongodb.casbah.Imports._
 
 /**
  * Wrapper object for Mongo Connections, providing the static methods the Java driver gives.
@@ -38,10 +37,10 @@ object MongoConnection {
   /**
    * Default connection method - connects to default host &amp; port
    *
-   * @throws UnknownHostException
-   * @throws MongoException
+   * @throws UnknownHostException if cannot connect to the host
+   * @throws MongoException on error
    */
-  def apply() = new MongoConnection(new com.mongodb.Mongo())
+  def apply(): MongoConnection = new MongoConnection(new com.mongodb.Mongo())
 
   /**
    * Replica Set connection
@@ -49,11 +48,12 @@ object MongoConnection {
    * and finds all the members (the master is used by default)
    *
    * @param replicaSetSeeds (List[ServerAddress]) The servers to connect to
-   * @throws MongoException
+   * @throws MongoException on error
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress]) = new MongoConnection(new com.mongodb.Mongo(replicaSetSeeds.asJava))
+  def apply(replicaSetSeeds: List[ServerAddress]): MongoConnection =
+    new MongoConnection(new com.mongodb.Mongo(replicaSetSeeds.asJava))
 
   /**
    * Replica Set connection
@@ -62,11 +62,11 @@ object MongoConnection {
    * Takes a MongoOptions object
    *
    * @param replicaSetSeeds (List[ServerAddress]) The servers to connect to
-   * @throws MongoException
+   * @throws MongoException on error
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(replicaSetSeeds: List[ServerAddress], options: MongoOptions) =
+  def apply(replicaSetSeeds: List[ServerAddress], options: MongoOptions): MongoConnection =
     new MongoConnection(new com.mongodb.Mongo(replicaSetSeeds.asJava, options))
 
   /**
@@ -74,36 +74,36 @@ object MongoConnection {
    *
    * @param  uri (MongoURI)
    */
-  def apply(uri: MongoURI) = new MongoConnection(new com.mongodb.Mongo(uri.underlying))
+  def apply(uri: MongoURI): MongoConnection = new MongoConnection(new com.mongodb.Mongo(uri.underlying))
 
   /**
    * Connect via a com.mongodb.MongoURI
    *
    * @param  uri (com.mongodb.MongoURI)
    */
-  def apply(uri: com.mongodb.MongoURI) = new MongoConnection(new com.mongodb.Mongo(uri))
+  def apply(uri: com.mongodb.MongoURI): MongoConnection = new MongoConnection(new com.mongodb.Mongo(uri))
 
   /**
    * Connects to a (single) mongodb node.
    *
    * @param  addr (ServerAddress) the DatabaseAddress
-   * @throws MongoException
+   * @throws MongoException on error
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(addr: ServerAddress) = new MongoConnection(new com.mongodb.Mongo(addr))
+  def apply(addr: ServerAddress): MongoConnection = new MongoConnection(new com.mongodb.Mongo(addr))
 
   /**
    * Connects to a (single) mongodb node.
    *
    * @param  addr (ServerAddress) the DatabaseAddress
    * @param  options (MongoOptions) DB Options
-   * @throws MongoException
+   * @throws MongoException on error
    * @see ServerAddress
    * @see MongoDBAddress
    * @see MongoOptions
    */
-  def apply(addr: ServerAddress, options: MongoOptions) =
+  def apply(addr: ServerAddress, options: MongoOptions): MongoConnection =
     new MongoConnection(new com.mongodb.Mongo(addr, options))
 
   /**
@@ -113,11 +113,11 @@ object MongoConnection {
    *
    * @param  left (ServerAddress) the left side of the pair
    * @param  right (ServerAddress) The right side of the pair
-   * @throws MongoException
+   * @throws MongoException on error
    * @see ServerAddress
    * @see MongoDBAddress
    */
-  def apply(left: ServerAddress, right: ServerAddress) =
+  def apply(left: ServerAddress, right: ServerAddress): MongoConnection =
     new MongoConnection(new com.mongodb.Mongo(left, right))
 
   /**
@@ -128,35 +128,35 @@ object MongoConnection {
    * @param  left (ServerAddress) the left side of the pair
    * @param  right (ServerAddress) The right side of the pair
    * @param  options (MongoOptions) the MongoDB Options for the connection
-   * @throws MongoException
+   * @throws MongoException on error
    * @see ServerAddress
    * @see MongoDBAddress
    * @see MongoOptions
    */
   def apply(left: ServerAddress, right: ServerAddress,
-            options: com.mongodb.MongoOptions) =
+            options: com.mongodb.MongoOptions): MongoConnection =
     new MongoConnection(new com.mongodb.Mongo(left, right, options))
 
   /**
    * Connects to a (single) mongodb node (default port)
    *
    * @param  host (String)  server to connect to
-   * @throws UnknownHostException
-   * @throws MongoException
+   * @throws UnknownHostException if cannot connect to the host
+   * @throws MongoException on error
    */
-  def apply(host: String) = new MongoConnection(new com.mongodb.Mongo(host))
+  def apply(host: String): MongoConnection = new MongoConnection(new com.mongodb.Mongo(host))
 
   /**
    * Connects to a (single) mongodb node
    *
    * @param  host (String)  server to connect to
    * @param  port (Int) the port on which the database is running
-   * @throws UnknownHostException
-   * @throws MongoException
+   * @throws UnknownHostException if cannot connect to the host
+   * @throws MongoException on error
    */
-  def apply(host: String, port: Int) = new MongoConnection(new com.mongodb.Mongo(host, port))
+  def apply(host: String, port: Int): MongoConnection = new MongoConnection(new com.mongodb.Mongo(host, port))
 
-  def connect(addr: DBAddress) = new MongoDB(com.mongodb.Mongo.connect(addr))
+  def connect(addr: DBAddress): MongoDB = new MongoDB(com.mongodb.Mongo.connect(addr))
 
 }
 
@@ -172,72 +172,72 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @param dbName (String) A string for the database name
    * @return MongoDB A wrapped instance of a Mongo 'DB Class.
    */
-  def apply(dbName: String) = underlying.getDB(dbName).asScala
+  def apply(dbName: String): MongoDB = underlying.getDB(dbName).asScala
 
-  def getDB(dbName: String) = apply(dbName)
-
-  /**
-   * @throws MongoException
-   */
-  def dbNames = getDatabaseNames()
+  def getDB(dbName: String): MongoDB = apply(dbName)
 
   /**
-   * @throws MongoException
+   * @throws MongoException on error
    */
-  def databaseNames = getDatabaseNames()
+  def dbNames(): mutable.Buffer[String] = getDatabaseNames() /* calls the db */
 
   /**
-   * @throws MongoException
+   * @throws MongoException on error
    */
-  def getDatabaseNames() = underlying.getDatabaseNames.asScala
+  def databaseNames(): mutable.Buffer[String] = getDatabaseNames() /* calls the db */
+
+  /**
+   * @throws MongoException on error
+   */
+  def getDatabaseNames(): mutable.Buffer[String] = underlying.getDatabaseNames.asScala  /* calls the db */
 
   /**
    * Drops the database if it exists.
    *
    * @param dbName (String) the name of the database to drop
-   * @throws MongoException
+   * @throws MongoException on error
    */
-  def dropDatabase(dbName: String) = underlying.dropDatabase(dbName)
+  def dropDatabase(dbName: String): Unit = underlying.dropDatabase(dbName)
 
-  def version = getVersion()
+  def version: String = getVersion
 
-  def getVersion() = underlying.getVersion
+  def getVersion: String = underlying.getVersion
 
-  def debugString = underlying.debugString
+  def debugString: String = underlying.debugString
 
-  def connectPoint = getConnectPoint()
+  def connectPoint: String = getConnectPoint
 
-  def getConnectPoint() = underlying.getConnectPoint
+  def getConnectPoint: String = underlying.getConnectPoint
 
   /**
    * Gets the address of this database.
    *
    * @return (ServerAddress) The address of the DB
    */
-  def address = getAddress()
+  def address: ServerAddress = getAddress
 
   /**
    * Gets the address of this database.
    *
    * @return (ServerAddress) The address of the DB
    */
-  def getAddress() = underlying.getAddress()
+  def getAddress: ServerAddress = underlying.getAddress
 
-  def allAddress = getAllAddress()
+  def allAddress: mutable.Buffer[ServerAddress] = getAllAddress
 
-  def getAllAddress() = underlying.getAllAddress()
+  def getAllAddress: mutable.Buffer[ServerAddress] = underlying.getAllAddress.asScala
 
   /**
    * Closes all open connections.
    * NOTE: This connection can't be reused after closing.
    */
-  def close() = underlying.close // use parens because this side-effects
+  def close(): Unit = underlying.close() // use parens because this side-effects
 
   /**
    * Sets queries to be OK to run on slave nodes.
    */
   @deprecated("Replaced with `ReadPreference.SECONDARY`", "2.3.0")
-  def slaveOk() = underlying.slaveOk() // use parens because this side-effects
+  def slaveOk(): Unit = underlying.slaveOk() // use parens because this side-effects
 
   /**
    * Manipulate Network Options
@@ -245,7 +245,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
-  def addOption(option: Int) = underlying.addOption(option)
+  def addOption(option: Int): Unit = underlying.addOption(option)
 
   /**
    * Manipulate Network Options
@@ -253,14 +253,14 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
-  def resetOptions() = underlying.resetOptions() // use parens because this side-effects
+  def resetOptions(): Unit = underlying.resetOptions() // use parens because this side-effects
   /**
    * Manipulate Network Options
    *
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
-  def getOptions() = underlying.getOptions
+  def getOptions: Int = underlying.getOptions
 
   /**
    * Manipulate Network Options
@@ -268,87 +268,83 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    * @see com.mongodb.Mongo
    * @see com.mognodb.Bytes
    */
-  def options = getOptions
+  def options: Int = getOptions
 
   /**
    *
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for [[com.mongodb.WriteConcern]] for more info.
    *
    * @param concern (WriteConcern) The write concern to use
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def setWriteConcern(concern: WriteConcern) = underlying.setWriteConcern(concern)
+  def setWriteConcern(concern: WriteConcern): Unit = underlying.setWriteConcern(concern)
 
   /**
    *
    * Set the write concern for this database.
    * Will be used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for [[com.mongodb.WriteConcern]] for more info.
    *
    * @param concern (WriteConcern) The write concern to use
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def writeConcern_=(concern: WriteConcern) = setWriteConcern(concern)
+  def writeConcern_=(concern: WriteConcern): Unit = setWriteConcern(concern)
 
   /**
    *
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for [[com.mongodb.WriteConcern]] for more info.
    *
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def getWriteConcern = underlying.getWriteConcern()
+  def getWriteConcern: WriteConcern = underlying.getWriteConcern
 
   /**
    *
    * get the write concern for this database,
    * which is used for writes to any collection in this database.
-   * See the documentation for {@link WriteConcern} for more info.
+   * See the documentation for [[com.mongodb.WriteConcern]] for more info.
    *
    * @see WriteConcern
    * @see http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/
    */
-  def writeConcern = getWriteConcern
+  def writeConcern: WriteConcern = getWriteConcern
 
   /**
    * Sets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
-   * documentation for {@link ReadPreference} for more information.
+   * documentation for [[com.mongodb.ReadPreference]] for more information.
    *
-   * @param preference Read Preference to use
+   * @param pref Read Preference to use
    */
-  def readPreference_=(pref: ReadPreference) = setReadPreference(pref)
+  def readPreference_=(pref: ReadPreference): Unit = setReadPreference(pref)
 
   /**
    * Sets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
-   * documentation for {@link ReadPreference} for more information.
+   * documentation for [[com.mongodb.ReadPreference]] for more information.
    *
-   * @param preference Read Preference to use
+   * @param pref Read Preference to use
    */
-  def setReadPreference(pref: ReadPreference) = underlying.setReadPreference(pref)
+  def setReadPreference(pref: ReadPreference): Unit = underlying.setReadPreference(pref)
 
   /**
    * Gets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
-   * documentation for {@link ReadPreference} for more information.
-   *
-   * @param preference Read Preference to use
+   * documentation for [[com.mongodb.ReadPreference]] for more information.
    */
-  def readPreference = getReadPreference
+  def readPreference: ReadPreference = getReadPreference
 
   /**
    * Gets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
-   * documentation for {@link ReadPreference} for more information.
-   *
-   * @param preference Read Preference to use
+   * documentation for [[com.mongodb.ReadPreference]] for more information.
    */
-  def getReadPreference = underlying.getReadPreference
+  def getReadPreference: ReadPreference = underlying.getReadPreference
 }

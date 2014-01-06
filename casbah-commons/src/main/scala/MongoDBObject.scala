@@ -28,9 +28,10 @@ import com.mongodb.casbah.commons.Imports._
 import scala.annotation.tailrec
 import scala.collection.JavaConversions._
 import scala.collection.generic._
-import scala.collection.mutable.{Builder, Map, MapLike}
+import scala.collection.mutable
 import scala.reflect._
 import scala.util.{Try, Success, Failure}
+import java.util
 
 /**
  * MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
@@ -40,16 +41,14 @@ import scala.util.{Try, Success, Failure}
  *
  * @since 1.0
  *
- * @tparam String
- * @tparam Object
  */
 @BeanInfo
-class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends Map[String, AnyRef]
-with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
+class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutable.Map[String, AnyRef]
+with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
 
   override def empty: MongoDBObject = MongoDBObject.empty
 
-  def iterator = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
+  def iterator: Iterator[(String, Object)] = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
 
   /**
    * as
@@ -62,11 +61,12 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * a NoSuchElementException
    *
    * @param  key (String)
-   * @tparam A
+   * @tparam A Any type as long as its not Nothing
    * @return (A)
-   * @throws NoSuchElementException
+   * @throws NoSuchElementException or ClassCastException
    */
   def as[A: NotNothing](key: String): A = {
+    // scalastyle:off null
     underlying.get(key) match {
       case null => default(key).asInstanceOf[A]
       case value =>
@@ -75,6 +75,7 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
           case x => x.asInstanceOf[A]
         }
     }
+    // scalastyle:on null
   }
 
   /**
@@ -86,7 +87,7 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * @param  keys (String*)
    * @tparam A the type to cast the final key to
    * @return (A)
-   * @throws NoSuchElementException
+   * @throws NoSuchElementException or ClassCastException
    */
   def as[A: NotNothing](keys: String*): A = {
     val path = keys.mkString(".")
@@ -96,11 +97,14 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
     }
   }
 
+  // scalastyle:off null
   override def get(key: String): Option[AnyRef] = underlying.get(key) match {
     case null => None
     case value => Some(value)
   }
+  // scalastyle:on null
 
+  // scalastyle:off method.name
   def ++(pairs: (String, _)*): DBObject = {
     val b = MongoDBObject.newBuilder
     for ((k, v) <- pairs) b += k -> v
@@ -130,6 +134,7 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    *
    */
   def ::(elem: (String, Any)): Seq[DBObject] = Seq(MongoDBObject(elem), this)
+  // scalastyle:on method.name
 
   /**
    * Utility method to allow typing without conflicting with Map's required get() method and causing ambiguity.
@@ -174,6 +179,7 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * If the cast fails it will return None
    */
   def expand[A: NotNothing](key: String): Option[A] = {
+    // scalastyle:off method.name
     @tailrec
     def _dot(dbObj: MongoDBObject, key: String): Option[_] =
       if (key.indexOf('.') < 0) {
@@ -185,6 +191,7 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
           case None => None
         }
       }
+    // scalastyle:on method.name
 
     _dot(this, key) match {
       case None => None
@@ -192,6 +199,7 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
     }
   }
 
+  // scalastyle:off method.name public.methods.have.type
   def +=(kv: (String, AnyRef)) = {
     put(kv._1, kv._2)
     this
@@ -201,21 +209,23 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
     underlying.removeField(key)
     this
   }
+  // scalastyle:on method.name public.methods.have.type
 
   /* Methods needed in order to be a proper DBObject */
-  def containsField(s: String) = underlying.containsField(s)
+  def containsField(s: String): Boolean = underlying.containsField(s)
 
   @deprecated("containsKey is deprecated in the MongoDB Driver. You should use containsField instead.", "2.0")
-  def containsKey(s: String) = underlying.containsField(s)
+  def containsKey(s: String): Boolean = underlying.containsField(s)
 
   // method kept for backwards compatibility
-  def isPartialObject = underlying.isPartialObject
+  def isPartialObject: Boolean = underlying.isPartialObject
 
-  def markAsPartialObject = underlying.markAsPartialObject
+  def markAsPartialObject(): Unit = underlying.markAsPartialObject()
 
-  def partialObject = isPartialObject
+  def partialObject: Boolean = isPartialObject
 
-  override def put(k: String, v: AnyRef) = {
+  override def put(k: String, v: AnyRef): Option[AnyRef] = {
+    // scalastyle:off null
     val cvt = MongoDBObject.convertValue(v)
     cvt match {
       case _v: Option[_] =>
@@ -229,49 +239,51 @@ with MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
           case value => Some(value)
         }
     }
+    // scalastyle:on null
   }
 
-  def putAll(o: DBObject) = underlying.putAll(o)
+  def putAll(o: DBObject): Unit = underlying.putAll(o)
 
-  override def toString() = underlying.toString
+  override def toString(): String = underlying.toString
 
-  override def hashCode() = underlying.hashCode
+  override def hashCode(): Int = underlying.hashCode
 
-  override def equals(that: Any) = that match {
+  override def equals(that: Any): Boolean = that match {
     case o: MongoDBObject => underlying.equals(o.underlying)
     case o: MongoDBList => underlying.equals(o.underlying)
     case _ => underlying.equals(that) | that.equals(this)
   }
 
-  def removeField(key: String) = underlying.removeField(key)
+  def removeField(key: String): AnyRef = underlying.removeField(key)
 
-  def toMap = underlying.toMap
+  def toMap: util.Map[_, _] = underlying.toMap
 
-  def asDBObject = underlying
+  def asDBObject: DBObject = underlying
 
+  // scalastyle:off method.name
   // convenience method to get _id as ObjectId
   def `_id`: Option[ObjectId] = get("_id") match {
     case Some(id: ObjectId) => Some(id)
     case _ => None
   }
+  // scalastyle:on method.name
 }
 
 object MongoDBObject {
 
   implicit val canBuildFrom: CanBuildFrom[Map[String, Any], (String, Any), DBObject] =
     new CanBuildFrom[Map[String, Any], (String, Any), DBObject] {
-      def apply(from: Map[String, Any]) = apply()
-
-      def apply() = newBuilder[String, Any]
+      def apply(from: Map[String, Any]): mutable.Builder[(String, Any), DBObject] = apply()
+      def apply(): mutable.Builder[(String, Any), DBObject] = newBuilder[String, Any]
     }
 
   def empty: DBObject = new MongoDBObject()
 
-  def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result
+  def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result()
 
   def apply[A <: String, B <: Any](elems: List[(A, B)]): DBObject = apply(elems: _*)
 
-  def newBuilder[A <: String, B <: Any]: Builder[(String, Any), DBObject] = new MongoDBObjectBuilder
+  def newBuilder[A <: String, B <: Any]: mutable.Builder[(String, Any), DBObject] = new MongoDBObjectBuilder
 
   protected[mongodb] def convertValue(v: Any): Any = v match {
     case x: MongoDBObject => x.asDBObject
@@ -281,14 +293,15 @@ object MongoDBObject {
   }
 }
 
-sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
+sealed class MongoDBObjectBuilder extends mutable.Builder[(String, Any), DBObject] {
 
   import com.mongodb.BasicDBObjectBuilder
 
   protected val empty = BasicDBObjectBuilder.start
   protected var elems = empty
 
-  override def +=(x: (String, Any)) = {
+  // scalastyle:off method.name
+  override def +=(x: (String, Any)): this.type = {
     val cvt = MongoDBObject.convertValue(x._2)
     cvt match {
       case _v: Option[_] => elems.add(x._1, _v.orNull)
@@ -296,6 +309,7 @@ sealed class MongoDBObjectBuilder extends Builder[(String, Any), DBObject] {
     }
     this
   }
+  // scalastyle:on method.name
 
   def clear() {
     elems = empty

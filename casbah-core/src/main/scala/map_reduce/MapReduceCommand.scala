@@ -57,7 +57,7 @@ case object MapReduceInlineOutput extends MapReduceOutputTarget
  * @param finalizeFunction  (optional) the finalize function (JSFunction is just a type alias for String)
  * @param jsScope           (optional) global variables that are accessible in the map, reduce and finalize functions
  * @param verbose           (optional) include the timing information in the result information
- * @param maxTime       (optional) the maximum duration that the server will allow this operation to execute before killing it
+ * @param maxTime           (optional) the maximum duration that the server will allow this operation to execute before killing it
  */
 case class MapReduceCommand protected[mongodb](input: String = "", map: JSFunction = "", reduce: JSFunction = "",
                                                output: MapReduceOutputTarget = MapReduceInlineOutput,
@@ -66,7 +66,9 @@ case class MapReduceCommand protected[mongodb](input: String = "", map: JSFuncti
                                                jsScope: Option[DBObject] = None, verbose: Boolean = false,
                                                maxTime: Option[Duration] = None) {
 
-  def toDBObject = {
+  // scalastyle:off null cyclomatic.complexity method.length
+
+  def toDBObject: DBObject = {
     val dataObj = MongoDBObject.newBuilder
     input match {
       case "" => throw new MapReduceException("input must be defined.")
@@ -130,5 +132,5 @@ case class MapReduceCommand protected[mongodb](input: String = "", map: JSFuncti
 
   }
 
-  override def toString = toDBObject.toString
+  override def toString: String = toDBObject.toString
 }

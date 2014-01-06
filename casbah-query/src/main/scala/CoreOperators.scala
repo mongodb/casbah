@@ -24,13 +24,16 @@ package com.mongodb.casbah.query.dsl
 
 import com.mongodb.casbah.query.Imports._
 
-import com.mongodb.casbah.query.ChainedOperator
+import com.mongodb.casbah.query.{Imports, ChainedOperator}
 
 import scala.util.matching._
 import scala.collection.Iterable
 
 import org.bson._
 import org.bson.types.BasicBSONList
+import com.mongodb.casbah.commons
+
+// scalastyle:off method.name number.of.types
 
 /**
  * Mixed trait which provides all possible
@@ -136,7 +139,7 @@ trait QueryOperator extends ChainedOperator {
  *
  */
 trait EqualsOp extends QueryOperator {
-  def $eq[A: AsQueryParam](a: A) = queryEq(AsQueryParam[A].asQueryParam(a))
+  def $eq[A: AsQueryParam](a: A): DBObject with QueryExpressionObject = queryEq(AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -151,7 +154,7 @@ trait EqualsOp extends QueryOperator {
 trait NotEqualsOp extends QueryOperator {
   private val oper = "$ne"
 
-  def $ne[A: AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
+  def $ne[A: AsQueryParam](a: A): DBObject with QueryExpressionObject = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -166,7 +169,7 @@ trait NotEqualsOp extends QueryOperator {
 trait LessThanOp extends QueryOperator {
   private val oper = "$lt"
 
-  def $lt[A: AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
+  def $lt[A: AsQueryParam](a: A): DBObject with QueryExpressionObject = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -180,7 +183,7 @@ trait LessThanOp extends QueryOperator {
 trait LessThanEqualOp extends QueryOperator {
   private val oper = "$lte"
 
-  def $lte[A: AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
+  def $lte[A: AsQueryParam](a: A): DBObject with QueryExpressionObject = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -194,7 +197,7 @@ trait LessThanEqualOp extends QueryOperator {
 trait GreaterThanOp extends QueryOperator {
   private val oper = "$gt"
 
-  def $gt[A: AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
+  def $gt[A: AsQueryParam](a: A): DBObject with QueryExpressionObject = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -208,7 +211,7 @@ trait GreaterThanOp extends QueryOperator {
 trait GreaterThanEqualOp extends QueryOperator {
   private val oper = "$gte"
 
-  def $gte[A: AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
+  def $gte[A: AsQueryParam](a: A): DBObject with QueryExpressionObject = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -228,7 +231,7 @@ trait GreaterThanEqualOp extends QueryOperator {
 trait InOp extends QueryOperator {
   private val oper = "$in"
 
-  def $in[A: AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
+  def $in[A: AsQueryParam](a: A): DBObject with QueryExpressionObject = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -248,7 +251,7 @@ trait InOp extends QueryOperator {
 trait NotInOp extends QueryOperator {
   private val oper = "$nin"
 
-  def $nin[A: AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
+  def $nin[A: AsQueryParam](a: A): DBObject with QueryExpressionObject = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -268,7 +271,7 @@ trait NotInOp extends QueryOperator {
 trait AllOp extends QueryOperator {
   private val oper = "$all"
 
-  def $all[A: AsQueryParam](a: A) = queryOp(oper, AsQueryParam[A].asQueryParam(a))
+  def $all[A: AsQueryParam](a: A): DBObject with QueryExpressionObject = queryOp(oper, AsQueryParam[A].asQueryParam(a))
 }
 
 /**
@@ -284,7 +287,7 @@ trait AllOp extends QueryOperator {
 trait ModuloOp extends QueryOperator {
   private val oper = "$mod"
 
-  def $mod[A: ValidNumericType, B: ValidNumericType](left: A, right: B) = queryOp(oper, MongoDBList(left, right))
+  def $mod[A: ValidNumericType, B: ValidNumericType](left: A, right: B): DBObject with QueryExpressionObject = queryOp(oper, MongoDBList(left, right))
 }
 
 /**
@@ -299,9 +302,9 @@ trait SizeOp extends QueryOperator {
 
 
   // TODO - Accept Numeric? As long as we can downconvert for mongo type?
-  def $size(target: Int) = queryOp(oper, target)
+  def $size(target: Int): DBObject with QueryExpressionObject = queryOp(oper, target)
 
-  def $size(target: BigInt) = queryOp(oper, target)
+  def $size(target: BigInt): DBObject with QueryExpressionObject = queryOp(oper, target)
 }
 
 /**
@@ -314,7 +317,7 @@ trait SizeOp extends QueryOperator {
 trait ExistsOp extends QueryOperator {
   private val oper = "$exists"
 
-  def $exists(target: Boolean) = queryOp(oper, target)
+  def $exists(target: Boolean): DBObject with QueryExpressionObject = queryOp(oper, target)
 }
 
 /**
@@ -331,16 +334,16 @@ trait ExistsOp extends QueryOperator {
 trait NotOp extends QueryOperator {
   private val oper = "$not"
 
-  def $not(inner: FluidQueryOperators => DBObject) = {
+  def $not(inner: FluidQueryOperators => DBObject): DBObject = {
     val dbObj = inner(new FluidQueryOperators {
       val field = oper
     })
     MongoDBObject(field -> dbObj)
   }
 
-  def $not(re: scala.util.matching.Regex) = queryOp(oper, re.pattern)
+  def $not(re: scala.util.matching.Regex): DBObject with QueryExpressionObject = queryOp(oper, re.pattern)
 
-  def $not(re: java.util.regex.Pattern) = queryOp(oper, re)
+  def $not(re: java.util.regex.Pattern): DBObject with QueryExpressionObject = queryOp(oper, re)
 }
 
 /**
@@ -362,9 +365,9 @@ trait NotOp extends QueryOperator {
 trait SliceOp extends QueryOperator {
   private val oper = "$slice"
 
-  def $slice(target: Int) = queryOp(oper, target)
+  def $slice(target: Int): DBObject with QueryExpressionObject = queryOp(oper, target)
 
-  def $slice(slice: Int, limit: Int) = queryOp(oper, MongoDBList(slice, limit))
+  def $slice(slice: Int, limit: Int): DBObject with QueryExpressionObject = queryOp(oper, MongoDBList(slice, limit))
 }
 
 /**
@@ -379,7 +382,7 @@ trait SliceOp extends QueryOperator {
 trait ElemMatchOp extends QueryOperator {
   private val oper = "$elemMatch"
 
-  def $elemMatch[A <% DBObject](target: A) = queryOp(oper, target)
+  def $elemMatch[A <% DBObject](target: A): DBObject with QueryExpressionObject = queryOp(oper, target)
 }
 
 
@@ -401,7 +404,7 @@ trait ElemMatchOp extends QueryOperator {
 trait MetaProjectionOp extends QueryOperator {
   private val oper = "$meta"
 
-  def $meta() = queryOp(oper, "text")
+  def $meta(): DBObject with QueryExpressionObject = queryOp(oper, "text")
 }
 
 sealed abstract class BSONType[A](val operator: Byte)
@@ -461,7 +464,7 @@ trait TypeOp extends QueryOperator {
    * For those who want to pass the static byte from org.bson.BSON explicitly
    * (or with the simple BSON spec indicator)
    */
-  def $type(arg: Byte) = queryOp(oper, arg)
+  def $type(arg: Byte): DBObject with QueryExpressionObject = queryOp(oper, arg)
 
   /**
    * Matches types based on a Context Bound.
@@ -470,7 +473,7 @@ trait TypeOp extends QueryOperator {
    * "foo".\$type[Double]
    *
    */
-  def $type[A](implicit bsonType: BSONType[A]) = queryOp(oper, bsonType.operator)
+  def $type[A](implicit bsonType: BSONType[A]): DBObject with QueryExpressionObject = queryOp(oper, bsonType.operator)
 }
 
 /**
@@ -486,7 +489,7 @@ trait TypeOp extends QueryOperator {
 trait regexOp extends QueryOperator {
   private val oper = "$regex"
 
-  def $regex(arg: String) = queryOp(oper, arg)
+  def $regex(arg: String): DBObject with QueryExpressionObject = queryOp(oper, arg)
 }
 
 // Geo Spatial Ops
@@ -498,9 +501,9 @@ with GeoIntersectsOp
 with DeprecatedGeoWithinOps
 
 case class GeoCoords[A: ValidNumericType : Manifest, B: ValidNumericType : Manifest](lat: A, lon: B) {
-  def toList = MongoDBList(lat, lon)
+  def toList: MongoDBList = MongoDBList(lat, lon)
 
-  override def toString = "GeoCoords(%s, %s)".format(lat, lon)
+  override def toString: String = "GeoCoords(%s, %s)".format(lat, lon)
 }
 
 /**
@@ -517,7 +520,7 @@ case class GeoCoords[A: ValidNumericType : Manifest, B: ValidNumericType : Manif
 trait GeoNearOp extends QueryOperator {
   private val oper = "$near"
 
-  def $near(coords: GeoCoords[_, _]) = new NearOpWrapper(coords)
+  def $near(coords: GeoCoords[_, _]): NearOpWrapper = new NearOpWrapper(coords)
 
   sealed class NearOpWrapper(coords: GeoCoords[_, _]) extends BasicDBObject {
     put(field, new BasicDBObject(oper, coords.toList))
@@ -547,7 +550,7 @@ trait GeoNearOp extends QueryOperator {
 trait GeoNearSphereOp extends QueryOperator {
   private val oper = "$nearSphere"
 
-  def $nearSphere(coords: GeoCoords[_, _]) = queryOp(oper, coords.toList)
+  def $nearSphere(coords: GeoCoords[_, _]): DBObject with QueryExpressionObject = queryOp(oper, coords.toList)
 }
 
 /**
@@ -566,38 +569,40 @@ trait GeoWithinOps extends QueryOperator {
   self =>
   private val oper = "$geoWithin"
 
-  def $geoWithin[A <% DBObject](geometry: A) = queryOp(oper, geometry)
+  def $geoWithin[A <% DBObject](geometry: A): DBObject with QueryExpressionObject = queryOp(oper, geometry)
 
+  // scalastyle:off public.methods.have.type
   def $geoWithin = new QueryOperator {
     val field = "$geoWithin"
 
-    def $polygon(coords: Iterable[GeoCoords[_, _]]) =
+    def $polygon(coords: Iterable[GeoCoords[_, _]]): DBObject =
       MongoDBObject(
         self.field ->
           queryOp("$polygon", coords.toList)
       )
 
-    def $polygon(coords: GeoCoords[_, _]*) =
+    def $polygon(coords: GeoCoords[_, _]*): DBObject =
       MongoDBObject(
         self.field ->
           queryOp("$polygon", coords.toList)
       )
 
-    def $box(lowerLeft: GeoCoords[_, _], upperRight: GeoCoords[_, _]) =
+    def $box(lowerLeft: GeoCoords[_, _], upperRight: GeoCoords[_, _]): DBObject =
       MongoDBObject(
         self.field ->
           queryOp("$box", MongoDBList(lowerLeft.toList, upperRight.toList)))
 
-    def $center[T: Numeric](center: GeoCoords[_, _], radius: T) =
+    def $center[T: Numeric](center: GeoCoords[_, _], radius: T): DBObject =
       MongoDBObject(
         self.field ->
           queryOp("$center", MongoDBList(center.toList, radius)))
 
-    def $centerSphere[T: Numeric](center: GeoCoords[_, _], radius: T) =
+    def $centerSphere[T: Numeric](center: GeoCoords[_, _], radius: T): DBObject =
       MongoDBObject(
         self.field ->
           queryOp("$centerSphere", MongoDBList(center.toList, radius)))
   }
+  // scalastyle:on public.methods.have.type
 
 }
 
@@ -611,7 +616,7 @@ trait GeoWithinOps extends QueryOperator {
 trait GeoIntersectsOp extends QueryOperator {
   private val oper = "$geoIntersects"
 
-  def $geoIntersects(geometry: DBObject) = queryOp(oper, geometry)
+  def $geoIntersects(geometry: DBObject): DBObject with QueryExpressionObject = queryOp(oper, geometry)
 }
 
 /**
@@ -630,17 +635,19 @@ trait GeoIntersectsOp extends QueryOperator {
  */
 trait DeprecatedGeoWithinOps extends QueryOperator {
 
+  // scalastyle:off public.methods.have.type
   def $within = new QueryOperator {
     val field = "$within"
 
-    def $box(lowerLeft: GeoCoords[_, _], upperRight: GeoCoords[_, _]) =
+    def $box(lowerLeft: GeoCoords[_, _], upperRight: GeoCoords[_, _]): DBObject =
       MongoDBObject(field -> queryOp("$box", MongoDBList(lowerLeft.toList, upperRight.toList)))
 
-    def $center[T: Numeric](center: GeoCoords[_, _], radius: T) =
+    def $center[T: Numeric](center: GeoCoords[_, _], radius: T): DBObject =
       MongoDBObject(field -> queryOp("$center", MongoDBList(center.toList, radius)))
 
-    def $centerSphere[T: Numeric](center: GeoCoords[_, _], radius: T) =
+    def $centerSphere[T: Numeric](center: GeoCoords[_, _], radius: T): DBObject =
       MongoDBObject(field -> queryOp("$centerSphere", MongoDBList(center.toList, radius)))
   }
+  // scalastyle:on public.methods.have.type
 
 }

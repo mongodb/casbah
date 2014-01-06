@@ -46,7 +46,7 @@ import com.github.nscala_time.time.Imports._
  *
  */
 trait Implicits {
-
+  // scalastyle:off public.methods.have.type
   /**
    * Implicit extension methods for Mongo's connection object.
    * Capable of returning a Scala optimized wrapper object.
@@ -89,7 +89,8 @@ trait Implicits {
      * Return a GENERIC Scala wrapper object for the DBCollection specific to a given Parameter type.
      * @return MongoCollection[A<:DBObject] An instance of the scala wrapper containing the collection object.
      */
-    def asScalaTyped[A <: com.mongodb.DBObject](implicit m: scala.reflect.Manifest[A]) = new MongoGenericTypedCollection[A](coll)
+    def asScalaTyped[A <: com.mongodb.DBObject](implicit m: scala.reflect.Manifest[A]): MongoGenericTypedCollection[A] =
+      new MongoGenericTypedCollection[A](coll)
   }
 
   /**
@@ -133,7 +134,7 @@ trait Implicits {
      */
     def asScala = new AggregationOutput(output)
   }
-
+  // scalastyle:on public.methods.have.type
 }
 
 object Implicits extends Implicits with commons.Implicits with query.Implicits
@@ -196,4 +197,3 @@ trait TypeImports {
   type DBEncoder = com.mongodb.DBEncoder
   type DBDecoder = com.mongodb.DBDecoder
 }
-

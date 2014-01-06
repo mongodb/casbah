@@ -22,13 +22,16 @@
 
 package com.mongodb.casbah
 
+import scala.collection.mutable
+import scala.collection.JavaConverters._
+import scala.concurrent.duration.Duration
+
 import com.mongodb.DBCursor
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
-import scala.collection.JavaConverters._
-import scala.concurrent.duration.Duration
+// scalastyle:off number.of.methods
 
 /**
  * Scala wrapper for Mongo DBCursors,
@@ -59,7 +62,7 @@ trait MongoCursorBase extends Logging {
    *
    * @return The next element in the cursor
    */
-  def next() = underlying.next.asInstanceOf[T]
+  def next(): T = underlying.next.asInstanceOf[T]
 
   /**
    * hasNext
@@ -70,7 +73,7 @@ trait MongoCursorBase extends Logging {
    *
    * @return (Boolean Next)
    */
-  def hasNext = underlying.hasNext
+  def hasNext: Boolean = underlying.hasNext
 
   /**
    * sort
@@ -105,7 +108,7 @@ trait MongoCursorBase extends Logging {
    * @return Int indicating the number of elements returned by the query
    * @throws MongoException()
    */
-  def count = underlying.count
+  def count: Int = underlying.count
 
   /**
    * Manipulate Query Options
@@ -126,7 +129,7 @@ trait MongoCursorBase extends Logging {
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
-  def option = underlying.getOptions
+  def option: Int = underlying.getOptions
 
   /**
    * Manipulate Query Options
@@ -136,7 +139,7 @@ trait MongoCursorBase extends Logging {
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
-  def resetOptions() = underlying.resetOptions() // use parens because this side-effects
+  def resetOptions(): DBCursor = underlying.resetOptions() // use parens because this side-effects
 
   /**
    * Manipulate Query Options
@@ -146,7 +149,7 @@ trait MongoCursorBase extends Logging {
    * @see com.mongodb.Mongo
    * @see com.mongodb.Bytes
    */
-  def options = underlying.getOptions
+  def options: Int = underlying.getOptions
 
   /**
    * Manipulate Query Options
@@ -227,7 +230,7 @@ trait MongoCursorBase extends Logging {
    * @see http://dochub.mongodb.org/core/explain
    * @return an instance of CursorExplanation
    */
-  def explain = new CursorExplanation(underlying.explain)
+  def explain: CursorExplanation = new CursorExplanation(underlying.explain)
 
   /**
    * limit
@@ -269,14 +272,14 @@ trait MongoCursorBase extends Logging {
    * @return A long representing the cursorID on the server; 0 = no cursor
    *
    */
-  def cursorId = underlying.getCursorId
+  def cursorId: Long = underlying.getCursorId
 
   /**
    * close
    *
    * Kill the current cursor on the server
    */
-  def close() = underlying.close() // parens for side-effect
+  def close(): Unit = underlying.close() // parens for side-effect
 
   /**
    * slaveOk
@@ -284,9 +287,9 @@ trait MongoCursorBase extends Logging {
    * Makes this query OK to run on a non-master node.
    */
   @deprecated("Replaced with `ReadPreference.SECONDARY`", "2.3.0")
-  def slaveOk() = underlying.slaveOk() // parens for side-effect
+  def slaveOk(): DBCursor = underlying.slaveOk() // parens for side-effect
 
-  def numGetMores = underlying.numGetMores
+  def numGetMores: Int = underlying.numGetMores
 
   /**
    * numSeen
@@ -296,9 +299,9 @@ trait MongoCursorBase extends Logging {
    *
    * @return The number of objects seen
    */
-  def numSeen = underlying.numSeen
+  def numSeen: Int = underlying.numSeen
 
-  def sizes = underlying.getSizes.asScala
+  def sizes: mutable.Buffer[Integer] = underlying.getSizes.asScala
 
   /**
    * batchSize
@@ -308,14 +311,14 @@ trait MongoCursorBase extends Logging {
    * @param  n (Int) The number of elements to return in a batch
    * @return the same DBCursor, useful for chaining operations
    */
-  def batchSize(n: Int) = {
+  def batchSize(n: Int): MongoCursorBase = {
     underlying.batchSize(n)
     this
   }
 
-  def keysWanted = underlying.getKeysWanted
+  def keysWanted: DBObject = underlying.getKeysWanted
 
-  def query = underlying.getQuery
+  def query: DBObject = underlying.getQuery
 
   /**
    * "Special" Operators for cursors
@@ -331,6 +334,7 @@ trait MongoCursorBase extends Logging {
     this
   }
 
+  // scalastyle:off method.name
   /**
    * \$returnKey
    *
@@ -468,6 +472,8 @@ trait MongoCursorBase extends Logging {
    */
   def _newInstance(cursor: DBCursor): MongoCursorBase
 
+  // scalastyle:on method.name
+
   /**
    * copy
    *
@@ -512,8 +518,9 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    * @return Int indicating the number of elements returned by the query after skip/limit
    * @throws MongoException if errors
    */
-  override def size = underlying.size()
+  override def size: Int = underlying.size
 
+  // scalastyle:off method.name
   /**
    * _newInstance
    *
@@ -525,7 +532,8 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    * @param  cursor (DBCursor)
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor) = new MongoCursor(cursor)
+  def _newInstance(cursor: DBCursor): MongoCursor = new MongoCursor(cursor)
+  // scalastyle:off method.name
 
   /**
    * copy
@@ -547,14 +555,14 @@ class MongoCursor(val underlying: DBCursor) extends MongoCursorBase with Iterato
    *
    * @since 2.7
    */
-  def maxTime(maxTime: Duration) = _newInstance(underlying.maxTime(maxTime.length, maxTime.unit))
+  def maxTime(maxTime: Duration): MongoCursor = _newInstance(underlying.maxTime(maxTime.length, maxTime.unit))
 
   /**
    * @return the first matching document
    *
    * @since 2.7
    */
-  def one() = underlying.one()
+  def one(): DBObject = underlying.one()
 }
 
 object MongoCursor extends Logging {
@@ -566,7 +574,8 @@ object MongoCursor extends Logging {
    * @param  keys (K) Keys to return from the query
    * @return (instance) A new MongoCursor
    */
-  def apply[T <: DBObject : Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject): MongoCursorBase = apply(collection, query, keys, collection.readPreference)
+  def apply[T <: DBObject : Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject): MongoCursorBase =
+    apply(collection, query, keys, collection.readPreference)
 
   /**
    * Initialize a new cursor with your own custom settings
@@ -577,14 +586,11 @@ object MongoCursor extends Logging {
    * @param  readPref the read preference for the cursor
    * @return (instance) A new MongoCursor
    */
-  def apply[T <: DBObject : Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject, readPref: ReadPreference) = {
+  def apply[T <: DBObject : Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject, readPref: ReadPreference): MongoCursorBase = {
     val cursor = new DBCursor(collection.underlying, query, keys, readPref)
 
-    if (manifest[T] == manifest[DBObject])
-      new MongoCursor(cursor)
-    else
-      new MongoGenericTypedCursor[T](cursor)
-
+    if (manifest[T] == manifest[DBObject]) new MongoCursor(cursor)
+    else new MongoGenericTypedCursor[T](cursor)
   }
 }
 
@@ -601,6 +607,7 @@ object MongoCursor extends Logging {
 class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends MongoCursorBase {
   type T = A
 
+  // scalastyle:off method.name
   /**
    * _newInstance
    *
@@ -612,7 +619,8 @@ class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends M
    * @param  cursor (DBCursor)
    * @return (this.type)
    */
-  def _newInstance(cursor: DBCursor) = new MongoGenericTypedCursor[T](cursor)
+  def _newInstance(cursor: DBCursor): MongoGenericTypedCursor[T] = new MongoGenericTypedCursor[T](cursor)
+  // scalastyle:on method.name
 
   /**
    * copy
@@ -639,9 +647,9 @@ case class AggregationCursor(underlying: com.mongodb.MongoCursor) extends Iterat
 
   type T = DBObject
 
-  def hasNext: Boolean = underlying.hasNext()
+  def hasNext: Boolean = underlying.hasNext
 
-  def next(): Imports.DBObject = underlying.next()
+  def next(): DBObject = underlying.next()
 }
 
 /**
@@ -659,9 +667,8 @@ sealed class CursorExplanation(override val underlying: DBObject) extends MongoD
    * cursor
    *
    * The cursor type for the query
-   * TODO - look at making this an enum?
    */
-  def cursor = getAs[String]("cursor")
+  def cursor: Option[String] = getAs[String]("cursor")
 
   /**
    * nscanned
@@ -672,41 +679,41 @@ sealed class CursorExplanation(override val underlying: DBObject) extends MongoD
    *
    * @return a Long value indicating 'nscanned'
    */
-  def nscanned = getAs[Long]("nscanned")
+  def nscanned: Option[Long] = getAs[Long]("nscanned")
 
   /**
    * nscannedObjects
    *
    * @return a Long value of # objects examined by Mongo for this query.
    */
-  def nscannedObjects = getAs[Long]("nscannedObjects")
+  def nscannedObjects: Option[Long] = getAs[Long]("nscannedObjects")
 
   /**
    * nYields
    *
    * @return A long value of the number of times the query yielded the read lock to let writes in
    */
-  def nYields = getAs[Long]("nYields")
+  def nYields: Option[Long] = getAs[Long]("nYields")
 
   /**
    * n
    *
    * @return a Long value of the number of objects which Mongo returned
    */
-  def n = getAs[Long]("n")
+  def n: Option[Long] = getAs[Long]("n")
 
   /**
    * millis
    *
    * @return The number of milliseconds the query took to execute
    */
-  def millis = getAs[Long]("millis")
+  def millis: Option[Long] = getAs[Long]("millis")
 
   /**
    * indexBounds
    *
    * @return the index boundaries this query used.
    */
-  def indexBounds = getAs[MongoDBList]("indexBounds")
+  def indexBounds: Option[MongoDBList] = getAs[MongoDBList]("indexBounds")
 
 }

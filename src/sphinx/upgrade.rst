@@ -4,6 +4,43 @@ Upgrade
 Version 2.7.0
 -------------
 
+* In order to meet Scala Style conventions (http://docs.scala-lang.org/style/naming-conventions.html#parentheses)
+  the following 0 argument methods have had parentheses added if there are side effects or removed as there are no
+  side effects:
+
+  com.mongodb.casbah.MongoClient:
+    * dbNames()
+    * databaseNames()
+    * getVersion
+    * getConnectPoint
+    * getAddress
+    * getAllAddresses
+    * getOptions
+
+  com.mongodb.casbah.MongoConnection:
+    * dbNames()
+    * databaseNames()
+    * getVersion
+    * getConnectPoint
+    * getAddress
+    * getAllAddresses
+    * getOptions
+
+  com.mongodb.casbah.MongoDB:
+    * collectionNames()
+    * stats()
+    * getName
+    * getOptions
+
+  com.mongodb.casbah.map_reduce.MapReduceResult:
+    * toString()
+
+  com.mongodb.casbah.util.MongoOpLog:
+    * next()
+
+  com.mongodb.casbah.gridfs.GridFSDBFile:
+    * toString()
+
 * OpLog util fixes - Opid is now an option.
 * Scala 2.9.1 and 2.9.2 are no longer supported
 * Updated nscala-time to 0.6.0

@@ -40,6 +40,8 @@ trait Logging {
   protected[casbah] var log = Logger(this.getClass.getName)
 }
 
+// scalastyle:off number.of.methods
+
 /**
  * Scala SLF4J wrapper
  *
@@ -55,17 +57,19 @@ trait Logging {
  * http://download-llnw.oracle.com/javase/6/docs/api/java/lang/String.html#format(java.lang.String,%20java.lang.Object...)
  */
 class Logger(val logger: SLFLogger) {
-  def name = logger.getName
+  def name: String = logger.getName
 
-  def trace_? = logger.isTraceEnabled
+  // scalastyle:off method.name
+  def trace_? : Boolean = logger.isTraceEnabled
 
-  def debug_? = logger.isDebugEnabled
+  def debug_? : Boolean = logger.isDebugEnabled
 
-  def info_? = logger.isInfoEnabled
+  def info_? : Boolean = logger.isInfoEnabled
 
-  def warning_? = logger.isWarnEnabled
+  def warning_? : Boolean = logger.isWarnEnabled
 
-  def error_? = logger.isErrorEnabled
+  def error_? : Boolean = logger.isErrorEnabled
+  // scalastyle:on method.name
 
   //Trace
   def trace(t: Throwable, fmt: => String, arg: Any, argN: Any*) {
@@ -123,25 +127,25 @@ class Logger(val logger: SLFLogger) {
     warning(t, message(fmt, arg, argN: _*))
   }
 
-  def warn(t: Throwable, fmt: => String, arg: Any, argN: Any*) = warning(t, fmt, arg, argN)
+  def warn(t: Throwable, fmt: => String, arg: Any, argN: Any*): Unit = warning(t, fmt, arg, argN)
 
   def warning(t: Throwable, msg: => String) {
     if (warning_?) logger.warn(msg, t)
   }
 
-  def warn(t: Throwable, msg: => String) = warning(t, msg)
+  def warn(t: Throwable, msg: => String): Unit = warning(t, msg)
 
   def warning(fmt: => String, arg: Any, argN: Any*) {
     warning(message(fmt, arg, argN: _*))
   }
 
-  def warn(fmt: => String, arg: Any, argN: Any*) = warning(fmt, arg, argN: _*)
+  def warn(fmt: => String, arg: Any, argN: Any*): Unit = warning(fmt, arg, argN: _*)
 
   def warning(msg: => String) {
     if (warning_?) logger warn msg
   }
 
-  def warn(msg: => String) = warning(msg)
+  def warn(msg: => String): Unit = warning(msg)
 
   //Error
   def error(t: Throwable, fmt: => String, arg: Any, argN: Any*) {
@@ -160,11 +164,15 @@ class Logger(val logger: SLFLogger) {
     if (error_?) logger error msg
   }
 
+  // scalastyle:off null
   protected def message(fmt: String, arg: Any, argN: Any*): String = {
     if ((argN eq null) || argN.isEmpty) fmt.format(arg)
     else fmt.format((arg +: argN): _*)
   }
+
+  // scalastyle:on null
 }
+// scalastyle:on number.of.methods
 
 /**
  * Logger factory

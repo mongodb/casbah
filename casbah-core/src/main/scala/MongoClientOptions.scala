@@ -39,6 +39,7 @@ object MongoClientOptions {
 
   val Defaults = new JavaMongoClientOptions.Builder().build()
 
+  // scalastyle:off parameter.number
   /**
    * Instantiate a new MongoClientOptions instance
    *
@@ -78,7 +79,7 @@ object MongoClientOptions {
              socketTimeout: Int = Defaults.getSocketTimeout,
              threadsAllowedToBlockForConnectionMultiplier: Int = Defaults.getThreadsAllowedToBlockForConnectionMultiplier,
              writeConcern: WriteConcern = Defaults.getWriteConcern
-             ) = {
+             ): JavaMongoClientOptions = {
     val builder = new JavaMongoClientOptions.Builder()
     builder.autoConnectRetry(autoConnectRetry)
     builder.connectionsPerHost(connectionsPerHost)
@@ -97,7 +98,7 @@ object MongoClientOptions {
     builder.writeConcern(writeConcern)
     builder.build()
   }
-
+  // scalastyle:on parameter.number
 }
 
 

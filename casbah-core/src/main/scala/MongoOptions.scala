@@ -42,18 +42,31 @@ object MongoOptions {
 
   val Defaults = new MongoOptions()
 
+  // scalastyle:off parameter.number
+
   /**
    * Instantiate a new MongoOptions instance
    *
    * @param autoConnectRetry Whether system autoretries on connection errors (default: False)
    * @param connectionsPerHost # of connections allowed per host (pool size, per host)
    * @param threadsAllowedToBlockForConnectionMultiplier Multiplier for connectiosnPerHost at # of threads that can block, default 5
-   * @param Max wait time for a blocking thread for a connection from the pool, default 1000 * 60 * 2
-   * @param Connection timeout in milliseconds, for establishing the socket connections, default 0 (infinite)
-   * @param Socket timeout, passed to Socket.setSoTimeout, default 0
-   * @throws MongoException
-   * @see ServerAddress
-   * @see MongoDBAddress
+   * @param maxWaitTime wait time for a blocking thread for a connection from the pool, default 1000 * 60 * 2
+   * @param connectTimeout timeout in milliseconds, for establishing the socket connections, default 0 (infinite)
+   * @param socketTimeout timeout, passed to Socket.setSoTimeout, default 0
+   * @param socketKeepAlive if socket keep alive is enabled, default false
+   * @param maxAutoConnectRetryTime Sets the maximum auto connect retry time default 0
+   * @param slaveOk Whether a driver connected to a replica set will send reads to slaves/secondaries
+   * @param safe if true use a WriteConcern of WriteConcern.SAFE for all operations
+   * @param w The "w" value, (number of writes), of the global WriteConcern
+   * @param wTimeout The "wtimeout" value of the global WriteConcern
+   * @param fsync The "fsync" value of the global WriteConcern, true indicates writes should wait for data to be
+   *              written to server data file
+   * @param j The "j" value of the global WriteConcern, true indicates writes should wait for a journaling group commit
+   * @param dbDecoderFactory the default decoder factory
+   * @param dbEncoderFactory the default encoder factory
+   * @param socketFactory sets the socket factory for creating sockets to mongod
+   * @param description The description for <code>Mongo</code> instances created with these options
+   * @return
    */
   def apply(autoConnectRetry: Boolean = Defaults.autoConnectRetry,
             connectionsPerHost: Int = Defaults.connectionsPerHost,
@@ -72,8 +85,8 @@ object MongoOptions {
             dbDecoderFactory: DBDecoderFactory = Defaults.dbDecoderFactory,
             dbEncoderFactory: DBEncoderFactory = Defaults.dbEncoderFactory,
             socketFactory: SocketFactory = Defaults.socketFactory,
-            description: String = Defaults.description) = {
-    val options = new MongoOptions;
+            description: String = Defaults.description): MongoOptions = {
+    val options = new MongoOptions
 
     options.autoConnectRetry = autoConnectRetry
     options.connectionsPerHost = connectionsPerHost

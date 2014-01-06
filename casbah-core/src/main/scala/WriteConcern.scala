@@ -34,36 +34,36 @@ object WriteConcern {
   /**
    * No exceptions are raised, even for network issues
    */
-  val None = JWriteConcern.NONE
+  val None: JWriteConcern = JWriteConcern.NONE
   /**
    * Exceptions are raised for network issues but not server errors.
    */
-  val Normal = JWriteConcern.NORMAL
+  val Normal: JWriteConcern = JWriteConcern.NORMAL
   /**
    * Exceptions are raised for network issues and server errors;
    * waits on a server for the write operation
    */
-  val Safe = JWriteConcern.SAFE
+  val Safe: JWriteConcern = JWriteConcern.SAFE
   /**
    * Exceptions are raised for network issues and server errors;
    * waits on a majority of servers for the write operation
    */
-  val Majority = JWriteConcern.MAJORITY
+  val Majority: JWriteConcern = JWriteConcern.MAJORITY
   /**
    * Exceptions are raised for network issues and server errors;
    * Write operations wait for the server to flush data to disk
    */
-  val FsyncSafe = JWriteConcern.FSYNC_SAFE
+  val FsyncSafe: JWriteConcern = JWriteConcern.FSYNC_SAFE
   /**
    * Exceptions are raised for network issues, and server errors;
    * the write operation waits for the server to group commit to the journal file on disk
    */
-  val JournalSafe = JWriteConcern.JOURNAL_SAFE
+  val JournalSafe: JWriteConcern = JWriteConcern.JOURNAL_SAFE
   /**
    * Exceptions are raised for network issues and server errors;
    * waits for at least 2 servers for the write operation.
    */
-  val ReplicasSafe = JWriteConcern.REPLICAS_SAFE
+  val ReplicasSafe: JWriteConcern = JWriteConcern.REPLICAS_SAFE
 
   /**
    * Create a new WriteConcern object.
@@ -86,7 +86,7 @@ object WriteConcern {
             wTimeout: Int = 0,
             fsync: Boolean = false,
             j: Boolean = false,
-            continueInsertOnError: Boolean = false) =
+            continueInsertOnError: Boolean = false): JWriteConcern =
     new JWriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
 
   /**
@@ -103,7 +103,7 @@ object WriteConcern {
                wTimeout: Int = 0,
                fsync: Boolean = false,
                j: Boolean = false,
-               continueInsertOnError: Boolean = false) =
+               continueInsertOnError: Boolean = false): JWriteConcern =
     new JWriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
 
   /**
@@ -114,4 +114,3 @@ object WriteConcern {
    */
   def valueOf(name: String): Option[JWriteConcern] = Option(JWriteConcern.valueOf(name))
 }
-

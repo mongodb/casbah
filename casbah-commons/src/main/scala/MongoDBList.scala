@@ -25,18 +25,19 @@ package commons
 
 import com.mongodb.casbah.commons.Imports._
 
-import scala.collection.mutable._
+import scala.collection.mutable
 import scala.collection.JavaConverters._
 import scala.util.{Try, Success, Failure}
 
 
-class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any] with Castable {
+class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends mutable.Seq[Any] with Castable {
 
-  def apply(i: Int) = underlying.get(i)
+  def apply(i: Int): AnyRef = underlying.get(i)
 
-  def update(i: Int, elem: Any) =
+  def update(i: Int, elem: Any): Unit =
     underlying.set(i, elem.asInstanceOf[AnyRef])
 
+  // scalastyle:off method.name
   def +=:(elem: Any): this.type = {
     underlying.subList(0, 0).add(elem.asInstanceOf[AnyRef])
     this
@@ -47,12 +48,14 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
     this
   }
 
-  def insertAll(i: Int, elems: scala.Traversable[Any]) = {
+  // scalastyle:on method.name
+
+  def insertAll(i: Int, elems: scala.Traversable[Any]) {
     val ins = underlying.subList(0, i)
     elems.foreach(x => ins.add(x.asInstanceOf[AnyRef]))
   }
 
-  def remove(i: Int) = underlying.remove(i)
+  def remove(i: Int): AnyRef = underlying.remove(i)
 
   /**
    * as
@@ -71,14 +74,16 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
    */
 
   def as[A: NotNothing](idx: Int): A = {
+    // scalastyle:off null
     underlying.get(idx) match {
       case null => throw new NoSuchElementException
       case value => value.asInstanceOf[A]
     }
+    // scalastyle:on null
   }
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A: NotNothing: Manifest](idx: Int): Option[A] = {
+  def getAs[A: NotNothing : Manifest](idx: Int): Option[A] = {
     Try(as[A](idx)) match {
       case Success(v) => castToOption[A](v)
       case Failure(e) => None
@@ -90,21 +95,21 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends Seq[Any
     case None => default
   }
 
-  def clear() = underlying.clear()
+  def clear(): Unit = underlying.clear()
 
-  def result = this
+  def result: MongoDBList = this
 
-  def length = underlying.size
+  def length: Int = underlying.size
 
-  override def isEmpty = underlying.isEmpty
+  override def isEmpty: Boolean = underlying.isEmpty
 
-  override def iterator = underlying.iterator.asScala
+  override def iterator: Iterator[AnyRef] = underlying.iterator.asScala
 
-  override def toString() = underlying.toString
+  override def toString(): String = underlying.toString
 
-  override def hashCode() = underlying.hashCode
+  override def hashCode(): Int = underlying.hashCode
 
-  override def equals(that: Any) = that match {
+  override def equals(that: Any): Boolean = that match {
     case o: MongoDBObject => underlying.equals(o.underlying)
     case o: MongoDBList => underlying.equals(o.underlying)
     case _ => underlying.equals(that) | that.equals(this)
@@ -121,16 +126,15 @@ object MongoDBList {
       case p: Tuple2[String, _] => b += MongoDBObject(p)
       case _ => b += xs
     }
-    b.result
+    b.result()
   }
 
   def concat[A](xss: scala.Traversable[A]*): MongoDBList = {
     val b = newBuilder[A]
-    if (xss forall (_.isInstanceOf[IndexedSeq[_]]))
-      b.sizeHint(xss map (_.size) sum)
+    if (xss forall (_.isInstanceOf[IndexedSeq[_]])) b.sizeHint(xss map (_.size) sum)
 
     for (xs <- xss) b ++= xs
-    b.result
+    b.result()
   }
 
   def newBuilder[A <: Any]: MongoDBListBuilder = new MongoDBListBuilder
@@ -143,6 +147,7 @@ sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Se
 
   protected var elems: MongoDBList = empty
 
+  // scalastyle:off method.name public.methods.have.type
   override def +=(x: Any) = {
     val v = x match {
       case _ => x.asInstanceOf[AnyRef]
@@ -150,6 +155,8 @@ sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Se
     elems.add(v)
     this
   }
+
+  // scalastyle:on method.name public.methods.have.type
 
   def clear() {
     elems = empty

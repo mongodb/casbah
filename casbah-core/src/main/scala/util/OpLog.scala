@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2010, 2011 10gen, Inc. <http://10gen.com>
- * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
+ * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2009 Novus Partners, Inc. <http://novus.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +23,12 @@
 package com.mongodb.casbah
 package util
 
-import org.bson.types.BSONTimestamp
-import com.mongodb.Bytes
+import com.mongodb.{casbah, Bytes}
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 
-import scala.util.control.Exception._
+import org.bson.types.BSONTimestamp
 
 /**
  * For a more detailed understanding of how the MongoDB Oplog works, see Kristina Chodorow's blogpost:
@@ -43,11 +42,11 @@ class MongoOpLog(mongoClient: MongoClient = MongoClient(),
 
   implicit object BSONTimestampOk extends ValidDateOrNumericType[org.bson.types.BSONTimestamp]
 
-  protected val local = mongoClient("local")
+  protected val local: MongoDB = mongoClient("local")
   protected val oplogName: String = if (replicaSet) "oplog.rs" else "oplog.$main"
-  protected val oplog = local(oplogName)
+  protected val oplog: MongoCollection = local(oplogName)
 
-  val tsp = verifyOpLog
+  val tsp: BSONTimestamp = verifyOpLog
 
   log.debug("Beginning monitoring OpLog at '%s'", tsp)
 
@@ -58,14 +57,16 @@ class MongoOpLog(mongoClient: MongoClient = MongoClient(),
 
   log.debug("OpLog Filter: '%s'", q)
 
+  // scalastyle:off public.methods.have.type
   val cursor = oplog.find(q)
-
   cursor.options = Bytes.QUERYOPTION_TAILABLE
   cursor.options = Bytes.QUERYOPTION_AWAITDATA
 
-  def hasNext = cursor.hasNext
+  def next() = MongoOpLogEntry(cursor.next())
 
-  def next = MongoOpLogEntry(cursor.next)
+  // scalastyle:on public.methods.have.type
+
+  def hasNext: Boolean = cursor.hasNext
 
   def verifyOpLog: BSONTimestamp = {
     // Verify the oplog exists
@@ -91,6 +92,7 @@ class MongoOpLog(mongoClient: MongoClient = MongoClient(),
 }
 
 object MongoOpLogEntry {
+  // scalastyle:off public.methods.have.type
   def apply(entry: MongoDBObject) = entry("op") match {
     case InsertOp.typeCode =>
       MongoInsertOperation(
@@ -159,7 +161,8 @@ case class MongoInsertOperation(timestamp: BSONTimestamp, opID: Option[Long], na
   val opType = InsertOp
 }
 
-case class MongoUpdateOperation(timestamp: BSONTimestamp, opID: Option[Long], namespace: String, document: MongoDBObject, documentID: MongoDBObject) extends MongoOpLogEntry {
+case class MongoUpdateOperation(timestamp: BSONTimestamp, opID: Option[Long], namespace: String,
+                                document: MongoDBObject, documentID: MongoDBObject) extends MongoOpLogEntry {
   val opType = UpdateOp
   /** In updates, 'o' gives the modifications, and 'o2' includes the 'update criteria' (the query to run) */
   lazy val o2 = documentID

@@ -33,6 +33,7 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.casbah.commons.Logging
 import com.github.nscala_time.time.Imports.{DateTime, LocalDateTime}
+import com.mongodb.casbah
 
 
 /**
@@ -43,12 +44,12 @@ import com.github.nscala_time.time.Imports.{DateTime, LocalDateTime}
  */
 object JodaGridFS extends Logging {
 
-  def apply(db: MongoDB) = {
+  def apply(db: MongoDB): JodaGridFS = {
     log.info("Creating a new JodaGridFS Entry against DB '%s', using default bucket ('%s')", db.name, MongoGridFS.DEFAULT_BUCKET)
     new JodaGridFS(new MongoGridFS(db.underlying))
   }
 
-  def apply(db: MongoDB, bucket: String) = {
+  def apply(db: MongoDB, bucket: String): JodaGridFS = {
     log.info("Creating a new JodaGridFS Entry against DB '%s', using specific bucket ('%s')", db.name, bucket)
     new JodaGridFS(new MongoGridFS(db.underlying, bucket))
   }
@@ -60,22 +61,22 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
 
   type FileWriteOp = JodaGridFSInputFile => Unit
 
-  def iterator = new Iterator[JodaGridFSDBFile] {
-    val fileSet = files
+  def iterator: Iterator[JodaGridFSDBFile] = new Iterator[JodaGridFSDBFile] {
+    val fileSet: MongoCursor = files
 
-    def count() = fileSet.count
+    def count(): Int = fileSet.count
 
-    override def length = fileSet.length
+    override def length: Int = fileSet.length
 
-    def numGetMores() = fileSet.numGetMores
+    def numGetMores(): Int = fileSet.numGetMores
 
-    def numSeen() = fileSet.numSeen
+    def numSeen(): Int = fileSet.numSeen
 
-    def curr = next()
+    def curr: JodaGridFSDBFile = next()
 
-    def explain() = fileSet.explain
+    def explain(): CursorExplanation = fileSet.explain
 
-    def next() = {
+    def next(): JodaGridFSDBFile = {
       val gridfsfile = fileSet.next().asInstanceOf[GridFSDBFileSafeJoda]
       gridfsfile.setGridFS(underlying)
       new JodaGridFSDBFile(gridfsfile)
@@ -94,7 +95,7 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
    * @see createFile
    * @return The ID of the created File (Option[AnyRef])
    */
-  def apply(data: scala.io.Source)(op: FileWriteOp) = withNewFile(data)(op)
+  def apply(data: scala.io.Source)(op: FileWriteOp): Nothing = withNewFile(data)(op)
 
   /**
    * Create a new GridFS File from a Byte Array
@@ -106,7 +107,7 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
    * @see createFile
    * @return The ID of the created File (Option[AnyRef])
    */
-  def apply(data: Array[Byte])(op: FileWriteOp) = withNewFile(data)(op)
+  def apply(data: Array[Byte])(op: FileWriteOp): Option[AnyRef] = withNewFile(data)(op)
 
   /**
    * Create a new GridFS File from a java.io.File
@@ -118,7 +119,7 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
    * @see createFile
    * @return The ID of the created File (Option[AnyRef])
    */
-  def apply(f: File)(op: FileWriteOp) = withNewFile(f)(op)
+  def apply(f: File)(op: FileWriteOp): Option[AnyRef] = withNewFile(f)(op)
 
   /**
    * Create a new GridFS File from a java.io.InputStream
@@ -130,7 +131,7 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
    * @see createFile
    * @return The ID of the created File (Option[AnyRef])
    */
-  def apply(in: InputStream)(op: FileWriteOp) = withNewFile(in)(op)
+  def apply(in: InputStream)(op: FileWriteOp): Option[AnyRef] = withNewFile(in)(op)
 
   /**
    * Create a new GridFS File from a java.io.InputStream and a specific filename
@@ -142,7 +143,7 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
    * @see createFile
    * @return The ID of the created File (Option[AnyRef])
    */
-  def apply(in: InputStream, filename: String)(op: FileWriteOp) = withNewFile(in, filename)(op)
+  def apply(in: InputStream, filename: String)(op: FileWriteOp): Option[AnyRef] = withNewFile(in, filename)(op)
 
   /**
    * createFile
@@ -161,54 +162,58 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
 
   def createFile(in: InputStream, filename: String): JodaGridFSInputFile = underlying.createFile(in, filename)
 
-  def withNewFile(data: scala.io.Source)(op: FileWriteOp) = throw new UnsupportedOperationException("Currently no support for scala.io.Source")
+  def withNewFile(data: scala.io.Source)(op: FileWriteOp): Nothing = throw new UnsupportedOperationException("Currently no support for scala.io.Source")
 
   /**
    * Loan pattern style file creation.
    * @return The ID of the created File (Option[AnyRef])
    */
-  def withNewFile(data: Array[Byte])(op: FileWriteOp) = loan(createFile(data)) {
-    fh =>
-      op(fh)
-      fh.save()
-      fh.validate()
-      Option(fh.id)
-  }
+  def withNewFile(data: Array[Byte])(op: FileWriteOp): Option[AnyRef] =
+    loan(createFile(data)) {
+      fh =>
+        op(fh)
+        fh.save()
+        fh.validate()
+        Option(fh.id)
+    }
 
   /**
    * Loan pattern style file creation.
    * @return The ID of the created File (Option[AnyRef])
    */
-  def withNewFile(f: File)(op: FileWriteOp) = loan(createFile(f)) {
-    fh =>
-      op(fh)
-      fh.save()
-      fh.validate()
-      Option(fh.id)
-  }
+  def withNewFile(f: File)(op: FileWriteOp): Option[AnyRef] =
+    loan(createFile(f)) {
+      fh =>
+        op(fh)
+        fh.save()
+        fh.validate()
+        Option(fh.id)
+    }
 
   /**
    * Loan pattern style file creation.
    * @return The ID of the created File (Option[AnyRef])
    */
-  def withNewFile(in: InputStream)(op: FileWriteOp) = loan(createFile(in)) {
-    fh =>
-      op(fh)
-      fh.save()
-      fh.validate()
-      Option(fh.id)
-  }
+  def withNewFile(in: InputStream)(op: FileWriteOp): Option[AnyRef] =
+    loan(createFile(in)) {
+      fh =>
+        op(fh)
+        fh.save()
+        fh.validate()
+        Option(fh.id)
+    }
 
   /**
    * Loan pattern style file creation.
    * @return The ID of the created File (Option[AnyRef])
    */
-  def withNewFile(in: InputStream, filename: String)(op: FileWriteOp) = loan(createFile(in, filename)) {
-    fh =>
-      op(fh)
-      fh.save()
-      fh.validate()
-      Option(fh.id)
+  def withNewFile(in: InputStream, filename: String)(op: FileWriteOp): Option[AnyRef] =
+    loan(createFile(in, filename)) {
+      fh =>
+        op(fh)
+        fh.save()
+        fh.validate()
+        Option(fh.id)
   }
 
   def findOne[A <% DBObject](query: A): Option[JodaGridFSDBFile] = {

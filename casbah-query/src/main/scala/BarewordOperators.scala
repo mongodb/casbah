@@ -25,6 +25,7 @@ package com.mongodb.casbah.query.dsl
 
 import com.mongodb.casbah.query.Imports._
 
+// scalastyle:off method.name
 
 /**
  * Base Operator class for Bareword Operators.
@@ -171,6 +172,7 @@ trait IncOp extends BarewordQueryOperator {
 trait PushOp extends BarewordQueryOperator {
   def $push[A](fields: (String, A)*): DBObject = apply[A]("$push")(fields)
 
+  // scalastyle:off public.methods.have.type
   def $push(field: String) = {
     /**
      * Special query operator only available on the right-hand side of an
@@ -185,9 +187,10 @@ trait PushOp extends BarewordQueryOperator {
       protected def eachOp(target: Any) =
         MongoDBObject("$push" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
 
-      def $each[A: AsQueryParam](target: A*) = eachOp(target)
+      def $each[A: AsQueryParam](target: A*): DBObject = eachOp(target)
     }
   }
+  // scalastyle:on public.methods.have.type
 }
 
 /*
@@ -224,6 +227,7 @@ trait AddToSetOp extends BarewordQueryOperator {
 
   def $addToSet[A](fields: (String, A)*): DBObject = apply[A]("$addToSet")(fields)
 
+  // scalastyle:off public.methods.have.type
   def $addToSet(field: String) = {
     /**
      * Special query operator only available on the right-hand side of an
@@ -238,9 +242,10 @@ trait AddToSetOp extends BarewordQueryOperator {
       protected def op(target: Any) =
         MongoDBObject("$addToSet" -> MongoDBObject(field -> MongoDBObject("$each" -> target)))
 
-      def $each[A: AsQueryParam](target: A*) = op(target)
+      def $each[A: AsQueryParam](target: A*): DBObject = op(target)
     }
   }
+  // scalastyle:on public.methods.have.type
 
 }
 
@@ -252,7 +257,7 @@ trait AddToSetOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pop
  */
 trait PopOp extends BarewordQueryOperator {
-  def $pop[T: ValidNumericType](args: (String, T)*) = apply[T]("$pop")(Seq(args: _*))
+  def $pop[T: ValidNumericType](args: (String, T)*): DBObject = apply[T]("$pop")(Seq(args: _*))
 }
 
 /*
@@ -267,7 +272,7 @@ trait PopOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24pull
  */
 trait PullOp extends BarewordQueryOperator {
-  def $pull[A](fields: (String, A)*) = apply[Any]("$pull")(fields)
+  def $pull[A](fields: (String, A)*): DBObject = apply[Any]("$pull")(fields)
 
   def $pull(inner: => DBObject): DBObject = MongoDBObject("$pull" -> inner)
 
@@ -299,7 +304,7 @@ trait PullAllOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24and
  */
 trait AndOp {
-  def $and = new NestedBarewordListOperator("$and")
+  def $and: NestedBarewordListOperator = new NestedBarewordListOperator("$and")
 }
 
 /**
@@ -313,7 +318,7 @@ trait AndOp {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24or
  */
 trait OrOp {
-  def $or = new NestedBarewordListOperator("$or")
+  def $or: NestedBarewordListOperator = new NestedBarewordListOperator("$or")
 }
 
 /**
@@ -328,7 +333,7 @@ trait OrOp {
  *
  */
 trait RenameOp extends BarewordQueryOperator {
-  def $rename[A](fields: (String, A)*) = apply[Any]("$rename")(fields)
+  def $rename[A](fields: (String, A)*): DBObject = apply[Any]("$rename")(fields)
 }
 
 /**
@@ -342,7 +347,7 @@ trait RenameOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24nor
  */
 trait NorOp {
-  def $nor = new NestedBarewordListOperator("$nor")
+  def $nor: NestedBarewordListOperator = new NestedBarewordListOperator("$nor")
 }
 
 /**
@@ -357,16 +362,18 @@ trait NorOp {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24bit
  */
 trait BitOp extends BarewordQueryOperator {
+  // scalastyle:off public.methods.have.type
   def $bit(field: String) = {
     new {
       protected def op(oper: String, target: Any) =
         MongoDBObject("$bit" -> MongoDBObject(field -> MongoDBObject(oper -> target)))
 
-      def and[T: ValidNumericType](target: T) = op("and", target)
+      def and[T: ValidNumericType](target: T): DBObject = op("and", target)
 
-      def or[T: ValidNumericType](target: T) = op("or", target)
+      def or[T: ValidNumericType](target: T): DBObject = op("or", target)
     }
   }
+  // scalastyle:on public.methods.have.type
 }
 
 /**
@@ -377,7 +384,7 @@ trait BitOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-JavascriptExpressionsand%7B%7B%24where%7D%7D
  */
 trait WhereOp extends BarewordQueryOperator {
-  def $where(target: JSFunction) = MongoDBObject("$where" -> target)
+  def $where(target: JSFunction): DBObject = MongoDBObject("$where" -> target)
 }
 
 
@@ -398,7 +405,7 @@ trait SearchOp extends BarewordQueryOperator {
   private val field = "$text"
   private val oper = "$search"
 
-  def $text(searchTerm: String) = new TextOpWrapper(searchTerm)
+  def $text(searchTerm: String): TextOpWrapper = new TextOpWrapper(searchTerm)
 
   sealed class TextOpWrapper(searchTerm: String) extends BasicDBObject {
     put(field, new BasicDBObject(oper, searchTerm))

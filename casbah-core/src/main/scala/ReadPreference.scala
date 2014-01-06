@@ -16,67 +16,66 @@
  */
 package com.mongodb.casbah
 
-import scala.collection.JavaConverters._
-import com.mongodb.DBObject
+import com.mongodb.{DBObject, ReadPreference => JReadPreference, TaggableReadPreference}
 
 /**
  * Helper class for creating ReadPreference instances
  *
  * @since 2.2
- * @see com.mongodb.ReadPreference
+ * @see  JReadPreference
  */
 object ReadPreference {
 
   /**
    * Reads come only through the Primary
    */
-  val Primary = com.mongodb.ReadPreference.primary()
+  val Primary: JReadPreference = JReadPreference.primary()
 
   /**
    * Reads come from Secondary servers (equiv of old SlaveOK)
    */
-  val Secondary = com.mongodb.ReadPreference.secondary()
+  val Secondary: JReadPreference = JReadPreference.secondary()
 
 
   /**
    * Reads come from secondary if available, otherwise from primary
    */
-  val SecondaryPreferred = com.mongodb.ReadPreference.secondaryPreferred()
+  val SecondaryPreferred: JReadPreference = JReadPreference.secondaryPreferred()
 
   /**
    * Reads come from nearest node.
    */
-  val Nearest = com.mongodb.ReadPreference.nearest()
+  val Nearest: JReadPreference = JReadPreference.nearest()
 
   /**
    *
    * @return ReadPreference with reads primary if available
    */
-  def primaryPreferred = com.mongodb.ReadPreference.primaryPreferred()
+  def primaryPreferred: JReadPreference = JReadPreference.primaryPreferred()
 
   /**
    * @return ReadPreference which reads primary if available, otherwise a secondary respective of tags.
    */
-  def primaryPreferred(firstTagSet: DBObject, remainingTagSets: DBObject*) =
-    com.mongodb.ReadPreference.primaryPreferred(firstTagSet, remainingTagSets: _*)
+  def primaryPreferred(firstTagSet: DBObject, remainingTagSets: DBObject*): TaggableReadPreference =
+     JReadPreference.primaryPreferred(firstTagSet, remainingTagSets: _*)
 
   /**
    * @return ReadPreference which returns secondary respective of tags
    */
-  def secondary(firstTagSet: DBObject, remainingTagSets: DBObject*) =
-    com.mongodb.ReadPreference.secondary(firstTagSet, remainingTagSets: _*)
+  def secondary(firstTagSet: DBObject, remainingTagSets: DBObject*): TaggableReadPreference =
+     JReadPreference.secondary(firstTagSet, remainingTagSets: _*)
 
   /**
    * @return ReadPreference which reads secondary if available respective of tags,
-   *         otherwise from primary irresepective of tags
+   *         otherwise from primary irrespective of tags
    */
-  def secondaryPreferred(firstTagSet: DBObject, remainingTagSets: DBObject*) =
-    com.mongodb.ReadPreference.secondaryPreferred(firstTagSet, remainingTagSets: _*)
+  def secondaryPreferred(firstTagSet: DBObject, remainingTagSets: DBObject*): TaggableReadPreference =
+     JReadPreference.secondaryPreferred(firstTagSet, remainingTagSets: _*)
 
   /**
    * @return ReadPreference which reads nearest node respective of tags
    */
-  def nearest(firstTagSet: DBObject, remainingTagSets: DBObject*) =
-    com.mongodb.ReadPreference.nearest(firstTagSet, remainingTagSets: _*)
+  def nearest(firstTagSet: DBObject, remainingTagSets: DBObject*): TaggableReadPreference =
+     JReadPreference.nearest(firstTagSet, remainingTagSets: _*)
 
 }
