@@ -404,7 +404,7 @@ trait ElemMatchOp extends QueryOperator {
 trait MetaProjectionOp extends QueryOperator {
   private val oper = "$meta"
 
-  def $meta(): DBObject with QueryExpressionObject = queryOp(oper, "text")
+  def $meta(): DBObject with QueryExpressionObject = queryOp(oper, "textScore")
 }
 
 sealed abstract class BSONType[A](val operator: Byte)

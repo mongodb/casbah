@@ -957,7 +957,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
   "Casbah's $meta operator" should {
     "Function as expected" in {
       val meta = ("foo" $meta)
-      meta must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$meta" -> "text")))
+      meta must beEqualTo(MongoDBObject("foo" -> MongoDBObject("$meta" -> "textScore")))
     }
   }
 
