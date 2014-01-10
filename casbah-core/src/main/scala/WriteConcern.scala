@@ -66,6 +66,41 @@ object WriteConcern {
   val ReplicasSafe: JWriteConcern = JWriteConcern.REPLICAS_SAFE
 
   /**
+   * No exceptions are raised, even for network issues.
+   * @since 2.7
+   */
+  val ErrorsIgnored: JWriteConcern = JWriteConcern.ERRORS_IGNORED
+  /**
+   * Write operations that use this write concern will wait for acknowledgement from the primary server before returning.
+   * Exceptions are raised for network issues, and server errors.
+   * @since 2.7
+   */
+  val Acknowledged: JWriteConcern = JWriteConcern.ACKNOWLEDGED
+  /**
+   * Write operations that use this write concern will return as soon as the message is written to the socket.
+   * Exceptions are raised for network issues, but not server errors.
+   * @since 2.7
+   */
+  val Unacknowledged: JWriteConcern = JWriteConcern.UNACKNOWLEDGED
+  /**
+   * Exceptions are raised for network issues, and server errors; the write operation waits for the server to flush
+   * the data to disk.
+   * @since 2.7
+   */
+  val Fsynced: JWriteConcern = JWriteConcern.FSYNCED
+  /**
+   * Exceptions are raised for network issues, and server errors; the write operation waits for the server to
+   * group commit to the journal file on disk.
+   * @since 2.7
+   */
+  val Journaled: JWriteConcern = JWriteConcern.JOURNALED
+  /**
+   * Exceptions are raised for network issues, and server errors; waits for at least 2 servers for the write operation.
+   * @since 2.7
+   */
+  val ReplicaAcknowledged: JWriteConcern = JWriteConcern.REPLICA_ACKNOWLEDGED
+
+  /**
    * Create a new WriteConcern object.
    *
    * <p> w represents # of servers:
