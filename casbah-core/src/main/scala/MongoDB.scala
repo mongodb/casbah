@@ -103,6 +103,12 @@ class MongoDB(val underlying: com.mongodb.DB) {
     */
   def command(cmd: DBObject, options: Int): CommandResult = underlying.command(cmd, options)
 
+  /** Execute a database command directly.
+    * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
+    * @return the result of the command from the database
+    */
+  def command(cmd: DBObject, options: Int, pref: ReadPreference): CommandResult = underlying.command(cmd, options, pref)
+
   /** Creates a collection with a given name and options.
     * If the collection does not exist, a new collection is created.
     * Possible options:
