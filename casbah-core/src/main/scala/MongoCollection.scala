@@ -839,9 +839,9 @@ trait MongoCollectionBase extends Logging {
    *
    * @return DBObject with error and status information
    */
-  def getLastError: CommandResult = getDB.getLastError
+  def getLastError(): CommandResult = getDB.getLastError() /* calls the db */
 
-  def lastError: CommandResult = getLastError
+  def lastError(): CommandResult = getLastError()
 
   def getLastError(concern: WriteConcern): CommandResult =
     getDB.getLastError(concern)

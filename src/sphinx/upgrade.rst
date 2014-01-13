@@ -32,6 +32,13 @@ Version 2.7.0
     * getName
     * getOptions
 
+  com.mongodb.casbah.MongoCollection:
+    * getLastError()
+    * lastError()
+
+  com.mongodb.casbah.MongoCursor:
+    * count()
+
   com.mongodb.casbah.map_reduce.MapReduceResult:
     * toString()
 

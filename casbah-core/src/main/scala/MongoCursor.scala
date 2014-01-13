@@ -108,7 +108,7 @@ trait MongoCursorBase extends Logging {
    * @return Int indicating the number of elements returned by the query
    * @throws MongoException()
    */
-  def count: Int = underlying.count
+  def count(): Int = underlying.count() /* calls the db */
 
   /**
    * Manipulate Query Options
