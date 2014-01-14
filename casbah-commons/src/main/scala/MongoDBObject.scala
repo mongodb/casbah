@@ -102,6 +102,7 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
     case null => None
     case value => Some(value)
   }
+
   // scalastyle:on null
 
   // scalastyle:off method.name
@@ -134,6 +135,7 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    *
    */
   def ::(elem: (String, Any)): Seq[DBObject] = Seq(MongoDBObject(elem), this)
+
   // scalastyle:on method.name
 
   /**
@@ -145,7 +147,7 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * @tparam A the type to cast the result to
    * @return Option[A] - None if value is None, the cast invalid or the key is missing otherwise Some(value)
    */
-  def getAs[A: NotNothing: Manifest](key: String): Option[A] = {
+  def getAs[A: NotNothing : Manifest](key: String): Option[A] = {
     Try(as[A](key)) match {
       case Success(v) => castToOption[A](v)
       case Failure(e) => None
@@ -163,7 +165,7 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * @return Option[A] - None if value is None, the cast invalid or the key is missing otherwise Some(value)
    * @return
    */
-  def getAs[A: NotNothing: Manifest](keys: String*): Option[A] = expand[A](keys.mkString("."))
+  def getAs[A: NotNothing : Manifest](keys: String*): Option[A] = expand[A](keys.mkString("."))
 
   def getAsOrElse[A: NotNothing : Manifest](key: String, default: => A): A = getAs[A](key) match {
     case Some(v) => v
@@ -209,6 +211,7 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
     underlying.removeField(key)
     this
   }
+
   // scalastyle:on method.name public.methods.have.type
 
   /* Methods needed in order to be a proper DBObject */
@@ -266,6 +269,7 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
     case Some(id: ObjectId) => Some(id)
     case _ => None
   }
+
   // scalastyle:on method.name
 }
 
@@ -274,6 +278,7 @@ object MongoDBObject {
   implicit val canBuildFrom: CanBuildFrom[Map[String, Any], (String, Any), DBObject] =
     new CanBuildFrom[Map[String, Any], (String, Any), DBObject] {
       def apply(from: Map[String, Any]): mutable.Builder[(String, Any), DBObject] = apply()
+
       def apply(): mutable.Builder[(String, Any), DBObject] = newBuilder[String, Any]
     }
 
@@ -287,7 +292,6 @@ object MongoDBObject {
 
   protected[mongodb] def convertValue(v: Any): Any = v match {
     case x: MongoDBObject => x.asDBObject
-    case m: Map[String, _] => m.asDBObject
     case _v: Option[_] => Option(convertValue(_v.orNull))
     case _ => v
   }
@@ -309,6 +313,7 @@ sealed class MongoDBObjectBuilder extends mutable.Builder[(String, Any), DBObjec
     }
     this
   }
+
   // scalastyle:on method.name
 
   def clear() {

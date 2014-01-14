@@ -23,8 +23,6 @@
 package com.mongodb.casbah
 package commons
 
-import scala.collection.JavaConverters._
-
 
 trait Implicits {
 
@@ -57,8 +55,7 @@ trait Implicits {
   implicit def wrapDBObj(in: DBObject): MongoDBObject =
     new MongoDBObject(in)
 
-  implicit def unwrapDBObj(in: MongoDBObject): DBObject =
-    in.underlying
+  implicit def unwrapDBObj(in: MongoDBObject): DBObject = in.underlying
 
   implicit def wrapDBList(in: BasicDBList): MongoDBList = new MongoDBList(in)
 

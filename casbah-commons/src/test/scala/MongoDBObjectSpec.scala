@@ -96,7 +96,6 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       obj.getAs[String]("foo") must beNone
       obj.getAs[Int]("foo") must beSome[Int]
     }
-
   }
 
   /* "SCALA-42, storing Java Arrays in a DBObject shouldn't break .equals and .hashcode" in {
