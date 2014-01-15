@@ -35,28 +35,24 @@ class MongoClientSpec extends CasbahMutableSpecification {
 
   "MongoClient connections should be the same as Java MongoClient" should {
 
+    lazy val javaConn = new com.mongodb.MongoClient() // Java connection
+
     "provide working .asScala methods on the Java version of the objects" in {
 
-      lazy val javaConn = new com.mongodb.MongoClient() // Java connection
-
       "Connection objects" in {
-
         val scalaConn = javaConn.asScala
         scalaConn.underlying must beEqualTo(javaConn)
       }
 
       val javaDb = javaConn.getDB("test")
+      val javaCollection = javaDb.getCollection("test")
 
       "DB objects" in {
-
         val scalaDb = javaDb.asScala
         scalaDb.underlying must beEqualTo(javaDb)
       }
 
-      val javaCollection = javaDb.getCollection("test")
-
       "Collection objects" in {
-
         val scalaCollection = javaCollection.asScala
         scalaCollection.underlying must beEqualTo(javaCollection)
       }

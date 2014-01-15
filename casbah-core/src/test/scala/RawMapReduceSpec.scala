@@ -26,13 +26,11 @@ import java.io.IOException
 import scala.sys.process._
 import scala.collection.JavaConverters._
 import org.specs2.specification.Scope
-import com.github.nscala_time.time.Imports._
 
 import com.mongodb.util.JSON
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
-import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+import java.util.Date
 
 
 @SuppressWarnings(Array("deprecation"))
@@ -42,15 +40,12 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
   skipAllUnless(MongoDBOnline)
   implicit lazy val mongoDB = MongoClient()("casbahIntegration")
 
-  "MongoDB 1.7+ Map/Reduce functionality" should {
-
-    val mapJS = """
+  val mapJS = """
       function m() {
           emit( typeof(this._id) == "number" ? this._id : this._id.getYear(), { count: 1, sum: this.bc10Year })
-      }
-                """
+      }"""
 
-    val reduceJS = """
+  val reduceJS = """
       function r( year, values ) {
           var n = { count: 0,  sum: 0 }
           for ( var i = 0; i < values.length; i++ ){
@@ -59,15 +54,16 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
           }
 
           return n;
-      }
-                   """
+      }"""
 
-    val finalizeJS = """
+  val finalizeJS = """
       function f( year, value ){
           value.avg = value.sum / value.count;
           return value.avg;
-      }
-                     """
+      }"""
+
+  "MongoDB 1.7+ Map/Reduce functionality" should {
+
 
     "Produce results in a named collection for all data" in new testData {
       val cmd = MongoDBObject(
@@ -82,12 +78,8 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
       log.info("M/R Result: %s", result)
 
-
-      result.getAs[Double]("ok") must beSome(1.0)
-      result.getAs[String]("result") must beSome("yield_historical.out.all")
-      /*result.expand[Int]("counts.input") must beSome(5193)
-      result.expand[Int]("counts.emit") must beSome(5193)
-      result.expand[Int]("counts.output") must beSome(21)*/
+      result.getAs[Double]("ok") must beSome[Double](1.0)
+      result.getAs[String]("result") must beSome[String]("yield_historical.out.all")
 
       val mongo = mongoDB(result.as[String]("result"))
       Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
@@ -107,9 +99,9 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
       log.info("M/R Result: %s", result)
 
 
-      result.getAs[Double]("ok") must beSome(1.0)
+      result.getAs[Double]("ok") must beSome[Double](1.0)
       result.getAs[String]("result") must beNone
-      result.getAs[MongoDBList]("results") must beSome
+      result.getAs[MongoDBList]("results") must beSome[MongoDBList]
 
       val mongo = result.as[MongoDBList]("results")
       // System.err.println("***" + mongo)
@@ -117,214 +109,205 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
       mongo(0) must beDBObject
       mongo(0) must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
     }
+  }
 
-    "Produce results for merged output" in new testData {
+  "Merged output" should {
 
-      import java.util.Date
+    "load test data first" in new testData {
 
       mongoDB("yield_historical.out.merged").size must beEqualTo(0)
       mongoDB("yield_historical.out.aughts").size must beEqualTo(0)
       mongoDB("yield_historical.out.nineties").size must beEqualTo(0)
-
-      val cmd90s = MongoDBObject(
-        "mapreduce" -> "yield_historical.in",
-        "map" -> mapJS,
-        "reduce" -> reduceJS,
-        "finalize" -> finalizeJS,
-        "verbose" -> true,
-        "query" -> ("_id" $lt new Date(100, 1, 1)),
-        "out" -> "yield_historical.out.nineties")
-
-      val result90s = mongoDB.command(cmd90s)
-
-      log.info("M/R result90s: %s", result90s)
-
-
-      result90s.getAs[Double]("ok") must beSome(1.0)
-      result90s.getAs[String]("result") must beSome("yield_historical.out.nineties")
-
-      Some(mongoDB(result90s.as[String]("result")).size) must beEqualTo(result90s.expand[Int]("counts.output"))
-
-      val cmd00s = MongoDBObject(
-        "mapreduce" -> "yield_historical.in",
-        "map" -> mapJS,
-        "reduce" -> reduceJS,
-        "finalize" -> finalizeJS,
-        "verbose" -> true,
-        "query" -> ("_id" $gt new Date(99, 12, 31)),
-        "out" -> "yield_historical.out.aughts")
-
-      val result00s = mongoDB.command(cmd00s)
-
-      log.info("M/R result00s: %s", result00s)
-
-
-      result00s.getAs[Double]("ok") must beSome(1.0)
-      result00s.getAs[String]("result") must beSome("yield_historical.out.aughts")
-
-      Some(mongoDB(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
-
-      "Merge the 90s and 00s into a single output collection" in {
-        "reading the earlier output collections" in {
-          cmd00s -= "query"
-          cmd00s += "mapreduce" -> "yield_historical.out.aughts"
-          cmd00s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged")
-
-          cmd90s -= "query"
-          cmd90s += "mapreduce" -> "yield_historical.out.nineties"
-          cmd90s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged")
-
-          var result = mongoDB.command(cmd90s)
-          log.info("First pass result: %s", result)
-
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.out.merged")
-
-          result = mongoDB.command(cmd00s)
-          log.info("second pass result: %s", result)
-
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.out.merged")
-
-          result.expand[Int]("counts.output") must beSome(21)
-
-          val mongo = mongoDB(result.as[String]("result"))
-          Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
-        }
-        "Using a fresh query run" in {
-          cmd00s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged_fresh")
-          cmd90s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged_fresh")
-
-          var result = mongoDB.command(cmd90s)
-          log.info("First pass result: %s", result)
-
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
-
-          result = mongoDB.command(cmd00s)
-          log.info("second pass result: %s", result)
-
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.out.merged_fresh")
-
-          result.expand[Int]("counts.output") must beSome(21)
-
-          val mongo = mongoDB(result.as[String]("result"))
-          Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
-        }
-      }
     }
 
-    "Produce results for reduced output (multiples into a single final collection)" in new testData {
+    val cmd90s = MongoDBObject(
+      "mapreduce" -> "yield_historical.in",
+      "map" -> mapJS,
+      "reduce" -> reduceJS,
+      "finalize" -> finalizeJS,
+      "verbose" -> true,
+      "query" -> ("_id" $lt new Date(100, 1, 1)),
+      "out" -> "yield_historical.out.nineties")
 
-      import java.util.Date
+    val cmd00s = MongoDBObject(
+      "mapreduce" -> "yield_historical.in",
+      "map" -> mapJS,
+      "reduce" -> reduceJS,
+      "finalize" -> finalizeJS,
+      "verbose" -> true,
+      "query" -> ("_id" $gt new Date(99, 12, 31)),
+      "out" -> "yield_historical.out.aughts")
 
-      mongoDB("yield_historical.out.all").size must beEqualTo(0)
-      mongoDB("yield_historical.out.aughts").size must beEqualTo(0)
-      mongoDB("yield_historical.out.nineties").size must beEqualTo(0)
-
-      val cmd90s = MongoDBObject(
-        "mapreduce" -> "yield_historical.in",
-        "map" -> mapJS,
-        "reduce" -> reduceJS,
-        "verbose" -> true,
-        "query" -> ("_id" $lt new Date(100, 1, 1)),
-        "out" -> "yield_historical.out.nineties")
+    "Produce results for merged output" in {
 
       val result90s = mongoDB.command(cmd90s)
-
-      log.info("M/R result90s: %s", result90s)
-
-
-      result90s.getAs[Double]("ok") must beSome(1.0)
-      result90s.getAs[String]("result") must beSome("yield_historical.out.nineties")
+      result90s.getAs[Double]("ok") must beSome[Double](1.0)
+      result90s.getAs[String]("result") must beSome[String]("yield_historical.out.nineties")
 
       Some(mongoDB(result90s.as[String]("result")).size) must beEqualTo(result90s.expand[Int]("counts.output"))
 
-      val cmd00s = MongoDBObject(
-        "mapreduce" -> "yield_historical.in",
-        "map" -> mapJS,
-        "reduce" -> reduceJS,
-        "verbose" -> true,
-        "query" -> ("_id" $gt new Date(99, 12, 31)),
-        "out" -> "yield_historical.out.aughts")
-
       val result00s = mongoDB.command(cmd00s)
-
-      log.info("M/R result00s: %s", result00s)
-
-
-      result00s.getAs[Double]("ok") must beSome(1.0)
-      result00s.getAs[String]("result") must beSome("yield_historical.out.aughts")
-
+      result00s.getAs[Double]("ok") must beSome[Double](1.0)
+      result00s.getAs[String]("result") must beSome[String]("yield_historical.out.aughts")
       Some(mongoDB(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
+    }
+
+    "Merge the 90s and 00s into a single output collection reading the earlier output collections" in {
 
       "Reduce the 90s and 00s into a single output collection" in {
-        "Querying against the raw data " in {
-          cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
-          //cmd00s += "finalize" -> finalizeJS
+        cmd00s -= "query"
+        cmd00s += "mapreduce" -> "yield_historical.out.aughts"
+        cmd00s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged")
 
-          log.info("cmd 00s: %s", cmd00s)
+        cmd90s -= "query"
+        cmd90s += "mapreduce" -> "yield_historical.out.nineties"
+        cmd90s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged")
 
-          cmd90s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
-          //cmd90s += "finalize" -> finalizeJS
+        val result90s = mongoDB.command(cmd90s)
 
-          log.info("cmd 90s: %s", cmd90s)
+        log.info("First pass result: %s", result90s)
 
-          var result = mongoDB.command(cmd90s)
-          log.info("First pass result: %s", result)
+        result90s.getAs[Double]("ok") must beSome[Double](1.0)
+        result90s.getAs[String]("result") must beSome[String]("yield_historical.out.merged")
 
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.out.all")
+        val result00s = mongoDB.command(cmd00s)
 
-          result = mongoDB.command(cmd00s)
-          log.info("Second pass result: %s", result)
+        result00s.getAs[Double]("ok") must beSome[Double](1.0)
+        result00s.getAs[String]("result") must beSome[String]("yield_historical.out.merged")
 
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.out.all")
+        result00s.expand[Int]("counts.output") must beSome(21)
 
-          result.expand[Int]("counts.output") must beSome(21)
+        val mongo = mongoDB(result00s.as[String]("result"))
+        Some(mongo.size) must beEqualTo(result00s.expand[Int]("counts.output"))
+      }
 
-          val mongo = mongoDB(result.as[String]("result"))
-          Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
-        }
+      "Using a fresh query run" in {
+        cmd00s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged_fresh")
+        cmd90s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged_fresh")
 
-        "Querying against the intermediary collections" in {
-          cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
-          cmd00s -= "query"
-          cmd00s += "mapreduce" -> "yield_historical.out.aughts"
-          //cmd00s += "finalize" -> finalizeJS
+        val result90s = mongoDB.command(cmd90s)
+        log.info("First pass result: %s", result90s)
 
-          log.info("cmd 00s: %s", cmd00s)
+        result90s.getAs[Double]("ok") must beSome[Double](1.0)
+        result90s.getAs[String]("result") must beSome[String]("yield_historical.out.merged_fresh")
 
-          cmd90s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
-          cmd90s -= "query"
-          cmd90s += "mapreduce" -> "yield_historical.out.nineties"
-          //cmd90s += "finalize" -> finalizeJS
+        val result00s = mongoDB.command(cmd00s)
+        log.info("second pass result: %s", result00s)
 
-          log.info("cmd 90s: %s", cmd90s)
+        result00s.getAs[Double]("ok") must beSome[Double](1.0)
+        result00s.getAs[String]("result") must beSome[String]("yield_historical.out.merged_fresh")
 
-          var result = mongoDB.command(cmd90s)
-          log.info("First pass result: %s", result)
+        result00s.expand[Int]("counts.output") must beSome(21)
 
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.out.all")
-
-          result = mongoDB.command(cmd00s)
-          log.info("Second pass result: %s", result)
-
-          result.getAs[Double]("ok") must beSome(1.0)
-          result.getAs[String]("result") must beSome("yield_historical.out.all")
-
-          result.expand[Int]("counts.output") must beSome(21)
-
-          val mongo = mongoDB(result.as[String]("result"))
-          Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
-
-        }
+        val mongo = mongoDB(result00s.as[String]("result"))
+        Some(mongo.size) must beEqualTo(result00s.expand[Int]("counts.output"))
       }
     }
+  }
 
+  "Reduced output (multiples into a single final collection)" should {
+
+    "load test data first" in new testData {
+
+      mongoDB("yield_historical.out.merged").size must beEqualTo(0)
+      mongoDB("yield_historical.out.aughts").size must beEqualTo(0)
+      mongoDB("yield_historical.out.nineties").size must beEqualTo(0)
+    }
+
+    val cmd90s = MongoDBObject(
+      "mapreduce" -> "yield_historical.in",
+      "map" -> mapJS,
+      "reduce" -> reduceJS,
+      "verbose" -> true,
+      "query" -> ("_id" $lt new Date(100, 1, 1)),
+      "out" -> "yield_historical.out.nineties")
+
+    val cmd00s = MongoDBObject(
+      "mapreduce" -> "yield_historical.in",
+      "map" -> mapJS,
+      "reduce" -> reduceJS,
+      "verbose" -> true,
+      "query" -> ("_id" $gt new Date(99, 12, 31)),
+      "out" -> "yield_historical.out.aughts")
+
+    "Produce results for nineties and aughties output" in {
+
+      val result90s = mongoDB.command(cmd90s)
+      result90s.getAs[Double]("ok") must beSome[Double](1.0)
+      result90s.getAs[String]("result") must beSome[String]("yield_historical.out.nineties")
+      Some(mongoDB(result90s.as[String]("result")).size) must beEqualTo(result90s.expand[Int]("counts.output"))
+
+      val result00s = mongoDB.command(cmd00s)
+      result00s.getAs[Double]("ok") must beSome[Double](1.0)
+      result00s.getAs[String]("result") must beSome[String]("yield_historical.out.aughts")
+      Some(mongoDB(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
+
+    }
+
+    "Reduce the 90s and 00s into a single output collection" in {
+      "Querying against the raw data " in {
+        cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
+        //cmd00s += "finalize" -> finalizeJS
+
+        log.info("cmd 00s: %s", cmd00s)
+
+        cmd90s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
+        //cmd90s += "finalize" -> finalizeJS
+
+        log.info("cmd 90s: %s", cmd90s)
+
+        var result = mongoDB.command(cmd90s)
+        log.info("First pass result: %s", result)
+
+        result.getAs[Double]("ok") must beSome[Double](1.0)
+        result.getAs[String]("result") must beSome[String]("yield_historical.out.all")
+
+        result = mongoDB.command(cmd00s)
+        log.info("Second pass result: %s", result)
+
+        result.getAs[Double]("ok") must beSome[Double](1.0)
+        result.getAs[String]("result") must beSome[String]("yield_historical.out.all")
+
+        result.expand[Int]("counts.output") must beSome(21)
+
+        val mongo = mongoDB(result.as[String]("result"))
+        Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
+      }
+
+      "Querying against the intermediary collections" in {
+        cmd00s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
+        cmd00s -= "query"
+        cmd00s += "mapreduce" -> "yield_historical.out.aughts"
+        //cmd00s += "finalize" -> finalizeJS
+
+        log.info("cmd 00s: %s", cmd00s)
+
+        cmd90s += "out" -> MongoDBObject("reduce" -> "yield_historical.out.all")
+        cmd90s -= "query"
+        cmd90s += "mapreduce" -> "yield_historical.out.nineties"
+        //cmd90s += "finalize" -> finalizeJS
+
+        log.info("cmd 90s: %s", cmd90s)
+
+        var result = mongoDB.command(cmd90s)
+        log.info("First pass result: %s", result)
+
+        result.getAs[Double]("ok") must beSome[Double](1.0)
+        result.getAs[String]("result") must beSome[String]("yield_historical.out.all")
+
+        result = mongoDB.command(cmd00s)
+        log.info("Second pass result: %s", result)
+
+        result.getAs[Double]("ok") must beSome[Double](1.0)
+        result.getAs[String]("result") must beSome[String]("yield_historical.out.all")
+
+        result.expand[Int]("counts.output") must beSome[Int](21)
+
+        val mongo = mongoDB(result.as[String]("result"))
+        Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
+
+      }
+    }
   }
 
   trait testData extends Scope {
@@ -354,4 +337,3 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
   }
 
 }
-

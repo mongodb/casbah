@@ -154,8 +154,8 @@ object Dependencies {
 
   def specs2(scalaVersion: String) =
       (scalaVersion match {
-          case "2.9.3"   => "org.specs2" % "specs2_2.9.2" % "1.12.4.1"
-          case _ => "org.specs2" %% "specs2" % "1.14"
+          case "2.9.3"   => "org.specs2" %% "specs2" % "1.12.4.1"
+          case _ => "org.specs2" %% "specs2" % "2.3.7"
       }) % "test"
 
   def scalaStyle = "org.scalastyle" %% "scalastyle" % "0.3.2"  % "test"

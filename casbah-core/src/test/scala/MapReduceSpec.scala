@@ -33,6 +33,7 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+import java.util.Date
 
 
 @SuppressWarnings(Array("deprecation"))
@@ -62,17 +63,14 @@ class MapReduceSpec extends CasbahMutableSpecification {
     }
   }
 
-  "MongoDB 1.7+ Map/Reduce functionality" should {
-    implicit lazy val mongoDB = MongoClient()("casbahIntegration")
-
-    val mapJS = """
+  val mapJS = """
       function m() {
           var key = typeof(this._id) == "number" ? this._id : this._id.getYear();
           emit(key, { count: 1, sum: this.bc10Year })
       }
-                """
+              """
 
-    val reduceJS = """
+  val reduceJS = """
       function r( year, values ) {
           var n = { count: 0,  sum: 0 }
           for ( var i = 0; i < values.length; i++ ){
@@ -82,14 +80,18 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
           return n;
       }
-                   """
+                 """
 
-    val finalizeJS = """
+  val finalizeJS = """
       function f( year, value ){
           value.avg = value.sum / value.count;
           return value.avg;
       }
-                     """
+                   """
+
+  "MongoDB 1.7+ Map/Reduce functionality" should {
+    implicit lazy val mongoDB = MongoClient()("casbahIntegration")
+
 
     "Produce results in a named collection for all data" in new testData {
       val coll = mongoDB("yield_historical.in")
@@ -149,37 +151,35 @@ class MapReduceSpec extends CasbahMutableSpecification {
       item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 17.104800000000004))
     }
 
+
+    val cmd90s = MapReduceCommand(
+      "yield_historical.in",
+      mapJS,
+      reduceJS,
+      "yield_historical.nineties",
+      Some("_id" $lt new Date(100, 1, 1)),
+      finalizeFunction = Some(finalizeJS),
+      verbose = true)
+
+    val cmd00s = MapReduceCommand(
+      "yield_historical.in",
+      mapJS,
+      reduceJS,
+      "yield_historical.aughts",
+      Some("_id" $gt new Date(99, 12, 31)),
+      finalizeFunction = Some(finalizeJS),
+      verbose = true)
+
     "Produce results for merged output" in new testData {
-
-      import java.util.Date
-
-      val cmd90s = MapReduceCommand(
-        "yield_historical.in",
-        mapJS,
-        reduceJS,
-        "yield_historical.nineties",
-        Some("_id" $lt new Date(100, 1, 1)),
-        finalizeFunction = Some(finalizeJS),
-        verbose = true)
 
       val result90s = mongoDB.mapReduce(cmd90s)
 
       log.info("M/R result90s: %s", result90s)
 
-
       result90s.isError must beFalse
       result90s.raw.getAs[String]("result") must beSome("yield_historical.nineties")
       result90s.size must beGreaterThan(0)
       result90s.size must beEqualTo(result90s.raw.expand[Int]("counts.output").getOrElse(-1))
-
-      val cmd00s = MapReduceCommand(
-        "yield_historical.in",
-        mapJS,
-        reduceJS,
-        "yield_historical.aughts",
-        Some("_id" $gt new Date(99, 12, 31)),
-        finalizeFunction = Some(finalizeJS),
-        verbose = true)
 
       val result00s = mongoDB.mapReduce(cmd00s)
 
@@ -187,6 +187,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
       result00s.raw.getAs[String]("result") must beSome("yield_historical.aughts")
       result00s.size must beGreaterThan(0)
       result00s.size must beEqualTo(result00s.raw.expand[Int]("counts.output").getOrElse(-1))
+    }
 
       "Merge the 90s and 00s into a single output collection" in {
         "reading the earlier output collections" in {
@@ -305,7 +306,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
       }
     }
 
-  }
+
 
   trait testData extends Scope {
     val database = "casbahIntegration"

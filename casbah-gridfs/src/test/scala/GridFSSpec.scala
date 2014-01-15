@@ -125,6 +125,7 @@ class GridFSSpec extends CasbahMutableSpecification {
       gridfs.iterator.filter(f => f.filename == "hello_world.txt").foreach(f =>
         f.source.mkString must beEqualTo("hello world")
       )
+      success
     }
 
     "Handle DateTime" in {

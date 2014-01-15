@@ -634,19 +634,20 @@ trait GeoIntersectsOp extends QueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
  */
 trait DeprecatedGeoWithinOps extends QueryOperator {
+  self =>
 
   // scalastyle:off public.methods.have.type
   def $within = new QueryOperator {
     val field = "$within"
 
     def $box(lowerLeft: GeoCoords[_, _], upperRight: GeoCoords[_, _]): DBObject =
-      MongoDBObject(field -> queryOp("$box", MongoDBList(lowerLeft.toList, upperRight.toList)))
+      MongoDBObject(self.field -> queryOp("$box", MongoDBList(lowerLeft.toList, upperRight.toList)))
 
     def $center[T: Numeric](center: GeoCoords[_, _], radius: T): DBObject =
-      MongoDBObject(field -> queryOp("$center", MongoDBList(center.toList, radius)))
+      MongoDBObject(self.field -> queryOp("$center", MongoDBList(center.toList, radius)))
 
     def $centerSphere[T: Numeric](center: GeoCoords[_, _], radius: T): DBObject =
-      MongoDBObject(field -> queryOp("$centerSphere", MongoDBList(center.toList, radius)))
+      MongoDBObject(self.field -> queryOp("$centerSphere", MongoDBList(center.toList, radius)))
   }
   // scalastyle:on public.methods.have.type
 

@@ -116,42 +116,43 @@ class MongoDBListSpec extends CasbahMutableSpecification {
       raw.hashCode must beEqualTo(mongo.hashCode())
       raw.equals(raw) must beEqualTo(mongo.equals(mongo))
     }
+  }
 
-    "Support 'as' methods for casting by type" in {
-      "getAs functions as expected" in {
-        val dbList = MongoDBList(5, 212.8, "eggs", MongoDBObject("foo" -> "bar"), None)
-        dbList.getAs[Int](0) must beSome[Int].which(_ == 5)
-        dbList.getAs[Double](1) must beSome[Double].which(_ == 212.8)
-        dbList.getAs[String](2) must beSome[String].which(_ == "eggs")
-        dbList.getAs[DBObject](3) must beSome[DBObject] and haveSomeEntry("foo" -> "bar")
+  "Support 'as' methods for casting by type" should {
+    "getAs functions as expected" in {
+      val dbList = MongoDBList(5, 212.8, "eggs", MongoDBObject("foo" -> "bar"), None)
+      dbList.getAs[Int](0) must beSome[Int].which(_ == 5)
+      dbList.getAs[Double](1) must beSome[Double].which(_ == 212.8)
+      dbList.getAs[String](2) must beSome[String].which(_ == "eggs")
+      dbList.getAs[DBObject](3) must beSome[DBObject] and haveSomeEntry("foo" -> "bar")
 
-        "Should return None for None, failed casts and missing items" in {
-          dbList.getAs[Double](2) must beNone
-          dbList.getAs[String](4) must beNone
-          dbList.getAs[Float](70) must beNone
-        }
-      }
-
-      "as functions as expected" in {
-        val dbList = MongoDBList(5, 212.8, "eggs", MongoDBObject("foo" -> "bar"), None)
-        dbList.as[Int](0) must beEqualTo(5)
-        dbList.as[Double](1) must beEqualTo(212.8)
-        dbList.as[String](2) must beEqualTo("eggs")
-        dbList.as[DBObject](3) must haveEntry("foo" -> "bar")
-
-        "Should return None for failed casts and missing items" in {
-          dbList.as[Float](3) must throwA[ClassCastException]
-          dbList.as[Double](50) must throwA[NoSuchElementException]
-        }
-
-        "the result should be assignable to the type specified" in {
-          val y: Double = dbList.as[Double](1)
-          y must beEqualTo(212.8)
-        }
+      "Should return None for None, failed casts and missing items" in {
+        dbList.getAs[Double](2) must beNone
+        dbList.getAs[String](4) must beNone
+        dbList.getAs[Float](70) must beNone
       }
     }
   }
+  "as functions " should {
+    val dbList = MongoDBList(5, 212.8, "eggs", MongoDBObject("foo" -> "bar"), None)
 
+    "function as expected" in {
+      dbList.as[Int](0) must beEqualTo(5)
+      dbList.as[Double](1) must beEqualTo(212.8)
+      dbList.as[String](2) must beEqualTo("eggs")
+      dbList.as[DBObject](3) must haveEntry("foo" -> "bar")
+    }
+
+    "Should return None for failed casts and missing items" in {
+      dbList.as[Float](3) must throwA[ClassCastException]
+      dbList.as[Double](50) must throwA[IndexOutOfBoundsException]
+    }
+
+    "the result should be assignable to the type specified" in {
+      val y: Double = dbList.as[Double](1)
+      y must beEqualTo(212.8)
+    }
+  }
 
 }
 

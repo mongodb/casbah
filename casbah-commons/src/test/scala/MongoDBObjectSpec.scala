@@ -264,145 +264,140 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       dbObj.as[String]("nullValue") must throwA[NoSuchElementException]
 
     }
+  }
 
-    "Support 'as' methods for casting by type" in {
-      "getAs functions as expected" in {
+  "Support 'as' methods for casting by type" should {
 
-        val jodaDate: DateTime = DateTime.now
-        val localJodaDate: LocalDateTime = jodaDate.toLocalDateTime
-        val jdkDate: JDKDate = new JDKDate(jodaDate.getMillis)
+    val jodaDate: DateTime = DateTime.now
+    val localJodaDate: LocalDateTime = jodaDate.toLocalDateTime
+    val jdkDate: JDKDate = new JDKDate(jodaDate.getMillis)
 
-        val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
-          "embedded" -> MongoDBObject("foo" -> "bar"), "none" -> None,
-          "jodaDate" -> jodaDate, "localJodaDate" -> localJodaDate, "jdkDate" -> jdkDate)
+    val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
+      "embedded" -> MongoDBObject("foo" -> "bar"), "none" -> None,
+      "jodaDate" -> jodaDate, "localJodaDate" -> localJodaDate, "jdkDate" -> jdkDate)
 
-        dbObj.getAs[Int]("") must beSome[Int](5)
-        dbObj.getAs[Double]("y") must beSome[Double](212.8)
-        dbObj.getAs[DBObject]("embedded") must beSome[DBObject] and haveSomeEntry("foo" -> "bar")
+    "getAs functions as expected" in {
+      dbObj.getAs[Int]("x") must beSome[Int](5)
+      dbObj.getAs[Double]("y") must beSome[Double](212.8)
+      dbObj.getAs[DBObject]("embedded") must beSome[DBObject] and haveSomeEntry("foo" -> "bar")
 
-        dbObj.getAs[DateTime]("jodaDate") must beSome[DateTime](jodaDate)
-        dbObj.getAs[LocalDateTime]("localJodaDate") must beSome[LocalDateTime](localJodaDate)
-        dbObj.getAs[JDKDate]("jdkDate") must beSome[JDKDate](jdkDate)
-
-        "Should return None for None, failed casts and missing items" in {
-          dbObj.getAs[Double]("none") must beNone
-          dbObj.getAs[Double]("spam") must beNone
-          dbObj.getAs[Float]("omgponies") must beNone
-        }
-      }
-
-      "as functions as expected" in {
-        val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
-          "embedded" -> MongoDBObject("foo" -> "bar"))
-        dbObj.as[Int]("x") must beEqualTo(5)
-        dbObj.as[Double]("y") must beEqualTo(212.8)
-        dbObj.as[DBObject]("embedded") must haveEntry("foo" -> "bar")
-        dbObj.as[Float]("omgponies") must throwA[NoSuchElementException]
-        dbObj.as[Double]("x") must throwA[ClassCastException]
-
-        "the result should be assignable to the type specified" in {
-          val y: Double = dbObj.as[Double]("y")
-          y must beEqualTo(212.8)
-        }
-      }
+      dbObj.getAs[DateTime]("jodaDate") must beSome[DateTime](jodaDate)
+      dbObj.getAs[LocalDateTime]("localJodaDate") must beSome[LocalDateTime](localJodaDate)
+      dbObj.getAs[JDKDate]("jdkDate") must beSome[JDKDate](jdkDate)
     }
-
-    "Support the nested as[<type>] and getAs[<type>] methods" should {
-
-      val x: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> "C"))
-      val y: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> 5)))
-      val z: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> List(5, 4, 3, 2, 1))))
-
-      "Expanding a simple layering should work" in {
-        x.as[String]("A", "B") must beEqualTo("C")
-        x.getAs[String]("A", "B") must beSome[String]("C")
-
-        "While overexpanding should probably fail" in {
-          x.as[String]("A", "B", "C") must throwA[NoSuchElementException]
-          x.getAs[String]("A", "B", "C") must beNone
-        }
-      }
-
-      "Expanding a further layering should work" in {
-        y.as[Int]("A", "B", "C") must beEqualTo(5)
-        y.getAs[Int]("A", "B", "C") must beSome[Int](5)
-
-        "While overexpanding should fail" in {
-          y.as[String]("A", "B", "C", "D") must throwA[NoSuchElementException]
-          y.getAs[Int]("A", "B", "C", "D") must beNone
-        }
-      }
-
-      "And you can go further and even get a list" in {
-        z.as[List[Int]]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
-        z.getAs[List[Int]]("A", "B", "C") must beSome[List[Int]](List(5, 4, 3, 2, 1))
-      }
-
-      "Invalid missing elements should also fail" in {
-        z.as[Float]("C", "X") must throwA[NoSuchElementException]
-        z.getAs[Float]("C", "X") must beNone
-      }
-    }
-
-    "Use underlying Object methods" in {
-      val control: MongoDBObject = MongoDBObject("foo" -> "bar", "n" -> 2)
-      control must beMongoDBObject
-
-      val explicit = control.asDBObject
-      explicit must beDBObject
-      explicit.toString must beEqualTo(control.toString())
-      explicit.hashCode must beEqualTo(control.hashCode())
-      explicit.equals(explicit) must beEqualTo(control.equals(control))
-    }
-
-    "Support list creation operators" in {
-      "Prepend to end of a new list" in {
-        "With explicitly created Elements" in {
-          val list = MongoDBObject("x" -> "y") :: MongoDBObject("foo" -> "bar")
-          list must haveSize(2)
-          list(0) must beDBObject
-          (list(0): DBObject) must haveEntries("x" -> "y")
-          list(1) must beDBObject
-          (list(1): DBObject) must haveEntries("foo" -> "bar")
-        }
-        "With implicitly created Elements with an explicit" in {
-          val list = ("x" -> "y") :: MongoDBObject("foo" -> "bar")
-          list must haveSize(2)
-          list(0) must beDBObject
-          (list(0): DBObject) must haveEntries("x" -> "y")
-          list(1) must beDBObject
-          (list(1): DBObject) must haveEntries("foo" -> "bar")
-        }
-      }
-    }
-    "Eager conversions of nested values" in {
-      "Map values saved as DBObject values should convert" in {
-        "From the MongoDBObject constructor" in {
-          val dbObj = MongoDBObject("foo" -> "bar", "x" -> 5,
-            "map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
-          val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
-          map.orNull must beDBObject
-        }
-        "From the MongoDBObjectBuilder" in {
-          val b = MongoDBObject.newBuilder
-          b += "foo" -> "bar"
-          b += "x" -> 5
-          b += "map" -> Map("spam" -> 8.2, "eggs" -> "bacon")
-          val dbObj = b.result
-          val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
-          map.orNull must beDBObject
-        }
-        "From the put method" in {
-          val dbObj = MongoDBObject("foo" -> "bar", "x" -> 5)
-          dbObj += ("map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
-          val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
-          map.orNull must beDBObject
-        }
-
-      }
-
+    "Should return None for None, failed casts and missing items" in {
+      dbObj.getAs[Double]("none") must beNone
+      dbObj.getAs[Double]("spam") must beNone
+      dbObj.getAs[Float]("omgponies") must beNone
     }
   }
 
+  "as functions as expected" in {
+    val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
+      "embedded" -> MongoDBObject("foo" -> "bar"))
+    dbObj.as[Int]("x") must beEqualTo(5)
+    dbObj.as[Double]("y") must beEqualTo(212.8)
+    dbObj.as[DBObject]("embedded") must haveEntry("foo" -> "bar")
+    dbObj.as[Float]("omgponies") must throwA[NoSuchElementException]
+    dbObj.as[Double]("x") must throwA[ClassCastException]
+
+    "the result should be assignable to the type specified" in {
+      val y: Double = dbObj.as[Double]("y")
+      y must beEqualTo(212.8)
+    }
+  }
+
+  "Support the nested as[<type>] and getAs[<type>] methods" should {
+
+    val x: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> "C"))
+    val y: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> 5)))
+    val z: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> List(5, 4, 3, 2, 1))))
+
+    "Expanding a simple layering should work" in {
+      x.as[String]("A", "B") must beEqualTo("C")
+      x.getAs[String]("A", "B") must beSome[String]("C")
+
+      "While overexpanding should probably fail" in {
+        x.as[String]("A", "B", "C") must throwA[NoSuchElementException]
+        x.getAs[String]("A", "B", "C") must beNone
+      }
+    }
+
+    "Expanding a further layering should work" in {
+      y.as[Int]("A", "B", "C") must beEqualTo(5)
+      y.getAs[Int]("A", "B", "C") must beSome[Int](5)
+
+      "While overexpanding should fail" in {
+        y.as[String]("A", "B", "C", "D") must throwA[NoSuchElementException]
+        y.getAs[Int]("A", "B", "C", "D") must beNone
+      }
+    }
+
+    "And you can go further and even get a list" in {
+      z.as[List[Int]]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
+      z.getAs[List[Int]]("A", "B", "C") must beSome[List[Int]](List(5, 4, 3, 2, 1))
+    }
+
+    "Invalid missing elements should also fail" in {
+      z.as[Float]("C", "X") must throwA[NoSuchElementException]
+      z.getAs[Float]("C", "X") must beNone
+    }
+  }
+
+  "Use underlying Object methods" in {
+    val control: MongoDBObject = MongoDBObject("foo" -> "bar", "n" -> 2)
+    control must beMongoDBObject
+
+    val explicit = control.asDBObject
+    explicit must beDBObject
+    explicit.toString must beEqualTo(control.toString())
+    explicit.hashCode must beEqualTo(control.hashCode())
+    explicit.equals(explicit) must beEqualTo(control.equals(control))
+  }
+
+  "Support list creation operators" in {
+    "Prepend to end of a new list" in {
+      "With explicitly created Elements" in {
+        val list = MongoDBObject("x" -> "y") :: MongoDBObject("foo" -> "bar")
+        list must haveSize(2)
+        list(0) must beDBObject
+        (list(0): DBObject) must haveEntries("x" -> "y")
+        list(1) must beDBObject
+        (list(1): DBObject) must haveEntries("foo" -> "bar")
+      }
+      "With implicitly created Elements with an explicit" in {
+        val list = ("x" -> "y") :: MongoDBObject("foo" -> "bar")
+        list must haveSize(2)
+        list(0) must beDBObject
+        (list(0): DBObject) must haveEntries("x" -> "y")
+        list(1) must beDBObject
+        (list(1): DBObject) must haveEntries("foo" -> "bar")
+      }
+    }
+  }
+
+  "Map values saved as DBObject values" should {
+    "convert from the MongoDBObject constructor" in {
+      val dbObj = MongoDBObject("foo" -> "bar", "x" -> 5,
+        "map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
+      val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
+      map must beSome[DBObject]
+    }
+    "convert from the MongoDBObjectBuilder" in {
+      val b = MongoDBObject.newBuilder
+      b += "foo" -> "bar"
+      b += "x" -> 5
+      b += "map" -> Map("spam" -> 8.2, "eggs" -> "bacon")
+      val dbObj = b.result()
+      val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
+      map.orNull must beDBObject
+    }
+    "convert from the put method" in {
+      val dbObj = MongoDBObject("foo" -> "bar", "x" -> 5)
+      dbObj += ("map" -> Map("spam" -> 8.2, "eggs" -> "bacon"))
+      val map: Option[DBObject] = dbObj.getAs[DBObject]("map")
+      map.orNull must beDBObject
+    }
+  }
 }
 

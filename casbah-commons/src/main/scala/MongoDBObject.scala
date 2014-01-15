@@ -292,6 +292,7 @@ object MongoDBObject {
 
   protected[mongodb] def convertValue(v: Any): Any = v match {
     case x: MongoDBObject => x.asDBObject
+    case m: Map[_, _] => m.asInstanceOf[Map[String, _]].asDBObject
     case _v: Option[_] => Option(convertValue(_v.orNull))
     case _ => v
   }

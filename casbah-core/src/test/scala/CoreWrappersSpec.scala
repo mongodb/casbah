@@ -34,14 +34,13 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
 
   "Casbah behavior between Scala and Java versions of Objects" should {
 
-    "provide working .asScala methods on the Java version of the objects" in {
+    lazy val javaConn = new com.mongodb.MongoClient() // Java connection
 
-      lazy val javaConn = new com.mongodb.MongoClient() // Java connection
+    "provide working .asScala methods on the Java version of the objects" in {
 
       "Connection objects" in {
 
         val scalaConn = javaConn.asScala
-
         scalaConn.underlying must beEqualTo(javaConn)
       }
 

@@ -91,7 +91,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
     }
   }
 
-  "Casbah's DSL $or Operator" >> {
+  "Casbah's DSL $or Operator" should {
     "Accept multiple values" in {
       val or = $or("foo" -> "bar", "x" -> "y")
       or must haveListEntry("$or", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
@@ -116,7 +116,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
     }
   }
 
-  "Casbah's DSL $and Operator" >> {
+  "Casbah's DSL $and Operator" should {
     "Accept multiple values" in {
       val and = $and("foo" -> "bar", "x" -> "y")
       and must haveListEntry("$and", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))
@@ -332,7 +332,7 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
 
   }
 
-  "Casbah's DSL $nor operator" >> {
+  "Casbah's DSL $nor operator" should {
     "Accept multiple values" in {
       val nor = $nor("foo" -> "bar", "x" -> "y")
       nor must haveListEntry("$nor", Seq(MongoDBObject("foo" -> "bar"), MongoDBObject("x" -> "y")))

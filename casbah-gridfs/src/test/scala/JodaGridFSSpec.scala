@@ -38,6 +38,7 @@ import org.specs2.specification.BeforeExample
 
 class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
   sequential
+
   def before = {
     DeregisterJodaLocalDateTimeConversionHelpers()
     RegisterJodaTimeConversionHelpers()
@@ -122,6 +123,7 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
       gridfs.find("powered_by_mongo_find.png") foreach {
         file => file must beAnInstanceOf[MongoGridFSDBFile]
       }
+      success
     }
 
     "Correctly catch the non-existence of a file and fail gracefully" in {
@@ -159,6 +161,7 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
       gridfs.iterator.filter(f => f.filename == "hello_world.txt").foreach(f =>
         f.source.mkString must beEqualTo("hello world")
       )
+      success
     }
   }
 
@@ -192,7 +195,6 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
       md5 must beEqualTo(logo_md5)
       require(uploadDate != null)
       uploadDate must beAnInstanceOf[DateTime]
-
     }
 
     "Handle LocalTime" in {
@@ -211,7 +213,6 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
           uploadDate = file.uploadDate
       }
       uploadDate must beAnInstanceOf[DateTime]
-
     }
 
     "Handle Date" in {
@@ -230,7 +231,6 @@ class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
           uploadDate = file.uploadDate
       }
       uploadDate must beAnInstanceOf[DateTime]
-
     }
   }
 

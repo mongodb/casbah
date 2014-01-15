@@ -22,7 +22,6 @@
 
 package com.mongodb.casbah.test.query
 
-import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.query.Imports._
 
@@ -31,7 +30,9 @@ import com.github.nscala_time.time.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 @SuppressWarnings(Array("deprecation"))
-class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
+class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
+
+  sequential
 
   def nonDSL(key: String, oper: String, value: Any) = MongoDBObject(key -> MongoDBObject(oper -> value))
 
@@ -1022,7 +1023,7 @@ class LightDSLCoreOperatorsSpec extends CasbahMutableSpecification {
             "coordinates" -> (((GeoCoords(74.2332, -75.23452),
               GeoCoords(123, 456),
               GeoCoords(74.2332, -75.23452))))))
-        val near = "foo".$geoWithin(MongoDBObject("$geometry" -> geo))
+        val near = "foo".$geoWithin(geo)
         near must beEqualTo(
           MongoDBObject(
             "foo" -> MongoDBObject(
