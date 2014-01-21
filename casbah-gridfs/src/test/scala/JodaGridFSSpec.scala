@@ -45,7 +45,7 @@ class JodaGridFSSpec extends GridFSSpecification with BeforeAfterExample {
     database.requestDone()
   }
 
-  override val databaseName = s"$TEST_DB-JodaGridFS"
+  override val databaseName = TEST_DB + "-JodaGridFS"
 
   val gridfs = JodaGridFS(database, "jodaGridFs")
 

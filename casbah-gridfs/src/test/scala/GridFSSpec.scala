@@ -45,7 +45,7 @@ class GridFSSpec extends GridFSSpecification with BeforeAfterExample {
     database.requestDone()
   }
 
-  override val databaseName = s"$TEST_DB-GridFS"
+  override val databaseName = TEST_DB + "-GridFS"
   val gridfs = GridFS(database, "gridFS")
 
   def findItem(id: ObjectId, filename: Option[String] = None, contentType: Option[String] = None) = {

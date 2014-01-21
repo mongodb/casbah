@@ -55,7 +55,9 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
   }
 
   "$setOnInsert" should {
+
     "Work with a single pair" in {
+      serverIsAtLeastVersion(2, 4) must beTrue.orSkip("Needs server >= 2.4")
       collection.drop()
       try {
         collection.update(MongoDBObject(), $setOnInsert("foo" -> "baz"), upsert = true)
@@ -68,6 +70,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
     }
 
     "Work with multiple pairs" in {
+      serverIsAtLeastVersion(2, 4) must beTrue.orSkip("Needs server >= 2.4")
       val set = $setOnInsert("foo" -> "baz", "x" -> 5.2,
         "y" -> 9, "a" ->("b", "c", "d", "e"))
       collection.drop()
@@ -83,6 +86,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
     }
 
     "work combined with $set" in {
+      serverIsAtLeastVersion(2, 4) must beTrue.orSkip("Needs server >= 2.4")
       collection.drop()
       try {
         collection.update(MongoDBObject(), $setOnInsert("x" -> 1) ++ $set("a" -> "b"), true)
