@@ -109,13 +109,13 @@ object CasbahBuild extends Build {
     id       = "casbah-query",
     base     = file("casbah-query"),
     settings = defaultSettings
-  ) dependsOn(commons % "test->test;compile" )
+  ) dependsOn(commons % "test->test;compile")
 
   lazy val gridfs = Project(
     id       = "casbah-gridfs",
     base     = file("casbah-gridfs"),
     settings = defaultSettings
-  ) dependsOn(commons % "test->test", core)
+  ) dependsOn(commons % "test->test", core % "test->test;compile")
 
   /*
    * Coursera styleCheck command

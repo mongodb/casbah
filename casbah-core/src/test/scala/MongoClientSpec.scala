@@ -22,16 +22,9 @@
 package com.mongodb.casbah.test.core
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
-import com.mongodb.casbah.commons.conversions.scala._
-import com.mongodb.casbah.commons.test.CasbahMutableSpecification
-
-import com.github.nscala_time.time.Imports._
 
 
-class MongoClientSpec extends CasbahMutableSpecification {
-
-  skipAllUnless(MongoDBOnline)
+class MongoClientSpec extends CasbahDBTestSpecification {
 
   "MongoClient connections should be the same as Java MongoClient" should {
 

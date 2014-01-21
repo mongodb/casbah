@@ -20,26 +20,18 @@
  *
  */
 
-package com.mongodb.casbah
+package com.mongodb.casbah.test.core
 
 import java.io.IOException
 import scala.sys.process._
 import scala.collection.JavaConverters._
 import org.specs2.specification.Scope
-import com.github.nscala_time.time.Imports._
 
 import com.mongodb.util.JSON
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
-import com.mongodb.casbah.commons.conversions.scala._
-import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 
-class GroupSpec extends CasbahMutableSpecification {
-  sequential
-  skipAllUnless(MongoDBOnline)
-
-  implicit val mongoDB = MongoClient()("casbahIntegration")
+class GroupSpec extends CasbahDBTestSpecification {
 
   "Casbah's Group Interfaces" should {
 
@@ -48,7 +40,8 @@ class GroupSpec extends CasbahMutableSpecification {
       val key = MongoDBObject("publicationYear" -> 1)
       val initial = MongoDBObject("count" -> 0)
       val reduce = "function(obj, prev) { prev.count++ }"
-      val result = mongoDB("books").group(key, cond, initial, reduce)
+
+      val result = collection.group(key, cond, initial, reduce)
       result.size must beEqualTo(31)
     }
 
@@ -58,7 +51,8 @@ class GroupSpec extends CasbahMutableSpecification {
       val key = MongoDBObject("publicationYear" -> 1)
       val initial = MongoDBObject("count" -> 0)
       val reduce = "function(obj, prev) { prev.count++ }"
-      val result = mongoDB("books").group(key, cond, initial, reduce, "")
+
+      val result = collection.group(key, cond, initial, reduce, "")
       result.size must beEqualTo(31)
     }
 
@@ -68,18 +62,17 @@ class GroupSpec extends CasbahMutableSpecification {
       val initial = MongoDBObject("count" -> 0)
       val reduce = "function(obj, prev) { prev.count++; }"
       val finalise = "function(out) { out.avg_count = 3; }"
-      val result = mongoDB("books").group(key, cond, initial, reduce, finalise)
+
+      val result = collection.group(key, cond, initial, reduce, finalise)
       result.forall(_.getOrElse("avg_count", 2) == 3)
     }
 
     trait testData extends Scope {
-      val database = "casbahIntegration"
-      val collection = "books"
       val jsonFile = "./casbah-core/src/test/resources/bookstore.json"
 
-      mongoDB.dropDatabase()
+      database.dropDatabase()
       try {
-        Seq("mongoimport", "-d", database, "-c", collection, "--drop", "--jsonArray", jsonFile).!!
+        Seq("mongoimport", "-d", database.name, "-c", collection.name, "--drop", "--jsonArray", jsonFile).!!
       } catch {
         case ex: IOException => {
           val source = scala.io.Source.fromFile(jsonFile)
@@ -88,13 +81,12 @@ class GroupSpec extends CasbahMutableSpecification {
 
           val rawDoc = JSON.parse(lines).asInstanceOf[BasicDBList]
           val docs = (for (doc <- rawDoc) yield doc.asInstanceOf[DBObject]).asJava
-          val coll = mongoDB(collection)
-          coll.underlying.insert(docs)
+          collection.underlying.insert(docs)
         }
       }
 
       // Verify the treasury data is loaded or skip the test for now
-      mongoDB(collection).size must beGreaterThan(0)
+      collection.count() must beGreaterThan(0)
     }
   }
 

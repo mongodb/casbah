@@ -29,16 +29,11 @@ import org.specs2.specification.Scope
 
 import com.mongodb.util.JSON
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import java.util.Date
 
 
 @SuppressWarnings(Array("deprecation"))
-class RawMapReduceSpec extends CasbahMutableSpecification {
-  sequential
-
-  skipAllUnless(MongoDBOnline)
-  implicit lazy val mongoDB = MongoClient()("casbahIntegration")
+class RawMapReduceSpec extends CasbahDBTestSpecification {
 
   val mapJS = """
       function m() {
@@ -67,34 +62,34 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
     "Produce results in a named collection for all data" in new testData {
       val cmd = MongoDBObject(
-        "mapreduce" -> "yield_historical.in",
+        "mapreduce" -> collection.name,
         "map" -> mapJS,
         "reduce" -> reduceJS,
         "finalize" -> finalizeJS,
         "verbose" -> true,
         "out" -> "yield_historical.out.all")
 
-      val result = mongoDB.command(cmd)
+      val result = database.command(cmd)
 
       log.info("M/R Result: %s", result)
 
       result.getAs[Double]("ok") must beSome[Double](1.0)
       result.getAs[String]("result") must beSome[String]("yield_historical.out.all")
 
-      val mongo = mongoDB(result.as[String]("result"))
+      val mongo = database(result.as[String]("result"))
       Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
     }
 
     "Produce results in a named collection for inline data" in new testData {
       val cmd = MongoDBObject(
-        "mapreduce" -> "yield_historical.in",
+        "mapreduce" -> collection.name,
         "map" -> mapJS,
         "reduce" -> reduceJS,
         "finalize" -> finalizeJS,
         "verbose" -> true,
         "out" -> MongoDBObject("inline" -> true))
 
-      val result = mongoDB.command(cmd)
+      val result = database.command(cmd)
 
       log.info("M/R Result: %s", result)
 
@@ -104,7 +99,6 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
       result.getAs[MongoDBList]("results") must beSome[MongoDBList]
 
       val mongo = result.as[MongoDBList]("results")
-      // System.err.println("***" + mongo)
       Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
       mongo(0) must beDBObject
       mongo(0) must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 8.552400000000002))
@@ -114,14 +108,13 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
   "Merged output" should {
 
     "load test data first" in new testData {
-
-      mongoDB("yield_historical.out.merged").size must beEqualTo(0)
-      mongoDB("yield_historical.out.aughts").size must beEqualTo(0)
-      mongoDB("yield_historical.out.nineties").size must beEqualTo(0)
+      database("yield_historical.out.merged").size must beEqualTo(0)
+      database("yield_historical.out.aughts").size must beEqualTo(0)
+      database("yield_historical.out.nineties").size must beEqualTo(0)
     }
 
     val cmd90s = MongoDBObject(
-      "mapreduce" -> "yield_historical.in",
+      "mapreduce" -> collection.name,
       "map" -> mapJS,
       "reduce" -> reduceJS,
       "finalize" -> finalizeJS,
@@ -130,7 +123,7 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
       "out" -> "yield_historical.out.nineties")
 
     val cmd00s = MongoDBObject(
-      "mapreduce" -> "yield_historical.in",
+      "mapreduce" -> collection.name,
       "map" -> mapJS,
       "reduce" -> reduceJS,
       "finalize" -> finalizeJS,
@@ -140,16 +133,16 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
     "Produce results for merged output" in {
 
-      val result90s = mongoDB.command(cmd90s)
+      val result90s = database.command(cmd90s)
       result90s.getAs[Double]("ok") must beSome[Double](1.0)
       result90s.getAs[String]("result") must beSome[String]("yield_historical.out.nineties")
 
-      Some(mongoDB(result90s.as[String]("result")).size) must beEqualTo(result90s.expand[Int]("counts.output"))
+      Some(database(result90s.as[String]("result")).size) must beEqualTo(result90s.expand[Int]("counts.output"))
 
-      val result00s = mongoDB.command(cmd00s)
+      val result00s = database.command(cmd00s)
       result00s.getAs[Double]("ok") must beSome[Double](1.0)
       result00s.getAs[String]("result") must beSome[String]("yield_historical.out.aughts")
-      Some(mongoDB(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
+      Some(database(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
     }
 
     "Merge the 90s and 00s into a single output collection reading the earlier output collections" in {
@@ -163,21 +156,21 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
         cmd90s += "mapreduce" -> "yield_historical.out.nineties"
         cmd90s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged")
 
-        val result90s = mongoDB.command(cmd90s)
+        val result90s = database.command(cmd90s)
 
         log.info("First pass result: %s", result90s)
 
         result90s.getAs[Double]("ok") must beSome[Double](1.0)
         result90s.getAs[String]("result") must beSome[String]("yield_historical.out.merged")
 
-        val result00s = mongoDB.command(cmd00s)
+        val result00s = database.command(cmd00s)
 
         result00s.getAs[Double]("ok") must beSome[Double](1.0)
         result00s.getAs[String]("result") must beSome[String]("yield_historical.out.merged")
 
         result00s.expand[Int]("counts.output") must beSome(21)
 
-        val mongo = mongoDB(result00s.as[String]("result"))
+        val mongo = database(result00s.as[String]("result"))
         Some(mongo.size) must beEqualTo(result00s.expand[Int]("counts.output"))
       }
 
@@ -185,13 +178,13 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
         cmd00s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged_fresh")
         cmd90s += "out" -> MongoDBObject("merge" -> "yield_historical.out.merged_fresh")
 
-        val result90s = mongoDB.command(cmd90s)
+        val result90s = database.command(cmd90s)
         log.info("First pass result: %s", result90s)
 
         result90s.getAs[Double]("ok") must beSome[Double](1.0)
         result90s.getAs[String]("result") must beSome[String]("yield_historical.out.merged_fresh")
 
-        val result00s = mongoDB.command(cmd00s)
+        val result00s = database.command(cmd00s)
         log.info("second pass result: %s", result00s)
 
         result00s.getAs[Double]("ok") must beSome[Double](1.0)
@@ -199,7 +192,7 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
         result00s.expand[Int]("counts.output") must beSome(21)
 
-        val mongo = mongoDB(result00s.as[String]("result"))
+        val mongo = database(result00s.as[String]("result"))
         Some(mongo.size) must beEqualTo(result00s.expand[Int]("counts.output"))
       }
     }
@@ -208,14 +201,13 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
   "Reduced output (multiples into a single final collection)" should {
 
     "load test data first" in new testData {
-
-      mongoDB("yield_historical.out.merged").size must beEqualTo(0)
-      mongoDB("yield_historical.out.aughts").size must beEqualTo(0)
-      mongoDB("yield_historical.out.nineties").size must beEqualTo(0)
+      database("yield_historical.out.merged").size must beEqualTo(0)
+      database("yield_historical.out.aughts").size must beEqualTo(0)
+      database("yield_historical.out.nineties").size must beEqualTo(0)
     }
 
     val cmd90s = MongoDBObject(
-      "mapreduce" -> "yield_historical.in",
+      "mapreduce" -> collection.name,
       "map" -> mapJS,
       "reduce" -> reduceJS,
       "verbose" -> true,
@@ -223,7 +215,7 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
       "out" -> "yield_historical.out.nineties")
 
     val cmd00s = MongoDBObject(
-      "mapreduce" -> "yield_historical.in",
+      "mapreduce" -> collection.name,
       "map" -> mapJS,
       "reduce" -> reduceJS,
       "verbose" -> true,
@@ -232,15 +224,15 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
     "Produce results for nineties and aughties output" in {
 
-      val result90s = mongoDB.command(cmd90s)
+      val result90s = database.command(cmd90s)
       result90s.getAs[Double]("ok") must beSome[Double](1.0)
       result90s.getAs[String]("result") must beSome[String]("yield_historical.out.nineties")
-      Some(mongoDB(result90s.as[String]("result")).size) must beEqualTo(result90s.expand[Int]("counts.output"))
+      Some(database(result90s.as[String]("result")).size) must beEqualTo(result90s.expand[Int]("counts.output"))
 
-      val result00s = mongoDB.command(cmd00s)
+      val result00s = database.command(cmd00s)
       result00s.getAs[Double]("ok") must beSome[Double](1.0)
       result00s.getAs[String]("result") must beSome[String]("yield_historical.out.aughts")
-      Some(mongoDB(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
+      Some(database(result00s.as[String]("result")).size) must beEqualTo(result00s.expand[Int]("counts.output"))
 
     }
 
@@ -256,13 +248,13 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
         log.info("cmd 90s: %s", cmd90s)
 
-        var result = mongoDB.command(cmd90s)
+        var result = database.command(cmd90s)
         log.info("First pass result: %s", result)
 
         result.getAs[Double]("ok") must beSome[Double](1.0)
         result.getAs[String]("result") must beSome[String]("yield_historical.out.all")
 
-        result = mongoDB.command(cmd00s)
+        result = database.command(cmd00s)
         log.info("Second pass result: %s", result)
 
         result.getAs[Double]("ok") must beSome[Double](1.0)
@@ -270,7 +262,7 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
         result.expand[Int]("counts.output") must beSome(21)
 
-        val mongo = mongoDB(result.as[String]("result"))
+        val mongo = database(result.as[String]("result"))
         Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
       }
 
@@ -289,13 +281,13 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
         log.info("cmd 90s: %s", cmd90s)
 
-        var result = mongoDB.command(cmd90s)
+        var result = database.command(cmd90s)
         log.info("First pass result: %s", result)
 
         result.getAs[Double]("ok") must beSome[Double](1.0)
         result.getAs[String]("result") must beSome[String]("yield_historical.out.all")
 
-        result = mongoDB.command(cmd00s)
+        result = database.command(cmd00s)
         log.info("Second pass result: %s", result)
 
         result.getAs[Double]("ok") must beSome[Double](1.0)
@@ -303,7 +295,7 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
         result.expand[Int]("counts.output") must beSome[Int](21)
 
-        val mongo = mongoDB(result.as[String]("result"))
+        val mongo = database(result.as[String]("result"))
         Some(mongo.size) must beEqualTo(result.expand[Int]("counts.output"))
 
       }
@@ -311,14 +303,12 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
   }
 
   trait testData extends Scope {
-    val database = "casbahIntegration"
-    val collection = "yield_historical.in"
     val jsonFile = "./casbah-core/src/test/resources/yield_historical_in.json"
 
-    mongoDB.dropDatabase()
+    database.dropDatabase()
 
     try {
-      Seq("mongoimport", "-d", database, "-c", collection, "--drop", "--jsonArray", jsonFile).!!
+      Seq("mongoimport", "-d", database.name, "-c", collection.name, "--drop", "--jsonArray", jsonFile).!!
     } catch {
       case ex: IOException => {
         val source = scala.io.Source.fromFile(jsonFile)
@@ -327,13 +317,12 @@ class RawMapReduceSpec extends CasbahMutableSpecification {
 
         val rawDoc = JSON.parse(lines).asInstanceOf[BasicDBList]
         val docs = (for (doc <- rawDoc) yield doc.asInstanceOf[DBObject]).asJava
-        val coll = mongoDB(collection)
-        coll.underlying.insert(docs)
+        collection.underlying.insert(docs)
       }
     }
 
     // Verify the treasury data is loaded or skip the test for now
-    mongoDB(collection).size must beGreaterThan(0)
+    collection.count() must beGreaterThan(0)
   }
 
 }

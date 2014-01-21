@@ -22,15 +22,12 @@
 
 package com.mongodb.casbah.test.core
 
+import scala.util.Random
+
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 
-class CoreWrappersSpec extends CasbahMutableSpecification {
-  sequential
-  skipAllUnless(MongoDBOnline)
-
-  implicit lazy val db = MongoClient()("casbahTest")
+class CoreWrappersSpec extends CasbahDBTestSpecification {
 
   "Casbah behavior between Scala and Java versions of Objects" should {
 
@@ -67,7 +64,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     "be directly instantiable, with working apply methods" in {
       lazy val conn: MongoClient = MongoClient()
       lazy val db: MongoDB = conn("casbahTest")
-      lazy val coll: MongoCollection = db("collection.in")
+      lazy val coll: MongoCollection = database("collection.in")
 
       "MongoClient" in {
         "direct instantiation" in {
@@ -75,7 +72,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
         }
 
         "the apply method works" in {
-          db.underlying must haveSuperclass[com.mongodb.DB]
+          database.underlying must haveSuperclass[com.mongodb.DB]
 
         }
       }
@@ -89,30 +86,28 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     }
 
     "allow indexes to work as expected" in {
-      val coll = db("indexTest")
-      coll.drop()
+      collection.drop()
 
-      coll.insert(MongoDBObject("foo" -> "bar"))
-      coll.indexInfo.length must beEqualTo(1)
+      collection.insert(MongoDBObject("foo" -> "bar"))
+      collection.indexInfo.length must beEqualTo(1)
 
-      coll.ensureIndex(MongoDBObject("uid" -> 1), "user_index", unique = true)
-      coll.indexInfo.length must beEqualTo(2)
+      collection.ensureIndex(MongoDBObject("uid" -> 1), "user_index", unique = true)
+      collection.indexInfo.length must beEqualTo(2)
 
-      coll.indexInfo(1)("key") == MongoDBObject("uid" -> 1)
+      collection.indexInfo(1)("key") == MongoDBObject("uid" -> 1)
     }
 
     "check query failure exception" in {
-      val coll = db("indexTest")
-      coll.drop()
+      collection.drop()
 
-      coll += MongoDBObject("loc" -> List(0, 0))
+      collection += MongoDBObject("loc" -> List(0, 0))
       val near = "loc" $near(0, 0)
-      coll.findOne(near) must throwAn[MongoException]
+      collection.findOne(near) must throwAn[MongoException]
     }
 
     "Renaming a collection successfully tracks the rename in MongoCollection" in {
-      db("collection").drop()
-      val coll = db("collectoin")
+      database("collection").drop()
+      val coll = database("collectoin")
       coll.drop()
       coll.insert(MongoDBObject("foo" -> "bar"))
       coll must beAnInstanceOf[com.mongodb.casbah.MongoCollection]
@@ -133,18 +128,18 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
   "findOne operations" should {
 
     "Not fail as reported by Max Afonov in SCALA-11" in {
-      lazy val coll = db("brand_new_coll_%d".format(System.currentTimeMillis))
+      collection.drop()
 
-      coll.insert(MongoDBObject("foo" -> "bar"))
-      val basicFind = coll.find(MongoDBObject("foo" -> "bar"))
+      collection.insert(MongoDBObject("foo" -> "bar"))
+      val basicFind = collection.find(MongoDBObject("foo" -> "bar"))
 
       basicFind.size must beEqualTo(1)
 
-      val findOne = coll.findOne()
+      val findOne = collection.findOne()
 
       findOne must beSome
 
-      val findOneMatch = coll.findOne(MongoDBObject("foo" -> "bar"))
+      val findOneMatch = collection.findOne(MongoDBObject("foo" -> "bar"))
 
       findOneMatch must beSome
 
@@ -152,83 +147,71 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
   }
 
   "Cursor Operations" should {
-    import scala.util.Random
 
-    lazy val coll = db("test_coll_%d".format(System.currentTimeMillis))
-    if (MongoDBOnline) {
+    "load some test data first" in {
+      collection.drop()
       for (i <- 1 to 100)
-        coll += MongoDBObject("foo" -> "bar", "x" -> Random.nextDouble())
+        collection += MongoDBObject("foo" -> "bar", "x" -> Random.nextDouble())
+      success
     }
 
-    // val first5 = coll.find(MongoDBObject("foo" -> "bar")) limit 5
-
     "Behave in chains" in {
-      /*
-       *      "For loops for idiomatic cleanness" in {
-       *
-       *        // todo - add limit, skip etc on COLLECTION for cleaner chains like this?
-       *        val items = for (x <- coll.find(MongoDBObject("foo" -> "bar")) skip 5 limit 20) yield x
-       *
-       *        items must haveSize(20)
-       *        // TODO - Matchers that support freaking cursors, etc
-       *        [>items must haveSameElementsAs(first5).not<]
-       *      }
-       */
 
-      "Chain operations must return the proper *subtype*" in {
-        val cur = coll.find(MongoDBObject("foo" -> "bar")) skip 5
-        cur must beAnInstanceOf[MongoCursor]
+      val cur = collection.find(MongoDBObject("foo" -> "bar")) skip 5
+      cur must beAnInstanceOf[MongoCursor]
 
-        val cur2 = coll.find(MongoDBObject("foo" -> "bar")) limit 25 skip 12
-        cur2 must beAnInstanceOf[MongoCursor]
+      val cur2 = collection.find(MongoDBObject("foo" -> "bar")) limit 25 skip 12
+      cur2 must beAnInstanceOf[MongoCursor]
 
-      }
     }
   }
 
   "Distinct operations" should {
-    lazy val coll = db("distinct")
-    if (MongoDBOnline) {
-      coll.drop()
+
+    "load some test data first" in {
+      collection.drop()
       for (i <- 1 to 99)
-        coll += MongoDBObject("_id" -> i, "x" -> i % 10)
+        collection += MongoDBObject("_id" -> i, "x" -> i % 10)
+      success
     }
+
     "except just a key" in {
-      val l = coll.distinct("x")
+      val l = collection.distinct("x")
       l.size must beEqualTo(10)
     }
 
     "except key and query" in {
-      val l = coll.distinct("x", "_id" $gt 95)
+      val l = collection.distinct("x", "_id" $gt 95)
       l.size must beEqualTo(4)
     }
 
     "except key and readPref" in {
-      val l = coll.distinct("x", readPrefs = ReadPreference.Primary)
+      val l = collection.distinct("x", readPrefs = ReadPreference.Primary)
       l.size must beEqualTo(10)
     }
 
     "except key, query and readPref" in {
-      val l = coll.distinct("x", "_id" $gt 95, ReadPreference.Primary)
+      val l = collection.distinct("x", "_id" $gt 95, ReadPreference.Primary)
       l.size must beEqualTo(4)
     }
 
   }
 
   "Aggregation operations" should {
-    lazy val coll = db("aggregate")
-    if (MongoDBOnline) {
-      coll.drop()
+
+    "load some test data first" in {
+      collection.drop()
       for (i <- 1 to 99)
-        coll += MongoDBObject("_id" -> i, "score" -> i % 10)
+        collection += MongoDBObject("_id" -> i, "score" -> i % 10)
+      success
     }
     "except just a single op" in {
-      val cursor: AggregationOutput = coll.aggregate(MongoDBObject("$match" -> ("score" $gte 7)))
+      val cursor: AggregationOutput = collection.aggregate(MongoDBObject("$match" -> ("score" $gte 7)))
       cursor.results.size must beEqualTo(30)
     }
 
     "except multiple ops" in {
-      val cursor: AggregationOutput = coll.aggregate(
+      val cursor: AggregationOutput = collection.aggregate(
         MongoDBObject("$match" -> ("score" $gte 7)),
         MongoDBObject("$project" -> MongoDBObject("score" -> 1))
       )
@@ -236,7 +219,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     }
 
     "except list of ops" in {
-      val cursor: AggregationOutput = coll.aggregate(
+      val cursor: AggregationOutput = collection.aggregate(
         List(MongoDBObject("$match" -> ("score" $gte 7)),
           MongoDBObject("$project" -> MongoDBObject("score" -> 1)))
       )
@@ -246,7 +229,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     "return a cursor when options are supplied" in {
       serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.6")
       val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
-      val cursor: AggregationCursor = coll.aggregate(
+      val cursor: AggregationCursor = collection.aggregate(
         List(MongoDBObject("$match" -> ("score" $gte 7)),
           MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
         aggregationOptions
@@ -257,7 +240,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     "test explainAggregate" in {
       serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.6")
       val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
-      val explaination = coll.explainAggregate(
+      val explaination = collection.explainAggregate(
         List(MongoDBObject("$match" -> ("score" $gte 7)),
           MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
         aggregationOptions
@@ -270,7 +253,7 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
       serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
       val aggregationOptions = AggregationOptions(AggregationOptions.INLINE)
 
-      val cursor: AggregationCursor = coll.aggregate(
+      val cursor: AggregationCursor = collection.aggregate(
         List(MongoDBObject("$match" -> ("score" $gte 7)),
           MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
         aggregationOptions
@@ -282,10 +265,10 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     "handle $out in multiple ops" in {
       serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
 
-      val outCollection = db("outCollection")
+      val outCollection = database("outCollection")
       outCollection.drop()
 
-      val cursor: AggregationOutput = coll.aggregate(
+      val cursor: AggregationOutput = collection.aggregate(
         MongoDBObject("$match" -> ("score" $gte 7)),
         MongoDBObject("$project" -> MongoDBObject("score" -> 1)),
         MongoDBObject("$out" -> outCollection.name)
@@ -297,10 +280,10 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     "handle $out in list of ops" in {
       serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
 
-      val outCollection = db("outCollection")
+      val outCollection = database("outCollection")
       outCollection.drop()
 
-      val cursor: AggregationOutput = coll.aggregate(List(
+      val cursor: AggregationOutput = collection.aggregate(List(
         MongoDBObject("$match" -> ("score" $gte 7)),
         MongoDBObject("$project" -> MongoDBObject("score" -> 1)),
         MongoDBObject("$out" -> outCollection.name)
@@ -312,11 +295,11 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     "handle $out with options INLINE" in {
       serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
 
-      val outCollection = db("outCollection")
+      val outCollection = database("outCollection")
       outCollection.drop()
 
       val aggregationOptions = AggregationOptions(AggregationOptions.INLINE)
-      val cursor: AggregationCursor = coll.aggregate(
+      val cursor: AggregationCursor = collection.aggregate(
         List(
           MongoDBObject("$match" -> ("score" $gte 7)),
           MongoDBObject("$project" -> MongoDBObject("score" -> 1)),
@@ -331,11 +314,11 @@ class CoreWrappersSpec extends CasbahMutableSpecification {
     "handle $out with options CURSOR" in {
       serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
 
-      lazy val outCollection = db("outCollection")
+      lazy val outCollection = database("outCollection")
       outCollection.drop()
 
       val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
-      val cursor: AggregationCursor = coll.aggregate(
+      val cursor: AggregationCursor = collection.aggregate(
         List(
           MongoDBObject("$match" -> ("score" $gte 7)),
           MongoDBObject("$project" -> MongoDBObject("score" -> 1)),

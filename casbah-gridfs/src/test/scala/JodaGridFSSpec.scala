@@ -22,47 +22,32 @@
 
 package com.mongodb.casbah.test.gridfs
 
-import java.security.MessageDigest
-import java.io._
 
-import com.github.nscala_time.time.Imports._
-
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.gridfs.{GridFSDBFile => MongoGridFSDBFile}
 
+import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.conversions.scala._
-import com.mongodb.casbah.commons.test.CasbahMutableSpecification
-import org.specs2.specification.BeforeExample
+import com.mongodb.casbah.gridfs.Imports._
+
+import com.github.nscala_time.time.Imports._
+import org.specs2.specification.BeforeAfterExample
 
 
-class JodaGridFSSpec extends CasbahMutableSpecification with BeforeExample {
-  sequential
+class JodaGridFSSpec extends GridFSSpecification with BeforeAfterExample {
 
-  def before = {
+  def before {
     DeregisterJodaLocalDateTimeConversionHelpers()
     RegisterJodaTimeConversionHelpers()
+    database.requestStart()
   }
 
-  skipAllUnless(MongoDBOnline)
-  implicit lazy val db = MongoClient()("casbah_test_jodagridfs")
-  if (MongoDBOnline) db.dropDatabase()
-
-  implicit lazy val gridfs = JodaGridFS(db, "jodaGridFs")
-
-  def logo_fh = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
-
-  def logo_bytes = {
-    val data = new Array[Byte](logo_fh.available())
-    logo_fh.read(data)
-    data
+  def after {
+    database.requestDone()
   }
 
-  def logo = new ByteArrayInputStream(logo_bytes)
+  override val databaseName = s"$TEST_DB-JodaGridFS"
 
-  lazy val digest = MessageDigest.getInstance("MD5")
-  digest.update(logo_bytes)
-  lazy val logo_md5 = digest.digest().map("%02X" format _).mkString.toLowerCase
+  val gridfs = JodaGridFS(database, "jodaGridFs")
 
   def findItem(id: ObjectId, filename: Option[String] = None, contentType: Option[String] = None) = {
     gridfs.findOne(id) must beSome[JodaGridFSDBFile]

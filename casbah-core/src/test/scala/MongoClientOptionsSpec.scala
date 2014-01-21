@@ -24,14 +24,9 @@ package com.mongodb.casbah.test.core
 import com.mongodb.{DBDecoderFactory, DBEncoderFactory, MongoClientOptions => JavaMongoClientOptions}
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
-import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocketFactory;
-
-import com.github.nscala_time.time.Imports._
+import javax.net.ssl.SSLSocketFactory
 
 
 class MongoClientOptionsSpec extends CasbahMutableSpecification {
@@ -73,7 +68,7 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
       builder.socketKeepAlive(true)
       builder.cursorFinalizerEnabled(true)
 
-      val socketFactory = SSLSocketFactory.getDefault()
+      val socketFactory = SSLSocketFactory.getDefault
       builder.socketFactory(socketFactory)
 
       val encoderFactory = new DBEncoderFactory() {

@@ -26,40 +26,26 @@ import java.io.IOException
 import scala.sys.process._
 import scala.collection.JavaConverters._
 import org.specs2.specification.Scope
-import com.github.nscala_time.time.Imports._
 
 import com.mongodb.util.JSON
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.Logging
-import com.mongodb.casbah.commons.conversions.scala._
-import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import java.util.Date
 
 
 @SuppressWarnings(Array("deprecation"))
-class MapReduceSpec extends CasbahMutableSpecification {
-  sequential
-  skipAllUnless(MongoDBOnline)
-
-  implicit lazy val mongoDB = MongoClient()("casbahIntegration")
+class MapReduceSpec extends CasbahDBTestSpecification {
 
   "Casbah's Map/Reduce Engine" should {
 
     "Handle error conditions such as non-existent collections gracefully" in {
+      collection.dropCollection()
 
-      val seed = DateTime.now.getMillis
-      implicit val mongo = mongoDB("mapReduce.nonexistant.foo.bar.baz.%s".format(seed))
-      mongo.dropCollection()
+      val keySet = List("Foo", "bar", "Baz").flatMap(x => "'%s': this.%s, ".format(x, x)).mkString
+      val map = "function () { emit({%s}, 1); }".format(keySet)
+      val reduce = "function(k, v) { return 1; }"
 
-      val keySet = distinctKeySet("Foo", "bar", "Baz")
-      // log.warn("KeySet: %s", keySet)
-
-      for (x <- keySet) {
-        log.trace("noop.")
-      }
-
-      keySet must beEmpty
-
+      val result = collection.mapReduce(map, reduce, MapReduceInlineOutput)
+      result must beEmpty
     }
   }
 
@@ -90,12 +76,9 @@ class MapReduceSpec extends CasbahMutableSpecification {
                    """
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
-    implicit lazy val mongoDB = MongoClient()("casbahIntegration")
-
 
     "Produce results in a named collection for all data" in new testData {
-      val coll = mongoDB("yield_historical.in")
-      val result = coll.mapReduce(
+      val result = collection.mapReduce(
         mapJS,
         reduceJS,
         "yield_historical.all",
@@ -106,8 +89,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
     }
 
     "Produce results in a named collection for inline data" in new testData {
-      val coll = mongoDB("yield_historical.in")
-      val result = coll.mapReduce(
+      val result = collection.mapReduce(
         mapJS,
         reduceJS,
         MapReduceInlineOutput,
@@ -132,8 +114,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
         }
                         """
 
-      val coll = mongoDB("yield_historical.in")
-      val result = coll.mapReduce(
+      val result = collection.mapReduce(
         mapJSScoped,
         reduceJS,
         MapReduceInlineOutput,
@@ -153,7 +134,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
 
     val cmd90s = MapReduceCommand(
-      "yield_historical.in",
+      collection.name,
       mapJS,
       reduceJS,
       "yield_historical.nineties",
@@ -162,7 +143,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
       verbose = true)
 
     val cmd00s = MapReduceCommand(
-      "yield_historical.in",
+      collection.name,
       mapJS,
       reduceJS,
       "yield_historical.aughts",
@@ -172,7 +153,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
     "Produce results for merged output" in new testData {
 
-      val result90s = mongoDB.mapReduce(cmd90s)
+      val result90s = collection.mapReduce(cmd90s)
 
       log.info("M/R result90s: %s", result90s)
 
@@ -181,7 +162,7 @@ class MapReduceSpec extends CasbahMutableSpecification {
       result90s.size must beGreaterThan(0)
       result90s.size must beEqualTo(result90s.raw.expand[Int]("counts.output").getOrElse(-1))
 
-      val result00s = mongoDB.mapReduce(cmd00s)
+      val result00s = collection.mapReduce(cmd00s)
 
       result00s.isError must beFalse
       result00s.raw.getAs[String]("result") must beSome("yield_historical.aughts")
@@ -189,134 +170,129 @@ class MapReduceSpec extends CasbahMutableSpecification {
       result00s.size must beEqualTo(result00s.raw.expand[Int]("counts.output").getOrElse(-1))
     }
 
-      "Merge the 90s and 00s into a single output collection" in {
-        "reading the earlier output collections" in {
+    "Merge the 90s and 00s into a single output collection" in {
+      "reading the earlier output collections" in {
 
-          val cmd90sMerged = cmd90s.copy(
-            query = None,
-            input = "yield_historical.nineties",
-            output = MapReduceMergeOutput("yield_historical.merged"))
+        val cmd90sMerged = cmd90s.copy(
+          query = None,
+          input = "yield_historical.nineties",
+          output = MapReduceMergeOutput("yield_historical.merged"))
 
-          val result90s = mongoDB.mapReduce(cmd90sMerged)
-          result90s.isError must beFalse
-          result90s.raw.getAs[String]("result") must beSome("yield_historical.merged")
+        val result90s = collection.mapReduce(cmd90sMerged)
+        result90s.isError must beFalse
+        result90s.raw.getAs[String]("result") must beSome("yield_historical.merged")
 
-          val cmd00sMerged = cmd00s.copy(
-            query = None,
-            input = "yield_historical.aughts",
-            output = MapReduceMergeOutput("yield_historical.merged"))
+        val cmd00sMerged = cmd00s.copy(
+          query = None,
+          input = "yield_historical.aughts",
+          output = MapReduceMergeOutput("yield_historical.merged"))
 
-          val result00s = mongoDB.mapReduce(cmd00sMerged)
-          result00s.isError must beFalse
-          result00s.raw.getAs[String]("result") must beSome("yield_historical.merged")
-          result00s.outputCount must beEqualTo(21)
-          result00s.size must beEqualTo(result00s.outputCount)
-        }
-        "Using a fresh query run" in {
+        val result00s = collection.mapReduce(cmd00sMerged)
+        result00s.isError must beFalse
+        result00s.raw.getAs[String]("result") must beSome("yield_historical.merged")
+        result00s.outputCount must beEqualTo(21)
+        result00s.size must beEqualTo(result00s.outputCount)
+      }
+      "Using a fresh query run" in {
 
-          val cmd90sMerged = cmd90s.copy(
-            query = None,
-            input = "yield_historical.nineties",
-            output = MapReduceMergeOutput("yield_historical.merged_fresh"))
+        val cmd90sMerged = cmd90s.copy(
+          query = None,
+          input = "yield_historical.nineties",
+          output = MapReduceMergeOutput("yield_historical.merged_fresh"))
 
-          val result90s = mongoDB.mapReduce(cmd90sMerged)
-          result90s.isError must beFalse
-          result90s.raw.getAs[String]("result") must beSome("yield_historical.merged_fresh")
+        val result90s = collection.mapReduce(cmd90sMerged)
+        result90s.isError must beFalse
+        result90s.raw.getAs[String]("result") must beSome("yield_historical.merged_fresh")
 
-          val cmd00sMerged = cmd00s.copy(
-            query = None,
-            input = "yield_historical.aughts",
-            output = MapReduceMergeOutput("yield_historical.merged_fresh"))
+        val cmd00sMerged = cmd00s.copy(
+          query = None,
+          input = "yield_historical.aughts",
+          output = MapReduceMergeOutput("yield_historical.merged_fresh"))
 
-          val result00s = mongoDB.mapReduce(cmd00sMerged)
-          result00s.isError must beFalse
-          result00s.raw.getAs[String]("result") must beSome("yield_historical.merged_fresh")
+        val result00s = collection.mapReduce(cmd00sMerged)
+        result00s.isError must beFalse
+        result00s.raw.getAs[String]("result") must beSome("yield_historical.merged_fresh")
 
-          result00s.outputCount must beEqualTo(21)
-          result00s.size must beEqualTo(result00s.outputCount)
-        }
+        result00s.outputCount must beEqualTo(21)
+        result00s.size must beEqualTo(result00s.outputCount)
       }
     }
+  }
 
-    "Produce results for reduced output (multiples into a single final collection)" in new testData {
+  "Produce results for reduced output (multiples into a single final collection)" in new testData {
 
-      import java.util.Date
+    import java.util.Date
 
-      val cmd90s = MapReduceCommand(
-        "yield_historical.in",
-        mapJS,
-        reduceJS,
-        "yield_historical.nineties",
-        Some("_id" $lt new Date(100, 1, 1)),
-        finalizeFunction = Some(finalizeJS),
-        verbose = true)
+    val cmd90s = MapReduceCommand(
+      collection.name,
+      mapJS,
+      reduceJS,
+      "yield_historical.nineties",
+      Some("_id" $lt new Date(100, 1, 1)),
+      finalizeFunction = Some(finalizeJS),
+      verbose = true)
 
-      val result90s = mongoDB.mapReduce(cmd90s)
-      result90s must not beNull
+    val result90s = collection.mapReduce(cmd90s)
+    result90s must not beNull
 
-      result90s.isError must beFalse
-      result90s.raw.getAs[String]("result") must beSome("yield_historical.nineties")
-      result90s.size must beGreaterThan(0)
-      result90s.size must beEqualTo(result90s.raw.expand[Int]("counts.output").getOrElse(-1))
+    result90s.isError must beFalse
+    result90s.raw.getAs[String]("result") must beSome("yield_historical.nineties")
+    result90s.size must beGreaterThan(0)
+    result90s.size must beEqualTo(result90s.raw.expand[Int]("counts.output").getOrElse(-1))
 
-      val cmd00s = MapReduceCommand(
-        "yield_historical.in",
-        mapJS,
-        reduceJS,
-        "yield_historical.aughts",
-        Some("_id" $gt new Date(99, 12, 31)),
-        finalizeFunction = Some(finalizeJS),
-        verbose = true)
+    val cmd00s = MapReduceCommand(
+      collection.name,
+      mapJS,
+      reduceJS,
+      "yield_historical.aughts",
+      Some("_id" $gt new Date(99, 12, 31)),
+      finalizeFunction = Some(finalizeJS),
+      verbose = true)
 
-      val result00s = mongoDB.mapReduce(cmd00s)
+    val result00s = collection.mapReduce(cmd00s)
 
-      log.info("M/R result00s: %s", result00s)
+    log.info("M/R result00s: %s", result00s)
+
+    result00s.isError must beFalse
+    result00s.raw.getAs[String]("result") must beSome("yield_historical.aughts")
+    result00s.size must beGreaterThan(0)
+    result00s.size must beEqualTo(result00s.raw.expand[Int]("counts.output").getOrElse(-1))
+
+    "Reduce the 90s and 00s into a single output collection" in {
+      "Querying against the raw data " in {
+
+        val cmd90sReduced = cmd90s.copy(
+          query = None,
+          input = "yield_historical.nineties",
+          output = MapReduceReduceOutput("yield_historical.reduced"))
+        val result90s = collection.mapReduce(cmd90sReduced)
+        result90s.isError must beFalse
+        result90s.raw.getAs[String]("result") must beSome("yield_historical.reduced")
 
 
-      result00s.isError must beFalse
-      result00s.raw.getAs[String]("result") must beSome("yield_historical.aughts")
-      result00s.size must beGreaterThan(0)
-      result00s.size must beEqualTo(result00s.raw.expand[Int]("counts.output").getOrElse(-1))
+        val cmd00sReduced = cmd00s.copy(
+          query = None,
+          input = "yield_historical.aughts",
+          output = MapReduceReduceOutput("yield_historical.reduced"))
 
-      "Reduce the 90s and 00s into a single output collection" in {
-        "Querying against the raw data " in {
+        val result00s = collection.mapReduce(cmd00sReduced)
+        result00s.isError must beFalse
+        result00s.raw.getAs[String]("result") must beSome("yield_historical.reduced")
 
-          val cmd90sReduced = cmd90s.copy(
-            query = None,
-            input = "yield_historical.nineties",
-            output = MapReduceReduceOutput("yield_historical.reduced"))
-          val result90s = mongoDB.mapReduce(cmd90sReduced)
-          result90s.isError must beFalse
-          result90s.raw.getAs[String]("result") must beSome("yield_historical.reduced")
-
-
-          val cmd00sReduced = cmd00s.copy(
-            query = None,
-            input = "yield_historical.aughts",
-            output = MapReduceReduceOutput("yield_historical.reduced"))
-
-          val result00s = mongoDB.mapReduce(cmd00sReduced)
-          result00s.isError must beFalse
-          result00s.raw.getAs[String]("result") must beSome("yield_historical.reduced")
-
-          result00s.outputCount must beEqualTo(21)
-          result00s.size must beEqualTo(result00s.outputCount)
-        }
-
+        result00s.outputCount must beEqualTo(21)
+        result00s.size must beEqualTo(result00s.outputCount)
       }
     }
-
+  }
 
 
   trait testData extends Scope {
-    val database = "casbahIntegration"
-    val collection = "yield_historical.in"
     val jsonFile = "./casbah-core/src/test/resources/yield_historical_in.json"
 
-    mongoDB.dropDatabase()
+    database.dropDatabase()
 
     try {
-      Seq("mongoimport", "-d", database, "-c", collection, "--drop", "--jsonArray", jsonFile).!!
+      Seq("mongoimport", "-d", database.name, "-c", collection.name, "--drop", "--jsonArray", jsonFile).!!
     } catch {
       case ex: IOException => {
         val source = scala.io.Source.fromFile(jsonFile)
@@ -325,27 +301,13 @@ class MapReduceSpec extends CasbahMutableSpecification {
 
         val rawDoc = JSON.parse(lines).asInstanceOf[BasicDBList]
         val docs = (for (doc <- rawDoc) yield doc.asInstanceOf[DBObject]).asJava
-        val coll = mongoDB(collection)
-        coll.underlying.insert(docs)
+        collection.underlying.insert(docs)
       }
     }
 
     // Verify the treasury data is loaded or skip the test for now
-    mongoDB(collection).size must beGreaterThan(0)
+    collection.count() must beGreaterThan(0)
   }
 
-  def distinctKeySet(keys: String*)(implicit mongo: MongoCollection): MapReduceResult = {
-    val keySet = keys.flatMap(x => "'%s': this.%s, ".format(x, x)).mkString
-
-    val map = "function () { emit({%s}, 1); }".format(keySet)
-
-    val reduce = "function(k, v) { return 1; }"
-
-    //val mr = MapReduceCommand(mongo.getName, map, reduce, MapReduceInlineOutput)
-
-    val result = mongo.mapReduce(map, reduce, MapReduceInlineOutput)
-
-    result
-  }
 }
 

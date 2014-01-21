@@ -20,21 +20,20 @@
  *
  */
 
-package com.mongodb.casbah.test.commons.conversions
+package com.mongodb.casbah.test.core
+
+import scala.collection.mutable
+import scala.collection.JavaConverters._
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.conversions.scala._
 
 import com.github.nscala_time.time.Imports._
-import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import org.specs2.specification.BeforeExample
-import scala.collection.mutable
-import scala.collection.JavaConverters._
 
-class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
+class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
   sequential
   type JDKDate = java.util.Date
-  skipAllUnless(MongoDBOnline)
 
   def before = {
     DeregisterConversionHelpers()
@@ -44,18 +43,12 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
 
   "Casbah's Conversion Helpers" should {
 
-    implicit lazy val mongoDB = MongoClient()("casbahTest")
-    if (MongoDBOnline) {
-      mongoDB.dropDatabase()
-    }
-
     "Properly save Option[_] to MongoDB" in {
-      val mongo = mongoDB("optionSerialization")
-      mongo.dropCollection()
+      collection.dropCollection()
 
-      mongo += MongoDBObject("some" -> Some("foo"), "none" -> None)
+      collection += MongoDBObject("some" -> Some("foo"), "none" -> None)
 
-      val optDoc = mongo.findOne().getOrElse(
+      val optDoc = collection.findOne().getOrElse(
         throw new IllegalArgumentException("No document"))
 
       optDoc.getAs[String]("some") must beSome("foo")
@@ -69,33 +62,31 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
     jodaDate.getMillis must beEqualTo(jdkDate.getTime)
 
     "Fail to serialize Joda DateTime Objects unless explicitly loaded." in {
-      val mongo = mongoDB("dateFail")
-      mongo.dropCollection()
+      collection.dropCollection()
 
       lazy val saveDate = {
-        mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda")
+        collection += MongoDBObject("date" -> jodaDate, "type" -> "joda")
       }
 
       saveDate must throwA[IllegalArgumentException]
 
-      mongo += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
+      collection += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
 
-      val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"),
+      val jdkEntry = collection.findOne(MongoDBObject("type" -> "jdk"),
         MongoDBObject("date" -> 1))
 
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
     }
 
     "Successfully serialize & deserialize Joda DateTime Objects when DateTime convertors are loaded." in {
-      val mongo = mongoDB("jodaSerDeser")
-      mongo.dropCollection()
+      collection.dropCollection()
       RegisterConversionHelpers()
       RegisterJodaTimeConversionHelpers()
       // TODO - Matcher verification of these being loaded
 
-      mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda")
+      collection += MongoDBObject("date" -> jodaDate, "type" -> "joda")
 
-      val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
+      val jodaEntry = collection.findOne(MongoDBObject("type" -> "joda"),
         MongoDBObject("date" -> 1))
 
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
@@ -105,15 +96,14 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
     }
 
     "Successfully serialize & deserialize Joda Local/DateTime Objects when DateTime convertors are loaded." in {
-      val mongo = mongoDB("jodaSerDeser")
-      mongo.dropCollection()
+      collection.dropCollection()
       RegisterConversionHelpers()
       RegisterJodaTimeConversionHelpers()
       // TODO - Matcher verification of these being loaded
 
-      mongo += MongoDBObject("date" -> localJodaDate, "type" -> "joda")
+      collection += MongoDBObject("date" -> localJodaDate, "type" -> "joda")
 
-      val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
+      val jodaEntry = collection.findOne(MongoDBObject("type" -> "joda"),
         MongoDBObject("date" -> 1))
 
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
@@ -122,15 +112,14 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
     }
 
     "Successfully serialize & deserialize Joda LocalDateTime Objects when LocalDateTime convertors are loaded." in {
-      val mongo = mongoDB("jodaSerDeser")
-      mongo.dropCollection()
+      collection.dropCollection()
       RegisterConversionHelpers()
       RegisterJodaLocalDateTimeConversionHelpers()
       // TODO - Matcher verification of these being loaded
 
-      mongo += MongoDBObject("date" -> localJodaDate, "type" -> "joda")
+      collection += MongoDBObject("date" -> localJodaDate, "type" -> "joda")
 
-      val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
+      val jodaEntry = collection.findOne(MongoDBObject("type" -> "joda"),
         MongoDBObject("date" -> 1))
 
       jodaEntry.get.getAs[LocalDateTime]("date") must beSome(localJodaDate)
@@ -139,15 +128,14 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
     }
 
     "Successfully serialize & deserialize Joda Local/DateTime Objects when LocalDateTime convertors are loaded." in {
-      val mongo = mongoDB("jodaSerDeser")
-      mongo.dropCollection()
+      collection.dropCollection()
       RegisterConversionHelpers()
       RegisterJodaLocalDateTimeConversionHelpers()
       // TODO - Matcher verification of these being loaded
 
-      mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda")
+      collection += MongoDBObject("date" -> jodaDate, "type" -> "joda")
 
-      val jodaEntry = mongo.findOne(MongoDBObject("type" -> "joda"),
+      val jodaEntry = collection.findOne(MongoDBObject("type" -> "joda"),
         MongoDBObject("date" -> 1))
 
       jodaEntry.get.getAs[LocalDateTime]("date") must beSome(localJodaDate)
@@ -156,24 +144,25 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
     }
 
     "Be successfully deregistered." in {
-      val mongo = mongoDB("conversionDeReg")
-      mongo.dropCollection()
+      collection.dropCollection()
+      
       RegisterConversionHelpers()
       RegisterJodaTimeConversionHelpers()
       RegisterJodaLocalDateTimeConversionHelpers()
       DeregisterConversionHelpers()
       DeregisterJodaTimeConversionHelpers()
       DeregisterJodaLocalDateTimeConversionHelpers()
+      
       lazy val testJodaInsert = {
-        mongo += MongoDBObject("date" -> jodaDate, "type" -> "joda")
+        collection += MongoDBObject("date" -> jodaDate, "type" -> "joda")
       }
 
       testJodaInsert must throwA[IllegalArgumentException]
 
       // Normal JDK Date should work
-      mongo += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
+      collection += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
 
-      val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"),
+      val jdkEntry = collection.findOne(MongoDBObject("type" -> "jdk"),
         MongoDBObject("date" -> 1))
 
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
@@ -182,13 +171,12 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
     }
 
     "Inserting a JDKDate should still allow retrieval as JodaTime after Conversions load" in {
-      val mongo = mongoDB("conversionConversion")
-      mongo.dropCollection()
+      collection.dropCollection()
       RegisterConversionHelpers()
 
-      mongo += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
+      collection += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
 
-      val jdkEntry = mongo.findOne(MongoDBObject("type" -> "jdk"),
+      val jdkEntry = collection.findOne(MongoDBObject("type" -> "jdk"),
         MongoDBObject("date" -> 1))
 
       jdkEntry must beSome
@@ -198,7 +186,7 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
 
       RegisterJodaTimeConversionHelpers()
 
-      val jodaEntry = mongo.findOne(MongoDBObject("type" -> "jdk"),
+      val jodaEntry = collection.findOne(MongoDBObject("type" -> "jdk"),
         MongoDBObject("date" -> 1))
 
       jodaEntry must beSome
@@ -219,59 +207,58 @@ class ConversionsSpec extends CasbahMutableSpecification with BeforeExample {
     }
 
     "Handle scala collection types correctly" in {
-      val coll = mongoDB("mutableSerialization")
 
       "Allow Maps to convert correctly" in {
-        coll.dropCollection()
-        coll += Map("a" -> "b", "c" -> "d")
-        coll.findOne().get must haveEntry("a" -> "b")
+        collection.dropCollection()
+        collection += Map("a" -> "b", "c" -> "d")
+        collection.findOne().get must haveEntry("a" -> "b")
       }
       "Allow mutable Maps to convert correctly" in {
-        coll.dropCollection()
-        coll += mutable.Map("a" -> "b", "c" -> "d")
-        coll.findOne().get must haveEntry("a" -> "b")
+        collection.dropCollection()
+        collection += mutable.Map("a" -> "b", "c" -> "d")
+        collection.findOne().get must haveEntry("a" -> "b")
       }
       "Allow Sets to convert correctly" in {
-        coll.dropCollection()
-        coll += MongoDBObject("a" -> Set("a", "b", "c"))
-        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+        collection.dropCollection()
+        collection += MongoDBObject("a" -> Set("a", "b", "c"))
+        collection.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
 
       }
       "Allow mutable Sets to convert correctly" in {
-        coll.dropCollection()
-        coll += MongoDBObject("a" -> mutable.Set("a", "b", "c"))
-        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+        collection.dropCollection()
+        collection += MongoDBObject("a" -> mutable.Set("a", "b", "c"))
+        collection.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
 
       }
       "Allow Seqs to convert correctly" in {
-        coll.dropCollection()
-        coll += MongoDBObject("a" -> mutable.Seq("a", "b", "c"))
-        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+        collection.dropCollection()
+        collection += MongoDBObject("a" -> mutable.Seq("a", "b", "c"))
+        collection.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
       }
       "Allow mutable Seqs to convert correctly" in {
-        coll.dropCollection()
-        coll += MongoDBObject("a" -> mutable.Seq("a", "b", "c"))
-        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+        collection.dropCollection()
+        collection += MongoDBObject("a" -> mutable.Seq("a", "b", "c"))
+        collection.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
       }
       "Allow mutable Buffers to convert correctly" in {
-        coll.dropCollection()
-        coll += MongoDBObject("a" -> mutable.Buffer("a", "b", "c"))
-        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+        collection.dropCollection()
+        collection += MongoDBObject("a" -> mutable.Buffer("a", "b", "c"))
+        collection.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
       }
       "Allow Tuples (Products) to convert correctly" in {
-        coll.dropCollection()
-        coll += MongoDBObject("a" -> ("a", "b", "c"))
-        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+        collection.dropCollection()
+        collection += MongoDBObject("a" -> ("a", "b", "c"))
+        collection.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
       }
       "Allow Lists to convert correctly" in {
-        coll.dropCollection()
-        coll += MongoDBObject("a" -> List("a", "b", "c"))
-        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+        collection.dropCollection()
+        collection += MongoDBObject("a" -> List("a", "b", "c"))
+        collection.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
       }
       "Allow converted Lists to convert correctly" in {
-        coll.dropCollection()
-        coll += MongoDBObject("a" -> List("a", "b", "c").asJava)
-        coll.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
+        collection.dropCollection()
+        collection += MongoDBObject("a" -> List("a", "b", "c").asJava)
+        collection.findOne().get.as[MongoDBList]("a") must containTheSameElementsAs(List("a", "b", "c"))
       }
     }
   }

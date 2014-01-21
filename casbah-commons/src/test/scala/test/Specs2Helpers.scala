@@ -18,21 +18,21 @@
 package com.mongodb.casbah.commons
 package test
 
+
+import com.mongodb.casbah.commons.Logging
+import com.mongodb.casbah.commons.Imports._
+
 import org.specs2._
 import org.specs2.data.Sized
 import org.specs2.matcher.{Expectable, Matcher}
 import org.specs2.matcher.Matchers._
 
-import scala.collection.JavaConverters._
-import com.mongodb.casbah.commons.Logging
-import com.mongodb.casbah.commons.Imports._
-import com.mongodb.{ReadPreference, MongoClient}
-
 trait CasbahMutableSpecification extends mutable.Specification with CasbahSpecificationBase
 
-trait CasbahSpecification extends Specification with CasbahSpecificationBase
+trait CasbahSpecification extends Specification with CasbahSpecificationBase {}
 
 trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
+
 
   implicit val sizedOptDBObj = new Sized[Option[DBObject]] {
     def size(t: Option[DBObject]) = t.getOrElse(MongoDBObject.empty).size
@@ -52,50 +52,6 @@ trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
   implicit val sizedDBList = new Sized[MongoDBList] {
     def size(t: MongoDBList) = t.size
   }
-
-
-  lazy val MongoDBOnline = {
-    try {
-      client.getDatabaseNames
-      true
-    } catch {
-      case t: Throwable => false
-    }
-  }
-  lazy val client: MongoClient = new MongoClient()
-
-  lazy val versionArray = client.getDB("admin")
-    .command("buildInfo")
-    .getAs[MongoDBList]("versionArray")
-    .get
-
-  /**
-   *
-   * @param minVersion version Array
-   * @return true if server is at least specified version
-   */
-  def serverIsAtLeastVersion(minVersion: Int*): Boolean =
-    versionArray.take(minVersion.length).corresponds(minVersion) {
-      _.asInstanceOf[Int] >= _
-    }
-
-  def enableMaxTimeFailPoint() {
-    if (serverIsAtLeastVersion(2, 5)) {
-      client.getDB("admin").command(new BasicDBObject("configureFailPoint", "maxTimeAlwaysTimeOut").append("mode", "alwaysOn"),
-        0, ReadPreference.primary())
-    }
-  }
-
-  def disableMaxTimeFailPoint() {
-    if (serverIsAtLeastVersion(2, 5)) {
-      client.getDB("admin").command(new BasicDBObject("configureFailPoint", "maxTimeAlwaysTimeOut").append("mode", "off"),
-        0, ReadPreference.primary())
-    }
-  }
-
-  def getCommandLine = client.getDB("admin").command("getCmdLineOpts").asScala
-
-  lazy val hasTestCommand: Boolean = getCommandLine("argv").asInstanceOf[BasicDBList] contains "enableTestCommands=1"
 }
 
 trait SpecsDBObjectMatchers extends SpecsDBObjectBaseMatchers

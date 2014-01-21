@@ -22,11 +22,12 @@
 
 package com.mongodb.casbah.test.commons
 
+import scala.Some
+
 import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
+
 import com.github.nscala_time.time.Imports._
-import scala.Some
-import java.util.Date
 
 class MongoDBObjectSpec extends CasbahMutableSpecification {
   type JDKDate = java.util.Date

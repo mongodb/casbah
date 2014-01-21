@@ -22,43 +22,31 @@
 
 package com.mongodb.casbah.test.gridfs
 
-import java.security.MessageDigest
-import java.io._
 
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.gridfs.Imports._
-import com.mongodb.casbah.commons.conversions.scala._
-import com.mongodb.casbah.commons.test.CasbahMutableSpecification
-import com.github.nscala_time.time.Imports._
 import scala.Some
 
+import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.conversions.scala._
+import com.mongodb.casbah.gridfs.Imports._
 
-class GridFSSpec extends CasbahMutableSpecification {
-  sequential
-  def deregister() {
+import com.github.nscala_time.time.Imports._
+import org.specs2.specification.BeforeAfterExample
+
+
+class GridFSSpec extends GridFSSpecification with BeforeAfterExample {
+
+  def before {
     DeregisterJodaTimeConversionHelpers()
     DeregisterJodaLocalDateTimeConversionHelpers()
+    database.requestStart()
   }
 
-  skipAllUnless(MongoDBOnline)
-
-  implicit lazy val db = MongoClient()("casbah_test_gridfs")
-  if (MongoDBOnline) db.dropDatabase()
-  implicit lazy val gridfs = GridFS(db, "gridFS")
-
-  def logo_fh = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")
-
-  def logo_bytes = {
-    val data = new Array[Byte](logo_fh.available())
-    logo_fh.read(data)
-    data
+  def after {
+    database.requestDone()
   }
 
-  def logo = new ByteArrayInputStream(logo_bytes)
-
-  lazy val digest = MessageDigest.getInstance("MD5")
-  digest.update(logo_bytes)
-  lazy val logo_md5 = digest.digest().map("%02X" format _).mkString.toLowerCase
+  override val databaseName = s"$TEST_DB-GridFS"
+  val gridfs = GridFS(database, "gridFS")
 
   def findItem(id: ObjectId, filename: Option[String] = None, contentType: Option[String] = None) = {
     gridfs.findOne(id) must beSome[GridFSDBFile]
@@ -80,7 +68,6 @@ class GridFSSpec extends CasbahMutableSpecification {
   }
 
   "Casbah's GridFS Implementations" should {
-    deregister()
 
     "Find the file in GridFS later" in {
       val id = gridfs(logo_bytes) {
@@ -188,7 +175,6 @@ class GridFSSpec extends CasbahMutableSpecification {
   }
 
   "Return the created file's ID from the loan pattern methods." should {
-    deregister()
 
     "Using a InputStream" in {
       val id = gridfs(logo) {
