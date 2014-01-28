@@ -89,6 +89,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
     }
 
     "upsert a document with custom _id" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
       collection.drop()
 
       val query = MongoDBObject("_id" -> 101)
@@ -187,6 +188,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
     }
 
     "handle multi-length runs of unordered insert, update, replace, and remove" in {
+
       collection.drop()
       collection.insert(testInserts: _*)
 
@@ -197,8 +199,8 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       result.insertedCount must beEqualTo(2)
       result.updatedCount must beEqualTo(4)
       result.removedCount must beEqualTo(2)
-      result.modifiedCount must beEqualTo(0)
-      result.getUpserts must beEmpty(mutable.Buffer[BulkWriteUpsert])
+      result.modifiedCount must beEqualTo(4)
+      result.upserts must beEmpty(mutable.Buffer[BulkWriteUpsert])
 
       collection.findOne(MongoDBObject("_id" -> 1)) must beSome(MongoDBObject("_id" -> 1, "x" -> 2))
       collection.findOne(MongoDBObject("_id" -> 2)) must beSome(MongoDBObject("_id" -> 2, "x" -> 3))
@@ -250,11 +252,11 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
   def testInserts = {
     List(MongoDBObject("_id" -> 1),
-      MongoDBObject("_id" -> 2),
-      MongoDBObject("_id" -> 3),
-      MongoDBObject("_id" -> 4),
-      MongoDBObject("_id" -> 5),
-      MongoDBObject("_id" -> 6)
+         MongoDBObject("_id" -> 2),
+         MongoDBObject("_id" -> 3),
+         MongoDBObject("_id" -> 4),
+         MongoDBObject("_id" -> 5),
+         MongoDBObject("_id" -> 6)
     )
   }
 
