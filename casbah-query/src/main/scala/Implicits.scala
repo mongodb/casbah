@@ -156,8 +156,6 @@ object ValidTypes {
   }
 
   // ValidNumericTypes
-  trait BigIntOk extends ValidNumericType[BigInt] with Numeric.BigIntIsIntegral with Ordering.BigIntOrdering
-
   trait IntOk extends ValidNumericType[Int] with Numeric.IntIsIntegral with Ordering.IntOrdering
 
   trait ShortOk extends ValidNumericType[Short] with Numeric.ShortIsIntegral with Ordering.ShortOrdering
@@ -167,8 +165,6 @@ object ValidTypes {
   trait LongOk extends ValidNumericType[Long] with Numeric.LongIsIntegral with Ordering.LongOrdering
 
   trait FloatOk extends ValidNumericType[Float] with Numeric.FloatIsFractional with Ordering.FloatOrdering
-
-  trait BigDecimalOk extends ValidNumericType[BigDecimal] with Numeric.BigDecimalIsFractional with Ordering.BigDecimalOrdering
 
   trait DoubleOk extends ValidNumericType[Double] with Numeric.DoubleIsFractional with Ordering.DoubleOrdering
 
@@ -271,9 +267,7 @@ object AsQueryParam {
 
 trait ValidNumericTypeHolder {
 
-  import com.mongodb.casbah.query.ValidTypes.{BigIntOk, IntOk, ShortOk, ByteOk, LongOk, FloatOk, BigDecimalOk, DoubleOk}
-
-  implicit object BigIntOk extends BigIntOk
+  import com.mongodb.casbah.query.ValidTypes.{IntOk, ShortOk, ByteOk, LongOk, FloatOk, DoubleOk}
 
   implicit object IntOk extends IntOk
 
@@ -285,8 +279,6 @@ trait ValidNumericTypeHolder {
 
   implicit object FloatOk extends FloatOk
 
-  implicit object BigDecimalOk extends BigDecimalOk
-
   implicit object DoubleOk extends DoubleOk
 
 }
@@ -294,13 +286,11 @@ trait ValidNumericTypeHolder {
 
 trait ValidDateOrNumericTypeHolder {
 
-  import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, BigIntOk, IntOk, ShortOk, ByteOk, LongOk, FloatOk, BigDecimalOk, DoubleOk}
+  import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, IntOk, ShortOk, ByteOk, LongOk, FloatOk, DoubleOk}
 
   implicit object JDKDateDoNOk extends ValidDateOrNumericType[java.util.Date]
 
   implicit object JodaDateTimeDoNOk extends ValidDateOrNumericType[org.joda.time.DateTime]
-
-  implicit object BigIntDoNOk extends ValidDateOrNumericType[BigInt]
 
   implicit object IntDoNOk extends ValidDateOrNumericType[Int]
 
@@ -311,8 +301,6 @@ trait ValidDateOrNumericTypeHolder {
   implicit object LongDoNOk extends ValidDateOrNumericType[Long]
 
   implicit object FloatDoNOk extends ValidDateOrNumericType[Float]
-
-  implicit object BigDecimalDoNOk extends ValidDateOrNumericType[BigDecimal]
 
   implicit object DoubleDoNOk extends ValidDateOrNumericType[Double]
 

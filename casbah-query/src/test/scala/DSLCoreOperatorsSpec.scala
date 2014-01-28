@@ -95,14 +95,6 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
         val eqInt = "foo" $eq 10
         eqInt must beEqualTo(MongoDBObject("foo" -> 10))
       }
-      "with BigDecimal" in {
-        val eqBD = "foo" $eq BigDecimal("5.8233232")
-        eqBD must beEqualTo(MongoDBObject("foo" -> BigDecimal("5.8233232")))
-      }
-      "with BigInt" in {
-        val eqBI = "foo" $eq BigInt("1000000000000000000425425245252")
-        eqBI must beEqualTo(MongoDBObject("foo" -> BigInt("1000000000000000000425425245252")))
-      }
       "with Byte" in {
         val eqByte = "foo" $eq java.lang.Byte.parseByte("51")
         eqByte must beEqualTo(MongoDBObject("foo" -> java.lang.Byte.parseByte("51")))
@@ -197,14 +189,6 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
         val neInt = "foo" $ne 10
         neInt must haveEntry("foo.$ne" -> 10)
       }
-      "with BigDecimal" in {
-        val neBD = "foo" $ne BigDecimal("5.8233232")
-        neBD must haveEntry("foo.$ne" -> BigDecimal("5.8233232"))
-      }
-      "with BigInt" in {
-        val neBI = "foo" $ne BigInt("1000000000000000000425425245252")
-        neBI must haveEntry("foo.$ne" -> BigInt("1000000000000000000425425245252"))
-      }
       "with Byte" in {
         val neByte = "foo" $ne java.lang.Byte.parseByte("51")
         neByte must haveEntry("foo.$ne" -> java.lang.Byte.parseByte("51"))
@@ -298,14 +282,6 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
       "with Int" in {
         val neInt = "foo" $lt 10
         neInt must haveEntry("foo.$lt" -> 10)
-      }
-      "with BigDecimal" in {
-        val neBD = "foo" $lt BigDecimal("5.8233232")
-        neBD must haveEntry("foo.$lt" -> BigDecimal("5.8233232"))
-      }
-      "with BigInt" in {
-        val neBI = "foo" $lt BigInt("1000000000000000000425425245252")
-        neBI must haveEntry("foo.$lt" -> BigInt("1000000000000000000425425245252"))
       }
       "with Byte" in {
         val neByte = "foo" $lt java.lang.Byte.parseByte("51")
@@ -402,14 +378,6 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
         val neInt = "foo" $lte 10
         neInt must haveEntry("foo.$lte" -> 10)
       }
-      "with BigDecimal" in {
-        val neBD = "foo" $lte BigDecimal("5.8233232")
-        neBD must haveEntry("foo.$lte" -> BigDecimal("5.8233232"))
-      }
-      "with BigInt" in {
-        val neBI = "foo" $lte BigInt("1000000000000000000425425245252")
-        neBI must haveEntry("foo.$lte" -> BigInt("1000000000000000000425425245252"))
-      }
       "with Byte" in {
         val neByte = "foo" $lte java.lang.Byte.parseByte("51")
         neByte must haveEntry("foo.$lte" -> java.lang.Byte.parseByte("51"))
@@ -504,14 +472,6 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
       "with Int" in {
         val neInt = "foo" $gt 10
         neInt must haveEntry("foo.$gt" -> 10)
-      }
-      "with BigDecimal" in {
-        val neBD = "foo" $gt BigDecimal("5.8233232")
-        neBD must haveEntry("foo.$gt" -> BigDecimal("5.8233232"))
-      }
-      "with BigInt" in {
-        val neBI = "foo" $gt BigInt("1000000000000000000425425245252")
-        neBI must haveEntry("foo.$gt" -> BigInt("1000000000000000000425425245252"))
       }
       "with Byte" in {
         val neByte = "foo" $gt java.lang.Byte.parseByte("51")
@@ -608,14 +568,6 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
         val neInt = "foo" $gte 10
         neInt must haveEntry("foo.$gte" -> 10)
       }
-      "with BigDecimal" in {
-        val neBD = "foo" $gte BigDecimal("5.8233232")
-        neBD must haveEntry("foo.$gte" -> BigDecimal("5.8233232"))
-      }
-      "with BigInt" in {
-        val neBI = "foo" $gte BigInt("1000000000000000000425425245252")
-        neBI must haveEntry("foo.$gte" -> BigInt("1000000000000000000425425245252"))
-      }
       "with Byte" in {
         val neByte = "foo" $gte java.lang.Byte.parseByte("51")
         neByte must haveEntry("foo.$gte" -> java.lang.Byte.parseByte("51"))
@@ -663,8 +615,8 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
         in must haveListEntry("foo.$in", Array(1, 8, 12, "x"))
       }
       "A Tuple9 works" in {
-        val in = "foo" $in(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
-        in must haveListEntry("foo.$in", Array(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352")))
+        val in = "foo" $in(1, 8, 12, "x", "a", "b", "x", 25.2332, "15.32542352")
+        in must haveListEntry("foo.$in", Array(1, 8, 12, "x", "a", "b", "x", 25.2332, "15.32542352"))
       }
     }
     "Accept Iterables as values" in {
@@ -707,8 +659,8 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
         in must haveListEntry("foo.$nin", List(1, 8, 12, "x"))
       }
       "A Tuple9 works" in {
-        val nin = "foo" $nin(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
-        nin must haveListEntry("foo.$nin", List(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352")))
+        val nin = "foo" $nin(1, 8, 12, "x", "a", "b", "x", 25.2332, "15.32542352")
+        nin must haveListEntry("foo.$nin", List(1, 8, 12, "x", "a", "b", "x", 25.2332, "15.32542352"))
       }
     }
     "Accept Iterables as values" in {
@@ -751,8 +703,8 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
         in must haveListEntry("foo.$all", Array(1, 8, 12, "x"))
       }
       "A Tuple9 works" in {
-        val all = "foo" $all(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352"))
-        all must haveListEntry("foo.$all", Array(1, 8, 12, "x", "a", "b", "x", 25.2332, BigDecimal("15.32542352")))
+        val all = "foo" $all(1, 8, 12, "x", "a", "b", "x", 25.2332, "15.32542352")
+        all must haveListEntry("foo.$all", Array(1, 8, 12, "x", "a", "b", "x", 25.2332, "15.32542352"))
       }
     }
     "Accept Iterables as values" in {
@@ -804,10 +756,6 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
     "Function as expected" in {
       val size = "x" $size 12
       size.toString must beEqualTo( """{ "x" : { "$size" : 12}}""")
-    }
-    "Accept a BigInt" in {
-      val size = "x" $size BigInt("555565363612")
-      size.toString must beEqualTo( """{ "x" : { "$size" : 555565363612}}""")
     }
   }
 

@@ -293,18 +293,14 @@ trait ModuloOp extends QueryOperator {
 /**
  * Trait to provide the \$size (Size) method on appropriate callers.
  *
- * Test value must be an Int or BigInt.
+ * Test value must be an Int.
  *
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24size
  */
 trait SizeOp extends QueryOperator {
   private val oper = "$size"
 
-
-  // TODO - Accept Numeric? As long as we can downconvert for mongo type?
   def $size(target: Int): DBObject with QueryExpressionObject = queryOp(oper, target)
-
-  def $size(target: BigInt): DBObject with QueryExpressionObject = queryOp(oper, target)
 }
 
 /**
