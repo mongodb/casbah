@@ -41,7 +41,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
       val result = builder.execute()
       result.insertedCount must beEqualTo(1)
-      result.upserts should beEmpty[mutable.Buffer[BulkWriteUpsert]]
+      result.upserts.size must beEqualTo(0)
       collection.findOne() must beSome(MongoDBObject("_id" -> 1))
     }
 
@@ -55,7 +55,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
       val result = builder.execute()
       result.removedCount must beEqualTo(1)
-      result.upserts should beEmpty[mutable.Buffer[BulkWriteUpsert]]
+      result.upserts.size must beEqualTo(0)
       collection.count() must beEqualTo(1)
     }
 
@@ -70,7 +70,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
       val result = builder.execute()
       result.removedCount must beEqualTo(2)
-      result.upserts should beEmpty[mutable.Buffer[BulkWriteUpsert]]
+      result.upserts.size must beEqualTo(0)
       collection.count() must beEqualTo(1)
     }
 
@@ -84,7 +84,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
       val result = builder.execute()
       result.updatedCount must beEqualTo(1)
-      result.upserts should beEmpty[mutable.Buffer[BulkWriteUpsert]]
+      result.upserts.size must beEqualTo(0)
       collection.find(MongoDBObject("y" -> 1)).count() must beEqualTo(1)
     }
 
@@ -125,7 +125,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
       val result = builder.execute()
       result.updatedCount must beEqualTo(1)
-      result.upserts should beEmpty[mutable.Buffer[BulkWriteUpsert]]
+      result.upserts.size must beEqualTo(0)
       collection.count() must beEqualTo(1)
       collection.findOne() must beSome(MongoDBObject("_id" -> 101, "x" -> 2))
     }
@@ -200,7 +200,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       result.updatedCount must beEqualTo(4)
       result.removedCount must beEqualTo(2)
       result.modifiedCount must beEqualTo(4)
-      result.upserts must beEmpty(mutable.Buffer[BulkWriteUpsert])
+      result.upserts.size must beEqualTo(0)
 
       collection.findOne(MongoDBObject("_id" -> 1)) must beSome(MongoDBObject("_id" -> 1, "x" -> 2))
       collection.findOne(MongoDBObject("_id" -> 2)) must beSome(MongoDBObject("_id" -> 2, "x" -> 3))
