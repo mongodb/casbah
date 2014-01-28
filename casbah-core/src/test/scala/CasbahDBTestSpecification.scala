@@ -48,7 +48,7 @@ trait CasbahDBTestSpecification extends CasbahMutableSpecification {
   val className = getClass.getName
 
   val mongoClientURI = {
-    val mongoURIString = Properties.envOrElse(MONGODB_URI_SYSTEM_PROPERTY_NAME, DEFAULT_URI)
+    val mongoURIString = Properties.propOrElse(MONGODB_URI_SYSTEM_PROPERTY_NAME, DEFAULT_URI)
     MongoClientURI(mongoURIString)
   }
 
@@ -93,6 +93,17 @@ trait CasbahDBTestSpecification extends CasbahMutableSpecification {
     if (serverIsAtLeastVersion(2, 5)) {
       mongoClient.getDB("admin").command(MongoDBObject("configureFailPoint" -> "maxTimeAlwaysTimeOut", "mode" -> "off"),
         0, ReadPreference.Primary)
+    }
+  }
+
+  lazy val isStandalone = !runReplicaSetStatusCommand
+  lazy val isReplicaSet = runReplicaSetStatusCommand
+
+  def runReplicaSetStatusCommand: Boolean = {
+    val result = mongoClient.getDB("admin").command(MongoDBObject("replSetGetStatus" -> 1))
+    result.getErrorMessage match {
+      case errorMsg if errorMsg != null && errorMsg.indexOf("--replSet") != -1 => false
+      case _ => true
     }
   }
 

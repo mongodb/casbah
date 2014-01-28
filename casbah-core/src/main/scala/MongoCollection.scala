@@ -687,6 +687,26 @@ trait MongoCollectionBase extends Logging {
   def explainAggregate[A <% DBObject](pipeline: Iterable[A], options: AggregationOptions): mutable.Map[String, AnyRef] =
     underlying.explainAggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava, options).asScala
 
+  /**
+   * Creates a builder for an ordered bulk operation.  Write requests included in the bulk operations will be executed in order,
+   * and will halt on the first failure.
+   *
+   * @return the builder
+   *
+   * @since 2.7
+   */
+  def initializeOrderedBulkOperation: BulkWriteOperation = BulkWriteOperation(underlying.initializeOrderedBulkOperation())
+
+  /**
+   * Creates a builder for an unordered bulk operation. Write requests included in the bulk operation will be executed in an undefined
+   * order, and all requests will be executed even if some fail.
+   *
+   * @return the builder
+   *
+   * @since 2.7
+   */
+  def initializeUnorderedBulkOperation: BulkWriteOperation = BulkWriteOperation(underlying.initializeUnorderedBulkOperation())
+
   // scalastyle:off parameter.number
   /**
    * mapReduce execute a mapReduce against this collection.
