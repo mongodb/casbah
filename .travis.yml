@@ -15,7 +15,7 @@ notifications:
     on_success: change
     on_failure: always
   flowdock:
-    secure: "Ziw1Be2tV0QAYuiYDrepfdNH/oBfNhnXFMji3AdRi6MePVpc6CtOOT/b9Fra\nQgMMrX3AHk/QIDo6QQx9/aVB3FS1fzOPGQkSsEZmiljZU7wZCct1sSSyttf/\nsRG0lyTnmgFNTHyTSDT3JbXAkyF/vJmG/JJJoBUZhmFxzR2fM0Q="
+    secure: "gR8a3oaAa9+ww2xfCp9dYysF/gAQCyWpG5R+Ms0QkQBUStmlhnszHelio67/xcVjHaTDf/t+ocGUbL95v8ruMVer1QOUV0NMrUSYFUwzjjXDg3TpwEO48psEu2gfsgUuL2GW0f/OMaIfUXVccu8pAXrKVCMnu0xR6NaJEkZo/Sk="
 jdk:
   - openjdk6
   - openjdk7
