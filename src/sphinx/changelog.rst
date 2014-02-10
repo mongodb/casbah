@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Changes in Version 2.6.5
+------------------------
+- Updated Mongo Java Driver to 2.11.4
+
 Changes in Version 2.6.4
 ------------------------
 - Updated Scala 2.10 series to 2.10.3
