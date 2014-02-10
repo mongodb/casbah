@@ -48,11 +48,11 @@ object AggregationOptions {
   /**
    * Instantiate a new AggregationOptions instance
    *
-   * @param allowDiskUsage if true enables external sorting that can write data to the _tmp sub-directory in the
+   * @param allowDiskUse if true enables external sorting that can write data to the _tmp sub-directory in the
    *                       dbpath directory
    */
-  def apply(allowDiskUsage: Boolean): JAggregationOptions =
-    JAggregationOptions.builder().allowDiskUsage(allowDiskUsage).build()
+  def apply(allowDiskUse: Boolean): JAggregationOptions =
+    JAggregationOptions.builder().allowDiskUse(allowDiskUse).build()
 
   /**
    * Instantiate a new AggregationOptions instance
@@ -76,13 +76,13 @@ object AggregationOptions {
    * @param batchSize if positive, is the # of objects per batch sent back from the db.  All objects that match will
    *                  be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or
    *                  the # that fit in a batch
-   * @param allowDiskUsage if true enables external sorting that can write data to the _tmp sub-directory in the
+   * @param allowDiskUse if true enables external sorting that can write data to the _tmp sub-directory in the
    *                       dbpath directory
    */
-  def apply(batchSize: Int, allowDiskUsage: Boolean): JAggregationOptions = {
+  def apply(batchSize: Int, allowDiskUse: Boolean): JAggregationOptions = {
     val builder = JAggregationOptions.builder()
     builder.batchSize(batchSize)
-    builder.allowDiskUsage(allowDiskUsage)
+    builder.allowDiskUse(allowDiskUse)
     builder.build()
   }
 
@@ -104,13 +104,13 @@ object AggregationOptions {
   /**
    * Instantiate a new AggregationOptions instance
    *
-   * @param allowDiskUsage if true enables external sorting that can write data to the _tmp sub-directory in the
+   * @param allowDiskUse if true enables external sorting that can write data to the _tmp sub-directory in the
    *                       dbpath directory
    * @param outputMode either OutputMode.INLINE or OutputMode.CURSOR
    */
-  def apply(allowDiskUsage: Boolean, outputMode: JAggregationOptions.OutputMode): JAggregationOptions = {
+  def apply(allowDiskUse: Boolean, outputMode: JAggregationOptions.OutputMode): JAggregationOptions = {
     val builder = JAggregationOptions.builder()
-    builder.allowDiskUsage(allowDiskUsage)
+    builder.allowDiskUse(allowDiskUse)
     builder.outputMode(outputMode)
     builder.build()
   }
@@ -133,13 +133,13 @@ object AggregationOptions {
   /**
    * Instantiate a new AggregationOptions instance
    *
-   * @param allowDiskUsage if true enables external sorting that can write data to the _tmp sub-directory in the
+   * @param allowDiskUse if true enables external sorting that can write data to the _tmp sub-directory in the
    *                       dbpath directory
    * @param maxTime    the maximum duration that the server will allow this operation to execute before killing it
    */
-  def apply(allowDiskUsage: Boolean, maxTime: Duration): JAggregationOptions = {
+  def apply(allowDiskUse: Boolean, maxTime: Duration): JAggregationOptions = {
     val builder = JAggregationOptions.builder()
-    builder.allowDiskUsage(allowDiskUsage)
+    builder.allowDiskUse(allowDiskUse)
     builder.maxTime(maxTime.length, maxTime.unit)
     builder.build()
   }
@@ -164,14 +164,14 @@ object AggregationOptions {
    * @param batchSize if positive, is the # of objects per batch sent back from the db.  All objects that match will
    *                  be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or
    *                  the # that fit in a batch
-   * @param allowDiskUsage if true enables external sorting that can write data to the _tmp sub-directory in the
+   * @param allowDiskUse if true enables external sorting that can write data to the _tmp sub-directory in the
    *                       dbpath directory
    * @param outputMode either OutputMode.INLINE or OutputMode.CURSOR
    */
-  def apply(batchSize: Int, allowDiskUsage: Boolean, outputMode: JAggregationOptions.OutputMode): JAggregationOptions = {
+  def apply(batchSize: Int, allowDiskUse: Boolean, outputMode: JAggregationOptions.OutputMode): JAggregationOptions = {
     val builder = JAggregationOptions.builder()
     builder.batchSize(batchSize)
-    builder.allowDiskUsage(allowDiskUsage)
+    builder.allowDiskUse(allowDiskUse)
     builder.outputMode(outputMode)
     builder.build()
   }
@@ -182,14 +182,14 @@ object AggregationOptions {
    * @param batchSize if positive, is the # of objects per batch sent back from the db.  All objects that match will
    *                  be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or
    *                  the # that fit in a batch
-   * @param allowDiskUsage if true enables external sorting that can write data to the _tmp sub-directory in the
+   * @param allowDiskUse if true enables external sorting that can write data to the _tmp sub-directory in the
    *                       dbpath directory
    * @param maxTime    the maximum duration that the server will allow this operation to execute before killing it
    */
-  def apply(batchSize: Int, allowDiskUsage: Boolean, maxTime: Duration): JAggregationOptions = {
+  def apply(batchSize: Int, allowDiskUse: Boolean, maxTime: Duration): JAggregationOptions = {
     val builder = JAggregationOptions.builder()
     builder.batchSize(batchSize)
-    builder.allowDiskUsage(allowDiskUsage)
+    builder.allowDiskUse(allowDiskUse)
     builder.maxTime(maxTime.length, maxTime.unit)
     builder.build()
   }
@@ -197,14 +197,14 @@ object AggregationOptions {
   /**
    * Instantiate a new AggregationOptions instance
    *
-   * @param allowDiskUsage if true enables external sorting that can write data to the _tmp sub-directory in the
+   * @param allowDiskUse if true enables external sorting that can write data to the _tmp sub-directory in the
    *                       dbpath directory
    * @param outputMode     either OutputMode.INLINE or OutputMode.CURSOR
    * @param maxTime    the maximum duration that the server will allow this operation to execute before killing it
    */
-  def apply(allowDiskUsage: Boolean, outputMode: JAggregationOptions.OutputMode, maxTime: Duration): JAggregationOptions = {
+  def apply(allowDiskUse: Boolean, outputMode: JAggregationOptions.OutputMode, maxTime: Duration): JAggregationOptions = {
     val builder = JAggregationOptions.builder()
-    builder.allowDiskUsage(allowDiskUsage)
+    builder.allowDiskUse(allowDiskUse)
     builder.outputMode(outputMode)
     builder.maxTime(maxTime.length, maxTime.unit)
     builder.build()
@@ -233,16 +233,16 @@ object AggregationOptions {
    * @param batchSize if positive, is the # of objects per batch sent back from the db.  All objects that match will
    *                  be returned.  if batchSize < 0, its a hard limit, and only 1 batch will either batchSize or
    *                  the # that fit in a batch
-   * @param allowDiskUsage  if true enables external sorting that can write data to the _tmp sub-directory in the
+   * @param allowDiskUse  if true enables external sorting that can write data to the _tmp sub-directory in the
    *                        dbpath directory
    * @param outputMode      either OutputMode.INLINE or OutputMode.CURSOR
    * @param maxTime     the maximum duration that the server will allow this operation to execute before killing it
    */
-  def apply(batchSize: Int, allowDiskUsage: Boolean, outputMode: JAggregationOptions.OutputMode,
+  def apply(batchSize: Int, allowDiskUse: Boolean, outputMode: JAggregationOptions.OutputMode,
             maxTime: Duration): JAggregationOptions = {
     val builder = JAggregationOptions.builder()
     builder.batchSize(batchSize)
-    builder.allowDiskUsage(allowDiskUsage)
+    builder.allowDiskUse(allowDiskUse)
     builder.outputMode(outputMode)
     builder.maxTime(maxTime.length, maxTime.unit)
     builder.build()

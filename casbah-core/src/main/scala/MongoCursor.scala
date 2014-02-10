@@ -643,7 +643,7 @@ class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends M
  * @param  underlying (com.mongodb.MongoCursor)
  * @tparam T DBObject
  */
-case class AggregationCursor(underlying: com.mongodb.MongoCursor) extends Iterator[DBObject] {
+case class AggregationCursor(underlying: com.mongodb.Cursor) extends Iterator[DBObject] {
 
   type T = DBObject
 

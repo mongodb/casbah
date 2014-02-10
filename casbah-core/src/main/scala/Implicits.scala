@@ -117,7 +117,7 @@ trait Implicits {
    * Capable of returning a Scala optimized wrapper object.
    * @param cursor A <code>AggregationCursor</code> object to wrap
    */
-  implicit def mongoAggregationCursorAsScala(cursor: com.mongodb.MongoCursor) = new {
+  implicit def mongoAggregationCursorAsScala(cursor: com.mongodb.Cursor) = new {
     /**
      * Return a type-neutral Scala wrapper object for the MongoCursor
      * @return AggregationCursor An instance of the scala wrapper containing the cursor object.
