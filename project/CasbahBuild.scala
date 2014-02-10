@@ -86,7 +86,8 @@ object CasbahBuild extends Build {
     base      = file("."),
     settings  = parentSettings ++ Unidoc.settings ++ site.settings ++
                 site.sphinxSupport() ++ assemblySettings ++
-                addArtifact(Artifact("casbah-alldep", "pom", "jar"), assembly),
+                addArtifact(Artifact("casbah-alldep", "pom", "jar"), assembly)
+                ++ Seq(initialCommands := "import com.mongodb.casbah.Imports._"),
     aggregate = Seq(commons, core, query, gridfs)
   ) dependsOn(commons, core, query, gridfs)
 
