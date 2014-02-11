@@ -157,6 +157,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
       val result = builder.execute(WriteConcern.Unacknowledged)
       result.isAcknowledged must beFalse
+      collection.insert(MongoDBObject("_id" -> 9))
 
       collection.findOne(MongoDBObject("_id" -> 1)) must beSome(MongoDBObject("_id" -> 1, "x" -> 2))
       collection.findOne(MongoDBObject("_id" -> 2)) must beSome(MongoDBObject("_id" -> 2, "x" -> 3))
