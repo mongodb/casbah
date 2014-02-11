@@ -55,6 +55,7 @@ with AllOp
 with NotOp
 with SliceOp
 with TypeOp
+with RegexOp
 with ElemMatchOp
 with GeospatialOps
 with MetaProjectionOp
@@ -68,6 +69,7 @@ with SizeOp
 with AllOp
 with NotEqualsOp
 with TypeOp
+with RegexOp
 
 trait QueryExpressionObject {
   self: DBObject =>
@@ -482,7 +484,7 @@ trait TypeOp extends QueryOperator {
  * @since 2.6.2
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24type%7D%7D
  */
-trait regexOp extends QueryOperator {
+trait RegexOp extends QueryOperator {
   private val oper = "$regex"
 
   def $regex(arg: String): DBObject with QueryExpressionObject = queryOp(oper, arg)

@@ -783,7 +783,18 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
 
     "Function with a regular expression" in {
       val not = "foo" $not "^foo.*bar".r
-      not.toString() must beEqualTo( """{ "foo" : { "$not" : { "$regex" : "^foo.*bar"}}}""")
+      not.toString must beEqualTo( """{ "foo" : { "$not" : { "$regex" : "^foo.*bar"}}}""")
+    }
+  }
+
+  "Casbah's $regex operator" should {
+    "Function in a normal passing" in {
+      val regex = "foo" $regex "^bar$"
+      regex must haveEntry("foo.$regex" -> "^bar$")
+    }
+    "Work when passing in a scala regex" in {
+      val regex = "foo" $eq "^bar$".r
+      regex.get("foo").toString() must beEqualTo("^bar$")
     }
   }
 
