@@ -21,6 +21,11 @@
 package com.mongodb.casbah
 package commons
 
+import scala.collection.JavaConverters._
+import scala.collection.immutable.{List, Map}
+
+import com.mongodb.{BasicDBList, BasicDBObject}
+
 
 /**
  * Package private Castable trait - a helper that provides a typesafe castToOption method
@@ -52,6 +57,22 @@ private[commons] trait Castable {
       case Manifest.Int => classOf[java.lang.Integer]
       case m => m.erasure
     }
-    if (erasure.isInstance(value)) Some(value.asInstanceOf[A]) else None
+    value match {
+      case simpleValue if erasure.isInstance(simpleValue) =>
+        Some(value.asInstanceOf[A])
+      case basicDBListToList if erasure == classOf[List[_]] & value.isInstanceOf[BasicDBList] =>
+        Some(new MongoDBList(value.asInstanceOf[BasicDBList]).toList.asInstanceOf[A])
+      case mongoDBListToList if erasure == classOf[List[_]] & value.isInstanceOf[MongoDBList] =>
+        Some(value.asInstanceOf[MongoDBList].toList.asInstanceOf[A])
+      case listToBasicDBList if erasure == classOf[BasicDBList] & value.isInstanceOf[List[_]] =>
+        Some(MongoDBList(value.asInstanceOf[List[_]]: _*).underlying.asInstanceOf[A])
+      case listToMongoDBList if erasure == classOf[MongoDBList] & value.isInstanceOf[List[_]] =>
+        Some(MongoDBList(value.asInstanceOf[List[_]]: _*).asInstanceOf[A])
+      case dbObjectToMongoDBObject if erasure == classOf[MongoDBObject] =>
+        Some(new MongoDBObject(value.asInstanceOf[BasicDBObject]).asInstanceOf[A])
+      case dbObjectToMap if erasure == classOf[Map[String, Any]] =>
+        Some(value.asInstanceOf[BasicDBObject].toMap.asScala.toMap.asInstanceOf[A])
+      case _ => None
+    }
   }
 }

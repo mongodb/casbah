@@ -74,7 +74,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       fields must beDBObject
     }
 
-    "If a BasicDBList is requested it quietly is recast to something which can be a Seq[]" in {
+    "If a BasicDBList is requested it quietly is recast to something which can be a Seq[] or List[]" in {
       val lst = new BasicDBList()
       lst.add("Brendan")
       lst.add("Mike")
@@ -85,6 +85,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       val doc = MongoDBObject("driverAuthors" -> lst)
 
       doc.getAs[Seq[_]]("driverAuthors") must beSome[Seq[_]]
+      doc.getAs[List[_]]("driverAuthors") must beSome[List[_]]
     }
 
     "Nones placed to DBObject should immediately convert to null to present proper getAs behavior" in {
@@ -281,6 +282,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       dbObj.getAs[Int]("x") must beSome[Int](5)
       dbObj.getAs[Double]("y") must beSome[Double](212.8)
       dbObj.getAs[DBObject]("embedded") must beSome[DBObject] and haveSomeEntry("foo" -> "bar")
+      dbObj.getAs[Map[String, Any]]("embedded") must beSome[Map[String, Any]]
 
       dbObj.getAs[DateTime]("jodaDate") must beSome[DateTime](jodaDate)
       dbObj.getAs[LocalDateTime]("localJodaDate") must beSome[LocalDateTime](localJodaDate)
@@ -299,6 +301,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
     dbObj.as[Int]("x") must beEqualTo(5)
     dbObj.as[Double]("y") must beEqualTo(212.8)
     dbObj.as[DBObject]("embedded") must haveEntry("foo" -> "bar")
+    dbObj.as[Map[String, Any]]("embedded") must havePairs(("foo", "bar"))
     dbObj.as[Float]("omgponies") must throwA[NoSuchElementException]
     dbObj.as[Double]("x") must throwA[ClassCastException]
 
@@ -310,33 +313,53 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
 
   "Support the nested as[<type>] and getAs[<type>] methods" should {
 
-    val x: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> "C"))
-    val y: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> 5)))
-    val z: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> List(5, 4, 3, 2, 1))))
+    val w: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> "C"))
+    val x: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> 5)))
+    val y: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> List(5, 4, 3, 2, 1))))
+    val z: DBObject = MongoDBObject("A" -> MongoDBObject("B" -> MongoDBObject("C" -> List(5, 4, 3, 2, 1)).underlying))
 
     "Expanding a simple layering should work" in {
-      x.as[String]("A", "B") must beEqualTo("C")
-      x.getAs[String]("A", "B") must beSome[String]("C")
+      w.as[String]("A", "B") must beEqualTo("C")
+      w.getAs[String]("A", "B") must beSome[String]("C")
 
       "While overexpanding should probably fail" in {
-        x.as[String]("A", "B", "C") must throwA[NoSuchElementException]
-        x.getAs[String]("A", "B", "C") must beNone
+        w.as[String]("A", "B", "C") must throwA[NoSuchElementException]
+        w.getAs[String]("A", "B", "C") must beNone
       }
     }
 
     "Expanding a further layering should work" in {
-      y.as[Int]("A", "B", "C") must beEqualTo(5)
-      y.getAs[Int]("A", "B", "C") must beSome[Int](5)
+      x.as[Int]("A", "B", "C") must beEqualTo(5)
+      x.getAs[Int]("A", "B", "C") must beSome[Int](5)
 
       "While overexpanding should fail" in {
-        y.as[String]("A", "B", "C", "D") must throwA[NoSuchElementException]
-        y.getAs[Int]("A", "B", "C", "D") must beNone
+        x.as[String]("A", "B", "C", "D") must throwA[NoSuchElementException]
+        x.getAs[Int]("A", "B", "C", "D") must beNone
       }
     }
 
     "And you can go further and even get a list" in {
+      y.as[List[Int]]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
+      y.getAs[List[Int]]("A", "B", "C") must beSome[List[Int]](List(5, 4, 3, 2, 1))
+    }
+
+    "And you can go further and even convert a MongoDBList" in {
+      y.as[MongoDBList]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
+      y.getAs[MongoDBList]("A", "B", "C") must beSome[MongoDBList](MongoDBList(5, 4, 3, 2, 1))
+    }
+
+    "And you can go further and even convert a BasicDBList" in {
+      y.as[BasicDBList]("A", "B", "C") must beEqualTo(MongoDBList(5, 4, 3, 2, 1).underlying)
+      y.getAs[BasicDBList]("A", "B", "C") must beSome[BasicDBList]
+    }
+
+    "And MongoDBLists should behave the same as List[_]" in {
       z.as[List[Int]]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
       z.getAs[List[Int]]("A", "B", "C") must beSome[List[Int]](List(5, 4, 3, 2, 1))
+      z.as[MongoDBList]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
+      z.getAs[MongoDBList]("A", "B", "C") must beSome[MongoDBList](MongoDBList(5, 4, 3, 2, 1))
+      z.as[BasicDBList]("A", "B", "C") must beEqualTo(MongoDBList(5, 4, 3, 2, 1).underlying)
+      z.getAs[BasicDBList]("A", "B", "C") must beSome[BasicDBList]
     }
 
     "Invalid missing elements should also fail" in {

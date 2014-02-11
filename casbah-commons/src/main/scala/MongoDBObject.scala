@@ -65,17 +65,17 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * @return (A)
    * @throws NoSuchElementException or ClassCastException
    */
-  def as[A: NotNothing](key: String): A = {
-    // scalastyle:off null
-    underlying.get(key) match {
-      case null => default(key).asInstanceOf[A]
-      case value =>
-        value match {
-          case list: BasicDBList => new MongoDBList(list).asInstanceOf[A]
-          case x => x.asInstanceOf[A]
-        }
+  def as[A: NotNothing : Manifest](key: String): A = {
+    val rawValue = get(key) match {
+      case Some(list: BasicDBList) => new MongoDBList(list)
+      case Some(x) => x
+      case None => None
     }
-    // scalastyle:on null
+    castToOption[A](rawValue) match {
+      case Some(value) => value
+      case None if underlying.containsField(key) => get(key).asInstanceOf[A]
+      case _ => default(key).asInstanceOf[A]
+    }
   }
 
   /**
@@ -89,7 +89,7 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * @return (A)
    * @throws NoSuchElementException or ClassCastException
    */
-  def as[A: NotNothing](keys: String*): A = {
+  def as[A: NotNothing: Manifest](keys: String*): A = {
     val path = keys.mkString(".")
     expand(path) match {
       case None => throw new java.util.NoSuchElementException()
@@ -102,7 +102,6 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
     case null => None
     case value => Some(value)
   }
-
   // scalastyle:on null
 
   // scalastyle:off method.name
@@ -180,21 +179,21 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    *
    * If the cast fails it will return None
    */
-  def expand[A: NotNothing](key: String): Option[A] = {
+  def expand[A: NotNothing: Manifest](key: String): Option[A] = {
     // scalastyle:off method.name
     @tailrec
-    def _dot(dbObj: MongoDBObject, key: String): Option[_] =
-      if (key.indexOf('.') < 0) {
-        dbObj.getAs[AnyRef](key)
-      } else {
-        val (pfx, sfx) = key.splitAt(key.indexOf('.'))
-        dbObj.getAs[DBObject](pfx) match {
-          case Some(base) => _dot(base, sfx.stripPrefix("."))
-          case None => None
+    def _dot(dbObj: MongoDBObject, key: String): Option[_] = {
+      key.indexOf('.') match {
+        case -1 => dbObj.getAs[A](key)
+        case i =>
+          val (pfx, sfx) = key.splitAt(i)
+          dbObj.getAs[DBObject](pfx) match {
+            case Some(base) => _dot(base, sfx.stripPrefix("."))
+            case None => None
         }
       }
     // scalastyle:on method.name
-
+    }
     _dot(this, key) match {
       case None => None
       case Some(value) => Some(value.asInstanceOf[A])
