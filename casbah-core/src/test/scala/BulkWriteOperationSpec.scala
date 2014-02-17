@@ -83,7 +83,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       builder.find(MongoDBObject("x" -> true)).updateOne($set("y" -> 1))
 
       val result = builder.execute()
-      result.updatedCount must beEqualTo(1)
+      result.matchedCount must beEqualTo(1)
       result.upserts.size must beEqualTo(0)
       collection.find(MongoDBObject("y" -> 1)).count() must beEqualTo(1)
     }
@@ -124,7 +124,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       builder.find(MongoDBObject("_id" -> 101)).upsert().replaceOne(MongoDBObject("_id" -> 101, "x" -> 2))
 
       val result = builder.execute()
-      result.updatedCount must beEqualTo(1)
+      result.matchedCount must beEqualTo(1)
       result.upserts.size must beEqualTo(0)
       collection.count() must beEqualTo(1)
       collection.findOne() must beSome(MongoDBObject("_id" -> 101, "x" -> 2))
@@ -198,7 +198,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
       val result = builder.execute()
       result.insertedCount must beEqualTo(2)
-      result.updatedCount must beEqualTo(4)
+      result.matchedCount must beEqualTo(4)
       result.removedCount must beEqualTo(2)
       result.modifiedCount must beEqualTo(4)
       result.upserts.size must beEqualTo(0)
