@@ -28,11 +28,18 @@ import scala.collection.mutable
 import scala.collection.JavaConverters._
 import scala.concurrent.duration.{Duration, MILLISECONDS}
 
-import com.mongodb.{CommandResult, DBCollection, DBCursor, DBDecoderFactory, DBEncoderFactory, MongoExecutionTimeoutException}
+
+import com.mongodb.{CommandResult, Cursor, DBCollection, DBCursor, DBDecoderFactory, DBEncoderFactory,
+MongoExecutionTimeoutException, ParallelScanOptions => JavaParallelScanOptions}
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
-import com.mongodb.casbah.map_reduce.{MapReduceCommand, MapReduceResult}
+import com.mongodb.casbah.map_reduce.MapReduceResult
+import com.mongodb.casbah.TypeImports.WriteResult
+import com.mongodb.casbah.commons.TypeImports.DBObject
+import com.mongodb.casbah.TypeImports.DBEncoder
+import com.mongodb.casbah.map_reduce.MapReduceCommand
+
 
 /**
  * Scala wrapper for Mongo DBCollections,
@@ -688,6 +695,24 @@ trait MongoCollectionBase extends Logging {
     underlying.explainAggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava, options).asScala
 
   /**
+   * Return a list of cursors over the collection that can be used to scan it in parallel.
+   *
+   * '''Note:''' As of MongoDB 2.6, this method will work against a mongod, but not a mongos.
+   *
+   * @param options the parallel scan options
+   * @return a list of cursors, whose size may be less than the number requested
+   * @since 2.7
+   */
+  def parallelScan(options: ParallelScanOptions): mutable.Buffer[Cursor] = {
+    val builder = JavaParallelScanOptions.builder()
+    builder.numCursors(options.numCursors)
+    builder.batchSize(options.batchSize)
+    builder.readPreference(options.readPreference.getOrElse(getReadPreference))
+
+    underlying.parallelScan(builder.build()).asScala
+  }
+
+  /**
    * Creates a builder for an ordered bulk operation.  Write requests included in the bulk operations will be executed in order,
    * and will halt on the first failure.
    *
@@ -1115,6 +1140,7 @@ class MongoCollection(val underlying: DBCollection) extends MongoCollectionBase 
   def _newInstance(collection: DBCollection): MongoCollection = new MongoCollection(collection)
 
   override protected def _typedValue(dbObj: DBObject): Option[DBObject] = Option(dbObj)
+
   // scalastyle:on method.name
 
   override def head: T = headOption.get

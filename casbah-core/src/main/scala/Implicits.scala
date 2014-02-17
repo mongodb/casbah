@@ -155,6 +155,7 @@ trait BaseImports {
   val MongoClientOptions = com.mongodb.casbah.MongoClientOptions
   val MongoClientURI = com.mongodb.casbah.MongoClientURI
   val MongoCredential = com.mongodb.casbah.MongoCredential
+  val ParallelScanOptions = com.mongodb.casbah.ParallelScanOptions
   val AggregationOptions = com.mongodb.casbah.AggregationOptions
   val AggregationOutput = com.mongodb.casbah.AggregationOutput
   val AggregationCursor = com.mongodb.casbah.AggregationCursor

@@ -98,6 +98,13 @@ trait CasbahDBTestSpecification extends CasbahMutableSpecification {
 
   lazy val isStandalone = !runReplicaSetStatusCommand
   lazy val isReplicaSet = runReplicaSetStatusCommand
+  lazy val isSharded: Boolean = {
+    val isMasterResult = mongoClient.getDB("admin").command(MongoDBObject("ismaster" -> 1))
+    Option(isMasterResult.get("msg")) match {
+      case Some("isdbgrid") => true
+      case _ => false
+    }
+  }
 
   def runReplicaSetStatusCommand: Boolean = {
     val result = mongoClient.getDB("admin").command(MongoDBObject("replSetGetStatus" -> 1))

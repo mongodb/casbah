@@ -329,7 +329,30 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
       cursor.size must beEqualTo(30)
       outCollection.count() must beEqualTo(30)
     }
+  }
 
+    "Collection" should {
+
+      "support parallel scan" in {
+        serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+        isSharded must beFalse.orSkip("Currently doesn't work with mongos")
+
+        collection.drop()
+
+        val ids = (1 to 2000 by 1).toSet
+        for(i <- ids) collection += MongoDBObject("_id" -> i)
+
+        val cursors = collection.parallelScan(ParallelScanOptions(3, 1000))
+        cursors.size must beEqualTo(3)
+
+        var cursorIds = Set[Int]()
+        for (cursor <- cursors) {
+          while (cursor.hasNext) {
+            cursorIds += cursor.next().get("_id").asInstanceOf[Int]
+          }
+        }
+        cursorIds must beEqualTo(ids)
+    }
   }
 
 }
