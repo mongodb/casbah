@@ -23,6 +23,9 @@ exceptionally well. Rather than a complete rewrite, Casbah uses implicits, and
 :doc:`changelog`
   The recent changes to Casbah
 
+:doc:`whats_new`
+  An indepth review of new features in MongoDB and Casbah
+
 Help and support
 ----------------
 
@@ -55,12 +58,13 @@ Download the docs in either `PDF <CasbahDocumentation.pdf>`_ or
 
 .. toctree::
     :maxdepth: 1
+    :titlesonly:
     :numbered:
-    :hidden:
 
     tutorial
     guide/index
     changelog
+    whats_new
     upgrade
 
 Indices and tables

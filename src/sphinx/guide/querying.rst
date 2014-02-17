@@ -29,6 +29,38 @@ The `collection API documentation
 <http://mongodb.github.io/casbah/api/#com.mongodb.casbah.MongoCollection>`_ has
 a full list of methods and their signatures for interacting with collections.
 
+Bulk Operations
+---------------
+
+Mongodb 2.6 introduces operations.  The bulk operations builder can be used to construct a
+list of write operations to perform in bulk for a single collection. Bulk operations come
+in two main flavors.
+
+1. Ordered bulk operations. These operations execute all the operation in order and error
+   out on the first write error.
+2. Unordered bulk operations. These operations execute all the operations in parallel and
+   aggregates up all the errors. Unordered bulk operations do not guarantee order of execution.
+
+An example of using the bulk api::
+
+    val collection = MongoClient()("test")("bulkOperation")
+
+    collection.drop()
+
+    val builder = collection.initializeOrderedBulkOperation
+    builder.insert(MongoDBObject("_id" -> 1))
+    builder.insert(MongoDBObject("_id" -> 2))
+    builder.insert(MongoDBObject("_id" -> 3))
+
+    builder.find(MongoDBObject("_id" -> 1)).updateOne($set("x" -> 2))
+    builder.find(MongoDBObject("_id" -> 2)).removeOne()
+    builder.find(MongoDBObject("_id" -> 3)).replaceOne(MongoDBObject("_id" -> 3, "x" -> 4))
+
+    val result = builder.execute()
+
+For more information see the `bulk operations <http://docs.mongodb.org/master/reference/method/Bulk/>`_
+documentation.
+
 MongoDBObject
 -------------
 
