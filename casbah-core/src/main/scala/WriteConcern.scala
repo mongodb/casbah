@@ -113,8 +113,11 @@ object WriteConcern {
    * </p>
    * @param w (Int) Specifies the number of servers to wait for on the write operation, and exception raising behavior. Defaults to <code>0</code>
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
-   * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
-   * @param j whether writes should wait for a journaling group commit
+   * @param fsync (Boolean) Indicates whether write operations should require a sync to disk.
+   *              When using a Journal this is the same as using `j=true`.
+   *              Will msync() only if mongod is *not* running with a journal.
+   *              Cannot be used with `j`. Defaults to False
+   * @param j whether writes should wait for a journaling group commit. Cannot be used with `fsync`.
    * @param continueInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
    */
   def apply(w: Int,
@@ -130,8 +133,11 @@ object WriteConcern {
    * <p> w is a String representing a valid getLastErrorMode rule (or "majority")
    * @param w (Int) Specifies the getLastErrorMode to apply to the write
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
-   * @param fsync (Boolean) Indicates whether write operations should require a sync to disk. Defaults to False
-   * @param j whether writes should wait for a journaling group commit
+   * @param fsync (Boolean) Indicates whether write operations should require a sync to disk.
+   *              When using a Journal this is the same as using `j=true`.
+   *              Will msync() only if mongod is *not* running with a journal.
+   *              Cannot be used with `j`. Defaults to False
+   * @param j whether writes should wait for a journaling group commit. Cannot be used with `fsync`.
    * @param continueInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
    */
   def withRule(w: String,
