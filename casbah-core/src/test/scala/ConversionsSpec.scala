@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>
+ * Copyright (c) 2010 MongoDB, Inc. <http://mongodb.com>
  * Copyright (c) 2009, 2010 Novus Partners, Inc. <http://novus.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -145,14 +145,14 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
 
     "Be successfully deregistered." in {
       collection.dropCollection()
-      
+
       RegisterConversionHelpers()
       RegisterJodaTimeConversionHelpers()
       RegisterJodaLocalDateTimeConversionHelpers()
       DeregisterConversionHelpers()
       DeregisterJodaTimeConversionHelpers()
       DeregisterJodaLocalDateTimeConversionHelpers()
-      
+
       lazy val testJodaInsert = {
         collection += MongoDBObject("date" -> jodaDate, "type" -> "joda")
       }

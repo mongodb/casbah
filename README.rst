@@ -2,7 +2,7 @@ Casbah
 ======
 :Info: Scala toolkit for MongoDB (com.mongodb.casbah). See `the mongo site <http://www.mongodb.org>`_ for more information. See `github <http://github.com/mongodb/casbah/tree>`_ for the latest source.
 :Author: Brendan W. McAdams
-:Maintainer: Ross Lawley <ross@10gen.com>
+:Maintainer: Ross Lawley <ross@mongodb.com>
 
 .. image:: https://travis-ci.org/mongodb/casbah.png?branch=master
   :target: https://travis-ci.org/mongodb/casbah

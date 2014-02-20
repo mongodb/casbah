@@ -9,7 +9,7 @@
 <check level="warning" class="org.scalastyle.file.HeaderMatchesChecker" enabled="true">
     <parameters>
         <parameter name="header"><![CDATA[/**
- * Copyright (c) 2010 10gen, Inc. <http://10gen.com>]]></parameter>
+ * Copyright (c) 2010 MongoDB, Inc. <http://mongodb.com>]]></parameter>
     </parameters>
 </check>
 <check level="warning" class="org.scalastyle.scalariform.SpacesAfterPlusChecker" enabled="true"></check>
