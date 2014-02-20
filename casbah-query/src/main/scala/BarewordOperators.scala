@@ -395,7 +395,7 @@ trait WhereOp extends BarewordQueryOperator {
  * &gt; \$text("description")
  * res0: { "\$text" : { "\$search" : "description"}}
  *
- * &gt; \$text("description") $language "english"
+ * &gt; \$text("description") \$language "english"
  * res1: { "\$text" : { "\$search" : "description" , "\$language" : "english"}}
  *
  * @since 2.7

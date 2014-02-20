@@ -33,7 +33,10 @@ import com.mongodb.{WriteConcern => JWriteConcern}
 object WriteConcern {
   /**
    * No exceptions are raised, even for network issues
+   * @deprecated There is no replacement for this write concern.  The closest would be to use WriteConcern#UNACKNOWLEDGED,
+   *             then catch and ignore any exceptions of type MongoSocketException.
    */
+  @deprecated("This write concern will no longer supported", "2.7.0")
   val None: JWriteConcern = JWriteConcern.NONE
   /**
    * Exceptions are raised for network issues but not server errors.
@@ -55,7 +58,7 @@ object WriteConcern {
    *
    * Deprecated use `JournalSafe` instead.
    */
-  @deprecated("Deprecated; do not use.  Forces an fsync of all server data and returns acknowledgement only after completion. Use the ``j`` option instead", "2.7.0")
+  @deprecated("Deprecated. Forces an fsync of all server data and returns acknowledgement only after completion", "2.7.0")
   val FsyncSafe: JWriteConcern = JWriteConcern.FSYNC_SAFE
   /**
    * Exceptions are raised for network issues, and server errors;
@@ -70,8 +73,12 @@ object WriteConcern {
 
   /**
    * No exceptions are raised, even for network issues.
+   *
+   * @deprecated There is no replacement for this write concern.  The closest would be to use WriteConcern#UNACKNOWLEDGED,
+   *             then catch and ignore any exceptions of type MongoSocketException.
    * @since 2.7
    */
+  @deprecated("This write concern will no longer supported", "2.7.0")
   val ErrorsIgnored: JWriteConcern = JWriteConcern.ERRORS_IGNORED
   /**
    * Write operations that use this write concern will wait for acknowledgement from the primary server before returning.
@@ -88,9 +95,11 @@ object WriteConcern {
   /**
    * Exceptions are raised for network issues, and server errors; the write operation waits for the server to flush
    * the data to disk.
+   *
+   * Deprecated use `JournalSafe` instead.
    * @since 2.7
    */
-  @deprecated("Deprecated; do not use.  Forces an fsync of all server data and returns acknowledgement only after completion. Use the ``j`` option instead", "2.7.0")
+  @deprecated("Deprecated. Forces an fsync of all server data and returns acknowledgement only after completion", "2.7.0")
   val Fsynced: JWriteConcern = JWriteConcern.FSYNCED
   /**
    * Exceptions are raised for network issues, and server errors; the write operation waits for the server to

@@ -477,9 +477,9 @@ trait TypeOp extends QueryOperator {
 /**
  * \$regex operator to query by type.
  *
- * Takes a string for use in the $regex query
+ * Takes a string for use in the \$regex query
  *
- * <code>"foo" $regex "^bar$"</code>
+ * <code>"foo" \$regex "\^bar\$"</code>
  *
  * @since 2.6.2
  * @see http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7B%24type%7D%7D
@@ -626,7 +626,7 @@ trait GeoIntersectsOp extends QueryOperator {
  * a) the order you specified your actual index in
  * b) if you're using actual world maps or something else
  *
- * Deprecated in MongoDB 2.4 use $geoWithin instead
+ * Deprecated in MongoDB 2.4 use \$geoWithin instead
  *
  * @since 2.0
  * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing

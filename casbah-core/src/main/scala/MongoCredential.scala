@@ -86,7 +86,7 @@ object MongoCredential {
    * Creates a MongoCredential instance for the PLAIN SASL mechanism.
    *
    * @param userName the non-null user name
-   * @param source the source where the user is defined.  This can be either `"$external"` or the name of a database.
+   * @param source the source where the user is defined.  This can be either `"\$external"` or the name of a database.
    * @return the credential
    */
   def createPlainCredential(userName: String, source: String, password: Array[Char]): JavaMongoCredential =
