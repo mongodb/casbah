@@ -52,6 +52,7 @@ object CasbahBuild extends Build {
       scalacOptions <++= scalaVersion map { sv =>
         sv match {
           case sv if sv.startsWith("2.10") => scalac210Options
+          case _ => Seq()
         }
       },
       allSourceDirectories <<= projects.map(sourceDirectories in Compile in _).join,
