@@ -30,12 +30,12 @@ do
      esac
 done
 
-SCALA=2.9.3
+SCALA=2.10
 WEBSITE_ROOT=mongodb.github.com/casbah/
 SPHINX_DIR=./src/sphinx
 SITE_DIR=./target/site/
 
-./sbt ++2.9.3 "update" "clean" "compile" "make-site" "unidoc"
+./sbt ++2.10.3 "update" "clean" "compile" "make-site" "unidoc"
 
 mkdir -p $SITE_DIR/api.sxr/casbah-commons
 mkdir -p $SITE_DIR/api.sxr/casbah-core
@@ -61,6 +61,10 @@ make -C $SPHINX_DIR clean html epub latexpdf
 
 cp $SPHINX_DIR/_build/epub/CasbahMongoDBScalaToolkitDocumentation.epub $SITE_DIR/CasbahDocumentation.epub
 cp $SPHINX_DIR/_build/latex/CasbahDocumentation.pdf $SITE_DIR/CasbahDocumentation.pdf
+
+echo " ========== "
+echo " Docs built "
+echo " ========== "
 
 if $GHPAGES && git diff-index --quiet HEAD --; then
     echo " ========================== "

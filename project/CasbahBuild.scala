@@ -22,12 +22,12 @@ object CasbahBuild extends Build {
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
 
-  def sxrOptions(baseDir: File, sourceDirs: Seq[Seq[File]], scalaVersion: String): Seq[String] = {
-    if (scalaVersion.startsWith("2.10"))
-      Seq()
-    else {
-      val sxrBaseDir = "-P:sxr:base-directory:" + sourceDirs.flatten.mkString(";").replaceAll("\\\\","/")
-      Seq(sxrBaseDir)
+  def sxrOptions(baseDir: File, sourceDirs: Seq[Seq[File]], sv: String): Seq[String] = {
+    sv match {
+      case sv if sv.startsWith("2.10") =>
+        val sxrBaseDir = "-P:sxr:base-directory:" + sourceDirs.flatten.mkString(";").replaceAll("\\\\","/")
+        Seq(sxrBaseDir)
+      case _ => Seq()
     }
   }
 
@@ -39,20 +39,19 @@ object CasbahBuild extends Build {
                              "-language:postfixOps") // ++ Seq("-unchecked", "-deprecation")
 
   lazy val baseSettings = Defaults.defaultSettings ++ Publish.settings ++ Seq(
-      resolvers ++= Seq(mavenLocalRepo, sonatypeRels, sonatypeSnaps, sonatypeSTArch, mavenOrgRepo),
+      resolvers ++= Seq(mavenLocalRepo, sonatypeRels, sonatypeSnaps, sonatypeSTArch, typeSafeRels, mavenOrgRepo),
       testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml"),
       crossPaths := true,
       autoCompilerPlugins := true,
       libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
         sv match {
-          case sv if sv.startsWith("2.10") => deps
-          case _ => deps :+ compilerPlugin("org.scala-tools.sxr" % "sxr_2.9.0" % "0.2.7")
+          case sv if sv.startsWith("2.10") => deps :+ compilerPlugin("org.scala-sbt.sxr" %% "sxr" % "0.3.0")
+          case _ => deps
         }
       },
       scalacOptions <++= scalaVersion map { sv =>
         sv match {
           case sv if sv.startsWith("2.10") => scalac210Options
-          case _ => Seq()
         }
       },
       allSourceDirectories <<= projects.map(sourceDirectories in Compile in _).join,
@@ -165,7 +164,8 @@ object Dependencies {
 object Resolvers {
   val sonatypeSnaps = "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   val sonatypeRels = "Sonatype releases" at "https://oss.sonatype.org/content/repositories/releases"
-  val sonatypeSTArch = "scalaTools Archive" at "https://oss.sonatype.org/content/groups/scala-tools/"
-  val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org/"
+  val sonatypeSTArch = "scalaTools Archive" at "https://oss.sonatype.org/content/groups/scala-tools"
+  val mavenOrgRepo = "Maven.Org Repository" at "http://repo1.maven.org/maven2/org"
   val mavenLocalRepo = "Local Maven" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
+  val typeSafeRels =  Resolver.url("Typesafe Releases", url("http://repo.typesafe.com/typesafe/ivy-releases"))(Resolver.ivyStylePatterns)
 }
