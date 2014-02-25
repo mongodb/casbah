@@ -79,7 +79,7 @@ Authentication
 
 MongoDB currently provides two different authentication mechanisms.
 Challenge response and GSSAPI authentication (available in the subscriber
-edition).
+edition).  A commandline example of using GSSAPI authentication can be found in the :doc:`examples`.
 
 MongoDBCredentials
 ^^^^^^^^^^^^^^^^^^

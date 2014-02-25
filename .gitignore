@@ -20,3 +20,5 @@ src/sphinx/_build
 tags
 target/
 ..sxr
+examples/lib
+examples/data
