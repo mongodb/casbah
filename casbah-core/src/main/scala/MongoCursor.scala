@@ -635,15 +635,15 @@ class MongoGenericTypedCursor[A <: DBObject](val underlying: DBCursor) extends M
 }
 
 /**
- * A wrapper for the new com.mongodb.MongoCursor - which is used when returning a
+ * A wrapper for the new com.mongodb.Cursor - which is used when returning a
  * cursor from the aggregation framework.
  *
  * @version 2.7
  *
- * @param  underlying (com.mongodb.MongoCursor)
+ * @param  underlying (com.mongodb.Cursor)
  * @tparam T DBObject
  */
-case class AggregationCursor(underlying: com.mongodb.Cursor) extends Iterator[DBObject] {
+case class Cursor(underlying: com.mongodb.Cursor) extends Iterator[DBObject] {
 
   type T = DBObject
 

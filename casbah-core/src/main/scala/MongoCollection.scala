@@ -29,7 +29,7 @@ import scala.collection.JavaConverters._
 import scala.concurrent.duration.{Duration, MILLISECONDS}
 
 
-import com.mongodb.{CommandResult, Cursor, DBCollection, DBCursor, DBDecoderFactory, DBEncoderFactory,
+import com.mongodb.{CommandResult, DBCollection, DBCursor, DBDecoderFactory, DBEncoderFactory,
 MongoExecutionTimeoutException, ParallelScanOptions => JavaParallelScanOptions}
 
 import com.mongodb.casbah.Imports._
@@ -655,7 +655,7 @@ trait MongoCollectionBase extends Logging {
    * @return The aggregation operation's result set
    *
    */
-  def aggregate[A <% DBObject](pipeline: Iterable[A], options: AggregationOptions): AggregationCursor =
+  def aggregate[A <% DBObject](pipeline: Iterable[A], options: AggregationOptions): Cursor =
     aggregate(pipeline, options, getReadPreference)
 
   /**
@@ -680,7 +680,7 @@ trait MongoCollectionBase extends Logging {
    * @return The aggregation operation's result set
    *
    */
-  def aggregate[A <% DBObject](pipeline: Iterable[A], options: AggregationOptions, readPreference: ReadPreference): AggregationCursor =
+  def aggregate[A <% DBObject](pipeline: Iterable[A], options: AggregationOptions, readPreference: ReadPreference): Cursor =
     underlying.aggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava, options, readPreference).asScala
 
   /**
@@ -709,7 +709,7 @@ trait MongoCollectionBase extends Logging {
     builder.batchSize(options.batchSize)
     builder.readPreference(options.readPreference.getOrElse(getReadPreference))
 
-    underlying.parallelScan(builder.build()).asScala
+    underlying.parallelScan(builder.build()).asScala.map(_.asScala)
   }
 
   /**

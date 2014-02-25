@@ -115,14 +115,14 @@ trait Implicits {
   /**
    * Implicit extension methods for Mongo's Aggregation MongoCursor object.
    * Capable of returning a Scala optimized wrapper object.
-   * @param cursor A <code>AggregationCursor</code> object to wrap
+   * @param cursor A <code>Cursor</code> object to wrap
    */
-  implicit def mongoAggregationCursorAsScala(cursor: com.mongodb.Cursor) = new {
+  implicit def mongoCommandCursorAsScala(cursor: com.mongodb.Cursor) = new {
     /**
      * Return a type-neutral Scala wrapper object for the MongoCursor
-     * @return AggregationCursor An instance of the scala wrapper containing the cursor object.
+     * @return Cursor An instance of the scala wrapper containing the cursor object.
      */
-    def asScala: AggregationCursor = AggregationCursor(cursor)
+    def asScala: Cursor = Cursor(cursor)
   }
 
   implicit def stringAsNamedCollectionMROutput(name: String) = map_reduce.MapReduceStandardOutput(name)
@@ -158,7 +158,7 @@ trait BaseImports {
   val ParallelScanOptions = com.mongodb.casbah.ParallelScanOptions
   val AggregationOptions = com.mongodb.casbah.AggregationOptions
   val AggregationOutput = com.mongodb.casbah.AggregationOutput
-  val AggregationCursor = com.mongodb.casbah.AggregationCursor
+  val Cursor = com.mongodb.casbah.Cursor
   val WriteConcern = com.mongodb.casbah.WriteConcern
   val ReadPreference = com.mongodb.casbah.ReadPreference
   val MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
@@ -179,7 +179,7 @@ trait TypeImports {
   type MongoCredential = com.mongodb.MongoCredential
   type MongoClientURI = com.mongodb.MongoClientURI
   type AggregationOutput = com.mongodb.casbah.AggregationOutput
-  type AggregationCursor = com.mongodb.casbah.AggregationCursor
+  type CommandCursor = com.mongodb.casbah.Cursor
   type AggregationOptions = com.mongodb.AggregationOptions
   type WriteConcern = com.mongodb.WriteConcern
   type WriteResult = com.mongodb.WriteResult
