@@ -63,6 +63,7 @@ Download the docs in either `PDF <CasbahDocumentation.pdf>`_ or
 
     tutorial
     guide/index
+    examples
     changelog
     whats_new
     upgrade
