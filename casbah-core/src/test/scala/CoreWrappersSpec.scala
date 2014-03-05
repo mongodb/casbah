@@ -230,13 +230,47 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
 
     "return a cursor when options are supplied" in {
       serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.6")
-      val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
+      val aggregationOptions = AggregationOptions(allowDiskUse=true, outputMode=AggregationOptions.CURSOR)
       val cursor: CommandCursor = collection.aggregate(
         List(MongoDBObject("$match" -> ("score" $gte 7)),
           MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
         aggregationOptions
       )
       cursor.toList.size must beEqualTo(30)
+    }
+
+    "test allowDiskUse isn't included by default" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.6")
+      val profileCollection = database("system.profile")
+      val profileLevel = database.command(MongoDBObject("profile" -> -1)).as[Int]("was")
+      database.command(MongoDBObject("profile" -> 0))
+      profileCollection.drop()
+      database.command(MongoDBObject("profile" -> 2))
+
+      collection.aggregate(
+        List(MongoDBObject("$match" -> ("score" $gte 7))),
+        AggregationOptions(outputMode=AggregationOptions.CURSOR)
+      )
+      val profile = profileCollection.findOne().get.as[MongoDBObject]("command")
+      database.command(MongoDBObject("profile" -> profileLevel))
+      profile.contains("allowDiskUse") must beFalse
+    }
+
+    "test allowDiskUse is included if set" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.6")
+      val profileCollection = database("system.profile")
+      val profileLevel = database.command(MongoDBObject("profile" -> -1)).as[Int]("was")
+      database.command(MongoDBObject("profile" -> 0))
+      profileCollection.drop()
+      database.command(MongoDBObject("profile" -> 2))
+
+      collection.aggregate(
+        List(MongoDBObject("$match" -> ("score" $gte 7))),
+        AggregationOptions(allowDiskUse=true, outputMode=AggregationOptions.CURSOR)
+      )
+      val profile = profileCollection.findOne().get.as[MongoDBObject]("command")
+      database.command(MongoDBObject("profile" -> profileLevel))
+      profile.contains("allowDiskUse") must beTrue
     }
 
     "test explainAggregate" in {
