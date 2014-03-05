@@ -53,7 +53,7 @@ Offline Reading
 ---------------
 
 Download the docs in either `PDF <CasbahDocumentation.pdf>`_ or
-`ePub <CasbahDocumentation.epub>`_ formats fot offline reading.
+`ePub <CasbahDocumentation.epub>`_ formats for offline reading.
 
 
 .. toctree::
