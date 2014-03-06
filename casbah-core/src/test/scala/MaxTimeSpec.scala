@@ -112,5 +112,18 @@ class MaxTimeSpec extends CasbahDBTestSpecification with BeforeAfterExample {
       lazy val op = collection.mapReduce(mapJS, reduceJS, "test", maxTime = Some(oneSecond))
       op should throwA[MongoExecutionTimeoutException]
     }
+
+    "be supported when calling getMore" in {
+      disableMaxTimeFailPoint()
+      for (i <- 1 to 20) {
+        collection += MongoDBObject("x" -> i)
+      }
+      val docs = collection.find().maxTime(oneSecond).batchSize(10)
+      docs.next()
+
+      enableMaxTimeFailPoint()
+      lazy val getMoreOp = while (docs.hasNext){docs.next()}
+      getMoreOp should throwA[MongoExecutionTimeoutException]
+    }
   }
 }
