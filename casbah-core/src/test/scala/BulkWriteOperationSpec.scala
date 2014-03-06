@@ -152,12 +152,13 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       collection.drop()
       collection.insert(testInserts: _*)
 
+      collection.getDB.requestStart()
+
       val builder = collection.initializeOrderedBulkOperation
       addWritesToBuilder(builder)
 
       val result = builder.execute(WriteConcern.Unacknowledged)
       collection.insert(MongoDBObject("_id" -> 9))
-      collection.insert(MongoDBObject("_id" -> 10))
 
       result.isAcknowledged must beFalse
       collection.findOne(MongoDBObject("_id" -> 1)) must beSome(MongoDBObject("_id" -> 1, "x" -> 2))
@@ -168,6 +169,9 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       collection.findOne(MongoDBObject("_id" -> 6)) must beSome(MongoDBObject("_id" -> 6, "x" -> 5))
       collection.findOne(MongoDBObject("_id" -> 7)) must beSome(MongoDBObject("_id" -> 7))
       collection.findOne(MongoDBObject("_id" -> 8)) must beSome(MongoDBObject("_id" -> 8))
+
+      collection.getDB.requestDone()
+      success
     }
 
     "error details should have correct index on ordered write failure" in {
