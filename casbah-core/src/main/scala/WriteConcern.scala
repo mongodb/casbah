@@ -56,9 +56,7 @@ object WriteConcern {
    * Exceptions are raised for network issues and server errors;
    * Write operations wait for the server to flush data to disk
    *
-   * Deprecated use `JournalSafe` instead.
    */
-  @deprecated("Deprecated. Forces an fsync of all server data and returns acknowledgement only after completion", "2.7.0")
   val FsyncSafe: JWriteConcern = JWriteConcern.FSYNC_SAFE
   /**
    * Exceptions are raised for network issues, and server errors;
@@ -96,10 +94,8 @@ object WriteConcern {
    * Exceptions are raised for network issues, and server errors; the write operation waits for the server to flush
    * the data to disk.
    *
-   * Deprecated use `JournalSafe` instead.
    * @since 2.7
    */
-  @deprecated("Deprecated. Forces an fsync of all server data and returns acknowledgement only after completion", "2.7.0")
   val Fsynced: JWriteConcern = JWriteConcern.FSYNCED
   /**
    * Exceptions are raised for network issues, and server errors; the write operation waits for the server to
@@ -124,14 +120,14 @@ object WriteConcern {
    * <li><code>w>1</code> Checks servers (w) for errors as well as network socket errors raised</li>
    * </ul>
    * </p>
-   * @param w (Int) Specifies the number of servers to wait for on the write operation, and exception raising behavior. Defaults to <code>0</code>
+   * @param w (Int) Specifies the number of servers to wait for on the write operation, and exception raising behavior.
+   *          Defaults to <code>0</code>
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
    * @param fsync (Boolean) Indicates whether write operations should require a sync to disk.
-   *              Deprecated; do not use.  Forces an fsync of all server data and returns acknowledgement only after
-   *              completion. Use the `j` option instead".
-   *              When using a Journal this is the same as using `j=true`.
-   *              Will msync() only if mongod is *not* running with a journal.
-   *              Cannot be used with `j`.
+   *              If true and the server is running without journaling, blocks until the server has synced all data
+   *              files to disk. If the server is running with journaling, this acts the same as the `j` option,
+   *              blocking until write operations have been committed to the journal.
+   *              Cannot be used in combination with `j`.
    *              Defaults to False
    * @param j whether writes should wait for a journaling group commit. Cannot be used with `fsync`.
    * @param continueInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
@@ -150,11 +146,10 @@ object WriteConcern {
    * @param w (Int) Specifies the getLastErrorMode to apply to the write
    * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
    * @param fsync (Boolean) Indicates whether write operations should require a sync to disk.
-   *              Deprecated: do not use.  Forces an fsync of all server data and returns acknowledgement only after
-   *              completion. Use the `j` option instead".
-   *              When using a Journal this is the same as using `j=true`.
-   *              Will msync() only if mongod is *not* running with a journal.
-   *              Cannot be used with `j`.
+   *              If true and the server is running without journaling, blocks until the server has synced all data
+   *              files to disk. If the server is running with journaling, this acts the same as the `j` option,
+   *              blocking until write operations have been committed to the journal.
+   *              Cannot be used in combination with `j`.
    *              Defaults to False
    * @param j whether writes should wait for a journaling group commit. Cannot be used with `fsync`.
    * @param continueInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
