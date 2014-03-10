@@ -34,11 +34,11 @@ object ParallelScanOptions {
   /**
    * Helper to build the parallel scan options.
    *
-   * @param numCursors The number of cursors to return, must be greater than 0
+   * @param numCursors The number of cursors to return, must be greater than 0 and less than 10001
    * @param batchSize The cursor batch size, must be greater than 0
    * @param readPreference A read preference.
    */
-  def apply(numCursors: Int, batchSize: Int, readPreference: ReadPreference) {
+  def apply(numCursors: Int, batchSize: Int, readPreference: ReadPreference): ParallelScanOptions = {
     ParallelScanOptions(numCursors, batchSize, Some(readPreference))
   }
 }
@@ -47,7 +47,7 @@ object ParallelScanOptions {
  * The options to use for a parallel collection scan.
  *
  * @param numCursors The number of cursors to return, must be greater than 0
- * @param batchSize The cursor batch size, must be greater than 0
+ * @param batchSize The cursor batch size, must be greater than 0 and less than 10001
  * @param readPreference The optional read preference.
  * @since 2.7
  * @see com.monogdb.ParallelScanOptions

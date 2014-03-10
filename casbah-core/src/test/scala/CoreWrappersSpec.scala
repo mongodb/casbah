@@ -378,8 +378,9 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
         val ids = (1 to 2000 by 1).toSet
         for(i <- ids) collection += MongoDBObject("_id" -> i)
 
-        val cursors: mutable.Buffer[Cursor] = collection.parallelScan(ParallelScanOptions(3, 1000))
-        cursors.size must beEqualTo(3)
+        val numCursors = 10
+        val cursors: mutable.Buffer[Cursor] = collection.parallelScan(ParallelScanOptions(numCursors, 1000))
+        cursors.size must beLessThanOrEqualTo(numCursors)
 
         var cursorIds = Set[Int]()
         for (cursor <- cursors) {
