@@ -25,6 +25,7 @@ import scala.collection.mutable
 import scala.collection.JavaConverters._
 
 import com.mongodb.{BulkWriteResult => JBulkWriteResult, BulkWriteUpsert}
+import scala.util.{Try, Success, Failure}
 
 
 case class BulkWriteResult(underlying: JBulkWriteResult) {
@@ -69,16 +70,19 @@ case class BulkWriteResult(underlying: JBulkWriteResult) {
   def removedCount: Int = underlying.getRemovedCount
 
   /**
-   * Returns the number of documents modified by the write operation.  This only applies to updates or replacements,
-   * and will only count documents that were actually changed; for example, if you set the value of some field ,
-   * and the field already has that value, that will not count as a modification.
+   * Returns the number of documents modified by updates or replacements in the write operation.  This will only count
+   * documents that were actually changed; for example, if you set the value of some field, and the field already has
+   * that value, that will not count as a modification.
    *
-   * @return the number of documents modified by the write operation
+   * If the server is not able to provide a count of modified documents (which can happen if the server is not at
+   * least version 2.6), then this method will return a [[Failure(UnsupportedOperationException)]]
    *
-   * @throws UnacknowledgedWriteException if the write was unacknowledged.
-   * @see WriteConcern#Unacknowledged
+   * @return the [[Success(number)]] of documents modified by the write operation or
+   *         [[Failure(UnacknowledgedWriteException)]] or  [[Failure(UnsupportedOperationException)]] if no modified
+   *         count is available
+   * @see WriteConcern#UNACKNOWLEDGED
    */
-  def modifiedCount: Int = underlying.getModifiedCount
+  def modifiedCount: Try[Int] = Try(underlying.getModifiedCount)
 
   /**
    * Gets a list of upserted items, or the empty list if there were none.
@@ -91,7 +95,7 @@ case class BulkWriteResult(underlying: JBulkWriteResult) {
   def upserts: mutable.Buffer[BulkWriteUpsert] =  underlying.getUpserts.asScala
 
   /* Java api mirrors */
-  def getModifiedCount: Int = modifiedCount
+  def getModifiedCount: Try[Int] = modifiedCount
 
   def getInsertedCount: Int = insertedCount
 
