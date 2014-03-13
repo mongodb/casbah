@@ -33,7 +33,6 @@ import scala.Some
 import scala.collection.JavaConverters._
 import scala.io.{BufferedSource, Source}
 
-import com.mongodb.BulkWriteException
 import com.mongodb.casbah.Imports._
 import com.mongodb.util.JSON
 

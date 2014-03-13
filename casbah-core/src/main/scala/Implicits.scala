@@ -178,6 +178,9 @@ trait TypeImports {
   type MongoClientOptions = com.mongodb.MongoClientOptions
   type MongoCredential = com.mongodb.MongoCredential
   type MongoClientURI = com.mongodb.MongoClientURI
+  type BulkWriteOperation = com.mongodb.casbah.BulkWriteOperation
+  type BulkWriteResult = com.mongodb.casbah.BulkWriteResult
+  type BulkWriteException = com.mongodb.casbah.BulkWriteException
   type AggregationOutput = com.mongodb.casbah.AggregationOutput
   type CommandCursor = com.mongodb.casbah.Cursor
   type AggregationOptions = com.mongodb.AggregationOptions

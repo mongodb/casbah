@@ -26,9 +26,8 @@ import scala.collection.mutable
 
 import java.lang.UnsupportedOperationException
 
-import com.mongodb.{BulkWriteException, BulkWriteUpsert}
+import com.mongodb.BulkWriteUpsert
 
-import com.mongodb.casbah.BulkWriteOperation
 import com.mongodb.casbah.Imports._
 
 
@@ -337,9 +336,10 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
         operation.execute()
       } catch {
         case ex: BulkWriteException =>
-          ex.getWriteErrors.size() must beEqualTo(1)
-          ex.getWriteErrors.get(0).getIndex must beEqualTo(2)
-          ex.getWriteErrors.get(0).getCode must beEqualTo(11000)
+          ex.writeErrors.size must beEqualTo(1)
+          ex.writeErrors(0).getIndex must beEqualTo(2)
+          ex.writeErrors(0).getCode must beEqualTo(11000)
+          ex.writeResult must beAnInstanceOf[BulkWriteResult]
       }
       true
     }
@@ -386,11 +386,13 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
         operation.execute()
       } catch {
         case ex: BulkWriteException =>
-          ex.getWriteErrors.size must beEqualTo(2)
-          ex.getWriteErrors.get(0).getIndex must beEqualTo(0)
-          ex.getWriteErrors.get(0).getCode must beEqualTo(11000)
-          ex.getWriteErrors.get(1).getIndex must beEqualTo(2)
-          ex.getWriteErrors.get(1).getCode must beEqualTo(11000)
+          ex.writeErrors.size must beEqualTo(2)
+          ex.writeErrors(0).getIndex must beEqualTo(0)
+          ex.writeErrors(0).getCode must beEqualTo(11000)
+          ex.writeErrors(1).getIndex must beEqualTo(2)
+          ex.writeErrors(1).getCode must beEqualTo(11000)
+          ex.writeResult must beAnInstanceOf[BulkWriteResult]
+          ex.getMessage must startWith("Bulk write operation error")
       }
       success
     }

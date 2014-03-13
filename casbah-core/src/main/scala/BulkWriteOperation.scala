@@ -21,9 +21,12 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.{BulkWriteOperation => JBulkWriteOperation, BulkWriteRequestBuilder}
+import com.mongodb.{BulkWriteOperation => JBulkWriteOperation, BulkWriteException => JBulkWriteException,
+                    BulkWriteResult => JBulkWriteResult, BulkWriteRequestBuilder}
 
 import com.mongodb.casbah.Imports._
+import scala.util.{Try, Success, Failure}
+
 
 /**
  * A builder for a bulk write operation.
@@ -64,7 +67,13 @@ case class BulkWriteOperation(underlying: JBulkWriteOperation) {
    * @throws com.mongodb.BulkWriteException if there was an error with the bulk write
    * @throws com.mongodb.MongoException if there was a mongodb error
    */
-  def execute(): BulkWriteResult = BulkWriteResult(underlying.execute())
+  def execute(): BulkWriteResult = {
+    Try(underlying.execute()) match {
+      case Success(result: JBulkWriteResult) => BulkWriteResult(result)
+      case Failure(error: JBulkWriteException) => throw BulkWriteException(error.getMessage, error.getCause, error)
+      case Failure(e: Throwable) => throw e
+    }
+  }
 
   /**
    * Execute the bulk write operation with the given write concern.
@@ -75,5 +84,11 @@ case class BulkWriteOperation(underlying: JBulkWriteOperation) {
    * @throws com.mongodb.BulkWriteException if there was an error with the bulk write
    * @throws com.mongodb.MongoException if there was a mongodb error
    */
-  def execute(writeConcern: WriteConcern): BulkWriteResult = BulkWriteResult(underlying.execute(writeConcern))
+  def execute(writeConcern: WriteConcern): BulkWriteResult = {
+    Try(underlying.execute(writeConcern)) match {
+      case Success(result: JBulkWriteResult) => BulkWriteResult(result)
+      case Failure(error: JBulkWriteException) => throw BulkWriteException(error.getMessage, error.getCause, error)
+      case Failure(e: Throwable) => throw e
+    }
+  }
 }
