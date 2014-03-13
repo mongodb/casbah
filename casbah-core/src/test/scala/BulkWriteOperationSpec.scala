@@ -149,8 +149,8 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           val result = operation.execute()
           result.matchedCount must beEqualTo(1)
           serverIsAtLeastVersion(2, 5) match {
-            case true => result.modifiedCount must beSuccessfulTry.withValue(1)
-            case false => result.modifiedCount must beFailedTry.withThrowable[UnsupportedOperationException]
+            case true => result.modifiedCount.get must beEqualTo(1)
+            case false => result.modifiedCount.get must throwA[UnsupportedOperationException]
           }
           collection.find(MongoDBObject("y" -> 1)).count() must beEqualTo(1)
         }
@@ -166,8 +166,8 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           val result = operation.execute()
           result.matchedCount must beEqualTo(2)
           serverIsAtLeastVersion(2, 5) match {
-            case true => result.modifiedCount must beSuccessfulTry.withValue(2)
-            case false => result.modifiedCount must beFailedTry.withThrowable[UnsupportedOperationException]
+            case true => result.modifiedCount.get must beEqualTo(2)
+            case false => result.modifiedCount.get must throwA[UnsupportedOperationException]
           }
           collection.find(MongoDBObject("y" -> 1)).count() must beEqualTo(2)
         }
@@ -210,8 +210,8 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           val result = operation.execute()
           result.matchedCount should beEqualTo(2)
           serverIsAtLeastVersion(2, 5) match {
-            case true => result.modifiedCount must beSuccessfulTry.withValue(2)
-            case false => result.modifiedCount must beFailedTry.withThrowable[UnsupportedOperationException]
+            case true => result.modifiedCount.get must beEqualTo(2)
+            case false => result.modifiedCount.get must throwA[UnsupportedOperationException]
           }
           collection.count(MongoDBObject("y" -> 1)) should beEqualTo(2)
 
@@ -359,8 +359,8 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       result.removedCount must beEqualTo(2)
       result.upserts.size must beEqualTo(0)
       serverIsAtLeastVersion(2, 5) match {
-        case true => result.modifiedCount must beSuccessfulTry.withValue(4)
-        case false => result.modifiedCount must beFailedTry.withThrowable[UnsupportedOperationException]
+        case true => result.modifiedCount.get must beEqualTo(4)
+        case false => result.modifiedCount.get must throwA[UnsupportedOperationException]
       }
 
       collection.findOne(MongoDBObject("_id" -> 1)) must beSome(MongoDBObject("_id" -> 1, "x" -> 2))
