@@ -68,12 +68,12 @@ echo " ========== "
 
 if $GHPAGES && git diff-index --quiet HEAD --; then
     echo " ========================== "
-    echo " Updating `gh-pages` branch"
+    echo " Updating 'gh-pages' branch"
     echo " ========================== "
 
     git co gh-pages
     mv target .target
-    rm * -rf
+    rm -rf *
     cp -R .target/site/* .
     mv .target target
 
