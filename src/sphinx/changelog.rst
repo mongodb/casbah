@@ -23,7 +23,7 @@ Changes in Version 2.7.0
 - Support the use of a different SPN for Kerberos Authentication (SCALA-103)
 - Support SASL PLAIN authentication (SCALA-101)
 - Support MONGODB-X509 authentication (SCALA-112)
-- Updated Mongo Java Driver to 2.12
+- Updated Mongo Java Driver to 2.12.0 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.0)
 
 Changes in Version 2.6.5
 ------------------------
