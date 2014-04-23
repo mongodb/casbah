@@ -73,5 +73,5 @@ releases and should be considered (and kept) stable.
 .. |scala_versions| replace:: 2.9.3, 2.10.x
 .. |all_dep_urls| replace::
     http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/2.7.0/casbah-alldep_2.10-2.7.0.jar
-    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.2/2.7.0/casbah-alldep_2.9.3-2.7.0.jar
+    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.3/2.7.0/casbah-alldep_2.9.3-2.7.0.jar
 

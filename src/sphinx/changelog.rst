@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Changes in Version 2.7.X
+------------------------
+- Added support for Scala 2.11.0
+- Updated nscala-time to 1.0.0
+- Updated specs2 to 2.3.11
+- Updated scalatest to 2.1.3
+
 Changes in Version 2.7.0
 ------------------------
 
