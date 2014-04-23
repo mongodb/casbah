@@ -45,8 +45,8 @@ object CasbahBuild extends Build {
       autoCompilerPlugins := true,
       libraryDependencies <<= (scalaBinaryVersion, libraryDependencies) { (sv, deps) =>
         sv match {
-          case "2.9.3" => deps
-          case _ => deps :+ compilerPlugin("org.scala-sbt.sxr" %% "sxr" % "0.3.0")
+          case "2.10" => deps :+ compilerPlugin("org.scala-sbt.sxr" %% "sxr" % "0.3.0")
+          case _ => deps
         }
       },
       scalacOptions <++= scalaBinaryVersion map {
