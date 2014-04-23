@@ -22,7 +22,7 @@
 package com.mongodb.casbah
 package gridfs
 
-import scala.reflect._
+import com.mongodb.casbah.commons.beans.BeanInfo
 import scala.collection.JavaConverters._
 
 import com.github.nscala_time.time.Imports._

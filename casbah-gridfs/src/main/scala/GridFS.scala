@@ -23,7 +23,7 @@ package com.mongodb.casbah
 package gridfs
 
 import java.io.{File, InputStream}
-import scala.reflect._
+import com.mongodb.casbah.commons.beans.BeanInfo
 
 import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile,
 GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
@@ -32,7 +32,6 @@ import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.casbah.commons.Logging
 import com.github.nscala_time.time.Imports.{DateTime, LocalDateTime}
-import com.mongodb.casbah
 
 /**
  * Companion object for GridFS.

@@ -17,7 +17,7 @@ object CasbahBuild extends Build {
     organizationHomepage := Some(url("http://www.mongodb.org")),
     version      := "2.7.1-SNAPSHOT",
     scalaVersion := "2.10.4",
-    crossScalaVersions := Seq("2.10.4", "2.9.3")
+    crossScalaVersions := Seq("2.11.0", "2.10.4", "2.9.3")
   )
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
@@ -43,17 +43,15 @@ object CasbahBuild extends Build {
       testOptions in Test += Tests.Argument(TestFrameworks.Specs2, "console", "junitxml"),
       crossPaths := true,
       autoCompilerPlugins := true,
-      libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
+      libraryDependencies <<= (scalaBinaryVersion, libraryDependencies) { (sv, deps) =>
         sv match {
-          case sv if sv.startsWith("2.10") => deps :+ compilerPlugin("org.scala-sbt.sxr" %% "sxr" % "0.3.0")
-          case _ => deps
+          case "2.9.3" => deps
+          case _ => deps :+ compilerPlugin("org.scala-sbt.sxr" %% "sxr" % "0.3.0")
         }
       },
-      scalacOptions <++= scalaVersion map { sv =>
-        sv match {
-          case sv if sv.startsWith("2.10") => scalac210Options
-          case _ => Seq()
-        }
+      scalacOptions <++= scalaBinaryVersion map {
+          case "2.9.3" => Seq()
+          case _ => scalac210Options
       },
       allSourceDirectories <<= projects.map(sourceDirectories in Compile in _).join,
       scalacOptions in (Compile, doc) <++=  (baseDirectory, allSourceDirectories, scalaVersion, version, baseDirectory in LocalProject("casbah")).map {
@@ -72,10 +70,10 @@ object CasbahBuild extends Build {
   )
 
   lazy val defaultSettings = baseSettings ++ ScalastylePlugin.Settings ++ styleCheckSetting ++ Seq(
-    libraryDependencies <++= (scalaVersion)(sv => Seq(
-      scalatest(sv), scalatime(sv), specs2(sv), scalaStyle,
+    libraryDependencies <++= scalaVersion (sv => Seq(
+      scalatest(sv), scalatime(sv), specs2(sv),
       slf4j, slf4jJCL, junit
-    )),
+    ) ++ scalaStyle(sv)),
     parallelExecution in Test := true,
     testFrameworks += TestFrameworks.Specs2,
     org.scalastyle.sbt.PluginKeys.config := file("project/scalastyle-config.xml")
@@ -96,6 +94,7 @@ object CasbahBuild extends Build {
     base     = file("casbah-commons"),
     settings = defaultSettings ++ Seq(
       libraryDependencies ++= Seq(mongoJavaDriver, slf4j, slf4jJCL),
+      unmanagedSourceDirectories in Compile <+= (sourceDirectory in Compile, scalaBinaryVersion){ (s, v) => s / ("scala_"+v) },
       publishArtifact in (Test, packageBin) := true
     )
   )
@@ -148,18 +147,22 @@ object Dependencies {
   def scalatest(scalaVersion: String) =
     (scalaVersion match {
       case "2.9.3"   => "org.scalatest" %% "scalatest" % "1.9.1"
-      case _ => "org.scalatest" %% "scalatest" % "2.0"
+      case _ => "org.scalatest" %% "scalatest" % "2.1.3"
     }) % "test"
 
-  def scalatime(scalaVersion: String) = "com.github.nscala-time" %% "nscala-time" % "0.6.0"
+  def scalatime(scalaVersion: String) = "com.github.nscala-time" %% "nscala-time" % "1.0.0"
 
   def specs2(scalaVersion: String) =
       (scalaVersion match {
           case "2.9.3"   => "org.specs2" %% "specs2" % "1.12.4.1"
-          case _ => "org.specs2" %% "specs2" % "2.3.7"
+          case _ => "org.specs2" %% "specs2" % "2.3.11"
       }) % "test"
 
-  def scalaStyle = "org.scalastyle" %% "scalastyle" % "0.3.2"  % "test"
+  def scalaStyle(scalaVersion: String) =
+    scalaVersion match {
+      case "2.11.0"   => Seq()
+      case _ => Seq("org.scalastyle" %% "scalastyle" % "0.4.0"  % "test")
+    }
 }
 
 object Resolvers {
