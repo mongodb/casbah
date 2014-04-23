@@ -36,7 +36,7 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
   "Casbah's DSL $eq operator" should {
     DeregisterJodaTimeConversionHelpers()
 
-    val testDate = new java.util.Date(109, 01, 02, 0, 0, 0)
+    val testDate = new java.util.Date(109, 1, 2, 0, 0, 0)
 
     "Accept a right hand value of String" in {
       val eqStr = "foo" $eq "ISBN-123456789"
@@ -130,7 +130,7 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
   "Casbah's DSL $ne operator" should {
     DeregisterJodaTimeConversionHelpers()
 
-    val testDate = new java.util.Date(109, 01, 02, 0, 0, 0)
+    val testDate = new java.util.Date(109, 1, 2, 0, 0, 0)
 
     "Accept a right hand value of String" in {
       val neStr = "foo" $ne "ISBN-123456789"
@@ -224,7 +224,7 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
   "Casbah's DSL $lt operator" should {
     DeregisterJodaTimeConversionHelpers()
 
-    val testDate = new java.util.Date(109, 01, 02, 0, 0, 0)
+    val testDate = new java.util.Date(109, 1, 2, 0, 0, 0)
 
     "Accept a right hand value of String" in {
       val neStr = "foo" $lt "ISBN-123456789"
@@ -319,7 +319,7 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
   "Casbah's DSL $lte operator" should {
     DeregisterJodaTimeConversionHelpers()
 
-    val testDate = new java.util.Date(109, 01, 02, 0, 0, 0)
+    val testDate = new java.util.Date(109, 1, 2, 0, 0, 0)
 
     "Accept a right hand value of String" in {
       val neStr = "foo" $lte "ISBN-123456789"
@@ -414,7 +414,7 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
   "Casbah's DSL $gt operator" should {
     DeregisterJodaTimeConversionHelpers()
 
-    val testDate = new java.util.Date(109, 01, 02, 0, 0, 0)
+    val testDate = new java.util.Date(109, 1, 2, 0, 0, 0)
 
     "Accept a right hand value of String" in {
       val neStr = "foo" $gt "ISBN-123456789"
@@ -509,7 +509,7 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
   "Casbah's DSL $gte operator" should {
     DeregisterJodaTimeConversionHelpers()
 
-    val testDate = new java.util.Date(109, 01, 02, 0, 0, 0)
+    val testDate = new java.util.Date(109, 1, 2, 0, 0, 0)
 
     "Accept a right hand value of String" in {
       val neStr = "foo" $gte "ISBN-123456789"

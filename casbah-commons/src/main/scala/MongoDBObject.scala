@@ -29,7 +29,7 @@ import scala.annotation.tailrec
 import scala.collection.JavaConversions._
 import scala.collection.generic._
 import scala.collection.mutable
-import scala.reflect._
+import com.mongodb.casbah.commons.beans.BeanInfo
 import scala.util.{Try, Success, Failure}
 import java.util
 
