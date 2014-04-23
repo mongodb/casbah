@@ -15,7 +15,7 @@ object CasbahBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
-    version      := "2.7.0",
+    version      := "2.7.1-SNAPSHOT",
     scalaVersion := "2.10.4",
     crossScalaVersions := Seq("2.10.4", "2.9.3")
   )
