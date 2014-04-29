@@ -1,9 +1,10 @@
 Changelog
 =========
 
-Changes in Version 2.7.X
+Changes in Version 2.7.1
 ------------------------
 - Added support for Scala 2.11.0
+- Updated Mongo Java Driver to 2.12.1 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.1)
 - Updated nscala-time to 1.0.0
 - Updated specs2 to 2.3.11
 - Updated scalatest to 2.1.3
