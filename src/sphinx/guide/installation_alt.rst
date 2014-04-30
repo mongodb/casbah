@@ -22,7 +22,7 @@ Setting Up Maven
 -----------------
 You can add Casbah to Maven with the following dependency block.
 
-Please substitute $SCALA_VERSION$ with your Scala version (we support 2.9.x+)
+Please substitute $SCALA_VERSION$ with your Scala version (we support |scala_versions|)
 
 .. parsed-literal::
 
@@ -38,7 +38,7 @@ Setting Up Ivy (w/ Ant)
 -----------------------
 You can add Casbah to Ivy with the following dependency block.
 
-Please substitute $SCALA_VERSION$ with your Scala version (we support 2.9.x+)
+Please substitute $SCALA_VERSION$ with your Scala version (we support |scala_versions|)
 
 .. parsed-literal::
 
@@ -70,8 +70,9 @@ You can always get the latest source for Casbah from
 The `master` branch is once again the leading branch suitable for snapshots and
 releases and should be considered (and kept) stable.
 
-.. |scala_versions| replace:: 2.9.3, 2.10.x
+.. |scala_versions| replace:: 2.9.3, 2.10.x, 2.11.x
 .. |all_dep_urls| replace::
-    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/2.7.0/casbah-alldep_2.10-2.7.0.jar
-    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.3/2.7.0/casbah-alldep_2.9.3-2.7.0.jar
+    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.11/2.7.1/casbah-alldep_2.11-2.7.1.jar
+    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/2.7.1/casbah-alldep_2.10-2.7.1.jar
+    http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.3/2.7.1/casbah-alldep_2.9.3-2.7.1.jar
 
