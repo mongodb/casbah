@@ -59,8 +59,8 @@ class MongoOpLog(mongoClient: MongoClient = MongoClient(),
 
   // scalastyle:off public.methods.have.type
   val cursor = oplog.find(q)
-  cursor.options = Bytes.QUERYOPTION_TAILABLE
-  cursor.options = Bytes.QUERYOPTION_AWAITDATA
+  cursor.option = Bytes.QUERYOPTION_TAILABLE
+  cursor.option = Bytes.QUERYOPTION_AWAITDATA
 
   def next() = MongoOpLogEntry(cursor.next())
 
