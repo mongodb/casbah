@@ -93,6 +93,7 @@ trait TypeImports {
   type BasicDBObject = com.mongodb.BasicDBObject
   type BasicDBList = com.mongodb.BasicDBList
   type ObjectId = org.bson.types.ObjectId
+  type BSONTimestamp = org.bson.types.BSONTimestamp
   type DBRef = com.mongodb.DBRef
   type MongoException = com.mongodb.MongoException
 }

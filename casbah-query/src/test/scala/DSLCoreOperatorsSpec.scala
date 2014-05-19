@@ -43,6 +43,12 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
       eqStr must beEqualTo(MongoDBObject("foo" -> "ISBN-123456789"))
     }
 
+    "Accept a right hand value of BSONTimestamp" in {
+      val timestamp = new BSONTimestamp(10101, 0)
+      val timeQuery = "foo" $eq timestamp
+      timeQuery must beEqualTo(MongoDBObject("foo" -> timestamp))
+    }
+
     "Accept a right hand value of DBObject" in {
       "A BasicDBObject created value" in {
         val eqObj = "foo" $eq new BasicDBObject("bar", "baz")
@@ -137,6 +143,12 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
       neStr must haveEntry("foo.$ne" -> "ISBN-123456789")
     }
 
+    "Accept a right hand value of BSONTimestamp" in {
+      val timestamp = new BSONTimestamp(10101, 0)
+      val timeQuery = "foo" $ne timestamp
+      timeQuery must haveEntry("foo.$ne" -> timestamp)
+    }
+
     "Accept a right hand value of DBObject" in {
       "A BasicDBObject created value" in {
         val neObj = "foo" $ne new BasicDBObject("bar", "baz")
@@ -229,6 +241,12 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
     "Accept a right hand value of String" in {
       val neStr = "foo" $lt "ISBN-123456789"
       neStr must haveEntry("foo.$lt" -> "ISBN-123456789")
+    }
+
+    "Accept a right hand value of BSONTimestamp" in {
+      val timestamp = new BSONTimestamp(10101, 0)
+      val timeQuery = "foo" $lt timestamp
+      timeQuery must haveEntry("foo.$lt" -> timestamp)
     }
 
     "Accept a right hand value of DBObject" in {
@@ -326,6 +344,12 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
       neStr must haveEntry("foo.$lte" -> "ISBN-123456789")
     }
 
+    "Accept a right hand value of BSONTimestamp" in {
+      val timestamp = new BSONTimestamp(10101, 0)
+      val timeQuery = "foo" $lte timestamp
+      timeQuery must haveEntry("foo.$lte" -> timestamp)
+    }
+
     "Accept a right hand value of DBObject" in {
       "A BasicDBObject created value" in {
         val neObj = "foo" $lte new BasicDBObject("bar", "baz")
@@ -421,6 +445,12 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
       neStr must haveEntry("foo.$gt" -> "ISBN-123456789")
     }
 
+    "Accept a right hand value of BSONTimestamp" in {
+      val timestamp = new BSONTimestamp(10101, 0)
+      val timeQuery = "foo" $gt timestamp
+      timeQuery must haveEntry("foo.$gt" -> timestamp)
+    }
+
     "Accept a right hand value of DBObject" in {
       "A BasicDBObject created value" in {
         val neObj = "foo" $gt new BasicDBObject("bar", "baz")
@@ -514,6 +544,12 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
     "Accept a right hand value of String" in {
       val neStr = "foo" $gte "ISBN-123456789"
       neStr must haveEntry("foo.$gte" -> "ISBN-123456789")
+    }
+
+    "Accept a right hand value of BSONTimestamp" in {
+      val timestamp = new BSONTimestamp(10101, 0)
+      val timeQuery = "foo" $gte timestamp
+      timeQuery must haveEntry("foo.$gte" -> timestamp)
     }
 
     "Accept a right hand value of DBObject" in {

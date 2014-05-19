@@ -210,6 +210,7 @@ object AsQueryParam {
   implicit val objectId = as[ObjectId](identity)
   implicit val boolean = as[Boolean](identity)
   implicit val regex = as[scala.util.matching.Regex](identity)
+  implicit val bsonTimestamp = as[BSONTimestamp](identity)
 
   implicit def array[A] = as[Array[A]](_.toList)
 
