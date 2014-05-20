@@ -68,6 +68,8 @@ class MongoOpLog(mongoClient: MongoClient = MongoClient(),
 
   def hasNext: Boolean = cursor.hasNext
 
+  def close(): Unit = cursor.close()
+
   def verifyOpLog: BSONTimestamp = {
     // Verify the oplog exists
     val last = oplog.find().sort(MongoDBObject("$natural" -> 1)).limit(1)

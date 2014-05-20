@@ -25,32 +25,40 @@ package com.mongodb.casbah.test.core
 import com.mongodb.casbah.Imports._
 
 import com.mongodb.casbah.util.{MongoOpLogEntry, MongoOpLog}
+import com.mongodb.casbah.commons.ValidBSONType.BSONTimestamp
 
 class MongoOpLogSpec extends CasbahDBTestSpecification {
 
   "MongoOpLog" should {
 
     "iterate over new OpLog entries when .next() is called" in {
+      isReplicaSet must beTrue.orSkip("Testing OpLogs requires a ReplicaSet")
 
       collection.drop()
-      collection.insert(MongoDBObject())
+
+      val secondsSinceEpoch: Int = (System.currentTimeMillis / 1000).toInt
+      val startTime = new BSONTimestamp(secondsSinceEpoch, 0).getTime
+
+      collection.insert(MongoDBObject("_id" -> 1))
 
       val oplog =
         new MongoOpLog(
           mongoClient = mongoClient,
           namespace = Some("%s.%s".format(database.name, collection.name)))
 
-      while (oplog.hasNext) {
-        oplog.next()
+      var latest = false
+      while (!latest && oplog.hasNext) {
+        latest = oplog.next().timestamp.getTime >= startTime
       }
 
-      assert(oplog.hasNext === false)
+      val insertDoc = MongoDBObject("_id" -> 2)
+      collection.insert(insertDoc)
 
-      collection.insert(MongoDBObject())
+      val opLogDoc = oplog.next().document
+      opLogDoc must beEqualTo(insertDoc)
 
-      oplog.hasNext must beEqualTo(true)
-      oplog.next()
-      oplog.hasNext must beEqualTo(false)
+      oplog.close()
+      oplog.hasNext should throwA[IllegalStateException]
     }
   }
 }
