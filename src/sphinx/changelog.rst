@@ -6,6 +6,7 @@ Changelog
 
 Changes in Version 2.7.2
 ------------------------
+- Updated Mongo Java Driver to 2.12.2 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.2) (CASBAH-146)
 - Fixed cursor options for OpLog (CASBAH-144)
 - Added support for BSONTimestamp in the query DSL (CASBAH-145)
 - Project moved to CASBAH (https://jira.mongodb.org/browse/CASBAH)
