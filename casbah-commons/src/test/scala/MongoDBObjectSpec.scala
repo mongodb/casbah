@@ -100,7 +100,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
     }
   }
 
-  /* "SCALA-42, storing Java Arrays in a DBObject shouldn't break .equals and .hashcode" in {
+  /* "CASBAH-42, storing Java Arrays in a DBObject shouldn't break .equals and .hashcode" in {
     val one = MongoDBObject("anArray" -> Array(MongoDBObject("one" -> "oneVal"), MongoDBObject("two" -> "twoVal")))
     val two = MongoDBObject("anArray" -> Array(MongoDBObject("one" -> "oneVal"), MongoDBObject("two" -> "twoVal")))
     one must beEqualTo(two)

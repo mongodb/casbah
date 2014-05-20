@@ -11,15 +11,15 @@ Bugfixes and New Features
 -------------------------
 
 Before starting to write code, look for existing `tickets
-<https://jira.mongodb.org/browse/SCALA>`_ or `create one
-<https://jira.mongodb.org/browse/SCALA>`_ for your specific
+<https://jira.mongodb.org/browse/CASBAH>`_ or `create one
+<https://jira.mongodb.org/browse/CASBAH>`_ for your specific
 issue or feature request. That way you avoid working on something
 that might not be of interest or that has already been addressed.
 
 Supported Versions
 ------------------
 
-Casbah currently supports Scala 2.10.X & 2.9.3
+Casbah currently supports Scala 2.11.X, 2.10.X & 2.9.3
 
 Style Guide
 -----------

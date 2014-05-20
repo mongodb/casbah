@@ -160,7 +160,7 @@ html_sidebars = {
 html_theme_options = {
     'translations': languages,
     'repo_name': 'casbah',
-    'jira_project': 'SCALA',
+    'jira_project': 'CASBAH',
     'google_analytics': 'UA-7301842-13',
     'project': 'scala',
 }

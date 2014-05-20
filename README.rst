@@ -76,7 +76,7 @@ Think you’ve found a bug? Want to see a new feature in Casbah? Please open a
 case in our issue management tool, JIRA:
 
 - `Create an account and login <https://jira.mongodb.org>`_.
-- Navigate to `the SCALA project <https://jira.mongodb.org/browse/SCALA>`_.
+- Navigate to `the CASBAH project <https://jira.mongodb.org/browse/CASBAH>`_.
 - Click **Create Issue** - Please provide as much information as possible about
   the issue type and how to reproduce it.
 

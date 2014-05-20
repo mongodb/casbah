@@ -45,7 +45,7 @@ class GroupSpec extends CasbahDBTestSpecification {
       result.size must beEqualTo(31)
     }
 
-    // Test for SCALA-37
+    // Test for CASBAH-37
     "Work with a trivial finalized Group statement" in new testData {
       val cond = MongoDBObject()
       val key = MongoDBObject("publicationYear" -> 1)

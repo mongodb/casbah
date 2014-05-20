@@ -329,7 +329,7 @@ Notable Changes since Casbah 1.0.8.1:
    Driver
 
    -  All bugs should be reported at
-      http://jira.mongodb.org/browse/SCALA
+      http://jira.mongodb.org/browse/CASBAH
    -  Package Change: Casbah is now ``com.mongodb.casbah`` (See
       migration guide)
    -  Documentation (ScalaDocs, Migration Guide & Tutorial) is available

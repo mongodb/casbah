@@ -129,7 +129,7 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
 
   "findOne operations" should {
 
-    "Not fail as reported by Max Afonov in SCALA-11" in {
+    "Not fail as reported by Max Afonov in CASBAH-11" in {
       collection.drop()
 
       collection.insert(MongoDBObject("foo" -> "bar"))
