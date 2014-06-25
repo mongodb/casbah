@@ -84,14 +84,16 @@ In the examples above the **maxTimeMS** is set to one second and the query will 
 Ordered/Unordered bulk operations
 =================================
 
-Under the covers MongoDB is moving away from the combination of a write operation + get last error (GLE) and towards a
-write commands api. These new commands allow for the execution of bulk insert/update/remove operations. The bulk api's
-are abstractions on top of this that server to make it easy to build bulk operations. Bulk operations come in two main
-flavors.
+Under the covers MongoDB is moving away from the combination of a write
+operation followed by get last error (GLE) and towards a write commands API. These new
+commands allow for the execution of bulk insert/update/remove operations.
+There are two types of bulk operations:
 
-1. Ordered bulk operations. These operations execute all the operation in order and error out on the first write error.
-2. Unordered bulk operations. These operations execute all the operations in parallel and aggregates up all the errors.
-   Unordered bulk operations do not guarantee order of execution.
+1. Ordered bulk operations.
+    Executes all the operation in order and error out on the first write error.
+2. Unordered bulk operations.
+    These operations execute all the operations in parallel and aggregates up
+    all the errors. Unordered bulk operations do not guarantee order of execution.
 
 Let's look at two simple examples using ordered and unordered operations::
 
@@ -117,14 +119,16 @@ Let's look at two simple examples using ordered and unordered operations::
 
     val result2 = builder.execute()
 
-For older servers than 2.6 the API will down convert the operations. However it's not possible to down convert 100% so
-there might be slight edge cases where it cannot correctly report the right numbers.
+For older servers than 2.6 the API will down convert the operations.
+However it's not possible to down convert 100% so there might be slight edge
+cases where it cannot correctly report the right numbers.
 
 parallelScan
 ============
 
-The **parallelCollectionScan** command is a special command targeted at reading out an entire collection using
-multiple cursors.  Casbah adds support by adding the ``MongoCollection.parallelScan(options)`` method::
+The **parallelCollectionScan** command is a special command targeted at reading out an entire collection using multiple cursors.
+
+Casbah adds support by adding the ``MongoCollection.parallelScan(options)`` method::
 
     val collection = MongoClient()("test")("parallelScan")
     collection.drop()
@@ -139,7 +143,7 @@ multiple cursors.  Casbah adds support by adding the ``MongoCollection.parallelS
       }
     }
 
-This optimizes the IO throughput from a collection.
+This can be used to optimize the IO throughput from a collection.
 
 Integrated text search in the query language
 ============================================
