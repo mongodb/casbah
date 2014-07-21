@@ -80,7 +80,7 @@ case in our issue management tool, JIRA:
 - Click **Create Issue** - Please provide as much information as possible about
   the issue type and how to reproduce it.
 
-Bug reports in JIRA for all driver projects (i.e. SCALA, JAVA, CSHARP) and the
+Bug reports in JIRA for all driver projects (i.e. CASBAH, JAVA, CSHARP) and the
 Core Server (i.e. SERVER) project are **public**.
 
 Security Vulnerabilities
