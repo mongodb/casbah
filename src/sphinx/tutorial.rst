@@ -36,7 +36,7 @@ casbah.  I recommend using `sbt-extras <https://github.com/paulp/sbt-extras>`_
 
     version := "0.1"
 
-    scalaVersion := "2.10.3"
+    scalaVersion := "2.10.4"
 
     libraryDependencies += "org.mongodb" %% "casbah" % "|release|"
 
