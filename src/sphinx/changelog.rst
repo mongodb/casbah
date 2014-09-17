@@ -28,24 +28,24 @@ Changes in Version 2.7.0
 ------------------------
 
 - Added :doc:`examples` to highlight using Casbah in various scenarios
-- Added Collection helper method to support the parallelCollectionScan command (CASBAH-139)
-- Fixed getAs[Type]("key") to stop invalid casts to Some(value) (CASBAH-136)
-- Support vargs for getAs[Type]("keys") (CASBAH-134)
-- Support vargs for as[Type]("Keys") (CASBAH-134) (pr/#61)
+- Added Collection helper method to support the parallelCollectionScan command (SCALA-139)
+- Fixed getAs[Type]("key") to stop invalid casts to Some(value) (SCALA-136)
+- Support vargs for getAs[Type]("keys") (SCALA-134)
+- Support vargs for as[Type]("Keys") (SCALA-134) (pr/#61)
 - Fixed issue with OpLog matching (pr/#63)
-- Register the core Serialization helpers only once (CASBAH-129)
+- Register the core Serialization helpers only once (SCALA-129)
 - Removed scala 2.9.1 and 2.9.2 support, casbah utilises
   `scala.concurrent.duration` which was added in scala 2.9.3
 - Updated nscala-time to 0.6.0 and specs
 - Added support for Server automatically abort queries/commands after
-  user-specified time limit (CASBAH-118)
-- Added support for Aggregation returning a cursor `AggregationCursor` (CASBAH-117)
+  user-specified time limit (SCALA-118)
+- Added support for Aggregation returning a cursor `AggregationCursor` (SCALA-117)
 - Added support for `allowDiskUse: true` to the top-level of an aggregate command with the AggregationOptions helper
-- Added support `$out` aggregation pipeline operator (CASBAH-130)
-- Casbah WriteConcern's `valueOf` now returns an Option (CASBAH-127)
-- Support the use of a different SPN for Kerberos Authentication (CASBAH-103)
-- Support SASL PLAIN authentication (CASBAH-101)
-- Support MONGODB-X509 authentication (CASBAH-112)
+- Added support `$out` aggregation pipeline operator (SCALA-130)
+- Casbah WriteConcern's `valueOf` now returns an Option (SCALA-127)
+- Support the use of a different SPN for Kerberos Authentication (SCALA-103)
+- Support SASL PLAIN authentication (SCALA-101)
+- Support MONGODB-X509 authentication (SCALA-112)
 - Updated Mongo Java Driver to 2.12.0 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.0)
 
 Changes in Version 2.6.5
@@ -58,24 +58,24 @@ Changes in Version 2.6.4
 
 Changes in Version 2.6.3
 ------------------------
-- Fixed JodaGridFS when registered helpers are on (CASBAH-113)
+- Fixed JodaGridFS when registered helpers are on (SCALA-113)
 - Updated Mongo Java Driver to 2.11.3
 
 Changes in Version 2.6.2
 ------------------------
 - Fixed MongoClientURI Implicit
-- Added support for Joda-Time LocalDate serialisation (CASBAH-111, #59)
-- Added aggregate collection helper (CASBAH-110)
-- Added $each support to $pull (CASBAH-109)
-- Updated to the latest Java driver 2.11.2 (CASBAH-106)
-- Added $eq operator (CASBAH-105)
-- Fixed $where dsl operator (CASBAH-97)
+- Added support for Joda-Time LocalDate serialisation (SCALA-111, #59)
+- Added aggregate collection helper (SCALA-110)
+- Added $each support to $pull (SCALA-109)
+- Updated to the latest Java driver 2.11.2 (SCALA-106)
+- Added $eq operator (SCALA-105)
+- Fixed $where dsl operator (SCALA-97)
 
 Changes in Version 2.6.1
 ------------------------
-- Fixed $pushAll and $pullAll casting of iterables (CASBAH-54)
-- Fixed MongoCollection string representation (CASBAH-96)
-- Fixed support for jsScope (CASBAH-43) (#44)
+- Fixed $pushAll and $pullAll casting of iterables (SCALA-54)
+- Fixed MongoCollection string representation (SCALA-96)
+- Fixed support for jsScope (SCALA-43) (#44)
 - Publish casbah.commons test helpers
 - Added suport $setOnInsert to the query dsl
 
@@ -89,11 +89,11 @@ Changes in Version 2.5.1
 ------------------------
 
 - Added 2.10.1 support
-- Removed reference to scala-tools (CASBAH-78)
-- Added 2.9.3 support (CASBAH-94)
-- Removed Specs2 and Scalaz dependencies outside test (CASBAH-93)
-- Fixed 2.10 support, no need for -Yeta-expand-keeps-star compile flag (CASBAH-89)
-- Fixed distinct regression (CASBAH-92)
+- Removed reference to scala-tools (SCALA-78)
+- Added 2.9.3 support (SCALA-94)
+- Removed Specs2 and Scalaz dependencies outside test (SCALA-93)
+- Fixed 2.10 support, no need for -Yeta-expand-keeps-star compile flag (SCALA-89)
+- Fixed distinct regression (SCALA-92)
 - Fixed test data import - now in tests :)
 
 Changes in Version 2.5.0
@@ -110,7 +110,7 @@ Changes in Version 2.5.0
 -  Added unidoc and updated documentation
 -  Migrated documentation theme
 -  Updated MongoDBList to handle immutable params
--  Maven Documentation fix (CASBAH-71)
+-  Maven Documentation fix (SCALA-71)
 -  MongoOpLog - uses new MongoClient and defaults to replciaSet oplog database
 
 Changes in Version 2.4.1
@@ -147,14 +147,14 @@ BT/Maven Package change. Casbah is now available in: "org.mongodb" %%
    -  2.1.5-1 is the final Casbah release for 2.8.0; please migrate to
       Scala 2.8.1 or higher
 
--  CASBAH-62: Simple solution - hack the date type on the base class.
+-  SCALA-62: Simple solution - hack the date type on the base class.
 
    -  There is now a JodaGridFS implementation which works cleanly with
       Joda DateTime and will return them to you
 
 -  Backport casbah-gridfs from 3.0
 
-   -  Fixes CASBAH-45: Allow filename and contentType to be nullable
+   -  Fixes SCALA-45: Allow filename and contentType to be nullable
 
       -  Retrieving filename or contentType on a GridFS File now returns
          Option[String] when fetched
@@ -164,11 +164,11 @@ BT/Maven Package change. Casbah is now available in: "org.mongodb" %%
 
 -  Backports to casbah-core from 3.0
 
-   -  CASBAH-70: Removed type alias to com.mongodb.WriteConcern and made
+   -  SCALA-70: Removed type alias to com.mongodb.WriteConcern and made
       method args for it explicit, as it was causing a fun post-compile
       (aka "library compiles, user code doesn’t") implosion.
    -  added socketKeepAlive option
-   -  Fixes CASBAH-45: Allow filename and contentType to be nullable
+   -  Fixes SCALA-45: Allow filename and contentType to be nullable
    -  Retrieving filename or contentType on a GridFS File now returns
       Option[String] when fetched
    -  To facilitate sane usage, the loan-pattern/execute-around-resource
@@ -179,13 +179,13 @@ BT/Maven Package change. Casbah is now available in: "org.mongodb" %%
    -  Major cleanups and bugfixes to the DSL, it’s heavily and fully
       tested now and much faster/cleaner
    -  Added support for $and bareword operator
-   -  CASBAH-30, CASBAH-59 - $or is not properly accepting nested values
+   -  SCALA-30, SCALA-59 - $or is not properly accepting nested values
       esp. from other DSL constructors
 
       -  Introduced proper type class filter base to fix $or, will
          implement across other operators next.
 
-   -  CASBAH-59 - Fix Bareword Query Operators to better target accepted
+   -  SCALA-59 - Fix Bareword Query Operators to better target accepted
       values; should only accept KV Tuple Pairs or DBObjects returned
       from Core Operators
 
@@ -205,7 +205,7 @@ BT/Maven Package change. Casbah is now available in: "org.mongodb" %%
          -  switched to a type class (AsQueryParam) for queryparams to
             avoid code duplication
 
--  CASBAH-69: Maps saved to DBObject are now eagerly converted to a
+-  SCALA-69: Maps saved to DBObject are now eagerly converted to a
    DBObject, from factory, builder and put methods.
 -  Always return MongoDBList from Factories/Builders instead of Seq[Any]
 -  Backports from Casbah 3.0
@@ -217,7 +217,7 @@ BT/Maven Package change. Casbah is now available in: "org.mongodb" %%
       MongoDBList builders & factories instead of the previous
       BasicDBList; this is part of attempting to "Hide" DBList and let
       people work with List/Seq
-   -  CASBAH-69: Immediately upon saving any None’s will be converted to
+   -  SCALA-69: Immediately upon saving any None’s will be converted to
       null inside the DBObject for proper fetching later.
    -  Add toString, hashCode and equals methods to DBObject
    -  New, refactored tests for DBObject and DBList
@@ -263,22 +263,22 @@ Changes in Version 2.1.5.0
 Changes in Version 2.1.0
 ------------------------
 
--  CASBAH-22 Added a dropTarget boolean option to rename collection,
+-  SCALA-22 Added a dropTarget boolean option to rename collection,
    which specifies behavior if named target collection already exists,
    proxies JAVA-238
 -  Removed resetIndexCache, which has also been removed from the Java
    Driver
--  CASBAH-21 Added "set metadata" method to match Java Driver (See
+-  SCALA-21 Added "set metadata" method to match Java Driver (See
    Java-261)
--  CASBAH-20 Updated to Java Driver 2.5
+-  SCALA-20 Updated to Java Driver 2.5
 
    -  See Release Notes:
       http://groups.google.com/group/mongodb-user/browse\_thread/thread/a693ad4fdf9c3731/931f46f7213b6775?show\_docid=931f46f7213b6775
 
--  CASBAH-21 - Update GridFS to use DBObject views. Holding back full
+-  SCALA-21 - Update GridFS to use DBObject views. Holding back full
    bugfix until we have a 2.5 build to link against
 -  Example adjustments to filter by start time and namespace
--  CASBAH-10 - And this is why we unit test. Size was returning empty for
+-  SCALA-10 - And this is why we unit test. Size was returning empty for
    cursor based results as it wasn’t pulling the right value. Fixed,
    calling cursor.size.
 -  Added an alternative object construction method for MongoDBObject
@@ -289,7 +289,7 @@ Changes in Version 2.1.0
    ‘DBObject’ version is always returned from DB, Collection etc now.
    Those wanting to use typed versions must code the flip around by
    hand. !!! BREAKING CHANGE, SEE CODE / EXAMPLES
--  CASBAH-10 Updated MapReduce interfaces to finish 1.8 compatibility
+-  SCALA-10 Updated MapReduce interfaces to finish 1.8 compatibility
 
    -  Renamed MapReduceError to MapReduceException; MapReduceError is a
       non exception which represents a failed job
@@ -320,9 +320,9 @@ Changes in Version 2.0.2
 Changes in Version 2.0.1
 ------------------------
 
--  CASBAH-16: Added a few additional validation tests against getAs and
+-  SCALA-16: Added a few additional validation tests against getAs and
    as on MongoDBObject
--  CASBAH-17 - Fixed syntax of $within and its nested operators, unit
+-  SCALA-17 - Fixed syntax of $within and its nested operators, unit
    test passes
 
 Version 2.0 / 2011-01-03
