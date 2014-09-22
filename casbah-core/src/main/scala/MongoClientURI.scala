@@ -58,7 +58,7 @@ object MongoClientURI {
  *
  * @since 2.5
  */
-class MongoClientURI(val underlying: com.mongodb.MongoClientURI) {
+case class MongoClientURI(val underlying: com.mongodb.MongoClientURI) {
   def username: Option[String] = Option(underlying.getUsername)
 
   def password: Option[Array[Char]] = Option(underlying.getPassword)
