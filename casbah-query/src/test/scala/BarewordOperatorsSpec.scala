@@ -91,6 +91,20 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
     }
   }
 
+  "Casbah's DSL $max Operator" should {
+    "Accept one or many sets of values" in {
+      "A single set" in {
+        val max = $max("foo" -> 5.0)
+        max must haveEntry("$max.foo" -> 5.0)
+      }
+      "Multiple sets" in {
+        val max = $max("foo" -> 5.0, "bar" -> -1.2)
+        max must haveEntry("$max.foo" -> 5.0)
+        max must haveEntry("$max.bar" -> -1.2)
+      }
+    }
+  }
+
   "Casbah's DSL $or Operator" should {
     "Accept multiple values" in {
       val or = $or("foo" -> "bar", "x" -> "y")

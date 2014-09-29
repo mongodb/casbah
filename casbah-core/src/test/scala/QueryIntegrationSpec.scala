@@ -151,6 +151,27 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
     }
   }
 
+  "$max" should {
+    "Work with a single pair" in {
+      collection.drop()
+      collection += MongoDBObject("hello" -> "world", "foo" -> 5.0)
+
+      collection.update(MongoDBObject("hello" -> "world"), $max("foo" -> 6.0))
+      collection.findOne().get("foo") must beEqualTo(6)
+    }
+    "Work with multiple pairs" in {
+      collection.drop()
+      collection += MongoDBObject("hello" -> "world", "foo" -> 5.0, "bar" -> 5.0)
+
+      val max = $max("foo" -> 3.0, "bar" -> 10.0)
+      collection.update(MongoDBObject("hello" -> "world"), max)
+
+      val doc = collection.findOne()
+      doc.get("foo") must beEqualTo(5)
+      doc.get("bar") must beEqualTo(10)
+    }
+  }
+
   "$or" should {
     "load some test data first" in {
       collection.drop()
