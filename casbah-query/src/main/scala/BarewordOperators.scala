@@ -82,6 +82,7 @@ trait FluidQueryBarewordOps extends SetOp
 with SetOnInsertOp
 with UnsetOp
 with IncOp
+with MaxOp
 with OrOp
 with AndOp
 with RenameOp
@@ -157,6 +158,26 @@ trait UnsetOp extends BarewordQueryOperator {
  */
 trait IncOp extends BarewordQueryOperator {
   def $inc[T: ValidNumericType](args: (String, T)*): DBObject = apply[T]("$inc")(args)
+}
+
+/**
+ * Trait to provide the \$max (max) method as a bareword operator..
+ *
+ * {{{ \$max ("foo" -> 10) }}}
+ *
+ * Targets an RValue of (String, ValidNumericType)* to be converted to a DBObject
+ *
+ * Due to a quirk in the way I implemented type detection this fails if you mix ValidNumericType types.
+ * E.g. floats work, but not mixing floats and ints. This can be easily circumvented
+ * if you want 'ints' with floats by making your ints floats with .0:
+ *
+ * {{{ \$max ("foo" -> 5.0, "bar" -> 1.6) }}}
+ *
+ * @since 2.7
+ * @see http://docs.mongodb.org/manual/reference/operator/update/max/
+ */
+trait MaxOp extends BarewordQueryOperator {
+  def $max[T: ValidNumericType](args: (String, T)*): DBObject = apply[T]("$max")(args)
 }
 
 /*
