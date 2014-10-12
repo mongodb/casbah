@@ -139,7 +139,7 @@ By providing a ``MongoDBObject`` to the ``find`` method you can filter the
 results::
 
     val hello = MongoDBObject("hello" -> "world")
-    val helloWorld coll.findOne( hello )
+    val helloWorld = coll.findOne( hello )
 
     // Find a document that doesn't exist
     val goodbye = MongoDBObject("goodbye" -> "world")
