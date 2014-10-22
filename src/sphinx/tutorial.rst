@@ -143,7 +143,7 @@ results::
 
     // Find a document that doesn't exist
     val goodbye = MongoDBObject("goodbye" -> "world")
-    val goodbyeWorld coll.findOne( goodbye )
+    val goodbyeWorld = coll.findOne( goodbye )
 
 .. note:: Notice that ``find`` returns a Cursor and ``findOne`` returns an
     ``Option``.
