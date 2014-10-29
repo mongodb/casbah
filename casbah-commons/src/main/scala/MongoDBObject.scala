@@ -73,7 +73,7 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
     }
     castToOption[A](rawValue) match {
       case Some(value) => value
-      case None if underlying.containsField(key) => get(key).asInstanceOf[A]
+      case None if underlying.containsField(key) => underlying.get(key).asInstanceOf[A]
       case _ => default(key).asInstanceOf[A]
     }
   }
