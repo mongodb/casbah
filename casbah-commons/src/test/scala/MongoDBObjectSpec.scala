@@ -303,7 +303,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
     dbObj.as[DBObject]("embedded") must haveEntry("foo" -> "bar")
     dbObj.as[Map[String, Any]]("embedded") must havePairs(("foo", "bar"))
     dbObj.as[Float]("omgponies") must throwA[NoSuchElementException]
-    dbObj.as[Double]("x") must throwA[ClassCastException]
+    dbObj.as[Double]("x") must throwA[ClassCastException](message = "java.lang.Integer cannot be cast to java.lang.Double")
 
     "the result should be assignable to the type specified" in {
       val y: Double = dbObj.as[Double]("y")

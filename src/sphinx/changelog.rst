@@ -8,6 +8,7 @@ Changes in Version 2.7.4
 ------------------------
 - Updated Mongo Java Driver to 2.12.4 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.4) (CASBAH-155)
 - Update compiled Scala version to 2.11.4 (CASBAH-154)
+- Fix MongoDBObject.as[A] castable error (CASBAH-153)
 
 Changes in Version 2.7.3
 ------------------------
