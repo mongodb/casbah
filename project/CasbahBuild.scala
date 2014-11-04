@@ -17,7 +17,7 @@ object CasbahBuild extends Build {
     organizationHomepage := Some(url("http://www.mongodb.org")),
     version      := "2.7.4-SNAPSHOT",
     scalaVersion := "2.10.4",
-    crossScalaVersions := Seq("2.11.1", "2.10.4", "2.9.3")
+    crossScalaVersions := Seq("2.11.4", "2.10.4", "2.9.3")
   )
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
@@ -160,7 +160,7 @@ object Dependencies {
 
   def scalaStyle(scalaVersion: String) =
     scalaVersion match {
-      case "2.11.1"   => Seq()
+      case "2.11.4"   => Seq()
       case _ => Seq("org.scalastyle" %% "scalastyle" % "0.4.0"  % "test")
     }
 }
