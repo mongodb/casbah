@@ -36,7 +36,7 @@ casbah.  I recommend using `sbt-extras <https://github.com/paulp/sbt-extras>`_
 
     version := "0.1"
 
-    scalaVersion := "2.10.4"
+    scalaVersion := "2.11.4"
 
     libraryDependencies += "org.mongodb" %% "casbah" % "|release|"
 
@@ -143,7 +143,7 @@ results::
 
     // Find a document that doesn't exist
     val goodbye = MongoDBObject("goodbye" -> "world")
-    val goodbyeWorld coll.findOne( goodbye )
+    val goodbyeWorld = coll.findOne( goodbye )
 
 .. note:: Notice that ``find`` returns a Cursor and ``findOne`` returns an
     ``Option``.
