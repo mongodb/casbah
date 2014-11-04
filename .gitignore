@@ -7,6 +7,7 @@
 .idea
 .lib
 .project
+.java-version
 \.idea/workspace.xml
 atlassian-ide-plugin.xml
 casbah-dynamic/project/boot
