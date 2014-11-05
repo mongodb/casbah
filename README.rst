@@ -1,6 +1,6 @@
 Casbah
 ======
-:Info: Scala toolkit for MongoDB (com.mongodb.casbah). See `the mongo site <http://www.mongodb.org>`_ for more information. See `github <http://github.com/mongodb/casbah/tree>`_ for the latest source.
+:Info: Scala toolkit for MongoDB (com.mongodb.casbah). See `the mongo site <http://www.mongodb.org>`_ for more information. See `github <http://github.com/mongodb/casbah/tree/master>`_ for the latest source.
 :Author: Brendan W. McAdams
 :Maintainer: Ross Lawley <ross@mongodb.com>
 
