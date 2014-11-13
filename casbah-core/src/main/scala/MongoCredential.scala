@@ -82,6 +82,9 @@ object MongoCredential {
   def createMongoX509Credential(userName: String): JavaMongoCredential =
     JavaMongoCredential.createMongoX509Credential(userName)
 
+  def createScramSha1Credential(userName: String, source: String, password: Array[Char]): JavaMongoCredential =
+    JavaMongoCredential.createScramSha1Credential(userName, source, password)
+
   /**
    * Creates a MongoCredential instance for the PLAIN SASL mechanism.
    *

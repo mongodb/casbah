@@ -86,6 +86,11 @@ MongoDBCredentials
 
 .. code-block:: scala
 
+    // SCRAM-SHA-1
+    val server = new ServerAddress("localhost", 27017)
+    val credentials = MongoCredential.createScramSha1Credential(userName, source, password)
+    val mongoClient = MongoClient(server, List(credentials))
+
     // Challenge Response
     val server = new ServerAddress("localhost", 27017)
     val credentials = MongoCredential.createMongoCRCredential(userName, database, password)
@@ -129,8 +134,8 @@ URI style connections
 
 .. code-block:: scala
 
-    // Challenge Response
-    val uri = MongoClientURI("mongodb://username:pwd@localhost/?authMechanism=MONGODB-CR")
+    // SCRAM-SHA-1
+    val uri = MongoClientURI("mongodb://username:pwd@localhost/?authMechanism=SCRAM-SHA-1")
     val mongoClient =  MongoClient(uri)
 
     // GSSAPI
