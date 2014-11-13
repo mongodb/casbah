@@ -63,16 +63,20 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def apply(collection: String): MongoCollection = underlying.getCollection(collection).asScala
 
-  // TODO - write tests and make so!
-  // /**
-  //  * Creates a Mongo instance based on a (single) mongodb node (default port).
-  //  *
-  //  * @param collection a string for the collection name
-  //  * @param  c (Class[A])
-  //  * @return MongoTypedCollection[A]
-  //  */
-  // def apply(collection: String, objectClass: Class[DBObject]) = underlying.getCollection(collection).asScala.setObjectClass(objectClass)
-
+  /**
+   * Adds or updates a user for this database
+   *
+   * @param username the user name
+   * @param passwd   the password
+   * @return the result of executing this operation
+   * @throws MongoException
+   * @mongodb.driver.manual administration/security-access-control/  Access Control
+   * @mongodb.driver.manual reference/command/createUser createUser
+   * @mongodb.driver.manual reference/command/updateUser updateUser
+   * @deprecated Use [[command]] to call either the createUser or updateUser command
+   */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def addUser(username: String, passwd: String): WriteResult = underlying.addUser(username, passwd.toArray)
 
   /**
@@ -83,6 +87,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @return true if authenticated, false otherwise
    */
   @deprecated("Please use MongoClient to create a client, which will authenticate all connections to server.", "2.7")
+  @SuppressWarnings(Array("deprecation"))
   def authenticate(username: String, passwd: String): Boolean = underlying.authenticate(username, passwd.toArray)
 
   /** Execute a database command directly.
@@ -91,22 +96,38 @@ class MongoDB(val underlying: com.mongodb.DB) {
     */
   def command(cmd: DBObject): CommandResult = underlying.command(cmd)
 
-  /** Execute a database command directly.
-    * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
-    * @return the result of the command from the database
-    */
+  /**
+   * Execute a database command directly.
+   * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
+   * @return the result of the command from the database
+   */
   def command(cmd: String): CommandResult = underlying.command(cmd)
 
-  /** Execute a database command directly.
+  /**
+   * Execute a database command directly.
+   * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
+   * @return the result of the command from the database
+   */
+  def command(cmd: DBObject, readPreference: ReadPreference): CommandResult = underlying.command(cmd, readPreference)
+
+  /**
+   * Execute a database command directly.
     * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
     * @return the result of the command from the database
+    * @deprecated Use command with a readPreference instead.
     */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def command(cmd: DBObject, options: Int): CommandResult = underlying.command(cmd, options)
 
-  /** Execute a database command directly.
-    * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
-    * @return the result of the command from the database
-    */
+  /**
+   * Execute a database command directly.
+   * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
+   * @return the result of the command from the database
+   * @deprecated Use command with a readPreference instead.
+   */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def command(cmd: DBObject, options: Int, pref: ReadPreference): CommandResult = underlying.command(cmd, options, pref)
 
   /** Creates a collection with a given name and options.
@@ -134,7 +155,10 @@ class MongoDB(val underlying: com.mongodb.DB) {
 
   /**
    * For testing purposes only - this method forces an error to help test error handling
+   * @deprecated there is no replacement for this method
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def forceError(): Unit = underlying.forceError()
 
   /** Gets a collection with a given name.
@@ -174,20 +198,34 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * of the previous operation. See com.mongodb.Mongo.requestStart for more information.
    *
    * @return DBObject with error and status information
+   * @deprecated The getlasterror command will not be supported in future versions of MongoDB.
+   *            Use acknowledged writes instead.
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def getLastError(): CommandResult = underlying.getLastError() /* calls the db */
 
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def lastError(): CommandResult = getLastError() /* calls the db */
 
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def getLastError(writeConcern: WriteConcern): CommandResult =
     underlying.getLastError(writeConcern)
 
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def lastError(writeConcern: WriteConcern): CommandResult =
     getLastError(writeConcern)
 
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean): CommandResult =
     underlying.getLastError(w, wTimeout, fsync)
 
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def lastError(w: Int, wTimeout: Int, fsync: Boolean): CommandResult =
     getLastError(w, wTimeout, fsync)
 
@@ -213,7 +251,8 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @deprecated The `getPreviousError()` and `resetError()` commands are deprecated and may be removed in future versions of MongoDB
    * @return DBObject with error and status information
    */
-  @deprecated("may be removed in future versions of MongoDB", "2.7")
+  @deprecated("This will be removed in a future release", "2.7")
+  @SuppressWarnings(Array("deprecation"))
   def getPreviousError(): CommandResult = underlying.getPreviousError() /* calls the db */
 
   /**
@@ -222,7 +261,8 @@ class MongoDB(val underlying: com.mongodb.DB) {
    *
    * @deprecated The `getPreviousError()` and `resetError()` commands are deprecated and may be removed in future versions of MongoDB
    */
-  @deprecated("may be removed in future versions of MongoDB", "2.7")
+  @deprecated("This will be removed in a future release", "2.7")
+  @SuppressWarnings(Array("deprecation"))
   def resetError(): Unit = underlying.resetError()
 
   def getSisterDB(name: String): MongoDB = underlying.getSisterDB(name).asScala
@@ -233,16 +273,60 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * @return true if authenticated, false otherwise
    */
   @deprecated("Use MongoClient to create an authenticated connection.", "2.7")
+  @SuppressWarnings(Array("deprecation"))
   def isAuthenticated: Boolean = underlying.isAuthenticated
 
   def stats(): CommandResult = getStats()
 
   def getStats(): CommandResult = underlying.getStats() /* calls the db */
 
+  /**
+   * Ends the current 'consistent request'.
+   *
+   * @deprecated  The main use case for this method is to ensure that applications can read their own unacknowledged
+   *            writes, but this is no longer so prevalent since the driver started defaulting to acknowledged writes.
+   *
+   *            The other main use case is to ensure that related read operations are all routed to the same server
+   *            when using a non-primary read preference.  But this is dangerous because mongos does not provide this
+   *            guarantee.  For these reasons, this method is now deprecated and will be removed in the next major
+   *            release.
+   */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def requestDone(): Unit = underlying.requestDone()
 
+  /**
+   *  Ensure that a connection is assigned to the current "consistent request" (from primary pool, if connected to a
+   *  replica set).
+   *
+   * @deprecated  The main use case for this method is to ensure that applications can read their own unacknowledged
+   *            writes, but this is no longer so prevalent since the driver started defaulting to acknowledged writes.
+   *
+   *            The other main use case is to ensure that related read operations are all routed to the same server
+   *            when using a non-primary read preference.  But this is dangerous because mongos does not provide this
+   *            guarantee.  For these reasons, this method is now deprecated and will be removed in the next major
+   *            release.
+   */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def requestEnsureConnection(): Unit = underlying.requestEnsureConnection()
 
+  /**
+   * Starts a new 'consistent request'.
+   *
+   * Following this call and until [[requestDone()]] is called, all db operations will use the same underlying
+   * connection.
+   *
+   * @deprecated  The main use case for this method is to ensure that applications can read their own unacknowledged
+   *            writes, but this is no longer so prevalent since the driver started defaulting to acknowledged writes.
+   *
+   *            The other main use case is to ensure that related read operations are all routed to the same server
+   *            when using a non-primary read preference.  But this is dangerous because mongos does not provide this
+   *            guarantee.  For these reasons, this method is now deprecated and will be removed in the next major
+   *            release.
+   */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def requestStart(): Unit = underlying.requestStart()
 
   /** Makes this database read-only
@@ -250,6 +334,7 @@ class MongoDB(val underlying: com.mongodb.DB) {
     * @param b if the database should be read-only
     */
   @deprecated("Avoid making database read-only via this method. Use a read-only user with MongoClient instead.", "2.7")
+  @SuppressWarnings(Array("deprecation"))
   def setReadOnly(b: Boolean): Unit = underlying.setReadOnly(b)
 
   /** Makes this database read-only
@@ -257,12 +342,14 @@ class MongoDB(val underlying: com.mongodb.DB) {
     * @param b if the database should be read-only
     */
   @deprecated("Avoid making database read-only via this method. Use a read-only user with MongoClient instead.", "2.7")
+  @SuppressWarnings(Array("deprecation"))
   def readOnly_=(b: Boolean): Unit = setReadOnly(b)
 
   /**
    * Sets queries to be OK to run on slave nodes.
    */
   @deprecated("Replaced with ReadPreference.SECONDARY.", "2.3.0")
+  @SuppressWarnings(Array("deprecation"))
   def slaveOk(): Unit = underlying.slaveOk() // use parens because this side-effects
 
   /**
@@ -379,7 +466,11 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * it will be inherited.
    *
    * @throws MongoException if error
+   * @deprecated Use the appropriate [[WriteConcern]] and allow the write operation to throw an exception on failure.
+   *            For successful writes, use the helper methods to retrieve specific values from the write response.
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def request(op: MongoDB => WriteResult): Unit = op(this).getLastError(writeConcern).throwOnError()
 
   /**
@@ -397,7 +488,11 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * return type of any mongo write operation like insert/save/update/remove
    *
    * @throws MongoException if error
+   * @deprecated Use the appropriate [[WriteConcern]] and allow the write operation to throw an exception on failure.
+   *            For successful writes, use the helper methods to retrieve specific values from the write response.
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)(op: MongoDB => WriteResult): Unit =
     op(this).getLastError(WriteConcern(w, wTimeout, fsync)).throwOnError()
 
@@ -413,13 +508,26 @@ class MongoDB(val underlying: com.mongodb.DB) {
    * This is for write ops only - you cannot return data from it.
    *
    * Your function must return WriteResult, which is the
-   * return type of any mongo write operation like insert/save/upd§ate/remove
+   * return type of any mongo write operation like insert/save/update/remove
    *
    * @throws MongoException if error
+   * @deprecated Use the appropriate [[WriteConcern]] and allow the write operation to throw an exception on failure.
+   *            For successful writes, use the helper methods to retrieve specific values from the write response.
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def request(writeConcern: WriteConcern)(op: MongoDB => WriteResult): Unit =
     op(this).getLastError(writeConcern).throwOnError()
 
+  /**
+   * Checked write block
+   *
+   * @throws MongoException if error
+   * @deprecated Use the appropriate [[WriteConcern]] and allow the write operation to throw an exception on failure.
+   *            For successful writes, use the helper methods to retrieve specific values from the write response.
+   */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def checkedWrite(op: MongoDB => WriteResult): Unit =
     op(this).getLastError.throwOnError()
 

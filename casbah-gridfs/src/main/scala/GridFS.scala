@@ -64,6 +64,8 @@ class GridFS protected[gridfs](override val underlying: MongoGridFS) extends Gen
 
     override def length: Int = fileSet.length
 
+    @deprecated("This write concern will no longer supported", "2.7.0")
+    @SuppressWarnings(Array("deprecation"))
     def numGetMores(): Int = fileSet.numGetMores
 
     def numSeen(): Int = fileSet.numSeen
@@ -72,6 +74,7 @@ class GridFS protected[gridfs](override val underlying: MongoGridFS) extends Gen
 
     def explain(): CursorExplanation = fileSet.explain
 
+    @SuppressWarnings(Array("deprecation"))
     def next(): GridFSDBFile = {
       val gridfsfile = fileSet.next().asInstanceOf[GridFSDBFileSafeJoda]
       gridfsfile.setGridFS(underlying)

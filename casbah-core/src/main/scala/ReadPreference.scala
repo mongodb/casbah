@@ -16,7 +16,8 @@
  */
 package com.mongodb.casbah
 
-import com.mongodb.{DBObject, ReadPreference => JReadPreference, TaggableReadPreference}
+import scala.collection.JavaConverters._
+import com.mongodb.{ReadPreference => JReadPreference, TagSet, DBObject, TaggableReadPreference}
 
 /**
  * Helper class for creating ReadPreference instances
@@ -54,27 +55,70 @@ object ReadPreference {
   def primaryPreferred: JReadPreference = JReadPreference.primaryPreferred()
 
   /**
-   * @return ReadPreference which reads primary if available, otherwise a secondary respective of tags.
+   *
+   * @return ReadPreference with reads primary if available
    */
+  def primaryPreferred(tagSet: TagSet): JReadPreference = JReadPreference.primaryPreferred(tagSet)
+  /**
+   *
+   * @return ReadPreference with reads primary if available
+   */
+  def primaryPreferred(tagSetList: List[TagSet]): JReadPreference = JReadPreference.primaryPreferred(tagSetList.asJava)
+
+  /**
+   * @return ReadPreference which returns secondary respective of tags
+   */
+  def secondary(tagSet: TagSet): JReadPreference = JReadPreference.secondary(tagSet)
+
+  /**
+   * @return ReadPreference which returns secondary respective of tags
+   */
+  def secondary(tagSetList: List[TagSet]): JReadPreference = JReadPreference.secondary(tagSetList.asJava)
+
+  /**
+   * @return ReadPreference which reads nearest node respective of tags
+   */
+  def nearest(tagSet: TagSet): JReadPreference = JReadPreference.nearest(tagSet)
+
+  /**
+   * @return ReadPreference which reads nearest node respective of tags
+   */
+  def nearest(tagSetList: List[TagSet]): JReadPreference = JReadPreference.nearest(tagSetList.asJava)
+
+  /**
+   * @return ReadPreference which reads primary if available, otherwise a secondary respective of tags.
+   * @deprecated Use a TagSets
+   */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def primaryPreferred(firstTagSet: DBObject, remainingTagSets: DBObject*): TaggableReadPreference =
      JReadPreference.primaryPreferred(firstTagSet, remainingTagSets: _*)
 
   /**
    * @return ReadPreference which returns secondary respective of tags
+   * @deprecated Use a TagSets
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def secondary(firstTagSet: DBObject, remainingTagSets: DBObject*): TaggableReadPreference =
-     JReadPreference.secondary(firstTagSet, remainingTagSets: _*)
+    JReadPreference.secondary(firstTagSet, remainingTagSets: _*)
 
   /**
    * @return ReadPreference which reads secondary if available respective of tags,
    *         otherwise from primary irrespective of tags
+   * @deprecated Use a TagSets
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def secondaryPreferred(firstTagSet: DBObject, remainingTagSets: DBObject*): TaggableReadPreference =
      JReadPreference.secondaryPreferred(firstTagSet, remainingTagSets: _*)
 
   /**
    * @return ReadPreference which reads nearest node respective of tags
+   * @deprecated Use a TagSets
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def nearest(firstTagSet: DBObject, remainingTagSets: DBObject*): TaggableReadPreference =
      JReadPreference.nearest(firstTagSet, remainingTagSets: _*)
 

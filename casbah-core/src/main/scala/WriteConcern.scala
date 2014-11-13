@@ -37,7 +37,8 @@ object WriteConcern {
    *             then catch and ignore any exceptions of type MongoSocketException.
    */
   @deprecated("This write concern will no longer supported", "2.7.0")
-  val None: JWriteConcern = JWriteConcern.NONE
+  @SuppressWarnings(Array("deprecation"))
+  val None: JWriteConcern = new JWriteConcern(-1)
   /**
    * Exceptions are raised for network issues but not server errors.
    */
@@ -77,7 +78,7 @@ object WriteConcern {
    * @since 2.7
    */
   @deprecated("This write concern will no longer supported", "2.7.0")
-  val ErrorsIgnored: JWriteConcern = JWriteConcern.ERRORS_IGNORED
+  val ErrorsIgnored: JWriteConcern = new JWriteConcern(-1)
   /**
    * Write operations that use this write concern will wait for acknowledgement from the primary server before returning.
    * Exceptions are raised for network issues, and server errors.
@@ -131,7 +132,11 @@ object WriteConcern {
    *              Defaults to False
    * @param j whether writes should wait for a journaling group commit. Cannot be used with `fsync`.
    * @param continueInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
+   * @deprecated the preferred way to specify continueOnError is to use write methods that explicitly specify the value
+   *            of this property
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def apply(w: Int,
             wTimeout: Int = 0,
             fsync: Boolean = false,
@@ -153,7 +158,11 @@ object WriteConcern {
    *              Defaults to False
    * @param j whether writes should wait for a journaling group commit. Cannot be used with `fsync`.
    * @param continueInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
+   * @deprecated the preferred way to specify continueOnError is to use write methods that explicitly specify the value
+   *            of this property
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def withRule(w: String,
                wTimeout: Int = 0,
                fsync: Boolean = false,

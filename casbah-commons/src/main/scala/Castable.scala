@@ -55,7 +55,7 @@ private[commons] trait Castable {
       case Manifest.Double => classOf[java.lang.Double]
       case Manifest.Boolean => classOf[java.lang.Boolean]
       case Manifest.Int => classOf[java.lang.Integer]
-      case m => m.erasure
+      case m => m.erasure // deprecated in >= 2.10
     }
     value match {
       case simpleValue if erasure.isInstance(simpleValue) =>

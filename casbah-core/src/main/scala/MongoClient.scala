@@ -21,6 +21,8 @@
 
 package com.mongodb.casbah
 
+import java.net.UnknownHostException
+
 import com.mongodb.casbah.Imports._
 
 import scala.collection.JavaConverters._

@@ -60,6 +60,8 @@ object MongoURI {
  *
  * @since 2.0
  */
+@deprecated("Please use MongoClient and MongoClientURI", "2.8")
+@SuppressWarnings(Array("deprecation"))
 class MongoURI(val underlying: com.mongodb.MongoURI) {
   def username: Option[String] = Option(underlying.getUsername)
 

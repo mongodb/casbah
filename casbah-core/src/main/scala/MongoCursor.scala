@@ -287,8 +287,17 @@ trait MongoCursorBase extends Logging {
    * Makes this query OK to run on a non-master node.
    */
   @deprecated("Replaced with `ReadPreference.SECONDARY`", "2.3.0")
+  @SuppressWarnings(Array("deprecation"))
   def slaveOk(): DBCursor = underlying.slaveOk() // parens for side-effect
 
+  /**
+   * Gets the number of times, so far, that the cursor retrieved a batch from the database
+   *
+   * @return The number of times OP_GET_MORE has been called
+   * @deprecated there is no replacement for this method
+   */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def numGetMores: Int = underlying.numGetMores
 
   /**
@@ -301,6 +310,14 @@ trait MongoCursorBase extends Logging {
    */
   def numSeen: Int = underlying.numSeen
 
+  /**
+   * Gets a list containing the number of items received in each batch
+   *
+   * @return a list containing the number of items received in each batch
+   * @deprecated there is no replacement for this method
+   */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def sizes: mutable.Buffer[Integer] = underlying.getSizes.asScala
 
   /**

@@ -89,7 +89,10 @@ trait MongoCollectionBase extends Logging {
    * Adds the "private" fields _id to an object.
    * @param o <code>DBObject</code> to which to add fields
    * @return the modified parameter object
+   * @deprecated This method will be removed in a future release.  There is no replacement.
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def apply[A <% DBObject](o: A): AnyRef = underlying.apply(o)
 
   /**
@@ -97,7 +100,10 @@ trait MongoCollectionBase extends Logging {
    * @param jo object to which to add fields
    * @param ensureID whether to add an <code>_id</code> field or not
    * @return the modified object <code>o</code>
+   * @deprecated This method will be removed in a future release.  There is no replacement.
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def apply[A <% DBObject](jo: A, ensureID: Boolean): AnyRef = underlying.apply(jo, ensureID)
 
   /**
@@ -145,7 +151,10 @@ trait MongoCollectionBase extends Logging {
   /**
    * Creates an index on a set of fields, if one does not already exist.
    * @param keys an object with a key set of the fields desired for the index
+   * @deprecated use [[createIndex]] instead
    */
+  @deprecated("Use createIndex instead", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def ensureIndex[A <% DBObject](keys: A): Unit = underlying.ensureIndex(keys)
 
   /**
@@ -153,7 +162,10 @@ trait MongoCollectionBase extends Logging {
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * @param keys fields to use for index
    * @param options options for the index (name, unique, etc)
+   * @deprecated use [[createIndex]] instead
    */
+  @deprecated("Use createIndex instead", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def ensureIndex[A <% DBObject, B <% DBObject](keys: A, options: B): Unit = underlying.ensureIndex(keys, options)
 
   /**
@@ -161,7 +173,10 @@ trait MongoCollectionBase extends Logging {
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * @param keys fields to use for index
    * @param name an identifier for the index
+   * @deprecated use [[createIndex]] instead
    */
+  @deprecated("Use createIndex instead", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def ensureIndex[A <% DBObject](keys: A, name: String): Unit = underlying.ensureIndex(keys, name)
 
   /**
@@ -169,7 +184,10 @@ trait MongoCollectionBase extends Logging {
    * @param keys fields to use for index
    * @param name an identifier for the index
    * @param unique if the index should be unique
+   * @deprecated use [[createIndex]] instead
    */
+  @deprecated("Use createIndex instead", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def ensureIndex[A <% DBObject](keys: A, name: String, unique: Boolean): Unit = underlying.ensureIndex(keys, name, unique)
 
   /**
@@ -177,7 +195,10 @@ trait MongoCollectionBase extends Logging {
    * ensureIndex is optimized and is inexpensive if the index already exists.
    * This creates an ascending index on a particular field.
    * @param fieldName an identifier for the index
+   * @deprecated use [[createIndex]] instead
    */
+  @deprecated("Use createIndex instead", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def ensureIndex(fieldName: String): Unit = underlying.ensureIndex(fieldName)
 
   /**
@@ -376,7 +397,11 @@ trait MongoCollectionBase extends Logging {
    * it will be inherited.
    *
    * @throws MongoException()
+   * @deprecated Use the appropriate [[WriteConcern]] and allow the write operation to throw an exception on failure.
+   *            For successful writes, use the helper methods to retrieve specific values from the write response.
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def request(op: this.type => WriteResult) {
     op(this).getLastError.throwOnError()
   }
@@ -396,7 +421,11 @@ trait MongoCollectionBase extends Logging {
    * return type of any mongo write operation like insert/save/update/remove
    *
    * @throws MongoException()
+   * @deprecated Use the appropriate [[WriteConcern]] and allow the write operation to throw an exception on failure.
+   *            For successful writes, use the helper methods to retrieve specific values from the write response.
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def request(w: Int, wTimeout: Int = 0, fsync: Boolean = false)(op: this.type => WriteResult) {
     this.writeConcern = WriteConcern(w, wTimeout, fsync)
     op(this).getLastError.throwOnError()
@@ -417,7 +446,11 @@ trait MongoCollectionBase extends Logging {
    * return type of any mongo write operation like insert/save/update/remove
    *
    * @throws MongoException()
+   * @deprecated Use the appropriate [[WriteConcern]] and allow the write operation to throw an exception on failure.
+   *            For successful writes, use the helper methods to retrieve specific values from the write response.
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def request(writeConcern: WriteConcern)(op: this.type => WriteResult) {
     this.writeConcern = writeConcern
     op(this).getLastError.throwOnError()
@@ -797,7 +830,12 @@ trait MongoCollectionBase extends Logging {
     underlying.remove(dbObjView(o), concern, encoder)
 
   /**
-   * Clears all indices that have not yet been applied to this collection. */
+   * Clears all indices that have not yet been applied to this collection.
+   *
+   * @deprecated This will be removed in a future version.
+   */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def resetIndexCache(): Unit = underlying.resetIndexCache()
 
   /**
@@ -883,20 +921,34 @@ trait MongoCollectionBase extends Logging {
    * of the previous operation. See com.mongodb.Mongo.requestStart for more information.
    *
    * @return DBObject with error and status information
+   * @deprecated The getlasterror command will not be supported in future versions of MongoDB.
+   *            Use acknowledged writes instead.
    */
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def getLastError(): CommandResult = getDB.getLastError() /* calls the db */
 
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def lastError(): CommandResult = getLastError()
 
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def getLastError(concern: WriteConcern): CommandResult =
     getDB.getLastError(concern)
 
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def lastError(concern: WriteConcern): CommandResult =
     getLastError(concern)
 
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def getLastError(w: Int, wTimeout: Int, fsync: Boolean): CommandResult =
     getDB.getLastError(w, wTimeout, fsync)
 
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def lastError(w: Int, wTimeout: Int, fsync: Boolean): CommandResult =
     getLastError(w, wTimeout, fsync)
 
@@ -1031,6 +1083,7 @@ trait MongoCollectionBase extends Logging {
    * Sets queries to be OK to run on slave nodes.
    */
   @deprecated("Replaced with `ReadPreference.SECONDARY`", "2.3.0")
+  @SuppressWarnings(Array("deprecation"))
   def slaveOk(): Unit = underlying.slaveOk() // use parens because this side-effects
 
   /**
@@ -1217,7 +1270,8 @@ object MongoCollection extends Logging {
    * @return a String containing the new name, represented from the index' fields
    * @tparam A A View of DBObject
    */
-  @deprecated("This method is NOT a part of public API and will be dropped in 2.8", "2.7")
+  @deprecated("This will be removed in a future release", "2.8")
+  @SuppressWarnings(Array("deprecation"))
   def generateIndexName[A <% DBObject](keys: A): String = DBCollection.genIndexName(keys)
 
 }
