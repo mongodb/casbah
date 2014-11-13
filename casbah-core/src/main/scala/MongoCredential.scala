@@ -49,9 +49,22 @@ object MongoCredential {
    * @param database the source of the user name, typically a database name
    * @param password the password
    */
-  @deprecated("Please use MongoCredential.createMongoCRCredential", "2.7")
+  @deprecated("Please use MongoCredential.createCredential", "2.7")
   def apply(userName: String, database: String, password: Array[Char]): JavaMongoCredential =
     JavaMongoCredential.createMongoCRCredential(userName, database, password)
+
+  /**
+   * Creates a MongoCredential instance with an unspecified mechanism.  The client will negotiate the best mechanism
+   * based on the version of the server that the client is authenticating to.  If the server version is 2.8 or higher,
+   * the driver will authenticate using the SCRAM-SHA-1 mechanism.  Otherwise, the driver will authenticate using the
+   * MONGODB_CR mechanism.
+   *
+   * @param userName the user name
+   * @param database the database where the user is defined
+   * @param password the user's password
+   */
+  def createCredential(userName: String, database: String, password: Array[Char]): JavaMongoCredential =
+    JavaMongoCredential.createCredential(userName, database, password)
 
   /**
    *
