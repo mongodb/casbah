@@ -8,6 +8,7 @@ Changes in Version 2.8.0-rc0
 ----------------------------
 - Updated Mongo Java Driver to 2.13.0-rc0 (CASBAH-156)
 - Added SCRAM-SHA-1 helper (CASBAH-157)
+- Deprecated any methods using deprecated java driver methods (CASBAH-158)
 
 Changes in Version 2.7.4
 ------------------------
