@@ -243,8 +243,10 @@ class MongoClient(val underlying: JavaMongoClient) {
    */
   def dropDatabase(dbName: String): Unit = underlying.dropDatabase(dbName)
 
+  @deprecated("This method will be dropped after 2.8", "2.8")
   def version: String = getVersion
 
+  @deprecated("This method will be dropped after 2.8", "2.8")
   def getVersion: String = underlying.getVersion
 
   @deprecated("Not a part of public API and will be dropped in 2.8+ versions", "2.7")

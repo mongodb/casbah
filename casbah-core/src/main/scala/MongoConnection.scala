@@ -200,8 +200,10 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
    */
   def dropDatabase(dbName: String): Unit = underlying.dropDatabase(dbName)
 
+  @deprecated("This method will be dropped after 2.8", "2.8")
   def version: String = getVersion
 
+  @deprecated("This method will be dropped after 2.8", "2.8")
   def getVersion: String = underlying.getVersion
 
   @deprecated("This method is NOT a part of public API and will be dropped in 2.8", "2.7")
