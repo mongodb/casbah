@@ -7,6 +7,7 @@ Changelog
 Changes in Version 2.7.5
 ------------------------
 - Updated Mongo Java Driver to 2.12.5 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.5) (CASBAH-161)
+- Update compiled Scala version to 2.11.5 (CASBAH-162)
 
 Changes in Version 2.7.4
 ------------------------
