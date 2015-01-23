@@ -8,6 +8,7 @@ scala:
 branches:
   only:
     - master
+    - 2.7.x
 notifications:
   email:
     recipients:
