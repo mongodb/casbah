@@ -5,6 +5,11 @@ Changelog
    Casbah jira project is here: https://jira.mongodb.org/browse/CASBAH
 
 
+Changes in Version 2.8.0-rc2
+----------------------------
+- Updated Mongo Java Driver to 2.13.0-rc2 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.0-rc2) (CASBAH-156)
+- Updated apply method in MongoClientOptions to have the latest 2.13 options (CASBAH-160)
+
 Changes in Version 2.8.0-rc1
 ----------------------------
 - Updated Mongo Java Driver to 2.13.0-rc1 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.0-rc1) (CASBAH-156)

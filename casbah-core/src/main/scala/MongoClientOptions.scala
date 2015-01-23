@@ -69,8 +69,9 @@ object MongoClientOptions {
    * @param maxConnectionIdleTime the maximum idle time, in milliseconds
    * @param maxConnectionLifeTime  the maximum life time, in milliseconds
    * @param minConnectionsPerHost maximum number of connections
-   * @param heartbeatConnectRetryFrequency the heartbeat connect retry frequency, in milliseconds
+   * @param heartbeatConnectRetryFrequency the heartbeat connect retry frequency, in milliseconds - deprecated use minHeartbeatFrequency
    * @param requiredReplicaSetName the required replica set name for the replica set.
+   * @param minHeartbeatFrequency the minimum heartbeat frequency, in milliseconds, which must be &gt; 0
    *
    * @throws MongoException()
    * @see ServerAddress
@@ -103,7 +104,9 @@ object MongoClientOptions {
              maxConnectionLifeTime: Int = Defaults.getMaxConnectionLifeTime,
              minConnectionsPerHost: Int = Defaults.getMinConnectionsPerHost,
              heartbeatConnectRetryFrequency: Int = Defaults.getHeartbeatConnectRetryFrequency,
-             requiredReplicaSetName: String = Defaults.getRequiredReplicaSetName
+             requiredReplicaSetName: String = Defaults.getRequiredReplicaSetName,
+             minHeartbeatFrequency: Int = Defaults.getMinHeartbeatFrequency
+
              ): JavaMongoClientOptions = {
     val builder = new JavaMongoClientOptions.Builder()
     builder.autoConnectRetry(autoConnectRetry)
@@ -126,12 +129,20 @@ object MongoClientOptions {
     builder.heartbeatConnectTimeout(heartbeatConnectTimeout)
     builder.heartbeatFrequency(heartbeatFrequency)
     builder.heartbeatSocketTimeout(heartbeatSocketTimeout)
-    if (heartbeatThreadCount > 1 ) builder.heartbeatThreadCount(heartbeatThreadCount)
     builder.maxConnectionIdleTime(maxConnectionIdleTime)
     builder.maxConnectionLifeTime(maxConnectionLifeTime)
     builder.minConnectionsPerHost(minConnectionsPerHost)
-    builder.heartbeatConnectRetryFrequency(heartbeatConnectRetryFrequency)
     builder.requiredReplicaSetName(requiredReplicaSetName)
+
+    if (heartbeatThreadCount != Defaults.getHeartbeatThreadCount ) {
+      builder.heartbeatThreadCount(heartbeatThreadCount)
+    }
+    if (heartbeatConnectRetryFrequency != Defaults.getHeartbeatConnectRetryFrequency) {
+      builder.minHeartbeatFrequency(heartbeatConnectRetryFrequency)
+    }
+    if (minHeartbeatFrequency != Defaults.getMinHeartbeatFrequency) {
+      builder.minHeartbeatFrequency(minHeartbeatFrequency)
+    }
     builder.build()
   }
 

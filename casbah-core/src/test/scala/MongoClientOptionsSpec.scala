@@ -63,6 +63,7 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
       options.getMinConnectionsPerHost must beEqualTo(javaOptions.getMinConnectionsPerHost)
       options.getHeartbeatConnectRetryFrequency must beEqualTo(javaOptions.getHeartbeatConnectRetryFrequency)
       options.getRequiredReplicaSetName must beEqualTo(javaOptions.getRequiredReplicaSetName)
+      options.getMinHeartbeatFrequency must beEqualTo(javaOptions.getMinHeartbeatFrequency)
 
     }
 
@@ -104,6 +105,7 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
       builder.minConnectionsPerHost(100)
       builder.heartbeatConnectRetryFrequency(200)
       builder.requiredReplicaSetName("replicaSet")
+      builder.minHeartbeatFrequency(200)
 
       val options = builder.build
       options.getDescription must beEqualTo("test")
@@ -131,6 +133,7 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
       options.getMinConnectionsPerHost must beEqualTo(100)
       options.getHeartbeatConnectRetryFrequency must beEqualTo(200)
       options.getRequiredReplicaSetName must beEqualTo("replicaSet")
+      options.getMinHeartbeatFrequency must beEqualTo(200)
 
     }
 
@@ -158,12 +161,17 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
       lazy val testConnectTimeout = builder.connectTimeout(-1)
       testConnectTimeout must throwA[IllegalArgumentException]
 
-      lazy val testMaxAutoConnectRetryTime = builder.maxAutoConnectRetryTime(-1)
-      testMaxAutoConnectRetryTime must throwA[IllegalArgumentException]
-
       lazy val testThreadsAllowedToBlockForConnectionMultiplier = builder.threadsAllowedToBlockForConnectionMultiplier(0)
       testThreadsAllowedToBlockForConnectionMultiplier must throwA[IllegalArgumentException]
 
+      lazy val testMaxAutoConnectRetryTime = builder.maxAutoConnectRetryTime(-1)
+      testMaxAutoConnectRetryTime must throwA[IllegalArgumentException]
+
+      lazy val testHeartbeatConnectRetryFrequency = builder.heartbeatConnectRetryFrequency(0)
+      testHeartbeatConnectRetryFrequency must throwA[IllegalArgumentException]
+
+      lazy val testMinHeartbeatFrequency = builder.minHeartbeatFrequency(0)
+      testMinHeartbeatFrequency must throwA[IllegalArgumentException]
     }
 
     "WriteConcern valueOf should return an Option" in {
