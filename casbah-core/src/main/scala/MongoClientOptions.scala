@@ -69,7 +69,7 @@ object MongoClientOptions {
    * @param maxConnectionIdleTime the maximum idle time, in milliseconds
    * @param maxConnectionLifeTime  the maximum life time, in milliseconds
    * @param minConnectionsPerHost maximum number of connections
-   * @param minHeartbeatFrequency the minimum heartbeat frequency, in milliseconds, which must be &gt; 0
+   * @param heartbeatConnectRetryFrequency the heartbeat connect retry frequency, in milliseconds
    * @param requiredReplicaSetName the required replica set name for the replica set.
    *
    * @throws MongoException()
@@ -102,7 +102,7 @@ object MongoClientOptions {
              maxConnectionIdleTime: Int = Defaults.getMaxConnectionIdleTime,
              maxConnectionLifeTime: Int = Defaults.getMaxConnectionLifeTime,
              minConnectionsPerHost: Int = Defaults.getMinConnectionsPerHost,
-             minHeartbeatFrequency: Int = Defaults.getMinHeartbeatFrequency,
+             heartbeatConnectRetryFrequency: Int = Defaults.getHeartbeatConnectRetryFrequency,
              requiredReplicaSetName: String = Defaults.getRequiredReplicaSetName
              ): JavaMongoClientOptions = {
     val builder = new JavaMongoClientOptions.Builder()
@@ -126,11 +126,11 @@ object MongoClientOptions {
     builder.heartbeatConnectTimeout(heartbeatConnectTimeout)
     builder.heartbeatFrequency(heartbeatFrequency)
     builder.heartbeatSocketTimeout(heartbeatSocketTimeout)
-    builder.heartbeatThreadCount(heartbeatThreadCount)
+    if (heartbeatThreadCount > 1 ) builder.heartbeatThreadCount(heartbeatThreadCount)
     builder.maxConnectionIdleTime(maxConnectionIdleTime)
     builder.maxConnectionLifeTime(maxConnectionLifeTime)
     builder.minConnectionsPerHost(minConnectionsPerHost)
-    builder.minHeartbeatFrequency(minHeartbeatFrequency)
+    builder.heartbeatConnectRetryFrequency(heartbeatConnectRetryFrequency)
     builder.requiredReplicaSetName(requiredReplicaSetName)
     builder.build()
   }
