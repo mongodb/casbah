@@ -1,13 +1,14 @@
 # See http://about.travis-ci.org/docs/user/build-configuration/
 language: scala
 scala:
-  - 2.11.4
+  - 2.11.5
   - 2.10.4
   - 2.9.3
 # Branches to test
 branches:
   only:
     - master
+    - 2.7.x
 notifications:
   email:
     recipients:
