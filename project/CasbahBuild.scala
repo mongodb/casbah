@@ -15,9 +15,9 @@ object CasbahBuild extends Build {
   lazy val buildSettings = Seq(
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
-    version      := "2.8.0-RC1",
+    version      := "2.8.0-RC2",
     scalaVersion := "2.10.4",
-    crossScalaVersions := Seq("2.11.4", "2.10.4", "2.9.3")
+    crossScalaVersions := Seq("2.11.5", "2.10.4", "2.9.3")
   )
 
   val allSourceDirectories = SettingKey[Seq[Seq[File]]]("all-source-directories")
@@ -139,7 +139,7 @@ object CasbahBuild extends Build {
 object Dependencies {
 
   //val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "3.0.0-SNAPSHOT"
-  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.13.0-rc1"
+  val mongoJavaDriver  = "org.mongodb" % "mongo-java-driver" % "2.13.0-rc2"
   val slf4j            = "org.slf4j" % "slf4j-api" % "1.6.0"
   val junit            = "junit" % "junit" % "4.10" % "test"
   val slf4jJCL         = "org.slf4j" % "slf4j-jcl" % "1.6.0" % "test"
@@ -160,7 +160,7 @@ object Dependencies {
 
   def scalaStyle(scalaVersion: String) =
     scalaVersion match {
-      case "2.11.4"   => Seq()
+      case "2.11.5"   => Seq()
       case _ => Seq("org.scalastyle" %% "scalastyle" % "0.4.0"  % "test")
     }
 }

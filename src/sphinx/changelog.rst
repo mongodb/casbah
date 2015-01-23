@@ -4,6 +4,7 @@ Changelog
 .. note::
    Casbah jira project is here: https://jira.mongodb.org/browse/CASBAH
 
+
 Changes in Version 2.8.0-rc1
 ----------------------------
 - Updated Mongo Java Driver to 2.13.0-rc1 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.0-rc1) (CASBAH-156)
@@ -14,6 +15,12 @@ Changes in Version 2.8.0-rc0
 - Updated Mongo Java Driver to 2.13.0-rc0 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.0-rc0) (CASBAH-156)
 - Added SCRAM-SHA-1 helper (CASBAH-157)
 - Deprecated any methods using deprecated java driver methods (CASBAH-158)
+
+Changes in Version 2.7.5
+------------------------
+- Updated Mongo Java Driver to 2.12.5 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.5) (CASBAH-161)
+- Update compiled Scala version to 2.11.5 (CASBAH-162)
+- Updated apply method in MongoClientOptions to have the latest 2.12 options (CASBAH-160)
 
 Changes in Version 2.7.4
 ------------------------
