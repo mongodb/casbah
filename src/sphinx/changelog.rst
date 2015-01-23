@@ -4,6 +4,10 @@ Changelog
 .. note::
    Casbah jira project is here: https://jira.mongodb.org/browse/CASBAH
 
+Changes in Version 2.7.5
+------------------------
+- Updated Mongo Java Driver to 2.12.5 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.5) (CASBAH-161)
+
 Changes in Version 2.7.4
 ------------------------
 - Updated Mongo Java Driver to 2.12.4 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.4) (CASBAH-155)
