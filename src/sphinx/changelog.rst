@@ -5,6 +5,11 @@ Changelog
    Casbah jira project is here: https://jira.mongodb.org/browse/CASBAH
 
 
+Changes in Version 2.8.0
+------------------------
+- Updated Mongo Java Driver to 2.13.0 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.0) (CASBAH-156)
+- Added support for $max in DSL (https://github.com/mongodb/casbah/pull/69) (CASBAH-163)
+
 Changes in Version 2.8.0-rc2
 ----------------------------
 - Updated Mongo Java Driver to 2.13.0-rc2 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.0-rc2) (CASBAH-156)

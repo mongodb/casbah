@@ -173,7 +173,7 @@ trait IncOp extends BarewordQueryOperator {
  *
  * {{{ \$max ("foo" -> 5.0, "bar" -> 1.6) }}}
  *
- * @since 2.7
+ * @since 2.8
  * @see http://docs.mongodb.org/manual/reference/operator/update/max/
  */
 trait MaxOp extends BarewordQueryOperator {
