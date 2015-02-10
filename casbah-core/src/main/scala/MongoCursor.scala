@@ -193,14 +193,9 @@ trait MongoCursorBase extends Logging {
   /**
    * snapshot
    *
-   * Use snapshot mode for the query.
-   * Snapshot mode assures no duplicates are returned, or objects missed,
-   * which were present at both the start and end of the query's
-   * execution (if an object is new during the query, or deleted during the query,
-   * it may or may not be returned, even with snapshot mode).
-   *
-   * <b>NOTE:</b> Short query responses (&lt; 1MB) are always effectively snapshotted.
-   * <b>NOTE:</b> Currently, snapshot mode may not be used with sorting or explicit hints.
+   * Use snapshot mode for the query. Snapshot mode prevents the cursor from returning a document more than once because an intervening
+   * write operation results in a move of the document. Even in snapshot mode, documents inserted or deleted during the lifetime of the
+   * cursor may or may not be returned.  Currently, snapshot mode may not be used with sorting or explicit hints.
    *
    * @return the same DBCursor, useful for chaining operations
    */

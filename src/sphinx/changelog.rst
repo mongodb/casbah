@@ -4,6 +4,9 @@ Changelog
 .. note::
    Casbah jira project is here: https://jira.mongodb.org/browse/CASBAH
 
+Changes in Version 2.8.X
+------------------------
+- Clarified API docs regarding $snapshot (CASBAH-164)
 
 Changes in Version 2.8.0
 ------------------------
