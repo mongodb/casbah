@@ -24,7 +24,7 @@ package com.mongodb.casbah
 package query
 
 import com.mongodb.casbah.commons.Imports._
-import com.mongodb.casbah.query.dsl.{GeoCoords, ValueTestFluidQueryOperators, FluidQueryOperators}
+import com.mongodb.casbah.query.dsl.{FluidQueryOperators, GeoCoords, ValueTestFluidQueryOperators}
 
 // scalastyle:off number.of.types
 
@@ -203,7 +203,7 @@ object AsQueryParam {
   }
 
   implicit val string = as[String](identity)
-
+  implicit val none = as[None.type](identity)
   implicit def dbObject[A <: DBObject] = as[A](identity)
 
   implicit val dbRef = as[DBRef](identity)
@@ -268,7 +268,7 @@ object AsQueryParam {
 
 trait ValidNumericTypeHolder {
 
-  import com.mongodb.casbah.query.ValidTypes.{IntOk, ShortOk, ByteOk, LongOk, FloatOk, DoubleOk}
+  import com.mongodb.casbah.query.ValidTypes.{ByteOk, DoubleOk, FloatOk, IntOk, LongOk, ShortOk}
 
   implicit object IntOk extends IntOk
 
@@ -286,8 +286,6 @@ trait ValidNumericTypeHolder {
 
 
 trait ValidDateOrNumericTypeHolder {
-
-  import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, IntOk, ShortOk, ByteOk, LongOk, FloatOk, DoubleOk}
 
   implicit object JDKDateDoNOk extends ValidDateOrNumericType[java.util.Date]
 

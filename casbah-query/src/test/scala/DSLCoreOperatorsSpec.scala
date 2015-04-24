@@ -49,6 +49,11 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
       timeQuery must beEqualTo(MongoDBObject("foo" -> timestamp))
     }
 
+    "Accept a right hand value of None" in {
+      val neQuery = "foo" $eq None
+      neQuery must haveEntry("foo" -> None)
+    }
+
     "Accept a right hand value of DBObject" in {
       "A BasicDBObject created value" in {
         val eqObj = "foo" $eq new BasicDBObject("bar", "baz")
@@ -147,6 +152,11 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
       val timestamp = new BSONTimestamp(10101, 0)
       val timeQuery = "foo" $ne timestamp
       timeQuery must haveEntry("foo.$ne" -> timestamp)
+    }
+
+    "Accept a right hand value of None" in {
+      val neQuery = "foo" $ne None
+      neQuery must haveEntry("foo.$ne" -> None)
     }
 
     "Accept a right hand value of DBObject" in {
