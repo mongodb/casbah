@@ -77,10 +77,13 @@ trait CasbahDBTestSpecification extends CasbahMutableSpecification {
    * @param minVersion version Array
    * @return true if server is at least specified version
    */
-  def serverIsAtLeastVersion(minVersion: Int*): Boolean =
-    versionArray.take(minVersion.length).corresponds(minVersion) {
-      _.asInstanceOf[Int] >= _
+  def serverIsAtLeastVersion(minVersion: Int*): Boolean = {
+    var retVal = 0
+    for((v,i) <- minVersion.zipWithIndex) {
+      if (retVal == 0) retVal = versionArray(i).asInstanceOf[Int].compareTo(v)
     }
+    retVal >= 0
+  }
 
   def enableMaxTimeFailPoint() {
     if (serverIsAtLeastVersion(2, 5)) {

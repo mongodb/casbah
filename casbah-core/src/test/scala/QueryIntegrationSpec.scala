@@ -153,7 +153,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
 
   "$max" should {
     "Work with a single pair" in {
-      serverIsAtLeastVersion(2, 46) must beTrue.orSkip("Needs server >= 2.6")
+      serverIsAtLeastVersion(2, 6) must beTrue.orSkip("Needs server >= 2.6")
 
       collection.drop()
       collection += MongoDBObject("hello" -> "world", "foo" -> 5.0)
@@ -162,7 +162,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
       collection.findOne().get("foo") must beEqualTo(6)
     }
     "Work with multiple pairs" in {
-      serverIsAtLeastVersion(2, 46) must beTrue.orSkip("Needs server >= 2.6")
+      serverIsAtLeastVersion(2, 6) must beTrue.orSkip("Needs server >= 2.6")
 
       collection.drop()
       collection += MongoDBObject("hello" -> "world", "foo" -> 5.0, "bar" -> 5.0)
