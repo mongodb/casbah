@@ -4,8 +4,10 @@ Changelog
 .. note::
    Casbah jira project is here: https://jira.mongodb.org/browse/CASBAH
 
-Changes in Version 2.8.X
+Changes in Version 2.8.1
 ------------------------
+- Updated Mongo Java Driver to 2.13.1 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.1) (CASBAH-171)
+- Added support for None.type for the DSL (CASBAH-170)
 - Clarified API docs regarding $snapshot (CASBAH-164)
 
 Changes in Version 2.8.0
