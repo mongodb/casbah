@@ -179,6 +179,11 @@ Field Operators
 
     $unset("promotion")
 
+* ``$currentDate`` Updates the specified fields to current server-side *date*
+  or *timestamp* (the *only* allowed values)::
+
+    $currentDate("lastUpdated" -> "date", "ts" -> "timestamp")
+
 Array Update Operators
 ~~~~~~~~~~~~~~~~~~~~~~
 

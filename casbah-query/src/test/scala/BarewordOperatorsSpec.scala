@@ -370,5 +370,20 @@ class BarewordOperatorsSpec extends CasbahMutableSpecification {
       }
     }
   }
+
+  "Casbah's DSL $currentDate operator" should {
+    "Accept one or many pairs of values" in {
+      "Single pair" in {
+        val currentDate = $currentDate("foo" -> "date")
+        currentDate must haveEntry("$currentDate.foo.$type" -> "date")
+      }
+
+      "Multiple pairs" in {
+        val currentDate = $currentDate("foo" -> "date", "bar" -> "timestamp")
+        currentDate must haveEntry("$currentDate.foo.$type" -> "date")
+        currentDate must haveEntry("$currentDate.bar.$type" -> "timestamp")
+      }
+    }
+  }
 }
 
