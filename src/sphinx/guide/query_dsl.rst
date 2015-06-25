@@ -171,11 +171,11 @@ Field Operators
 
     $setOnInsert("promotion" -> "new")
 
-* ``$set`` Sets the value of a field in an existing document
+* ``$set`` Sets the value of a field in an existing document::
 
     $set("promotion" -> "sale", "qty" -> 100)
 
-* ``$unset`` Removes the specified field from an existing document
+* ``$unset`` Removes the specified field from an existing document::
 
     $unset("promotion")
 
