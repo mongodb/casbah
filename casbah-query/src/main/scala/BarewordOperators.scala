@@ -180,7 +180,7 @@ trait MaxOp extends BarewordQueryOperator {
   def $max[T: ValidNumericType](args: (String, T)*): DBObject = apply[T]("$max")(args)
 }
 
-/*
+/**
  * Trait to provide the \$push (push) method as a bareword operator.
  *
  * Targets an RValue of (String, Any)* to be converted to a DBObject
@@ -214,7 +214,7 @@ trait PushOp extends BarewordQueryOperator {
   // scalastyle:on public.methods.have.type
 }
 
-/*
+/**
  * Trait to provide the \$pushAll (pushAll) method as a bareword operator..
  *
  * Targets an RValue of (String, Array[Any])* to be converted to a DBObject
@@ -229,7 +229,7 @@ trait PushAllOp extends BarewordQueryOperator {
     apply("$pushAll")(Seq(args.map(z => z._1 -> AsQueryParam[A].asQueryParam(z._2)): _*))
 }
 
-/*
+/**
  * Trait to provide the \$addToSet (addToSet) method as a bareword operator..
  *
  * Targets an RValue of (String, Any)* to be converted to a DBObject
@@ -270,7 +270,7 @@ trait AddToSetOp extends BarewordQueryOperator {
 
 }
 
-/*
+/**
  * Trait to provide the \$pop (pop) method as a bareword operator..
  *
  * If Field exists but is not an array an error will occurr.
@@ -281,7 +281,7 @@ trait PopOp extends BarewordQueryOperator {
   def $pop[T: ValidNumericType](args: (String, T)*): DBObject = apply[T]("$pop")(Seq(args: _*))
 }
 
-/*
+/**
  * Trait to provide the \$pull (pull) method as a bareword operator..
  *
  * Targets an RValue of (String, Any)* to be converted to a DBObject
@@ -300,7 +300,7 @@ trait PullOp extends BarewordQueryOperator {
   def $pull(inner: DBObject): DBObject = MongoDBObject("$pull" -> inner)
 }
 
-/*
+/**
  * Trait to provide the \$pullAll (pullAll) method as a bareword operator..
  *
  * Targets an RValue of (String, Array[Any])* to be converted to a DBObject
