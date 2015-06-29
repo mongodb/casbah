@@ -91,6 +91,7 @@ with NorOp
 with BitOp
 with WhereOp
 with SearchOp
+with CurrentDateOp
 
 trait ArrayOps extends PushOp
 with PushAllOp
@@ -437,4 +438,26 @@ trait SearchOp extends BarewordQueryOperator {
     }
   }
 
+}
+
+/**
+ * Trait to provide the \$currentDate method as bareword operator
+ *
+ * {{{ \$currentDate ("field" -> "date") // to set current date to `field`}}}
+ *
+ * or
+ *
+ * {{{ \$currentDate ("field" -> "timestamp") // to set current timestamp to `field`}}}
+ *
+ * Takes sequence of tuples `(String, String)*`,
+ * where second element ''must'' be either `timestamp` or `date`
+ *
+ * WORKS ONLY IN MONGODB 2.5.3+
+ *
+ * @since 2.8.2
+ * @see http://docs.mongodb.org/manual/reference/operator/update/currentDate/
+ */
+trait CurrentDateOp extends BarewordQueryOperator {
+  def $currentDate(fields: (String, String)*): DBObject =
+    apply[Any]("$currentDate")(fields.map { case (k, v) => k -> MongoDBObject("$type" -> v) })
 }
