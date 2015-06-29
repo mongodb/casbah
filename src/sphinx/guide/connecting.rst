@@ -86,6 +86,11 @@ MongoDBCredentials
 
 .. code-block:: scala
 
+    // Automatically detect SCRAM-SHA-1 or Challenge Response protocol
+    val server = new ServerAddress("localhost", 27017)
+    val credentials = MongoCredential.createCredential(userName, source, password)
+    val mongoClient = MongoClient(server, List(credentials))
+
     // SCRAM-SHA-1
     val server = new ServerAddress("localhost", 27017)
     val credentials = MongoCredential.createScramSha1Credential(userName, source, password)
