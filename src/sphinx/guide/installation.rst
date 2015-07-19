@@ -45,6 +45,6 @@ need to add the sonatype resolvers to your `./build.sbt` file::
 Alternative installation methods
 --------------------------------
 You can install Casbah with maven, ivy or from source - see the
-:doc:`alternative install <installation_alt>` documentation.
+`alternative install <installation_alt>`_ documentation.
 
 .. |scala_versions| replace:: 2.9.3, 2.10.x, 2.11.x
