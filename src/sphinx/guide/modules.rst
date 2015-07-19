@@ -28,7 +28,7 @@ This is the breakdown of dependencies and packages:
   +-------------------------------------+----------------------------+-------------------------------------------------+
   | Module                              | Package                    | Dependencies                                    |
   +=====================================+============================+=================================================+
-  | :casbah-core:`Casbah Core`          | com.mongodb.casbah         | casbah-commons and casbah-query                 |
+  | Casbah Core                         | com.mongodb.casbah         | casbah-commons and casbah-query                 |
   |                                     |                            | along with their                                |
   | **NOTES**                           |                            | dependencies                                    |
   |                                     |                            | transitively                                    |
@@ -37,7 +37,7 @@ This is the breakdown of dependencies and packages:
   | connections, collections and        |                            |                                                 |
   | MapReduce jobs                      |                            |                                                 |
   +-------------------------------------+----------------------------+-------------------------------------------------+
-  | :casbah-commons:`Casbah Commons`    | com.mongodb.casbah.commons |                                                 |
+  | Casbah Commons                      | com.mongodb.casbah.commons |                                                 |
   |                                     |                            |  * mongo-java-driver,                           |
   | **NOTES**                           |                            |  * nscala-time,                                 |
   |                                     |                            |  * slf4j-api,                                   |
@@ -47,7 +47,7 @@ This is the breakdown of dependencies and packages:
   | implementations as well as Implicit |                            |                                                 |
   | conversions for Scala types         |                            |                                                 |
   +-------------------------------------+----------------------------+-------------------------------------------------+
-  | :casbah-query:`Query DSL`           | com.mongodb.casbah.query   | casbah-commons                                  |
+  | Query DSL                           | com.mongodb.casbah.query   | casbah-commons                                  |
   |                                     |                            | along with their                                |
   | **NOTES**                           |                            | dependencies                                    |
   |                                     |                            | transitively                                    |
@@ -56,7 +56,7 @@ This is the breakdown of dependencies and packages:
   | objects using an Internal DSL       |                            |                                                 |
   | supporting Mongo `$ Operators`      |                            |                                                 |
   +-------------------------------------+----------------------------+-------------------------------------------------+
-  | :casbah-gridfs:`Gridfs`             | com.mongodb.casbah.gridfs  | casbah-commons and casbah-query                 |
+  | Gridfs                              | com.mongodb.casbah.gridfs  | casbah-commons and casbah-query                 |
   |                                     |                            | along with their                                |
   | **NOTES**                           |                            | dependencies                                    |
   |                                     |                            | transitively                                    |
