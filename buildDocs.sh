@@ -35,7 +35,7 @@ WEBSITE_ROOT=mongodb.github.com/casbah/
 SPHINX_DIR=./src/sphinx
 SITE_DIR=./target/site/
 
-./sbt ++2.10.4 "update" "clean" "compile" "make-site" "unidoc"
+./sbt ++2.10.5 "update" "clean" "compile" "make-site" "unidoc"
 
 mkdir -p $SITE_DIR/api.sxr/casbah-commons
 mkdir -p $SITE_DIR/api.sxr/casbah-core
