@@ -4,23 +4,55 @@ scala:
   - 2.11.7
   - 2.10.5
   - 2.9.3
+jdk:
+  - openjdk7
+  - oraclejdk7
+
 # Branches to test
 branches:
   only:
     - master
-    - 2.7.x
+    - 2.8.x
 notifications:
   email:
     recipients:
       - ross@mongodb.com
-      - jeff.yemin@mongodb.com
     on_success: change
     on_failure: always
-  flowdock:
-    secure: "gR8a3oaAa9+ww2xfCp9dYysF/gAQCyWpG5R+Ms0QkQBUStmlhnszHelio67/xcVjHaTDf/t+ocGUbL95v8ruMVer1QOUV0NMrUSYFUwzjjXDg3TpwEO48psEu2gfsgUuL2GW0f/OMaIfUXVccu8pAXrKVCMnu0xR6NaJEkZo/Sk="
-jdk:
-  - openjdk6
-  - openjdk7
-  - oraclejdk7
-services:
-  - mongodb
+    flowdock:
+      secure: "gR8a3oaAa9+ww2xfCp9dYysF/gAQCyWpG5R+Ms0QkQBUStmlhnszHelio67/xcVjHaTDf/t+ocGUbL95v8ruMVer1QOUV0NMrUSYFUwzjjXDg3TpwEO48psEu2gfsgUuL2GW0f/OMaIfUXVccu8pAXrKVCMnu0xR6NaJEkZo/Sk="
+
+matrix:
+    fast_finish: true
+
+env:
+  global:
+    - MONGO_REPO="http://repo.mongodb.com/apt/ubuntu"
+    - REPO_TYPE="precise/mongodb-enterprise/3.0 multiverse"
+    - SOURCES_LOC="/etc/apt/sources.list.d/mongodb-enterprise.list"
+    - KEY_SERVER="hkp://keyserver.ubuntu.com:80"
+    - MONGOD_PARAMS="--setParameter=enableTestCommands=1"
+    - MONGOD_OPTS="--dbpath ./data --fork --logpath mongod.log ${MONGOD_PARAMS}"
+    - TERM=dumb
+
+before_install:
+    # MongoDB Enterprise Edition 2.0
+    - sudo apt-key adv --keyserver ${KEY_SERVER} --recv 7F0CEB10
+    - echo "deb ${MONGO_REPO} ${REPO_TYPE}" | sudo tee ${SOURCES_LOC}
+
+    # Update all the repositories
+    - sudo apt-get update -qq
+
+install:
+    # Install MongoDB Enterprise
+    - sudo apt-get install mongodb-enterprise-server
+    - sudo stop mongod
+    - mkdir data
+
+before_script:
+    - mongod ${MONGOD_OPTS}
+
+
+script:
+  - ./sbt ++$TRAVIS_SCALA_VERSION test
+
