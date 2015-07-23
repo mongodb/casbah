@@ -4,6 +4,12 @@ Changelog
 .. note::
    Casbah jira project is here: https://jira.mongodb.org/browse/CASBAH
 
+Changes in Version 2.8.2
+------------------------
+- Updated Mongo Java Driver to 2.13.1 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.2) (CASBAH-177)
+- Add $currentDate to update dsl (CASBAH-176)
+- Add docs for default authentication mechanism (CASBAH-175)
+
 Changes in Version 2.8.1
 ------------------------
 - Updated Mongo Java Driver to 2.13.1 (https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.1) (CASBAH-171)
