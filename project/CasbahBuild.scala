@@ -160,7 +160,7 @@ object Dependencies {
 
   def scalaStyle(scalaVersion: String) =
     scalaVersion match {
-      case "2.11.5"   => Seq()
+      case "2.11.7"   => Seq()
       case _ => Seq("org.scalastyle" %% "scalastyle" % "0.4.0"  % "test")
     }
 }
