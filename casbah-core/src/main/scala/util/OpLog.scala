@@ -114,7 +114,7 @@ object MongoOpLogEntry {
         entry.as[DBObject]("o"),
         entry.as[DBObject]("o2"))
     case DeleteOp.typeCode =>
-      MongoInsertOperation(
+      MongoDeleteOperation(
         entry.as[BSONTimestamp]("ts"),
         entry.getAs[Long]("h"),
 
