@@ -25,7 +25,7 @@ casbah.  I recommend using `sbt-extras <https://github.com/paulp/sbt-extras>`_
 
 .. code-block:: bash
 
-    curl https://raw.github.com/paulp/sbt-extras/master/sbt > sbt
+    curl https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > sbt
     chmod +ux sbt
 
 2. Create an sbt build file: ``build.sbt``:
