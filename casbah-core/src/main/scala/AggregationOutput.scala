@@ -20,11 +20,10 @@
  */
 package com.mongodb.casbah
 
-import scala.collection.JavaConverters._
-import scala.collection.mutable
-
 import com.mongodb.casbah.Imports._
 import com.mongodb.{AggregationOutput => JavaAggregationOutput}
+
+import scala.collection.JavaConverters._
 
 
 /**
@@ -39,60 +38,6 @@ case class AggregationOutput(underlying: JavaAggregationOutput) {
    * @return
    */
   def results: Iterable[DBObject] = underlying.results.asScala
-
-  /**
-   * returns the command result of the aggregation
-   * @return the command result
-   * @deprecated there is no replacement for this method
-   */
-  @deprecated("This will be removed in a future release", "2.8")
-  @SuppressWarnings(Array("deprecation"))
-  def getCommandResult: mutable.Map[String, AnyRef] = underlying.getCommandResult.asScala
-
-  /**
-   * returns the command result of the aggregation
-   * @return the command result
-   * @deprecated there is no replacement for this method
-   */
-  @deprecated("This will be removed in a future release", "2.8")
-  @SuppressWarnings(Array("deprecation"))
-  def commandResult: mutable.Map[String, AnyRef] = underlying.getCommandResult.asScala
-
-  /**
-   * returns the original aggregation command
-   * @return the command
-   * @deprecated there is no replacement for this method
-   */
-  @deprecated("This will be removed in a future release", "2.8")
-  @SuppressWarnings(Array("deprecation"))
-  def getCommand: DBObject = underlying.getCommand
-
-  /**
-   * returns the original aggregation command
-   * @return the command
-   * @deprecated there is no replacement for this method
-   */
-  @deprecated("This will be removed in a future release", "2.8")
-  @SuppressWarnings(Array("deprecation"))
-  def command: DBObject = underlying.getCommand
-
-  /**
-   * returns the address of the server used to execute the aggregation
-   * @return the server which executed the aggregation
-   * @deprecated there is no replacement for this method
-   */
-  @deprecated("This will be removed in a future release", "2.8")
-  @SuppressWarnings(Array("deprecation"))
-  def getServerUsed: ServerAddress = underlying.getServerUsed
-
-  /**
-   * returns the address of the server used to execute the aggregation
-   * @return the server which executed the aggregation
-   * @deprecated there is no replacement for this method
-   */
-  @deprecated("This will be removed in a future release", "2.8")
-  @SuppressWarnings(Array("deprecation"))
-  def serverUsed(): ServerAddress = underlying.getServerUsed
 
   /**
    * string representation of the aggregation command

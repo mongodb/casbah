@@ -30,19 +30,14 @@ import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.gridfs.Imports._
 
 import com.github.nscala_time.time.Imports._
-import org.specs2.specification.BeforeAfterExample
+import org.specs2.specification.BeforeExample
 
 
-class JodaGridFSSpec extends GridFSSpecification with BeforeAfterExample {
+class JodaGridFSSpec extends GridFSSpecification with BeforeExample {
 
   def before {
     DeregisterJodaLocalDateTimeConversionHelpers()
     RegisterJodaTimeConversionHelpers()
-    database.requestStart()
-  }
-
-  def after {
-    database.requestDone()
   }
 
   override val databaseName = TEST_DB + "-JodaGridFS"

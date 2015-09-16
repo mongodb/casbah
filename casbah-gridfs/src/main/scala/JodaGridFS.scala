@@ -67,10 +67,6 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
 
     override def length: Int = fileSet.length
 
-    @deprecated("This write concern will no longer supported", "2.7.0")
-    @SuppressWarnings(Array("deprecation"))
-    def numGetMores(): Int = fileSet.numGetMores
-
     def numSeen(): Int = fileSet.numSeen
 
     def curr: JodaGridFSDBFile = next()

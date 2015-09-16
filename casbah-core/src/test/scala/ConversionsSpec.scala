@@ -25,6 +25,7 @@ package com.mongodb.casbah.test.core
 import scala.collection.mutable
 import scala.collection.JavaConverters._
 
+import org.bson.codecs.configuration.CodecConfigurationException
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.conversions.scala._
 
@@ -68,7 +69,7 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
         collection += MongoDBObject("date" -> jodaDate, "type" -> "joda")
       }
 
-      saveDate must throwA[IllegalArgumentException]
+      saveDate must throwA[CodecConfigurationException]
 
       collection += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
 
@@ -157,7 +158,7 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
         collection += MongoDBObject("date" -> jodaDate, "type" -> "joda")
       }
 
-      testJodaInsert must throwA[IllegalArgumentException]
+      testJodaInsert must throwA[CodecConfigurationException]
 
       // Normal JDK Date should work
       collection += MongoDBObject("date" -> jdkDate, "type" -> "jdk")

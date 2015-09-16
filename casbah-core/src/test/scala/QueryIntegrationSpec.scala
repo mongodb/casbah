@@ -63,7 +63,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
         collection.update(MongoDBObject(), $setOnInsert("foo" -> "baz"), upsert = true)
         collection.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
       } catch {
-        case ex: WriteConcernException if ex.getCommandResult.get("err") != "Invalid modifier specified $setOnInsert" =>
+        case ex: WriteConcernException if ex.getErrorMessage != "Invalid modifier specified $setOnInsert" =>
           throw ex
       }
       success
@@ -79,7 +79,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
         collection.find(MongoDBObject("foo" -> "baz")).count must beEqualTo(1)
       } catch {
         case ex: WriteConcernException =>
-          if (ex.getCommandResult.get("err") != "Invalid modifier specified $setOnInsert")
+          if (ex.getErrorMessage != "Invalid modifier specified $setOnInsert")
             throw ex
       }
       success
@@ -94,7 +94,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
         collection.find(MongoDBObject("a" -> "b")).count must beEqualTo(1)
       } catch {
         case ex: WriteConcernException =>
-          if (ex.getCommandResult.get("err") != "Invalid modifier specified $setOnInsert")
+          if (ex.getErrorMessage != "Invalid modifier specified $setOnInsert")
             throw ex
       }
       success
@@ -472,7 +472,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
       collection.getDB.getSisterDB("admin").command(enableTextCommand)
       val textIndex = MongoDBObject("a" -> "text")
       collection.drop()
-      collection.ensureIndex(textIndex)
+      collection.createIndex(textIndex)
 
       collection += MongoDBObject("_id" -> 0, "unindexedField" -> 0, "a" -> "textual content")
       collection += MongoDBObject("_id" -> 1, "unindexedField" -> 1, "a" -> "additional content")

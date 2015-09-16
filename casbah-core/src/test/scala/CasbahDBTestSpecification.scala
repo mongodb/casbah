@@ -88,14 +88,14 @@ trait CasbahDBTestSpecification extends CasbahMutableSpecification {
   def enableMaxTimeFailPoint() {
     if (serverIsAtLeastVersion(2, 5)) {
       mongoClient.getDB("admin").command(MongoDBObject("configureFailPoint" -> "maxTimeAlwaysTimeOut", "mode" -> "alwaysOn"),
-        0, ReadPreference.Primary)
+        ReadPreference.Primary)
     }
   }
 
   def disableMaxTimeFailPoint() {
     if (serverIsAtLeastVersion(2, 5)) {
       mongoClient.getDB("admin").command(MongoDBObject("configureFailPoint" -> "maxTimeAlwaysTimeOut", "mode" -> "off"),
-        0, ReadPreference.Primary)
+        ReadPreference.Primary)
     }
   }
 

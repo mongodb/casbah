@@ -138,7 +138,7 @@ abstract class GenericGridFSFile(override val underlying: MongoGridFSFile) exten
 class GridFSDBFileSafeJoda extends MongoGridFSDBFile {
 
   override def setGridFS(fs: MongoGridFS) {
-    _fs = fs
+    super.setGridFS(fs)
   }
 
   override def put(key: String, v: AnyRef): AnyRef = {

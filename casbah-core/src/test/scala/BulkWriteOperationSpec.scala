@@ -22,13 +22,10 @@
 
 package com.mongodb.casbah.test.core
 
-import scala.collection.mutable
-
-import java.lang.UnsupportedOperationException
-
 import com.mongodb.BulkWriteUpsert
-
 import com.mongodb.casbah.Imports._
+
+import scala.collection.mutable
 
 
 @SuppressWarnings(Array("deprecation"))
@@ -274,32 +271,6 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
           collection.findOne() should beSome(MongoDBObject("_id" -> 1, "x" -> 2))
         }
-      }
-
-      "handle multi-length runs of unacknowledged insert, update, replace, and remove" in {
-        collection.drop()
-        collection.insert(testInserts: _*)
-
-        collection.getDB.requestStart()
-
-        val operation = initializeBulkOperation(ordered)
-        addWritesTo(operation)
-
-        val result = operation.execute(WriteConcern.Unacknowledged)
-        collection.insert(MongoDBObject("_id" -> 9))
-
-        result.isAcknowledged must beFalse
-        collection.findOne(MongoDBObject("_id" -> 1)) must beSome(MongoDBObject("_id" -> 1, "x" -> 2))
-        collection.findOne(MongoDBObject("_id" -> 2)) must beSome(MongoDBObject("_id" -> 2, "x" -> 3))
-        collection.findOne(MongoDBObject("_id" -> 3)) must beNone
-        collection.findOne(MongoDBObject("_id" -> 4)) must beNone
-        collection.findOne(MongoDBObject("_id" -> 5)) must beSome(MongoDBObject("_id" -> 5, "x" -> 4))
-        collection.findOne(MongoDBObject("_id" -> 6)) must beSome(MongoDBObject("_id" -> 6, "x" -> 5))
-        collection.findOne(MongoDBObject("_id" -> 7)) must beSome(MongoDBObject("_id" -> 7))
-        collection.findOne(MongoDBObject("_id" -> 8)) must beSome(MongoDBObject("_id" -> 8))
-
-        collection.getDB.requestDone()
-        success
       }
   }
 

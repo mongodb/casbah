@@ -41,27 +41,21 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
       options.getDescription must beEqualTo(javaOptions.getDescription)
       options.getReadPreference must beEqualTo(javaOptions.getReadPreference)
       options.getWriteConcern must beEqualTo(javaOptions.getWriteConcern)
-      options.isAutoConnectRetry must beEqualTo(javaOptions.isAutoConnectRetry)
       options.getConnectionsPerHost must beEqualTo(javaOptions.getConnectionsPerHost)
       options.getConnectTimeout must beEqualTo(javaOptions.getConnectTimeout)
-      options.getMaxAutoConnectRetryTime must beEqualTo(javaOptions.getMaxAutoConnectRetryTime)
       options.getThreadsAllowedToBlockForConnectionMultiplier must beEqualTo(javaOptions.getThreadsAllowedToBlockForConnectionMultiplier)
       options.isSocketKeepAlive must beEqualTo(javaOptions.isSocketKeepAlive)
       options.isCursorFinalizerEnabled must beEqualTo(javaOptions.isCursorFinalizerEnabled)
       options.getSocketFactory must beEqualTo(javaOptions.getSocketFactory)
       options.getDbEncoderFactory must beEqualTo(javaOptions.getDbEncoderFactory)
       options.getDbDecoderFactory must beEqualTo(javaOptions.getDbDecoderFactory)
-
-      options.getAcceptableLatencyDifference must beEqualTo(javaOptions.getAcceptableLatencyDifference)
       options.isAlwaysUseMBeans must beEqualTo(javaOptions.isAlwaysUseMBeans)
       options.getHeartbeatConnectTimeout must beEqualTo(javaOptions.getHeartbeatConnectTimeout)
       options.getHeartbeatFrequency must beEqualTo(javaOptions.getHeartbeatFrequency)
       options.getHeartbeatSocketTimeout must beEqualTo(javaOptions.getHeartbeatSocketTimeout)
-      options.getHeartbeatThreadCount must beEqualTo(javaOptions.getHeartbeatThreadCount)
       options.getMaxConnectionIdleTime must beEqualTo(javaOptions.getMaxConnectionIdleTime)
       options.getMaxConnectionLifeTime must beEqualTo(javaOptions.getMaxConnectionLifeTime)
       options.getMinConnectionsPerHost must beEqualTo(javaOptions.getMinConnectionsPerHost)
-      options.getHeartbeatConnectRetryFrequency must beEqualTo(javaOptions.getHeartbeatConnectRetryFrequency)
       options.getRequiredReplicaSetName must beEqualTo(javaOptions.getRequiredReplicaSetName)
       options.getMinHeartbeatFrequency must beEqualTo(javaOptions.getMinHeartbeatFrequency)
 
@@ -73,10 +67,8 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
       builder.description("test")
       builder.readPreference(ReadPreference.Secondary)
       builder.writeConcern(WriteConcern.JournalSafe)
-      builder.autoConnectRetry(true)
       builder.connectionsPerHost(500)
       builder.connectTimeout(100)
-      builder.maxAutoConnectRetryTime(300)
       builder.threadsAllowedToBlockForConnectionMultiplier(1)
       builder.socketKeepAlive(true)
       builder.cursorFinalizerEnabled(true)
@@ -93,17 +85,13 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
         def create = null
       }
       builder.dbDecoderFactory(decoderFactory)
-
-      builder.acceptableLatencyDifference(100)
       builder.alwaysUseMBeans(true)
       builder.heartbeatConnectTimeout(100)
       builder.heartbeatFrequency(100)
       builder.heartbeatSocketTimeout(1000)
-      builder.heartbeatThreadCount(1)
       builder.maxConnectionIdleTime(100)
       builder.maxConnectionLifeTime(100)
       builder.minConnectionsPerHost(100)
-      builder.heartbeatConnectRetryFrequency(200)
       builder.requiredReplicaSetName("replicaSet")
       builder.minHeartbeatFrequency(200)
 
@@ -111,27 +99,21 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
       options.getDescription must beEqualTo("test")
       options.getReadPreference must beEqualTo(ReadPreference.Secondary)
       options.getWriteConcern must beEqualTo(WriteConcern.JournalSafe)
-      options.isAutoConnectRetry must beEqualTo(true)
       options.getConnectionsPerHost must beEqualTo(500)
       options.getConnectTimeout must beEqualTo(100)
-      options.getMaxAutoConnectRetryTime must beEqualTo(300)
       options.getThreadsAllowedToBlockForConnectionMultiplier must beEqualTo(1)
       options.isSocketKeepAlive must beEqualTo(true)
       options.isCursorFinalizerEnabled must beEqualTo(true)
       options.getSocketFactory must beEqualTo(socketFactory)
       options.getDbEncoderFactory must beEqualTo(encoderFactory)
       options.getDbDecoderFactory must beEqualTo(decoderFactory)
-
-      options.getAcceptableLatencyDifference must beEqualTo(100)
       options.isAlwaysUseMBeans must beEqualTo(true)
       options.getHeartbeatConnectTimeout must beEqualTo(100)
       options.getHeartbeatFrequency must beEqualTo(100)
       options.getHeartbeatSocketTimeout must beEqualTo(1000)
-      options.getHeartbeatThreadCount must beEqualTo(1)
       options.getMaxConnectionIdleTime must beEqualTo(100)
       options.getMaxConnectionLifeTime must beEqualTo(100)
       options.getMinConnectionsPerHost must beEqualTo(100)
-      options.getHeartbeatConnectRetryFrequency must beEqualTo(200)
       options.getRequiredReplicaSetName must beEqualTo("replicaSet")
       options.getMinHeartbeatFrequency must beEqualTo(200)
 
@@ -164,18 +146,12 @@ class MongoClientOptionsSpec extends CasbahMutableSpecification {
       lazy val testThreadsAllowedToBlockForConnectionMultiplier = builder.threadsAllowedToBlockForConnectionMultiplier(0)
       testThreadsAllowedToBlockForConnectionMultiplier must throwA[IllegalArgumentException]
 
-      lazy val testMaxAutoConnectRetryTime = builder.maxAutoConnectRetryTime(-1)
-      testMaxAutoConnectRetryTime must throwA[IllegalArgumentException]
-
-      lazy val testHeartbeatConnectRetryFrequency = builder.heartbeatConnectRetryFrequency(0)
-      testHeartbeatConnectRetryFrequency must throwA[IllegalArgumentException]
-
       lazy val testMinHeartbeatFrequency = builder.minHeartbeatFrequency(0)
       testMinHeartbeatFrequency must throwA[IllegalArgumentException]
     }
 
     "WriteConcern valueOf should return an Option" in {
-      WriteConcern.valueOf("None") must beEqualTo(Option(WriteConcern.None))
+      WriteConcern.valueOf("Normal") must beEqualTo(Option(WriteConcern.Normal))
       WriteConcern.valueOf("MadeUp") must beEqualTo(None)
     }
 
