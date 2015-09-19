@@ -74,8 +74,7 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
         }
 
         "the apply method works" in {
-          database.underlying must haveSuperclass[com.mongodb.DB]
-
+          database.underlying must haveClass[com.mongodb.DB]
         }
       }
 
@@ -93,7 +92,7 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
       collection.insert(MongoDBObject("foo" -> "bar"))
       collection.indexInfo.length must beEqualTo(1)
 
-      collection.ensureIndex(MongoDBObject("uid" -> 1), "user_index", unique = true)
+      collection.createIndex(MongoDBObject("uid" -> 1), "user_index", unique = true)
       collection.indexInfo.length must beEqualTo(2)
 
       collection.indexInfo(1)("key") == MongoDBObject("uid" -> 1)

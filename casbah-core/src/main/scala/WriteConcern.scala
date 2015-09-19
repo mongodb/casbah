@@ -31,14 +31,7 @@ import com.mongodb.{WriteConcern => JWriteConcern}
  * @see JWriteConcern
  */
 object WriteConcern {
-  /**
-   * No exceptions are raised, even for network issues
-   * @deprecated There is no replacement for this write concern.  The closest would be to use WriteConcern#UNACKNOWLEDGED,
-   *             then catch and ignore any exceptions of type MongoSocketException.
-   */
-  @deprecated("This write concern will no longer supported", "2.7.0")
-  @SuppressWarnings(Array("deprecation"))
-  val None: JWriteConcern = new JWriteConcern(-1)
+
   /**
    * Exceptions are raised for network issues but not server errors.
    */
@@ -69,16 +62,6 @@ object WriteConcern {
    * waits for at least 2 servers for the write operation.
    */
   val ReplicasSafe: JWriteConcern = JWriteConcern.REPLICAS_SAFE
-
-  /**
-   * No exceptions are raised, even for network issues.
-   *
-   * @deprecated There is no replacement for this write concern.  The closest would be to use WriteConcern#UNACKNOWLEDGED,
-   *             then catch and ignore any exceptions of type MongoSocketException.
-   * @since 2.7
-   */
-  @deprecated("This write concern will no longer supported", "2.7.0")
-  val ErrorsIgnored: JWriteConcern = new JWriteConcern(-1)
   /**
    * Write operations that use this write concern will wait for acknowledgement from the primary server before returning.
    * Exceptions are raised for network issues, and server errors.
@@ -109,66 +92,6 @@ object WriteConcern {
    * @since 2.7
    */
   val ReplicaAcknowledged: JWriteConcern = JWriteConcern.REPLICA_ACKNOWLEDGED
-
-  /**
-   * Create a new WriteConcern object.
-   *
-   * <p> w represents # of servers:
-   * <ul>
-   * <li><code>w=-1</code> None, no checking is done</li>
-   * <li><code>w=0</code> None, network socket errors raised</li>
-   * <li><code>w=1</code> Checks server for errors as well as network socket errors raised</li>
-   * <li><code>w>1</code> Checks servers (w) for errors as well as network socket errors raised</li>
-   * </ul>
-   * </p>
-   * @param w (Int) Specifies the number of servers to wait for on the write operation, and exception raising behavior.
-   *          Defaults to <code>0</code>
-   * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
-   * @param fsync (Boolean) Indicates whether write operations should require a sync to disk.
-   *              If true and the server is running without journaling, blocks until the server has synced all data
-   *              files to disk. If the server is running with journaling, this acts the same as the `j` option,
-   *              blocking until write operations have been committed to the journal.
-   *              Cannot be used in combination with `j`.
-   *              Defaults to False
-   * @param j whether writes should wait for a journaling group commit. Cannot be used with `fsync`.
-   * @param continueInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
-   * @deprecated the preferred way to specify continueOnError is to use write methods that explicitly specify the value
-   *            of this property
-   */
-  @deprecated("This will be removed in a future release", "2.8")
-  @SuppressWarnings(Array("deprecation"))
-  def apply(w: Int,
-            wTimeout: Int = 0,
-            fsync: Boolean = false,
-            j: Boolean = false,
-            continueInsertOnError: Boolean = false): JWriteConcern =
-    new JWriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
-
-  /**
-   * Create a new WriteConcern object.
-   *
-   * <p> w is a String representing a valid getLastErrorMode rule (or "majority")
-   * @param w (Int) Specifies the getLastErrorMode to apply to the write
-   * @param wTimeout (Int) Specifies the number MS to wait for the server operations to write.  Defaults to 0 (no timeout)
-   * @param fsync (Boolean) Indicates whether write operations should require a sync to disk.
-   *              If true and the server is running without journaling, blocks until the server has synced all data
-   *              files to disk. If the server is running with journaling, this acts the same as the `j` option,
-   *              blocking until write operations have been committed to the journal.
-   *              Cannot be used in combination with `j`.
-   *              Defaults to False
-   * @param j whether writes should wait for a journaling group commit. Cannot be used with `fsync`.
-   * @param continueInsertOnError if an error occurs during a bulk insert should the inserts continue anyway
-   * @deprecated the preferred way to specify continueOnError is to use write methods that explicitly specify the value
-   *            of this property
-   */
-  @deprecated("This will be removed in a future release", "2.8")
-  @SuppressWarnings(Array("deprecation"))
-  def withRule(w: String,
-               wTimeout: Int = 0,
-               fsync: Boolean = false,
-               j: Boolean = false,
-               continueInsertOnError: Boolean = false): JWriteConcern =
-    new JWriteConcern(w, wTimeout, fsync, j, continueInsertOnError)
 
   /**
    * Get the WriteConcern constants by name: NONE, NORMAL, SAFE, MAJORITY, FSYNC_SAFE,

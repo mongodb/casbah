@@ -82,7 +82,7 @@ object QueryExpressionObject {
     val obj = new BasicDBObject with QueryExpressionObject {
       val field = kv._1
     }
-    obj.put(kv._1, kv._2)
+    obj.put(kv._1, kv._2.asInstanceOf[AnyRef])
     obj
   }
 

@@ -43,16 +43,12 @@ object MongoClientOptions {
   /**
    * Instantiate a new MongoClientOptions instance
    *
-   * @param autoConnectRetry Whether system autoretries on connection errors, default false - deprecated There is no replacement for this
-   *                         method.  Use the connectTimeout property to control connection timeout.
    * @param connectionsPerHost # of connections allowed per host (pool size, per host) default 100
    * @param connectTimeout Connection timeout in milliseconds default 10,000
    * @param cursorFinalizerEnabled Sets whether there is a finalize method created that cleans up instances of DBCursor default true
    * @param dbDecoderFactory override the default decoder factory
    * @param dbEncoderFactory override the default encoder factory
    * @param description the description of the MongoClient
-   * @param maxAutoConnectRetryTime Sets the maximum auto connect retry time default 0 - deprecated There is no replacement for this
-   *                                method.  Use the connectTimeout property to control connection timeout.
    * @param maxWaitTime the maximum time that a thread will block waiting for a connection, default 1000 * 60 * 2
    * @param readPreference the read preference to use for queries, map-reduce, aggregation, and count
    * @param socketFactory the socket factory for creating sockets to the mongo server
@@ -60,16 +56,13 @@ object MongoClientOptions {
    * @param socketTimeout socket timeout in milliseconds passed to Socket.setSoTimeout, default 0
    * @param threadsAllowedToBlockForConnectionMultiplier the multiplier for number of threads allowed to block waiting for a connection, default 5
    * @param writeConcern the write concern to use
-   * @param acceptableLatencyDifference the acceptable latency difference, in milliseconds
    * @param alwaysUseMBeans true if driver should always use MBeans, regardless of VM version
    * @param heartbeatConnectTimeout the heartbeat connect timeout, in milliseconds
    * @param heartbeatFrequency the heartbeat frequency, in milliseconds
    * @param heartbeatSocketTimeout the heartbeat socket timeout, in milliseconds
-   * @param heartbeatThreadCount the heartbeat thread count - deprecated will soon no longer be configurable
    * @param maxConnectionIdleTime the maximum idle time, in milliseconds
    * @param maxConnectionLifeTime  the maximum life time, in milliseconds
    * @param minConnectionsPerHost maximum number of connections
-   * @param heartbeatConnectRetryFrequency the heartbeat connect retry frequency, in milliseconds - deprecated use minHeartbeatFrequency
    * @param requiredReplicaSetName the required replica set name for the replica set.
    * @param minHeartbeatFrequency the minimum heartbeat frequency, in milliseconds, which must be &gt; 0
    *
@@ -78,14 +71,12 @@ object MongoClientOptions {
    * @see MongoDBAddress
    */
   def apply(
-             autoConnectRetry: Boolean = Defaults.isAutoConnectRetry,
              connectionsPerHost: Int = Defaults.getConnectionsPerHost,
              connectTimeout: Int = Defaults.getConnectTimeout,
              cursorFinalizerEnabled: Boolean = Defaults.isCursorFinalizerEnabled,
              dbDecoderFactory: DBDecoderFactory = Defaults.getDbDecoderFactory,
              dbEncoderFactory: DBEncoderFactory = Defaults.getDbEncoderFactory,
              description: String = Defaults.getDescription,
-             maxAutoConnectRetryTime: Long = Defaults.getMaxAutoConnectRetryTime,
              maxWaitTime: Int = Defaults.getMaxWaitTime,
              readPreference: ReadPreference = Defaults.getReadPreference,
              socketFactory: SocketFactory = Defaults.getSocketFactory,
@@ -93,30 +84,24 @@ object MongoClientOptions {
              socketTimeout: Int = Defaults.getSocketTimeout,
              threadsAllowedToBlockForConnectionMultiplier: Int = Defaults.getThreadsAllowedToBlockForConnectionMultiplier,
              writeConcern: WriteConcern = Defaults.getWriteConcern,
-
-             acceptableLatencyDifference: Int = Defaults.getAcceptableLatencyDifference,
              alwaysUseMBeans: Boolean = Defaults.isAlwaysUseMBeans,
              heartbeatConnectTimeout: Int = Defaults.getHeartbeatConnectTimeout,
              heartbeatFrequency: Int = Defaults.getHeartbeatFrequency,
              heartbeatSocketTimeout: Int = Defaults.getHeartbeatSocketTimeout,
-             heartbeatThreadCount: Int = Defaults.getHeartbeatThreadCount,
              maxConnectionIdleTime: Int = Defaults.getMaxConnectionIdleTime,
              maxConnectionLifeTime: Int = Defaults.getMaxConnectionLifeTime,
              minConnectionsPerHost: Int = Defaults.getMinConnectionsPerHost,
-             heartbeatConnectRetryFrequency: Int = Defaults.getHeartbeatConnectRetryFrequency,
              requiredReplicaSetName: String = Defaults.getRequiredReplicaSetName,
              minHeartbeatFrequency: Int = Defaults.getMinHeartbeatFrequency
 
              ): JavaMongoClientOptions = {
     val builder = new JavaMongoClientOptions.Builder()
-    builder.autoConnectRetry(autoConnectRetry)
     builder.connectionsPerHost(connectionsPerHost)
     builder.connectTimeout(connectTimeout)
     builder.cursorFinalizerEnabled(cursorFinalizerEnabled)
     builder.dbDecoderFactory(dbDecoderFactory)
     builder.dbEncoderFactory(dbEncoderFactory)
     builder.description(description)
-    builder.maxAutoConnectRetryTime(maxAutoConnectRetryTime)
     builder.maxWaitTime(maxWaitTime)
     builder.readPreference(readPreference)
     builder.socketFactory(socketFactory)
@@ -124,7 +109,6 @@ object MongoClientOptions {
     builder.socketTimeout(socketTimeout)
     builder.threadsAllowedToBlockForConnectionMultiplier(threadsAllowedToBlockForConnectionMultiplier)
     builder.writeConcern(writeConcern)
-    builder.acceptableLatencyDifference(acceptableLatencyDifference)
     builder.alwaysUseMBeans(alwaysUseMBeans)
     builder.heartbeatConnectTimeout(heartbeatConnectTimeout)
     builder.heartbeatFrequency(heartbeatFrequency)
@@ -134,12 +118,6 @@ object MongoClientOptions {
     builder.minConnectionsPerHost(minConnectionsPerHost)
     builder.requiredReplicaSetName(requiredReplicaSetName)
 
-    if (heartbeatThreadCount != Defaults.getHeartbeatThreadCount ) {
-      builder.heartbeatThreadCount(heartbeatThreadCount)
-    }
-    if (heartbeatConnectRetryFrequency != Defaults.getHeartbeatConnectRetryFrequency) {
-      builder.minHeartbeatFrequency(heartbeatConnectRetryFrequency)
-    }
     if (minHeartbeatFrequency != Defaults.getMinHeartbeatFrequency) {
       builder.minHeartbeatFrequency(minHeartbeatFrequency)
     }

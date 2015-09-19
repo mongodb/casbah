@@ -62,8 +62,7 @@ class MongoClientSpec extends CasbahDBTestSpecification {
         }
 
         "the apply method works" in {
-          db.underlying must haveSuperclass[com.mongodb.DB]
-
+          db.underlying must haveClass[com.mongodb.DB]
         }
       }
 
@@ -118,8 +117,7 @@ class MongoClientSpec extends CasbahDBTestSpecification {
         }
 
         "the apply method works" in {
-          db.underlying must haveSuperclass[com.mongodb.DB]
-
+          db.underlying must haveClass[com.mongodb.DB]
         }
       }
 

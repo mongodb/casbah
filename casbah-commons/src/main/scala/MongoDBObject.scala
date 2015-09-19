@@ -162,7 +162,6 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * @param keys Strings the keys to lookup
    * @tparam A the type to cast the final value
    * @return Option[A] - None if value is None, the cast invalid or the key is missing otherwise Some(value)
-   * @return
    */
   def getAs[A: NotNothing : Manifest](keys: String*): Option[A] = expand[A](keys.mkString("."))
 

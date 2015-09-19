@@ -22,13 +22,10 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.casbah.Imports._
-
-import scala.collection.JavaConverters._
-
-import com.mongodb.{DBDecoderFactory, DBEncoderFactory}
-
 import javax.net.SocketFactory
+
+import com.mongodb.casbah.Imports._
+import com.mongodb.{DBDecoderFactory, DBEncoderFactory}
 
 /**
  * Helper class for creating MongoOptions instances
@@ -47,15 +44,12 @@ object MongoOptions {
   /**
    * Instantiate a new MongoOptions instance
    *
-   * @param autoConnectRetry Whether system autoretries on connection errors (default: False)
    * @param connectionsPerHost # of connections allowed per host (pool size, per host)
    * @param threadsAllowedToBlockForConnectionMultiplier Multiplier for connectiosnPerHost at # of threads that can block, default 5
    * @param maxWaitTime wait time for a blocking thread for a connection from the pool, default 1000 * 60 * 2
    * @param connectTimeout timeout in milliseconds, for establishing the socket connections, default 0 (infinite)
    * @param socketTimeout timeout, passed to Socket.setSoTimeout, default 0
    * @param socketKeepAlive if socket keep alive is enabled, default false
-   * @param maxAutoConnectRetryTime Sets the maximum auto connect retry time default 0
-   * @param slaveOk Whether a driver connected to a replica set will send reads to slaves/secondaries
    * @param safe if true use a WriteConcern of WriteConcern.SAFE for all operations
    * @param w The "w" value, (number of writes), of the global WriteConcern
    * @param wTimeout The "wtimeout" value of the global WriteConcern
@@ -68,15 +62,12 @@ object MongoOptions {
    * @param description The description for <code>Mongo</code> instances created with these options
    * @return
    */
-  def apply(autoConnectRetry: Boolean = Defaults.autoConnectRetry,
-            connectionsPerHost: Int = Defaults.connectionsPerHost,
+  def apply(connectionsPerHost: Int = Defaults.connectionsPerHost,
             threadsAllowedToBlockForConnectionMultiplier: Int = Defaults.threadsAllowedToBlockForConnectionMultiplier,
             maxWaitTime: Int = Defaults.maxWaitTime,
             connectTimeout: Int = Defaults.connectTimeout,
             socketTimeout: Int = Defaults.socketTimeout,
             socketKeepAlive: Boolean = Defaults.socketKeepAlive,
-            maxAutoConnectRetryTime: Long = Defaults.maxAutoConnectRetryTime,
-            slaveOk: Boolean = Defaults.slaveOk,
             safe: Boolean = Defaults.safe,
             w: Int = Defaults.w,
             wTimeout: Int = Defaults.wtimeout,
@@ -88,15 +79,12 @@ object MongoOptions {
             description: String = Defaults.description): MongoOptions = {
     val options = new MongoOptions
 
-    options.autoConnectRetry = autoConnectRetry
     options.connectionsPerHost = connectionsPerHost
     options.threadsAllowedToBlockForConnectionMultiplier = threadsAllowedToBlockForConnectionMultiplier
     options.maxWaitTime = maxWaitTime
     options.connectTimeout = connectTimeout
     options.socketTimeout = socketTimeout
     options.socketKeepAlive = socketKeepAlive
-    options.maxAutoConnectRetryTime = maxAutoConnectRetryTime
-    options.slaveOk = slaveOk
     options.safe = safe
     options.w = w
     options.wtimeout = wTimeout

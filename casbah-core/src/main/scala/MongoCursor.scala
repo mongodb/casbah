@@ -22,14 +22,11 @@
 
 package com.mongodb.casbah
 
-import scala.collection.mutable
-import scala.collection.JavaConverters._
-import scala.concurrent.duration.Duration
-
 import com.mongodb.DBCursor
-
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
+
+import scala.concurrent.duration.Duration
 
 // scalastyle:off number.of.methods
 
@@ -191,8 +188,6 @@ trait MongoCursorBase extends Logging {
   }
 
   /**
-   * snapshot
-   *
    * Use snapshot mode for the query. Snapshot mode prevents the cursor from returning a document more than once because an intervening
    * write operation results in a move of the document. Even in snapshot mode, documents inserted or deleted during the lifetime of the
    * cursor may or may not be returned.  Currently, snapshot mode may not be used with sorting or explicit hints.
@@ -286,16 +281,6 @@ trait MongoCursorBase extends Logging {
   def slaveOk(): DBCursor = underlying.slaveOk() // parens for side-effect
 
   /**
-   * Gets the number of times, so far, that the cursor retrieved a batch from the database
-   *
-   * @return The number of times OP_GET_MORE has been called
-   * @deprecated there is no replacement for this method
-   */
-  @deprecated("This will be removed in a future release", "2.8")
-  @SuppressWarnings(Array("deprecation"))
-  def numGetMores: Int = underlying.numGetMores
-
-  /**
    * numSeen
    *
    * Returns the number of objects through which this cursor has iterated,
@@ -304,16 +289,6 @@ trait MongoCursorBase extends Logging {
    * @return The number of objects seen
    */
   def numSeen: Int = underlying.numSeen
-
-  /**
-   * Gets a list containing the number of items received in each batch
-   *
-   * @return a list containing the number of items received in each batch
-   * @deprecated there is no replacement for this method
-   */
-  @deprecated("This will be removed in a future release", "2.8")
-  @SuppressWarnings(Array("deprecation"))
-  def sizes: mutable.Buffer[Integer] = underlying.getSizes.asScala
 
   /**
    * batchSize
