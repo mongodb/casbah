@@ -3,7 +3,7 @@ Casbah Examples
 ===============
 .. highlight:: scala
 
-Alongside the :doc:`quick tutorial <tutorial>` there are a few example commandline programs
+Alongside the `quick tutorial <tutorial>`_ there are a few example commandline programs
 demonstrating using Casbah in various scenarios.
 
 The following examples can be seen on `github <https://github.com/mongodb/casbah/tree/master/examples>`_ :

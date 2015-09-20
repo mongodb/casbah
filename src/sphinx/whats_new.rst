@@ -26,7 +26,7 @@ changes include.
 * Register the core Serialization helpers only once - thanks to Tuomas Huhtanen for the pull request.
 * Updated nscala-time to 0.6.0 and specs
 
-Please see the :doc:`full changelog <changelog>` and :doc:`upgrade documentation <upgrade>`.
+Please see the `full changelog <changelog>`_ and `upgrade documentation <upgrade>`_.
 
 Let's look at the main things in 2.6 features one by one.
 

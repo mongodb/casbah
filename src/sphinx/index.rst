@@ -10,20 +10,20 @@ implementation of the MongoDB wire protocol, which the Java driver does
 exceptionally well. Rather than a complete rewrite, Casbah uses implicits, and
 `Pimp My Library` code to enhance the existing Java code.
 
-:doc:`tutorial`
+`tutorial <tutorial>`_
   A quick tutorial to get you started using Casbah.
 
-:doc:`guide/index`
+`index <guide/index>`_
   The full guide to Casbah - covering installation, connecting, the query dsl
   , gridfs, and *everything* between.
 
 `ScalaDocs <http://mongodb.github.io/casbah/api/#com.mongodb.casbah.package>`_
   The complete ScalaDocs for Casbah along with SXR cross referenced source.
 
-:doc:`changelog`
+`changelog <changelog>`_
   The recent changes to Casbah
 
-:doc:`whats_new`
+`whats_new <whats_new>`_
   An indepth review of new features in MongoDB and Casbah
 
 Help and support
@@ -71,6 +71,6 @@ Download the docs in either `PDF <CasbahDocumentation.pdf>`_ or
 Indices and tables
 ------------------
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+* `genindex <genindex>`_
+* `modindex <modindex>`_
+* `search <search>`_
