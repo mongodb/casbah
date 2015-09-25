@@ -1,0 +1,6 @@
+baseurl = "/casbah/"
+languageCode = "en-us"
+title = "Casbah"
+canonifyurls = false
+
+githubRepo = "casbah"
