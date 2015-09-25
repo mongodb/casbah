@@ -1,0 +1,9 @@
+githubUser = "mongodb"
+githubRepo = "casbah"
+githubBranch = "2.8.x"
+currentVersion = "2.8"
+highlightTheme = "idea.css"
+apiUrl = "/scaladoc/index.html"
+coreApiUrl = "http://api.mongodb.org/java/3.0/"
+coreDocsUrl = "http://mongodb.github.io/mongo-java-driver/3.0/"
+mongoDriverVersion = "2.8.2"               # Update in installation-guide.md

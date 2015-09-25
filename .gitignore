@@ -17,9 +17,10 @@ lib_managed/
 project/boot/
 project/plugins/project
 reports/
-src/sphinx/_build
 tags
 target/
 ..sxr
 examples/lib
 examples/data
+docs/landing/public
+docs/reference/public
