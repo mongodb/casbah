@@ -16,6 +16,7 @@ Any specific upgrade information for a driver release.
  * Upgraded to the 3.0 version of the MongoDB Java Driver (removed deprecated methods).
  * Removed support for Scala 2.9.3 [CASBAH-182](https://jira.mongodb.org/browse/CASBAH-182)
  * Added support for Scala 2.12.0-M2 [CASBAH-179](https://jira.mongodb.org/browse/CASBAH-179)
+ * MongoClientURI is now a case class for equality and hashcodes [CASBAH-151](https://jira.mongodb.org/browse/CASBAH-151)
 
 ## Version 2.8.0
 
