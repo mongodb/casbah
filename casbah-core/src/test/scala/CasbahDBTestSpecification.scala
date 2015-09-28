@@ -23,17 +23,22 @@ import scala.util.Properties
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
-import org.specs2.specification.{Fragments, Step}
+import org.specs2.execute.{AsResult, Result}
+import org.specs2.specification.Around
 
 
-trait CasbahDBTestSpecification extends CasbahMutableSpecification {
+trait CasbahDBTestSpecification extends CasbahMutableSpecification with Around  {
   sequential
 
   val DEFAULT_URI: String = "mongodb://localhost:27017"
   val MONGODB_URI_SYSTEM_PROPERTY_NAME: String = "org.mongodb.test.uri"
   val TEST_DB = "mongo-casbah-driver-test"
 
-  override def map(fs: => Fragments) = Step(initialSetUp()) ^ fs ^ Step(finalTeardown())
+  def around[R: AsResult](r: => R): Result = {
+    initialSetUp()
+    try AsResult(r)
+    finally finalTeardown()
+  }
 
   def initialSetUp(): Unit = {}
 

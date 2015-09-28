@@ -10,10 +10,10 @@ title = "Installation"
 # Installation
 
 **Casbah** is released to the [Sonatype](http://sonatype.org/)
-repository, the latest Casbah build as is |release| and supports the
-following scala versions: 2.9.3, 2.10.x, 2.11.x.
+repository, the latest Casbah build as is 3.0.0-SNAPSHOT and supports the
+following scala versions: 2.10.x, 2.11.x.
 
-The easiest way to install the latest Casbah driver (|release|) is by
+The easiest way to install the latest Casbah driver (3.0.0-SNAPSHOT) is by
 using [sbt - the Scala Build Tool](http://www.scala-sbt.org/).
 
 ## Setting up via sbt
@@ -45,8 +45,8 @@ resolvers += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositor
 ## Alternative installation methods
 
 **Casbah** is released to the [Sonatype](http://sonatype.org/)
-repository, the latest Casbah build as is |release| and supports the
-following scala versions: 2.9.3, 2.10.x, 2.11.x.
+repository, the latest Casbah build as is 3.0.0-SNAPSHOT and supports the
+following scala versions: 2.10.x, 2.11.x.
 
 ## Using Dependency/Build Managers
 
@@ -70,20 +70,18 @@ You can add Casbah to Maven with the following dependency block.
 <dependency>
     <groupId>org.mongodb</groupId>
     <artifactId>casbah_$SCALA_VERSION$</artifactId>
-    <version> 2.8.2 </version>
+    <version> 3.0.0-SNAPSHOT </version>
     <type>pom</type>
 <dependency>
 ~~~
 
-Please substitute `$SCALA_VERSION$` with your Scala version (we support
-2.9.3, 2.10.x, 2.11.x)
+Please substitute `$SCALA_VERSION$` with your Scala version (we support 2.10.x, 2.11.x)
 
 ## Setting Up Ivy (w/ Ant)
 
 You can add Casbah to Ivy with the following dependency block.
 
-Please substitute `$SCALA_VERSION$` with your Scala version (we support
-2.9.3, 2.10.x, 2.11.x)
+Please substitute `$SCALA_VERSION$` with your Scala version (we support 2.10.x, 2.11.x)
 
 ## Setting up without a Dependency/Build Manager (Source + Binary)
 
@@ -96,9 +94,8 @@ take time, especially as the dependencies change depending on the Scala
 version you are using. To simplify this you can download a single all
 inclusive jar for your scala version:
 
-  * [Casbah Scala 2.11](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.11/2.8.2/casbah-alldep_2.11-2.8.2.jar)
- * [Casbah Scala 2.10](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/2.8.2/casbah-alldep_2.10-2.8.2.jar)
- * [Casbah Scala 2.9.3](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.9.3/2.8.2/casbah-alldep_2.9.3-2.8.2.jar)
+ * [Casbah Scala 2.11](http://oss.sonatype.org/content/repositories/snapshots/org/mongodb/casbah_2.11/3.0.0-SNAPSHOT/casbah-alldep_2.11-3.0.0-SNAPSHOT.jar)
+ * [Casbah Scala 2.10](http://oss.sonatype.org/content/repositories/snapshots/org/mongodb/casbah_2.10/3.0.0-SNAPSHOT/casbah-alldep_2.10-3.0.0-SNAPSHOT.jar)
 
 Once the jar is on your class path you will be able to use Casbah.
 

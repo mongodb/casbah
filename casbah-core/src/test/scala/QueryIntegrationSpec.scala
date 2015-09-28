@@ -278,14 +278,14 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
         collection += MongoDBObject("foo" -> "bar", "x" -> "y")
         val rename = $rename("foo" -> "bar")
         collection.update(MongoDBObject("foo" -> "bar"), rename)
-        collection.findOne().get.keySet.asScala must beEqualTo(Set("_id", "bar", "x"))
+        collection.findOne().get.keySet.asScala must containAllOf(Seq("_id", "bar", "x"))
       }
       "Multiple sets" in {
         collection.drop()
         collection += MongoDBObject("foo" -> "bar", "x" -> "y")
         val rename = $rename("foo" -> "bar", "x" -> "y")
         collection.update(MongoDBObject("foo" -> "bar"), rename)
-        collection.findOne().get.keySet.asScala must beEqualTo(Set("_id", "bar", "y"))
+        collection.findOne().get.keySet.asScala must containAllOf(Seq("_id", "bar", "y"))
       }
     }
   }
@@ -319,7 +319,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
         val push = $pushAll("baz" ->("bar", "baz", "x", "y"))
         collection.update(MongoDBObject("foo" -> "bar"), push)
         val doc = collection.findOne().get
-        doc.keySet.asScala must beEqualTo(Set("_id", "baz", "foo"))
+        doc.keySet.asScala must containAllOf(Seq("_id", "baz", "foo"))
         doc.as[MongoDBList]("baz") must beEqualTo(MongoDBList("bar", "baz", "x", "y"))
       }
 
@@ -329,7 +329,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
         val push = $pushAll("foo" ->("bar", "baz", "x", "y"), "x" ->(5, 10, 12, 238))
         collection.update(MongoDBObject("a" -> "b"), push)
         val doc = collection.findOne().get
-        doc.keySet.asScala must beEqualTo(Set("_id", "a", "foo", "x"))
+        doc.keySet.asScala must containAllOf(Seq("_id", "a", "foo", "x"))
         doc.as[MongoDBList]("foo") must beEqualTo(MongoDBList("bar", "baz", "x", "y"))
         doc.as[MongoDBList]("x") must beEqualTo(MongoDBList(5, 10, 12, 238))
       }

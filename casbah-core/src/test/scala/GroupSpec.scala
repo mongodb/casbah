@@ -66,28 +66,28 @@ class GroupSpec extends CasbahDBTestSpecification {
       val result = collection.group(key, cond, initial, reduce, finalise)
       result.forall(_.getOrElse("avg_count", 2) == 3)
     }
+  }
 
-    trait testData extends Scope {
-      val jsonFile = "./casbah-core/src/test/resources/bookstore.json"
+  trait testData extends Scope {
+    val jsonFile = "./casbah-core/src/test/resources/bookstore.json"
 
-      database.dropDatabase()
-      try {
-        Seq("mongoimport", "-d", database.name, "-c", collection.name, "--drop", "--jsonArray", jsonFile).!!
-      } catch {
-        case ex: IOException => {
-          val source = scala.io.Source.fromFile(jsonFile)
-          val lines = source.mkString
-          source.close()
+    database.dropDatabase()
+    try {
+      Seq("mongoimport", "-d", database.name, "-c", collection.name, "--drop", "--jsonArray", jsonFile).!!
+    } catch {
+      case ex: IOException => {
+        val source = scala.io.Source.fromFile(jsonFile)
+        val lines = source.mkString
+        source.close()
 
-          val rawDoc = JSON.parse(lines).asInstanceOf[BasicDBList]
-          val docs = (for (doc <- rawDoc) yield doc.asInstanceOf[DBObject]).asJava
-          collection.underlying.insert(docs)
-        }
+        val rawDoc = JSON.parse(lines).asInstanceOf[BasicDBList]
+        val docs = (for (doc <- rawDoc) yield doc.asInstanceOf[DBObject]).asJava
+        collection.underlying.insert(docs)
       }
-
-      // Verify the treasury data is loaded or skip the test for now
-      collection.count() must beGreaterThan(0)
     }
+
+    // Verify the treasury data is loaded or skip the test for now
+    collection.count() must beGreaterThan(0)
   }
 
 }

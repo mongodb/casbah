@@ -26,10 +26,10 @@ package commons
 import com.mongodb.casbah.commons.Imports._
 
 import scala.annotation.tailrec
+import scala.beans.BeanInfo
 import scala.collection.JavaConversions._
 import scala.collection.generic._
 import scala.collection.mutable
-import com.mongodb.casbah.commons.beans.BeanInfo
 import scala.util.{Try, Success, Failure}
 import java.util
 
