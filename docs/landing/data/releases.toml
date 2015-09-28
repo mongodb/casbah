@@ -7,3 +7,8 @@ current = "2.8.2"
   status = "current"
   docs = "./2.8"
   api = "./2.8/scaladoc"
+
+[[versions]]
+  version = "3.0.0-SNAPSHOT"
+  docs = "./3.0"
+  api = "./3.0/scaladoc"
