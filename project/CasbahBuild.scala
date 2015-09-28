@@ -2,7 +2,6 @@ import sbt._
 import Keys._
 import Project.Initialize
 
-import com.typesafe.sbt.SbtSite._
 import sbtassembly.Plugin._
 import org.scalastyle.sbt.ScalastylePlugin
 import AssemblyKeys._
@@ -82,8 +81,7 @@ object CasbahBuild extends Build {
   lazy val casbah = Project(
     id        = "casbah",
     base      = file("."),
-    settings  = parentSettings ++ Unidoc.settings ++ site.settings ++
-                site.sphinxSupport() ++ assemblySettings ++
+    settings  = parentSettings ++ Unidoc.settings ++ assemblySettings ++
                 addArtifact(Artifact("casbah-alldep", "pom", "jar"), assembly)
                 ++ Seq(initialCommands := "import com.mongodb.casbah.Imports._"),
     aggregate = Seq(commons, core, query, gridfs)
