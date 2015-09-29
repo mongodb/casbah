@@ -39,7 +39,7 @@ object MongoClientOptions {
 
   val Defaults = new JavaMongoClientOptions.Builder().build()
 
-  // scalastyle:off parameter.number
+  // scalastyle:off parameter.number method.length
   /**
    * Instantiate a new MongoClientOptions instance
    *
@@ -124,6 +124,6 @@ object MongoClientOptions {
     builder.build()
   }
 
-  // scalastyle:on parameter.number
+  // scalastyle:on parameter.number method.length
 }
 

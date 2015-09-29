@@ -23,10 +23,7 @@
 package com.mongodb.casbah
 package gridfs
 
-import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.gridfs.Imports._
-
-import scala.collection.JavaConverters._
+import scala.language.implicitConversions
 
 trait Implicits {
   implicit def wrapDBFile(in: com.mongodb.gridfs.GridFSDBFile): GridFSDBFile = new GridFSDBFile(in)

@@ -22,12 +22,13 @@
 
 package com.mongodb.casbah
 
+import scala.collection.JavaConverters._
+import scala.collection.mutable
+import scala.language.reflectiveCalls
+
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.map_reduce.{ MapReduceCommand, MapReduceResult }
 import com.mongodb.{ CommandResult, DBCollection }
-
-import scala.collection.JavaConverters._
-import scala.collection.mutable
 
 /**
  * Wrapper for the Mongo <code>DB</code> object providing scala-friendly functionality.

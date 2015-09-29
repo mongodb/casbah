@@ -22,6 +22,7 @@
 
 package com.mongodb.casbah.test.query
 
+import scala.language.reflectiveCalls
 import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.query.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification

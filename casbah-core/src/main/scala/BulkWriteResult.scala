@@ -104,5 +104,7 @@ case class BulkWriteResult(underlying: JBulkWriteResult) {
 
   def getUpserts: mutable.Buffer[BulkWriteUpsert] = upserts
 
-  override def equals(obj: Any) = underlying.equals(obj)
+  override def equals(obj: Any): Boolean = underlying.equals(obj)
+
+  override def hashCode(): Int = underlying.hashCode()
 }

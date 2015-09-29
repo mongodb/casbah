@@ -46,7 +46,7 @@ trait BarewordQueryOperator {
 
   def apply[A](oper: String)(fields: Seq[(String, A)]): DBObject = {
     val bldr = MongoDBObject.newBuilder
-    for ((k, v) <- fields) bldr += k -> v
+    for { (k, v) <- fields } bldr += k -> v
     MongoDBObject(oper -> bldr.result.asDBObject)
   }
 

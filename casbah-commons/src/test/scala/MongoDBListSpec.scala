@@ -27,7 +27,7 @@ import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 class MongoDBListSpec extends CasbahMutableSpecification {
 
-  val x = Seq(5, 9, 212, "x", "y", 22.98)
+  val x: Seq[Any] = Seq(5, 9, 212, "x", "y", 22.98)
   val y = Seq("spam", "eggs", "foo", "bar")
 
   "MongoDBList Factory & Builder" should {

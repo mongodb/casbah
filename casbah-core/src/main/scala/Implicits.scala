@@ -22,8 +22,7 @@
 
 package com.mongodb.casbah
 
-import scala.collection.JavaConverters._
-import com.github.nscala_time.time.Imports._
+import scala.language.implicitConversions
 
 /**
  * <code>Implicits</code> object to expose implicit conversions to implementing classes
@@ -147,6 +146,7 @@ object TypeImports extends TypeImports with commons.TypeImports with query.TypeI
 
 trait Imports extends BaseImports with TypeImports with Implicits
 
+@SuppressWarnings(Array("deprecation"))
 trait BaseImports {
   val MongoClient = com.mongodb.casbah.MongoClient
   val MongoConnection = com.mongodb.casbah.MongoConnection

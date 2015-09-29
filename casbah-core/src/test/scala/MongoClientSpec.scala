@@ -21,6 +21,7 @@
 
 package com.mongodb.casbah.test.core
 
+import scala.language.reflectiveCalls
 import com.mongodb.casbah.Imports._
 
 class MongoClientSpec extends CasbahDBTestSpecification {

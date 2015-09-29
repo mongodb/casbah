@@ -33,7 +33,7 @@ object CasbahBuild extends Build {
     scalaVersion := "2.11.7",
     crossScalaVersions := Seq("2.11.7", "2.10.5", "2.12.0-M2"),
     resolvers := casbahResolvers,
-    scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xlint" /*, "-Xlog-implicits", "-Yinfer-debug", "-Xprint:typer"*/),
+    scalacOptions ++= Seq("-unchecked", "-feature", "-Xlint:-missing-interpolator" /*, "-Xlog-implicits", "-Yinfer-debug", "-Xprint:typer"*/),
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
   )
 

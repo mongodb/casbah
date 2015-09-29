@@ -23,6 +23,8 @@
 package com.mongodb.casbah
 package commons
 
+import scala.language.implicitConversions
+
 trait Implicits {
 
   import com.mongodb.{ DBObject, BasicDBList }

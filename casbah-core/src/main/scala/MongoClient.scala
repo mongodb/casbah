@@ -23,12 +23,12 @@ package com.mongodb.casbah
 
 import java.net.UnknownHostException
 
-import com.mongodb.casbah.Imports._
-
-import scala.collection.JavaConverters._
-
-import com.mongodb.{ MongoClient => JavaMongoClient }
 import scala.collection.mutable
+import scala.collection.JavaConverters._
+import scala.language.reflectiveCalls
+
+import com.mongodb.casbah.Imports._
+import com.mongodb.{ MongoClient => JavaMongoClient }
 
 /**
  * Wrapper object for MongoClient connections, providing the static methods the

@@ -23,6 +23,8 @@
 package com.mongodb.casbah
 package query
 
+import scala.language.implicitConversions
+
 import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.query.dsl.{ FluidQueryOperators, GeoCoords, ValueTestFluidQueryOperators }
 

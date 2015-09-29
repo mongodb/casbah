@@ -33,7 +33,7 @@ case class BulkWriteException(message: String, cause: Throwable, underlying: JBu
    *
    * @return the bulk write result
    */
-  def writeResult = BulkWriteResult(underlying.getWriteResult)
+  def writeResult: BulkWriteResult = BulkWriteResult(underlying.getWriteResult)
 
   /**
    * The list of errors, which will not be null, but may be empty (if the write concern error is not null).
@@ -61,9 +61,11 @@ case class BulkWriteException(message: String, cause: Throwable, underlying: JBu
 
   def getWriteErrors: mutable.Buffer[BulkWriteError] = writeErrors
 
-  def getWriteConcernError = writeConcernError
+  def getWriteConcernError: WriteConcernError = writeConcernError
 
   def getServerAddress: ServerAddress = serverAddress
 
-  override def equals(obj: Any) = underlying.equals(obj)
+  override def equals(obj: Any): Boolean = underlying.equals(obj)
+
+  override def hashCode(): Int = underlying.hashCode()
 }

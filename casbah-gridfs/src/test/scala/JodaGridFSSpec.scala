@@ -22,16 +22,15 @@
 
 package com.mongodb.casbah.test.gridfs
 
-import com.mongodb.gridfs.{ GridFSDBFile => MongoGridFSDBFile }
-
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.conversions.scala._
 import com.mongodb.casbah.gridfs.Imports._
+import com.mongodb.gridfs.{ GridFSDBFile => MongoGridFSDBFile }
 
 import com.github.nscala_time.time.Imports._
-import org.specs2.specification.BeforeExample
+import org.specs2.specification.BeforeEach
 
-class JodaGridFSSpec extends GridFSSpecification with BeforeExample {
+class JodaGridFSSpec extends GridFSSpecification with BeforeEach {
 
   def before {
     DeregisterJodaLocalDateTimeConversionHelpers()

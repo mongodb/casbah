@@ -27,6 +27,7 @@ package com.mongodb.casbah
 import scala.collection.mutable
 import scala.collection.JavaConverters._
 import scala.concurrent.duration.{ Duration, MILLISECONDS }
+import scala.language.reflectiveCalls
 
 import com.mongodb.{
   CommandResult,
@@ -540,7 +541,7 @@ trait MongoCollectionBase extends Logging {
                           encoder: DBEncoder = customEncoderFactory.map(_.create).orNull): WriteResult = {
     val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
     b.sizeHint(docs.size)
-    for (x <- docs) b += dbObjView(x)
+    for { x <- docs } b += dbObjView(x)
     underlying.insert(b.result(), concern, encoder)
   }
 
@@ -737,7 +738,7 @@ trait MongoCollectionBase extends Logging {
    */
   def setHintFields[A <% DBObject](docs: List[A]) {
     val b = List.newBuilder[DBObject]
-    for (x <- docs) b += x
+    for { x <- docs } b += x
     underlying.setHintFields(b.result().asJava)
   }
 

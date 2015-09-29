@@ -24,6 +24,7 @@ package com.mongodb.casbah
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
+import scala.language.reflectiveCalls
 
 import com.mongodb.casbah.Imports._
 

@@ -22,10 +22,11 @@
 
 package com.mongodb.casbah.test.core
 
+import scala.collection.mutable
+import scala.language.reflectiveCalls
 import scala.util.Random
 
 import com.mongodb.casbah.Imports._
-import scala.collection.mutable
 import com.mongodb.casbah.Cursor
 
 class CoreWrappersSpec extends CasbahDBTestSpecification {

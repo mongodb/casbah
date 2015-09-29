@@ -24,6 +24,7 @@ package gridfs
 
 import scala.beans.BeanInfo
 import scala.collection.JavaConverters._
+import scala.language.reflectiveCalls
 
 import com.github.nscala_time.time.Imports._
 import com.mongodb.gridfs.{ GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile, GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile }

@@ -105,9 +105,9 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
   // scalastyle:on null
 
   // scalastyle:off method.name
-  def ++(pairs: (String, _)*): DBObject = {
+  def ++(pairs: (String, Any)*): DBObject = {
     val b = MongoDBObject.newBuilder
-    for ((k, v) <- pairs) b += k -> v
+    for { (k, v) <- pairs } b += k -> v
     this ++ b.result
   }
 

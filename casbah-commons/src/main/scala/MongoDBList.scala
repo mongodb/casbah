@@ -121,7 +121,7 @@ object MongoDBList {
 
   def apply[A <: Any](elems: A*): MongoDBList = {
     val b = newBuilder[A]
-    for (xs <- elems) xs match {
+    for { xs <- elems } xs match {
       case p: Tuple2[_, _] => b += MongoDBObject(p.asInstanceOf[Tuple2[String, Any]])
       case _               => b += xs
     }
@@ -130,8 +130,8 @@ object MongoDBList {
 
   def concat[A](xss: scala.Traversable[A]*): MongoDBList = {
     val b = newBuilder[A]
-    if (xss forall (_.isInstanceOf[IndexedSeq[_]])) b.sizeHint(xss map (_.size) sum)
-    for (xs <- xss) b ++= xs
+    if (xss forall (_.isInstanceOf[IndexedSeq[_]])) b.sizeHint(xss.map(_.size).sum)
+    for { xs <- xss } b ++= xs
     b.result()
   }
 

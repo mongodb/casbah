@@ -24,6 +24,7 @@ package com.mongodb.casbah.test.query
 
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 import com.mongodb.casbah.query.Imports._
+import scala.language.reflectiveCalls
 
 @SuppressWarnings(Array("deprecation"))
 class BarewordOperatorsSpec extends CasbahMutableSpecification {
