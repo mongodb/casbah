@@ -59,32 +59,32 @@ case object MapReduceInlineOutput extends MapReduceOutputTarget
  * @param verbose           (optional) include the timing information in the result information
  * @param maxTime           (optional) the maximum duration that the server will allow this operation to execute before killing it
  */
-case class MapReduceCommand protected[mongodb](input: String = "", map: JSFunction = "", reduce: JSFunction = "",
-                                               output: MapReduceOutputTarget = MapReduceInlineOutput,
-                                               query: Option[DBObject] = None, sort: Option[DBObject] = None,
-                                               limit: Option[Int] = None, finalizeFunction: Option[JSFunction] = None,
-                                               jsScope: Option[DBObject] = None, verbose: Boolean = false,
-                                               maxTime: Option[Duration] = None) {
+case class MapReduceCommand protected[mongodb] (input: String = "", map: JSFunction = "", reduce: JSFunction = "",
+                                                output: MapReduceOutputTarget = MapReduceInlineOutput,
+                                                query:  Option[DBObject]      = None, sort: Option[DBObject] = None,
+                                                limit: Option[Int] = None, finalizeFunction: Option[JSFunction] = None,
+                                                jsScope: Option[DBObject] = None, verbose: Boolean = false,
+                                                maxTime: Option[Duration] = None) {
 
   // scalastyle:off null cyclomatic.complexity method.length
 
   def toDBObject: DBObject = {
     val dataObj = MongoDBObject.newBuilder
     input match {
-      case "" => throw new MapReduceException("input must be defined.")
-      case null => throw new MapReduceException("input must be defined.")
+      case ""    => throw new MapReduceException("input must be defined.")
+      case null  => throw new MapReduceException("input must be defined.")
       case other => dataObj += "mapreduce" -> input
     }
 
     map match {
-      case "" => throw new MapReduceException("map must be defined.")
-      case null => throw new MapReduceException("map must be defined.")
+      case ""    => throw new MapReduceException("map must be defined.")
+      case null  => throw new MapReduceException("map must be defined.")
       case other => dataObj += "map" -> map.toString
     }
 
     reduce match {
-      case "" => throw new MapReduceException("reduce must be defined.")
-      case null => throw new MapReduceException("reduce must be defined.")
+      case ""    => throw new MapReduceException("reduce must be defined.")
+      case null  => throw new MapReduceException("reduce must be defined.")
       case other => dataObj += "reduce" -> reduce.toString
     }
 
@@ -92,40 +92,40 @@ case class MapReduceCommand protected[mongodb](input: String = "", map: JSFuncti
 
     dataObj += "out" -> (output match {
       case MapReduceStandardOutput(coll: String) => coll
-      case MapReduceMergeOutput(coll: String) => MongoDBObject("merge" -> coll)
-      case MapReduceReduceOutput(coll: String) => MongoDBObject("reduce" -> coll)
-      case MapReduceInlineOutput => MongoDBObject("inline" -> true)
-      case other => throw new IllegalArgumentException("Invalid Output Type '%s'".format(other))
+      case MapReduceMergeOutput(coll: String)    => MongoDBObject("merge" -> coll)
+      case MapReduceReduceOutput(coll: String)   => MongoDBObject("reduce" -> coll)
+      case MapReduceInlineOutput                 => MongoDBObject("inline" -> true)
+      case other                                 => throw new IllegalArgumentException("Invalid Output Type '%s'".format(other))
     })
 
     query match {
       case Some(q) => dataObj += "query" -> q
-      case None => {}
+      case None    => {}
     }
 
     sort match {
       case Some(s) => dataObj += "sort" -> s
-      case None => {}
+      case None    => {}
     }
 
     limit match {
       case Some(i) => dataObj += "limit" -> i
-      case None => {}
+      case None    => {}
     }
 
     finalizeFunction match {
       case Some(fF) => dataObj += "finalize" -> fF.toString
-      case None => {}
+      case None     => {}
     }
 
     jsScope match {
       case Some(s) => dataObj += "scope" -> s
-      case None => {}
+      case None    => {}
     }
 
     maxTime match {
       case Some(mD) => dataObj += "maxTimeMS" -> mD.toMillis
-      case None => {}
+      case None     => {}
     }
 
     dataObj.result()

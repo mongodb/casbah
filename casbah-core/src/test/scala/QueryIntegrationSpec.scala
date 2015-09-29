@@ -27,7 +27,6 @@ import scala.collection.JavaConverters._
 import com.mongodb.WriteConcernException
 import com.mongodb.casbah.Imports._
 
-
 @SuppressWarnings(Array("deprecation"))
 class QueryIntegrationSpec extends CasbahDBTestSpecification {
 
@@ -46,7 +45,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
     }
     "Work with multiple pairs" in {
       val set = $set("foo" -> "baz", "x" -> 5.2,
-        "y" -> 9, "a" ->("b", "c", "d", "e"))
+        "y" -> 9, "a" -> ("b", "c", "d", "e"))
       collection.drop()
       collection += MongoDBObject("foo" -> "bar")
       collection.update(MongoDBObject("foo" -> "baz"), set)
@@ -72,7 +71,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
     "Work with multiple pairs" in {
       serverIsAtLeastVersion(2, 4) must beTrue.orSkip("Needs server >= 2.4")
       val set = $setOnInsert("foo" -> "baz", "x" -> 5.2,
-        "y" -> 9, "a" ->("b", "c", "d", "e"))
+        "y" -> 9, "a" -> ("b", "c", "d", "e"))
       collection.drop()
       try {
         collection.update(MongoDBObject(), set, upsert = true)
@@ -111,11 +110,13 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
 
     "work with multiple items" in {
       collection.drop()
-      collection += MongoDBObject("foo" -> "One",
+      collection += MongoDBObject(
+        "foo" -> "One",
         "bar" -> 1,
         "x" -> "X",
         "y" -> "Y",
-        "hello" -> "world")
+        "hello" -> "world"
+      )
       val unset = $unset("foo", "bar", "x", "y")
       collection.update(MongoDBObject("hello" -> "world"), unset)
       collection.findOne().get.keySet.asScala must beEqualTo(Set("_id", "hello"))
@@ -316,7 +317,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
       "Accept a single value list" in {
         collection.drop()
         collection += MongoDBObject("foo" -> "bar")
-        val push = $pushAll("baz" ->("bar", "baz", "x", "y"))
+        val push = $pushAll("baz" -> ("bar", "baz", "x", "y"))
         collection.update(MongoDBObject("foo" -> "bar"), push)
         val doc = collection.findOne().get
         doc.keySet.asScala must containAllOf(Seq("_id", "baz", "foo"))
@@ -326,7 +327,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
       "Accept multiple value lists" in {
         collection.drop()
         collection += MongoDBObject("a" -> "b")
-        val push = $pushAll("foo" ->("bar", "baz", "x", "y"), "x" ->(5, 10, 12, 238))
+        val push = $pushAll("foo" -> ("bar", "baz", "x", "y"), "x" -> (5, 10, 12, 238))
         collection.update(MongoDBObject("a" -> "b"), push)
         val doc = collection.findOne().get
         doc.keySet.asScala must containAllOf(Seq("_id", "a", "foo", "x"))
@@ -382,7 +383,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
       "Accept a single value list" in {
         collection.drop()
         collection += MongoDBObject("a" -> "b", "foo" -> MongoDBList(30, 20, 10, 3, 2, 1))
-        val pull = $pullAll("foo" ->(30, 20, 10))
+        val pull = $pullAll("foo" -> (30, 20, 10))
         collection.update(MongoDBObject("a" -> "b"), pull)
         collection.findOne().get.as[MongoDBList]("foo") must beEqualTo(MongoDBList(3, 2, 1))
       }
@@ -390,7 +391,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
       "Accept multiple value lists" in {
         collection.drop()
         collection += MongoDBObject("a" -> "b", "foo" -> MongoDBList(3, 2, 1), "x" -> MongoDBList(5.1, 5.2, 5.3))
-        val pull = $pullAll("foo" ->(3, 2), "x" ->(5.1, 5.2))
+        val pull = $pullAll("foo" -> (3, 2), "x" -> (5.1, 5.2))
         collection.update(MongoDBObject("a" -> "b"), pull)
         collection.findOne().get.as[MongoDBList]("foo") must beEqualTo(MongoDBList(1))
         collection.findOne().get.as[MongoDBList]("x") must beEqualTo(MongoDBList(5.3))
@@ -420,7 +421,7 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
     "Function with the $each operator for multi-value updates" in {
       collection.drop()
       collection += MongoDBObject("a" -> "b")
-      val addToSet = $addToSet("foo") $each("x", "y", "foo", "bar", "baz")
+      val addToSet = $addToSet("foo") $each ("x", "y", "foo", "bar", "baz")
       collection.update(MongoDBObject("a" -> "b"), addToSet)
       val doc = collection.findOne().get
       doc.as[MongoDBList]("foo") must beEqualTo(MongoDBList("x", "y", "foo", "bar", "baz"))
@@ -514,5 +515,4 @@ class QueryIntegrationSpec extends CasbahDBTestSpecification {
   }
 
 }
-
 

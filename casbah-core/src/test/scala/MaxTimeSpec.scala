@@ -24,10 +24,9 @@ package com.mongodb.casbah.test.core
 
 import com.mongodb.MongoExecutionTimeoutException
 import org.specs2.specification.BeforeAfterExample
-import scala.concurrent.duration.{Duration, SECONDS}
+import scala.concurrent.duration.{ Duration, SECONDS }
 
 import com.mongodb.casbah.Imports._
-
 
 class MaxTimeSpec extends CasbahDBTestSpecification with BeforeAfterExample {
 
@@ -46,9 +45,12 @@ class MaxTimeSpec extends CasbahDBTestSpecification with BeforeAfterExample {
     "be supported by aggregation" in {
       val aggregationOptions = AggregationOptions(oneSecond)
       lazy val aggregation = collection.aggregate(
-        List(MongoDBObject("$match" -> ("score" $gte 7)),
-          MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
-        aggregationOptions)
+        List(
+          MongoDBObject("$match" -> ("score" $gte 7)),
+          MongoDBObject("$project" -> MongoDBObject("score" -> 1))
+        ),
+        aggregationOptions
+      )
 
       aggregation should throwA[MongoExecutionTimeoutException]
     }
@@ -122,7 +124,7 @@ class MaxTimeSpec extends CasbahDBTestSpecification with BeforeAfterExample {
       docs.next()
 
       enableMaxTimeFailPoint()
-      lazy val getMoreOp = while (docs.hasNext){docs.next()}
+      lazy val getMoreOp = while (docs.hasNext) { docs.next() }
       getMoreOp should throwA[MongoExecutionTimeoutException]
     }
   }

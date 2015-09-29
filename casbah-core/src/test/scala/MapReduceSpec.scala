@@ -31,7 +31,6 @@ import com.mongodb.util.JSON
 import com.mongodb.casbah.Imports._
 import java.util.Date
 
-
 @SuppressWarnings(Array("deprecation"))
 class MapReduceSpec extends CasbahDBTestSpecification {
 
@@ -82,7 +81,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
         mapJS,
         reduceJS,
         "yield_historical.all",
-        finalizeFunction = Some(finalizeJS))
+        finalizeFunction = Some(finalizeJS)
+      )
 
       result.isError must beFalse
       result.size must beEqualTo(result.raw.expand[Int]("counts.output").getOrElse(-1))
@@ -94,7 +94,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
         reduceJS,
         MapReduceInlineOutput,
         finalizeFunction = Some(finalizeJS),
-        verbose = true)
+        verbose = true
+      )
 
       result.isError must beFalse
       result.raw.getAs[String]("result") must beNone
@@ -120,7 +121,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
         MapReduceInlineOutput,
         finalizeFunction = Some(finalizeJS),
         jsScope = Some(MongoDBObject("scopedBoost" -> 2)),
-        verbose = true)
+        verbose = true
+      )
 
       result.isError must beFalse
       result.raw.getAs[String]("result") must beNone
@@ -132,7 +134,6 @@ class MapReduceSpec extends CasbahDBTestSpecification {
       item must beEqualTo(MongoDBObject("_id" -> 90.0, "value" -> 17.104800000000004))
     }
 
-
     val cmd90s = MapReduceCommand(
       collection.name,
       mapJS,
@@ -140,7 +141,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
       "yield_historical.nineties",
       Some("_id" $lt new Date(100, 1, 1)),
       finalizeFunction = Some(finalizeJS),
-      verbose = true)
+      verbose = true
+    )
 
     val cmd00s = MapReduceCommand(
       collection.name,
@@ -149,7 +151,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
       "yield_historical.aughts",
       Some("_id" $gt new Date(99, 12, 31)),
       finalizeFunction = Some(finalizeJS),
-      verbose = true)
+      verbose = true
+    )
 
     "Produce results for merged output" in new testData {
 
@@ -176,7 +179,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
         val cmd90sMerged = cmd90s.copy(
           query = None,
           input = "yield_historical.nineties",
-          output = MapReduceMergeOutput("yield_historical.merged"))
+          output = MapReduceMergeOutput("yield_historical.merged")
+        )
 
         val result90s = collection.mapReduce(cmd90sMerged)
         result90s.isError must beFalse
@@ -185,7 +189,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
         val cmd00sMerged = cmd00s.copy(
           query = None,
           input = "yield_historical.aughts",
-          output = MapReduceMergeOutput("yield_historical.merged"))
+          output = MapReduceMergeOutput("yield_historical.merged")
+        )
 
         val result00s = collection.mapReduce(cmd00sMerged)
         result00s.isError must beFalse
@@ -198,7 +203,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
         val cmd90sMerged = cmd90s.copy(
           query = None,
           input = "yield_historical.nineties",
-          output = MapReduceMergeOutput("yield_historical.merged_fresh"))
+          output = MapReduceMergeOutput("yield_historical.merged_fresh")
+        )
 
         val result90s = collection.mapReduce(cmd90sMerged)
         result90s.isError must beFalse
@@ -207,7 +213,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
         val cmd00sMerged = cmd00s.copy(
           query = None,
           input = "yield_historical.aughts",
-          output = MapReduceMergeOutput("yield_historical.merged_fresh"))
+          output = MapReduceMergeOutput("yield_historical.merged_fresh")
+        )
 
         val result00s = collection.mapReduce(cmd00sMerged)
         result00s.isError must beFalse
@@ -230,7 +237,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
       "yield_historical.nineties",
       Some("_id" $lt new Date(100, 1, 1)),
       finalizeFunction = Some(finalizeJS),
-      verbose = true)
+      verbose = true
+    )
 
     val result90s = collection.mapReduce(cmd90s)
     result90s must not beNull
@@ -247,7 +255,8 @@ class MapReduceSpec extends CasbahDBTestSpecification {
       "yield_historical.aughts",
       Some("_id" $gt new Date(99, 12, 31)),
       finalizeFunction = Some(finalizeJS),
-      verbose = true)
+      verbose = true
+    )
 
     val result00s = collection.mapReduce(cmd00s)
 
@@ -264,16 +273,17 @@ class MapReduceSpec extends CasbahDBTestSpecification {
         val cmd90sReduced = cmd90s.copy(
           query = None,
           input = "yield_historical.nineties",
-          output = MapReduceReduceOutput("yield_historical.reduced"))
+          output = MapReduceReduceOutput("yield_historical.reduced")
+        )
         val result90s = collection.mapReduce(cmd90sReduced)
         result90s.isError must beFalse
         result90s.raw.getAs[String]("result") must beSome("yield_historical.reduced")
 
-
         val cmd00sReduced = cmd00s.copy(
           query = None,
           input = "yield_historical.aughts",
-          output = MapReduceReduceOutput("yield_historical.reduced"))
+          output = MapReduceReduceOutput("yield_historical.reduced")
+        )
 
         val result00s = collection.mapReduce(cmd00sReduced)
         result00s.isError must beFalse
@@ -284,7 +294,6 @@ class MapReduceSpec extends CasbahDBTestSpecification {
       }
     }
   }
-
 
   trait testData extends Scope {
     val jsonFile = "./casbah-core/src/test/resources/yield_historical_in.json"

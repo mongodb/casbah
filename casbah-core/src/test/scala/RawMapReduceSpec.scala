@@ -31,7 +31,6 @@ import com.mongodb.util.JSON
 import com.mongodb.casbah.Imports._
 import java.util.Date
 
-
 @SuppressWarnings(Array("deprecation"))
 class RawMapReduceSpec extends CasbahDBTestSpecification {
 
@@ -59,7 +58,6 @@ class RawMapReduceSpec extends CasbahDBTestSpecification {
 
   "MongoDB 1.7+ Map/Reduce functionality" should {
 
-
     "Produce results in a named collection for all data" in new testData {
       val cmd = MongoDBObject(
         "mapreduce" -> collection.name,
@@ -67,7 +65,8 @@ class RawMapReduceSpec extends CasbahDBTestSpecification {
         "reduce" -> reduceJS,
         "finalize" -> finalizeJS,
         "verbose" -> true,
-        "out" -> "yield_historical.out.all")
+        "out" -> "yield_historical.out.all"
+      )
 
       val result = database.command(cmd)
 
@@ -87,12 +86,12 @@ class RawMapReduceSpec extends CasbahDBTestSpecification {
         "reduce" -> reduceJS,
         "finalize" -> finalizeJS,
         "verbose" -> true,
-        "out" -> MongoDBObject("inline" -> true))
+        "out" -> MongoDBObject("inline" -> true)
+      )
 
       val result = database.command(cmd)
 
       log.info("M/R Result: %s", result)
-
 
       result.getAs[Double]("ok") must beSome[Double](1.0)
       result.getAs[String]("result") must beNone
@@ -120,7 +119,8 @@ class RawMapReduceSpec extends CasbahDBTestSpecification {
       "finalize" -> finalizeJS,
       "verbose" -> true,
       "query" -> ("_id" $lt new Date(100, 1, 1)),
-      "out" -> "yield_historical.out.nineties")
+      "out" -> "yield_historical.out.nineties"
+    )
 
     val cmd00s = MongoDBObject(
       "mapreduce" -> collection.name,
@@ -129,7 +129,8 @@ class RawMapReduceSpec extends CasbahDBTestSpecification {
       "finalize" -> finalizeJS,
       "verbose" -> true,
       "query" -> ("_id" $gt new Date(99, 12, 31)),
-      "out" -> "yield_historical.out.aughts")
+      "out" -> "yield_historical.out.aughts"
+    )
 
     "Produce results for merged output" in {
 
@@ -212,7 +213,8 @@ class RawMapReduceSpec extends CasbahDBTestSpecification {
       "reduce" -> reduceJS,
       "verbose" -> true,
       "query" -> ("_id" $lt new Date(100, 1, 1)),
-      "out" -> "yield_historical.out.nineties")
+      "out" -> "yield_historical.out.nineties"
+    )
 
     val cmd00s = MongoDBObject(
       "mapreduce" -> collection.name,
@@ -220,7 +222,8 @@ class RawMapReduceSpec extends CasbahDBTestSpecification {
       "reduce" -> reduceJS,
       "verbose" -> true,
       "query" -> ("_id" $gt new Date(99, 12, 31)),
-      "out" -> "yield_historical.out.aughts")
+      "out" -> "yield_historical.out.aughts"
+    )
 
     "Produce results for nineties and aughties output" in {
 

@@ -21,13 +21,12 @@
 
 package com.mongodb.casbah.test.core
 
-import com.mongodb.{DBDecoderFactory, DBEncoderFactory, MongoClientOptions => JavaMongoClientOptions}
+import com.mongodb.{ DBDecoderFactory, DBEncoderFactory, MongoClientOptions => JavaMongoClientOptions }
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
 import javax.net.ssl.SSLSocketFactory
-
 
 class MongoClientOptionsSpec extends CasbahMutableSpecification {
 

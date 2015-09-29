@@ -22,10 +22,9 @@ package com.mongodb.casbah
 package commons
 
 import scala.collection.JavaConverters._
-import scala.collection.immutable.{List, Map}
+import scala.collection.immutable.{ List, Map }
 
-import com.mongodb.{BasicDBList, BasicDBObject}
-
+import com.mongodb.{ BasicDBList, BasicDBObject }
 
 /**
  * Package private Castable trait - a helper that provides a typesafe castToOption method
@@ -47,15 +46,15 @@ private[commons] trait Castable {
    */
   def castToOption[A: Manifest](value: Any): Option[A] = {
     val erasure = manifest[A] match {
-      case Manifest.Byte => classOf[java.lang.Byte]
-      case Manifest.Short => classOf[java.lang.Short]
-      case Manifest.Char => classOf[java.lang.Character]
-      case Manifest.Long => classOf[java.lang.Long]
-      case Manifest.Float => classOf[java.lang.Float]
-      case Manifest.Double => classOf[java.lang.Double]
+      case Manifest.Byte    => classOf[java.lang.Byte]
+      case Manifest.Short   => classOf[java.lang.Short]
+      case Manifest.Char    => classOf[java.lang.Character]
+      case Manifest.Long    => classOf[java.lang.Long]
+      case Manifest.Float   => classOf[java.lang.Float]
+      case Manifest.Double  => classOf[java.lang.Double]
       case Manifest.Boolean => classOf[java.lang.Boolean]
-      case Manifest.Int => classOf[java.lang.Integer]
-      case m => m.erasure // deprecated in >= 2.10
+      case Manifest.Int     => classOf[java.lang.Integer]
+      case m                => m.erasure // deprecated in >= 2.10
     }
     value match {
       case simpleValue if erasure.isInstance(simpleValue) =>

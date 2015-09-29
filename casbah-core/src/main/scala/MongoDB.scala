@@ -23,8 +23,8 @@
 package com.mongodb.casbah
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.map_reduce.{MapReduceCommand, MapReduceResult}
-import com.mongodb.{CommandResult, DBCollection}
+import com.mongodb.casbah.map_reduce.{ MapReduceCommand, MapReduceResult }
+import com.mongodb.{ CommandResult, DBCollection }
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
@@ -61,10 +61,11 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def apply(collection: String): MongoCollection = underlying.getCollection(collection).asScala
 
-  /** Execute a database command directly.
-    * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
-    * @return the result of the command from the database
-    */
+  /**
+   * Execute a database command directly.
+   * @see <a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a>
+   * @return the result of the command from the database
+   */
   def command(cmd: DBObject): CommandResult = underlying.command(cmd)
 
   /**
@@ -81,18 +82,19 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def command(cmd: DBObject, readPreference: ReadPreference): CommandResult = underlying.command(cmd, readPreference)
 
-  /** Creates a collection with a given name and options.
-    * If the collection does not exist, a new collection is created.
-    * Possible options:
-    * <dl>
-    * <dt>capped</dt><dd><i>boolean</i>: if the collection is capped</dd>
-    * <dt>size</dt><dd><i>int</i>: collection size</dd>
-    * <dt>max</dt><dd><i>int</i>: max number of documents</dd>
-    * </dl>
-    * @param name the name of the collection to return
-    * @param o options
-    * @return the collection
-    */
+  /**
+   * Creates a collection with a given name and options.
+   * If the collection does not exist, a new collection is created.
+   * Possible options:
+   * <dl>
+   * <dt>capped</dt><dd><i>boolean</i>: if the collection is capped</dd>
+   * <dt>size</dt><dd><i>int</i>: collection size</dd>
+   * <dt>max</dt><dd><i>int</i>: max number of documents</dd>
+   * </dl>
+   * @param name the name of the collection to return
+   * @param o options
+   * @return the collection
+   */
   def createCollection(name: String, o: DBObject): DBCollection = underlying.createCollection(name, o)
 
   def doEval(code: String, args: AnyRef*): CommandResult = underlying.doEval(code, args: _*)
@@ -104,27 +106,31 @@ class MongoDB(val underlying: com.mongodb.DB) {
 
   def eval(code: String, args: AnyRef*): AnyRef = underlying.eval(code, args: _*)
 
-  /** Gets a collection with a given name.
-    * If the collection does not exist, a new collection is created.
-    * @param name (String) the name of the collection to return
-    * @return the collection
-    */
+  /**
+   * Gets a collection with a given name.
+   * If the collection does not exist, a new collection is created.
+   * @param name (String) the name of the collection to return
+   * @return the collection
+   */
   def getCollection(name: String): DBCollection = underlying.getCollection(name)
 
-  /** Returns a collection matching a given string.
-    * @param s the name of the collection
-    * @return the collection
-    */
+  /**
+   * Returns a collection matching a given string.
+   * @param s the name of the collection
+   * @return the collection
+   */
   def getCollectionFromString(s: String): DBCollection = underlying.getCollectionFromString(s)
 
-  /** Returns a set of the names of collections in this database.
-    * @return the names of collections in this database
-    */
+  /**
+   * Returns a set of the names of collections in this database.
+   * @return the names of collections in this database
+   */
   def getCollectionNames(): mutable.Set[String] = underlying.getCollectionNames.asScala /* calls the db */
 
-  /** Returns a set of the names of collections in this database.
-    * @return the names of collections in this database
-    */
+  /**
+   * Returns a set of the names of collections in this database.
+   * @return the names of collections in this database
+   */
   def collectionNames(): mutable.Set[String] = getCollectionNames() /* calls the db */
 
   def name: String = getName

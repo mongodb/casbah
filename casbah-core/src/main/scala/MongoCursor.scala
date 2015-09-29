@@ -561,7 +561,7 @@ object MongoCursor extends Logging {
    * @param  keys (K) Keys to return from the query
    * @return (instance) A new MongoCursor
    */
-  def apply[T <: DBObject : Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject): MongoCursorBase =
+  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject): MongoCursorBase =
     apply(collection, query, keys, collection.readPreference)
 
   /**
@@ -573,7 +573,7 @@ object MongoCursor extends Logging {
    * @param  readPref the read preference for the cursor
    * @return (instance) A new MongoCursor
    */
-  def apply[T <: DBObject : Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject, readPref: ReadPreference): MongoCursorBase = {
+  def apply[T <: DBObject: Manifest](collection: MongoCollectionBase, query: DBObject, keys: DBObject, readPref: ReadPreference): MongoCursorBase = {
     val cursor = new DBCursor(collection.underlying, query, keys, readPref)
 
     if (manifest[T] == manifest[DBObject]) new MongoCursor(cursor)

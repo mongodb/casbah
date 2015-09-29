@@ -30,7 +30,7 @@ import scala.beans.BeanInfo
 import scala.collection.JavaConversions._
 import scala.collection.generic._
 import scala.collection.mutable
-import scala.util.{Try, Success, Failure}
+import scala.util.{ Try, Success, Failure }
 import java.util
 
 /**
@@ -44,7 +44,7 @@ import java.util
  */
 @BeanInfo
 class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutable.Map[String, AnyRef]
-with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
+    with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
 
   override def empty: MongoDBObject = MongoDBObject.empty
 
@@ -65,16 +65,16 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * @return (A)
    * @throws NoSuchElementException or ClassCastException
    */
-  def as[A: NotNothing : Manifest](key: String): A = {
+  def as[A: NotNothing: Manifest](key: String): A = {
     val rawValue = get(key) match {
       case Some(list: BasicDBList) => new MongoDBList(list)
-      case Some(x) => x
-      case None => None
+      case Some(x)                 => x
+      case None                    => None
     }
     castToOption[A](rawValue) match {
-      case Some(value) => value
+      case Some(value)                           => value
       case None if underlying.containsField(key) => underlying.get(key).asInstanceOf[A]
-      case _ => default(key).asInstanceOf[A]
+      case _                                     => default(key).asInstanceOf[A]
     }
   }
 
@@ -92,14 +92,14 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
   def as[A: NotNothing: Manifest](keys: String*): A = {
     val path = keys.mkString(".")
     expand(path) match {
-      case None => throw new java.util.NoSuchElementException()
+      case None        => throw new java.util.NoSuchElementException()
       case Some(value) => value
     }
   }
 
   // scalastyle:off null
   override def get(key: String): Option[AnyRef] = underlying.get(key) match {
-    case null => None
+    case null  => None
     case value => Some(value)
   }
   // scalastyle:on null
@@ -146,7 +146,7 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * @tparam A the type to cast the result to
    * @return Option[A] - None if value is None, the cast invalid or the key is missing otherwise Some(value)
    */
-  def getAs[A: NotNothing : Manifest](key: String): Option[A] = {
+  def getAs[A: NotNothing: Manifest](key: String): Option[A] = {
     Try(as[A](key)) match {
       case Success(v) => castToOption[A](v)
       case Failure(e) => None
@@ -163,11 +163,11 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
    * @tparam A the type to cast the final value
    * @return Option[A] - None if value is None, the cast invalid or the key is missing otherwise Some(value)
    */
-  def getAs[A: NotNothing : Manifest](keys: String*): Option[A] = expand[A](keys.mkString("."))
+  def getAs[A: NotNothing: Manifest](keys: String*): Option[A] = expand[A](keys.mkString("."))
 
-  def getAsOrElse[A: NotNothing : Manifest](key: String, default: => A): A = getAs[A](key) match {
+  def getAsOrElse[A: NotNothing: Manifest](key: String, default: => A): A = getAs[A](key) match {
     case Some(v) => v
-    case None => default
+    case None    => default
   }
 
   /**
@@ -188,13 +188,13 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
           val (pfx, sfx) = key.splitAt(i)
           dbObj.getAs[DBObject](pfx) match {
             case Some(base) => _dot(base, sfx.stripPrefix("."))
-            case None => None
-        }
+            case None       => None
+          }
       }
-    // scalastyle:on method.name
+      // scalastyle:on method.name
     }
     _dot(this, key) match {
-      case None => None
+      case None        => None
       case Some(value) => Some(value.asInstanceOf[A])
     }
   }
@@ -231,12 +231,12 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
     cvt match {
       case _v: Option[_] =>
         underlying.put(k, _v.orNull) match {
-          case null => None
+          case null  => None
           case value => Some(value)
         }
       case _ =>
         underlying.put(k, cvt) match {
-          case null => None
+          case null  => None
           case value => Some(value)
         }
     }
@@ -251,8 +251,8 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
 
   override def equals(that: Any): Boolean = that match {
     case o: MongoDBObject => underlying.equals(o.underlying)
-    case o: MongoDBList => underlying.equals(o.underlying)
-    case _ => underlying.equals(that) | that.equals(this)
+    case o: MongoDBList   => underlying.equals(o.underlying)
+    case _                => underlying.equals(that) | that.equals(this)
   }
 
   def removeField(key: String): AnyRef = underlying.removeField(key)
@@ -265,7 +265,7 @@ with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
   // convenience method to get _id as ObjectId
   def `_id`: Option[ObjectId] = get("_id") match {
     case Some(id: ObjectId) => Some(id)
-    case _ => None
+    case _                  => None
   }
 
   // scalastyle:on method.name
@@ -290,9 +290,9 @@ object MongoDBObject {
 
   protected[mongodb] def convertValue(v: Any): Any = v match {
     case x: MongoDBObject => x.asDBObject
-    case m: Map[_, _] => m.asInstanceOf[Map[String, _]].asDBObject
-    case _v: Option[_] => Option(convertValue(_v.orNull))
-    case _ => v
+    case m: Map[_, _]     => m.asInstanceOf[Map[String, _]].asDBObject
+    case _v: Option[_]    => Option(convertValue(_v.orNull))
+    case _                => v
   }
 }
 
@@ -308,7 +308,7 @@ sealed class MongoDBObjectBuilder extends mutable.Builder[(String, Any), DBObjec
     val cvt = MongoDBObject.convertValue(x._2)
     cvt match {
       case _v: Option[_] => elems.add(x._1, _v.orNull)
-      case _ => elems.add(x._1, cvt)
+      case _             => elems.add(x._1, cvt)
     }
     this
   }

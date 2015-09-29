@@ -23,7 +23,7 @@ package com.mongodb.casbah
 
 import com.mongodb.casbah.Imports._
 
-import com.mongodb.{DBDecoderFactory, DBEncoderFactory, MongoClientOptions => JavaMongoClientOptions}
+import com.mongodb.{ DBDecoderFactory, DBEncoderFactory, MongoClientOptions => JavaMongoClientOptions }
 
 import javax.net.SocketFactory
 
@@ -71,30 +71,30 @@ object MongoClientOptions {
    * @see MongoDBAddress
    */
   def apply(
-             connectionsPerHost: Int = Defaults.getConnectionsPerHost,
-             connectTimeout: Int = Defaults.getConnectTimeout,
-             cursorFinalizerEnabled: Boolean = Defaults.isCursorFinalizerEnabled,
-             dbDecoderFactory: DBDecoderFactory = Defaults.getDbDecoderFactory,
-             dbEncoderFactory: DBEncoderFactory = Defaults.getDbEncoderFactory,
-             description: String = Defaults.getDescription,
-             maxWaitTime: Int = Defaults.getMaxWaitTime,
-             readPreference: ReadPreference = Defaults.getReadPreference,
-             socketFactory: SocketFactory = Defaults.getSocketFactory,
-             socketKeepAlive: Boolean = Defaults.isSocketKeepAlive,
-             socketTimeout: Int = Defaults.getSocketTimeout,
-             threadsAllowedToBlockForConnectionMultiplier: Int = Defaults.getThreadsAllowedToBlockForConnectionMultiplier,
-             writeConcern: WriteConcern = Defaults.getWriteConcern,
-             alwaysUseMBeans: Boolean = Defaults.isAlwaysUseMBeans,
-             heartbeatConnectTimeout: Int = Defaults.getHeartbeatConnectTimeout,
-             heartbeatFrequency: Int = Defaults.getHeartbeatFrequency,
-             heartbeatSocketTimeout: Int = Defaults.getHeartbeatSocketTimeout,
-             maxConnectionIdleTime: Int = Defaults.getMaxConnectionIdleTime,
-             maxConnectionLifeTime: Int = Defaults.getMaxConnectionLifeTime,
-             minConnectionsPerHost: Int = Defaults.getMinConnectionsPerHost,
-             requiredReplicaSetName: String = Defaults.getRequiredReplicaSetName,
-             minHeartbeatFrequency: Int = Defaults.getMinHeartbeatFrequency
+    connectionsPerHost:                           Int              = Defaults.getConnectionsPerHost,
+    connectTimeout:                               Int              = Defaults.getConnectTimeout,
+    cursorFinalizerEnabled:                       Boolean          = Defaults.isCursorFinalizerEnabled,
+    dbDecoderFactory:                             DBDecoderFactory = Defaults.getDbDecoderFactory,
+    dbEncoderFactory:                             DBEncoderFactory = Defaults.getDbEncoderFactory,
+    description:                                  String           = Defaults.getDescription,
+    maxWaitTime:                                  Int              = Defaults.getMaxWaitTime,
+    readPreference:                               ReadPreference   = Defaults.getReadPreference,
+    socketFactory:                                SocketFactory    = Defaults.getSocketFactory,
+    socketKeepAlive:                              Boolean          = Defaults.isSocketKeepAlive,
+    socketTimeout:                                Int              = Defaults.getSocketTimeout,
+    threadsAllowedToBlockForConnectionMultiplier: Int              = Defaults.getThreadsAllowedToBlockForConnectionMultiplier,
+    writeConcern:                                 WriteConcern     = Defaults.getWriteConcern,
+    alwaysUseMBeans:                              Boolean          = Defaults.isAlwaysUseMBeans,
+    heartbeatConnectTimeout:                      Int              = Defaults.getHeartbeatConnectTimeout,
+    heartbeatFrequency:                           Int              = Defaults.getHeartbeatFrequency,
+    heartbeatSocketTimeout:                       Int              = Defaults.getHeartbeatSocketTimeout,
+    maxConnectionIdleTime:                        Int              = Defaults.getMaxConnectionIdleTime,
+    maxConnectionLifeTime:                        Int              = Defaults.getMaxConnectionLifeTime,
+    minConnectionsPerHost:                        Int              = Defaults.getMinConnectionsPerHost,
+    requiredReplicaSetName:                       String           = Defaults.getRequiredReplicaSetName,
+    minHeartbeatFrequency:                        Int              = Defaults.getMinHeartbeatFrequency
 
-             ): JavaMongoClientOptions = {
+  ): JavaMongoClientOptions = {
     val builder = new JavaMongoClientOptions.Builder()
     builder.connectionsPerHost(connectionsPerHost)
     builder.connectTimeout(connectTimeout)
@@ -123,7 +123,6 @@ object MongoClientOptions {
     }
     builder.build()
   }
-
 
   // scalastyle:on parameter.number
 }

@@ -24,9 +24,8 @@ package com.mongodb.casbah
 import scala.collection.mutable
 import scala.collection.JavaConverters._
 
-import com.mongodb.{BulkWriteResult => JBulkWriteResult, BulkWriteUpsert}
-import scala.util.{Try, Success, Failure}
-
+import com.mongodb.{ BulkWriteResult => JBulkWriteResult, BulkWriteUpsert }
+import scala.util.{ Try, Success, Failure }
 
 case class BulkWriteResult(underlying: JBulkWriteResult) {
   /**
@@ -92,7 +91,7 @@ case class BulkWriteResult(underlying: JBulkWriteResult) {
    * @throws UnacknowledgedWriteException if the write was unacknowledged.
    * @see WriteConcern#Unacknowledged
    */
-  def upserts: mutable.Buffer[BulkWriteUpsert] =  underlying.getUpserts.asScala
+  def upserts: mutable.Buffer[BulkWriteUpsert] = underlying.getUpserts.asScala
 
   /* Java api mirrors */
   def getModifiedCount: Try[Int] = modifiedCount

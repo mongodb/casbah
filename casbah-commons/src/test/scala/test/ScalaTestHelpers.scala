@@ -17,7 +17,6 @@
 package com.mongodb.casbah.commons
 package scalatest
 
-
 import com.mongodb.casbah.commons.Imports._
 
 import org.scalatest.matchers.Matcher
@@ -59,8 +58,9 @@ trait ScalaTestDBObjectMatchers {
       MatchResult(field(map, k).isDefined, map.toString + " contains the key " + k, map.toString + " doesn't contain the key " + k)
   }
 
-  /** matches if a Some(map) contains a pair (key, value) == (k, v)
-    */
+  /**
+   * matches if a Some(map) contains a pair (key, value) == (k, v)
+   */
   def containSomeEntry[V](p: (String, V)) = Matcher {
     map: Option[DBObject] =>
       MatchResult(
@@ -70,9 +70,10 @@ trait ScalaTestDBObjectMatchers {
       )
   }
 
-  /** Special version of "containEntry" that expects a list and then uses
-    * "hasSameElements" on it.
-    */
+  /**
+   * Special version of "containEntry" that expects a list and then uses
+   * "hasSameElements" on it.
+   */
   def containListEntry(k: String, l: => scala.Traversable[Any]) = Matcher {
     map: DBObject =>
       val objL = listField(map, k).getOrElse(Seq.empty[Any]).toSeq
@@ -84,8 +85,9 @@ trait ScalaTestDBObjectMatchers {
       )
   }
 
-  /** matches if map contains a pair (key, value) == (k, v)
-    */
+  /**
+   * matches if map contains a pair (key, value) == (k, v)
+   */
   // If a DBObject is a Map, can use contain already
   def containEntry[V](p: (String, V)) = Matcher {
     map: DBObject =>
@@ -96,23 +98,27 @@ trait ScalaTestDBObjectMatchers {
       )
   }
 
-  /** matches if Some(map) contains all the specified pairs
-    * can expand dot notation to match specific sub-keys */
+  /**
+   * matches if Some(map) contains all the specified pairs
+   * can expand dot notation to match specific sub-keys
+   */
   def containSomeEntries[V](pairs: (String, V)*) = Matcher {
     map: Option[DBObject] =>
       MatchResult(
-        pairs.forall(pair => someField(map, pair._1).exists(_ == pair._2) /* match only the value */),
+        pairs.forall(pair => someField(map, pair._1).exists(_ == pair._2) /* match only the value */ ),
         map.toString + " has the pairs " + pairs.mkString(", "),
         map.toString + " doesn't have the pairs " + pairs.mkString(", ")
       )
   }
 
-  /** matches if map contains all the specified pairs
-    * can expand dot notation to match specific sub-keys */
+  /**
+   * matches if map contains all the specified pairs
+   * can expand dot notation to match specific sub-keys
+   */
   def containEntries[V](pairs: (String, V)*) = Matcher {
     map: DBObject =>
       MatchResult(
-        pairs.forall(pair => field(map, pair._1).exists(_ == pair._2) /* match only the value */),
+        pairs.forall(pair => field(map, pair._1).exists(_ == pair._2) /* match only the value */ ),
         map.toString + " has the pairs " + pairs.mkString(", "),
         map.toString + " doesn't have the pairs " + pairs.mkString(", ")
       )

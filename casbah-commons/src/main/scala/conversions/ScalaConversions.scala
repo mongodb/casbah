@@ -27,7 +27,7 @@ package scala
 import com.mongodb.casbah.commons.Imports._
 import com.mongodb.casbah.commons.Logging
 
-import org.bson.{BSON, Transformer}
+import org.bson.{ BSON, Transformer }
 
 import com.github.nscala_time.time.Imports._
 
@@ -41,7 +41,7 @@ import com.github.nscala_time.time.Imports._
  * @see RegisterJodaTimeConversionHelpers
  */
 object RegisterConversionHelpers extends Serializers
-with Deserializers {
+    with Deserializers {
   def apply() {
     log.debug("Registering Scala Conversions.")
     super.register()
@@ -54,9 +54,9 @@ with Deserializers {
  * @since 1.0
  */
 @deprecated("Be VERY careful using this - it will remove ALL of Casbah's loaded BSON Encoding & Decoding hooks at " +
-            "runtime. If you need to clear Joda Time use DeregisterJodaTimeConversionHelpers.", "2.0")
+  "runtime. If you need to clear Joda Time use DeregisterJodaTimeConversionHelpers.", "2.0")
 object DeregisterConversionHelpers extends Serializers
-with Deserializers {
+    with Deserializers {
   def apply() {
     log.debug("Deregistering Scala Conversions.")
     // TODO - Figure out how to clear specific hooks as this clobbers everything.
@@ -100,10 +100,10 @@ trait Deserializers extends MongoConversionHelper {
  * @since 1.0
  */
 trait Serializers extends MongoConversionHelper
-with ScalaRegexSerializer
-with ScalaCollectionSerializer
-with ScalaProductSerializer
-with OptionSerializer {
+    with ScalaRegexSerializer
+    with ScalaCollectionSerializer
+    with ScalaProductSerializer
+    with OptionSerializer {
   override def register() {
     log.debug("Serializers for Scala Conversions registering")
     super.register()
@@ -121,8 +121,8 @@ trait OptionSerializer extends MongoConversionHelper {
     // scalastyle:off null
     def transform(o: AnyRef): AnyRef = o match {
       case Some(x) => x.asInstanceOf[AnyRef]
-      case None => null
-      case _ => o
+      case None    => null
+      case _       => o
     }
     // scalastyle:on null
 
@@ -163,9 +163,9 @@ trait JodaDateTimeSerializer extends MongoConversionHelper {
     log.trace("Encoding a JodaDateTime DateTime.")
 
     def transform(o: AnyRef): AnyRef = o match {
-      case d: DateTime => d.toDate // Return a JDK Date object which BSON can encode
+      case d: DateTime      => d.toDate // Return a JDK Date object which BSON can encode
       case l: LocalDateTime => l.toDateTime.toDate
-      case _ => o
+      case _                => o
     }
 
   }
@@ -195,9 +195,9 @@ trait JodaDateTimeDeserializer extends MongoConversionHelper {
 
     def transform(o: AnyRef): AnyRef = o match {
       case jdkDate: java.util.Date => new DateTime(jdkDate)
-      case d: DateTime => d
-      case l: LocalDateTime => l.toDateTime
-      case _ => o
+      case d: DateTime             => d
+      case l: LocalDateTime        => l.toDateTime
+      case _                       => o
     }
   }
 
@@ -216,7 +216,6 @@ trait JodaDateTimeDeserializer extends MongoConversionHelper {
   }
 }
 
-
 trait JodaLocalDateTimeHelpers extends JodaLocalDateTimeSerializer with JodaLocalDateTimeDeserializer
 
 trait JodaLocalDateTimeSerializer extends MongoConversionHelper {
@@ -229,9 +228,9 @@ trait JodaLocalDateTimeSerializer extends MongoConversionHelper {
     log.trace("Encoding a JodaLocalDateTime DateTime.")
 
     def transform(o: AnyRef): AnyRef = o match {
-      case d: DateTime => d.toLocalDateTime.toDate // Return a JDK Date object which BSON can encode
+      case d: DateTime      => d.toLocalDateTime.toDate // Return a JDK Date object which BSON can encode
       case l: LocalDateTime => l.toDate
-      case _ => o
+      case _                => o
     }
 
   }
@@ -261,9 +260,9 @@ trait JodaLocalDateTimeDeserializer extends MongoConversionHelper {
 
     def transform(o: AnyRef): AnyRef = o match {
       case jdkDate: java.util.Date => new LocalDateTime(jdkDate)
-      case d: DateTime => d.toLocalDateTime
-      case l: LocalDateTime => l
-      case _ => o
+      case d: DateTime             => d.toLocalDateTime
+      case l: LocalDateTime        => l
+      case _                       => o
     }
   }
 
@@ -288,7 +287,7 @@ trait ScalaRegexSerializer extends MongoConversionHelper {
 
     def transform(o: AnyRef): AnyRef = o match {
       case sRE: _root_.scala.util.matching.Regex => sRE.pattern
-      case _ => o
+      case _                                     => o
     }
 
   }
@@ -332,8 +331,8 @@ trait ScalaCollectionSerializer extends MongoConversionHelper {
     def transform(o: AnyRef): AnyRef = o match {
       case mdbo: MongoDBObject => mdbo.underlying // MongoDBObject is a custom Iterable
       case mdbl: MongoDBList => mdbl.underlying // MongoDBList is a custom Iterable
-      case m: _root_.scala.collection.mutable.Map[_, _] => m.asJava  // Maps are Iterable but we need to keep them Map like
-      case m: _root_.scala.collection.Map[_, _] => m.asJava  // Maps are Iterable but we need to keep them Map like
+      case m: _root_.scala.collection.mutable.Map[_, _] => m.asJava // Maps are Iterable but we need to keep them Map like
+      case m: _root_.scala.collection.Map[_, _] => m.asJava // Maps are Iterable but we need to keep them Map like
       case i: _root_.scala.collection.Iterable[_] => i.asJava
       case i: _root_.scala.collection.Iterator[_] => i.asJava
       case _ => o
@@ -348,7 +347,6 @@ trait ScalaCollectionSerializer extends MongoConversionHelper {
   }
 }
 
-
 trait ScalaProductSerializer extends MongoConversionHelper {
 
   import _root_.scala.collection.JavaConverters._
@@ -358,8 +356,8 @@ trait ScalaProductSerializer extends MongoConversionHelper {
 
     def transform(o: AnyRef): AnyRef = o match {
       case l: java.util.List[_] => l // Ignore converted Products that are wrapped java.util.Lists
-      case p: Product => p.productIterator.toList.asJava
-      case _ => o
+      case p: Product           => p.productIterator.toList.asJava
+      case _                    => o
     }
   }
 

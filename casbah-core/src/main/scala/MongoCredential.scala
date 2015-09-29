@@ -21,7 +21,7 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.{MongoCredential => JavaMongoCredential}
+import com.mongodb.{ MongoCredential => JavaMongoCredential }
 
 /**
  * Helper class for creating MongoCredential instances

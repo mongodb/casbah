@@ -23,17 +23,20 @@
 package com.mongodb.casbah
 package gridfs
 
-import java.io.{File, InputStream}
+import java.io.{ File, InputStream }
 import scala.beans.BeanInfo
 
-import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile,
-GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
+import com.mongodb.gridfs.{
+  GridFS => MongoGridFS,
+  GridFSDBFile => MongoGridFSDBFile,
+  GridFSFile => MongoGridFSFile,
+  GridFSInputFile => MongoGridFSInputFile
+}
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.casbah.commons.Logging
-import com.github.nscala_time.time.Imports.{DateTime, LocalDateTime}
-
+import com.github.nscala_time.time.Imports.{ DateTime, LocalDateTime }
 
 /**
  * Companion object for GridFS.
@@ -55,8 +58,7 @@ object JodaGridFS extends Logging {
 
 }
 
-
-class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericGridFS with Iterable[JodaGridFSDBFile] {
+class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends GenericGridFS with Iterable[JodaGridFSDBFile] {
 
   type FileWriteOp = JodaGridFSInputFile => Unit
 
@@ -212,7 +214,7 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
         fh.save()
         fh.validate()
         Option(fh.id)
-  }
+    }
 
   def findOne[A <% DBObject](query: A): Option[JodaGridFSDBFile] = {
     filesCollection.findOne(query) match {
@@ -228,7 +230,6 @@ class JodaGridFS protected[gridfs](val underlying: MongoGridFS) extends GenericG
   def findOne(id: ObjectId): Option[JodaGridFSDBFile] = findOne(MongoDBObject("_id" -> id))
 
   def findOne(filename: String): Option[JodaGridFSDBFile] = findOne(MongoDBObject("filename" -> filename))
-
 
 }
 
@@ -246,7 +247,7 @@ trait ConvertToDateTime {
 
   def convertDate(in: AnyRef): DateType = in match {
     case d: java.util.Date => new DateTime(d)
-    case j: DateTime => j
-    case l: LocalDateTime => l.toDateTime
+    case j: DateTime       => j
+    case l: LocalDateTime  => l.toDateTime
   }
 }

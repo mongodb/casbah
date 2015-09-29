@@ -4,7 +4,6 @@ import java.io._
 import java.security.MessageDigest
 import com.mongodb.casbah.test.core.CasbahDBTestSpecification
 
-
 trait GridFSSpecification extends CasbahDBTestSpecification {
 
   def logo_fh = new FileInputStream("casbah-gridfs/src/test/resources/powered_by_mongo.png")

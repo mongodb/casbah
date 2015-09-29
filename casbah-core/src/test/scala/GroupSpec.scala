@@ -30,7 +30,6 @@ import org.specs2.specification.Scope
 import com.mongodb.util.JSON
 import com.mongodb.casbah.Imports._
 
-
 class GroupSpec extends CasbahDBTestSpecification {
 
   "Casbah's Group Interfaces" should {

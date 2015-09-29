@@ -27,13 +27,12 @@ import com.mongodb.casbah.Imports._
 
 import scala.collection.mutable
 
-
 @SuppressWarnings(Array("deprecation"))
 class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
   def initializeBulkOperation(ordered: Boolean): BulkWriteOperation = {
     ordered match {
-      case true => collection.initializeOrderedBulkOperation
+      case true  => collection.initializeOrderedBulkOperation
       case false => collection.initializeUnorderedBulkOperation
     }
   }
@@ -42,7 +41,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
     ordered =>
       val builderName = {
         ordered match {
-          case true => "OrderedBulkOperation"
+          case true  => "OrderedBulkOperation"
           case false => "UnorderedBulkOperation"
         }
       }
@@ -51,7 +50,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
         "when no document with the same id exists, should insert the document " in {
           collection.drop()
 
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.insert(MongoDBObject("_id" -> 1))
 
           val result = operation.execute()
@@ -64,7 +63,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
         "when a document contains a key with an illegal character, inserting it should throw IllegalArgumentException" in {
           collection.drop()
 
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.insert(MongoDBObject("$set" -> 1))
           operation.execute() should throwA[IllegalArgumentException]
         }
@@ -75,7 +74,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           val document = MongoDBObject("_id" -> 1)
           collection.insert(document)
 
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.insert(document)
 
           operation.execute() should throwA[BulkWriteException]
@@ -86,19 +85,19 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
           val document = MongoDBObject()
 
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.insert(document)
           operation.execute()
 
           collection.findOne() must haveSomeField("_id")
-      }
+        }
 
         "when documents match the query, a remove of one should remove one of them" in {
           collection.drop()
           collection += MongoDBObject("x" -> true)
           collection += MongoDBObject("x" -> true)
 
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.find(MongoDBObject("x" -> true)).removeOne()
 
           val result = operation.execute()
@@ -113,7 +112,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           collection += MongoDBObject("x" -> true)
           collection += MongoDBObject("x" -> false)
 
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.find(MongoDBObject("x" -> true)).remove()
 
           val result = operation.execute()
@@ -124,13 +123,13 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
 
         "when an update document contains a non $-prefixed key, update should throw IllegalArgumentException" in {
           collection.drop()
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.find(MongoDBObject()).update($set("x" -> 1) ++ ("y" -> 2))
           operation.execute() should throwA[IllegalArgumentException]
         }
 
         "when an update document contains a non $-prefixed key, updateOne should throw IllegalArgumentException" in {
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.find(MongoDBObject()).update($set("x" -> 1) ++ ("y" -> 2))
           operation.execute() should throwA[IllegalArgumentException]
         }
@@ -140,13 +139,13 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           collection += MongoDBObject("x" -> true)
           collection += MongoDBObject("x" -> true)
 
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.find(MongoDBObject("x" -> true)).updateOne($set("y" -> 1))
 
           val result = operation.execute()
           result.matchedCount must beEqualTo(1)
           serverIsAtLeastVersion(2, 5) match {
-            case true => result.modifiedCount.get must beEqualTo(1)
+            case true  => result.modifiedCount.get must beEqualTo(1)
             case false => result.modifiedCount.get must throwA[UnsupportedOperationException]
           }
           collection.find(MongoDBObject("y" -> 1)).count() must beEqualTo(1)
@@ -157,13 +156,13 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           collection += MongoDBObject("x" -> true)
           collection += MongoDBObject("x" -> true)
 
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.find(MongoDBObject("x" -> true)).update($set("y" -> 1))
 
           val result = operation.execute()
           result.matchedCount must beEqualTo(2)
           serverIsAtLeastVersion(2, 5) match {
-            case true => result.modifiedCount.get must beEqualTo(2)
+            case true  => result.modifiedCount.get must beEqualTo(2)
             case false => result.modifiedCount.get must throwA[UnsupportedOperationException]
           }
           collection.find(MongoDBObject("y" -> 1)).count() must beEqualTo(2)
@@ -186,7 +185,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           collection.drop()
 
           val query = MongoDBObject("_id" -> 101)
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.find(query).upsert().updateOne($set("x" -> 2))
 
           val result = operation.execute()
@@ -207,7 +206,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           val result = operation.execute()
           result.matchedCount should beEqualTo(2)
           serverIsAtLeastVersion(2, 5) match {
-            case true => result.modifiedCount.get must beEqualTo(2)
+            case true  => result.modifiedCount.get must beEqualTo(2)
             case false => result.modifiedCount.get must throwA[UnsupportedOperationException]
           }
           collection.count(MongoDBObject("y" -> 1)) should beEqualTo(2)
@@ -226,7 +225,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           collection.drop()
           collection += MongoDBObject("_id" -> 101)
 
-          val operation =  initializeBulkOperation(ordered)
+          val operation = initializeBulkOperation(ordered)
           operation.find(MongoDBObject("_id" -> 101)).upsert().replaceOne(MongoDBObject("_id" -> 101, "x" -> 2))
 
           val result = operation.execute()
@@ -258,7 +257,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
           operation.find(MongoDBObject("_id" -> id)).upsert().updateOne($set("x" -> 2))
           operation.execute()
 
-          collection.findOne() should beSome(MongoDBObject("_id" -> id, "x"-> 2))
+          collection.findOne() should beSome(MongoDBObject("_id" -> id, "x" -> 2))
         }
 
         "when a document matches the query, a replace with upsert should update that document" in {
@@ -274,13 +273,13 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       }
   }
 
-    "BulkWriteOperations" should {
+  "BulkWriteOperations" should {
 
     "handle multi-length runs of ordered insert, update, replace, and remove" in {
       collection.drop()
       collection.insert(testInserts: _*)
 
-      val operation =  collection.initializeOrderedBulkOperation
+      val operation = collection.initializeOrderedBulkOperation
       addWritesTo(operation)
       operation.execute()
 
@@ -294,11 +293,10 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       collection.findOne(MongoDBObject("_id" -> 8)) must beSome(MongoDBObject("_id" -> 8))
     }
 
-
     "error details should have correct index on ordered write failure" in {
       collection.drop()
 
-      val operation =  collection.initializeOrderedBulkOperation
+      val operation = collection.initializeOrderedBulkOperation
       operation.insert(MongoDBObject("_id" -> 1))
       operation.find(MongoDBObject("_id" -> 1)).updateOne($set("x" -> 3))
       operation.insert(MongoDBObject("_id" -> 1))
@@ -320,7 +318,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       collection.drop()
       collection.insert(testInserts: _*)
 
-      val operation =  collection.initializeUnorderedBulkOperation
+      val operation = collection.initializeUnorderedBulkOperation
       addWritesTo(operation)
 
       val result = operation.execute()
@@ -330,7 +328,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       result.removedCount must beEqualTo(2)
       result.upserts.size must beEqualTo(0)
       serverIsAtLeastVersion(2, 5) match {
-        case true => result.modifiedCount.get must beEqualTo(4)
+        case true  => result.modifiedCount.get must beEqualTo(4)
         case false => result.modifiedCount.get must throwA[UnsupportedOperationException]
       }
 
@@ -348,7 +346,7 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
       collection.drop()
       collection.insert(testInserts: _*)
 
-      val operation =  collection.initializeUnorderedBulkOperation
+      val operation = collection.initializeUnorderedBulkOperation
       operation.insert(MongoDBObject("_id" -> 1))
       operation.find(MongoDBObject("_id" -> 2)).updateOne(MongoDBObject("$set" -> MongoDBObject("x" -> 3)))
       operation.insert(MongoDBObject("_id" -> 3))
@@ -378,19 +376,20 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
         failure("Execute should have failed")
       } catch {
         case e: BulkWriteException => (e.getWriteConcernError must not).beNull
-        case _: Throwable => failure("Unexpected exception")
+        case _: Throwable          => failure("Unexpected exception")
       }
       success
     }
   }
 
   def testInserts = {
-    List(MongoDBObject("_id" -> 1),
-         MongoDBObject("_id" -> 2),
-         MongoDBObject("_id" -> 3),
-         MongoDBObject("_id" -> 4),
-         MongoDBObject("_id" -> 5),
-         MongoDBObject("_id" -> 6)
+    List(
+      MongoDBObject("_id" -> 1),
+      MongoDBObject("_id" -> 2),
+      MongoDBObject("_id" -> 3),
+      MongoDBObject("_id" -> 4),
+      MongoDBObject("_id" -> 5),
+      MongoDBObject("_id" -> 6)
     )
   }
 

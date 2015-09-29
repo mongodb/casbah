@@ -155,7 +155,6 @@ object MongoConnection {
    */
   def apply(host: String, port: Int): MongoConnection = new MongoConnection(new com.mongodb.Mongo(host, port))
 
-
 }
 
 /**
@@ -187,7 +186,7 @@ class MongoConnection(val underlying: com.mongodb.Mongo) {
   /**
    * @throws MongoException on error
    */
-  def getDatabaseNames(): mutable.Buffer[String] = underlying.getDatabaseNames.asScala  /* calls the db */
+  def getDatabaseNames(): mutable.Buffer[String] = underlying.getDatabaseNames.asScala /* calls the db */
 
   /**
    * Drops the database if it exists.

@@ -27,8 +27,7 @@ import com.mongodb.casbah.commons.Imports._
 
 import scala.collection.mutable
 import scala.collection.JavaConverters._
-import scala.util.{Try, Success, Failure}
-
+import scala.util.{ Try, Success, Failure }
 
 class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends mutable.Seq[Any] with Castable {
 
@@ -76,23 +75,23 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends mutable
   def as[A: NotNothing](idx: Int): A = {
     // scalastyle:off null
     underlying.get(idx) match {
-      case null => throw new NoSuchElementException
+      case null  => throw new NoSuchElementException
       case value => value.asInstanceOf[A]
     }
     // scalastyle:on null
   }
 
   /** Lazy utility method to allow typing without conflicting with Map's required get() method and causing ambiguity */
-  def getAs[A: NotNothing : Manifest](idx: Int): Option[A] = {
+  def getAs[A: NotNothing: Manifest](idx: Int): Option[A] = {
     Try(as[A](idx)) match {
       case Success(v) => castToOption[A](v)
       case Failure(e) => None
     }
   }
 
-  def getAsOrElse[A: NotNothing : Manifest](idx: Int, default: => A): A = getAs[A](idx) match {
+  def getAsOrElse[A: NotNothing: Manifest](idx: Int, default: => A): A = getAs[A](idx) match {
     case Some(v) => v
-    case None => default
+    case None    => default
   }
 
   def clear(): Unit = underlying.clear()
@@ -111,8 +110,8 @@ class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends mutable
 
   override def equals(that: Any): Boolean = that match {
     case o: MongoDBObject => underlying.equals(o.underlying)
-    case o: MongoDBList => underlying.equals(o.underlying)
-    case _ => underlying.equals(that) | that.equals(this)
+    case o: MongoDBList   => underlying.equals(o.underlying)
+    case _                => underlying.equals(that) | that.equals(this)
   }
 }
 
@@ -124,7 +123,7 @@ object MongoDBList {
     val b = newBuilder[A]
     for (xs <- elems) xs match {
       case p: Tuple2[_, _] => b += MongoDBObject(p.asInstanceOf[Tuple2[String, Any]])
-      case _ => b += xs
+      case _               => b += xs
     }
     b.result()
   }

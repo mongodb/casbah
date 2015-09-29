@@ -22,16 +22,20 @@
 package com.mongodb.casbah
 package gridfs
 
-import java.io.{File, InputStream}
+import java.io.{ File, InputStream }
 import scala.beans.BeanInfo
 
-import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile,
-GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
+import com.mongodb.gridfs.{
+  GridFS => MongoGridFS,
+  GridFSDBFile => MongoGridFSDBFile,
+  GridFSFile => MongoGridFSFile,
+  GridFSInputFile => MongoGridFSInputFile
+}
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.gridfs.Imports._
 import com.mongodb.casbah.commons.Logging
-import com.github.nscala_time.time.Imports.{DateTime, LocalDateTime}
+import com.github.nscala_time.time.Imports.{ DateTime, LocalDateTime }
 
 /**
  * Companion object for GridFS.
@@ -53,7 +57,7 @@ object GridFS extends Logging {
 
 }
 
-class GridFS protected[gridfs](override val underlying: MongoGridFS) extends GenericGridFS with Iterable[GridFSDBFile] {
+class GridFS protected[gridfs] (override val underlying: MongoGridFS) extends GenericGridFS with Iterable[GridFSDBFile] {
 
   type FileWriteOp = GridFSInputFile => Unit
 
@@ -223,7 +227,6 @@ class GridFS protected[gridfs](override val underlying: MongoGridFS) extends Gen
 
 }
 
-
 @BeanInfo
 class GridFSFile(_underlying: MongoGridFSFile) extends GenericGridFSFile(_underlying) with ConvertToDate
 
@@ -238,7 +241,7 @@ trait ConvertToDate {
 
   def convertDate(in: AnyRef): DateType = in match {
     case d: java.util.Date => d
-    case j: DateTime => j.toDate
-    case l: LocalDateTime => l.toDateTime.toDate
+    case j: DateTime       => j.toDate
+    case l: LocalDateTime  => l.toDateTime.toDate
   }
 }

@@ -23,7 +23,7 @@
 package com.mongodb.casbah
 package util
 
-import com.mongodb.{casbah, Bytes}
+import com.mongodb.{ casbah, Bytes }
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
@@ -35,10 +35,12 @@ import org.bson.types.BSONTimestamp
  *
  * http://www.kchodorow.com/blog/2010/10/12/replication-internals/
  */
-class MongoOpLog(mongoClient: MongoClient = MongoClient(),
-                 startTimestamp: Option[BSONTimestamp] = None,
-                 namespace: Option[String] = None,
-                 replicaSet: Boolean = true) extends Iterator[MongoOpLogEntry] with Logging {
+class MongoOpLog(
+    mongoClient:    MongoClient           = MongoClient(),
+    startTimestamp: Option[BSONTimestamp] = None,
+    namespace:      Option[String]        = None,
+    replicaSet:     Boolean               = true
+) extends Iterator[MongoOpLogEntry] with Logging {
 
   implicit object BSONTimestampOk extends ValidDateOrNumericType[org.bson.types.BSONTimestamp]
 
@@ -52,7 +54,7 @@ class MongoOpLog(mongoClient: MongoClient = MongoClient(),
 
   val q = namespace match {
     case Some(ns) => ("ts" $gt tsp) ++ ("ns" -> ns)
-    case None => "ts" $gt tsp
+    case None     => "ts" $gt tsp
   }
 
   log.debug("OpLog Filter: '%s'", q)
@@ -73,8 +75,10 @@ class MongoOpLog(mongoClient: MongoClient = MongoClient(),
   def verifyOpLog: BSONTimestamp = {
     // Verify the oplog exists
     val last = oplog.find().sort(MongoDBObject("$natural" -> 1)).limit(1)
-    assume(last.hasNext,
-      "No oplog found. mongod must be a --master or belong to a Replica Set.")
+    assume(
+      last.hasNext,
+      "No oplog found. mongod must be a --master or belong to a Replica Set."
+    )
 
     /**
      * If a startTimestamp was specified attempt to sync from there.
@@ -84,7 +88,8 @@ class MongoOpLog(mongoClient: MongoClient = MongoClient(),
     startTimestamp match {
       case Some(ts) => {
         oplog.findOne(MongoDBObject("ts" -> ts)).orElse(
-          throw new Exception("No oplog entry for requested start timestamp."))
+          throw new Exception("No oplog entry for requested start timestamp.")
+        )
         ts
       }
       case None => last.next().as[BSONTimestamp]("ts")
@@ -103,7 +108,8 @@ object MongoOpLogEntry {
 
         /** TODO - It won't be there for Master/Slave, but should we check it for RS? */
         entry.as[String]("ns"),
-        entry.as[DBObject]("o"))
+        entry.as[DBObject]("o")
+      )
     case UpdateOp.typeCode =>
       MongoUpdateOperation(
         entry.as[BSONTimestamp]("ts"),
@@ -112,7 +118,8 @@ object MongoOpLogEntry {
         /** TODO - It won't be there for Master/Slave, but should we check it for RS? */
         entry.as[String]("ns"),
         entry.as[DBObject]("o"),
-        entry.as[DBObject]("o2"))
+        entry.as[DBObject]("o2")
+      )
     case DeleteOp.typeCode =>
       MongoDeleteOperation(
         entry.as[BSONTimestamp]("ts"),
@@ -120,7 +127,8 @@ object MongoOpLogEntry {
 
         /** TODO - It won't be there for Master/Slave, but should we check it for RS? */
         entry.as[String]("ns"),
-        entry.as[DBObject]("o"))
+        entry.as[DBObject]("o")
+      )
   }
 }
 

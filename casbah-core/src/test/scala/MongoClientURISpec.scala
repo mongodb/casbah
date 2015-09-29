@@ -25,7 +25,6 @@ import com.mongodb.casbah.Imports._
 
 import org.specs2.mutable.Specification
 
-
 class MongoClientURISpec extends Specification {
 
   "MongoClientURI" should {

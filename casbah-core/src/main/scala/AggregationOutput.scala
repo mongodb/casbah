@@ -21,10 +21,9 @@
 package com.mongodb.casbah
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.{AggregationOutput => JavaAggregationOutput}
+import com.mongodb.{ AggregationOutput => JavaAggregationOutput }
 
 import scala.collection.JavaConverters._
-
 
 /**
  * Wrapper object for AggregationOutput

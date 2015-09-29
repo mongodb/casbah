@@ -26,7 +26,7 @@ import scala.beans.BeanInfo
 import scala.collection.JavaConverters._
 
 import com.github.nscala_time.time.Imports._
-import com.mongodb.gridfs.{GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile, GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile}
+import com.mongodb.gridfs.{ GridFS => MongoGridFS, GridFSDBFile => MongoGridFSDBFile, GridFSFile => MongoGridFSFile, GridFSInputFile => MongoGridFSInputFile }
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
@@ -143,16 +143,16 @@ class GridFSDBFileSafeJoda extends MongoGridFSDBFile {
 
   override def put(key: String, v: AnyRef): AnyRef = {
     val _v = v match {
-      case j: DateTime => j.toDate
+      case j: DateTime      => j.toDate
       case l: LocalDateTime => l.toDateTime.toDate
-      case default => default
+      case default          => default
     }
     super.put(key, _v)
   }
 }
 
 @BeanInfo
-abstract class GenericGridFSDBFile protected[gridfs](override val underlying: MongoGridFSDBFile) extends GenericGridFSFile(underlying) {
+abstract class GenericGridFSDBFile protected[gridfs] (override val underlying: MongoGridFSDBFile) extends GenericGridFSFile(underlying) {
 
   def inputStream: InputStream = underlying.getInputStream
 
@@ -169,26 +169,25 @@ abstract class GenericGridFSDBFile protected[gridfs](override val underlying: Mo
 
   override def put(key: String, v: AnyRef): Option[AnyRef] = {
     val _v = v match {
-      case j: DateTime => j.toDate
+      case j: DateTime      => j.toDate
       case l: LocalDateTime => l.toDateTime.toDate
-      case default => default
+      case default          => default
     }
     super.put(key, _v)
   }
 }
 
-
 @BeanInfo
-abstract class GenericGridFSInputFile protected[gridfs](override val underlying: MongoGridFSInputFile) extends GenericGridFSFile(underlying) {
+abstract class GenericGridFSInputFile protected[gridfs] (override val underlying: MongoGridFSInputFile) extends GenericGridFSFile(underlying) {
   def filename_=(name: String): Unit = underlying.setFilename(name)
 
   def contentType_=(cT: String): Unit = underlying.setContentType(cT)
 
   override def put(key: String, v: AnyRef): Option[AnyRef] = {
     val _v = v match {
-      case j: DateTime => j.toDate
+      case j: DateTime      => j.toDate
       case l: LocalDateTime => l.toDateTime.toDate
-      case default => default
+      case default          => default
     }
     super.put(key, _v)
   }

@@ -16,7 +16,7 @@
  */
 package com.mongodb.casbah
 
-import com.mongodb.{ReadPreference => JReadPreference, TagSet}
+import com.mongodb.{ ReadPreference => JReadPreference, TagSet }
 
 import scala.collection.JavaConverters._
 
@@ -37,7 +37,6 @@ object ReadPreference {
    * Reads come from Secondary servers (equiv of old SlaveOK)
    */
   val Secondary: JReadPreference = JReadPreference.secondary()
-
 
   /**
    * Reads come from secondary if available, otherwise from primary

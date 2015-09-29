@@ -24,7 +24,7 @@ package com.mongodb.casbah.test.core
 
 import com.mongodb.casbah.Imports._
 
-import com.mongodb.casbah.util.{MongoOpLogEntry, MongoOpLog}
+import com.mongodb.casbah.util.{ MongoOpLogEntry, MongoOpLog }
 import com.mongodb.casbah.commons.ValidBSONType.BSONTimestamp
 
 class MongoOpLogSpec extends CasbahDBTestSpecification {
@@ -44,7 +44,8 @@ class MongoOpLogSpec extends CasbahDBTestSpecification {
       val oplog =
         new MongoOpLog(
           mongoClient = mongoClient,
-          namespace = Some("%s.%s".format(database.name, collection.name)))
+          namespace = Some("%s.%s".format(database.name, collection.name))
+        )
 
       var latest = false
       while (!latest && oplog.hasNext) {

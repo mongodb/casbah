@@ -24,9 +24,9 @@ package com.mongodb.casbah
 import scala.collection.mutable
 import scala.collection.JavaConverters._
 
-import com.mongodb.{BulkWriteError, BulkWriteException => JBulkWriteException, ServerAddress, WriteConcernError}
+import com.mongodb.{ BulkWriteError, BulkWriteException => JBulkWriteException, ServerAddress, WriteConcernError }
 
-case class BulkWriteException(message: String, cause: Throwable, underlying: JBulkWriteException) extends Exception(message: String, cause: Throwable)  {
+case class BulkWriteException(message: String, cause: Throwable, underlying: JBulkWriteException) extends Exception(message: String, cause: Throwable) {
 
   /**
    * The result of all successfully processed write operations.  This will never be null.

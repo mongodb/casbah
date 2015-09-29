@@ -23,7 +23,7 @@ package com.mongodb.casbah
 
 import scala.collection.JavaConverters._
 
-import com.mongodb.{MongoCredential => JavaMongoCredential}
+import com.mongodb.{ MongoCredential => JavaMongoCredential }
 import com.mongodb.casbah.Imports._
 
 /**

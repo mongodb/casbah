@@ -23,11 +23,10 @@ import scala.util.Properties
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.test.CasbahMutableSpecification
 
-import org.specs2.execute.{AsResult, Result}
+import org.specs2.execute.{ AsResult, Result }
 import org.specs2.specification.Around
 
-
-trait CasbahDBTestSpecification extends CasbahMutableSpecification with Around  {
+trait CasbahDBTestSpecification extends CasbahMutableSpecification with Around {
   sequential
 
   val DEFAULT_URI: String = "mongodb://localhost:27017"
@@ -84,7 +83,7 @@ trait CasbahDBTestSpecification extends CasbahMutableSpecification with Around  
    */
   def serverIsAtLeastVersion(minVersion: Int*): Boolean = {
     var retVal = 0
-    for((v,i) <- minVersion.zipWithIndex) {
+    for ((v, i) <- minVersion.zipWithIndex) {
       if (retVal == 0) retVal = versionArray(i).asInstanceOf[Int].compareTo(v)
     }
     retVal >= 0
@@ -92,15 +91,19 @@ trait CasbahDBTestSpecification extends CasbahMutableSpecification with Around  
 
   def enableMaxTimeFailPoint() {
     if (serverIsAtLeastVersion(2, 5)) {
-      mongoClient.getDB("admin").command(MongoDBObject("configureFailPoint" -> "maxTimeAlwaysTimeOut", "mode" -> "alwaysOn"),
-        ReadPreference.Primary)
+      mongoClient.getDB("admin").command(
+        MongoDBObject("configureFailPoint" -> "maxTimeAlwaysTimeOut", "mode" -> "alwaysOn"),
+        ReadPreference.Primary
+      )
     }
   }
 
   def disableMaxTimeFailPoint() {
     if (serverIsAtLeastVersion(2, 5)) {
-      mongoClient.getDB("admin").command(MongoDBObject("configureFailPoint" -> "maxTimeAlwaysTimeOut", "mode" -> "off"),
-        ReadPreference.Primary)
+      mongoClient.getDB("admin").command(
+        MongoDBObject("configureFailPoint" -> "maxTimeAlwaysTimeOut", "mode" -> "off"),
+        ReadPreference.Primary
+      )
     }
   }
 
@@ -110,7 +113,7 @@ trait CasbahDBTestSpecification extends CasbahMutableSpecification with Around  
     val isMasterResult = mongoClient.getDB("admin").command(MongoDBObject("ismaster" -> 1))
     Option(isMasterResult.get("msg")) match {
       case Some("isdbgrid") => true
-      case _ => false
+      case _                => false
     }
   }
 

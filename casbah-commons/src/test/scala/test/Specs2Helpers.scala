@@ -18,13 +18,12 @@
 package com.mongodb.casbah.commons
 package test
 
-
 import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.Imports._
 
 import org.specs2._
 import org.specs2.data.Sized
-import org.specs2.matcher.{Expectable, Matcher}
+import org.specs2.matcher.{ Expectable, Matcher }
 import org.specs2.matcher.Matchers._
 
 trait CasbahMutableSpecification extends mutable.Specification with CasbahSpecificationBase
@@ -32,7 +31,6 @@ trait CasbahMutableSpecification extends mutable.Specification with CasbahSpecif
 trait CasbahSpecification extends Specification with CasbahSpecificationBase {}
 
 trait CasbahSpecificationBase extends SpecsDBObjectMatchers with Logging {
-
 
   implicit val sizedOptDBObj = new Sized[Option[DBObject]] {
     def size(t: Option[DBObject]) = t.getOrElse(MongoDBObject.empty).size
@@ -95,59 +93,76 @@ trait SpecsDBObjectBaseMatchers extends Logging {
     }
   }
 
-  /** matches if a Some(map) contains a pair (key, value) == (k, v)
-    * Will expand out dot notation for matching.
-    * */
+  /**
+   * matches if a Some(map) contains a pair (key, value) == (k, v)
+   * Will expand out dot notation for matching.
+   */
   def haveSomeEntry[V](p: (String, V)) = new Matcher[Option[DBObject]] {
     def apply[S <: Option[DBObject]](map: Expectable[S]) = {
-      result(someField(map, p._1).exists(_ == p._2), // match only the value
-        map.description + " has the pair " + p, map.description + " doesn't have the pair " + p, map)
+      result(
+        someField(map, p._1).exists(_ == p._2), // match only the value
+        map.description + " has the pair " + p, map.description + " doesn't have the pair " + p, map
+      )
     }
   }
 
-  /** Special version of "HaveEntry" that expects a list and then uses
-    * "hasSameElements" on it.
-    */
+  /**
+   * Special version of "HaveEntry" that expects a list and then uses
+   * "hasSameElements" on it.
+   */
   def haveListEntry(k: String, l: => Traversable[Any]) = new Matcher[DBObject] {
     def apply[S <: DBObject](map: Expectable[S]) = {
       val objL = listField(map, k).getOrElse(Seq.empty[Any]).toSeq
       val _l = l.toSeq
-      result(objL.sameElements(_l), // match only the value
+      result(
+        objL.sameElements(_l), // match only the value
         map.description + " has the pair " + k,
         map.description + " doesn't have the pair " + k,
-        map)
+        map
+      )
     }
   }
 
-  /** matches if map contains a pair (key, value) == (k, v)
-    * Will expand out dot notation for matching.
-    * */
+  /**
+   * matches if map contains a pair (key, value) == (k, v)
+   * Will expand out dot notation for matching.
+   */
   def haveEntry[V](p: (String, V)) = new Matcher[DBObject] {
     def apply[S <: DBObject](map: Expectable[S]) = {
-      result(field(map, p._1).exists(_.equals(p._2)), // match only the value
+      result(
+        field(map, p._1).exists(_.equals(p._2)), // match only the value
         map.description + " has the pair " + p,
         map.description + "[" + field(map, p._1) + "] doesn't have the pair " + p + "[" + p._2 + "]",
-        map)
+        map
+      )
     }
   }
 
-  /** matches if Some(map) contains all the specified pairs
-    * can expand dot notation to match specific sub-keys */
+  /**
+   * matches if Some(map) contains all the specified pairs
+   * can expand dot notation to match specific sub-keys
+   */
   def haveSomeEntries[V](pairs: (String, V)*) = new Matcher[Option[DBObject]] {
     def apply[S <: Option[DBObject]](map: Expectable[S]) = {
-      result(pairs.forall(pair => someField(map, pair._1).exists(_ == pair._2) /* match only the value */),
-        map.description + " has the pairs " + pairs.mkString(", "), map.description + " doesn't have the pairs " + pairs.mkString(", "), map)
+      result(
+        pairs.forall(pair => someField(map, pair._1).exists(_ == pair._2) /* match only the value */ ),
+        map.description + " has the pairs " + pairs.mkString(", "), map.description + " doesn't have the pairs " + pairs.mkString(", "), map
+      )
     }
   }
 
-  /** matches if map contains all the specified pairs
-    * can expand dot notation to match specific sub-keys */
+  /**
+   * matches if map contains all the specified pairs
+   * can expand dot notation to match specific sub-keys
+   */
   def haveEntries[V](pairs: (String, V)*) = new Matcher[DBObject] {
     def apply[S <: DBObject](map: Expectable[S]) = {
-      result(pairs.forall(pair => field(map, pair._1).exists(_ == pair._2) /* match only the value */),
+      result(
+        pairs.forall(pair => field(map, pair._1).exists(_ == pair._2) /* match only the value */ ),
         map.description + " has the pairs " + pairs.mkString(", "),
         map.description + " doesn't have the pairs " + pairs.mkString(", "),
-        map)
+        map
+      )
     }
   }
 

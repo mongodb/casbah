@@ -50,7 +50,8 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
       collection += MongoDBObject("some" -> Some("foo"), "none" -> None)
 
       val optDoc = collection.findOne().getOrElse(
-        throw new IllegalArgumentException("No document"))
+        throw new IllegalArgumentException("No document")
+      )
 
       optDoc.getAs[String]("some") must beSome("foo")
       optDoc.getAs[String]("none") must beNone
@@ -73,8 +74,10 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
 
       collection += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
 
-      val jdkEntry = collection.findOne(MongoDBObject("type" -> "jdk"),
-        MongoDBObject("date" -> 1))
+      val jdkEntry = collection.findOne(
+        MongoDBObject("type" -> "jdk"),
+        MongoDBObject("date" -> 1)
+      )
 
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
     }
@@ -87,8 +90,10 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
 
       collection += MongoDBObject("date" -> jodaDate, "type" -> "joda")
 
-      val jodaEntry = collection.findOne(MongoDBObject("type" -> "joda"),
-        MongoDBObject("date" -> 1))
+      val jodaEntry = collection.findOne(
+        MongoDBObject("type" -> "joda"),
+        MongoDBObject("date" -> 1)
+      )
 
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
       // Casting it as something it isn't will fail
@@ -104,8 +109,10 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
 
       collection += MongoDBObject("date" -> localJodaDate, "type" -> "joda")
 
-      val jodaEntry = collection.findOne(MongoDBObject("type" -> "joda"),
-        MongoDBObject("date" -> 1))
+      val jodaEntry = collection.findOne(
+        MongoDBObject("type" -> "joda"),
+        MongoDBObject("date" -> 1)
+      )
 
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
       // Casting it as something it isn't will fail
@@ -120,8 +127,10 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
 
       collection += MongoDBObject("date" -> localJodaDate, "type" -> "joda")
 
-      val jodaEntry = collection.findOne(MongoDBObject("type" -> "joda"),
-        MongoDBObject("date" -> 1))
+      val jodaEntry = collection.findOne(
+        MongoDBObject("type" -> "joda"),
+        MongoDBObject("date" -> 1)
+      )
 
       jodaEntry.get.getAs[LocalDateTime]("date") must beSome(localJodaDate)
       // Casting it as something it isn't will fail
@@ -136,8 +145,10 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
 
       collection += MongoDBObject("date" -> jodaDate, "type" -> "joda")
 
-      val jodaEntry = collection.findOne(MongoDBObject("type" -> "joda"),
-        MongoDBObject("date" -> 1))
+      val jodaEntry = collection.findOne(
+        MongoDBObject("type" -> "joda"),
+        MongoDBObject("date" -> 1)
+      )
 
       jodaEntry.get.getAs[LocalDateTime]("date") must beSome(localJodaDate)
       // Casting it as something it isn't will fail
@@ -163,8 +174,10 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
       // Normal JDK Date should work
       collection += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
 
-      val jdkEntry = collection.findOne(MongoDBObject("type" -> "jdk"),
-        MongoDBObject("date" -> 1))
+      val jdkEntry = collection.findOne(
+        MongoDBObject("type" -> "jdk"),
+        MongoDBObject("date" -> 1)
+      )
 
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
       // Casting it as something it isn't will fail
@@ -177,8 +190,10 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
 
       collection += MongoDBObject("date" -> jdkDate, "type" -> "jdk")
 
-      val jdkEntry = collection.findOne(MongoDBObject("type" -> "jdk"),
-        MongoDBObject("date" -> 1))
+      val jdkEntry = collection.findOne(
+        MongoDBObject("type" -> "jdk"),
+        MongoDBObject("date" -> 1)
+      )
 
       jdkEntry must beSome
       jdkEntry.get.getAs[JDKDate]("date") must beSome(jdkDate)
@@ -187,8 +202,10 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
 
       RegisterJodaTimeConversionHelpers()
 
-      val jodaEntry = collection.findOne(MongoDBObject("type" -> "jdk"),
-        MongoDBObject("date" -> 1))
+      val jodaEntry = collection.findOne(
+        MongoDBObject("type" -> "jdk"),
+        MongoDBObject("date" -> 1)
+      )
 
       jodaEntry must beSome
       jodaEntry.get.getAs[DateTime]("date") must beSome(jodaDate)
@@ -198,8 +215,10 @@ class ConversionsSpec extends CasbahDBTestSpecification with BeforeExample {
 
     "toString-ing a JODA Date with JODA Conversions loaded doesn't choke horribly." in {
       RegisterConversionHelpers()
-      val jodaEntry: DBObject = MongoDBObject("type" -> "jdk",
-        "date" -> jdkDate)
+      val jodaEntry: DBObject = MongoDBObject(
+        "type" -> "jdk",
+        "date" -> jdkDate
+      )
 
       RegisterJodaTimeConversionHelpers()
 

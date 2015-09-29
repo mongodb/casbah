@@ -22,8 +22,7 @@
 
 package com.mongodb.casbah.test.gridfs
 
-
-import com.mongodb.gridfs.{GridFSDBFile => MongoGridFSDBFile}
+import com.mongodb.gridfs.{ GridFSDBFile => MongoGridFSDBFile }
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.conversions.scala._
@@ -31,7 +30,6 @@ import com.mongodb.casbah.gridfs.Imports._
 
 import com.github.nscala_time.time.Imports._
 import org.specs2.specification.BeforeExample
-
 
 class JodaGridFSSpec extends GridFSSpecification with BeforeExample {
 
@@ -139,8 +137,7 @@ class JodaGridFSSpec extends GridFSSpecification with BeforeExample {
 
       // Ensure the iterator also works
       gridfs.iterator.filter(f => f.filename == "hello_world.txt").foreach(f =>
-        f.source.mkString must beEqualTo("hello world")
-      )
+        f.source.mkString must beEqualTo("hello world"))
       success
     }
   }
@@ -215,5 +212,4 @@ class JodaGridFSSpec extends GridFSSpecification with BeforeExample {
   }
 
 }
-
 

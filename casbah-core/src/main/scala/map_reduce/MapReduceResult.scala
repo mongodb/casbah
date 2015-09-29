@@ -84,7 +84,7 @@ trait MapReduceResult extends Iterator[DBObject] with Logging {
 
 }
 
-class MapReduceCollectionBasedResult protected[mongodb](override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
+class MapReduceCollectionBasedResult protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
   override lazy val cursor: Iterator[DBObject] = db(raw.as[String]("result")).find()
 
   override def size: Int = cursor.size
@@ -93,7 +93,7 @@ class MapReduceCollectionBasedResult protected[mongodb](override val raw: DBObje
     "response [%s]}").format(raw.as[String]("result"), raw.toString)
 }
 
-class MapReduceInlineResult protected[mongodb](override val raw: DBObject)(implicit db: MongoDB) extends MapReduceCollectionBasedResult(raw) {
+class MapReduceInlineResult protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceCollectionBasedResult(raw) {
   private val results = raw.as[MongoDBList]("results")
   override lazy val cursor = new Iterator[DBObject] {
     private val iter: Iterator[AnyRef] = results.iterator
@@ -108,7 +108,7 @@ class MapReduceInlineResult protected[mongodb](override val raw: DBObject)(impli
   override def toString(): String = "{MapReduceResult Proxying Result returned Inline against raw response [%s]}".format(raw.toString)
 }
 
-class MapReduceError protected[mongodb](override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
+class MapReduceError protected[mongodb] (override val raw: DBObject)(implicit db: MongoDB) extends MapReduceResult {
   val cursor: Iterator[Nothing] = Iterator.empty
 
   override val isError: Boolean = true

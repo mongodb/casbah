@@ -109,7 +109,7 @@ trait Implicits {
      * Return a GENERIC Scala wrapper object for the DBCursor specific to a given Parameter type.
      * @return MongoCursor[A<:DBObject] An instance of the scala wrapper containing the cursor object.
      */
-    def asScalaTyped[A <: com.mongodb.DBObject : Manifest] = new MongoGenericTypedCursor[A](cursor)
+    def asScalaTyped[A <: com.mongodb.DBObject: Manifest] = new MongoGenericTypedCursor[A](cursor)
   }
 
   /**

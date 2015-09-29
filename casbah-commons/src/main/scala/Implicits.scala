@@ -23,10 +23,9 @@
 package com.mongodb.casbah
 package commons
 
-
 trait Implicits {
 
-  import com.mongodb.{DBObject, BasicDBList}
+  import com.mongodb.{ DBObject, BasicDBList }
 
   /*
    * Placeholder Type Alias

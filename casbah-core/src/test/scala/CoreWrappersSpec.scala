@@ -28,7 +28,6 @@ import com.mongodb.casbah.Imports._
 import scala.collection.mutable
 import com.mongodb.casbah.Cursor
 
-
 class CoreWrappersSpec extends CasbahDBTestSpecification {
 
   "Casbah behavior between Scala and Java versions of Objects" should {
@@ -57,7 +56,6 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
       "Collection objects" in {
 
         val scalaCollection = javaCollection.asScala
-
 
         scalaCollection.underlying must beEqualTo(javaCollection)
       }
@@ -102,7 +100,7 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
       collection.drop()
 
       collection += MongoDBObject("loc" -> List(0, 0))
-      val near = "loc" $near(0, 0)
+      val near = "loc" $near (0, 0)
       collection.findOne(near) must throwAn[MongoException]
     }
 
@@ -221,18 +219,22 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
 
     "except list of ops" in {
       val cursor: AggregationOutput = collection.aggregate(
-        List(MongoDBObject("$match" -> ("score" $gte 7)),
-          MongoDBObject("$project" -> MongoDBObject("score" -> 1)))
+        List(
+          MongoDBObject("$match" -> ("score" $gte 7)),
+          MongoDBObject("$project" -> MongoDBObject("score" -> 1))
+        )
       )
       cursor.results.size must beEqualTo(30)
     }
 
     "return a cursor when options are supplied" in {
       serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.6")
-      val aggregationOptions = AggregationOptions(allowDiskUse=true, outputMode=AggregationOptions.CURSOR)
+      val aggregationOptions = AggregationOptions(allowDiskUse = true, outputMode = AggregationOptions.CURSOR)
       val cursor: CommandCursor = collection.aggregate(
-        List(MongoDBObject("$match" -> ("score" $gte 7)),
-          MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
+        List(
+          MongoDBObject("$match" -> ("score" $gte 7)),
+          MongoDBObject("$project" -> MongoDBObject("score" -> 1))
+        ),
         aggregationOptions
       )
       cursor.toList.size must beEqualTo(30)
@@ -248,7 +250,7 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
 
       collection.aggregate(
         List(MongoDBObject("$match" -> ("score" $gte 7))),
-        AggregationOptions(outputMode=AggregationOptions.CURSOR)
+        AggregationOptions(outputMode = AggregationOptions.CURSOR)
       )
       val profile = profileCollection.findOne().get.as[MongoDBObject]("command")
       database.command(MongoDBObject("profile" -> profileLevel))
@@ -265,7 +267,7 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
 
       collection.aggregate(
         List(MongoDBObject("$match" -> ("score" $gte 7))),
-        AggregationOptions(allowDiskUse=true, outputMode=AggregationOptions.CURSOR)
+        AggregationOptions(allowDiskUse = true, outputMode = AggregationOptions.CURSOR)
       )
       val profile = profileCollection.findOne().get.as[MongoDBObject]("command")
       database.command(MongoDBObject("profile" -> profileLevel))
@@ -276,8 +278,10 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
       serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.6")
       val aggregationOptions = AggregationOptions(AggregationOptions.CURSOR)
       val explaination = collection.explainAggregate(
-        List(MongoDBObject("$match" -> ("score" $gte 7)),
-          MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
+        List(
+          MongoDBObject("$match" -> ("score" $gte 7)),
+          MongoDBObject("$project" -> MongoDBObject("score" -> 1))
+        ),
         aggregationOptions
       )
       explaination("ok") must beEqualTo(1.0)
@@ -289,8 +293,10 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
       val aggregationOptions = AggregationOptions(AggregationOptions.INLINE)
 
       val cursor: CommandCursor = collection.aggregate(
-        List(MongoDBObject("$match" -> ("score" $gte 7)),
-          MongoDBObject("$project" -> MongoDBObject("score" -> 1))),
+        List(
+          MongoDBObject("$match" -> ("score" $gte 7)),
+          MongoDBObject("$project" -> MongoDBObject("score" -> 1))
+        ),
         aggregationOptions
       )
 
@@ -366,28 +372,28 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
     }
   }
 
-    "Collection" should {
+  "Collection" should {
 
-      "support parallel scan" in {
-        serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
-        isSharded must beFalse.orSkip("Currently doesn't work with mongos")
+    "support parallel scan" in {
+      serverIsAtLeastVersion(2, 5) must beTrue.orSkip("Needs server >= 2.5")
+      isSharded must beFalse.orSkip("Currently doesn't work with mongos")
 
-        collection.drop()
+      collection.drop()
 
-        val ids = (1 to 2000 by 1).toSet
-        for(i <- ids) collection += MongoDBObject("_id" -> i)
+      val ids = (1 to 2000 by 1).toSet
+      for (i <- ids) collection += MongoDBObject("_id" -> i)
 
-        val numCursors = 10
-        val cursors: mutable.Buffer[Cursor] = collection.parallelScan(ParallelScanOptions(numCursors, 1000))
-        cursors.size must beLessThanOrEqualTo(numCursors)
+      val numCursors = 10
+      val cursors: mutable.Buffer[Cursor] = collection.parallelScan(ParallelScanOptions(numCursors, 1000))
+      cursors.size must beLessThanOrEqualTo(numCursors)
 
-        var cursorIds = Set[Int]()
-        for (cursor <- cursors) {
-          while (cursor.hasNext) {
-            cursorIds += cursor.next().get("_id").asInstanceOf[Int]
-          }
+      var cursorIds = Set[Int]()
+      for (cursor <- cursors) {
+        while (cursor.hasNext) {
+          cursorIds += cursor.next().get("_id").asInstanceOf[Int]
         }
-        cursorIds must beEqualTo(ids)
+      }
+      cursorIds must beEqualTo(ids)
     }
   }
 

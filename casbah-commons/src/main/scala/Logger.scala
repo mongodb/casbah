@@ -23,7 +23,7 @@
 package com.mongodb.casbah
 package commons
 
-import org.slf4j.{Logger => SLFLogger, LoggerFactory => SLFLoggerFactory}
+import org.slf4j.{ Logger => SLFLogger, LoggerFactory => SLFLoggerFactory }
 
 import java.io.StringWriter;
 import java.io.PrintWriter;

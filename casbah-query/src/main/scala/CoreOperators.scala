@@ -24,7 +24,7 @@ package com.mongodb.casbah.query.dsl
 
 import com.mongodb.casbah.query.Imports._
 
-import com.mongodb.casbah.query.{Imports, ChainedOperator}
+import com.mongodb.casbah.query.{ Imports, ChainedOperator }
 
 import scala.util.matching._
 import scala.collection.Iterable
@@ -41,35 +41,35 @@ import com.mongodb.casbah.commons
  *
  */
 trait FluidQueryOperators extends EqualsOp
-with NotEqualsOp
-with LessThanOp
-with LessThanEqualOp
-with GreaterThanOp
-with GreaterThanEqualOp
-with InOp
-with NotInOp
-with ModuloOp
-with SizeOp
-with ExistsOp
-with AllOp
-with NotOp
-with SliceOp
-with TypeOp
-with RegexOp
-with ElemMatchOp
-with GeospatialOps
-with MetaProjectionOp
+  with NotEqualsOp
+  with LessThanOp
+  with LessThanEqualOp
+  with GreaterThanOp
+  with GreaterThanEqualOp
+  with InOp
+  with NotInOp
+  with ModuloOp
+  with SizeOp
+  with ExistsOp
+  with AllOp
+  with NotOp
+  with SliceOp
+  with TypeOp
+  with RegexOp
+  with ElemMatchOp
+  with GeospatialOps
+  with MetaProjectionOp
 
 trait ValueTestFluidQueryOperators extends LessThanOp
-with LessThanEqualOp
-with GreaterThanOp
-with GreaterThanEqualOp
-with ModuloOp
-with SizeOp
-with AllOp
-with NotEqualsOp
-with TypeOp
-with RegexOp
+  with LessThanEqualOp
+  with GreaterThanOp
+  with GreaterThanEqualOp
+  with ModuloOp
+  with SizeOp
+  with AllOp
+  with NotEqualsOp
+  with TypeOp
+  with RegexOp
 
 trait QueryExpressionObject {
   self: DBObject =>
@@ -383,7 +383,6 @@ trait ElemMatchOp extends QueryOperator {
   def $elemMatch[A <% DBObject](target: A): DBObject with QueryExpressionObject = queryOp(oper, target)
 }
 
-
 /**
  *
  * Trait providing a projection / sort helper for use with text search
@@ -493,12 +492,12 @@ trait RegexOp extends QueryOperator {
 // Geo Spatial Ops
 
 trait GeospatialOps extends GeoNearOp
-with GeoNearSphereOp
-with GeoWithinOps
-with GeoIntersectsOp
-with DeprecatedGeoWithinOps
+  with GeoNearSphereOp
+  with GeoWithinOps
+  with GeoIntersectsOp
+  with DeprecatedGeoWithinOps
 
-case class GeoCoords[A: ValidNumericType : Manifest, B: ValidNumericType : Manifest](lat: A, lon: B) {
+case class GeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](lat: A, lon: B) {
   def toList: MongoDBList = MongoDBList(lat, lon)
 
   override def toString: String = "GeoCoords(%s, %s)".format(lat, lon)
@@ -588,17 +587,20 @@ trait GeoWithinOps extends QueryOperator {
     def $box(lowerLeft: GeoCoords[_, _], upperRight: GeoCoords[_, _]): DBObject =
       MongoDBObject(
         self.field ->
-          queryOp("$box", MongoDBList(lowerLeft.toList, upperRight.toList)))
+          queryOp("$box", MongoDBList(lowerLeft.toList, upperRight.toList))
+      )
 
     def $center[T: Numeric](center: GeoCoords[_, _], radius: T): DBObject =
       MongoDBObject(
         self.field ->
-          queryOp("$center", MongoDBList(center.toList, radius)))
+          queryOp("$center", MongoDBList(center.toList, radius))
+      )
 
     def $centerSphere[T: Numeric](center: GeoCoords[_, _], radius: T): DBObject =
       MongoDBObject(
         self.field ->
-          queryOp("$centerSphere", MongoDBList(center.toList, radius)))
+          queryOp("$centerSphere", MongoDBList(center.toList, radius))
+      )
   }
   // scalastyle:on public.methods.have.type
 

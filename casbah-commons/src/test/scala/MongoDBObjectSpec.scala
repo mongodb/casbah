@@ -213,7 +213,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
         newObj must haveEntries("x" -> "y", "a" -> "b", "foo" -> "bar")
       }
       "A list of Tuple Entrys with ++ " in {
-        val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++("foo" -> "bar", "n" -> 5)
+        val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++ ("foo" -> "bar", "n" -> 5)
         newObj must beDBObject
 
         newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5))
@@ -235,7 +235,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
         dbObj must beDBObject
         dbObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b"))
 
-        dbObj +=("foo" -> "bar", "n" -> 5.asInstanceOf[AnyRef], "fbc" -> 542542.2.asInstanceOf[AnyRef])
+        dbObj += ("foo" -> "bar", "n" -> 5.asInstanceOf[AnyRef], "fbc" -> 542542.2.asInstanceOf[AnyRef])
 
         dbObj must beDBObject
 
@@ -253,10 +253,12 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
     }
 
     "Support the as[<type>] method" in {
-      val dbObj = MongoDBObject("x" -> 5.2,
+      val dbObj = MongoDBObject(
+        "x" -> 5.2,
         "y" -> 9,
         "foo" -> MongoDBList("a", "b", "c"),
-        "bar" -> MongoDBObject("baz" -> "foo"))
+        "bar" -> MongoDBObject("baz" -> "foo")
+      )
       dbObj must beDBObject
 
       dbObj.as[Double]("x") must beEqualTo(5.2)

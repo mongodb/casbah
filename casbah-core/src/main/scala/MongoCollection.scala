@@ -26,11 +26,17 @@ package com.mongodb.casbah
 
 import scala.collection.mutable
 import scala.collection.JavaConverters._
-import scala.concurrent.duration.{Duration, MILLISECONDS}
+import scala.concurrent.duration.{ Duration, MILLISECONDS }
 
-
-import com.mongodb.{CommandResult, DBCollection, DBCursor, DBDecoderFactory, DBEncoderFactory,
-MongoExecutionTimeoutException, ParallelScanOptions => JavaParallelScanOptions}
+import com.mongodb.{
+  CommandResult,
+  DBCollection,
+  DBCursor,
+  DBDecoderFactory,
+  DBEncoderFactory,
+  MongoExecutionTimeoutException,
+  ParallelScanOptions => JavaParallelScanOptions
+}
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.Logging
@@ -39,7 +45,6 @@ import com.mongodb.casbah.TypeImports.WriteResult
 import com.mongodb.casbah.commons.TypeImports.DBObject
 import com.mongodb.casbah.TypeImports.DBEncoder
 import com.mongodb.casbah.map_reduce.MapReduceCommand
-
 
 /**
  * Scala wrapper for Mongo DBCollections,
@@ -229,11 +234,13 @@ trait MongoCollectionBase extends Logging {
    *
    * @return            (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
-  def findOne[A <% DBObject, B <% DBObject, C <% DBObject](o: A = MongoDBObject.empty,
-                                                           fields: B = MongoDBObject.empty,
-                                                           orderBy: C = MongoDBObject.empty,
-                                                           readPrefs: ReadPreference = getReadPreference,
-                                                           maxTime: Duration = Duration(0, MILLISECONDS)): Option[T] = {
+  def findOne[A <% DBObject, B <% DBObject, C <% DBObject](
+    o:         A              = MongoDBObject.empty,
+    fields:    B              = MongoDBObject.empty,
+    orderBy:   C              = MongoDBObject.empty,
+    readPrefs: ReadPreference = getReadPreference,
+    maxTime:   Duration       = Duration(0, MILLISECONDS)
+  ): Option[T] = {
     val document = underlying.find(o, fields)
       .sort(orderBy)
       .setReadPreference(readPrefs)
@@ -389,7 +396,7 @@ trait MongoCollectionBase extends Logging {
   def getCount[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
                                              limit: Long = 0, skip: Long = 0,
                                              readPrefs: ReadPreference = getReadPreference,
-                                             maxTime: Duration = Duration(0, MILLISECONDS)): Int = {
+                                             maxTime:   Duration       = Duration(0, MILLISECONDS)): Int = {
     underlying.find(query, fields)
       .skip(skip.toInt)
       .limit(limit.toInt)
@@ -464,7 +471,7 @@ trait MongoCollectionBase extends Logging {
    *
    *           TODO - Ensure proper subtype return
    */
-  def setObjectClass[A <: DBObject : Manifest](c: Class[A]): MongoGenericTypedCollection[A] = {
+  def setObjectClass[A <: DBObject: Manifest](c: Class[A]): MongoGenericTypedCollection[A] = {
     underlying.setObjectClass(c)
     new MongoGenericTypedCollection[A](underlying = self.underlying)
   }
@@ -484,7 +491,7 @@ trait MongoCollectionBase extends Logging {
    * @tparam A A Subtype of DBObject
    *
    */
-  def objectClass_=[A <: DBObject : Manifest](c: Class[A]): MongoGenericTypedCollection[A] = setObjectClass(c)
+  def objectClass_=[A <: DBObject: Manifest](c: Class[A]): MongoGenericTypedCollection[A] = setObjectClass(c)
 
   def stats: CommandResult = getStats
 
@@ -664,16 +671,18 @@ trait MongoCollectionBase extends Logging {
    * @param verbose           (optional) include the timing information in the result information
    * @param maxTime       (optional) the maximum duration that the server will allow this operation to execute before killing it
    */
-  def mapReduce(mapFunction: JSFunction,
-                reduceFunction: JSFunction,
-                output: MapReduceOutputTarget,
-                query: Option[DBObject] = None,
-                sort: Option[DBObject] = None,
-                limit: Option[Int] = None,
-                finalizeFunction: Option[JSFunction] = None,
-                jsScope: Option[DBObject] = None,
-                verbose: Boolean = false,
-                maxTime: Option[Duration] = None): MapReduceResult = {
+  def mapReduce(
+    mapFunction:      JSFunction,
+    reduceFunction:   JSFunction,
+    output:           MapReduceOutputTarget,
+    query:            Option[DBObject]      = None,
+    sort:             Option[DBObject]      = None,
+    limit:            Option[Int]           = None,
+    finalizeFunction: Option[JSFunction]    = None,
+    jsScope:          Option[DBObject]      = None,
+    verbose:          Boolean               = false,
+    maxTime:          Option[Duration]      = None
+  ): MapReduceResult = {
     val cmd = MapReduceCommand(name, mapFunction, reduceFunction, output, query, sort, limit,
       finalizeFunction, jsScope, verbose, maxTime)
     mapReduce(cmd)
@@ -697,7 +706,7 @@ trait MongoCollectionBase extends Logging {
       result.throwOnError()
     } catch {
       case e: MongoExecutionTimeoutException => throw e
-      case t: Throwable => true
+      case t: Throwable                      => true
     }
     MapReduceResult(result)
   }
@@ -708,7 +717,8 @@ trait MongoCollectionBase extends Logging {
    * @param concern WriteConcern for this operation
    *                TODO - Wrapper for WriteResult?
    */
-  def remove[A](o: A, concern: com.mongodb.WriteConcern = getWriteConcern)(implicit dbObjView: A => DBObject,
+  def remove[A](o: A, concern: com.mongodb.WriteConcern = getWriteConcern)(implicit
+    dbObjView: A => DBObject,
                                                                            encoder: DBEncoder = customEncoderFactory.map(_.create).orNull): WriteResult =
     underlying.remove(dbObjView(o), concern, encoder)
 
@@ -720,7 +730,6 @@ trait MongoCollectionBase extends Logging {
    */
   def save[A](o: A, concern: com.mongodb.WriteConcern = getWriteConcern)(implicit dbObjView: A => DBObject): WriteResult =
     underlying.save(dbObjView(o), concern)
-
 
   /**
    * Set hint fields for this collection.
@@ -750,11 +759,11 @@ trait MongoCollectionBase extends Logging {
    * @param o object with which to update <tt>q</tt>
    */
   def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false,
-                   concern: com.mongodb.WriteConcern = this.writeConcern)(implicit queryView: A => DBObject,
+                   concern: com.mongodb.WriteConcern = this.writeConcern)(implicit
+    queryView: A => DBObject,
                                                                           objView: B => DBObject,
-                                                                          encoder: DBEncoder = customEncoderFactory.map(_.create).orNull): WriteResult =
+                                                                          encoder: DBEncoder     = customEncoderFactory.map(_.create).orNull): WriteResult =
     underlying.update(queryView(q), objView(o), upsert, multi, concern, encoder)
-
 
   /**
    * Perform a multi update
@@ -773,7 +782,7 @@ trait MongoCollectionBase extends Logging {
    */
   override def equals(obj: Any): Boolean = obj match {
     case other: MongoCollectionBase => underlying.equals(other.underlying)
-    case _ => false
+    case _                          => false
   }
 
   def count[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,

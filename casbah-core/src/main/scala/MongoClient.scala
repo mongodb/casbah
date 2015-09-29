@@ -27,7 +27,7 @@ import com.mongodb.casbah.Imports._
 
 import scala.collection.JavaConverters._
 
-import com.mongodb.{MongoClient => JavaMongoClient}
+import com.mongodb.{ MongoClient => JavaMongoClient }
 import scala.collection.mutable
 
 /**
@@ -97,7 +97,6 @@ object MongoClient {
    */
   def apply(addr: ServerAddress, options: MongoClientOptions): MongoClient =
     new MongoClient(new JavaMongoClient(addr, options))
-
 
   /**
    * Creates a Mongo instance based on a (single) mongodb node and a list of credentials

@@ -25,7 +25,7 @@ package com.mongodb.casbah
 import javax.net.SocketFactory
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.{DBDecoderFactory, DBEncoderFactory}
+import com.mongodb.{ DBDecoderFactory, DBEncoderFactory }
 
 /**
  * Helper class for creating MongoOptions instances
@@ -62,21 +62,23 @@ object MongoOptions {
    * @param description The description for <code>Mongo</code> instances created with these options
    * @return
    */
-  def apply(connectionsPerHost: Int = Defaults.connectionsPerHost,
-            threadsAllowedToBlockForConnectionMultiplier: Int = Defaults.threadsAllowedToBlockForConnectionMultiplier,
-            maxWaitTime: Int = Defaults.maxWaitTime,
-            connectTimeout: Int = Defaults.connectTimeout,
-            socketTimeout: Int = Defaults.socketTimeout,
-            socketKeepAlive: Boolean = Defaults.socketKeepAlive,
-            safe: Boolean = Defaults.safe,
-            w: Int = Defaults.w,
-            wTimeout: Int = Defaults.wtimeout,
-            fsync: Boolean = Defaults.fsync,
-            j: Boolean = Defaults.j,
-            dbDecoderFactory: DBDecoderFactory = Defaults.dbDecoderFactory,
-            dbEncoderFactory: DBEncoderFactory = Defaults.dbEncoderFactory,
-            socketFactory: SocketFactory = Defaults.socketFactory,
-            description: String = Defaults.description): MongoOptions = {
+  def apply(
+    connectionsPerHost:                           Int              = Defaults.connectionsPerHost,
+    threadsAllowedToBlockForConnectionMultiplier: Int              = Defaults.threadsAllowedToBlockForConnectionMultiplier,
+    maxWaitTime:                                  Int              = Defaults.maxWaitTime,
+    connectTimeout:                               Int              = Defaults.connectTimeout,
+    socketTimeout:                                Int              = Defaults.socketTimeout,
+    socketKeepAlive:                              Boolean          = Defaults.socketKeepAlive,
+    safe:                                         Boolean          = Defaults.safe,
+    w:                                            Int              = Defaults.w,
+    wTimeout:                                     Int              = Defaults.wtimeout,
+    fsync:                                        Boolean          = Defaults.fsync,
+    j:                                            Boolean          = Defaults.j,
+    dbDecoderFactory:                             DBDecoderFactory = Defaults.dbDecoderFactory,
+    dbEncoderFactory:                             DBEncoderFactory = Defaults.dbEncoderFactory,
+    socketFactory:                                SocketFactory    = Defaults.socketFactory,
+    description:                                  String           = Defaults.description
+  ): MongoOptions = {
     val options = new MongoOptions
 
     options.connectionsPerHost = connectionsPerHost

@@ -23,7 +23,6 @@ package com.mongodb.casbah.test.core
 
 import com.mongodb.casbah.Imports._
 
-
 class MongoClientSpec extends CasbahDBTestSpecification {
 
   "MongoClient connections should be the same as Java MongoClient" should {

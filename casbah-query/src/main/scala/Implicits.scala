@@ -24,7 +24,7 @@ package com.mongodb.casbah
 package query
 
 import com.mongodb.casbah.commons.Imports._
-import com.mongodb.casbah.query.dsl.{FluidQueryOperators, GeoCoords, ValueTestFluidQueryOperators}
+import com.mongodb.casbah.query.dsl.{ FluidQueryOperators, GeoCoords, ValueTestFluidQueryOperators }
 
 // scalastyle:off number.of.types
 
@@ -47,7 +47,6 @@ trait Implicits {
   implicit def mongoQueryStatements(left: String): FluidQueryOperators = new {
     val field = left
   } with dsl.FluidQueryOperators // with dsl.aggregation.ProjectSubOperators
-
 
   /**
    * Implicit extension methods for Tuple2[String, DBObject] values
@@ -72,7 +71,7 @@ trait Implicits {
     }
   }
 
-  implicit def tupleToGeoCoords[A: ValidNumericType : Manifest, B: ValidNumericType : Manifest](coords: (A, B)): GeoCoords[A, B] =
+  implicit def tupleToGeoCoords[A: ValidNumericType: Manifest, B: ValidNumericType: Manifest](coords: (A, B)): GeoCoords[A, B] =
     dsl.GeoCoords(coords._1, coords._2)
 
 }
@@ -90,19 +89,18 @@ object Implicits extends query.Implicits with commons.Implicits
  */
 object Imports extends query.Imports with commons.Imports
 
-
 object BaseImports extends query.BaseImports with commons.BaseImports
 
 object TypeImports extends query.TypeImports with commons.TypeImports
 
 trait Imports extends query.BaseImports
-with query.TypeImports
-with query.Implicits
-with dsl.FluidQueryBarewordOps
-with ValidBarewordExpressionArgTypeHolder
-with ValidDateTypeHolder
-with ValidNumericTypeHolder
-with ValidDateOrNumericTypeHolder
+  with query.TypeImports
+  with query.Implicits
+  with dsl.FluidQueryBarewordOps
+  with ValidBarewordExpressionArgTypeHolder
+  with ValidDateTypeHolder
+  with ValidNumericTypeHolder
+  with ValidDateOrNumericTypeHolder
 
 trait BaseImports {
   val GeoCoords = com.mongodb.casbah.query.dsl.GeoCoords
@@ -127,7 +125,7 @@ trait ValidDateOrNumericType[T]
 
 trait ValidDateTypeHolder {
 
-  import com.mongodb.casbah.query.ValidTypes.{JDKDateOk, JodaDateTimeOk}
+  import com.mongodb.casbah.query.ValidTypes.{ JDKDateOk, JodaDateTimeOk }
 
   implicit object JDKDateOk extends JDKDateOk
 
@@ -150,7 +148,6 @@ object ValidTypes {
     def toDBObject(arg: DBObject with dsl.QueryExpressionObject): DBObject = arg
   }
 
-
   trait ConcreteDBObject extends ValidBarewordExpressionArgType[DBObject] {
     def toDBObject(arg: DBObject): DBObject = arg
   }
@@ -170,15 +167,13 @@ object ValidTypes {
 
 }
 
-
 trait ValidBarewordExpressionArgType[T] {
   def toDBObject(arg: T): DBObject
 }
 
-
 trait ValidBarewordExpressionArgTypeHolder {
 
-  import com.mongodb.casbah.query.ValidTypes.{ConcreteDBObject, CoreOperatorResultObj, KVPair}
+  import com.mongodb.casbah.query.ValidTypes.{ ConcreteDBObject, CoreOperatorResultObj, KVPair }
 
   implicit def kvPairOk[A]: KVPair[A] = new KVPair[A] {}
 
@@ -265,10 +260,9 @@ object AsQueryParam {
 // scalastyle:on line.size.limit
 // scalastyle:on public.methods.have.type
 
-
 trait ValidNumericTypeHolder {
 
-  import com.mongodb.casbah.query.ValidTypes.{ByteOk, DoubleOk, FloatOk, IntOk, LongOk, ShortOk}
+  import com.mongodb.casbah.query.ValidTypes.{ ByteOk, DoubleOk, FloatOk, IntOk, LongOk, ShortOk }
 
   implicit object IntOk extends IntOk
 
@@ -283,7 +277,6 @@ trait ValidNumericTypeHolder {
   implicit object DoubleOk extends DoubleOk
 
 }
-
 
 trait ValidDateOrNumericTypeHolder {
 

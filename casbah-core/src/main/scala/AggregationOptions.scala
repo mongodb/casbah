@@ -21,7 +21,7 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.{AggregationOptions => JAggregationOptions}
+import com.mongodb.{ AggregationOptions => JAggregationOptions }
 import scala.concurrent.duration.Duration
 
 /**
@@ -156,7 +156,6 @@ object AggregationOptions {
     builder.maxTime(maxTime.length, maxTime.unit)
     builder.build()
   }
-
 
   /**
    * Instantiate a new AggregationOptions instance

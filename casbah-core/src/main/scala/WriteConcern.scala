@@ -22,7 +22,7 @@
 
 package com.mongodb.casbah
 
-import com.mongodb.{WriteConcern => JWriteConcern}
+import com.mongodb.{ WriteConcern => JWriteConcern }
 
 /**
  * Helper class for creating WriteConcern instances

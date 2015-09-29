@@ -22,7 +22,6 @@
 
 package com.mongodb.casbah.query.dsl
 
-
 import com.mongodb.casbah.query.Imports._
 
 // scalastyle:off method.name
@@ -79,26 +78,26 @@ class NestedBarewordListOperator(oper: String) {
  * @see com.mongodb.casbah.Implicits
  */
 trait FluidQueryBarewordOps extends SetOp
-with SetOnInsertOp
-with UnsetOp
-with IncOp
-with MaxOp
-with OrOp
-with AndOp
-with RenameOp
-with ArrayOps
-with NorOp
-with BitOp
-with WhereOp
-with SearchOp
-with CurrentDateOp
+  with SetOnInsertOp
+  with UnsetOp
+  with IncOp
+  with MaxOp
+  with OrOp
+  with AndOp
+  with RenameOp
+  with ArrayOps
+  with NorOp
+  with BitOp
+  with WhereOp
+  with SearchOp
+  with CurrentDateOp
 
 trait ArrayOps extends PushOp
-with PushAllOp
-with AddToSetOp
-with PopOp
-with PullOp
-with PullAllOp
+  with PushAllOp
+  with AddToSetOp
+  with PopOp
+  with PullOp
+  with PullAllOp
 
 /**
  * Trait to provide the \$set (Set) Set method as a bareword operator.
@@ -408,7 +407,6 @@ trait BitOp extends BarewordQueryOperator {
 trait WhereOp extends BarewordQueryOperator {
   def $where(target: JSFunction): DBObject = MongoDBObject("$where" -> target)
 }
-
 
 /**
  *
