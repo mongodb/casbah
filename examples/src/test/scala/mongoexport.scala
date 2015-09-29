@@ -1,9 +1,3 @@
-#!/bin/sh
-L=`pwd`
-cp=`echo $L/lib/*`
-exec scala -cp "$cp" "$0" "$@"
-!#
-
 /**
  * Copyright (c) 2010 MongoDB, Inc. <http://mongodb.com>
  *
@@ -27,9 +21,8 @@ exec scala -cp "$cp" "$0" "$@"
 
 import java.io.{ByteArrayOutputStream, PrintStream, PrintWriter}
 
-import scala.Some
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
-import ExecutionContext.Implicits.global
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.util.JSON
@@ -39,9 +32,9 @@ import com.mongodb.util.JSON
  *
  * As there is no core CSV library for Scala CSV export is an exercise left to the reader.
  *
- * Add casbah-alldep jar to your path or add to ./lib directory and then run as a shell program:
- *
- *     ./mongoexport.scala -u mongodb://localhost/test.testData > ./data/testData.json
+ * {{{
+ *  mongoexport.main("mongodb://localhost/test.testData")
+ * }}}
  *
  */
 object mongoexport {
@@ -300,5 +293,3 @@ object mongoexport {
   }
 
 }
-
-mongoexport.main(args)

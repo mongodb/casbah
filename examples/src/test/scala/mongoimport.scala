@@ -1,9 +1,3 @@
-#!/bin/sh
-L=`pwd`
-cp=`echo $L/lib/*`
-exec scala -cp "$cp" "$0" "$@"
-!#
-
 /**
  * Copyright (c) 2010 MongoDB, Inc. <http://mongodb.com>
  *
@@ -27,10 +21,8 @@ exec scala -cp "$cp" "$0" "$@"
 
 import java.io.{ByteArrayOutputStream, PrintStream}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
-import ExecutionContext.Implicits.global
-import scala.Some
-import scala.collection.JavaConverters._
 import scala.io.{BufferedSource, Source}
 
 import com.mongodb.casbah.Imports._
@@ -44,7 +36,9 @@ import com.mongodb.util.JSON
  *
  * Add casbah-alldep jar to your path or add to ./lib directory and then run as a shell program::
  *
- *    ./mongoimport.scala -u mongodb://localhost/test.testData --drop < data/testData.json
+ * {{{
+ * mongoimport.main("mongodb://localhost/test.testData")
+ * }}}
  *
  */
 object mongoimport {
@@ -191,7 +185,7 @@ object mongoimport {
           }
           try builder.execute()
           catch {
-            case be: BulkWriteException => for (e <- be.getWriteErrors.asScala) Console.err.println(e.getMessage)
+            case be: BulkWriteException => for (e <- be.getWriteErrors) Console.err.println(e.getMessage)
           }
         }
     }
@@ -296,5 +290,3 @@ object mongoimport {
   }
 
 }
-
-mongoimport.main(args)

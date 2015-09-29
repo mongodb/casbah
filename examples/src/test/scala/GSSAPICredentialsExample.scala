@@ -1,9 +1,3 @@
-#!/bin/sh
-L=`pwd`
-cp=`echo $L/lib/*`
-exec scala -cp "$cp" "$0" "$@"
-!#
-
 /**
  * Copyright (c) 2010 MongoDB, Inc. <http://mongodb.com>
  *
@@ -27,22 +21,15 @@ exec scala -cp "$cp" "$0" "$@"
 
 import java.io.{ByteArrayOutputStream, PrintStream}
 
-import scala.Some
-
 import com.mongodb.casbah.Imports._
-import java.security.Security
 
 
 /**
  * An example program showing you how to connect using GSSAPI authentication
  *
- *
- * Steps:
- *  1. Add casbah-alldep jar to your path or add to ./lib directory and then run as a shell program
- *  2. Install unlimited strength encryption jar files in jre/lib/security
-       (http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html)
- *
- *    ./GSSAPICredentialsExample.scala -u mongodb://drivers%40EXAMPLE.ME@kdc.example.me/<database>.<collection>/?authMechanism=GSSAPI
+ * {{{
+ * GSSAPICredentialsExample.main("mongodb://drivers%40EXAMPLE.ME@kdc.example.me/<database>.<collection>/?authMechanism=GSSAPI")
+ * }}}
  *
  */
 object GSSAPICredentialsExample {
@@ -203,5 +190,3 @@ object GSSAPICredentialsExample {
   }
 
 }
-
-GSSAPICredentialsExample.main(args)

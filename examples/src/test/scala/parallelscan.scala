@@ -1,9 +1,3 @@
-#!/bin/sh
-L=`pwd`
-cp=`echo $L/lib/*`
-exec scala -cp "$cp" "$0" "$@"
-!#
-
 /**
  * Copyright (c) 2010 MongoDB, Inc. <http://mongodb.com>
  *
@@ -28,20 +22,20 @@ exec scala -cp "$cp" "$0" "$@"
 
 import java.io.{ByteArrayOutputStream, PrintStream}
 
-import scala.Some
-import scala.concurrent._
 import scala.language.reflectiveCalls
 
-import ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+
 import com.mongodb.casbah.Imports._
 import com.mongodb.util.JSON
 
 /**
  * An example program showing an example using parallelScan
  *
- * Add casbah-alldep jar to your path or add to ./lib directory and then run as a shell program:
- *
- * ./parallelscan.scala -u mongodb://localhost/test.testData > test.out
+ * {{{
+ * parallelscan.main("mongodb://localhost/test.testData")
+ * }}}
  *
  */
 object parallelscan {
@@ -106,7 +100,7 @@ object parallelscan {
       case false => ReadPreference.Primary
     }
 
-    val parallelScanOptions = ParallelScanOptions(options.threads, options.batchSize, Some(readPreference))
+    val parallelScanOptions = ParallelScanOptions(options.threads.toInt, options.batchSize.toInt, Some(readPreference))
     val cursors = collection.parallelScan(parallelScanOptions)
 
     if (!options.quiet) Console.err.print("Parallelizing...")
@@ -114,7 +108,7 @@ object parallelscan {
     // Map each cursor to a future and with each cursor output the doc
     val futureOutput = Future.sequence(
       cursors.map(cursor => {
-        future {
+        Future {
           for (doc <- cursor) Console.out.println(JSON.serialize(doc))
         }
       })
@@ -173,15 +167,15 @@ object parallelscan {
         case None => default.uri
         case Some(value) => Some(value.asInstanceOf[String])
       },
-      threads = optionMap.getOrElse("threads", default.threads).asInstanceOf[String].toInt,
-      batchSize = optionMap.getOrElse("batchSize", default.batchSize).asInstanceOf[String].toInt,
+      threads = optionMap.getOrElse("threads", default.threads).asInstanceOf[String],
+      batchSize = optionMap.getOrElse("batchSize", default.batchSize).asInstanceOf[String],
       slaveOK = optionMap.getOrElse("slaveOK", default.slaveOK).asInstanceOf[Boolean],
       jsonArray = optionMap.getOrElse("jsonArray", default.jsonArray).asInstanceOf[Boolean]
     )
   }
 
-  case class Options(quiet: Boolean = false, uri: Option[String] = None, threads: Int = 3,
-                     batchSize: Int = 500, slaveOK: Boolean = true, jsonArray: Boolean = false)
+  case class Options(quiet: Boolean = false, uri: Option[String] = None, threads: String = "3",
+                     batchSize: String = "500", slaveOK: Boolean = true, jsonArray: Boolean = false)
 
   private def currentTime = System.currentTimeMillis()
 
@@ -216,4 +210,3 @@ object parallelscan {
 
 }
 
-parallelscan.main(args)
