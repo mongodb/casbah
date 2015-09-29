@@ -13,6 +13,18 @@ title = "Changelog"
 Casbah jira project is here: [https://jira.mongodb.org/browse/CASBAH](https://jira.mongodb.org/browse/CASBAH)
 {{% /note %}}
 
+
+Changes in Version 3.0.0
+------------------------
+
+  * Updated Mongo Java Driver to 3.0.4
+    <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r3.0.4>)
+    [\[CASBAH-82\]](https://jira.mongodb.org/browse/CASBAH-82)
+  * Remove Scala 2.9.3 support [\[CASBAH-182\]](https://jira.mongodb.org/browse/CASBAH-182)
+  * Added Scala 2.12.0-M2 support [\[CASBAH-179\]](https://jira.mongodb.org/browse/CASBAH-179)
+  * Converted MongoClientURI to case class [\[CASBAH-151\]](https://jira.mongodb.org/browse/CASBAH-151)
+  * Updated the build [\[CASBAH-183\]](https://jira.mongodb.org/browse/CASBAH-183)
+
 Changes in Version 2.8.2
 ------------------------
 

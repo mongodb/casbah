@@ -22,5 +22,5 @@ The following examples can be seen on
   *  mongoimport
      An example of the [mongoimport](http://docs.mongodb.org/manual/reference/program/mongoimport/) program.
 
-  * parallelscan
-    An example of using the parallelScan collection method with futures to handle the processing of the cursor.
+  * GSSAPICredentialsExample
+    An example of connecting via GSSAPI.
