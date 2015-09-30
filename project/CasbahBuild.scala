@@ -19,7 +19,6 @@ import org.scalastyle.sbt.ScalastylePlugin._
 import sbt.Keys._
 import sbt._
 import sbtunidoc.Plugin._
-import scoverage.ScoverageSbtPlugin.ScoverageKeys
 
 object CasbahBuild extends Build {
 
@@ -33,10 +32,20 @@ object CasbahBuild extends Build {
     scalaVersion := "2.11.7",
     crossScalaVersions := Seq("2.11.7", "2.10.5", "2.12.0-M2"),
     resolvers := casbahResolvers,
-    scalacOptions ++= Seq("-unchecked", "-feature", "-Xlint:-missing-interpolator" /*, "-Xlog-implicits", "-Yinfer-debug", "-Xprint:typer"*/),
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
   )
 
+  /*
+   * ScalacOptions settings
+   */
+  lazy val scalacOptionsSettings = Seq(scalacOptions ++= (scalaBinaryVersion.value match {
+    case "2.10" => Seq("-unchecked", "-feature", "-Xlint")
+    case _ => Seq("-unchecked", "-feature", "-Xlint:-missing-interpolator")
+  }))
+
+  /*
+   * Publish settings
+   */
   val publishSettings = Publish.settings
   val publishAssemblySettings = Publish.publishAssemblySettings
   val noPublishingSettings = Publish.noPublishing
@@ -48,11 +57,6 @@ object CasbahBuild extends Build {
   val testSettings = Seq(
     testFrameworks += TestFrameworks.Specs2,
     parallelExecution in Test := true
-  )
-
-  val scoverageSettings = Seq(
-    ScoverageKeys.coverageMinimum := 50,
-    ScoverageKeys.coverageFailOnMinimum := false
   )
 
   /*
@@ -88,11 +92,11 @@ object CasbahBuild extends Build {
   ) ++ unidocSettings
 
   val casbahDefaultSettings = buildSettings ++
+    scalacOptionsSettings ++
     publishSettings ++
     testSettings ++
     customScalariformSettings ++
-    scalaStyleSettings ++
-    scoverageSettings
+    scalaStyleSettings
 
   lazy val commons = Project(
     id = "casbah-commons",
@@ -138,7 +142,6 @@ object CasbahBuild extends Build {
     .dependsOn(commons, core, query, gridfs)
     .settings(rootUnidocSettings: _*)
     .settings(rootPublishSettings: _*)
-    .settings(scoverageSettings: _*)
     .settings(checkAlias: _*)
     .settings(initialCommands in console := """import org.mongodb.scala._""")
 
