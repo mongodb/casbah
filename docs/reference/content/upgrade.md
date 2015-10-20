@@ -4,7 +4,7 @@ title = "Upgrade"
 [menu.main]
   identifier = "Upgrade"
   pre = "<i class='fa fa-wrench'></i>"
-  weight = 50
+  weight = 35
 +++
 
 # Upgrade

@@ -1,4 +1,4 @@
-baseurl = "/casbah/2.8"
+baseurl = "/casbah/3.0"
 languageCode = "en-us"
 title = "Casbah"
 theme = "mongodb"

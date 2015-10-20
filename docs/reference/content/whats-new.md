@@ -4,10 +4,14 @@ title = "Whats new"
 [menu.main]
   identifier = "Whats new"
   pre = "<i class='fa fa-gift'></i>"
-  weight = 40
+  weight = 60
 +++
 
 # Whats new in Casbah
+
+## Casbah 3.0
+
+Updates Casbah to the 3.0 version of the MongoDB Java Driver.
 
 ## Casbah 2.7 and Mongo DB 2.6 Features
 

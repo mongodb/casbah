@@ -26,7 +26,7 @@ function initializeJS() {
 };
 
 var toggleDownload = function() {
-  activeDriver = 'mongodb-scala-driver';
+  activeDriver = 'casbah';
   downloadLink = 'https://oss.sonatype.org/content/repositories/releases/org/mongodb/';
   downloadSnapshotLink = 'https://oss.sonatype.org/content/repositories/snapshots/org/mongodb/';
   prefix = $('.distroPicker').prop('checked') ? "#sbt" : "#maven";

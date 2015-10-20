@@ -17,7 +17,7 @@
     <div class="row downloadForm">
       <form>
         <div class="col-xs-5 col-lg-4 col-lg-push-2 ">
-        <h5>mongodb-scala-driver</h5>
+        <h5>Casbah</h5>
         </div>
     <div class="col-xs-5 col-lg-4 col-lg-push-2 ">
     {{ $.Scratch.Set "qs.pos" 0 }}
@@ -36,7 +36,7 @@
     </div>
   </form>
   <div class="hidden-md hidden-sm hidden-xs col-lg-2 col-lg-pull-10 downloadLink">
-      <a href="https://oss.sonatype.org/content/repositories/releases/org/mongodb/mongodb-scala-driver/{{$currentReleasedVersion.version}}/"
+      <a href="https://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.11/{{$currentReleasedVersion.version}}/"
      id="downloadLink" class="btn btn-dark btn-download" target="_blank">Download</a>
   </div>
   </div>
@@ -80,7 +80,7 @@
 <div id="sbt-{{$versionPos}}" class="download{{if or (ne $firstDriver true) (ne $currentVersion.status "current") }} hidden{{end}}">
 <pre><code>
 
-libraryDependencies += "org.mongodb.scala" %% "{{$currentDriver}}" % "{{$currentVersion.version}}"
+libraryDependencies += "org.mongodb" %% "{{$currentDriver}}" % "{{$currentVersion.version}}"
 
 resolvers += "Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
@@ -102,7 +102,7 @@ resolvers += "Snapshots" at "https://oss.sonatype.org/content/repositories/snaps
 <div id="sbt-{{$versionPos}}" class="download{{if or (ne $firstDriver true) (ne $currentVersion.status "current") }} hidden{{end}}">
 <pre><code>
 
-    libraryDependencies += "org.mongodb.scala" %% "{{$currentDriver}}" % "{{$currentVersion.version}}"
+    libraryDependencies += "org.mongodb" %% "{{$currentDriver}}" % "{{$currentVersion.version}}"
 
 </code></pre>
 </div>

@@ -4,7 +4,7 @@ title = "Examples"
 [menu.main]
   identifier = "Examples"
   pre = "<i class='fa fa-lightbulb-o'></i>"
-  weight = 30
+  weight = 50
 +++
 
 # Casbah Examples
