@@ -1,7 +1,7 @@
 githubUser = "mongodb"
 githubRepo = "casbah"
 githubBranch = "master"
-currentVersion = "2.8"
+currentVersion = "3.0"
 highlightTheme = "idea.css"
 apiUrl = "/scaladoc/index.html"
 coreApiUrl = "http://api.mongodb.org/java/3.0/"
