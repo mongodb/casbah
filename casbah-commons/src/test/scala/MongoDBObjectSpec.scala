@@ -322,51 +322,73 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
 
     "Expanding a simple layering should work" in {
       w.as[String]("A", "B") must beEqualTo("C")
+      w.as[String]("A.B") must beEqualTo("C")
       w.getAs[String]("A", "B") must beSome[String]("C")
+      w.getAs[String]("A.B") must beSome[String]("C")
 
       "While overexpanding should probably fail" in {
         w.as[String]("A", "B", "C") must throwA[NoSuchElementException]
+        w.as[String]("A.B.C") must throwA[NoSuchElementException]
         w.getAs[String]("A", "B", "C") must beNone
+        w.getAs[String]("A.B.C") must beNone
       }
     }
 
     "Expanding a further layering should work" in {
       x.as[Int]("A", "B", "C") must beEqualTo(5)
+      x.as[Int]("A.B.C") must beEqualTo(5)
       x.getAs[Int]("A", "B", "C") must beSome[Int](5)
+      x.getAs[Int]("A.B.C") must beSome[Int](5)
 
       "While overexpanding should fail" in {
         x.as[String]("A", "B", "C", "D") must throwA[NoSuchElementException]
+        x.as[String]("A.B.C.D") must throwA[NoSuchElementException]
         x.getAs[Int]("A", "B", "C", "D") must beNone
+        x.getAs[Int]("A.B.C.D") must beNone
       }
     }
 
     "And you can go further and even get a list" in {
       y.as[List[Int]]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
+      y.as[List[Int]]("A.B.C") must beEqualTo(List(5, 4, 3, 2, 1))
       y.getAs[List[Int]]("A", "B", "C") must beSome[List[Int]](List(5, 4, 3, 2, 1))
+      y.getAs[List[Int]]("A.B.C") must beSome[List[Int]](List(5, 4, 3, 2, 1))
     }
 
     "And you can go further and even convert a MongoDBList" in {
       y.as[MongoDBList]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
+      y.as[MongoDBList]("A.B.C") must beEqualTo(List(5, 4, 3, 2, 1))
       y.getAs[MongoDBList]("A", "B", "C") must beSome[MongoDBList](MongoDBList(5, 4, 3, 2, 1))
+      y.getAs[MongoDBList]("A.B.C") must beSome[MongoDBList](MongoDBList(5, 4, 3, 2, 1))
     }
 
     "And you can go further and even convert a BasicDBList" in {
       y.as[BasicDBList]("A", "B", "C") must beEqualTo(MongoDBList(5, 4, 3, 2, 1).underlying)
+      y.as[BasicDBList]("A.B.C") must beEqualTo(MongoDBList(5, 4, 3, 2, 1).underlying)
       y.getAs[BasicDBList]("A", "B", "C") must beSome[BasicDBList]
+      y.getAs[BasicDBList]("A.B.C") must beSome[BasicDBList]
     }
 
     "And MongoDBLists should behave the same as List[_]" in {
       z.as[List[Int]]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
+      z.as[List[Int]]("A.B.C") must beEqualTo(List(5, 4, 3, 2, 1))
       z.getAs[List[Int]]("A", "B", "C") must beSome[List[Int]](List(5, 4, 3, 2, 1))
+      z.getAs[List[Int]]("A.B.C") must beSome[List[Int]](List(5, 4, 3, 2, 1))
       z.as[MongoDBList]("A", "B", "C") must beEqualTo(List(5, 4, 3, 2, 1))
+      z.as[MongoDBList]("A.B.C") must beEqualTo(List(5, 4, 3, 2, 1))
       z.getAs[MongoDBList]("A", "B", "C") must beSome[MongoDBList](MongoDBList(5, 4, 3, 2, 1))
+      z.getAs[MongoDBList]("A.B.C") must beSome[MongoDBList](MongoDBList(5, 4, 3, 2, 1))
       z.as[BasicDBList]("A", "B", "C") must beEqualTo(MongoDBList(5, 4, 3, 2, 1).underlying)
+      z.as[BasicDBList]("A.B.C") must beEqualTo(MongoDBList(5, 4, 3, 2, 1).underlying)
       z.getAs[BasicDBList]("A", "B", "C") must beSome[BasicDBList]
+      z.getAs[BasicDBList]("A.B.C") must beSome[BasicDBList]
     }
 
     "Invalid missing elements should also fail" in {
       z.as[Float]("C", "X") must throwA[NoSuchElementException]
+      z.as[Float]("C.X") must throwA[NoSuchElementException]
       z.getAs[Float]("C", "X") must beNone
+      z.getAs[Float]("C.X") must beNone
     }
   }
 
