@@ -24,28 +24,18 @@
 
 package com.mongodb.casbah
 
-import scala.collection.mutable
-import scala.collection.JavaConverters._
-import scala.concurrent.duration.{ Duration, MILLISECONDS }
 import scala.language.reflectiveCalls
 
-import com.mongodb.{
-  CommandResult,
-  DBCollection,
-  DBCursor,
-  DBDecoderFactory,
-  DBEncoderFactory,
-  MongoExecutionTimeoutException,
-  ParallelScanOptions => JavaParallelScanOptions
-}
+import scala.collection.JavaConverters._
+import scala.collection.mutable
+import scala.concurrent.duration.{ Duration, MILLISECONDS }
 
 import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.TypeImports.{ DBEncoder, WriteResult }
 import com.mongodb.casbah.commons.Logging
-import com.mongodb.casbah.map_reduce.MapReduceResult
-import com.mongodb.casbah.TypeImports.WriteResult
 import com.mongodb.casbah.commons.TypeImports.DBObject
-import com.mongodb.casbah.TypeImports.DBEncoder
-import com.mongodb.casbah.map_reduce.MapReduceCommand
+import com.mongodb.casbah.map_reduce.{ MapReduceCommand, MapReduceResult }
+import com.mongodb.{ ParallelScanOptions => JavaParallelScanOptions, _ }
 
 /**
  * Scala wrapper for Mongo DBCollections,
@@ -312,12 +302,37 @@ trait MongoCollectionBase extends Logging {
    * @param returnNew if true, the updated document is returned, otherwise the old document is returned (or it would be lost forever)
    * @param upsert do upsert (insert if document not present)
    *
-   * @return the old document
+   * @return the document as it was before the modifications, unless `returnNew` is true, in which case it returns the document
+   *         after the changes were made
    */
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
                                                                                 remove: Boolean, update: D,
                                                                                 returnNew: Boolean, upsert: Boolean): Option[T] =
     _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
+
+  /**
+   * Atomically modify and return a single document. By default, the returned document does not include the modifications made on the
+   * update.
+   *
+   * @param query     specifies the selection criteria for the modification
+   * @param fields    a subset of fields to return
+   * @param sort      determines which document the operation will modify if the query selects multiple documents
+   * @param remove    when true, removes the selected document
+   * @param returnNew when true, returns the modified document rather than the original
+   * @param update    the modifications to apply
+   * @param upsert    when true, operation creates a new document if the query returns no documents
+   * @param writeConcern the write concern to apply to this operation
+   * @return the document as it was before the modifications, unless `returnNew` is true, in which case it returns the document
+   *         after the changes were made
+   * @throws WriteConcernException if the write failed due some other failure specific to the update command
+   * @throws MongoException if the operation failed for some other reason
+   * @since 3.1.0
+   */
+  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+                                                                                remove: Boolean, update: D,
+                                                                                returnNew: Boolean, upsert: Boolean,
+                                                                                writeConcern: WriteConcern): Option[T] =
+    _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert, writeConcern))
 
   /**
    * Finds the first document in the query and updates it.
@@ -331,7 +346,8 @@ trait MongoCollectionBase extends Logging {
    * @param upsert      do upsert (insert if document not present)
    * @param maxTime the maximum duration that the server will allow this operation to execute before killing it
    *
-   * @return the old document
+   * @return the document as it was before the modifications, unless `returnNew` is true, in which case it returns the document
+   *         after the changes were made
    */
   def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
                                                                                 remove: Boolean, update: D,
@@ -339,6 +355,81 @@ trait MongoCollectionBase extends Logging {
                                                                                 maxTime: Duration): Option[T] =
     _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert,
       maxTime.length, maxTime.unit))
+
+  /**
+   * Finds the first document in the query and updates it.
+   *
+   * @param query       query to match
+   * @param fields      fields to be returned
+   * @param sort        sort to apply before picking first document
+   * @param remove      if true, document found will be removed
+   * @param update      update to apply
+   * @param returnNew   if true, the updated document is returned, otherwise the old document is returned (or it would be lost forever)
+   * @param upsert      do upsert (insert if document not present)
+   * @param maxTime the maximum duration that the server will allow this operation to execute before killing it
+   * @param writeConcern the write concern to apply to this operation
+   * @throws WriteConcernException if the write failed due some other failure specific to the update command
+   * @throws MongoException if the operation failed for some other reason
+   * @since 3.1.0
+   */
+  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+                                                                                remove: Boolean, update: D,
+                                                                                returnNew: Boolean, upsert: Boolean,
+                                                                                maxTime:      Duration,
+                                                                                writeConcern: WriteConcern): Option[T] =
+    _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert,
+      maxTime.length, maxTime.unit, writeConcern))
+
+  /**
+   * Finds the first document in the query and updates it.
+   *
+   * @note bypassDocumentValidation requires MongoDB 3.2 or greater
+   * @param query       query to match
+   * @param fields      fields to be returned
+   * @param sort        sort to apply before picking first document
+   * @param remove      if true, document found will be removed
+   * @param update      update to apply
+   * @param returnNew   if true, the updated document is returned, otherwise the old document is returned (or it would be lost forever)
+   * @param upsert      do upsert (insert if document not present)
+   * @param bypassDocumentValidation whether to bypass document validation.
+   * @param maxTime the maximum duration that the server will allow this operation to execute before killing it
+   * @throws WriteConcernException if the write failed due some other failure specific to the update command
+   * @throws MongoException if the operation failed for some other reason
+   * @since 3.1.0
+   */
+  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+                                                                                remove: Boolean, update: D,
+                                                                                returnNew: Boolean, upsert: Boolean,
+                                                                                bypassDocumentValidation: Boolean,
+                                                                                maxTime:                  Duration): Option[T] =
+    _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert, bypassDocumentValidation,
+      maxTime.length, maxTime.unit))
+
+  /**
+   * Finds the first document in the query and updates it.
+   *
+   * @param query       query to match
+   * @param fields      fields to be returned
+   * @param sort        sort to apply before picking first document
+   * @param remove      if true, document found will be removed
+   * @param update      update to apply
+   * @param returnNew   if true, the updated document is returned, otherwise the old document is returned (or it would be lost forever)
+   * @param upsert      do upsert (insert if document not present)
+   * @param bypassDocumentValidation whether to bypass document validation.
+   * @param maxTime the maximum duration that the server will allow this operation to execute before killing it
+   * @param writeConcern the write concern to apply to this operation
+   * @throws WriteConcernException if the write failed due some other failure specific to the update command
+   * @throws MongoException if the operation failed for some other reason
+   * @since 3.1.0
+   */
+  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+                                                                                remove: Boolean, update: D,
+                                                                                returnNew: Boolean, upsert: Boolean,
+                                                                                bypassDocumentValidation: Boolean,
+                                                                                maxTime:                  Duration,
+                                                                                writeConcern:             WriteConcern): Option[T] =
+    _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert, bypassDocumentValidation,
+      maxTime.length, maxTime.unit, writeConcern))
 
   /**
    * Finds the first document in the query and removes it.
@@ -538,11 +629,22 @@ trait MongoCollectionBase extends Logging {
    *              TODO - Wrapper for WriteResult?
    */
   def insert[A](docs: A*)(implicit dbObjView: A => DBObject, concern: com.mongodb.WriteConcern = writeConcern,
-                          encoder: DBEncoder = customEncoderFactory.map(_.create).orNull): WriteResult = {
+                          encoder: DBEncoder = customEncoderFactory.map(_.create).orNull): WriteResult =
+    insert(new InsertOptions().writeConcern(writeConcern).dbEncoder(encoder), docs: _*)
+
+  /**
+   * Saves document(s) to the database.
+   * if doc doesn't have an _id, one will be added
+   * you can get the _id that was added from doc after the insert
+   *
+   * @param docs  array of documents (<% DBObject) to save
+   * @param insertOptions the insertOptions
+   */
+  def insert[A](insertOptions: InsertOptions, docs: A*)(implicit dbObjView: A => DBObject): WriteResult = {
     val b = new scala.collection.mutable.ArrayBuilder.ofRef[DBObject]
     b.sizeHint(docs.size)
     for { x <- docs } b += dbObjView(x)
-    underlying.insert(b.result(), concern, encoder)
+    underlying.insert(b.result().toList.asJava, insertOptions)
   }
 
   def isCapped: Boolean = underlying.isCapped
@@ -757,14 +859,17 @@ trait MongoCollectionBase extends Logging {
   /**
    * Performs an update operation.
    * @param q search query for old object to update
-   * @param o object with which to update <tt>q</tt>
+   * @param o object with which to update `q`
    */
   def update[A, B](q: A, o: B, upsert: Boolean = false, multi: Boolean = false,
-                   concern: com.mongodb.WriteConcern = this.writeConcern)(implicit
-    queryView: A => DBObject,
-                                                                          objView: B => DBObject,
-                                                                          encoder: DBEncoder     = customEncoderFactory.map(_.create).orNull): WriteResult =
-    underlying.update(queryView(q), objView(o), upsert, multi, concern, encoder)
+                   concern:                  com.mongodb.WriteConcern = this.writeConcern,
+                   bypassDocumentValidation: Option[Boolean]          = None)(implicit queryView: A => DBObject, objView: B => DBObject,
+                                                                              encoder: DBEncoder = customEncoderFactory.map(_.create).orNull): WriteResult = {
+    bypassDocumentValidation match {
+      case None                   => underlying.update(queryView(q), objView(o), upsert, multi, concern, encoder)
+      case Some(bypassValidation) => underlying.update(queryView(q), objView(o), upsert, multi, concern, bypassValidation, encoder)
+    }
+  }
 
   /**
    * Perform a multi update

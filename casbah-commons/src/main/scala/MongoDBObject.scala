@@ -23,15 +23,16 @@
 package com.mongodb.casbah
 package commons
 
-import com.mongodb.casbah.commons.Imports._
+import java.util
 
 import scala.annotation.tailrec
 import scala.beans.BeanInfo
 import scala.collection.JavaConversions._
 import scala.collection.generic._
 import scala.collection.mutable
-import scala.util.{ Try, Success, Failure }
-import java.util
+import scala.util.{ Failure, Success, Try }
+
+import com.mongodb.casbah.commons.Imports._
 
 /**
  * MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
@@ -281,6 +282,8 @@ object MongoDBObject {
     }
 
   def empty: DBObject = new MongoDBObject()
+
+  def apply(json: String): DBObject = com.mongodb.BasicDBObject.parse(json)
 
   def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result()
 
