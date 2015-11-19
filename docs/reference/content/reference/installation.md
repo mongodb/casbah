@@ -10,7 +10,7 @@ title = "Installation"
 # Installation
 
 **Casbah** is released to the [Sonatype](http://sonatype.org/)
-repository, the latest Casbah build as is 3.0.0 and supports the
+repository, the latest Casbah build as is 3.1.0-rc0 and supports the
 following scala versions: 2.10.x, 2.11.x, 2.12.0-M2.
 
 The easiest way to install the latest Casbah driver (3.0.0) is by
@@ -94,9 +94,9 @@ take time, especially as the dependencies change depending on the Scala
 version you are using. To simplify this you can download a single all
 inclusive jar for your scala version:
 
- * [Casbah Scala 2.12.0-M2](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.12/3.0.0/casbah-alldep_2.12.0-M2-3.0.0.jar)
- * [Casbah Scala 2.11](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.11/3.0.0/casbah-alldep_2.11-3.0.0.jar)
- * [Casbah Scala 2.10](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/3.0.0/casbah-alldep_2.10-3.0.0.jar)
+ * [Casbah Scala 2.12.0-M2](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.12/3.1.0-rc0/casbah-alldep_2.12.0-M2-3.1.0-rc0.jar)
+ * [Casbah Scala 2.11](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.11/3.1.0-rc0/casbah-alldep_2.11-3.1.0-rc0.jar)
+ * [Casbah Scala 2.10](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/3.1.0-rc0/casbah-alldep_2.10-3.1.0-rc0.jar)
 
 Once the jar is on your class path you will be able to use Casbah.
 

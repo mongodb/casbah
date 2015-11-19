@@ -3,6 +3,11 @@ githubRepo = "casbah"
 current = "3.0.0"
 
 [[versions]]
+  version = "3.1.0-rc0"
+  docs = "./3.1"
+  api = "./3.1/scaladoc"
+
+[[versions]]
   version = "3.0.0"
   status = "current"
   docs = "./3.0"
