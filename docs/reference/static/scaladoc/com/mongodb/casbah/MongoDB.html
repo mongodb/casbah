@@ -1,0 +1,1129 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>MongoDB - Casbah Driver - com.mongodb.casbah.MongoDB</title>
+          <meta name="description" content="MongoDB - Casbah Driver - com.mongodb.casbah.MongoDB" />
+          <meta name="keywords" content="MongoDB Casbah Driver com.mongodb.casbah.MongoDB" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../lib/diagrams.js" id="diagrams-js"></script>
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'com.mongodb.casbah.MongoDB';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <a href="MongoDB$.html" title="See companion object"><img alt="Class/Object" src="../../../lib/class_to_object_big.png" /></a>
+        <p id="owner"><a href="../../package.html" class="extype" name="com">com</a>.<a href="../package.html" class="extype" name="com.mongodb">mongodb</a>.<a href="package.html" class="extype" name="com.mongodb.casbah">casbah</a></p>
+        <h1><a href="MongoDB$.html" title="See companion object">MongoDB</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="MongoDB$.html" title="See companion object">object MongoDB</a>
+            | <a href="package.html" class="extype" name="com.mongodb.casbah">package casbah</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MongoDB</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Wrapper for the Mongo <code>DB</code> object providing scala-friendly functionality.
+</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd><dt>See also</dt><dd><span class="cmt"><p>com.mongodb.DB</p></span></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+                <span class="toggle diagram-link">Type Hierarchy</span>
+                <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 144.00 118.00" height="118pt" width="144pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 114)" class="graph" id="graph0"><polygon points="-4,4 -4,-114 140,-114 140,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="com.mongodb.casbah.MongoDB (this class)" xlink:href="#inheritance-diagram"><polygon points="112,-49 24,-49 24,-24 112,-24 112,-49" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-43.5" x="34" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-33.7495" x="54.877" text-anchor="start">MongoDB</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="scala.AnyRef"><polygon points="106,-110 30,-110 30,-85 106,-85 106,-110" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-104.5" x="40" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-94.7495" x="60.7144" text-anchor="start">AnyRef</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="MongoDB is a subtype of AnyRef"><path d="M68,-79.6874C68,-69.9173 68,-57.8534 68,-49.1323" stroke="#d4d4d4" fill="none"></path><polygon points="66.2501,-79.8435 68,-84.8435 69.7501,-79.8435 66.2501,-79.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+              </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="com.mongodb.casbah.MongoDB"><span>MongoDB</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="com.mongodb.casbah.MongoDB#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(underlying:com.mongodb.DB):com.mongodb.casbah.MongoDB"></a>
+      <a id="&lt;init&gt;:MongoDB"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MongoDB</span><span class="params">(<span name="underlying">underlying: <span class="extype" name="com.mongodb.DB">DB</span></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@&lt;init&gt;(underlying:com.mongodb.DB):com.mongodb.casbah.MongoDB" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@##():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#addOption" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addOption(option:Int):Unit"></a>
+      <a id="addOption(Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addOption</span><span class="params">(<span name="option">option: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@addOption(option:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Manipulate Network Options
+</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Network Options
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes</p></span><span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="apply(collection:String):com.mongodb.casbah.MongoCollection"></a>
+      <a id="apply(String):MongoCollection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="params">(<span name="collection">collection: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="MongoCollection.html" class="extype" name="com.mongodb.casbah.MongoCollection">MongoCollection</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@apply(collection:String):com.mongodb.casbah.MongoCollection" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Apply method to proxy  getCollection, to allow invocation of
+<code>dbInstance("collectionName")</code>
+instead of getCollection
+</code></p><div class="fullcomment"><div class="comment cmt"><p>Apply method to proxy  getCollection, to allow invocation of
+<code>dbInstance("collectionName")</code>
+instead of getCollection
+</p></div><dl class="paramcmts block"><dt class="param">collection</dt><dd class="cmt"><p>a  string for the collection name</p></dd><dt>returns</dt><dd class="cmt"><p>MongoCollection A wrapped instance of a Mongo DBCollection Class returning generic DBObjects</p></dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@clone():Object" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#collectionExists" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="collectionExists(collectionName:String):Boolean"></a>
+      <a id="collectionExists(String):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">collectionExists</span><span class="params">(<span name="collectionName">collectionName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@collectionExists(collectionName:String):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Checks to see if a collection by name %lt;name&gt; exists.</p><div class="fullcomment"><div class="comment cmt"><p>Checks to see if a collection by name %lt;name&gt; exists.</p></div><dl class="paramcmts block"><dt class="param">collectionName</dt><dd class="cmt"><p>The collection to test for existence</p></dd><dt>returns</dt><dd class="cmt"><p>false if no collection by that name exists, true if a match to an existing collection was found</p></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#collectionNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="collectionNames():scala.collection.mutable.Set[String]"></a>
+      <a id="collectionNames():Set[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">collectionNames</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.collection.mutable.Set">Set</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@collectionNames():scala.collection.mutable.Set[String]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a set of the names of collections in this database.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a set of the names of collections in this database.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the names of collections in this database</p></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#command" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="command(cmd:com.mongodb.casbah.Imports.DBObject,readPreference:com.mongodb.casbah.Imports.ReadPreference):com.mongodb.CommandResult"></a>
+      <a id="command(Imports.DBObject,Imports.ReadPreference):CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">command</span><span class="params">(<span name="cmd">cmd: <a href="Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.Imports.DBObject">Imports.DBObject</a></span>, <span name="readPreference">readPreference: <a href="Imports$.html#ReadPreference=com.mongodb.ReadPreference" class="extmbr" name="com.mongodb.casbah.Imports.ReadPreference">Imports.ReadPreference</a></span>)</span><span class="result">: <span class="extype" name="com.mongodb.CommandResult">CommandResult</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@command(cmd:com.mongodb.casbah.Imports.DBObject,readPreference:com.mongodb.casbah.Imports.ReadPreference):com.mongodb.CommandResult" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Execute a database command directly.</p><div class="fullcomment"><div class="comment cmt"><p>Execute a database command directly.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the result of the command from the database</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a></p></span></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#command" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="command(cmd:String):com.mongodb.CommandResult"></a>
+      <a id="command(String):CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">command</span><span class="params">(<span name="cmd">cmd: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="com.mongodb.CommandResult">CommandResult</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@command(cmd:String):com.mongodb.CommandResult" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Execute a database command directly.</p><div class="fullcomment"><div class="comment cmt"><p>Execute a database command directly.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the result of the command from the database</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a></p></span></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#command" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="command(cmd:com.mongodb.casbah.Imports.DBObject):com.mongodb.CommandResult"></a>
+      <a id="command(Imports.DBObject):CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">command</span><span class="params">(<span name="cmd">cmd: <a href="Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.Imports.DBObject">Imports.DBObject</a></span>)</span><span class="result">: <span class="extype" name="com.mongodb.CommandResult">CommandResult</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@command(cmd:com.mongodb.casbah.Imports.DBObject):com.mongodb.CommandResult" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Execute a database command directly.</p><div class="fullcomment"><div class="comment cmt"><p>Execute a database command directly.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the result of the command from the database</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="http://mongodb.onconfluence.com/display/DOCS/List+of+Database+Commands">List of Commands</a></p></span></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#createCollection" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="createCollection(name:String,o:com.mongodb.casbah.Imports.DBObject):com.mongodb.DBCollection"></a>
+      <a id="createCollection(String,Imports.DBObject):DBCollection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">createCollection</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="o">o: <a href="Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.Imports.DBObject">Imports.DBObject</a></span>)</span><span class="result">: <span class="extype" name="com.mongodb.DBCollection">DBCollection</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@createCollection(name:String,o:com.mongodb.casbah.Imports.DBObject):com.mongodb.DBCollection" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Creates a collection with a given name and options.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a collection with a given name and options.
+If the collection does not exist, a new collection is created.
+Possible options:
+&lt;dl&gt;
+&lt;dt&gt;capped&lt;/dt&gt;<dd><i>boolean</i>: if the collection is capped</dd>
+&lt;dt&gt;size&lt;/dt&gt;<dd><i>int</i>: collection size</dd>
+&lt;dt&gt;max&lt;/dt&gt;<dd><i>int</i>: max number of documents</dd>
+&lt;/dl&gt;</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the collection to return</p></dd><dt class="param">o</dt><dd class="cmt"><p>options</p></dd><dt>returns</dt><dd class="cmt"><p>the collection</p></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#doEval" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="doEval(code:String,args:AnyRef*):com.mongodb.CommandResult"></a>
+      <a id="doEval(String,AnyRef*):CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">doEval</span><span class="params">(<span name="code">code: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="args">args: <span class="extype" name="scala.AnyRef">AnyRef</span>*</span>)</span><span class="result">: <span class="extype" name="com.mongodb.CommandResult">CommandResult</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@doEval(code:String,args:AnyRef*):com.mongodb.CommandResult" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.mongodb.casbah.MongoDB#dropDatabase" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dropDatabase():Unit"></a>
+      <a id="dropDatabase():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dropDatabase</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@dropDatabase():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Drops this database.</p><div class="fullcomment"><div class="comment cmt"><p>Drops this database.  Removes all data on disk.  Use with caution.
+</p></div></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#eval" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="eval(code:String,args:AnyRef*):AnyRef"></a>
+      <a id="eval(String,AnyRef*):AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eval</span><span class="params">(<span name="code">code: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="args">args: <span class="extype" name="scala.AnyRef">AnyRef</span>*</span>)</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@eval(code:String,args:AnyRef*):AnyRef" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#getCollection" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getCollection(name:String):com.mongodb.DBCollection"></a>
+      <a id="getCollection(String):DBCollection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getCollection</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="com.mongodb.DBCollection">DBCollection</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@getCollection(name:String):com.mongodb.DBCollection" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Gets a collection with a given name.</p><div class="fullcomment"><div class="comment cmt"><p>Gets a collection with a given name.
+If the collection does not exist, a new collection is created.</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>(String) the name of the collection to return</p></dd><dt>returns</dt><dd class="cmt"><p>the collection</p></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#getCollectionFromString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getCollectionFromString(s:String):com.mongodb.DBCollection"></a>
+      <a id="getCollectionFromString(String):DBCollection"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getCollectionFromString</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="com.mongodb.DBCollection">DBCollection</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@getCollectionFromString(s:String):com.mongodb.DBCollection" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a collection matching a given string.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a collection matching a given string.</p></div><dl class="paramcmts block"><dt class="param">s</dt><dd class="cmt"><p>the name of the collection</p></dd><dt>returns</dt><dd class="cmt"><p>the collection</p></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#getCollectionNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getCollectionNames():scala.collection.mutable.Set[String]"></a>
+      <a id="getCollectionNames():Set[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getCollectionNames</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.collection.mutable.Set">Set</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@getCollectionNames():scala.collection.mutable.Set[String]" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a set of the names of collections in this database.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a set of the names of collections in this database.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the names of collections in this database</p></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#getName" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getName:String"></a>
+      <a id="getName:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getName</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@getName:String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.mongodb.casbah.MongoDB#getOptions" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getOptions:Int"></a>
+      <a id="getOptions:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getOptions</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@getOptions:Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Manipulate Network Options
+</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Network Options
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mognodb.Bytes</p></span><span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#getReadPreference" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getReadPreference:com.mongodb.casbah.Imports.ReadPreference"></a>
+      <a id="getReadPreference:Imports.ReadPreference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getReadPreference</span><span class="result">: <a href="Imports$.html#ReadPreference=com.mongodb.ReadPreference" class="extmbr" name="com.mongodb.casbah.Imports.ReadPreference">Imports.ReadPreference</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@getReadPreference:com.mongodb.casbah.Imports.ReadPreference" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Gets the read preference for this database.</p><div class="fullcomment"><div class="comment cmt"><p>Gets the read preference for this database. Will be used as default for
+reads from any collection in this database. See the
+documentation for <span class="extype" name="com.mongodb.ReadPreference">com.mongodb.ReadPreference</span> for more information.
+</p></div></div>
+    </li><li name="com.mongodb.casbah.MongoDB#getSisterDB" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getSisterDB(name:String):com.mongodb.casbah.MongoDB"></a>
+      <a id="getSisterDB(String):MongoDB"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getSisterDB</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.mongodb.casbah.MongoDB">MongoDB</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@getSisterDB(name:String):com.mongodb.casbah.MongoDB" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.mongodb.casbah.MongoDB#getStats" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getStats():com.mongodb.CommandResult"></a>
+      <a id="getStats():CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStats</span><span class="params">()</span><span class="result">: <span class="extype" name="com.mongodb.CommandResult">CommandResult</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@getStats():com.mongodb.CommandResult" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.mongodb.casbah.MongoDB#getWriteConcern" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getWriteConcern:com.mongodb.casbah.Imports.WriteConcern"></a>
+      <a id="getWriteConcern:Imports.WriteConcern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getWriteConcern</span><span class="result">: <a href="Imports$.html#WriteConcern=com.mongodb.WriteConcern" class="extmbr" name="com.mongodb.casbah.Imports.WriteConcern">Imports.WriteConcern</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@getWriteConcern:com.mongodb.casbah.Imports.WriteConcern" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">get the write concern for this database,
+which is used for writes to any collection in this database.</p><div class="fullcomment"><div class="comment cmt"><p>get the write concern for this database,
+which is used for writes to any collection in this database.
+See the documentation for <span class="extype" name="com.mongodb.WriteConcern">com.mongodb.WriteConcern</span> for more info.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>WriteConcern</p></span></dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#mapReduce" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="mapReduce(cmd:com.mongodb.casbah.map_reduce.MapReduceCommand):com.mongodb.casbah.map_reduce.MapReduceResult"></a>
+      <a id="mapReduce(map_reduce.MapReduceCommand):MapReduceResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mapReduce</span><span class="params">(<span name="cmd">cmd: <a href="map_reduce/MapReduceCommand.html" class="extype" name="com.mongodb.casbah.map_reduce.MapReduceCommand">map_reduce.MapReduceCommand</a></span>)</span><span class="result">: <a href="map_reduce/MapReduceResult.html" class="extype" name="com.mongodb.casbah.map_reduce.MapReduceResult">MapReduceResult</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@mapReduce(cmd:com.mongodb.casbah.map_reduce.MapReduceCommand):com.mongodb.casbah.map_reduce.MapReduceResult" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">The Java Driver is a bit outdated and is missing the finalize option.</p><div class="fullcomment"><div class="comment cmt"><p>The Java Driver is a bit outdated and is missing the finalize option.
+Additionally, it returns ZERO information about the actual results of the mapreduce,
+just a cursor to the result collection.
+This is less than ideal.  So I've wrapped it in something more useful.
+</p></div><dl class="paramcmts block"><dt class="param">cmd</dt><dd class="cmt"><p>An instance of MapReduceCommand representing the required MapReduce</p></dd><dt>returns</dt><dd class="cmt"><p>MapReduceResult a wrapped result object.  This contains the returns success, counts etc, but implements iterator and can be iterated directly</p></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#name" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="name:String"></a>
+      <a id="name:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">name</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@name:String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#options" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="options:Int"></a>
+      <a id="options:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">options</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@options:Int" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Manipulate Network Options
+</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Network Options
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mognodb.Bytes</p></span><span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#readPreference" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="readPreference:com.mongodb.casbah.Imports.ReadPreference"></a>
+      <a id="readPreference:Imports.ReadPreference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readPreference</span><span class="result">: <a href="Imports$.html#ReadPreference=com.mongodb.ReadPreference" class="extmbr" name="com.mongodb.casbah.Imports.ReadPreference">Imports.ReadPreference</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@readPreference:com.mongodb.casbah.Imports.ReadPreference" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Gets the read preference for this database.</p><div class="fullcomment"><div class="comment cmt"><p>Gets the read preference for this database. Will be used as default for
+reads from any collection in this database. See the
+documentation for <span class="extype" name="com.mongodb.ReadPreference">com.mongodb.ReadPreference</span> for more information.
+</p></div></div>
+    </li><li name="com.mongodb.casbah.MongoDB#readPreference_=" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readPreference_=(pref:com.mongodb.casbah.Imports.ReadPreference):Unit"></a>
+      <a id="readPreference_=(Imports.ReadPreference):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: readPreference_$eq" class="name">readPreference_=</span><span class="params">(<span name="pref">pref: <a href="Imports$.html#ReadPreference=com.mongodb.ReadPreference" class="extmbr" name="com.mongodb.casbah.Imports.ReadPreference">Imports.ReadPreference</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@readPreference_=(pref:com.mongodb.casbah.Imports.ReadPreference):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.mongodb.casbah.MongoDB#resetOptions" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="resetOptions():Unit"></a>
+      <a id="resetOptions():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resetOptions</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@resetOptions():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Manipulate Network Options
+</p><div class="fullcomment"><div class="comment cmt"><p>Manipulate Network Options
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>com.mongodb.Bytes</p></span><span class="cmt"><p>com.mongodb.Mongo</p></span></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#setReadPreference" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setReadPreference(pref:com.mongodb.casbah.Imports.ReadPreference):Unit"></a>
+      <a id="setReadPreference(Imports.ReadPreference):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setReadPreference</span><span class="params">(<span name="pref">pref: <a href="Imports$.html#ReadPreference=com.mongodb.ReadPreference" class="extmbr" name="com.mongodb.casbah.Imports.ReadPreference">Imports.ReadPreference</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@setReadPreference(pref:com.mongodb.casbah.Imports.ReadPreference):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Sets the read preference for this database.</p><div class="fullcomment"><div class="comment cmt"><p>Sets the read preference for this database. Will be used as default for
+reads from any collection in this database. See the
+documentation for <span class="extype" name="com.mongodb.ReadPreference">com.mongodb.ReadPreference</span> for more information.
+</p></div><dl class="paramcmts block"><dt class="param">pref</dt><dd class="cmt"><p>Read Preference to use</p></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#setWriteConcern" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setWriteConcern(concern:com.mongodb.casbah.Imports.WriteConcern):Unit"></a>
+      <a id="setWriteConcern(Imports.WriteConcern):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setWriteConcern</span><span class="params">(<span name="concern">concern: <a href="Imports$.html#WriteConcern=com.mongodb.WriteConcern" class="extmbr" name="com.mongodb.casbah.Imports.WriteConcern">Imports.WriteConcern</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@setWriteConcern(concern:com.mongodb.casbah.Imports.WriteConcern):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set the write concern for this database.</p><div class="fullcomment"><div class="comment cmt"><p>Set the write concern for this database.
+Will be used for writes to any collection in this database.
+See the documentation for <span class="extype" name="com.mongodb.WriteConcern">com.mongodb.WriteConcern</span> for more info.
+</p></div><dl class="paramcmts block"><dt class="param">concern</dt><dd class="cmt"><p>(WriteConcern) The write concern to use</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/</p></span><span class="cmt"><p>WriteConcern</p></span></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#stats" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="stats():com.mongodb.CommandResult"></a>
+      <a id="stats():CommandResult"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stats</span><span class="params">()</span><span class="result">: <span class="extype" name="com.mongodb.CommandResult">CommandResult</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@stats():com.mongodb.CommandResult" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@toString():String" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.mongodb.casbah.MongoDB">MongoDB</a> → AnyRef → Any</dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#underlying" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="underlying:com.mongodb.DB"></a>
+      <a id="underlying:DB"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">underlying</span><span class="result">: <span class="extype" name="com.mongodb.DB">DB</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@underlying:com.mongodb.DB" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#writeConcern" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="writeConcern:com.mongodb.casbah.Imports.WriteConcern"></a>
+      <a id="writeConcern:Imports.WriteConcern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">writeConcern</span><span class="result">: <a href="Imports$.html#WriteConcern=com.mongodb.WriteConcern" class="extmbr" name="com.mongodb.casbah.Imports.WriteConcern">Imports.WriteConcern</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@writeConcern:com.mongodb.casbah.Imports.WriteConcern" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">get the write concern for this database,
+which is used for writes to any collection in this database.</p><div class="fullcomment"><div class="comment cmt"><p>get the write concern for this database,
+which is used for writes to any collection in this database.
+See the documentation for <span class="extype" name="com.mongodb.WriteConcern">com.mongodb.WriteConcern</span> for more info.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/</p></span><span class="cmt"><p>WriteConcern</p></span></dd></dl></div>
+    </li><li name="com.mongodb.casbah.MongoDB#writeConcern_=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="writeConcern_=(concern:com.mongodb.casbah.Imports.WriteConcern):Unit"></a>
+      <a id="writeConcern_=(Imports.WriteConcern):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: writeConcern_$eq" class="name">writeConcern_=</span><span class="params">(<span name="concern">concern: <a href="Imports$.html#WriteConcern=com.mongodb.WriteConcern" class="extmbr" name="com.mongodb.casbah.Imports.WriteConcern">Imports.WriteConcern</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@writeConcern_=(concern:com.mongodb.casbah.Imports.WriteConcern):Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Set the write concern for this database.</p><div class="fullcomment"><div class="comment cmt"><p>Set the write concern for this database.
+Will be used for writes to any collection in this database.
+See the documentation for <span class="extype" name="com.mongodb.WriteConcern">com.mongodb.WriteConcern</span> for more info.
+</p></div><dl class="paramcmts block"><dt class="param">concern</dt><dd class="cmt"><p>(WriteConcern) The write concern to use</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.thebuzzmedia.com/mongodb-single-server-data-durability-guide/</p></span><span class="cmt"><p>WriteConcern</p></span></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="com.mongodb.casbah.MongoDB#slaveOk" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="slaveOk():Unit"></a>
+      <a id="slaveOk():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version 2.3.0) Replaced with ReadPreference.SECONDARY.">slaveOk</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.mongodb.casbah.MongoDB@slaveOk():Unit" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Sets queries to be OK to run on slave nodes.</p><div class="fullcomment"><div class="comment cmt"><p>Sets queries to be OK to run on slave nodes.
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+                <span class="name">@SuppressWarnings</span><span class="args">()</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 2.3.0)</i> Replaced with ReadPreference.SECONDARY.</p></dd></dl></div>
+    </li></ol>
+            </div>
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

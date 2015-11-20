@@ -1,0 +1,542 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>MongoConversionHelper - Casbah Driver - com.mongodb.casbah.commons.conversions.MongoConversionHelper</title>
+          <meta name="description" content="MongoConversionHelper - Casbah Driver - com.mongodb.casbah.commons.conversions.MongoConversionHelper" />
+          <meta name="keywords" content="MongoConversionHelper Casbah Driver com.mongodb.casbah.commons.conversions.MongoConversionHelper" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../../../lib/diagrams.js" id="diagrams-js"></script>
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../index.html';
+            var hash = 'com.mongodb.casbah.commons.conversions.MongoConversionHelper';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img alt="Trait" src="../../../../../lib/trait_big.png" />
+        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.mongodb">mongodb</a>.<a href="../../package.html" class="extype" name="com.mongodb.casbah">casbah</a>.<a href="../package.html" class="extype" name="com.mongodb.casbah.commons">commons</a>.<a href="package.html" class="extype" name="com.mongodb.casbah.commons.conversions">conversions</a></p>
+        <h1>MongoConversionHelper</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="com.mongodb.casbah.commons.conversions">package conversions</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MongoConversionHelper</span><span class="result"> extends <a href="../Logging.html" class="extype" name="com.mongodb.casbah.commons.Logging">Logging</a></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><a href="../Logging.html" class="extype" name="com.mongodb.casbah.commons.Logging">Logging</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="scala/DeregisterConversionHelpers$.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.DeregisterConversionHelpers">DeregisterConversionHelpers</a>, <a href="scala/DeregisterJodaLocalDateTimeConversionHelpers$.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.DeregisterJodaLocalDateTimeConversionHelpers">DeregisterJodaLocalDateTimeConversionHelpers</a>, <a href="scala/DeregisterJodaTimeConversionHelpers$.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.DeregisterJodaTimeConversionHelpers">DeregisterJodaTimeConversionHelpers</a>, <a href="scala/Deserializers.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.Deserializers">Deserializers</a>, <a href="scala/JodaDateTimeDeserializer.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeDeserializer">JodaDateTimeDeserializer</a>, <a href="scala/JodaDateTimeHelpers.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeHelpers">JodaDateTimeHelpers</a>, <a href="scala/JodaDateTimeSerializer.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeSerializer">JodaDateTimeSerializer</a>, <a href="scala/JodaLocalDateTimeDeserializer.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeDeserializer">JodaLocalDateTimeDeserializer</a>, <a href="scala/JodaLocalDateTimeHelpers.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeHelpers">JodaLocalDateTimeHelpers</a>, <a href="scala/JodaLocalDateTimeSerializer.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeSerializer">JodaLocalDateTimeSerializer</a>, <a href="scala/OptionSerializer.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.OptionSerializer">OptionSerializer</a>, <a href="scala/RegisterConversionHelpers$.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.RegisterConversionHelpers">RegisterConversionHelpers</a>, <a href="scala/RegisterJodaLocalDateTimeConversionHelpers$.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.RegisterJodaLocalDateTimeConversionHelpers">RegisterJodaLocalDateTimeConversionHelpers</a>, <a href="scala/RegisterJodaTimeConversionHelpers$.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.RegisterJodaTimeConversionHelpers">RegisterJodaTimeConversionHelpers</a>, <a href="scala/ScalaCollectionSerializer.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.ScalaCollectionSerializer">ScalaCollectionSerializer</a>, <a href="scala/ScalaProductSerializer.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.ScalaProductSerializer">ScalaProductSerializer</a>, <a href="scala/ScalaRegexSerializer.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.ScalaRegexSerializer">ScalaRegexSerializer</a>, <a href="scala/Serializers.html" class="extype" name="com.mongodb.casbah.commons.conversions.scala.Serializers">Serializers</a></div>
+          </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+                <span class="toggle diagram-link">Type Hierarchy</span>
+                <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 1584.50 155.00" height="155pt" width="1585pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 151)" class="graph" id="graph0"><polygon points="-4,4 -4,-151 1580.5,-151 1580.5,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="com.mongodb.casbah.commons.conversions.MongoConversionHelper (this trait)" xlink:href="#inheritance-diagram"><polygon points="915.5,-86 761.5,-86 761.5,-61 915.5,-61 915.5,-86" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-80.5" x="771.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="792.303" text-anchor="start">MongoConversionHelper</text></a></g></g><!-- node1 --><g class="node trait" id="graph1_1"><g id="a_trait|graph1_1"><a xlink:title="com.mongodb.casbah.commons.conversions.scala.Deserializers" xlink:href="scala/Deserializers.html#inheritance-diagram"><polygon points="101,-25 0,-25 0,-0 101,-0 101,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="31.2144" text-anchor="start">Deserializers</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph1_0_1"><g id="a_inheritance|graph1_0_1"><a xlink:title="Deserializers is a subtype of MongoConversionHelper"><path d="M756.153,-70.5509C620.747,-66.5811 342.81,-55.2138 109.5,-25 106.809,-24.6515 104.056,-24.2552 101.282,-23.8244" stroke="#d4d4d4" fill="none"></path><polygon points="756.256,-72.3045 761.305,-70.7004 756.358,-68.806 756.256,-72.3045" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph1_2"><g id="a_trait|graph1_2"><a xlink:title="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeDeserializer" xlink:href="scala/JodaDateTimeDeserializer.html#inheritance-diagram"><polygon points="280,-25 119,-25 119,-0 280,-0 280,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="129.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="150.385" text-anchor="start">JodaDateTimeDeserializer</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge inheritance" id="graph1_0_2"><g id="a_inheritance|graph1_0_2"><a xlink:title="JodaDateTimeDeserializer is a subtype of MongoConversionHelper"><path d="M756.071,-66.4218C648.583,-58.2544 454.771,-42.7013 289.5,-25 286.524,-24.6813 283.494,-24.3465 280.435,-23.9998" stroke="#d4d4d4" fill="none"></path><polygon points="756.005,-68.1718 761.123,-66.8051 756.27,-64.6818 756.005,-68.1718" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node trait" id="graph1_3"><g id="a_trait|graph1_3"><a xlink:title="com.mongodb.casbah.commons.conversions.scala.JodaDateTimeSerializer" xlink:href="scala/JodaDateTimeSerializer.html#inheritance-diagram"><polygon points="448.5,-25 298.5,-25 298.5,-0 448.5,-0 448.5,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="308.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="329.442" text-anchor="start">JodaDateTimeSerializer</text></a></g></g><!-- node0&#45;&gt;node3 --><g class="edge inheritance" id="graph1_0_3"><g id="a_inheritance|graph1_0_3"><a xlink:title="JodaDateTimeSerializer is a subtype of MongoConversionHelper"><path d="M756.455,-62.5605C679.272,-53.1413 560.495,-38.47 457.5,-25 454.581,-24.6182 451.605,-24.2259 448.6,-23.8271" stroke="#d4d4d4" fill="none"></path><polygon points="756.304,-64.3048 761.479,-63.1732 756.727,-60.8306 756.304,-64.3048" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node4 --><g class="node trait" id="graph1_4"><g id="a_trait|graph1_4"><a xlink:title="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeDeserializer" xlink:href="scala/JodaLocalDateTimeDeserializer.html#inheritance-diagram"><polygon points="652,-25 467,-25 467,-0 652,-0 652,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="477.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="498.432" text-anchor="start">JodaLocalDateTimeDeserializer</text></a></g></g><!-- node0&#45;&gt;node4 --><g class="edge inheritance" id="graph1_0_4"><g id="a_inheritance|graph1_0_4"><a xlink:title="JodaLocalDateTimeDeserializer is a subtype of MongoConversionHelper"><path d="M779.089,-59.9365C730.309,-49.6209 661.77,-35.1271 614.295,-25.0875" stroke="#d4d4d4" fill="none"></path><polygon points="778.79,-61.6617 784.044,-60.9841 779.514,-58.2375 778.79,-61.6617" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node5 --><g class="node trait" id="graph1_5"><g id="a_trait|graph1_5"><a xlink:title="com.mongodb.casbah.commons.conversions.scala.JodaLocalDateTimeSerializer" xlink:href="scala/JodaLocalDateTimeSerializer.html#inheritance-diagram"><polygon points="844.5,-25 670.5,-25 670.5,-0 844.5,-0 844.5,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="680.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="701.489" text-anchor="start">JodaLocalDateTimeSerializer</text></a></g></g><!-- node0&#45;&gt;node5 --><g class="edge inheritance" id="graph1_0_5"><g id="a_inheritance|graph1_0_5"><a xlink:title="JodaLocalDateTimeSerializer is a subtype of MongoConversionHelper"><path d="M818.344,-57.8185C804.484,-47.7228 786.33,-34.4995 773.47,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="817.425,-59.3142 822.497,-60.8435 819.486,-56.4851 817.425,-59.3142" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6 --><g class="node trait" id="graph1_6"><g id="a_trait|graph1_6"><a xlink:title="com.mongodb.casbah.commons.conversions.scala.OptionSerializer" xlink:href="scala/OptionSerializer.html#inheritance-diagram"><polygon points="976.5,-25 862.5,-25 862.5,-0 976.5,-0 976.5,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="872.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="893.04" text-anchor="start">OptionSerializer</text></a></g></g><!-- node0&#45;&gt;node6 --><g class="edge inheritance" id="graph1_0_6"><g id="a_inheritance|graph1_0_6"><a xlink:title="OptionSerializer is a subtype of MongoConversionHelper"><path d="M858.656,-57.8185C872.516,-47.7228 890.67,-34.4995 903.53,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="857.514,-56.4851 854.503,-60.8435 859.575,-59.3142 857.514,-56.4851" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node7 --><g class="node trait" id="graph1_7"><g id="a_trait|graph1_7"><a xlink:title="com.mongodb.casbah.commons.conversions.scala.ScalaCollectionSerializer" xlink:href="scala/ScalaCollectionSerializer.html#inheritance-diagram"><polygon points="1148.5,-25 994.5,-25 994.5,-0 1148.5,-0 1148.5,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="1004.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="1025.31" text-anchor="start">ScalaCollectionSerializer</text></a></g></g><!-- node0&#45;&gt;node7 --><g class="edge inheritance" id="graph1_0_7"><g id="a_inheritance|graph1_0_7"><a xlink:title="ScalaCollectionSerializer is a subtype of MongoConversionHelper"><path d="M888.858,-59.7485C929.546,-49.4454 986.332,-35.0662 1025.74,-25.0875" stroke="#d4d4d4" fill="none"></path><polygon points="888.395,-58.0603 883.978,-60.9841 889.254,-61.4532 888.395,-58.0603" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node8 --><g class="node trait" id="graph1_8"><g id="a_trait|graph1_8"><a xlink:title="com.mongodb.casbah.commons.conversions.scala.ScalaProductSerializer" xlink:href="scala/ScalaProductSerializer.html#inheritance-diagram"><polygon points="1310.5,-25 1166.5,-25 1166.5,-0 1310.5,-0 1310.5,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="1176.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="1197.03" text-anchor="start">ScalaProductSerializer</text></a></g></g><!-- node0&#45;&gt;node8 --><g class="edge inheritance" id="graph1_0_8"><g id="a_inheritance|graph1_0_8"><a xlink:title="ScalaProductSerializer is a subtype of MongoConversionHelper"><path d="M920.773,-60.3647C993.064,-49.7019 1097.22,-34.3393 1166.32,-24.146" stroke="#d4d4d4" fill="none"></path><polygon points="920.315,-58.6632 915.624,-61.1242 920.826,-62.1258 920.315,-58.6632" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node9 --><g class="node trait" id="graph1_9"><g id="a_trait|graph1_9"><a xlink:title="com.mongodb.casbah.commons.conversions.scala.ScalaRegexSerializer" xlink:href="scala/ScalaRegexSerializer.html#inheritance-diagram"><polygon points="1468,-25 1329,-25 1329,-0 1468,-0 1468,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="1339.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="1360.31" text-anchor="start">ScalaRegexSerializer</text></a></g></g><!-- node0&#45;&gt;node9 --><g class="edge inheritance" id="graph1_0_9"><g id="a_inheritance|graph1_0_9"><a xlink:title="ScalaRegexSerializer is a subtype of MongoConversionHelper"><path d="M920.76,-65.5394C1016.63,-57.1575 1179.77,-42.0598 1319.5,-25 1322.53,-24.6305 1325.62,-24.2395 1328.74,-23.8335" stroke="#d4d4d4" fill="none"></path><polygon points="920.508,-63.8047 915.679,-65.9828 920.812,-67.2914 920.508,-63.8047" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node10 --><g class="node trait" id="graph1_10"><g id="a_trait|graph1_10"><a xlink:title="com.mongodb.casbah.commons.conversions.scala.Serializers" xlink:href="scala/Serializers.html#inheritance-diagram"><polygon points="1576.5,-25 1486.5,-25 1486.5,-0 1576.5,-0 1576.5,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="1496.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="1517.27" text-anchor="start">Serializers</text></a></g></g><!-- node0&#45;&gt;node10 --><g class="edge inheritance" id="graph1_0_10"><g id="a_inheritance|graph1_0_10"><a xlink:title="Serializers is a subtype of MongoConversionHelper"><path d="M920.592,-69.9581C1042.59,-65.3769 1278.73,-53.4195 1477.5,-25 1480.35,-24.593 1483.27,-24.1235 1486.21,-23.6116" stroke="#d4d4d4" fill="none"></path><polygon points="920.516,-68.2096 915.585,-70.1443 920.647,-71.7071 920.516,-68.2096" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node11 --><g class="node trait" id="graph1_11"><g id="a_trait|graph1_11"><a xlink:title="com.mongodb.casbah.commons.Logging" xlink:href="../Logging.html#inheritance-diagram"><polygon points="878,-147 799,-147 799,-122 878,-122 878,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="809.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="830.315" text-anchor="start">Logging</text></a></g></g><!-- node11&#45;&gt;node0 --><g class="edge inheritance" id="graph1_11_0"><g id="a_inheritance|graph1_11_0"><a xlink:title="MongoConversionHelper is a subtype of Logging"><path d="M838.5,-116.687C838.5,-106.917 838.5,-94.8534 838.5,-86.1323" stroke="#d4d4d4" fill="none"></path><polygon points="836.75,-116.843 838.5,-121.843 840.25,-116.844 836.75,-116.843" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+              </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="com.mongodb.casbah.commons.conversions.MongoConversionHelper"><span>MongoConversionHelper</span></li><li class="in" name="com.mongodb.casbah.commons.Logging"><span>Logging</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@##():Int" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.mongodb.casbah.commons.Logging#log" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="log:com.mongodb.casbah.commons.Logger"></a>
+      <a id="log:Logger"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">log</span><span class="result">: <a href="../Logger.html" class="extype" name="com.mongodb.casbah.commons.Logger">Logger</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@log:com.mongodb.casbah.commons.Logger" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../package.html" class="extype" name="com.mongodb.casbah">com.mongodb.casbah</a>] </dd><dt>Definition Classes</dt><dd><a href="../Logging.html" class="extype" name="com.mongodb.casbah.commons.Logging">Logging</a></dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.mongodb.casbah.commons.conversions.MongoConversionHelper#register" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="register():Unit"></a>
+      <a id="register():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">register</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@register():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@toString():String" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.mongodb.casbah.commons.conversions.MongoConversionHelper#unregister" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="unregister():Unit"></a>
+      <a id="unregister():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">unregister</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@unregister():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.commons.conversions.MongoConversionHelper@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="com.mongodb.casbah.commons.Logging">
+              <h3>Inherited from <a href="../Logging.html" class="extype" name="com.mongodb.casbah.commons.Logging">Logging</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
