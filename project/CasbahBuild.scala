@@ -28,7 +28,7 @@ object CasbahBuild extends Build {
   val buildSettings = Seq(
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
-    version := "3.0.1-SNAPSHOT",
+    version := "3.1.0-rc0",
     scalaVersion := "2.11.7",
     crossScalaVersions := Seq("2.11.7", "2.10.5", "2.12.0-M2"),
     resolvers := casbahResolvers,
