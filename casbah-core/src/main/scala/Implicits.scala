@@ -185,6 +185,7 @@ trait TypeImports {
   type CommandCursor = com.mongodb.casbah.Cursor
   type AggregationOptions = com.mongodb.AggregationOptions
   type WriteConcern = com.mongodb.WriteConcern
+  type ReadConcern = com.mongodb.ReadConcern
   type WriteResult = com.mongodb.WriteResult
   type MapReduceCommand = com.mongodb.casbah.map_reduce.MapReduceCommand
   type MapReduceResult = com.mongodb.casbah.map_reduce.MapReduceResult

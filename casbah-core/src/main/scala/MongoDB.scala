@@ -196,12 +196,12 @@ class MongoDB(val underlying: com.mongodb.DB) {
    */
   def writeConcern: WriteConcern = getWriteConcern
 
-  /*
+  /**
    * Sets the read preference for this database. Will be used as default for
    * reads from any collection in this database. See the
    * documentation for [[com.mongodb.ReadPreference]] for more information.
    *
-   * @param preference Read Preference to use
+   * @param pref Read Preference to use
    */
   def readPreference_=(pref: ReadPreference): Unit = setReadPreference(pref)
 
