@@ -261,6 +261,8 @@ object MongoDBObject {
 
   def empty: DBObject = new MongoDBObject()
 
+  def apply(json: String): DBObject = com.mongodb.BasicDBObject.parse(json)
+
   def apply[A <: String, B <: Any](elems: (A, B)*): DBObject = (newBuilder[A, B] ++= elems).result()
 
   def apply[A <: String, B <: Any](elems: List[(A, B)]): DBObject = apply(elems: _*)

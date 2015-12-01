@@ -1,0 +1,511 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>ValidBSONType - Casbah Driver - com.mongodb.casbah.commons.ValidBSONType</title>
+          <meta name="description" content="ValidBSONType - Casbah Driver - com.mongodb.casbah.commons.ValidBSONType" />
+          <meta name="keywords" content="ValidBSONType Casbah Driver com.mongodb.casbah.commons.ValidBSONType" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../../lib/diagrams.js" id="diagrams-js"></script>
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../index.html';
+            var hash = 'com.mongodb.casbah.commons.ValidBSONType';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <a href="ValidBSONType$.html" title="See companion object"><img alt="Class/Object" src="../../../../lib/class_to_object_big.png" /></a>
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.mongodb">mongodb</a>.<a href="../package.html" class="extype" name="com.mongodb.casbah">casbah</a>.<a href="package.html" class="extype" name="com.mongodb.casbah.commons">commons</a></p>
+        <h1><a href="ValidBSONType$.html" title="See companion object">ValidBSONType</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="ValidBSONType$.html" title="See companion object">object ValidBSONType</a>
+            | <a href="package.html" class="extype" name="com.mongodb.casbah.commons">package commons</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ValidBSONType</span><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="ValidBSONType$$BSONObject$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.BSONObject">BSONObject</a>, <a href="ValidBSONType$$BSONTimestamp$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.BSONTimestamp">BSONTimestamp</a>, <a href="ValidBSONType$$BasicBSONList$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.BasicBSONList">BasicBSONList</a>, <a href="ValidBSONType$$BasicDBList$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.BasicDBList">BasicDBList</a>, <a href="ValidBSONType$$BasicDBObject$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.BasicDBObject">BasicDBObject</a>, <a href="ValidBSONType$$Binary$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.Binary">Binary</a>, <a href="ValidBSONType$$Code$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.Code">Code</a>, <a href="ValidBSONType$$CodeWScope$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.CodeWScope">CodeWScope</a>, <a href="ValidBSONType$$DBObject$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.DBObject">DBObject</a>, <a href="ValidBSONType$$ObjectId$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.ObjectId">ObjectId</a>, <a href="ValidBSONType$$Symbol$.html" class="extype" name="com.mongodb.casbah.commons.ValidBSONType.Symbol">Symbol</a></div>
+          </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+                <span class="toggle diagram-link">Type Hierarchy</span>
+                <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 1443.00 155.00" height="155pt" width="1443pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 151)" class="graph" id="graph0"><polygon points="-4,4 -4,-151 1439,-151 1439,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType (this class)" xlink:href="#inheritance-diagram"><polygon points="880.5,-86 754.5,-86 754.5,-61 880.5,-61 880.5,-86" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-80.5" x="764.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="785.021" text-anchor="start">ValidBSONType[T]</text></a></g></g><!-- node1 --><g class="node object" id="graph1_1"><g id="a_object|graph1_1"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.BSONObject" xlink:href="ValidBSONType$$BSONObject$.html#inheritance-diagram"><polygon points="101,-25 0,-25 0,-0 101,-0 101,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="10.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="31.4902" text-anchor="start">BSONObject</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph1_0_1"><g id="a_inheritance|graph1_0_1"><a xlink:title="BSONObject is a subtype of ValidBSONType[T]"><path d="M749.074,-70.7623C622.391,-66.9128 342.944,-55.4595 109.5,-25 106.809,-24.6489 104.057,-24.2506 101.283,-23.8181" stroke="#d4d4d4" fill="none"></path><polygon points="749.203,-72.5169 754.254,-70.9181 749.308,-69.0185 749.203,-72.5169" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node object" id="graph1_2"><g id="a_object|graph1_2"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.BSONTimestamp" xlink:href="ValidBSONType$$BSONTimestamp$.html#inheritance-diagram"><polygon points="240,-25 119,-25 119,-0 240,-0 240,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="129.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="150.4" text-anchor="start">BSONTimestamp</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge inheritance" id="graph1_0_2"><g id="a_inheritance|graph1_0_2"><a xlink:title="BSONTimestamp is a subtype of ValidBSONType[T]"><path d="M749.286,-68.5513C642.462,-61.9722 429.309,-47.2528 249.5,-25 246.444,-24.6218 243.318,-24.2079 240.164,-23.7687" stroke="#d4d4d4" fill="none"></path><polygon points="749.194,-70.2988 754.292,-68.8584 749.409,-66.8054 749.194,-70.2988" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node object" id="graph1_3"><g id="a_object|graph1_3"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.BasicBSONList" xlink:href="ValidBSONType$$BasicBSONList$.html#inheritance-diagram"><polygon points="370.5,-25 258.5,-25 258.5,-0 370.5,-0 370.5,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="268.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="289.434" text-anchor="start">BasicBSONList</text></a></g></g><!-- node0&#45;&gt;node3 --><g class="edge inheritance" id="graph1_0_3"><g id="a_inheritance|graph1_0_3"><a xlink:title="BasicBSONList is a subtype of ValidBSONType[T]"><path d="M749.151,-66.5193C662.82,-58.6365 509.797,-43.5701 379.5,-25 376.664,-24.5958 373.761,-24.1608 370.833,-23.705" stroke="#d4d4d4" fill="none"></path><polygon points="749.092,-68.2711 754.23,-66.9818 749.409,-64.7855 749.092,-68.2711" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node4 --><g class="node object" id="graph1_4"><g id="a_object|graph1_4"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.BasicDBList" xlink:href="ValidBSONType$$BasicDBList$.html#inheritance-diagram"><polygon points="560,-25 389,-25 389,-0 560,-0 560,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="399.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="420.012" text-anchor="start">ValidBSONType.BasicDBList</text></a></g></g><!-- node0&#45;&gt;node4 --><g class="edge inheritance" id="graph1_0_4"><g id="a_inheritance|graph1_0_4"><a xlink:title="ValidBSONType.BasicDBList is a subtype of ValidBSONType[T]"><path d="M749.168,-60.7461C688.859,-50.3723 601.463,-35.339 541.544,-25.0323" stroke="#d4d4d4" fill="none"></path><polygon points="748.964,-62.4867 754.189,-61.6097 749.558,-59.0374 748.964,-62.4867" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node5 --><g class="node object" id="graph1_5"><g id="a_object|graph1_5"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.BasicDBObject" xlink:href="ValidBSONType$$BasicDBObject$.html#inheritance-diagram"><polygon points="763,-25 578,-25 578,-0 763,-0 763,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="588.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="609.342" text-anchor="start">ValidBSONType.BasicDBObject</text></a></g></g><!-- node0&#45;&gt;node5 --><g class="edge inheritance" id="graph1_0_5"><g id="a_inheritance|graph1_0_5"><a xlink:title="ValidBSONType.BasicDBObject is a subtype of ValidBSONType[T]"><path d="M784.152,-59.1152C758.607,-48.8627 723.727,-34.8634 699.37,-25.0875" stroke="#d4d4d4" fill="none"></path><polygon points="783.516,-60.7458 788.808,-60.9841 784.82,-57.4976 783.516,-60.7458" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6 --><g class="node object" id="graph1_6"><g id="a_object|graph1_6"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.Binary" xlink:href="ValidBSONType$$Binary$.html#inheritance-diagram"><polygon points="853.5,-25 781.5,-25 781.5,-0 853.5,-0 853.5,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="791.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="812.438" text-anchor="start">Binary</text></a></g></g><!-- node0&#45;&gt;node6 --><g class="edge inheritance" id="graph1_0_6"><g id="a_inheritance|graph1_0_6"><a xlink:title="Binary is a subtype of ValidBSONType[T]"><path d="M817.5,-55.6874C817.5,-45.9173 817.5,-33.8534 817.5,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="815.75,-55.8435 817.5,-60.8435 819.25,-55.8435 815.75,-55.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node7 --><g class="node object" id="graph1_7"><g id="a_object|graph1_7"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.Code" xlink:href="ValidBSONType$$Code$.html#inheritance-diagram"><polygon points="939,-25 872,-25 872,-0 939,-0 939,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="882.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="903.158" text-anchor="start">Code</text></a></g></g><!-- node0&#45;&gt;node7 --><g class="edge inheritance" id="graph1_0_7"><g id="a_inheritance|graph1_0_7"><a xlink:title="Code is a subtype of ValidBSONType[T]"><path d="M839.398,-57.8185C854.456,-47.7228 874.179,-34.4995 888.15,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="838.064,-56.6055 834.886,-60.8435 840.014,-59.5126 838.064,-56.6055" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node8 --><g class="node object" id="graph1_8"><g id="a_object|graph1_8"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.CodeWScope" xlink:href="ValidBSONType$$CodeWScope$.html#inheritance-diagram"><polygon points="1062,-25 957,-25 957,-0 1062,-0 1062,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="967.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="988.261" text-anchor="start">CodeWScope</text></a></g></g><!-- node0&#45;&gt;node8 --><g class="edge inheritance" id="graph1_0_8"><g id="a_inheritance|graph1_0_8"><a xlink:title="CodeWScope is a subtype of ValidBSONType[T]"><path d="M859.817,-59.4964C893.285,-49.2119 939.582,-34.9851 971.792,-25.0875" stroke="#d4d4d4" fill="none"></path><polygon points="859.241,-57.8426 854.975,-60.9841 860.269,-61.1882 859.241,-57.8426" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node9 --><g class="node object" id="graph1_9"><g id="a_object|graph1_9"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.DBObject" xlink:href="ValidBSONType$$DBObject$.html#inheritance-diagram"><polygon points="1240.5,-25 1080.5,-25 1080.5,-0 1240.5,-0 1240.5,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="1090.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="1111.07" text-anchor="start">ValidBSONType.DBObject</text></a></g></g><!-- node0&#45;&gt;node9 --><g class="edge inheritance" id="graph1_0_9"><g id="a_inheritance|graph1_0_9"><a xlink:title="ValidBSONType.DBObject is a subtype of ValidBSONType[T]"><path d="M885.832,-60.7461C946.141,-50.3723 1033.54,-35.339 1093.46,-25.0323" stroke="#d4d4d4" fill="none"></path><polygon points="885.442,-59.0374 880.811,-61.6097 886.036,-62.4867 885.442,-59.0374" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node10 --><g class="node object" id="graph1_10"><g id="a_object|graph1_10"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.ObjectId" xlink:href="ValidBSONType$$ObjectId$.html#inheritance-diagram"><polygon points="1340,-25 1259,-25 1259,-0 1340,-0 1340,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="1269.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="1290.49" text-anchor="start">ObjectId</text></a></g></g><!-- node0&#45;&gt;node10 --><g class="edge inheritance" id="graph1_0_10"><g id="a_inheritance|graph1_0_10"><a xlink:title="ObjectId is a subtype of ValidBSONType[T]"><path d="M885.806,-67.4642C971.252,-60.5974 1121.86,-46.6208 1249.5,-25 1252.57,-24.4794 1255.74,-23.8861 1258.92,-23.2499" stroke="#d4d4d4" fill="none"></path><polygon points="885.623,-65.7232 880.778,-67.8661 885.901,-69.212 885.623,-65.7232" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node11 --><g class="node object" id="graph1_11"><g id="a_object|graph1_11"><a xlink:title="com.mongodb.casbah.commons.ValidBSONType.Symbol" xlink:href="ValidBSONType$$Symbol$.html#inheritance-diagram"><polygon points="1435,-25 1358,-25 1358,-0 1435,-0 1435,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../lib/object_diagram.png" y="-19.5" x="1368.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="1389.44" text-anchor="start">Symbol</text></a></g></g><!-- node0&#45;&gt;node11 --><g class="edge inheritance" id="graph1_0_11"><g id="a_inheritance|graph1_0_11"><a xlink:title="Symbol is a subtype of ValidBSONType[T]"><path d="M885.603,-69.7111C987.197,-64.8091 1184.2,-52.4408 1349.5,-25 1352.23,-24.546 1355.05,-24.018 1357.87,-23.4425" stroke="#d4d4d4" fill="none"></path><polygon points="885.451,-67.9663 880.54,-69.953 885.618,-71.4623 885.451,-67.9663" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node12 --><g class="node class" id="graph1_12"><g id="a_class|graph1_12"><a xlink:title="scala.AnyRef"><polygon points="855.5,-147 779.5,-147 779.5,-122 855.5,-122 855.5,-147" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../lib/class_diagram.png" y="-141.5" x="789.5" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="810.214" text-anchor="start">AnyRef</text></a></g></g><!-- node12&#45;&gt;node0 --><g class="edge inheritance" id="graph1_12_0"><g id="a_inheritance|graph1_12_0"><a xlink:title="ValidBSONType[T] is a subtype of AnyRef"><path d="M817.5,-116.687C817.5,-106.917 817.5,-94.8534 817.5,-86.1323" stroke="#d4d4d4" fill="none"></path><polygon points="815.75,-116.843 817.5,-121.843 819.25,-116.844 815.75,-116.843" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+              </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="com.mongodb.casbah.commons.ValidBSONType"><span>ValidBSONType</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="com.mongodb.casbah.commons.ValidBSONType#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;():com.mongodb.casbah.commons.ValidBSONType[T]"></a>
+      <a id="&lt;init&gt;:ValidBSONType[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ValidBSONType</span><span class="params">()</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@&lt;init&gt;():com.mongodb.casbah.commons.ValidBSONType[T]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@##():Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@toString():String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.mongodb.casbah.commons.ValidBSONType@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

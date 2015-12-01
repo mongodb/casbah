@@ -1,0 +1,980 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>FluidQueryBarewordOps - Casbah Driver - com.mongodb.casbah.query.dsl.FluidQueryBarewordOps</title>
+          <meta name="description" content="FluidQueryBarewordOps - Casbah Driver - com.mongodb.casbah.query.dsl.FluidQueryBarewordOps" />
+          <meta name="keywords" content="FluidQueryBarewordOps Casbah Driver com.mongodb.casbah.query.dsl.FluidQueryBarewordOps" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../../../lib/diagrams.js" id="diagrams-js"></script>
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../index.html';
+            var hash = 'com.mongodb.casbah.query.dsl.FluidQueryBarewordOps';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img alt="Trait" src="../../../../../lib/trait_big.png" />
+        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.mongodb">mongodb</a>.<a href="../../package.html" class="extype" name="com.mongodb.casbah">casbah</a>.<a href="../package.html" class="extype" name="com.mongodb.casbah.query">query</a>.<a href="package.html" class="extype" name="com.mongodb.casbah.query.dsl">dsl</a></p>
+        <h1>FluidQueryBarewordOps</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="com.mongodb.casbah.query.dsl">package dsl</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">FluidQueryBarewordOps</span><span class="result"> extends <a href="SetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SetOp">SetOp</a> with <a href="SetOnInsertOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SetOnInsertOp">SetOnInsertOp</a> with <a href="UnsetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.UnsetOp">UnsetOp</a> with <a href="IncOp.html" class="extype" name="com.mongodb.casbah.query.dsl.IncOp">IncOp</a> with <a href="MaxOp.html" class="extype" name="com.mongodb.casbah.query.dsl.MaxOp">MaxOp</a> with <a href="OrOp.html" class="extype" name="com.mongodb.casbah.query.dsl.OrOp">OrOp</a> with <a href="AndOp.html" class="extype" name="com.mongodb.casbah.query.dsl.AndOp">AndOp</a> with <a href="RenameOp.html" class="extype" name="com.mongodb.casbah.query.dsl.RenameOp">RenameOp</a> with <a href="ArrayOps.html" class="extype" name="com.mongodb.casbah.query.dsl.ArrayOps">ArrayOps</a> with <a href="NorOp.html" class="extype" name="com.mongodb.casbah.query.dsl.NorOp">NorOp</a> with <a href="BitOp.html" class="extype" name="com.mongodb.casbah.query.dsl.BitOp">BitOp</a> with <a href="WhereOp.html" class="extype" name="com.mongodb.casbah.query.dsl.WhereOp">WhereOp</a> with <a href="SearchOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SearchOp">SearchOp</a> with <a href="CurrentDateOp.html" class="extype" name="com.mongodb.casbah.query.dsl.CurrentDateOp">CurrentDateOp</a></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Aggregation object for Bareword Operators.
+Bareword operators stand on their own - they lack the requirement for an LValue.
+This mixes them in so they can be pulled down in a single import.</p><p>Typically, you want to follow the model Implicits does, and mix this in
+if you want to use it but not import Implicits
+</p></div><dl class="attributes block"> <dt>Since</dt><dd><p>1.0</p></dd><dt>See also</dt><dd><span class="cmt"><p>com.mongodb.casbah.Implicits</p></span></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><a href="CurrentDateOp.html" class="extype" name="com.mongodb.casbah.query.dsl.CurrentDateOp">CurrentDateOp</a>, <a href="SearchOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SearchOp">SearchOp</a>, <a href="WhereOp.html" class="extype" name="com.mongodb.casbah.query.dsl.WhereOp">WhereOp</a>, <a href="BitOp.html" class="extype" name="com.mongodb.casbah.query.dsl.BitOp">BitOp</a>, <a href="NorOp.html" class="extype" name="com.mongodb.casbah.query.dsl.NorOp">NorOp</a>, <a href="ArrayOps.html" class="extype" name="com.mongodb.casbah.query.dsl.ArrayOps">ArrayOps</a>, <a href="PullAllOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PullAllOp">PullAllOp</a>, <a href="PullOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PullOp">PullOp</a>, <a href="PopOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PopOp">PopOp</a>, <a href="AddToSetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.AddToSetOp">AddToSetOp</a>, <a href="PushAllOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PushAllOp">PushAllOp</a>, <a href="PushOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PushOp">PushOp</a>, <a href="RenameOp.html" class="extype" name="com.mongodb.casbah.query.dsl.RenameOp">RenameOp</a>, <a href="AndOp.html" class="extype" name="com.mongodb.casbah.query.dsl.AndOp">AndOp</a>, <a href="OrOp.html" class="extype" name="com.mongodb.casbah.query.dsl.OrOp">OrOp</a>, <a href="MaxOp.html" class="extype" name="com.mongodb.casbah.query.dsl.MaxOp">MaxOp</a>, <a href="IncOp.html" class="extype" name="com.mongodb.casbah.query.dsl.IncOp">IncOp</a>, <a href="UnsetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.UnsetOp">UnsetOp</a>, <a href="SetOnInsertOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SetOnInsertOp">SetOnInsertOp</a>, <a href="SetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SetOp">SetOp</a>, <a href="BarewordQueryOperator.html" class="extype" name="com.mongodb.casbah.query.dsl.BarewordQueryOperator">BarewordQueryOperator</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="../Imports.html" class="extype" name="com.mongodb.casbah.query.Imports">Imports</a>, <a href="../Imports$.html" class="extype" name="com.mongodb.casbah.query.Imports">Imports</a>, <a href="../../Imports$.html" class="extype" name="com.mongodb.casbah.Imports">Imports</a></div>
+          </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+                <span class="toggle diagram-link">Type Hierarchy</span>
+                <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 1403.50 155.00" height="155pt" width="1404pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 151)" class="graph" id="graph0"><polygon points="-4,4 -4,-151 1399.5,-151 1399.5,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="com.mongodb.casbah.query.dsl.FluidQueryBarewordOps (this trait)" xlink:href="#inheritance-diagram"><polygon points="752.5,-86 599.5,-86 599.5,-61 752.5,-61 752.5,-86" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-80.5" x="610" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.7495" x="630.589" text-anchor="start">FluidQueryBarewordOps</text></a></g></g><!-- node1 --><g class="node object" id="graph1_1"><g id="a_object|graph1_1"><a xlink:title="com.mongodb.casbah.Imports" xlink:href="../../Imports$.html#inheritance-diagram"><polygon points="676,-25 564,-25 564,-0 676,-0 676,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../../../lib/object_diagram.png" y="-19.5" x="574" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="594.929" text-anchor="start">casbah.Imports</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph1_0_1"><g id="a_inheritance|graph1_0_1"><a xlink:title="casbah.Imports is a subtype of FluidQueryBarewordOps"><path d="M661.316,-57.0291C651.836,-47.0415 639.702,-34.2572 631.041,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="660.225,-58.4217 664.936,-60.8435 662.763,-56.0122 660.225,-58.4217" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph1_2"><g id="a_trait|graph1_2"><a xlink:title="com.mongodb.casbah.query.Imports" xlink:href="../Imports.html#inheritance-diagram"><polygon points="771.5,-25 694.5,-25 694.5,-0 771.5,-0 771.5,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-19.5" x="705" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.74951" x="725.941" text-anchor="start">Imports</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge inheritance" id="graph1_0_2"><g id="a_inheritance|graph1_0_2"><a xlink:title="Imports is a subtype of FluidQueryBarewordOps"><path d="M690.946,-57.0291C700.596,-47.0415 712.946,-34.2572 721.762,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="689.477,-56.0316 687.261,-60.8435 691.994,-58.4634 689.477,-56.0316" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node trait" id="graph1_3"><g id="a_trait|graph1_3"><a xlink:title="com.mongodb.casbah.query.dsl.SetOp" xlink:href="SetOp.html#inheritance-diagram"><polygon points="72,-147 0,-147 0,-122 72,-122 72,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="10" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="30.936" text-anchor="start">SetOp</text></a></g></g><!-- node3&#45;&gt;node0 --><g class="edge inheritance" id="graph1_3_0"><g id="a_inheritance|graph1_3_0"><a xlink:title="FluidQueryBarewordOps is a subtype of SetOp"><path d="M77.1999,-122.676C78.4783,-122.435 79.7472,-122.209 81,-122 265.509,-91.2897 485.627,-80.2718 599.414,-76.4441" stroke="#d4d4d4" fill="none"></path><polygon points="76.7932,-120.973 72.2363,-123.674 77.4832,-124.404 76.7932,-120.973" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node4 --><g class="node trait" id="graph1_4"><g id="a_trait|graph1_4"><a xlink:title="com.mongodb.casbah.query.dsl.SetOnInsertOp" xlink:href="SetOnInsertOp.html#inheritance-diagram"><polygon points="200,-147 90,-147 90,-122 200,-122 200,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="100" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="120.761" text-anchor="start">SetOnInsertOp</text></a></g></g><!-- node4&#45;&gt;node0 --><g class="edge inheritance" id="graph1_4_0"><g id="a_inheritance|graph1_4_0"><a xlink:title="FluidQueryBarewordOps is a subtype of SetOnInsertOp"><path d="M205.149,-122.555C206.443,-122.364 207.728,-122.179 209,-122 345.992,-102.754 506.641,-88.1465 599.341,-80.4883" stroke="#d4d4d4" fill="none"></path><polygon points="204.795,-120.839 200.115,-123.321 205.321,-124.299 204.795,-120.839" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node5 --><g class="node trait" id="graph1_5"><g id="a_trait|graph1_5"><a xlink:title="com.mongodb.casbah.query.dsl.UnsetOp" xlink:href="UnsetOp.html#inheritance-diagram"><polygon points="301.5,-147 218.5,-147 218.5,-122 301.5,-122 301.5,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="229" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="249.879" text-anchor="start">UnsetOp</text></a></g></g><!-- node5&#45;&gt;node0 --><g class="edge inheritance" id="graph1_5_0"><g id="a_inheritance|graph1_5_0"><a xlink:title="FluidQueryBarewordOps is a subtype of UnsetOp"><path d="M306.674,-122.795C308.131,-122.519 309.576,-122.253 311,-122 410.099,-104.418 525.417,-90.4905 599.487,-82.376" stroke="#d4d4d4" fill="none"></path><polygon points="306.256,-121.093 301.685,-123.771 306.928,-124.528 306.256,-121.093" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6 --><g class="node trait" id="graph1_6"><g id="a_trait|graph1_6"><a xlink:title="com.mongodb.casbah.query.dsl.IncOp" xlink:href="IncOp.html#inheritance-diagram"><polygon points="390,-147 320,-147 320,-122 390,-122 390,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="330" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="350.771" text-anchor="start">IncOp</text></a></g></g><!-- node6&#45;&gt;node0 --><g class="edge inheritance" id="graph1_6_0"><g id="a_inheritance|graph1_6_0"><a xlink:title="FluidQueryBarewordOps is a subtype of IncOp"><path d="M395.575,-122.759C396.728,-122.497 397.871,-122.244 399,-122 466.246,-107.474 543.447,-94.5401 599.237,-85.8506" stroke="#d4d4d4" fill="none"></path><polygon points="394.95,-121.107 390.479,-123.948 395.746,-124.516 394.95,-121.107" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node7 --><g class="node trait" id="graph1_7"><g id="a_trait|graph1_7"><a xlink:title="com.mongodb.casbah.query.dsl.MaxOp" xlink:href="MaxOp.html#inheritance-diagram"><polygon points="484,-147 408,-147 408,-122 484,-122 484,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="418" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="438.995" text-anchor="start">MaxOp</text></a></g></g><!-- node7&#45;&gt;node0 --><g class="edge inheritance" id="graph1_7_0"><g id="a_inheritance|graph1_7_0"><a xlink:title="FluidQueryBarewordOps is a subtype of MaxOp"><path d="M489.566,-122.324C530.029,-111.945 590.026,-96.5542 630.956,-86.0548" stroke="#d4d4d4" fill="none"></path><polygon points="488.646,-120.754 484.238,-123.691 489.516,-124.144 488.646,-120.754" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node8 --><g class="node trait" id="graph1_8"><g id="a_trait|graph1_8"><a xlink:title="com.mongodb.casbah.query.dsl.OrOp" xlink:href="OrOp.html#inheritance-diagram"><polygon points="570,-147 502,-147 502,-122 570,-122 570,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="512" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="532.887" text-anchor="start">OrOp</text></a></g></g><!-- node8&#45;&gt;node0 --><g class="edge inheritance" id="graph1_8_0"><g id="a_inheritance|graph1_8_0"><a xlink:title="FluidQueryBarewordOps is a subtype of OrOp"><path d="M568.048,-119.994C592.266,-109.788 625.17,-95.921 648.265,-86.1884" stroke="#d4d4d4" fill="none"></path><polygon points="567.254,-118.43 563.326,-121.984 568.613,-121.655 567.254,-118.43" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node9 --><g class="node trait" id="graph1_9"><g id="a_trait|graph1_9"><a xlink:title="com.mongodb.casbah.query.dsl.AndOp" xlink:href="AndOp.html#inheritance-diagram"><polygon points="662,-147 588,-147 588,-122 662,-122 662,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="598" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="618.544" text-anchor="start">AndOp</text></a></g></g><!-- node9&#45;&gt;node0 --><g class="edge inheritance" id="graph1_9_0"><g id="a_inheritance|graph1_9_0"><a xlink:title="FluidQueryBarewordOps is a subtype of AndOp"><path d="M638.373,-118.029C647.007,-108.041 658.057,-95.2572 665.945,-86.1323" stroke="#d4d4d4" fill="none"></path><polygon points="637.022,-116.916 635.076,-121.843 639.67,-119.205 637.022,-116.916" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node10 --><g class="node trait" id="graph1_10"><g id="a_trait|graph1_10"><a xlink:title="com.mongodb.casbah.query.dsl.RenameOp" xlink:href="RenameOp.html#inheritance-diagram"><polygon points="774,-147 680,-147 680,-122 774,-122 774,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="690" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="710.542" text-anchor="start">RenameOp</text></a></g></g><!-- node10&#45;&gt;node0 --><g class="edge inheritance" id="graph1_10_0"><g id="a_inheritance|graph1_10_0"><a xlink:title="FluidQueryBarewordOps is a subtype of RenameOp"><path d="M713.627,-118.029C704.993,-108.041 693.943,-95.2572 686.055,-86.1323" stroke="#d4d4d4" fill="none"></path><polygon points="712.33,-119.205 716.924,-121.843 714.978,-116.916 712.33,-119.205" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node11 --><g class="node trait" id="graph1_11"><g id="a_trait|graph1_11"><a xlink:title="com.mongodb.casbah.query.dsl.ArrayOps" xlink:href="ArrayOps.html#inheritance-diagram"><polygon points="878,-147 792,-147 792,-122 878,-122 878,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="802" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="822.995" text-anchor="start">ArrayOps</text></a></g></g><!-- node11&#45;&gt;node0 --><g class="edge inheritance" id="graph1_11_0"><g id="a_inheritance|graph1_11_0"><a xlink:title="FluidQueryBarewordOps is a subtype of ArrayOps"><path d="M799.273,-120.243C771.613,-109.979 733.682,-95.904 707.227,-86.0875" stroke="#d4d4d4" fill="none"></path><polygon points="798.669,-121.885 803.966,-121.984 799.887,-118.604 798.669,-121.885" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node12 --><g class="node trait" id="graph1_12"><g id="a_trait|graph1_12"><a xlink:title="com.mongodb.casbah.query.dsl.NorOp" xlink:href="NorOp.html#inheritance-diagram"><polygon points="969.5,-147 896.5,-147 896.5,-122 969.5,-122 969.5,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="907" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="927.884" text-anchor="start">NorOp</text></a></g></g><!-- node12&#45;&gt;node0 --><g class="edge inheritance" id="graph1_12_0"><g id="a_inheritance|graph1_12_0"><a xlink:title="FluidQueryBarewordOps is a subtype of NorOp"><path d="M891.342,-123.039C889.877,-122.686 888.427,-122.339 887,-122 833.298,-109.244 771.697,-95.4757 728.975,-86.0633" stroke="#d4d4d4" fill="none"></path><polygon points="891.089,-124.779 896.361,-124.258 891.915,-121.377 891.089,-124.779" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node13 --><g class="node trait" id="graph1_13"><g id="a_trait|graph1_13"><a xlink:title="com.mongodb.casbah.query.dsl.BitOp" xlink:href="BitOp.html#inheritance-diagram"><polygon points="1056,-147 988,-147 988,-122 1056,-122 1056,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="998" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="1018.61" text-anchor="start">BitOp</text></a></g></g><!-- node13&#45;&gt;node0 --><g class="edge inheritance" id="graph1_13_0"><g id="a_inheritance|graph1_13_0"><a xlink:title="FluidQueryBarewordOps is a subtype of BitOp"><path d="M982.817,-122.836C981.532,-122.546 980.257,-122.266 979,-122 902.551,-105.832 814.182,-92.5919 752.681,-84.2354" stroke="#d4d4d4" fill="none"></path><polygon points="982.544,-124.57 987.811,-124.007 983.342,-121.162 982.544,-124.57" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node14 --><g class="node trait" id="graph1_14"><g id="a_trait|graph1_14"><a xlink:title="com.mongodb.casbah.query.dsl.WhereOp" xlink:href="WhereOp.html#inheritance-diagram"><polygon points="1160,-147 1074,-147 1074,-122 1160,-122 1160,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="1084" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="1104.71" text-anchor="start">WhereOp</text></a></g></g><!-- node14&#45;&gt;node0 --><g class="edge inheritance" id="graph1_14_0"><g id="a_inheritance|graph1_14_0"><a xlink:title="FluidQueryBarewordOps is a subtype of WhereOp"><path d="M1068.87,-122.685C1067.57,-122.447 1066.28,-122.218 1065,-122 957.2,-103.542 831.401,-89.5358 752.712,-81.6682" stroke="#d4d4d4" fill="none"></path><polygon points="1068.69,-124.433 1073.93,-123.641 1069.34,-120.994 1068.69,-124.433" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node15 --><g class="node trait" id="graph1_15"><g id="a_trait|graph1_15"><a xlink:title="com.mongodb.casbah.query.dsl.SearchOp" xlink:href="SearchOp.html#inheritance-diagram"><polygon points="1266,-147 1178,-147 1178,-122 1266,-122 1266,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="1188" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="1208.6" text-anchor="start">SearchOp</text></a></g></g><!-- node15&#45;&gt;node0 --><g class="edge inheritance" id="graph1_15_0"><g id="a_inheritance|graph1_15_0"><a xlink:title="FluidQueryBarewordOps is a subtype of SearchOp"><path d="M1172.83,-122.623C1171.54,-122.405 1170.26,-122.197 1169,-122 1022.66,-99.1548 850.055,-85.5478 752.782,-79.0899" stroke="#d4d4d4" fill="none"></path><polygon points="1172.6,-124.36 1177.83,-123.508 1173.21,-120.914 1172.6,-124.36" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node16 --><g class="node trait" id="graph1_16"><g id="a_trait|graph1_16"><a xlink:title="com.mongodb.casbah.query.dsl.CurrentDateOp" xlink:href="CurrentDateOp.html#inheritance-diagram"><polygon points="1395.5,-147 1284.5,-147 1284.5,-122 1395.5,-122 1395.5,-147" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../lib/trait_diagram.png" y="-141.5" x="1295" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.75" x="1315.71" text-anchor="start">CurrentDateOp</text></a></g></g><!-- node16&#45;&gt;node0 --><g class="edge inheritance" id="graph1_16_0"><g id="a_inheritance|graph1_16_0"><a xlink:title="FluidQueryBarewordOps is a subtype of CurrentDateOp"><path d="M1279.36,-122.58C1277.89,-122.378 1276.44,-122.184 1275,-122 1088.22,-98.1277 867.047,-84.3052 752.833,-78.2284" stroke="#d4d4d4" fill="none"></path><polygon points="1279.19,-124.323 1284.38,-123.298 1279.68,-120.858 1279.19,-124.323" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+              </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="com.mongodb.casbah.query.dsl.FluidQueryBarewordOps"><span>FluidQueryBarewordOps</span></li><li class="in" name="com.mongodb.casbah.query.dsl.CurrentDateOp"><span>CurrentDateOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.SearchOp"><span>SearchOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.WhereOp"><span>WhereOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.BitOp"><span>BitOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.NorOp"><span>NorOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.ArrayOps"><span>ArrayOps</span></li><li class="in" name="com.mongodb.casbah.query.dsl.PullAllOp"><span>PullAllOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.PullOp"><span>PullOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.PopOp"><span>PopOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.AddToSetOp"><span>AddToSetOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.PushAllOp"><span>PushAllOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.PushOp"><span>PushOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.RenameOp"><span>RenameOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.AndOp"><span>AndOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.OrOp"><span>OrOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.MaxOp"><span>MaxOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.IncOp"><span>IncOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.UnsetOp"><span>UnsetOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.SetOnInsertOp"><span>SetOnInsertOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.SetOp"><span>SetOp</span></li><li class="in" name="com.mongodb.casbah.query.dsl.BarewordQueryOperator"><span>BarewordQueryOperator</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="com.mongodb.casbah.query.dsl.SearchOp.TextOpWrapper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TextOpWrapperextendscasbah.query.Imports.BasicDBObject"></a>
+      <a id="TextOpWrapper:TextOpWrapper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SearchOp$TextOpWrapper.html"><span class="name">TextOpWrapper</span></a><span class="result"> extends <a href="../Imports$.html#BasicDBObject=com.mongodb.BasicDBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.BasicDBObject">Imports.BasicDBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.SearchOp@TextOpWrapperextendscasbah.query.Imports.BasicDBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SearchOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SearchOp">SearchOp</a></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@##():Int" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.AddToSetOp#$addToSet" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$addToSet(field:String):AnyRef{def$each[A](target:A*)(implicitevidence$7:com.mongodb.casbah.query.Imports.AsQueryParam[A]):com.mongodb.casbah.query.Imports.DBObject}"></a>
+      <a id="$addToSet(String):AnyRef{def$each[A](target:A*)(implicitevidence$7:com.mongodb.casbah.query.Imports.AsQueryParam[A]):com.mongodb.casbah.query.Imports.DBObject}"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$addToSet</span><span class="params">(<span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span> { def $each[A](target: A*)(implicit evidence$7: com.mongodb.casbah.query.Imports.AsQueryParam[A]): com.mongodb.casbah.query.Imports.DBObject }</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$addToSet(field:String):AnyRef{def$each[A](target:A*)(implicitevidence$7:com.mongodb.casbah.query.Imports.AsQueryParam[A]):com.mongodb.casbah.query.Imports.DBObject}" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="AddToSetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.AddToSetOp">AddToSetOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.AddToSetOp#$addToSet" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$addToSet[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$addToSet[A]((String,A)*):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$addToSet</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="fields">fields: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.AddToSetOp.$addToSet.A">A</span>)*</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$addToSet[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="AddToSetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.AddToSetOp">AddToSetOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.AddToSetOp#$addToSet" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$addToSet[T](arg:T)(implicitevidence$6:T=&gt;com.mongodb.casbah.query.Imports.DBObject):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$addToSet[T](T)((T)⇒Imports.DBObject):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$addToSet</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="arg">arg: <span class="extype" name="com.mongodb.casbah.query.dsl.AddToSetOp.$addToSet.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (<span class="extype" name="com.mongodb.casbah.query.dsl.AddToSetOp.$addToSet.T">T</span>) ⇒ <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$addToSet[T](arg:T)(implicitevidence$6:T=&gt;com.mongodb.casbah.query.Imports.DBObject):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="AddToSetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.AddToSetOp">AddToSetOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.AndOp#$and" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$and:com.mongodb.casbah.query.dsl.NestedBarewordListOperator"></a>
+      <a id="$and:NestedBarewordListOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$and</span><span class="result">: <a href="NestedBarewordListOperator.html" class="extype" name="com.mongodb.casbah.query.dsl.NestedBarewordListOperator">NestedBarewordListOperator</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$and:com.mongodb.casbah.query.dsl.NestedBarewordListOperator" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="AndOp.html" class="extype" name="com.mongodb.casbah.query.dsl.AndOp">AndOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.BitOp#$bit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$bit(field:String):AnyRef{defand[T](target:T)(implicitevidence$10:com.mongodb.casbah.query.Imports.ValidNumericType[T]):com.mongodb.casbah.query.Imports.DBObject;defor[T](target:T)(implicitevidence$11:com.mongodb.casbah.query.Imports.ValidNumericType[T]):com.mongodb.casbah.query.Imports.DBObject}"></a>
+      <a id="$bit(String):AnyRef{.../*2definitionsintyperefinement*/}"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$bit</span><span class="params">(<span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span> { ... /* 2 definitions in type refinement */ }</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$bit(field:String):AnyRef{defand[T](target:T)(implicitevidence$10:com.mongodb.casbah.query.Imports.ValidNumericType[T]):com.mongodb.casbah.query.Imports.DBObject;defor[T](target:T)(implicitevidence$11:com.mongodb.casbah.query.Imports.ValidNumericType[T]):com.mongodb.casbah.query.Imports.DBObject}" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="BitOp.html" class="extype" name="com.mongodb.casbah.query.dsl.BitOp">BitOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.CurrentDateOp#$currentDate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$currentDate(fields:(String,String)*):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$currentDate((String,String)*):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$currentDate</span><span class="params">(<span name="fields">fields: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)*</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$currentDate(fields:(String,String)*):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="CurrentDateOp.html" class="extype" name="com.mongodb.casbah.query.dsl.CurrentDateOp">CurrentDateOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.IncOp#$inc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$inc[T](args:(String,T)*)(implicitevidence$2:com.mongodb.casbah.query.Imports.ValidNumericType[T]):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$inc[T]((String,T)*)(Imports.ValidNumericType[T]):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$inc</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="args">args: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.IncOp.$inc.T">T</span>)*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../Imports$.html#ValidNumericType[T]=com.mongodb.casbah.query.ValidNumericType[T]" class="extmbr" name="com.mongodb.casbah.query.Imports.ValidNumericType">Imports.ValidNumericType</a>[<span class="extype" name="com.mongodb.casbah.query.dsl.IncOp.$inc.T">T</span>]</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$inc[T](args:(String,T)*)(implicitevidence$2:com.mongodb.casbah.query.Imports.ValidNumericType[T]):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="IncOp.html" class="extype" name="com.mongodb.casbah.query.dsl.IncOp">IncOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.MaxOp#$max" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$max[T](args:(String,T)*)(implicitevidence$3:com.mongodb.casbah.query.Imports.ValidNumericType[T]):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$max[T]((String,T)*)(Imports.ValidNumericType[T]):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$max</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="args">args: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.MaxOp.$max.T">T</span>)*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../Imports$.html#ValidNumericType[T]=com.mongodb.casbah.query.ValidNumericType[T]" class="extmbr" name="com.mongodb.casbah.query.Imports.ValidNumericType">Imports.ValidNumericType</a>[<span class="extype" name="com.mongodb.casbah.query.dsl.MaxOp.$max.T">T</span>]</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$max[T](args:(String,T)*)(implicitevidence$3:com.mongodb.casbah.query.Imports.ValidNumericType[T]):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MaxOp.html" class="extype" name="com.mongodb.casbah.query.dsl.MaxOp">MaxOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.NorOp#$nor" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$nor:com.mongodb.casbah.query.dsl.NestedBarewordListOperator"></a>
+      <a id="$nor:NestedBarewordListOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$nor</span><span class="result">: <a href="NestedBarewordListOperator.html" class="extype" name="com.mongodb.casbah.query.dsl.NestedBarewordListOperator">NestedBarewordListOperator</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$nor:com.mongodb.casbah.query.dsl.NestedBarewordListOperator" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="NorOp.html" class="extype" name="com.mongodb.casbah.query.dsl.NorOp">NorOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.OrOp#$or" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$or:com.mongodb.casbah.query.dsl.NestedBarewordListOperator"></a>
+      <a id="$or:NestedBarewordListOperator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$or</span><span class="result">: <a href="NestedBarewordListOperator.html" class="extype" name="com.mongodb.casbah.query.dsl.NestedBarewordListOperator">NestedBarewordListOperator</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$or:com.mongodb.casbah.query.dsl.NestedBarewordListOperator" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OrOp.html" class="extype" name="com.mongodb.casbah.query.dsl.OrOp">OrOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.PopOp#$pop" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$pop[T](args:(String,T)*)(implicitevidence$8:com.mongodb.casbah.query.Imports.ValidNumericType[T]):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$pop[T]((String,T)*)(Imports.ValidNumericType[T]):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$pop</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="args">args: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.PopOp.$pop.T">T</span>)*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../Imports$.html#ValidNumericType[T]=com.mongodb.casbah.query.ValidNumericType[T]" class="extmbr" name="com.mongodb.casbah.query.Imports.ValidNumericType">Imports.ValidNumericType</a>[<span class="extype" name="com.mongodb.casbah.query.dsl.PopOp.$pop.T">T</span>]</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$pop[T](args:(String,T)*)(implicitevidence$8:com.mongodb.casbah.query.Imports.ValidNumericType[T]):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PopOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PopOp">PopOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.PullOp#$pull" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$pull(inner:com.mongodb.casbah.query.Imports.DBObject):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$pull(Imports.DBObject):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$pull</span><span class="params">(<span name="inner">inner: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$pull(inner:com.mongodb.casbah.query.Imports.DBObject):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PullOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PullOp">PullOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.PullOp#$pull" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$pull(inner:=&gt;com.mongodb.casbah.query.Imports.DBObject):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$pull(⇒Imports.DBObject):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$pull</span><span class="params">(<span name="inner">inner: ⇒ <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$pull(inner:=&gt;com.mongodb.casbah.query.Imports.DBObject):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PullOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PullOp">PullOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.PullOp#$pull" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$pull[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$pull[A]((String,A)*):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$pull</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="fields">fields: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.PullOp.$pull.A">A</span>)*</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$pull[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PullOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PullOp">PullOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.PullAllOp#$pullAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$pullAll[A](args:(String,A)*)(implicitevidence$9:com.mongodb.casbah.query.Imports.AsQueryParam[A]):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$pullAll[A]((String,A)*)(Imports.AsQueryParam[A]):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$pullAll</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="args">args: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.PullAllOp.$pullAll.A">A</span>)*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../Imports$.html#AsQueryParam[T]=com.mongodb.casbah.query.AsQueryParam[T]" class="extmbr" name="com.mongodb.casbah.query.Imports.AsQueryParam">Imports.AsQueryParam</a>[<span class="extype" name="com.mongodb.casbah.query.dsl.PullAllOp.$pullAll.A">A</span>]</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$pullAll[A](args:(String,A)*)(implicitevidence$9:com.mongodb.casbah.query.Imports.AsQueryParam[A]):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PullAllOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PullAllOp">PullAllOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.PushOp#$push" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$push(field:String):AnyRef{def$each[A](target:A*)(implicitevidence$4:com.mongodb.casbah.query.Imports.AsQueryParam[A]):com.mongodb.casbah.query.Imports.DBObject}"></a>
+      <a id="$push(String):AnyRef{def$each[A](target:A*)(implicitevidence$4:com.mongodb.casbah.query.Imports.AsQueryParam[A]):com.mongodb.casbah.query.Imports.DBObject}"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$push</span><span class="params">(<span name="field">field: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span> { def $each[A](target: A*)(implicit evidence$4: com.mongodb.casbah.query.Imports.AsQueryParam[A]): com.mongodb.casbah.query.Imports.DBObject }</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$push(field:String):AnyRef{def$each[A](target:A*)(implicitevidence$4:com.mongodb.casbah.query.Imports.AsQueryParam[A]):com.mongodb.casbah.query.Imports.DBObject}" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PushOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PushOp">PushOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.PushOp#$push" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$push[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$push[A]((String,A)*):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$push</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="fields">fields: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.PushOp.$push.A">A</span>)*</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$push[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PushOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PushOp">PushOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.PushAllOp#$pushAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$pushAll[A](args:(String,A)*)(implicitevidence$5:com.mongodb.casbah.query.Imports.AsQueryParam[A]):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$pushAll[A]((String,A)*)(Imports.AsQueryParam[A]):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$pushAll</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="args">args: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.PushAllOp.$pushAll.A">A</span>)*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../Imports$.html#AsQueryParam[T]=com.mongodb.casbah.query.AsQueryParam[T]" class="extmbr" name="com.mongodb.casbah.query.Imports.AsQueryParam">Imports.AsQueryParam</a>[<span class="extype" name="com.mongodb.casbah.query.dsl.PushAllOp.$pushAll.A">A</span>]</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$pushAll[A](args:(String,A)*)(implicitevidence$5:com.mongodb.casbah.query.Imports.AsQueryParam[A]):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="PushAllOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PushAllOp">PushAllOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.RenameOp#$rename" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$rename[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$rename[A]((String,A)*):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$rename</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="fields">fields: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.RenameOp.$rename.A">A</span>)*</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$rename[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RenameOp.html" class="extype" name="com.mongodb.casbah.query.dsl.RenameOp">RenameOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.SetOp#$set" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$set[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$set[A]((String,A)*):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$set</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="fields">fields: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.SetOp.$set.A">A</span>)*</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$set[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SetOp">SetOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.SetOnInsertOp#$setOnInsert" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$setOnInsert[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$setOnInsert[A]((String,A)*):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$setOnInsert</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="fields">fields: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.SetOnInsertOp.$setOnInsert.A">A</span>)*</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$setOnInsert[A](fields:(String,A)*):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SetOnInsertOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SetOnInsertOp">SetOnInsertOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.SearchOp#$text" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$text(searchTerm:String):SearchOp.this.TextOpWrapper"></a>
+      <a id="$text(String):TextOpWrapper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$text</span><span class="params">(<span name="searchTerm">searchTerm: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="#TextOpWrapperextendscasbah.query.Imports.BasicDBObject" class="extmbr" name="com.mongodb.casbah.query.dsl.SearchOp.TextOpWrapper">TextOpWrapper</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$text(searchTerm:String):SearchOp.this.TextOpWrapper" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SearchOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SearchOp">SearchOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.UnsetOp#$unset" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$unset(args:String*):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$unset(String*):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$unset</span><span class="params">(<span name="args">args: <span class="extype" name="scala.Predef.String">String</span>*</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$unset(args:String*):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="UnsetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.UnsetOp">UnsetOp</a></dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.WhereOp#$where" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="$where(target:com.mongodb.casbah.query.Imports.JSFunction):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="$where(Imports.JSFunction):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$where</span><span class="params">(<span name="target">target: <a href="../Imports$.html#JSFunction=String" class="extmbr" name="com.mongodb.casbah.query.Imports.JSFunction">Imports.JSFunction</a></span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@$where(target:com.mongodb.casbah.query.Imports.JSFunction):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="WhereOp.html" class="extype" name="com.mongodb.casbah.query.dsl.WhereOp">WhereOp</a></dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.mongodb.casbah.query.dsl.BarewordQueryOperator#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="apply[A](oper:String)(fields:Seq[(String,A)]):com.mongodb.casbah.query.Imports.DBObject"></a>
+      <a id="apply[A](String)(Seq[(String,A)]):Imports.DBObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="oper">oper: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="fields">fields: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.mongodb.casbah.query.dsl.BarewordQueryOperator.apply.A">A</span>)]</span>)</span><span class="result">: <a href="../Imports$.html#DBObject=com.mongodb.DBObject" class="extmbr" name="com.mongodb.casbah.query.Imports.DBObject">Imports.DBObject</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@apply[A](oper:String)(fields:Seq[(String,A)]):com.mongodb.casbah.query.Imports.DBObject" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="BarewordQueryOperator.html" class="extype" name="com.mongodb.casbah.query.dsl.BarewordQueryOperator">BarewordQueryOperator</a></dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@toString():String" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../index.html#com.mongodb.casbah.query.dsl.FluidQueryBarewordOps@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="com.mongodb.casbah.query.dsl.CurrentDateOp">
+              <h3>Inherited from <a href="CurrentDateOp.html" class="extype" name="com.mongodb.casbah.query.dsl.CurrentDateOp">CurrentDateOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.SearchOp">
+              <h3>Inherited from <a href="SearchOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SearchOp">SearchOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.WhereOp">
+              <h3>Inherited from <a href="WhereOp.html" class="extype" name="com.mongodb.casbah.query.dsl.WhereOp">WhereOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.BitOp">
+              <h3>Inherited from <a href="BitOp.html" class="extype" name="com.mongodb.casbah.query.dsl.BitOp">BitOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.NorOp">
+              <h3>Inherited from <a href="NorOp.html" class="extype" name="com.mongodb.casbah.query.dsl.NorOp">NorOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.ArrayOps">
+              <h3>Inherited from <a href="ArrayOps.html" class="extype" name="com.mongodb.casbah.query.dsl.ArrayOps">ArrayOps</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.PullAllOp">
+              <h3>Inherited from <a href="PullAllOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PullAllOp">PullAllOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.PullOp">
+              <h3>Inherited from <a href="PullOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PullOp">PullOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.PopOp">
+              <h3>Inherited from <a href="PopOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PopOp">PopOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.AddToSetOp">
+              <h3>Inherited from <a href="AddToSetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.AddToSetOp">AddToSetOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.PushAllOp">
+              <h3>Inherited from <a href="PushAllOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PushAllOp">PushAllOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.PushOp">
+              <h3>Inherited from <a href="PushOp.html" class="extype" name="com.mongodb.casbah.query.dsl.PushOp">PushOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.RenameOp">
+              <h3>Inherited from <a href="RenameOp.html" class="extype" name="com.mongodb.casbah.query.dsl.RenameOp">RenameOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.AndOp">
+              <h3>Inherited from <a href="AndOp.html" class="extype" name="com.mongodb.casbah.query.dsl.AndOp">AndOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.OrOp">
+              <h3>Inherited from <a href="OrOp.html" class="extype" name="com.mongodb.casbah.query.dsl.OrOp">OrOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.MaxOp">
+              <h3>Inherited from <a href="MaxOp.html" class="extype" name="com.mongodb.casbah.query.dsl.MaxOp">MaxOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.IncOp">
+              <h3>Inherited from <a href="IncOp.html" class="extype" name="com.mongodb.casbah.query.dsl.IncOp">IncOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.UnsetOp">
+              <h3>Inherited from <a href="UnsetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.UnsetOp">UnsetOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.SetOnInsertOp">
+              <h3>Inherited from <a href="SetOnInsertOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SetOnInsertOp">SetOnInsertOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.SetOp">
+              <h3>Inherited from <a href="SetOp.html" class="extype" name="com.mongodb.casbah.query.dsl.SetOp">SetOp</a></h3>
+            </div><div class="parent" name="com.mongodb.casbah.query.dsl.BarewordQueryOperator">
+              <h3>Inherited from <a href="BarewordQueryOperator.html" class="extype" name="com.mongodb.casbah.query.dsl.BarewordQueryOperator">BarewordQueryOperator</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

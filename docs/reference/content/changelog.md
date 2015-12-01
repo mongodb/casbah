@@ -14,106 +14,115 @@ Casbah jira project is here: [https://jira.mongodb.org/browse/CASBAH](https://ji
 {{% /note %}}
 
 
+Changes in Version 3.1.0
+------------------------
+
+  * Updated Mongo Java Driver to 3.2.0
+    <br>
+    : [CASBAH-186](https://jira.mongodb.org/browse/CASBAH-186)
+  * Added support for bypassDocumentValidation : [CASBAH-187](https://jira.mongodb.org/browse/CASBAH-187)
+  * Added support for WriteConcern with findAndModify helpers : [CASBAH-188](https://jira.mongodb.org/browse/CASBAH-188)
+
 Changes in Version 3.0.0
 ------------------------
 
   * Updated Mongo Java Driver to 3.0.4
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r3.0.4>)
-    [\[CASBAH-82\]](https://jira.mongodb.org/browse/CASBAH-82)
-  * Remove Scala 2.9.3 support [\[CASBAH-182\]](https://jira.mongodb.org/browse/CASBAH-182)
-  * Added Scala 2.12.0-M2 support [\[CASBAH-179\]](https://jira.mongodb.org/browse/CASBAH-179)
-  * Converted MongoClientURI to case class [\[CASBAH-151\]](https://jira.mongodb.org/browse/CASBAH-151)
-  * Updated the build [\[CASBAH-183\]](https://jira.mongodb.org/browse/CASBAH-183)
+    : [CASBAH-82](https://jira.mongodb.org/browse/CASBAH-82)
+  * Remove Scala 2.9.3 support : [CASBAH-182](https://jira.mongodb.org/browse/CASBAH-182)
+  * Added Scala 2.12.0-M2 support : [CASBAH-179](https://jira.mongodb.org/browse/CASBAH-179)
+  * Converted MongoClientURI to case class : [CASBAH-151](https://jira.mongodb.org/browse/CASBAH-151)
+  * Updated the build : [CASBAH-183](https://jira.mongodb.org/browse/CASBAH-183)
 
 Changes in Version 2.8.2
 ------------------------
 
   * Updated Mongo Java Driver to 2.13.2
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.2>)
-    [\[CASBAH-177\]](https://jira.mongodb.org/browse/CASBAH-177)
-  * Add `$currentDate` to update dsl [\[CASBAH-176\]](https://jira.mongodb.org/browse/CASBAH-176)
-  * Add docs for default authentication mechanism [\[CASBAH-175\]](https://jira.mongodb.org/browse/CASBAH-175)
+    : [CASBAH-177](https://jira.mongodb.org/browse/CASBAH-177)
+  * Add `$currentDate` to update dsl : [CASBAH-176](https://jira.mongodb.org/browse/CASBAH-176)
+  * Add docs for default authentication mechanism : [CASBAH-175](https://jira.mongodb.org/browse/CASBAH-175)
 
 Changes in Version 2.8.1
 ------------------------
 
   * Updated Mongo Java Driver to 2.13.1
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.1>)
-    [\[CASBAH-171\]](https://jira.mongodb.org/browse/CASBAH-171)
-  * Added support for None.type for the DSL [\[CASBAH-170\]](https://jira.mongodb.org/browse/CASBAH-170)
-  * Clarified API docs regarding `$snapshot` [\[CASBAH-164\]](https://jira.mongodb.org/browse/CASBAH-164)
+    : [CASBAH-171](https://jira.mongodb.org/browse/CASBAH-171)
+  * Added support for None.type for the DSL : [CASBAH-170](https://jira.mongodb.org/browse/CASBAH-170)
+  * Clarified API docs regarding `$snapshot` : [CASBAH-164](https://jira.mongodb.org/browse/CASBAH-164)
 
 Changes in Version 2.8.0
 ------------------------
 
   * Updated Mongo Java Driver to 2.13.0
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.0>)
-    [\[CASBAH-156\]](https://jira.mongodb.org/browse/CASBAH-156)
+    : [CASBAH-156](https://jira.mongodb.org/browse/CASBAH-156)
   * Added support for `$max` in DSL
-    (<https://github.com/mongodb/casbah/pull/69>) [\[CASBAH-163\]](https://jira.mongodb.org/browse/CASBAH-163)
+    (<https://github.com/mongodb/casbah/pull/69>) : [CASBAH-163](https://jira.mongodb.org/browse/CASBAH-163)
 
 Changes in Version 2.8.0-rc2
 ----------------------------
 
   * Updated Mongo Java Driver to 2.13.0-rc2
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.0-rc2>)
-    [\[CASBAH-156\]](https://jira.mongodb.org/browse/CASBAH-156)
+    : [CASBAH-156](https://jira.mongodb.org/browse/CASBAH-156)
   * Updated apply method in MongoClientOptions to have the latest 2.13
-    options [\[CASBAH-160\]](https://jira.mongodb.org/browse/CASBAH-160)
+    options : [CASBAH-160](https://jira.mongodb.org/browse/CASBAH-160)
 
 Changes in Version 2.8.0-rc1
 ----------------------------
 
   * Updated Mongo Java Driver to 2.13.0-rc1
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.0-rc1>)
-    [\[CASBAH-156\]](https://jira.mongodb.org/browse/CASBAH-156)
-  * Deprecated version and getVersion [\[CASBAH-159\]](https://jira.mongodb.org/browse/CASBAH-159)
+    : [CASBAH-156](https://jira.mongodb.org/browse/CASBAH-156)
+  * Deprecated version and getVersion : [CASBAH-159](https://jira.mongodb.org/browse/CASBAH-159)
 
 Changes in Version 2.8.0-rc0
 ----------------------------
 
   * Updated Mongo Java Driver to 2.13.0-rc0
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.13.0-rc0>)
-    [\[CASBAH-156\]](https://jira.mongodb.org/browse/CASBAH-156)
-  * Added SCRAM-SHA-1 helper [\[CASBAH-157\]](https://jira.mongodb.org/browse/CASBAH-157)
+    : [CASBAH-156](https://jira.mongodb.org/browse/CASBAH-156)
+  * Added SCRAM-SHA-1 helper : [CASBAH-157](https://jira.mongodb.org/browse/CASBAH-157)
   * Deprecated any methods using deprecated java driver methods
-    [\[CASBAH-158\]](https://jira.mongodb.org/browse/CASBAH-158)
+    : [CASBAH-158](https://jira.mongodb.org/browse/CASBAH-158)
 
 Changes in Version 2.7.5
 ------------------------
 
   * Updated Mongo Java Driver to 2.12.5
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.5>)
-    [\[CASBAH-161\]](https://jira.mongodb.org/browse/CASBAH-161)
-  * Update compiled Scala version to 2.11.5 [\[CASBAH-162\]](https://jira.mongodb.org/browse/CASBAH-162)
+    : [CASBAH-161](https://jira.mongodb.org/browse/CASBAH-161)
+  * Update compiled Scala version to 2.11.5 : [CASBAH-162](https://jira.mongodb.org/browse/CASBAH-162)
   * Updated apply method in MongoClientOptions to have the latest 2.12
-    options [\[CASBAH-160\]](https://jira.mongodb.org/browse/CASBAH-160)
+    options : [CASBAH-160](https://jira.mongodb.org/browse/CASBAH-160)
 
 Changes in Version 2.7.4
 ------------------------
 
   * Updated Mongo Java Driver to 2.12.4
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.4>)
-    [\[CASBAH-155\]](https://jira.mongodb.org/browse/CASBAH-155)
-  * Update compiled Scala version to 2.11.4 [\[CASBAH-154\]](https://jira.mongodb.org/browse/CASBAH-154)
-  * Fix MongoDBObject.as[A] castable error [\[CASBAH-153\]](https://jira.mongodb.org/browse/CASBAH-153)
+    : [CASBAH-155](https://jira.mongodb.org/browse/CASBAH-155)
+  * Update compiled Scala version to 2.11.4 : [CASBAH-154](https://jira.mongodb.org/browse/CASBAH-154)
+  * Fix MongoDBObject.as[A] castable error : [CASBAH-153](https://jira.mongodb.org/browse/CASBAH-153)
 
 Changes in Version 2.7.3
 ------------------------
 
   * Updated Mongo Java Driver to 2.12.3
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.3>)
-    [\[CASBAH-147\]](https://jira.mongodb.org/browse/CASBAH-147)
-  * Update compiled Scala version to 2.11.1 [\[CASBAH-148\]](https://jira.mongodb.org/browse/CASBAH-148)
+    : [CASBAH-147](https://jira.mongodb.org/browse/CASBAH-147)
+  * Update compiled Scala version to 2.11.1 : [CASBAH-148](https://jira.mongodb.org/browse/CASBAH-148)
 
 Changes in Version 2.7.2
 ------------------------
 
   * Updated Mongo Java Driver to 2.12.2
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.2>)
-    [\[CASBAH-146\]](https://jira.mongodb.org/browse/CASBAH-146)
-  * Fixed cursor options for OpLog [\[CASBAH-144\]](https://jira.mongodb.org/browse/CASBAH-144)
-  * Added support for BSONTimestamp in the query DSL [\[CASBAH-145\]](https://jira.mongodb.org/browse/CASBAH-145)
+    : [CASBAH-146](https://jira.mongodb.org/browse/CASBAH-146)
+  * Fixed cursor options for OpLog : [CASBAH-144](https://jira.mongodb.org/browse/CASBAH-144)
+  * Added support for BSONTimestamp in the query DSL : [CASBAH-145](https://jira.mongodb.org/browse/CASBAH-145)
   * Project moved to CASBAH (<https://jira.mongodb.org/browse/CASBAH>)
 
 Changes in Version 2.7.1
@@ -131,28 +140,28 @@ Changes in Version 2.7.0
 
   * Added examples to highlight using Casbah in various scenarios
   * Added Collection helper method to support the parallelCollectionScan
-    command [\[SCALA-139\]](https://jira.mongodb.org/browse/SCALA-139)
+    command [\[SCALA-139](https://jira.mongodb.org/browse/SCALA-139)
   * Fixed getAs[Type]("key") to stop invalid casts to Some(value)
-    [\[SCALA-136\]](https://jira.mongodb.org/browse/SCALA-136)
-  * Support vargs for getAs[Type]("keys") [\[SCALA-134\]](https://jira.mongodb.org/browse/SCALA-134)
-  * Support vargs for as[Type]("Keys") [\[SCALA-134\]](https://jira.mongodb.org/browse/SCALA-134) (pr/\#61)
+    [\[SCALA-136](https://jira.mongodb.org/browse/SCALA-136)
+  * Support vargs for getAs[Type]("keys") [\[SCALA-134](https://jira.mongodb.org/browse/SCALA-134)
+  * Support vargs for as[Type]("Keys") [\[SCALA-134](https://jira.mongodb.org/browse/SCALA-134) (pr/\#61)
   * Fixed issue with OpLog matching (pr/\#63)
-  * Register the core Serialization helpers only once [\[SCALA-129\]](https://jira.mongodb.org/browse/SCALA-129)
+  * Register the core Serialization helpers only once [\[SCALA-129](https://jira.mongodb.org/browse/SCALA-129)
   * Removed scala 2.9.1 and 2.9.2 support, casbah utilises
     scala.concurrent.duration which was added in scala 2.9.3
   * Updated nscala-time to 0.6.0 and specs
   * Added support for Server automatically abort queries/commands after
-    user-specified time limit [\[SCALA-118\]](https://jira.mongodb.org/browse/SCALA-118)
+    user-specified time limit [\[SCALA-118](https://jira.mongodb.org/browse/SCALA-118)
   * Added support for Aggregation returning a cursor AggregationCursor
-    [\[SCALA-117\]](https://jira.mongodb.org/browse/SCALA-117)
+    [\[SCALA-117](https://jira.mongodb.org/browse/SCALA-117)
   * Added support for allowDiskUse: true to the top-level of an
     aggregate command with the AggregationOptions helper
-  * Added support `$out` aggregation pipeline operator [\[SCALA-130\]](https://jira.mongodb.org/browse/SCALA-130)
-  * Casbah WriteConcern's valueOf now returns an Option [\[SCALA-127\]](https://jira.mongodb.org/browse/SCALA-127)
+  * Added support `$out` aggregation pipeline operator [\[SCALA-130](https://jira.mongodb.org/browse/SCALA-130)
+  * Casbah WriteConcern's valueOf now returns an Option [\[SCALA-127](https://jira.mongodb.org/browse/SCALA-127)
   * Support the use of a different SPN for Kerberos Authentication
-    [\[SCALA-103\]](https://jira.mongodb.org/browse/SCALA-103)
-  * Support SASL PLAIN authentication [\[SCALA-101\]](https://jira.mongodb.org/browse/SCALA-101)
-  * Support MONGODB-X509 authentication [\[SCALA-112\]](https://jira.mongodb.org/browse/SCALA-112)
+    [\[SCALA-103](https://jira.mongodb.org/browse/SCALA-103)
+  * Support SASL PLAIN authentication [\[SCALA-101](https://jira.mongodb.org/browse/SCALA-101)
+  * Support MONGODB-X509 authentication [\[SCALA-112](https://jira.mongodb.org/browse/SCALA-112)
   * Updated Mongo Java Driver to 2.12.0
     <br>(<https://github.com/mongodb/mongo-java-driver/releases/tag/r2.12.0>)
 
@@ -169,7 +178,7 @@ Changes in Version 2.6.4
 Changes in Version 2.6.3
 ------------------------
 
-  * Fixed JodaGridFS when registered helpers are on [\[SCALA-113\]](https://jira.mongodb.org/browse/SCALA-113)
+  * Fixed JodaGridFS when registered helpers are on [\[SCALA-113](https://jira.mongodb.org/browse/SCALA-113)
   * Updated Mongo Java Driver to 2.11.3
 
 Changes in Version 2.6.2
@@ -178,18 +187,18 @@ Changes in Version 2.6.2
   * Fixed MongoClientURI Implicit
   * Added support for Joda-Time LocalDate serialisation (SCALA-111,
     \#59)
-  * Added aggregate collection helper [\[SCALA-110\]](https://jira.mongodb.org/browse/SCALA-110)
-  * Added `$each` support to `$pull` [\[SCALA-109\]](https://jira.mongodb.org/browse/SCALA-109)
-  * Updated to the latest Java driver 2.11.2 [\[SCALA-106\]](https://jira.mongodb.org/browse/SCALA-106)
-  * Added `$eq` operator [\[SCALA-105\]](https://jira.mongodb.org/browse/SCALA-105)
-  * Fixed `$where` dsl operator [\[SCALA-97\]](https://jira.mongodb.org/browse/SCALA-97)
+  * Added aggregate collection helper [\[SCALA-110](https://jira.mongodb.org/browse/SCALA-110)
+  * Added `$each` support to `$pull` [\[SCALA-109](https://jira.mongodb.org/browse/SCALA-109)
+  * Updated to the latest Java driver 2.11.2 [\[SCALA-106](https://jira.mongodb.org/browse/SCALA-106)
+  * Added `$eq` operator [\[SCALA-105](https://jira.mongodb.org/browse/SCALA-105)
+  * Fixed `$where` dsl operator [\[SCALA-97](https://jira.mongodb.org/browse/SCALA-97)
 
 Changes in Version 2.6.1
 ------------------------
 
-  * Fixed `$pushAll` and `$pullAll` casting of iterables [\[SCALA-54\]](https://jira.mongodb.org/browse/SCALA-54)
-  * Fixed MongoCollection string representation [\[SCALA-96\]](https://jira.mongodb.org/browse/SCALA-96)
-  * Fixed support for jsScope [\[SCALA-43\]](https://jira.mongodb.org/browse/SCALA-43) (\#44)
+  * Fixed `$pushAll` and `$pullAll` casting of iterables [\[SCALA-54](https://jira.mongodb.org/browse/SCALA-54)
+  * Fixed MongoCollection string representation [\[SCALA-96](https://jira.mongodb.org/browse/SCALA-96)
+  * Fixed support for jsScope [\[SCALA-43](https://jira.mongodb.org/browse/SCALA-43) (\#44)
   * Publish casbah.commons test helpers
   * Added suport `$setOnInsert` to the query dsl
 
@@ -204,12 +213,12 @@ Changes in Version 2.5.1
 ------------------------
 
   * Added 2.10.1 support
-  * Removed reference to scala-tools [\[SCALA-78\]](https://jira.mongodb.org/browse/SCALA-78)
-  * Added 2.9.3 support [\[SCALA-94\]](https://jira.mongodb.org/browse/SCALA-94)
-  * Removed Specs2 and Scalaz dependencies outside test [\[SCALA-93\]](https://jira.mongodb.org/browse/SCALA-93)
+  * Removed reference to scala-tools [\[SCALA-78](https://jira.mongodb.org/browse/SCALA-78)
+  * Added 2.9.3 support [\[SCALA-94](https://jira.mongodb.org/browse/SCALA-94)
+  * Removed Specs2 and Scalaz dependencies outside test [\[SCALA-93](https://jira.mongodb.org/browse/SCALA-93)
   * Fixed 2.10 support, no need for -Yeta-expand-keeps-star compile flag
-    [\[SCALA-89\]](https://jira.mongodb.org/browse/SCALA-89)
-  * Fixed distinct regression [\[SCALA-92\]](https://jira.mongodb.org/browse/SCALA-92)
+    [\[SCALA-89](https://jira.mongodb.org/browse/SCALA-89)
+  * Fixed distinct regression [\[SCALA-92](https://jira.mongodb.org/browse/SCALA-92)
   * Fixed test data import - now in tests :)
 
 Changes in Version 2.5.0
@@ -226,7 +235,7 @@ Changes in Version 2.5.0
   * Added unidoc and updated documentation
   * Migrated documentation theme
   * Updated MongoDBList to handle immutable params
-  * Maven Documentation fix [\[SCALA-71\]](https://jira.mongodb.org/browse/SCALA-71)
+  * Maven Documentation fix [\[SCALA-71](https://jira.mongodb.org/browse/SCALA-71)
   * MongoOpLog - uses new MongoClient and defaults to replciaSet oplog
     database
 

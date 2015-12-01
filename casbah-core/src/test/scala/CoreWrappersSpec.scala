@@ -22,12 +22,15 @@
 
 package com.mongodb.casbah.test.core
 
-import scala.collection.mutable
 import scala.language.reflectiveCalls
-import scala.util.Random
 
-import com.mongodb.casbah.Imports._
+import scala.collection.mutable
+import scala.concurrent.duration.Duration
+import scala.util.{ Try, Random }
+
+import com.mongodb.InsertOptions
 import com.mongodb.casbah.Cursor
+import com.mongodb.casbah.Imports._
 
 class CoreWrappersSpec extends CasbahDBTestSpecification {
 
@@ -395,6 +398,59 @@ class CoreWrappersSpec extends CasbahDBTestSpecification {
         }
       }
       cursorIds must beEqualTo(ids)
+    }
+
+    "support bypass document validation" in {
+      serverIsAtLeastVersion(3, 2) must beTrue.orSkip("Needs server >= 3.2")
+
+      // given
+      collection.drop()
+      val createCollectionOptions = MongoDBObject("""{
+          validator: {x: {$lte: 100}},
+          validationLevel: "strict",
+          validationAction: "error"}""")
+      database.createCollection(collection.name, createCollectionOptions)
+
+      val ids = (1 to 99 by 1).toSet
+      for (i <- ids) { collection += MongoDBObject("x" -> i) }
+
+      // when
+      val findAndModify = Try(collection.findAndModify(MongoDBObject("{x: 10}"), MongoDBObject("{$inc: {x: 1000}}")))
+
+      // then
+      findAndModify should beAFailedTry
+
+      // when
+      val findAndModifyWithBypass = Try(collection.findAndModify(MongoDBObject("{x: 10}"), MongoDBObject("{}"),
+        MongoDBObject("{}"), false, MongoDBObject("{$inc: {x: 100}}"), true, false, true, Duration(10, "seconds")))
+
+      // then
+      findAndModifyWithBypass should beASuccessfulTry
+
+      // when
+      val insert = Try(collection.insert(MongoDBObject("{x: 101}")))
+
+      // then
+      insert should beAFailedTry
+
+      // when
+      val insertWithBypass = Try(collection.insert(new InsertOptions().bypassDocumentValidation(true), MongoDBObject("{x: 101}")))
+
+      // then
+      insertWithBypass should beASuccessfulTry
+
+      // when
+      val update = Try(collection.update(MongoDBObject("{x: 1}"), MongoDBObject("{$set: {x : 101}}")))
+
+      // then
+      update should beAFailedTry
+
+      // when
+      val updateWithBypass = Try(collection.update(MongoDBObject("{x: 1}"), MongoDBObject("{$set: {x : 101}}"),
+        bypassDocumentValidation = Some(true)))
+
+      // then
+      updateWithBypass should beASuccessfulTry
     }
   }
 
