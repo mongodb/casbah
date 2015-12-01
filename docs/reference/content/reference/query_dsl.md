@@ -149,7 +149,7 @@ Casbah provides a rich fluid query syntax, that allows you to construct
   * `$elemMatch` Selects documents if element in the array field matches
     all the specified `$elemMatch` conditions:
 
-        "colour" $elemMatch (MongoDBObject("base" -> "red", "flash" -> "silver")
+        "colour" $elemMatch MongoDBObject("base" -> "red", "flash" -> "silver")
 
   * `$size` Selects documents if the array field is a specified size:
 
