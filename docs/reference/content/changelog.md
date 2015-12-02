@@ -22,6 +22,7 @@ Changes in Version 3.1.0
     : [CASBAH-186](https://jira.mongodb.org/browse/CASBAH-186)
   * Added support for bypassDocumentValidation : [CASBAH-187](https://jira.mongodb.org/browse/CASBAH-187)
   * Added support for WriteConcern with findAndModify helpers : [CASBAH-188](https://jira.mongodb.org/browse/CASBAH-188)
+  * Added dot notation in get / getAs methods for convenience : [CASBAH-190](https://jira.mongodb.org/browse/CASBAH-190)
 
 Changes in Version 3.0.0
 ------------------------
