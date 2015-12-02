@@ -28,7 +28,7 @@ casbah.  I recommend using [sbt-extras](https://github.com/paulp/sbt-extras)
   2. Install sbt-extras script:
 
       ~~~bash
-      curl https://raw.github.com/paulp/sbt-extras/master/sbt > sbt
+      curl https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > sbt
       chmod +ux sbt
       ~~~
 
