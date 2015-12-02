@@ -23,16 +23,14 @@
 package com.mongodb.casbah
 package commons
 
-import java.util
+import com.mongodb.casbah.commons.Imports._
 
-import scala.annotation.tailrec
 import scala.beans.BeanInfo
 import scala.collection.JavaConversions._
 import scala.collection.generic._
 import scala.collection.mutable
-import scala.util.{ Failure, Success, Try }
-
-import com.mongodb.casbah.commons.Imports._
+import scala.util.{ Success, Try }
+import java.util
 
 /**
  * MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
@@ -67,12 +65,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
    * @throws NoSuchElementException or ClassCastException
    */
   def as[A: NotNothing: Manifest](key: String): A = {
-    val rawValue = get(key) match {
-      case Some(list: BasicDBList) => new MongoDBList(list)
-      case Some(x)                 => x
-      case None                    => None
-    }
-    castToOption[A](rawValue) match {
+    expand[A](key) match {
       case Some(value)                           => value
       case None if underlying.containsField(key) => underlying.get(key).asInstanceOf[A]
       case _                                     => default(key).asInstanceOf[A]
@@ -92,7 +85,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
    */
   def as[A: NotNothing: Manifest](keys: String*): A = {
     val path = keys.mkString(".")
-    expand(path) match {
+    expand[A](path) match {
       case None        => throw new java.util.NoSuchElementException()
       case Some(value) => value
     }
@@ -147,12 +140,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
    * @tparam A the type to cast the result to
    * @return Option[A] - None if value is None, the cast invalid or the key is missing otherwise Some(value)
    */
-  def getAs[A: NotNothing: Manifest](key: String): Option[A] = {
-    Try(as[A](key)) match {
-      case Success(v) => castToOption[A](v)
-      case Failure(e) => None
-    }
-  }
+  def getAs[A: NotNothing: Manifest](key: String): Option[A] = expand[A](key)
 
   /**
    * Nested getAs[Type]
@@ -166,10 +154,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
    */
   def getAs[A: NotNothing: Manifest](keys: String*): Option[A] = expand[A](keys.mkString("."))
 
-  def getAsOrElse[A: NotNothing: Manifest](key: String, default: => A): A = getAs[A](key) match {
-    case Some(v) => v
-    case None    => default
-  }
+  def getAsOrElse[A: NotNothing: Manifest](key: String, default: => A): A = expand[A](key).getOrElse(default)
 
   /**
    * Utility method to emulate javascript dot notation
@@ -180,24 +165,17 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
    * If the cast fails it will return None
    */
   def expand[A: NotNothing: Manifest](key: String): Option[A] = {
-    // scalastyle:off method.name
-    @tailrec
-    def _dot(dbObj: MongoDBObject, key: String): Option[_] = {
-      key.indexOf('.') match {
-        case -1 => dbObj.getAs[A](key)
-        case i =>
-          val (pfx, sfx) = key.splitAt(i)
-          dbObj.getAs[DBObject](pfx) match {
-            case Some(base) => _dot(base, sfx.stripPrefix("."))
-            case None       => None
-          }
-      }
-      // scalastyle:on method.name
+    val path = key.split('.').toIndexedSeq
+    val tryLeaf = path.init.foldLeft(Try(this)) {
+      case (tryObj, n) =>
+        tryObj.flatMap(obj => Try(obj.get(n).get.asInstanceOf[DBObject]))
     }
-    _dot(this, key) match {
-      case None        => None
-      case Some(value) => Some(value.asInstanceOf[A])
+    val res = tryLeaf.flatMap(obj => Try(obj.get(path.last).get.asInstanceOf[A])) match {
+      case Success(list: BasicDBList) => Some(new MongoDBList(list))
+      case Success(x)                 => Some(x)
+      case _                          => None
     }
+    castToOption[A](res.getOrElse(None))
   }
 
   // scalastyle:off method.name public.methods.have.type
