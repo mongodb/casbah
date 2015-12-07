@@ -143,7 +143,7 @@ object CasbahBuild extends Build {
     .settings(rootUnidocSettings: _*)
     .settings(rootPublishSettings: _*)
     .settings(checkAlias: _*)
-    .settings(initialCommands in console := """import org.mongodb.scala._""")
+    .settings(initialCommands in console := """import com.mongodb.casbah.Imports._""")
 
   override def rootProject = Some(casbah)
 
