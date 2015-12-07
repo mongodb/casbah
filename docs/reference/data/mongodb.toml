@@ -6,4 +6,4 @@ highlightTheme = "idea.css"
 apiUrl = "/scaladoc/index.html"
 coreApiUrl = "http://api.mongodb.org/java/3.2/"
 coreDocsUrl = "http://mongodb.github.io/mongo-java-driver/3.2/"
-mongoDriverVersion = "3.2.0-rc0"               # Update in installation-guide.md
+mongoDriverVersion = "3.2.0"               # Update in installation-guide.md
