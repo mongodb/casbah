@@ -175,7 +175,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
       case Success(x)                 => Some(x)
       case _                          => None
     }
-    castToOption[A](res.getOrElse(None))
+    res.flatMap(castToOption[A])
   }
 
   // scalastyle:off method.name public.methods.have.type

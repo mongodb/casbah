@@ -155,7 +155,7 @@ class DSLCoreOperatorsSpec extends CasbahMutableSpecification {
       timeQuery must haveEntry("foo.$ne" -> timestamp)
     }
 
-    "Accept a right hand value of None" in {
+    "Accept a right hand value of None" in skipped {
       val neQuery = "foo" $ne None
       neQuery must haveEntry("foo.$ne" -> None)
     }
