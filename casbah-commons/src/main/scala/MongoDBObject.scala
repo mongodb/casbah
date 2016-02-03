@@ -91,12 +91,11 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
     }
   }
 
-  // scalastyle:off null
-  override def get(key: String): Option[AnyRef] = underlying.get(key) match {
-    case null  => None
-    case value => Some(value)
-  }
-  // scalastyle:on null
+  override def get(key: String): Option[AnyRef] =
+    /* underlying.get returns null both when the value is missing and when
+     * it is null. Unlike nulls, Options can be nested, so we can allow clients
+     * to see the difference. */
+    Option(underlying.get(key)).orElse(if (containsField(key)) Some(None) else None)
 
   // scalastyle:off method.name
   def ++(pairs: (String, Any)*): DBObject = {
@@ -170,6 +169,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
       case (tryObj, n) =>
         tryObj.flatMap(obj => Try(obj.get(n).get.asInstanceOf[DBObject]))
     }
+
     val res = tryLeaf.flatMap(obj => Try(obj.get(path.last).get.asInstanceOf[A])) match {
       case Success(list: BasicDBList) => Some(new MongoDBList(list))
       case Success(x)                 => Some(x)
