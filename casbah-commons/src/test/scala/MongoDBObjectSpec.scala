@@ -278,7 +278,8 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
 
     val dbObj = MongoDBObject("x" -> 5, "y" -> 212.8, "spam" -> "eggs",
       "embedded" -> MongoDBObject("foo" -> "bar"), "none" -> None,
-      "jodaDate" -> jodaDate, "localJodaDate" -> localJodaDate, "jdkDate" -> jdkDate)
+      "jodaDate" -> jodaDate, "localJodaDate" -> localJodaDate, "jdkDate" -> jdkDate,
+      "null" -> null)
 
     "getAs functions as expected" in {
       dbObj.getAs[Int]("x") must beSome[Int](5)
@@ -289,6 +290,8 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
       dbObj.getAs[DateTime]("jodaDate") must beSome[DateTime](jodaDate)
       dbObj.getAs[LocalDateTime]("localJodaDate") must beSome[LocalDateTime](localJodaDate)
       dbObj.getAs[JDKDate]("jdkDate") must beSome[JDKDate](jdkDate)
+      dbObj.getAs[Any]("null") must beSome[Any](None)
+      dbObj.getAs[Int]("null") must beNone
     }
     "Should return None for None, failed casts and missing items" in {
       dbObj.getAs[Double]("none") must beNone
