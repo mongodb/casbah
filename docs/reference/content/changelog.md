@@ -13,6 +13,16 @@ title = "Changelog"
 Casbah jira project is here: [https://jira.mongodb.org/browse/CASBAH](https://jira.mongodb.org/browse/CASBAH)
 {{% /note %}}
 
+Changes in Version 3.1.1
+------------------------
+
+  * Updated Mongo Java Driver to 3.2.2
+    <br>
+    : [CASBAH-192](https://jira.mongodb.org/browse/CASBAH-192)
+  * 
+   Fixed `getAs[Any]` regression: [CASBAH-169](https://jira.mongodb.org/browse/CASBAH-169)
+ 
+
 
 Changes in Version 3.1.0
 ------------------------
