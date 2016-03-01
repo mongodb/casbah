@@ -41,7 +41,7 @@ casbah.  I recommend using [sbt-extras](https://github.com/paulp/sbt-extras)
 
     scalaVersion := "2.11.7"
 
-    libraryDependencies += "org.mongodb" %% "casbah" % "3.1.0"
+    libraryDependencies += "org.mongodb" %% "casbah" % "3.1.1"
     ~~~
 
   4. Run the console and test (sbt will automatically install the dependencies):
