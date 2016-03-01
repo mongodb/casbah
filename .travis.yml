@@ -9,6 +9,10 @@ jdk:
     - oraclejdk7
     - oraclejdk8
 
+addons:
+ # Fix OpenJDK build. Issue: https://github.com/travis-ci/travis-ci/issues/5227
+ hostname: short-hostname
+
 # Branches to test
 branches:
     only:
