@@ -27,8 +27,8 @@ Please address any questions or problems to the
 Google Groups.
 
 For more information about Casbah see the
-`API Docs <http://mongodb.github.io/casbah/api/>`_ or
-`Tutorial <http://mongodb.github.io/casbah/guide/>`_.
+`API Docs <http://mongodb.github.io/casbah/3.1/scaladoc/>`_ or
+`Tutorial <http://mongodb.github.io/casbah/3.1/getting-started/>`_.
 
 Project Artifacts
 -----------------
