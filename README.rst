@@ -20,7 +20,7 @@ functionality on top of it. This has been tested with MongoDB 1.2.x+ and 2.x of
 the Mongo java driver.
 
 We are constantly adding new functionality, and maintain a detailed
-`Casbah Tutorial <http://mongodb.github.io/casbah/3.1/getting-started/>`_.
+`Casbah documentation hub <http://mongodb.github.io/casbah/>`_.
 
 Please address any questions or problems to the
 `Casbah Mailing List <http://groups.google.com/group/mongodb-casbah-users>`_ on
