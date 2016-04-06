@@ -20,15 +20,15 @@ functionality on top of it. This has been tested with MongoDB 1.2.x+ and 2.x of
 the Mongo java driver.
 
 We are constantly adding new functionality, and maintain a detailed
-`Casbah Tutorial <http://mongodb.github.io/casbah/tutorial.html>`_.
+`Casbah Tutorial <http://mongodb.github.io/casbah/3.1/getting-started/>`_.
 
 Please address any questions or problems to the
 `Casbah Mailing List <http://groups.google.com/group/mongodb-casbah-users>`_ on
 Google Groups.
 
 For more information about Casbah see the
-`API Docs <http://mongodb.github.io/casbah/api/>`_ or
-`Tutorial <http://mongodb.github.io/casbah/guide/>`_.
+`API Docs <http://mongodb.github.io/casbah/3.1/scaladoc>`_ or
+`Tutorial <http://mongodb.github.io/casbah/3.1/getting-started/>`_.
 
 Project Artifacts
 -----------------
