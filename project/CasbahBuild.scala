@@ -30,7 +30,7 @@ object CasbahBuild extends Build {
     organizationHomepage := Some(url("http://www.mongodb.org")),
     version := "3.1.2-SNAPSHOT",
     scalaVersion := "2.11.7",
-    crossScalaVersions := Seq("2.11.7", "2.10.5", "2.12.0-RC1"),
+    crossScalaVersions := Seq("2.11.7", "2.10.5", "2.12.0"),
     resolvers := casbahResolvers,
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
   )
