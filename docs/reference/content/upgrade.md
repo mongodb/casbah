@@ -13,7 +13,7 @@ Any specific upgrade information for a driver release.
 
 ## Version 3.1.1
 
- * Added support for Scala 2.12.0-RC1 [CASBAH-179](https://jira.mongodb.org/browse/CASBAH-179)
+ * Added Scala 2.12 support: [CASBAH-196](https://jira.mongodb.org/browse/CASBAH-196)
 
 
 ## Version 3.0.0

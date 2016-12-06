@@ -21,7 +21,7 @@ Changes in Version 3.1.1
     : [CASBAH-192](https://jira.mongodb.org/browse/CASBAH-192)
   * Fixed `getAs[Any]` regression: [CASBAH-169](https://jira.mongodb.org/browse/CASBAH-169). <br>
     If the value is present and null, the method will now return Some(None), if it is not present, it will return None.
- 
+  * Added Scala 2.12 support: [CASBAH-196](https://jira.mongodb.org/browse/CASBAH-196)
 
 
 Changes in Version 3.1.0
