@@ -11,7 +11,7 @@ title = "Installation"
 
 **Casbah** is released to the [Sonatype](http://sonatype.org/)
 repository, the latest Casbah build as is 3.1.1 and supports the
-following scala versions: 2.10.x, 2.11.x, 2.12.0.
+following scala versions: 2.10.x, 2.11.x, 2.12.x
 
 The easiest way to install the latest Casbah driver (3.0.0) is by
 using [sbt - the Scala Build Tool](http://www.scala-sbt.org/).
@@ -46,7 +46,7 @@ resolvers += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositor
 
 **Casbah** is released to the [Sonatype](http://sonatype.org/)
 repository, the latest Casbah build as is 3.0.0 and supports the
-following scala versions: 2.10.x, 2.11.x, 2.12.0.
+following scala versions: 2.10.x, 2.11.x, 2.12.x
 
 ## Using Dependency/Build Managers
 
@@ -75,13 +75,13 @@ You can add Casbah to Maven with the following dependency block.
 <dependency>
 ~~~
 
-Please substitute `$SCALA_VERSION$` with your Scala version (we support 2.10.x, 2.11.x, 2.12.0.)
+Please substitute `$SCALA_VERSION$` with your Scala version (we support 2.10.x, 2.11.x, 2.12.x)
 
 ## Setting Up Ivy (w/ Ant)
 
 You can add Casbah to Ivy with the following dependency block.
 
-Please substitute `$SCALA_VERSION$` with your Scala version (we support 2.10.x, 2.11.x, 2.12.0.)
+Please substitute `$SCALA_VERSION$` with your Scala version (we support 2.10.x, 2.11.x, 2.12.x)
 
 ## Setting up without a Dependency/Build Manager (Source + Binary)
 
@@ -94,7 +94,7 @@ take time, especially as the dependencies change depending on the Scala
 version you are using. To simplify this you can download a single all
 inclusive jar for your scala version:
 
- * [Casbah Scala 2.12.0](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.12/3.1.1/casbah-alldep_2.12.0-3.1.1.jar)
+ * [Casbah Scala 2.12](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.12/3.1.1/casbah-alldep_2.12-3.1.1.jar)
  * [Casbah Scala 2.11](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.11/3.1.1/casbah-alldep_2.11-3.1.1.jar)
  * [Casbah Scala 2.10](http://oss.sonatype.org/content/repositories/releases/org/mongodb/casbah_2.10/3.1.1/casbah-alldep_2.10-3.1.1.jar)
 

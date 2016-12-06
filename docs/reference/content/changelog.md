@@ -17,7 +17,7 @@ Changes in Version 3.1.1
 ------------------------
 
   * Updated Mongo Java Driver to 3.2.2
-    <br>
+    <br> (<https://github.com/mongodb/mongo-java-driver/releases/tag/r3.2.2>)
     : [CASBAH-192](https://jira.mongodb.org/browse/CASBAH-192)
   * Fixed `getAs[Any]` regression: [CASBAH-169](https://jira.mongodb.org/browse/CASBAH-169). <br>
     If the value is present and null, the method will now return Some(None), if it is not present, it will return None.
@@ -28,7 +28,7 @@ Changes in Version 3.1.0
 ------------------------
 
   * Updated Mongo Java Driver to 3.2.0
-    <br>
+    <br> (<https://github.com/mongodb/mongo-java-driver/releases/tag/r3.2.0>)
     : [CASBAH-186](https://jira.mongodb.org/browse/CASBAH-186)
   * Added support for bypassDocumentValidation : [CASBAH-187](https://jira.mongodb.org/browse/CASBAH-187)
   * Added support for WriteConcern with findAndModify helpers : [CASBAH-188](https://jira.mongodb.org/browse/CASBAH-188)
