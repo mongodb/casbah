@@ -266,7 +266,7 @@ functions:
         file="${PROJECT_DIRECTORY}/.evergreen/install-dependencies.sh"
         [ -f ${file} ] && sh ${file} || echo "${file} not available, skipping"
 
-  "run stack checks":
+  "run static checks":
     - command: shell.exec
       type: test
       params:
