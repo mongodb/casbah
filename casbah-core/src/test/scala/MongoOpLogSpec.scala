@@ -19,17 +19,48 @@
  * http://github.com/mongodb/casbah
  *
  */
-
 package com.mongodb.casbah.test.core
 
 import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.util.{ MongoNoOperation, MongoOpLog, NoOp }
+import org.bson.types.BSONTimestamp
+import org.specs2.mock.Mockito
 
-import com.mongodb.casbah.util.{ MongoOpLogEntry, MongoOpLog }
-import com.mongodb.casbah.commons.ValidBSONType.BSONTimestamp
-
-class MongoOpLogSpec extends CasbahDBTestSpecification {
+class MongoOpLogSpec extends CasbahDBTestSpecification with Mockito {
 
   "MongoOpLog" should {
+    "support no op types" in {
+
+      val cursor = mock[MongoCursor]
+      cursor.hasNext returns true
+
+      val x: DBObject = MongoDBObject(
+        "ts" -> new BSONTimestamp(10101, 0),
+        "h" -> 0,
+        "v" -> 2,
+        "op" -> "n",
+        "ns" -> "",
+        "o" -> Map.empty
+      )
+
+      cursor.next() returns x
+
+      val oplog = spy(new MongoOpLog(
+        mongoClient = mongoClient,
+        replicaSet = false,
+        namespace = Some("%s.%s".format(database.name, collection.name))
+      ))
+
+      oplog.cursor returns cursor
+
+      oplog.next() must not(throwA[scala.MatchError])
+
+      oplog.next() must beAnInstanceOf[MongoNoOperation]
+      val event = oplog.next()
+      event.op.typeCode === "n"
+      event.op === NoOp
+
+    }
 
     "iterate over new OpLog entries when .next() is called" in {
       isReplicaSet must beTrue.orSkip("Testing OpLogs requires a ReplicaSet")
