@@ -44,10 +44,11 @@ class MongoOpLogSpec extends CasbahDBTestSpecification with Mockito {
 
       cursor.next() returns x
 
-      val oplog = spy(new MongoOpLog(
-        mongoClient = mongoClient,
-        replicaSet = false,
-        namespace = Some("%s.%s".format(database.name, collection.name))))
+      class MockMongoOpLog extends MongoOpLog {
+        override def verifyOpLog = new BSONTimestamp(10101, 0)
+      }
+
+      val oplog = spy(new MockMongoOpLog)
 
       oplog.cursor returns cursor
 
