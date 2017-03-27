@@ -129,6 +129,15 @@ object MongoOpLogEntry {
         entry.as[String]("ns"),
         entry.as[DBObject]("o")
       )
+    case NoOp.typeCode =>
+      MongoNoOperation(
+        entry.as[BSONTimestamp]("ts"),
+        entry.getAs[Long]("h"),
+        /** TODO - It won't be there for Master/Slave, but should we check it for RS? */
+        entry.as[String]("ns"),
+        entry.as[DBObject]("o")
+      )
+
   }
 }
 
@@ -146,6 +155,9 @@ case object UpdateOp extends MongoOpType {
 
 case object DeleteOp extends MongoOpType {
   val typeCode = "d"
+}
+case object NoOp extends MongoOpType {
+  val typeCode = "n"
 }
 
 sealed trait MongoOpLogEntry {
@@ -182,3 +194,6 @@ case class MongoDeleteOperation(timestamp: BSONTimestamp, opID: Option[Long], na
   val opType = DeleteOp
 }
 
+case class MongoNoOperation(timestamp: BSONTimestamp, opID: Option[Long], namespace: String, document: MongoDBObject) extends MongoOpLogEntry {
+  val opType = NoOp
+}

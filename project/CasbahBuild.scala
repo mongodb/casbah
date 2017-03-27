@@ -81,7 +81,7 @@ object CasbahBuild extends Build {
   )
 
   lazy val casbahCommonDependencies = Seq(libraryDependencies <++= scalaVersion (sv =>
-    Seq(scalatest(sv), scalatime(sv)) ++ scalaStyle(sv) ++ specs2(sv)))
+    Seq(scalatest(sv), scalatime(sv)) ++ scalaStyle(sv) ++ specs2(sv) ++ specs2Mock(sv)))
 
   // Check style
   val checkAlias = addCommandAlias("check", ";clean;scalastyle;coverage;test;coverageAggregate;coverageReport")

@@ -35,8 +35,13 @@ object Dependencies {
   def specs2(scalaVersion: String) =
     scalaVersion match {
       case _ => Seq("org.specs2" %% "specs2-core" % "3.8.6" % "test",
-        "org.specs2" %% "specs2-junit" % "3.8.6" % "test")
+        "org.specs2" %% "specs2-junit" % "3.8.6" % "test"
+      )
     }
+
+  def specs2Mock(scalaVersion: String) = {
+    Seq("org.specs2" %% s"specs2-mock" % "3.8.6" % "test")
+  }
 
   def scalaStyle(scalaVersion: String) =
     scalaVersion match {
