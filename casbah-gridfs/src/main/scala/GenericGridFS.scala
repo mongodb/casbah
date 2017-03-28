@@ -58,6 +58,9 @@ abstract class GenericGridFS protected[gridfs] extends Logging {
   /** Find by query */
   def find[A <% DBObject](query: A): mutable.Buffer[MongoGridFSDBFile] = underlying.find(query).asScala
 
+  /** Find by query and sort */
+  def find[A <% DBObject, B <% DBObject](query: A, sort: B): mutable.Buffer[MongoGridFSDBFile] = underlying.find(query,sort).asScala
+
   /** Find by query - returns a single item */
   def find(id: ObjectId): MongoGridFSDBFile = underlying.find(id)
 
