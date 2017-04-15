@@ -334,6 +334,14 @@ trait MongoCollectionBase extends Logging {
                                                                                 writeConcern: WriteConcern): Option[T] =
     _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert, writeConcern))
 
+  /** Finds the last document.
+   * @param query the query object
+   * @param sortClause the clause object to sort result
+   * @return the last document
+   */
+  def last(query: MongoDBObject, sortClause: MongoDBObject) =
+    find(query).sort(sortClause).limit(1).next()
+
   /**
    * Finds the first document in the query and updates it.
    *
