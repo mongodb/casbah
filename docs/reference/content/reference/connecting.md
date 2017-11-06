@@ -156,7 +156,7 @@ val uri = MongoClientURI("mongodb://username:pwd@localhost/?authMechanism=SCRAM-
 val mongoClient =  MongoClient(uri)
 
 // GSSAPI
-val uri = MongoClientURI("mongodb://username%40domain@kdc.example.com/?authMechanism=MONGODB-GSSAPI")
+val uri = MongoClientURI("mongodb://username%40example.com@localhost:27017/?authMechanism=MONGODB-GSSAPI")
 val mongoClient =  MongoClient(uri)
 ~~~
 
