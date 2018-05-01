@@ -1,11 +1,13 @@
 Casbah
 ======
 :Info: Scala toolkit for MongoDB (com.mongodb.casbah). See `the mongo site <http://www.mongodb.org>`_ for more information. See `github <http://github.com/mongodb/casbah/tree/master>`_ for the latest source.
-:Author: Brendan W. McAdams
-:Maintainer: Ross Lawley <ross@mongodb.com>
 
 .. image:: https://travis-ci.org/mongodb/casbah.png?branch=master
   :target: https://travis-ci.org/mongodb/casbah
+
+Notice
+======
+Please see the `Mongo Scala Driver <http://mongodb.github.io/mongo-scala-driver/>`_ for a modern idiomatic MongoDB Scala driver.
 
 About
 =====
@@ -19,8 +21,7 @@ Java-oriented Mongo Java driver, and attempts to provide more scala-like
 functionality on top of it. This has been tested with MongoDB 1.2.x+ and 2.x of
 the Mongo java driver.
 
-We are constantly adding new functionality, and maintain a detailed
-`Casbah documentation hub <http://mongodb.github.io/casbah/>`_.
+For more information see the `Casbah documentation hub <http://mongodb.github.io/casbah/>`_.
 
 Please address any questions or problems to the
 `Casbah Mailing List <http://groups.google.com/group/mongodb-casbah-users>`_ on
