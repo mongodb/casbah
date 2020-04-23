@@ -29,8 +29,8 @@ object CasbahBuild extends Build {
     organization := "org.mongodb",
     organizationHomepage := Some(url("http://www.mongodb.org")),
     version := "3.1.2-SNAPSHOT",
-    scalaVersion := "2.11.8",
-    crossScalaVersions := Seq("2.11.8", "2.10.6", "2.12.1"),
+    scalaVersion := "2.13.2",
+    crossScalaVersions := Seq("2.13.2"),
     resolvers := casbahResolvers,
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
   )
@@ -39,7 +39,6 @@ object CasbahBuild extends Build {
    * ScalacOptions settings
    */
   lazy val scalacOptionsSettings = Seq(scalacOptions ++= (scalaBinaryVersion.value match {
-    case "2.10" => Seq("-unchecked", "-feature", "-Xlint")
     case _ => Seq("-unchecked", "-feature", "-Xlint:-missing-interpolator")
   }))
 
