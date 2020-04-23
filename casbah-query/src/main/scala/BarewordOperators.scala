@@ -244,7 +244,7 @@ trait PushAllOp extends BarewordQueryOperator {
  * @see http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet
  */
 trait AddToSetOp extends BarewordQueryOperator {
-  def $addToSet[T <% DBObject](arg: T): DBObject = MongoDBObject("$addToSet" -> arg)
+  def $addToSet_[T](arg: T)(implicit ev: T => DBObject): DBObject = MongoDBObject("$addToSet" -> arg)
 
   def $addToSet[A](fields: (String, A)*): DBObject = apply[A]("$addToSet")(fields)
 

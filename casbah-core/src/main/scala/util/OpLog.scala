@@ -53,14 +53,14 @@ class MongoOpLog(
   log.debug("Beginning monitoring OpLog at '%s'", tsp)
 
   val q = namespace match {
-    case Some(ns) => ("ts" $gt tsp) ++ ("ns" -> ns)
+    case Some(ns) => ("ts" $gt tsp) ++~ ("ns" -> ns)
     case None     => "ts" $gt tsp
   }
 
   log.debug("OpLog Filter: '%s'", q)
 
   // scalastyle:off public.methods.have.type
-  val cursor = oplog.find(q)
+  val cursor: _root_.com.mongodb.casbah.Imports.MongoCursor = oplog.find(q)
   cursor.option = Bytes.QUERYOPTION_TAILABLE
   cursor.option = Bytes.QUERYOPTION_AWAITDATA
 

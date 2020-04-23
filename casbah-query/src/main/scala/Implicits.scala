@@ -24,9 +24,10 @@ package com.mongodb.casbah
 package query
 
 import scala.language.implicitConversions
-
 import com.mongodb.casbah.commons.Imports._
-import com.mongodb.casbah.query.dsl.{ FluidQueryOperators, GeoCoords, ValueTestFluidQueryOperators }
+import com.mongodb.casbah.query.dsl.{FluidQueryOperators, GeoCoords, ValueTestFluidQueryOperators}
+
+import scala.math.Ordering.Float.TotalOrdering
 
 // scalastyle:off number.of.types
 
@@ -163,9 +164,9 @@ object ValidTypes {
 
   trait LongOk extends ValidNumericType[Long] with Numeric.LongIsIntegral with Ordering.LongOrdering
 
-  trait FloatOk extends ValidNumericType[Float] with Numeric.FloatIsFractional with Ordering.FloatOrdering
+  trait FloatOk extends ValidNumericType[Float] with Numeric.FloatIsFractional with Ordering.Float.TotalOrdering
 
-  trait DoubleOk extends ValidNumericType[Double] with Numeric.DoubleIsFractional with Ordering.DoubleOrdering
+  trait DoubleOk extends ValidNumericType[Double] with Numeric.DoubleIsFractional with Ordering.Double.TotalOrdering
 
 }
 

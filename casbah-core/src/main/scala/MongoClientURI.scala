@@ -21,7 +21,7 @@
 
 package com.mongodb.casbah
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 import com.mongodb.{ MongoCredential => JavaMongoCredential }
 import com.mongodb.casbah.Imports._
@@ -65,7 +65,7 @@ case class MongoClientURI(underlying: com.mongodb.MongoClientURI) {
 
   def credentials: Option[JavaMongoCredential] = Option(underlying.getCredentials)
 
-  def hosts: Seq[String] = underlying.getHosts.asScala
+  def hosts: Seq[String] = underlying.getHosts.asScala.toSeq
 
   def database: Option[String] = Option(underlying.getDatabase)
 

@@ -124,13 +124,13 @@ class BulkWriteOperationSpec extends CasbahDBTestSpecification {
         "when an update document contains a non $-prefixed key, update should throw IllegalArgumentException" in {
           collection.drop()
           val operation = initializeBulkOperation(ordered)
-          operation.find(MongoDBObject()).update($set("x" -> 1) ++ ("y" -> 2))
+          operation.find(MongoDBObject()).update($set("x" -> 1) ++~ ("y" -> 2))
           operation.execute() should throwA[IllegalArgumentException]
         }
 
         "when an update document contains a non $-prefixed key, updateOne should throw IllegalArgumentException" in {
           val operation = initializeBulkOperation(ordered)
-          operation.find(MongoDBObject()).update($set("x" -> 1) ++ ("y" -> 2))
+          operation.find(MongoDBObject()).update($set("x" -> 1) ++~ ("y" -> 2))
           operation.execute() should throwA[IllegalArgumentException]
         }
 

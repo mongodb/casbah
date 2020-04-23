@@ -213,7 +213,7 @@ class MongoDBObjectSpec extends CasbahMutableSpecification {
         newObj must haveEntries("x" -> "y", "a" -> "b", "foo" -> "bar")
       }
       "A list of Tuple Entrys with ++ " in {
-        val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++ ("foo" -> "bar", "n" -> 5)
+        val newObj = MongoDBObject("x" -> "y", "a" -> "b") ++~ ("foo" -> "bar", "n" -> 5)
         newObj must beDBObject
 
         newObj must beEqualTo(MongoDBObject("x" -> "y", "a" -> "b", "foo" -> "bar", "n" -> 5))

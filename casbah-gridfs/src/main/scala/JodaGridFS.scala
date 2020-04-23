@@ -24,7 +24,6 @@ package com.mongodb.casbah
 package gridfs
 
 import java.io.{ File, InputStream }
-import scala.beans.BeanInfo
 
 import com.mongodb.gridfs.{
   GridFS => MongoGridFS,
@@ -67,7 +66,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Generic
 
     def count(): Int = fileSet.count
 
-    override def length: Int = fileSet.length
+    //override def length: Int = fileSet.length
 
     def numSeen(): Int = fileSet.numSeen
 
@@ -216,7 +215,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Generic
         Option(fh.id)
     }
 
-  def findOne[A <% DBObject](query: A): Option[JodaGridFSDBFile] = {
+  def findOne[A](query: A)(implicit ev$1: A => DBObject): Option[JodaGridFSDBFile] = {
     filesCollection.findOne(query) match {
       case None => None
       case x => {
@@ -233,13 +232,10 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Generic
 
 }
 
-@BeanInfo
 class JodaGridFSDBFile(_underlying: MongoGridFSDBFile) extends GenericGridFSDBFile(_underlying) with ConvertToDateTime
 
-@BeanInfo
 class JodaGridFSFile(_underlying: MongoGridFSFile) extends GenericGridFSFile(_underlying) with ConvertToDateTime
 
-@BeanInfo
 class JodaGridFSInputFile(_underlying: MongoGridFSInputFile) extends GenericGridFSInputFile(_underlying) with ConvertToDateTime
 
 trait ConvertToDateTime {

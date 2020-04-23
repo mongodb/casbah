@@ -24,23 +24,23 @@ object Dependencies {
 
   def scalatime(scalaVersion: String) =
     scalaVersion match {
-      case _ => "com.github.nscala-time" %% "nscala-time" % "2.14.0"
+      case _ => "com.github.nscala-time" %% "nscala-time" % "2.22.0"
     }
 
   def scalatest(scalaVersion: String) =
     scalaVersion match {
-      case _ => "org.scalatest" %% "scalatest" % "3.0.0"  % "test"
+      case _ => "org.scalatest" %% "scalatest" % "3.1.1"  % "test"
     }
 
   def specs2(scalaVersion: String) =
     scalaVersion match {
-      case _ => Seq("org.specs2" %% "specs2-core" % "3.8.6" % "test",
-        "org.specs2" %% "specs2-junit" % "3.8.6" % "test"
+      case _ => Seq("org.specs2" %% "specs2-core" % "4.9.3" % "test",
+        "org.specs2" %% "specs2-junit" % "4.9.3" % "test"
       )
     }
 
   def specs2Mock(scalaVersion: String) = {
-    Seq("org.specs2" %% s"specs2-mock" % "3.8.6" % "test")
+    Seq("org.specs2" %% s"specs2-mock" % "4.9.3" % "test")
   }
 
   def scalaStyle(scalaVersion: String) =

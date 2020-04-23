@@ -23,23 +23,40 @@
 package com.mongodb.casbah.test.core
 
 import com.mongodb.MongoExecutionTimeoutException
-import org.specs2.specification.BeforeAfterExample
-import scala.concurrent.duration.{ Duration, SECONDS }
 
+import scala.concurrent.duration.{Duration, SECONDS}
 import com.mongodb.casbah.Imports._
+import org.specs2.specification.BeforeAfterSpec
+import org.specs2.specification.core.{Description, Execution, Fragment, Fragments}
 
-class MaxTimeSpec extends CasbahDBTestSpecification with BeforeAfterExample {
+class MaxTimeSpec extends CasbahDBTestSpecification with BeforeAfterSpec {
 
   skipAllUnless(serverIsAtLeastVersion(2, 5))
 
   val oneSecond = Duration(1, SECONDS)
 
-  def before: Unit = {
-    collection.drop()
-    enableMaxTimeFailPoint()
+  override def beforeSpec: Fragments = {
+    Fragments.apply(before)
   }
 
-  def after: Unit = disableMaxTimeFailPoint()
+  override def afterSpec: Fragments = {
+    Fragments.apply(after)
+  }
+
+  def before = {
+    Fragment(Description.text("Before"), Execution.executed{
+      collection.drop()
+      enableMaxTimeFailPoint()
+      true shouldEqual true
+    })
+  }
+
+  def after = {
+    Fragment(Description.text("After"), Execution.executed{
+      disableMaxTimeFailPoint()
+      true shouldEqual true
+    })
+  }
 
   "MaxTime" should {
     "be supported by aggregation" in {
@@ -128,4 +145,5 @@ class MaxTimeSpec extends CasbahDBTestSpecification with BeforeAfterExample {
       getMoreOp should throwA[MongoExecutionTimeoutException]
     }
   }
+
 }

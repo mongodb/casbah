@@ -26,7 +26,7 @@ package commons
 import com.mongodb.casbah.commons.Imports._
 
 import scala.collection.mutable
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.{ Try, Success, Failure }
 
 class MongoDBList(val underlying: BasicDBList = new BasicDBList) extends mutable.Seq[Any] with Castable {
@@ -122,7 +122,7 @@ object MongoDBList {
   def apply[A <: Any](elems: A*): MongoDBList = {
     val b = newBuilder[A]
     for { xs <- elems } xs match {
-      case p: Tuple2[_, _] => b += MongoDBObject(p.asInstanceOf[Tuple2[String, Any]])
+      case p: Tuple2[_, _] => b += MongoDBObject(p.asInstanceOf[(String, Any)])
       case _               => b += xs
     }
     b.result()
@@ -139,14 +139,14 @@ object MongoDBList {
 
 }
 
-sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Seq[Any]] {
+sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, MongoDBList] {
 
   protected val empty: MongoDBList = new MongoDBList
 
   protected var elems: MongoDBList = empty
 
   // scalastyle:off method.name public.methods.have.type
-  override def +=(x: Any) = {
+  override def addOne(x: Any) = {
     elems.add(x.asInstanceOf[AnyRef])
     this
   }
@@ -157,5 +157,6 @@ sealed class MongoDBListBuilder extends scala.collection.mutable.Builder[Any, Se
     elems = empty
   }
 
-  def result(): MongoDBList = elems
+  //override def result(): MongoDBList = elems
+  override def result() = elems
 }

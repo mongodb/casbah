@@ -25,12 +25,13 @@ package commons
 
 import com.mongodb.casbah.commons.Imports._
 
-import scala.beans.BeanInfo
-import scala.collection.JavaConversions._
+import scala.jdk.CollectionConverters._
 import scala.collection.generic._
-import scala.collection.mutable
-import scala.util.{ Success, Try }
+import scala.collection.{BuildFrom, mutable}
+import scala.util.{Success, Try}
 import java.util
+
+import com.mongodb.casbah
 
 /**
  * MapLike scala interface for Mongo DBObjects - proxies an existing DBObject.
@@ -41,13 +42,12 @@ import java.util
  * @since 1.0
  *
  */
-@BeanInfo
 class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutable.Map[String, AnyRef]
-    with mutable.MapLike[String, AnyRef, MongoDBObject] with Logging with Castable {
+  with Logging with Castable {
 
   override def empty: MongoDBObject = MongoDBObject.empty
 
-  def iterator: Iterator[(String, Object)] = underlying.toMap.iterator.asInstanceOf[Iterator[(String, Object)]]
+  def iterator: Iterator[(String, Object)] = underlying.toMap.asScala.iterator.asInstanceOf[Iterator[(String, Object)]]
 
   /**
    * as
@@ -98,13 +98,13 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
     Option(underlying.get(key)).orElse(if (containsField(key)) Some(None) else None)
 
   // scalastyle:off method.name
-  def ++(pairs: (String, Any)*): DBObject = {
+  def ++~(pairs: (String, Any)*): DBObject = {
     val b = MongoDBObject.newBuilder
     for { (k, v) <- pairs } b += k -> v
     this ++ b.result
   }
 
-  def ++[A <% DBObject](other: A): DBObject = {
+  def ++[A](other: A)(implicit ev$1: A => DBObject): DBObject = {
     super.++(other: DBObject)
   }
 
@@ -116,7 +116,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
    * @see MongoDBList
    *
    */
-  def ::[A <% DBObject](elem: A): Seq[DBObject] = Seq(elem: DBObject, this)
+  def ::[A](elem: A)(implicit ev$1: A => DBObject): Seq[DBObject] = Seq(elem: DBObject, this)
 
   /**
    * Returns a new list with this MongoDBObject at the *end*
@@ -179,12 +179,12 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
   }
 
   // scalastyle:off method.name public.methods.have.type
-  def +=(kv: (String, AnyRef)) = {
+  override def addOne(kv: (String, AnyRef)) = {
     put(kv._1, kv._2)
     this
   }
 
-  def -=(key: String) = {
+  override def subtractOne(key: String) = {
     underlying.removeField(key)
     this
   }
@@ -252,12 +252,14 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
 
 object MongoDBObject {
 
-  implicit val canBuildFrom: CanBuildFrom[Map[String, Any], (String, Any), DBObject] =
-    new CanBuildFrom[Map[String, Any], (String, Any), DBObject] {
-      def apply(from: Map[String, Any]): mutable.Builder[(String, Any), DBObject] = apply()
+  /*
+    implicit val canBuildFrom: BuildFrom[Map[String, Any], (String, Any), DBObject] =
+      new BuildFrom[Map[String, Any], (String, Any), DBObject] {
+        def apply(from: Map[String, Any]): mutable.Builder[(String, Any), DBObject] = apply()
 
-      def apply(): mutable.Builder[(String, Any), DBObject] = newBuilder[String, Any]
+        def apply(): mutable.Builder[(String, Any), DBObject] = newBuilder[String, Any]
     }
+  */
 
   def empty: DBObject = new MongoDBObject()
 
@@ -285,7 +287,7 @@ sealed class MongoDBObjectBuilder extends mutable.Builder[(String, Any), DBObjec
   protected var elems = empty
 
   // scalastyle:off method.name
-  override def +=(x: (String, Any)): this.type = {
+  override def addOne(x: (String, Any)): this.type = {
     val cvt = MongoDBObject.convertValue(x._2)
     cvt match {
       case _v: Option[_] => elems.add(x._1, _v.orNull)

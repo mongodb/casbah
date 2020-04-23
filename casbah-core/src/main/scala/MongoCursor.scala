@@ -81,7 +81,7 @@ trait MongoCursorBase extends Logging {
    * @tparam A  A view of DBObject to sort by
    * @return A cursor pointing to the first element of the sorted results
    */
-  def sort[A <% DBObject](orderBy: A): this.type = {
+  def sort[A](orderBy: A)(implicit ev$1: A => DBObject): this.type = {
     // The Java code returns a copy of itself (via _this_) so no clone/_newInstance
     underlying.sort(orderBy)
     this
@@ -168,7 +168,7 @@ trait MongoCursorBase extends Logging {
    * @tparam A A view of DBObject to use for the indexKeys
    * @return the same DBCursor, useful for chaining operations
    */
-  def hint[A <% DBObject](indexKeys: A): this.type = {
+  def hint[A](indexKeys: A)(implicit ev$1: A => DBObject): this.type = {
     underlying.hint(indexKeys)
     this
   }
@@ -357,7 +357,7 @@ trait MongoCursorBase extends Logging {
    * @param  q (DBObject)
    * @return the same DBCursor, useful for chaining operations
    */
-  def $query[A <% DBObject](q: A): this.type = addSpecial("$query", q)
+  def $query[A](q: A)(implicit ev$1: A => DBObject): this.type = addSpecial("$query", q)
 
   /**
    * \$orderby
@@ -370,7 +370,7 @@ trait MongoCursorBase extends Logging {
    * @param  obj (DBObject)
    * @return the same DBCursor, useful for chaining operations
    */
-  def $orderby[A <% DBObject](obj: A): this.type = addSpecial("$orderby", obj)
+  def $orderby[A](obj: A)(implicit ev$1: A => DBObject): this.type = addSpecial("$orderby", obj)
 
   /**
    * \$explain
@@ -408,7 +408,7 @@ trait MongoCursorBase extends Logging {
    *
    * @return the same DBCursor, useful for chaining operations
    */
-  def $min[A <% DBObject](obj: A): this.type = addSpecial("$min", obj)
+  def $min[A](obj: A)(implicit ev$1: A => DBObject): this.type = addSpecial("$min", obj)
 
   /**
    * \$max
@@ -420,7 +420,7 @@ trait MongoCursorBase extends Logging {
    *
    * @return the same DBCursor, useful for chaining operations
    */
-  def $max[A <% DBObject](obj: A): this.type = addSpecial("$max", obj)
+  def $max[A](obj: A)(implicit ev$1: A => DBObject): this.type = addSpecial("$max", obj)
 
   /**
    * \$showDiskLoc
@@ -444,7 +444,7 @@ trait MongoCursorBase extends Logging {
    * @param obj (DBObject)
    * @return the same DBCursor, useful for chaining operations
    */
-  def $hint[A <% DBObject](obj: A): this.type = addSpecial("$hint", obj)
+  def $hint[A](obj: A)(implicit ev$1: A => DBObject): this.type = addSpecial("$hint", obj)
 
   /**
    * _newInstance

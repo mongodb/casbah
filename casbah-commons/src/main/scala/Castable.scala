@@ -21,7 +21,7 @@
 package com.mongodb.casbah
 package commons
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.immutable.{ List, Map }
 
 import com.mongodb.{ BasicDBList, BasicDBObject }
@@ -59,6 +59,15 @@ private[commons] trait Castable {
     value match {
       case simpleValue if erasure.isInstance(simpleValue) =>
         Some(value.asInstanceOf[A])
+      case basicDBListToSeq if erasure == classOf[Seq[_]] & value.isInstanceOf[BasicDBList] =>
+        Some(new MongoDBList(value.asInstanceOf[BasicDBList]).toSeq.asInstanceOf[A])
+      case seqToBasicDBList if erasure == classOf[BasicDBList] & value.isInstanceOf[Seq[_]] =>
+        Some(MongoDBList(value.asInstanceOf[Seq[_]]: _*).underlying.asInstanceOf[A])
+      case mongoDBListToSeq if erasure == classOf[Seq[_]] & value.isInstanceOf[MongoDBList] =>
+        Some(value.asInstanceOf[MongoDBList].toSeq.asInstanceOf[A])
+      case seqToMongoDBList if erasure == classOf[MongoDBList] & value.isInstanceOf[Seq[_]] =>
+        Some(MongoDBList(value.asInstanceOf[Seq[_]]: _*).asInstanceOf[A])
+
       case basicDBListToList if erasure == classOf[List[_]] & value.isInstanceOf[BasicDBList] =>
         Some(new MongoDBList(value.asInstanceOf[BasicDBList]).toList.asInstanceOf[A])
       case mongoDBListToList if erasure == classOf[List[_]] & value.isInstanceOf[MongoDBList] =>
