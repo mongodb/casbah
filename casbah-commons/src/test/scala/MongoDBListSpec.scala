@@ -50,7 +50,7 @@ class MongoDBListSpec extends CasbahMutableSpecification {
       jLst.add("eggs")
       jLst must not beEmpty
 
-      dbLst must containTheSameElementsAs(jLst)
+      dbLst must containTheSameElementsAs(jLst.toSeq)
     }
     "Support a 2.8 builder interface which returns a BasicDBList" in {
       val builder = MongoDBList.newBuilder

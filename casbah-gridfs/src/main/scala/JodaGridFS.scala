@@ -24,7 +24,6 @@ package com.mongodb.casbah
 package gridfs
 
 import java.io.{ File, InputStream }
-import scala.beans.BeanInfo
 
 import com.mongodb.gridfs.{
   GridFS => MongoGridFS,
@@ -67,7 +66,7 @@ class JodaGridFS protected[gridfs] (val underlying: MongoGridFS) extends Generic
 
     def count(): Int = fileSet.count
 
-    override def length: Int = fileSet.length
+    //override def length: Int = fileSet.length
 
     def numSeen(): Int = fileSet.numSeen
 

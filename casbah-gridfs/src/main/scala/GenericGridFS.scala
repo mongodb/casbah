@@ -22,7 +22,6 @@
 package com.mongodb.casbah
 package gridfs
 
-import scala.beans.BeanInfo
 import scala.jdk.CollectionConverters._
 import scala.language.reflectiveCalls
 
