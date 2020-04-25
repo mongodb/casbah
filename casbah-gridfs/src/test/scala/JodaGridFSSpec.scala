@@ -135,7 +135,7 @@ class JodaGridFSSpec extends GridFSSpecification with BeforeEach {
       file.get.source.mkString must beEqualTo("hello world")
 
       // Ensure the iterator also works
-      gridfs.iterator.filter(f => f.filename == "hello_world.txt").foreach(f =>
+      gridfs.iterator.filter(f => f.filename.contains("hello_world.txt")).foreach(f =>
         f.source.mkString must beEqualTo("hello world"))
       success
     }

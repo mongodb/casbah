@@ -53,7 +53,7 @@ class MongoOpLog(
   log.debug("Beginning monitoring OpLog at '%s'", tsp)
 
   val q = namespace match {
-    case Some(ns) => ("ts" $gt tsp) ++ ("ns" -> ns)
+    case Some(ns) => ("ts" $gt tsp) ++~ ("ns" -> ns)
     case None     => "ts" $gt tsp
   }
 

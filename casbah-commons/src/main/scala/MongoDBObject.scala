@@ -98,7 +98,7 @@ class MongoDBObject(val underlying: DBObject = new BasicDBObject) extends mutabl
     Option(underlying.get(key)).orElse(if (containsField(key)) Some(None) else None)
 
   // scalastyle:off method.name
-  def ++(pairs: (String, Any)*): DBObject = {
+  def ++~(pairs: (String, Any)*): DBObject = {
     val b = MongoDBObject.newBuilder
     for { (k, v) <- pairs } b += k -> v
     this ++ b.result
