@@ -210,7 +210,7 @@ class GridFS protected[gridfs] (override val underlying: MongoGridFS) extends Ge
         Option(fh.id)
     }
 
-  def findOne[A <% DBObject](query: A): Option[GridFSDBFile] = {
+  def findOne[A](query: A)(implicit ev$1: A => DBObject): Option[GridFSDBFile] = {
     filesCollection.findOne(query) match {
       case None => None
       case x => {
@@ -227,13 +227,10 @@ class GridFS protected[gridfs] (override val underlying: MongoGridFS) extends Ge
 
 }
 
-@BeanInfo
 class GridFSFile(_underlying: MongoGridFSFile) extends GenericGridFSFile(_underlying) with ConvertToDate
 
-@BeanInfo
 class GridFSDBFile(_underlying: MongoGridFSDBFile) extends GenericGridFSDBFile(_underlying) with ConvertToDate
 
-@BeanInfo
 class GridFSInputFile(_underlying: MongoGridFSInputFile) extends GenericGridFSInputFile(_underlying) with ConvertToDate
 
 trait ConvertToDate {

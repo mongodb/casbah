@@ -18,7 +18,7 @@ package com.mongodb.casbah
 
 import com.mongodb.{ ReadPreference => JReadPreference, TagSet }
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
  * Helper class for creating ReadPreference instances

@@ -380,7 +380,7 @@ trait SliceOp extends QueryOperator {
 trait ElemMatchOp extends QueryOperator {
   private val oper = "$elemMatch"
 
-  def $elemMatch[A <% DBObject](target: A): DBObject with QueryExpressionObject = queryOp(oper, target)
+  def $elemMatch[A](target: A)(implicit ev$1: A => DBObject): DBObject with QueryExpressionObject = queryOp(oper, target)
 }
 
 /**
@@ -566,7 +566,7 @@ trait GeoWithinOps extends QueryOperator {
   self =>
   private val oper = "$geoWithin"
 
-  def $geoWithin[A <% DBObject](geometry: A): DBObject with QueryExpressionObject = queryOp(oper, geometry)
+  def $geoWithin[A](geometry: A)(implicit ev$1: A => DBObject): DBObject with QueryExpressionObject = queryOp(oper, geometry)
 
   // scalastyle:off public.methods.have.type
   def $geoWithin = new QueryOperator {

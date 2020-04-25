@@ -60,7 +60,7 @@ class MongoOpLog(
   log.debug("OpLog Filter: '%s'", q)
 
   // scalastyle:off public.methods.have.type
-  val cursor = oplog.find(q)
+  val cursor: _root_.com.mongodb.casbah.Imports.MongoCursor = oplog.find(q)
   cursor.option = Bytes.QUERYOPTION_TAILABLE
   cursor.option = Bytes.QUERYOPTION_AWAITDATA
 

@@ -25,17 +25,15 @@
 package com.mongodb.casbah
 
 import scala.language.reflectiveCalls
-
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
-import scala.concurrent.duration.{ Duration, MILLISECONDS }
-
+import scala.concurrent.duration.{Duration, MILLISECONDS}
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.TypeImports.{ DBEncoder, WriteResult }
+import com.mongodb.casbah.TypeImports.{DBEncoder, WriteResult}
 import com.mongodb.casbah.commons.Logging
 import com.mongodb.casbah.commons.TypeImports.DBObject
-import com.mongodb.casbah.map_reduce.{ MapReduceCommand, MapReduceResult }
-import com.mongodb.{ ParallelScanOptions => JavaParallelScanOptions, _ }
+import com.mongodb.casbah.map_reduce.{MapReduceCommand, MapReduceResult}
+import com.mongodb.{CommandResult, DBCollection, DBCursor, DBDecoderFactory, DBEncoderFactory, InsertOptions, MongoExecutionTimeoutException, ParallelScanOptions => JavaParallelScanOptions, AggregationOutput => _}
 
 /**
  * Scala wrapper for Mongo DBCollections,
@@ -85,7 +83,7 @@ trait MongoCollectionBase extends Logging {
    * Forces creation of an index on a set of fields, if one does not already exist.
    * @param keys an object with a key set of the fields desired for the index
    */
-  def createIndex[A <% DBObject](keys: A): Unit = underlying.createIndex(keys)
+  def createIndex[A](keys: A)(implicit ev$1: A => DBObject): Unit = underlying.createIndex(keys)
 
   /**
    * Creates an index on the field specified, if that index does not already exist.
@@ -93,7 +91,7 @@ trait MongoCollectionBase extends Logging {
    * @param keys    a document that contains pairs with the name of the field or fields to index and order of the index
    * @param options a document that controls the creation of the index.
    */
-  def createIndex[A <% DBObject, B <% DBObject](keys: A, options: B): Unit =
+  def createIndex[A, B](keys: A, options: B)(implicit ev$1: A => DBObject, ev$2: B => DBObject): Unit =
     underlying.createIndex(keys, options)
 
   /**
@@ -111,7 +109,7 @@ trait MongoCollectionBase extends Logging {
    * @param name an identifier for the index. If null or empty, the default name will be used.
    * @throws MongoException if the operation failed
    */
-  def createIndex[A <% DBObject](keys: A, name: String): Unit = underlying.createIndex(keys, name)
+  def createIndex[A](keys: A, name: String)(implicit ev$1: A => DBObject): Unit = underlying.createIndex(keys, name)
 
   /**
    * Forces creation of an index on a set of fields, if one does not already exist.
@@ -121,7 +119,7 @@ trait MongoCollectionBase extends Logging {
    * @param unique if the index should be unique
    * @throws MongoException if the operation failed
    */
-  def createIndex[A <% DBObject](keys: A, name: String, unique: Boolean): Unit =
+  def createIndex[A](keys: A, name: String, unique: Boolean)(implicit ev$1: A => DBObject): Unit =
     underlying.createIndex(keys, name, unique)
 
   /**
@@ -133,7 +131,7 @@ trait MongoCollectionBase extends Logging {
    * @tparam A The DBObject type
    * @return
    */
-  def distinct[A <% DBObject](key: String, query: A = MongoDBObject.empty, readPrefs: ReadPreference = getReadPreference): mutable.Buffer[_] =
+  def distinct[A](key: String, query: A = MongoDBObject.empty, readPrefs: ReadPreference = getReadPreference)(implicit ev$1: A => DBObject): mutable.Buffer[_] =
     underlying.distinct(key, query, readPrefs).asScala
 
   /**
@@ -146,7 +144,7 @@ trait MongoCollectionBase extends Logging {
    */
   def dropCollection(): Unit = underlying.drop()
 
-  def dropIndex[A <% DBObject](keys: A): Unit = underlying.dropIndex(keys)
+  def dropIndex[A](keys: A)(implicit ev$1: A => DBObject): Unit = underlying.dropIndex(keys)
 
   def dropIndex(name: String): Unit = underlying.dropIndex(name)
 
@@ -168,7 +166,7 @@ trait MongoCollectionBase extends Logging {
    * @param ref object for which to search
    * @return an iterator over the results
    */
-  def find[A <% DBObject](ref: A): CursorType = _newCursor(underlying.find(ref))
+  def find[A](ref: A)(implicit ev$1: A => DBObject): CursorType = _newCursor(underlying.find(ref))
 
   /**
    * Queries for an object in this collection.
@@ -192,7 +190,7 @@ trait MongoCollectionBase extends Logging {
    * @param keys fields to return
    * @return a cursor to iterate over results
    */
-  def find[A <% DBObject, B <% DBObject](ref: A, keys: B): CursorType = _newCursor(underlying.find(ref, keys))
+  def find[A, B](ref: A, keys: B)(implicit ev$1: A => DBObject, ev$2: B => DBObject): CursorType = _newCursor(underlying.find(ref, keys))
 
   /**
    * Finds an object.
@@ -205,7 +203,7 @@ trait MongoCollectionBase extends Logging {
    * @return the objects, if found
    */
   @deprecated("Use `find().skip().batchSize()`.", "2.7")
-  def find[A <% DBObject, B <% DBObject](ref: A, fields: B, numToSkip: Int, batchSize: Int): CursorType =
+  def find[A, B](ref: A, fields: B, numToSkip: Int, batchSize: Int)(implicit ev$1: A => DBObject, ev$2: B => DBObject): CursorType =
     _newCursor(underlying.find(ref, fields).skip(numToSkip).batchSize(batchSize))
 
   /**
@@ -225,13 +223,13 @@ trait MongoCollectionBase extends Logging {
    *
    * @return            (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
-  def findOne[A <% DBObject, B <% DBObject, C <% DBObject](
+  def findOne[A, B, C](
     o:         A              = MongoDBObject.empty,
     fields:    B              = MongoDBObject.empty,
     orderBy:   C              = MongoDBObject.empty,
     readPrefs: ReadPreference = getReadPreference,
     maxTime:   Duration       = Duration(0, MILLISECONDS)
-  ): Option[T] = {
+  )(implicit ev$1: A => DBObject, ev$2: B => DBObject, ev$3: C => DBObject): Option[T] = {
     val document = underlying.find(o, fields)
       .sort(orderBy)
       .setReadPreference(readPrefs)
@@ -262,7 +260,7 @@ trait MongoCollectionBase extends Logging {
    * @param fields fields to return
    * @return (Option[T]) Some() of the object found, or <code>None</code> if no such object exists
    */
-  def findOneByID[B <% DBObject](id: AnyRef, fields: B): Option[T] =
+  def findOneByID[B](id: AnyRef, fields: B)(implicit ev$1: B => DBObject): Option[T] =
     _typedValue(underlying.findOne(id, fields))
 
   /**
@@ -276,7 +274,7 @@ trait MongoCollectionBase extends Logging {
    *
    * @return (Option[T]) of the the found document (before, or after the update)
    */
-  def findAndModify[A <% DBObject, B <% DBObject](query: A, update: B): Option[T] =
+  def findAndModify[A, B](query: A, update: B)(implicit ev$1: A => DBObject, ev$2: B => DBObject): Option[T] =
     _typedValue(underlying.findAndModify(query, update))
 
   /**
@@ -288,7 +286,7 @@ trait MongoCollectionBase extends Logging {
    *
    * @return the old document
    */
-  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject](query: A, sort: B, update: C): Option[T] =
+  def findAndModify[A, B, C](query: A, sort: B, update: C)(implicit ev$1: A => DBObject, ev$2: B => DBObject, ev$3: C => DBObject): Option[T] =
     _typedValue(underlying.findAndModify(query, sort, update))
 
   /**
@@ -305,9 +303,9 @@ trait MongoCollectionBase extends Logging {
    * @return the document as it was before the modifications, unless `returnNew` is true, in which case it returns the document
    *         after the changes were made
    */
-  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+  def findAndModify[A, B, C, D](query: A, fields: B, sort: C,
                                                                                 remove: Boolean, update: D,
-                                                                                returnNew: Boolean, upsert: Boolean): Option[T] =
+                                                                                returnNew: Boolean, upsert: Boolean)(implicit ev$1: A => DBObject, ev$2: B => DBObject, ev$3: C => DBObject, ev$4: D => DBObject): Option[T] =
     _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert))
 
   /**
@@ -328,10 +326,10 @@ trait MongoCollectionBase extends Logging {
    * @throws MongoException if the operation failed for some other reason
    * @since 3.1.0
    */
-  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+  def findAndModify[A, B, C, D](query: A, fields: B, sort: C,
                                                                                 remove: Boolean, update: D,
                                                                                 returnNew: Boolean, upsert: Boolean,
-                                                                                writeConcern: WriteConcern): Option[T] =
+                                                                                writeConcern: WriteConcern)(implicit ev$1: A => DBObject, ev$2: B => DBObject, ev$3: C => DBObject, ev$4: D => DBObject): Option[T] =
     _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert, writeConcern))
 
   /**
@@ -349,10 +347,10 @@ trait MongoCollectionBase extends Logging {
    * @return the document as it was before the modifications, unless `returnNew` is true, in which case it returns the document
    *         after the changes were made
    */
-  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+  def findAndModify[A, B, C, D](query: A, fields: B, sort: C,
                                                                                 remove: Boolean, update: D,
                                                                                 returnNew: Boolean, upsert: Boolean,
-                                                                                maxTime: Duration): Option[T] =
+                                                                                maxTime: Duration)(implicit ev$1: A => DBObject, ev$2: B => DBObject, ev$3: C => DBObject, ev$4: D => DBObject): Option[T] =
     _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert,
       maxTime.length, maxTime.unit))
 
@@ -372,11 +370,11 @@ trait MongoCollectionBase extends Logging {
    * @throws MongoException if the operation failed for some other reason
    * @since 3.1.0
    */
-  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+  def findAndModify[A, B, C, D](query: A, fields: B, sort: C,
                                                                                 remove: Boolean, update: D,
                                                                                 returnNew: Boolean, upsert: Boolean,
                                                                                 maxTime:      Duration,
-                                                                                writeConcern: WriteConcern): Option[T] =
+                                                                                writeConcern: WriteConcern)(implicit ev$1: A => DBObject, ev$2: B => DBObject, ev$3: C => DBObject, ev$4: D => DBObject): Option[T] =
     _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert,
       maxTime.length, maxTime.unit, writeConcern))
 
@@ -397,11 +395,11 @@ trait MongoCollectionBase extends Logging {
    * @throws MongoException if the operation failed for some other reason
    * @since 3.1.0
    */
-  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+  def findAndModify[A, B, C, D](query: A, fields: B, sort: C,
                                                                                 remove: Boolean, update: D,
                                                                                 returnNew: Boolean, upsert: Boolean,
                                                                                 bypassDocumentValidation: Boolean,
-                                                                                maxTime:                  Duration): Option[T] =
+                                                                                maxTime:                  Duration)(implicit ev$1: A => DBObject, ev$2: B => DBObject, ev$3: C => DBObject, ev$4: D => DBObject): Option[T] =
     _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert, bypassDocumentValidation,
       maxTime.length, maxTime.unit))
 
@@ -422,12 +420,12 @@ trait MongoCollectionBase extends Logging {
    * @throws MongoException if the operation failed for some other reason
    * @since 3.1.0
    */
-  def findAndModify[A <% DBObject, B <% DBObject, C <% DBObject, D <% DBObject](query: A, fields: B, sort: C,
+  def findAndModify[A, B, C, D](query: A, fields: B, sort: C,
                                                                                 remove: Boolean, update: D,
                                                                                 returnNew: Boolean, upsert: Boolean,
                                                                                 bypassDocumentValidation: Boolean,
                                                                                 maxTime:                  Duration,
-                                                                                writeConcern:             WriteConcern): Option[T] =
+                                                                                writeConcern:             WriteConcern)(implicit ev$1: A => DBObject, ev$2: B => DBObject, ev$3: C => DBObject, ev$4: D => DBObject): Option[T] =
     _typedValue(underlying.findAndModify(query, fields, sort, remove, update, returnNew, upsert, bypassDocumentValidation,
       maxTime.length, maxTime.unit, writeConcern))
 
@@ -435,7 +433,7 @@ trait MongoCollectionBase extends Logging {
    * Finds the first document in the query and removes it.
    * @return the removed document
    */
-  def findAndRemove[A <% DBObject](query: A): Option[T] =
+  def findAndRemove[A](query: A)(implicit ev$1: A => DBObject): Option[T] =
     _typedValue(underlying.findAndRemove(query))
 
   /**
@@ -485,10 +483,10 @@ trait MongoCollectionBase extends Logging {
    *
    * @return the number of documents that matches selection criteria
    */
-  def getCount[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
+  def getCount[A, B](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
                                              limit: Long = 0, skip: Long = 0,
                                              readPrefs: ReadPreference = getReadPreference,
-                                             maxTime:   Duration       = Duration(0, MILLISECONDS)): Int = {
+                                             maxTime:   Duration       = Duration(0, MILLISECONDS))(implicit ev$1: A => DBObject, ev$2: B => DBObject): Int = {
     underlying.find(query, fields)
       .skip(skip.toInt)
       .limit(limit.toInt)
@@ -601,9 +599,9 @@ trait MongoCollectionBase extends Logging {
    * @param readPrefs ReadPreferences for this command
    * @return The results of the group
    */
-  def group[A <% DBObject, B <% DBObject, C <% DBObject](key: A, cond: B, initial: C,
+  def group[A, B, C](key: A, cond: B, initial: C,
                                                          reduce: String, finalize: String = null,
-                                                         readPrefs: ReadPreference = getReadPreference): Iterable[T] = {
+                                                         readPrefs: ReadPreference = getReadPreference)(implicit ev$1: A => DBObject, ev$2: B => DBObject, ev$3: C => DBObject): Iterable[T] = {
     underlying.group(key, cond, initial, reduce, finalize, readPrefs).map(_._2.asInstanceOf[T])
   }
 
@@ -669,7 +667,7 @@ trait MongoCollectionBase extends Logging {
    * @return The aggregation operation's result set
    *
    */
-  def aggregate[A <% DBObject](pipeline: Iterable[A]): AggregationOutput =
+  def aggregate[A](pipeline: Iterable[A])(implicit ev$1: A => DBObject): AggregationOutput =
     underlying.aggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava).asScala
 
   /**
@@ -681,7 +679,7 @@ trait MongoCollectionBase extends Logging {
    * @return The aggregation operation's result set
    *
    */
-  def aggregate[A <% DBObject](pipeline: Iterable[A], options: AggregationOptions): Cursor =
+  def aggregate[A](pipeline: Iterable[A], options: AggregationOptions)(implicit ev$1: A => DBObject): Cursor =
     aggregate(pipeline, options, getReadPreference)
 
   /**
@@ -693,7 +691,7 @@ trait MongoCollectionBase extends Logging {
    * @return The aggregation operation's result set
    *
    */
-  def aggregate[A <% DBObject](pipeline: Iterable[A], readPreference: ReadPreference): AggregationOutput =
+  def aggregate[A](pipeline: Iterable[A], readPreference: ReadPreference)(implicit ev$1: A => DBObject): AggregationOutput =
     underlying.aggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava, readPreference).asScala
 
   /**
@@ -706,7 +704,7 @@ trait MongoCollectionBase extends Logging {
    * @return The aggregation operation's result set
    *
    */
-  def aggregate[A <% DBObject](pipeline: Iterable[A], options: AggregationOptions, readPreference: ReadPreference): Cursor =
+  def aggregate[A](pipeline: Iterable[A], options: AggregationOptions, readPreference: ReadPreference)(implicit ev: A => DBObject): Cursor =
     underlying.aggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava, options, readPreference).asScala
 
   /**
@@ -717,7 +715,7 @@ trait MongoCollectionBase extends Logging {
    * @return the command result.  The explain output may change from release to
    *         release, so best to simply log this.
    */
-  def explainAggregate[A <% DBObject](pipeline: Iterable[A], options: AggregationOptions): mutable.Map[String, AnyRef] =
+  def explainAggregate[A](pipeline: Iterable[A], options: AggregationOptions)(implicit ev: A => DBObject): mutable.Map[String, AnyRef] =
     underlying.explainAggregate(pipeline.map(_.asInstanceOf[DBObject]).toList.asJava, options).asScala
 
   /**
@@ -838,7 +836,7 @@ trait MongoCollectionBase extends Logging {
    * Set hint fields for this collection.
    * @param docs a list of <code>DBObject</code>s to be used as hints
    */
-  def setHintFields[A <% DBObject](docs: List[A]) {
+  def setHintFields[A](docs: List[A])(implicit ev$1: A => DBObject) {
     val b = List.newBuilder[DBObject]
     for { x <- docs } b += x
     underlying.setHintFields(b.result().asJava)
@@ -848,7 +846,7 @@ trait MongoCollectionBase extends Logging {
    * Set hint fields for this collection.
    * @param docs a list of <code>DBObject</code>s to be used as hints
    */
-  def hintFields_=[A <% DBObject](docs: List[A]): Unit = setHintFields(docs)
+  def hintFields_=[A](docs: List[A])(implicit ev$1: A => DBObject): Unit = setHintFields(docs)
 
   def setInternalClass[A <: DBObject](path: String, c: Class[A]): Unit = underlying.setInternalClass(path, c)
 
@@ -877,7 +875,7 @@ trait MongoCollectionBase extends Logging {
    * @param o object with which to update <tt>q</tt>
    */
   @deprecated("In the face of default arguments this is a bit silly. Please use `update(multi=True)`.", "2.3.0")
-  def updateMulti[A <% DBObject, B <% DBObject](q: A, o: B): WriteResult = underlying.updateMulti(q, o)
+  def updateMulti[A, B](q: A, o: B)(implicit ev$1: A => DBObject, ev$2: B => DBObject): WriteResult = underlying.updateMulti(q, o)
 
   override def hashCode(): Int = underlying.hashCode
 
@@ -891,9 +889,9 @@ trait MongoCollectionBase extends Logging {
     case _                          => false
   }
 
-  def count[A <% DBObject, B <% DBObject](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
+  def count[A, B](query: A = MongoDBObject.empty, fields: B = MongoDBObject.empty,
                                           limit: Long = 0, skip: Long = 0, readPrefs: ReadPreference = getReadPreference,
-                                          maxTime: Duration = Duration(0, MILLISECONDS)): Int =
+                                          maxTime: Duration = Duration(0, MILLISECONDS))(implicit ev$1: A => DBObject, ev$2: B => DBObject): Int =
     getCount(query, fields, limit, skip, readPrefs, maxTime)
 
   // scalastyle:off method.name
@@ -902,14 +900,14 @@ trait MongoCollectionBase extends Logging {
    *
    * @param x object to save to the collection
    */
-  def +=[A <% DBObject](x: A): WriteResult = save(x)
+  def +=[A](x: A)(implicit ev$1: A => DBObject): WriteResult = save(x)
 
   /**
    * Remove a matching object from the collection
    *
    * @param x object to remove from the collection
    */
-  def -=[A <% DBObject](x: A): WriteResult = remove(x)
+  def -=[A](x: A)(implicit ev$1: A => DBObject): WriteResult = remove(x)
 
   // scalastyle:on method.name
 

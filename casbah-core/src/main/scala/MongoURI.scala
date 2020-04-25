@@ -24,7 +24,7 @@ package com.mongodb.casbah
 
 import com.mongodb.casbah.Imports._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.language.reflectiveCalls
 
 /**
@@ -68,7 +68,7 @@ class MongoURI(val underlying: com.mongodb.MongoURI) {
 
   def password: Option[Array[Char]] = Option(underlying.getPassword)
 
-  def hosts: Seq[String] = underlying.getHosts.asScala
+  def hosts: Seq[String] = underlying.getHosts.asScala.toSeq
 
   def database: Option[String] = Option(underlying.getDatabase)
 

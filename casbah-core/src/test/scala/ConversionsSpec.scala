@@ -23,7 +23,7 @@
 package com.mongodb.casbah.test.core
 
 import scala.collection.mutable
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 import org.bson.codecs.configuration.CodecConfigurationException
 import com.mongodb.casbah.Imports._

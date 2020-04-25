@@ -21,7 +21,7 @@
 package com.mongodb.casbah
 package commons
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.immutable.{ List, Map }
 
 import com.mongodb.{ BasicDBList, BasicDBObject }

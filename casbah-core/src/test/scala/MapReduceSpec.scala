@@ -24,7 +24,7 @@ package com.mongodb.casbah.test.core
 
 import java.io.IOException
 import scala.sys.process._
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import org.specs2.specification.Scope
 
 import com.mongodb.util.JSON

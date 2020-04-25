@@ -326,7 +326,7 @@ trait ScalaCollectionSerializer extends MongoConversionHelper {
 
   private val transformer = new Transformer {
 
-    import _root_.scala.collection.JavaConverters._
+    import _root_.scala.jdk.CollectionConverters._
 
     def transform(o: AnyRef): AnyRef = o match {
       case mdbo: MongoDBObject => mdbo.underlying // MongoDBObject is a custom Iterable
@@ -349,7 +349,7 @@ trait ScalaCollectionSerializer extends MongoConversionHelper {
 
 trait ScalaProductSerializer extends MongoConversionHelper {
 
-  import _root_.scala.collection.JavaConverters._
+  import _root_.scala.jdk.CollectionConverters._
 
   private val transformer = new Transformer {
     log.trace("Encoding a Scala Product.")

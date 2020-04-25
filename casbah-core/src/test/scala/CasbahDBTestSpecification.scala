@@ -17,7 +17,7 @@
 
 package com.mongodb.casbah.test.core
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.Properties
 
 import com.mongodb.casbah.Imports._

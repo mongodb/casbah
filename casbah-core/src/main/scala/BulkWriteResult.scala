@@ -22,7 +22,7 @@
 package com.mongodb.casbah
 
 import scala.collection.mutable
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 import com.mongodb.{ BulkWriteResult => JBulkWriteResult, BulkWriteUpsert }
 import scala.util.{ Try, Success, Failure }

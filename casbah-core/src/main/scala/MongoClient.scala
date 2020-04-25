@@ -24,11 +24,12 @@ package com.mongodb.casbah
 import java.net.UnknownHostException
 
 import scala.collection.mutable
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.language.reflectiveCalls
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.{ MongoClient => JavaMongoClient }
+import com.mongodb.casbah.{MongoClientURI => SMongoClientURI}
 
 /**
  * Wrapper object for MongoClient connections, providing the static methods the
@@ -198,7 +199,7 @@ object MongoClient {
    *
    * @param  uri (MongoClientURI)
    */
-  def apply(uri: MongoClientURI): MongoClient = new MongoClient(new JavaMongoClient(uri.underlying))
+  def apply(uri: SMongoClientURI): MongoClient = new MongoClient(new JavaMongoClient(uri.underlying))
 
   /**
    * Connect via a com.mongodb.MongoClientURI

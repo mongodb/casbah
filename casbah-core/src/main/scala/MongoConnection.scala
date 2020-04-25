@@ -22,7 +22,7 @@
 
 package com.mongodb.casbah
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 import scala.language.reflectiveCalls
 
