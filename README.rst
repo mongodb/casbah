@@ -1,7 +1,7 @@
 ==========
 EOL Notice
 ==========
-Casbah is now officially end-of-life (EOL). No further developments, bugfixes, enhancements, scaladoc changes, maintenance will be provided by this project.
+MongoDB Casbah is now officially end-of-life (EOL). No further development, bugfixes, enhancements, documentation changes or maintenance will be provided by this project and pull requests will no longer be accepted.
 
 Users are encouraged to migrate to the `Mongo Scala Driver <http://mongodb.github.io/mongo-scala-driver/>`_ for a modern idiomatic MongoDB Scala driver.
 
